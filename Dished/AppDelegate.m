@@ -8,10 +8,11 @@
 
 #import "AppDelegate.h"
 
-@interface AppDelegate ()
+@interface AppDelegate()
             
 
 @end
+
 
 @implementation AppDelegate
             
@@ -21,7 +22,19 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    [self setupAppearance];
+    
     return YES;
+}
+
+- (void)setupAppearance
+{
+    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:18] };
+    [[UIBarButtonItem appearance] setTitleTextAttributes:attributes forState:UIControlStateNormal];
+    
+    NSDictionary *titleAttributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:18] };
+    [[UINavigationBar appearance] setTitleTextAttributes:titleAttributes];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

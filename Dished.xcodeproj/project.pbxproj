@@ -10,21 +10,31 @@
 		941538C5193F270A008B3B79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C4193F270A008B3B79 /* main.m */; };
 		941538C8193F270A008B3B79 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C7193F270A008B3B79 /* AppDelegate.m */; };
 		941538CB193F270A008B3B79 /* Dished.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 941538C9193F270A008B3B79 /* Dished.xcdatamodeld */; };
-		941538CE193F270A008B3B79 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538CD193F270A008B3B79 /* ViewController.m */; };
 		941538D1193F270A008B3B79 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 941538CF193F270A008B3B79 /* Main.storyboard */; };
 		941538D3193F270A008B3B79 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 941538D2193F270A008B3B79 /* Images.xcassets */; };
-		941538DF193F270A008B3B79 /* DishedTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538DE193F270A008B3B79 /* DishedTests.m */; };
+		941538F819401A14008B3B79 /* DASplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538F719401A14008B3B79 /* DASplashViewController.m */; };
+		9415390119404314008B3B79 /* splash_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 941538F919404314008B3B79 /* splash_background.png */; };
+		9415390219404314008B3B79 /* splash_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 941538FA19404314008B3B79 /* splash_background@2x.png */; };
+		9415390319404314008B3B79 /* splash_facebook_connect.png in Resources */ = {isa = PBXBuildFile; fileRef = 941538FB19404314008B3B79 /* splash_facebook_connect.png */; };
+		9415390419404314008B3B79 /* splash_facebook_connect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 941538FC19404314008B3B79 /* splash_facebook_connect@2x.png */; };
+		9415390519404314008B3B79 /* splash_register.png in Resources */ = {isa = PBXBuildFile; fileRef = 941538FD19404314008B3B79 /* splash_register.png */; };
+		9415390619404314008B3B79 /* splash_register@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 941538FE19404314008B3B79 /* splash_register@2x.png */; };
+		9415390719404314008B3B79 /* splash_sign_in.png in Resources */ = {isa = PBXBuildFile; fileRef = 941538FF19404314008B3B79 /* splash_sign_in.png */; };
+		9415390819404314008B3B79 /* splash_sign_in@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415390019404314008B3B79 /* splash_sign_in@2x.png */; };
+		9415F3BA19406B8100C3A7A1 /* login_facebook_connect.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B219406B8100C3A7A1 /* login_facebook_connect.png */; };
+		9415F3BB19406B8100C3A7A1 /* login_facebook_connect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B319406B8100C3A7A1 /* login_facebook_connect@2x.png */; };
+		9415F3BC19406B8100C3A7A1 /* login_login.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B419406B8100C3A7A1 /* login_login.png */; };
+		9415F3BD19406B8100C3A7A1 /* login_login@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B519406B8100C3A7A1 /* login_login@2x.png */; };
+		9415F3BE19406B8100C3A7A1 /* login_password.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B619406B8100C3A7A1 /* login_password.png */; };
+		9415F3BF19406B8100C3A7A1 /* login_password@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B719406B8100C3A7A1 /* login_password@2x.png */; };
+		9415F3C019406B8100C3A7A1 /* login_username.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B819406B8100C3A7A1 /* login_username.png */; };
+		9415F3C119406B8100C3A7A1 /* login_username@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B919406B8100C3A7A1 /* login_username@2x.png */; };
+		9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9415F3C31941044000C3A7A1 /* DALoginViewController.m */; };
+		94FE15E01941195800FE00EA /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15DF1941195800FE00EA /* DARegisterViewController.m */; };
+		94FE15E519411F4F00FE00EA /* DATextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E319411F4F00FE00EA /* DATextFieldCell.m */; };
+		94FE15E619411F4F00FE00EA /* DATextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */; };
+		94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E81941239100FE00EA /* DATouchUITableView.m */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		941538D9193F270A008B3B79 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 941538B7193F270A008B3B79 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 941538BE193F270A008B3B79;
-			remoteInfo = Dished;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		941538BF193F270A008B3B79 /* Dished.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dished.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -33,24 +43,39 @@
 		941538C6193F270A008B3B79 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		941538C7193F270A008B3B79 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		941538CA193F270A008B3B79 /* Dished.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Dished.xcdatamodel; sourceTree = "<group>"; };
-		941538CC193F270A008B3B79 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		941538CD193F270A008B3B79 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		941538D0193F270A008B3B79 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		941538D2193F270A008B3B79 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		941538D8193F270A008B3B79 /* DishedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DishedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		941538DD193F270A008B3B79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		941538DE193F270A008B3B79 /* DishedTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DishedTests.m; sourceTree = "<group>"; };
+		941538F619401A14008B3B79 /* DASplashViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DASplashViewController.h; sourceTree = "<group>"; };
+		941538F719401A14008B3B79 /* DASplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DASplashViewController.m; sourceTree = "<group>"; };
+		941538F919404314008B3B79 /* splash_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_background.png; sourceTree = "<group>"; };
+		941538FA19404314008B3B79 /* splash_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_background@2x.png"; sourceTree = "<group>"; };
+		941538FB19404314008B3B79 /* splash_facebook_connect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_facebook_connect.png; sourceTree = "<group>"; };
+		941538FC19404314008B3B79 /* splash_facebook_connect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_facebook_connect@2x.png"; sourceTree = "<group>"; };
+		941538FD19404314008B3B79 /* splash_register.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_register.png; sourceTree = "<group>"; };
+		941538FE19404314008B3B79 /* splash_register@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_register@2x.png"; sourceTree = "<group>"; };
+		941538FF19404314008B3B79 /* splash_sign_in.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash_sign_in.png; sourceTree = "<group>"; };
+		9415390019404314008B3B79 /* splash_sign_in@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "splash_sign_in@2x.png"; sourceTree = "<group>"; };
+		9415F3B219406B8100C3A7A1 /* login_facebook_connect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_facebook_connect.png; sourceTree = "<group>"; };
+		9415F3B319406B8100C3A7A1 /* login_facebook_connect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_facebook_connect@2x.png"; sourceTree = "<group>"; };
+		9415F3B419406B8100C3A7A1 /* login_login.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_login.png; sourceTree = "<group>"; };
+		9415F3B519406B8100C3A7A1 /* login_login@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_login@2x.png"; sourceTree = "<group>"; };
+		9415F3B619406B8100C3A7A1 /* login_password.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_password.png; sourceTree = "<group>"; };
+		9415F3B719406B8100C3A7A1 /* login_password@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_password@2x.png"; sourceTree = "<group>"; };
+		9415F3B819406B8100C3A7A1 /* login_username.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = login_username.png; sourceTree = "<group>"; };
+		9415F3B919406B8100C3A7A1 /* login_username@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_username@2x.png"; sourceTree = "<group>"; };
+		9415F3C21941044000C3A7A1 /* DALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALoginViewController.h; sourceTree = "<group>"; };
+		9415F3C31941044000C3A7A1 /* DALoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALoginViewController.m; sourceTree = "<group>"; };
+		94FE15DE1941195800FE00EA /* DARegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARegisterViewController.h; sourceTree = "<group>"; };
+		94FE15DF1941195800FE00EA /* DARegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARegisterViewController.m; sourceTree = "<group>"; };
+		94FE15E219411F4F00FE00EA /* DATextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATextFieldCell.h; sourceTree = "<group>"; };
+		94FE15E319411F4F00FE00EA /* DATextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATextFieldCell.m; sourceTree = "<group>"; };
+		94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DATextFieldCell.xib; sourceTree = "<group>"; };
+		94FE15E71941239100FE00EA /* DATouchUITableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATouchUITableView.h; sourceTree = "<group>"; };
+		94FE15E81941239100FE00EA /* DATouchUITableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATouchUITableView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		941538BC193F270A008B3B79 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		941538D5193F270A008B3B79 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -64,7 +89,6 @@
 			isa = PBXGroup;
 			children = (
 				941538C1193F270A008B3B79 /* Dished */,
-				941538DB193F270A008B3B79 /* DishedTests */,
 				941538C0193F270A008B3B79 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,7 +97,6 @@
 			isa = PBXGroup;
 			children = (
 				941538BF193F270A008B3B79 /* Dished.app */,
-				941538D8193F270A008B3B79 /* DishedTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -81,13 +104,15 @@
 		941538C1193F270A008B3B79 /* Dished */ = {
 			isa = PBXGroup;
 			children = (
+				948B7F3E1941B05F005494AA /* External */,
+				941538CF193F270A008B3B79 /* Main.storyboard */,
+				94FE15E119411F3000FE00EA /* Layout */,
+				941538F5194019C2008B3B79 /* View Controllers */,
 				941538C6193F270A008B3B79 /* AppDelegate.h */,
 				941538C7193F270A008B3B79 /* AppDelegate.m */,
-				941538CC193F270A008B3B79 /* ViewController.h */,
-				941538CD193F270A008B3B79 /* ViewController.m */,
-				941538CF193F270A008B3B79 /* Main.storyboard */,
 				941538D2193F270A008B3B79 /* Images.xcassets */,
 				941538C9193F270A008B3B79 /* Dished.xcdatamodeld */,
+				941538EE193F2A00008B3B79 /* Images */,
 				941538C2193F270A008B3B79 /* Supporting Files */,
 			);
 			path = Dished;
@@ -102,21 +127,83 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		941538DB193F270A008B3B79 /* DishedTests */ = {
+		941538EE193F2A00008B3B79 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				941538DE193F270A008B3B79 /* DishedTests.m */,
-				941538DC193F270A008B3B79 /* Supporting Files */,
+				941538EF193F2A0D008B3B79 /* 1 */,
 			);
-			path = DishedTests;
+			path = Images;
 			sourceTree = "<group>";
 		};
-		941538DC193F270A008B3B79 /* Supporting Files */ = {
+		941538EF193F2A0D008B3B79 /* 1 */ = {
 			isa = PBXGroup;
 			children = (
-				941538DD193F270A008B3B79 /* Info.plist */,
+				941538F0193F2A9D008B3B79 /* a - Splash */,
+				9415F3B119406A0800C3A7A1 /* b - Login */,
 			);
-			name = "Supporting Files";
+			path = 1;
+			sourceTree = "<group>";
+		};
+		941538F0193F2A9D008B3B79 /* a - Splash */ = {
+			isa = PBXGroup;
+			children = (
+				941538F919404314008B3B79 /* splash_background.png */,
+				941538FA19404314008B3B79 /* splash_background@2x.png */,
+				941538FB19404314008B3B79 /* splash_facebook_connect.png */,
+				941538FC19404314008B3B79 /* splash_facebook_connect@2x.png */,
+				941538FD19404314008B3B79 /* splash_register.png */,
+				941538FE19404314008B3B79 /* splash_register@2x.png */,
+				941538FF19404314008B3B79 /* splash_sign_in.png */,
+				9415390019404314008B3B79 /* splash_sign_in@2x.png */,
+			);
+			path = "a - Splash";
+			sourceTree = "<group>";
+		};
+		941538F5194019C2008B3B79 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				941538F619401A14008B3B79 /* DASplashViewController.h */,
+				941538F719401A14008B3B79 /* DASplashViewController.m */,
+				9415F3C21941044000C3A7A1 /* DALoginViewController.h */,
+				9415F3C31941044000C3A7A1 /* DALoginViewController.m */,
+				94FE15DE1941195800FE00EA /* DARegisterViewController.h */,
+				94FE15DF1941195800FE00EA /* DARegisterViewController.m */,
+			);
+			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		9415F3B119406A0800C3A7A1 /* b - Login */ = {
+			isa = PBXGroup;
+			children = (
+				9415F3B219406B8100C3A7A1 /* login_facebook_connect.png */,
+				9415F3B319406B8100C3A7A1 /* login_facebook_connect@2x.png */,
+				9415F3B419406B8100C3A7A1 /* login_login.png */,
+				9415F3B519406B8100C3A7A1 /* login_login@2x.png */,
+				9415F3B619406B8100C3A7A1 /* login_password.png */,
+				9415F3B719406B8100C3A7A1 /* login_password@2x.png */,
+				9415F3B819406B8100C3A7A1 /* login_username.png */,
+				9415F3B919406B8100C3A7A1 /* login_username@2x.png */,
+			);
+			path = "b - Login";
+			sourceTree = "<group>";
+		};
+		948B7F3E1941B05F005494AA /* External */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = External;
+			sourceTree = "<group>";
+		};
+		94FE15E119411F3000FE00EA /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				94FE15E219411F4F00FE00EA /* DATextFieldCell.h */,
+				94FE15E319411F4F00FE00EA /* DATextFieldCell.m */,
+				94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */,
+				94FE15E71941239100FE00EA /* DATouchUITableView.h */,
+				94FE15E81941239100FE00EA /* DATouchUITableView.m */,
+			);
+			path = Layout;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -129,6 +216,7 @@
 				941538BB193F270A008B3B79 /* Sources */,
 				941538BC193F270A008B3B79 /* Frameworks */,
 				941538BD193F270A008B3B79 /* Resources */,
+				941538EC193F28C4008B3B79 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -138,24 +226,6 @@
 			productName = Dished;
 			productReference = 941538BF193F270A008B3B79 /* Dished.app */;
 			productType = "com.apple.product-type.application";
-		};
-		941538D7193F270A008B3B79 /* DishedTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 941538E5193F270A008B3B79 /* Build configuration list for PBXNativeTarget "DishedTests" */;
-			buildPhases = (
-				941538D4193F270A008B3B79 /* Sources */,
-				941538D5193F270A008B3B79 /* Frameworks */,
-				941538D6193F270A008B3B79 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				941538DA193F270A008B3B79 /* PBXTargetDependency */,
-			);
-			name = DishedTests;
-			productName = DishedTests;
-			productReference = 941538D8193F270A008B3B79 /* DishedTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -168,10 +238,7 @@
 				TargetAttributes = {
 					941538BE193F270A008B3B79 = {
 						CreatedOnToolsVersion = 6.0;
-					};
-					941538D7193F270A008B3B79 = {
-						CreatedOnToolsVersion = 6.0;
-						TestTargetID = 941538BE193F270A008B3B79;
+						DevelopmentTeam = 8266RM9D5T;
 					};
 				};
 			};
@@ -189,7 +256,6 @@
 			projectRoot = "";
 			targets = (
 				941538BE193F270A008B3B79 /* Dished */,
-				941538D7193F270A008B3B79 /* DishedTests */,
 			);
 		};
 /* End PBXProject section */
@@ -199,49 +265,63 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9415390119404314008B3B79 /* splash_background.png in Resources */,
+				94FE15E619411F4F00FE00EA /* DATextFieldCell.xib in Resources */,
+				9415390319404314008B3B79 /* splash_facebook_connect.png in Resources */,
+				9415390619404314008B3B79 /* splash_register@2x.png in Resources */,
+				9415390419404314008B3B79 /* splash_facebook_connect@2x.png in Resources */,
+				9415F3BA19406B8100C3A7A1 /* login_facebook_connect.png in Resources */,
+				9415F3BB19406B8100C3A7A1 /* login_facebook_connect@2x.png in Resources */,
 				941538D1193F270A008B3B79 /* Main.storyboard in Resources */,
+				9415F3BE19406B8100C3A7A1 /* login_password.png in Resources */,
+				9415390719404314008B3B79 /* splash_sign_in.png in Resources */,
+				9415F3BD19406B8100C3A7A1 /* login_login@2x.png in Resources */,
+				9415F3BC19406B8100C3A7A1 /* login_login.png in Resources */,
+				9415F3C019406B8100C3A7A1 /* login_username.png in Resources */,
 				941538D3193F270A008B3B79 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		941538D6193F270A008B3B79 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				9415390219404314008B3B79 /* splash_background@2x.png in Resources */,
+				9415F3BF19406B8100C3A7A1 /* login_password@2x.png in Resources */,
+				9415390519404314008B3B79 /* splash_register.png in Resources */,
+				9415F3C119406B8100C3A7A1 /* login_username@2x.png in Resources */,
+				9415390819404314008B3B79 /* splash_sign_in@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		941538EC193F28C4008B3B79 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		941538BB193F270A008B3B79 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94FE15E519411F4F00FE00EA /* DATextFieldCell.m in Sources */,
+				94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */,
 				941538C8193F270A008B3B79 /* AppDelegate.m in Sources */,
 				941538CB193F270A008B3B79 /* Dished.xcdatamodeld in Sources */,
-				941538CE193F270A008B3B79 /* ViewController.m in Sources */,
+				9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */,
+				941538F819401A14008B3B79 /* DASplashViewController.m in Sources */,
+				94FE15E01941195800FE00EA /* DARegisterViewController.m in Sources */,
 				941538C5193F270A008B3B79 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		941538D4193F270A008B3B79 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				941538DF193F270A008B3B79 /* DishedTests.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		941538DA193F270A008B3B79 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 941538BE193F270A008B3B79 /* Dished */;
-			targetProxy = 941538D9193F270A008B3B79 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		941538CF193F270A008B3B79 /* Main.storyboard */ = {
@@ -289,7 +369,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				METAL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -324,7 +404,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				METAL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -336,9 +416,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Dished/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -347,45 +431,13 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Dished/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
-		941538E6193F270A008B3B79 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Dished.app/Dished";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = DishedTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				METAL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
-			};
-			name = Debug;
-		};
-		941538E7193F270A008B3B79 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Dished.app/Dished";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = DishedTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				METAL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUNDLE_LOADER)";
+				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
@@ -408,14 +460,7 @@
 				941538E4193F270A008B3B79 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-		};
-		941538E5193F270A008B3B79 /* Build configuration list for PBXNativeTarget "DishedTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				941538E6193F270A008B3B79 /* Debug */,
-				941538E7193F270A008B3B79 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
