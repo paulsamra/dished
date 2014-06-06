@@ -8,6 +8,7 @@
 
 #import "DARegisterViewController.h"
 #import "DATextFieldCell.h"
+#import "DADatePickerCell.h"
 
 static NSString *kTextFieldCellID = @"textFieldCell";
 static NSString *kDateCellID      = @"dateCell";
@@ -20,6 +21,7 @@ static NSString *kRegisterCellID  = @"registerCell";
 @property (strong, nonatomic) NSDictionary        *titleData;
 @property (strong, nonatomic) NSIndexPath         *pickerIndexPath;
 @property (strong, nonatomic) NSMutableDictionary *signUpData;
+@property (strong, nonatomic) NSDateFormatter     *birthDateFormatter;
 
 @end
 
@@ -53,6 +55,11 @@ static NSString *kRegisterCellID  = @"registerCell";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if( section == 0 || section == 3 )
+    {
+        return 2;
+    }
+    
+    if( section == 4 && self.pickerIndexPath )
     {
         return 2;
     }
@@ -94,9 +101,19 @@ static NSString *kRegisterCellID  = @"registerCell";
     }
     else if( indexPath.section == 4 )
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:kDateCellID];
-        
-        cell.textLabel.text = self.titleData[@(indexPath.section)][indexPath.row];
+        if( indexPath.row == 0 )
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:kDateCellID];
+            
+            cell.textLabel.text = self.titleData[@(indexPath.section)][indexPath.row];
+        }
+        else
+        {
+            cell = [tableView dequeueReusableCellWithIdentifier:kPickerCellID];
+            DADatePickerCell *datePickerCell = (DADatePickerCell *)cell;
+            
+            [datePickerCell.datePicker addTarget:self action:@selector(dateChosen:) forControlEvents:UIControlEventValueChanged];
+        }
     }
     else if( indexPath.section == 5 )
     {
@@ -115,31 +132,58 @@ static NSString *kRegisterCellID  = @"registerCell";
         return 54;
     }
     
+    if( indexPath.section == 4 && indexPath.row == 1 )
+    {
+        return 172;
+    }
+    
     return self.tableView.rowHeight;
 }
 
-- (BOOL)hasInlinePicker
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return ( self.pickerIndexPath != nil );
+    if( indexPath.section == 4 && indexPath.row == 0 )
+    {
+        [self toggleDatePicker];
+    }
+    
+    if( indexPath.section == 5 )
+    {
+        NSLog(@"%@", self.signUpData);
+    }
+    
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
-- (BOOL)indexPathHasPicker:(NSIndexPath *)indexPath
+- (void)toggleDatePicker
 {
-    return ( [self hasInlinePicker] && self.pickerIndexPath.row == indexPath.row );
+    [self.tableView beginUpdates];
+    
+    NSArray *indexPaths = @[ [NSIndexPath indexPathForRow:1 inSection:4] ];
+    
+    if ( self.pickerIndexPath )
+    {
+        [self.tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+        self.pickerIndexPath = nil;
+    }
+    else
+    {
+        [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+        self.pickerIndexPath = [indexPaths objectAtIndex:0];
+    }
+    
+    [self.tableView endUpdates];
 }
 
-- (BOOL)hasPickerForIndexPath:(NSIndexPath *)indexPath
+- (void)dateChosen:(id)sender
 {
-    BOOL hasPicker = NO;
+    UIDatePicker *datePicker = (UIDatePicker *)sender;
+    NSString *key = self.titleData[@(self.pickerIndexPath.section)][self.pickerIndexPath.row - 1];
+    [self.signUpData setObject:datePicker.date forKey:key];
     
-    NSInteger targetedRow = indexPath.row + 1;
-    NSIndexPath *targetedPath = [NSIndexPath indexPathForRow:targetedRow inSection:0];
-    
-    UITableViewCell *checkPickerCell = [self.tableView cellForRowAtIndexPath:targetedPath];
-    
-    hasPicker = ( checkPickerCell.reuseIdentifier == kPickerCellID );
-    
-    return hasPicker;
+    NSIndexPath *datePath = [NSIndexPath indexPathForRow:self.pickerIndexPath.row - 1 inSection:self.pickerIndexPath.section];
+    UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:datePath];
+    cell.detailTextLabel.text = [self.birthDateFormatter stringFromDate:datePicker.date];
 }
 
 - (void)textField:(UITextField *)textField didBeginEditingInCell:(UITableViewCell *)cell
@@ -237,6 +281,17 @@ static NSString *kRegisterCellID  = @"registerCell";
     }
     
     return _titleData;
+}
+
+- (NSDateFormatter *)birthDateFormatter
+{
+    if( !_birthDateFormatter )
+    {
+        _birthDateFormatter = [[NSDateFormatter alloc] init];
+        _birthDateFormatter.dateFormat = @"dd MMMM yyyy";
+    }
+    
+    return _birthDateFormatter;
 }
 
 @end

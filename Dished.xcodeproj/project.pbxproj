@@ -30,6 +30,7 @@
 		9415F3C019406B8100C3A7A1 /* login_username.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B819406B8100C3A7A1 /* login_username.png */; };
 		9415F3C119406B8100C3A7A1 /* login_username@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B919406B8100C3A7A1 /* login_username@2x.png */; };
 		9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9415F3C31941044000C3A7A1 /* DALoginViewController.m */; };
+		948B7F651941B8AF005494AA /* DADatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B7F641941B8AF005494AA /* DADatePickerCell.m */; };
 		94FE15E01941195800FE00EA /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15DF1941195800FE00EA /* DARegisterViewController.m */; };
 		94FE15E519411F4F00FE00EA /* DATextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E319411F4F00FE00EA /* DATextFieldCell.m */; };
 		94FE15E619411F4F00FE00EA /* DATextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */; };
@@ -65,6 +66,8 @@
 		9415F3B919406B8100C3A7A1 /* login_username@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_username@2x.png"; sourceTree = "<group>"; };
 		9415F3C21941044000C3A7A1 /* DALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALoginViewController.h; sourceTree = "<group>"; };
 		9415F3C31941044000C3A7A1 /* DALoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALoginViewController.m; sourceTree = "<group>"; };
+		948B7F631941B8AF005494AA /* DADatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADatePickerCell.h; sourceTree = "<group>"; };
+		948B7F641941B8AF005494AA /* DADatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADatePickerCell.m; sourceTree = "<group>"; };
 		94FE15DE1941195800FE00EA /* DARegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARegisterViewController.h; sourceTree = "<group>"; };
 		94FE15DF1941195800FE00EA /* DARegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARegisterViewController.m; sourceTree = "<group>"; };
 		94FE15E219411F4F00FE00EA /* DATextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATextFieldCell.h; sourceTree = "<group>"; };
@@ -202,6 +205,8 @@
 				94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */,
 				94FE15E71941239100FE00EA /* DATouchUITableView.h */,
 				94FE15E81941239100FE00EA /* DATouchUITableView.m */,
+				948B7F631941B8AF005494AA /* DADatePickerCell.h */,
+				948B7F641941B8AF005494AA /* DADatePickerCell.m */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -312,6 +317,7 @@
 			files = (
 				94FE15E519411F4F00FE00EA /* DATextFieldCell.m in Sources */,
 				94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */,
+				948B7F651941B8AF005494AA /* DADatePickerCell.m in Sources */,
 				941538C8193F270A008B3B79 /* AppDelegate.m in Sources */,
 				941538CB193F270A008B3B79 /* Dished.xcdatamodeld in Sources */,
 				9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */,
