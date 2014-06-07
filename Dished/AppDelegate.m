@@ -35,6 +35,12 @@
     
     NSDictionary *titleAttributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:18] };
     [[UINavigationBar appearance] setTitleTextAttributes:titleAttributes];
+    
+    UITextField *lagFreeField = [[UITextField alloc] init];
+    [self.window addSubview:lagFreeField];
+    [lagFreeField becomeFirstResponder];
+    [lagFreeField resignFirstResponder];
+    [lagFreeField removeFromSuperview];
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

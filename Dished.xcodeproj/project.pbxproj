@@ -30,6 +30,16 @@
 		9415F3C019406B8100C3A7A1 /* login_username.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B819406B8100C3A7A1 /* login_username.png */; };
 		9415F3C119406B8100C3A7A1 /* login_username@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9415F3B919406B8100C3A7A1 /* login_username@2x.png */; };
 		9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9415F3C31941044000C3A7A1 /* DALoginViewController.m */; };
+		943093F81942633D00B1F61F /* DAErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 943093F71942633D00B1F61F /* DAErrorView.m */; };
+		943093FC1942638200B1F61F /* DAErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943093FB1942638200B1F61F /* DAErrorView.xib */; };
+		943094161942B16300B1F61F /* error_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 9430940E1942B16300B1F61F /* error_close.png */; };
+		943094171942B16300B1F61F /* error_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9430940F1942B16300B1F61F /* error_close@2x.png */; };
+		943094181942B16300B1F61F /* error_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 943094101942B16300B1F61F /* error_icon.png */; };
+		943094191942B16300B1F61F /* error_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 943094111942B16300B1F61F /* error_icon@2x.png */; };
+		9430941A1942B16300B1F61F /* error_message.png in Resources */ = {isa = PBXBuildFile; fileRef = 943094121942B16300B1F61F /* error_message.png */; };
+		9430941B1942B16300B1F61F /* error_message@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 943094131942B16300B1F61F /* error_message@2x.png */; };
+		9430941C1942B16300B1F61F /* valid_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 943094141942B16300B1F61F /* valid_icon.png */; };
+		9430941D1942B16300B1F61F /* valid_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 943094151942B16300B1F61F /* valid_icon@2x.png */; };
 		948B7F651941B8AF005494AA /* DADatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B7F641941B8AF005494AA /* DADatePickerCell.m */; };
 		94FE15E01941195800FE00EA /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15DF1941195800FE00EA /* DARegisterViewController.m */; };
 		94FE15E519411F4F00FE00EA /* DATextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E319411F4F00FE00EA /* DATextFieldCell.m */; };
@@ -66,6 +76,17 @@
 		9415F3B919406B8100C3A7A1 /* login_username@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "login_username@2x.png"; sourceTree = "<group>"; };
 		9415F3C21941044000C3A7A1 /* DALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALoginViewController.h; sourceTree = "<group>"; };
 		9415F3C31941044000C3A7A1 /* DALoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALoginViewController.m; sourceTree = "<group>"; };
+		943093F61942633D00B1F61F /* DAErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAErrorView.h; sourceTree = "<group>"; };
+		943093F71942633D00B1F61F /* DAErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAErrorView.m; sourceTree = "<group>"; };
+		943093FB1942638200B1F61F /* DAErrorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAErrorView.xib; sourceTree = "<group>"; };
+		9430940E1942B16300B1F61F /* error_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error_close.png; sourceTree = "<group>"; };
+		9430940F1942B16300B1F61F /* error_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error_close@2x.png"; sourceTree = "<group>"; };
+		943094101942B16300B1F61F /* error_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error_icon.png; sourceTree = "<group>"; };
+		943094111942B16300B1F61F /* error_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error_icon@2x.png"; sourceTree = "<group>"; };
+		943094121942B16300B1F61F /* error_message.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = error_message.png; sourceTree = "<group>"; };
+		943094131942B16300B1F61F /* error_message@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error_message@2x.png"; sourceTree = "<group>"; };
+		943094141942B16300B1F61F /* valid_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = valid_icon.png; sourceTree = "<group>"; };
+		943094151942B16300B1F61F /* valid_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "valid_icon@2x.png"; sourceTree = "<group>"; };
 		948B7F631941B8AF005494AA /* DADatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADatePickerCell.h; sourceTree = "<group>"; };
 		948B7F641941B8AF005494AA /* DADatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADatePickerCell.m; sourceTree = "<group>"; };
 		94FE15DE1941195800FE00EA /* DARegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARegisterViewController.h; sourceTree = "<group>"; };
@@ -143,6 +164,7 @@
 			children = (
 				941538F0193F2A9D008B3B79 /* a - Splash */,
 				9415F3B119406A0800C3A7A1 /* b - Login */,
+				943093FD1942B09E00B1F61F /* e - Register Error */,
 			);
 			path = 1;
 			sourceTree = "<group>";
@@ -190,6 +212,21 @@
 			path = "b - Login";
 			sourceTree = "<group>";
 		};
+		943093FD1942B09E00B1F61F /* e - Register Error */ = {
+			isa = PBXGroup;
+			children = (
+				9430940E1942B16300B1F61F /* error_close.png */,
+				9430940F1942B16300B1F61F /* error_close@2x.png */,
+				943094101942B16300B1F61F /* error_icon.png */,
+				943094111942B16300B1F61F /* error_icon@2x.png */,
+				943094121942B16300B1F61F /* error_message.png */,
+				943094131942B16300B1F61F /* error_message@2x.png */,
+				943094141942B16300B1F61F /* valid_icon.png */,
+				943094151942B16300B1F61F /* valid_icon@2x.png */,
+			);
+			path = "e - Register Error";
+			sourceTree = "<group>";
+		};
 		948B7F3E1941B05F005494AA /* External */ = {
 			isa = PBXGroup;
 			children = (
@@ -207,6 +244,9 @@
 				94FE15E81941239100FE00EA /* DATouchUITableView.m */,
 				948B7F631941B8AF005494AA /* DADatePickerCell.h */,
 				948B7F641941B8AF005494AA /* DADatePickerCell.m */,
+				943093F61942633D00B1F61F /* DAErrorView.h */,
+				943093F71942633D00B1F61F /* DAErrorView.m */,
+				943093FB1942638200B1F61F /* DAErrorView.xib */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -270,23 +310,32 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				943094171942B16300B1F61F /* error_close@2x.png in Resources */,
+				943094181942B16300B1F61F /* error_icon.png in Resources */,
 				9415390119404314008B3B79 /* splash_background.png in Resources */,
+				9430941A1942B16300B1F61F /* error_message.png in Resources */,
 				94FE15E619411F4F00FE00EA /* DATextFieldCell.xib in Resources */,
 				9415390319404314008B3B79 /* splash_facebook_connect.png in Resources */,
 				9415390619404314008B3B79 /* splash_register@2x.png in Resources */,
+				9430941C1942B16300B1F61F /* valid_icon.png in Resources */,
 				9415390419404314008B3B79 /* splash_facebook_connect@2x.png in Resources */,
 				9415F3BA19406B8100C3A7A1 /* login_facebook_connect.png in Resources */,
 				9415F3BB19406B8100C3A7A1 /* login_facebook_connect@2x.png in Resources */,
+				943094161942B16300B1F61F /* error_close.png in Resources */,
 				941538D1193F270A008B3B79 /* Main.storyboard in Resources */,
 				9415F3BE19406B8100C3A7A1 /* login_password.png in Resources */,
 				9415390719404314008B3B79 /* splash_sign_in.png in Resources */,
 				9415F3BD19406B8100C3A7A1 /* login_login@2x.png in Resources */,
 				9415F3BC19406B8100C3A7A1 /* login_login.png in Resources */,
 				9415F3C019406B8100C3A7A1 /* login_username.png in Resources */,
+				943094191942B16300B1F61F /* error_icon@2x.png in Resources */,
 				941538D3193F270A008B3B79 /* Images.xcassets in Resources */,
+				943093FC1942638200B1F61F /* DAErrorView.xib in Resources */,
 				9415390219404314008B3B79 /* splash_background@2x.png in Resources */,
+				9430941D1942B16300B1F61F /* valid_icon@2x.png in Resources */,
 				9415F3BF19406B8100C3A7A1 /* login_password@2x.png in Resources */,
 				9415390519404314008B3B79 /* splash_register.png in Resources */,
+				9430941B1942B16300B1F61F /* error_message@2x.png in Resources */,
 				9415F3C119406B8100C3A7A1 /* login_username@2x.png in Resources */,
 				9415390819404314008B3B79 /* splash_sign_in@2x.png in Resources */,
 			);
@@ -319,6 +368,7 @@
 				94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */,
 				948B7F651941B8AF005494AA /* DADatePickerCell.m in Sources */,
 				941538C8193F270A008B3B79 /* AppDelegate.m in Sources */,
+				943093F81942633D00B1F61F /* DAErrorView.m in Sources */,
 				941538CB193F270A008B3B79 /* Dished.xcdatamodeld in Sources */,
 				9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */,
 				941538F819401A14008B3B79 /* DASplashViewController.m in Sources */,

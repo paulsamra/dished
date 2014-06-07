@@ -131,6 +131,9 @@
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="highlighted">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na0-Zk-BCM">
                                 <rect key="frame" x="0.0" y="430" width="320" height="53"/>
@@ -165,7 +168,7 @@
                                 <rect key="frame" x="20" y="247" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                                <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
                                 <connections>
                                     <outlet property="delegate" destination="WLa-iY-AtF" id="ffD-1t-JAp"/>
                                 </connections>
@@ -174,7 +177,7 @@
                                 <rect key="frame" x="20" y="291" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                 <connections>
                                     <outlet property="delegate" destination="WLa-iY-AtF" id="77m-jE-a7k"/>
                                 </connections>
@@ -215,7 +218,10 @@
                     </view>
                     <navigationItem key="navigationItem" title="Login" id="tFa-PL-TMj"/>
                     <connections>
+                        <outlet property="facebookConnectButton" destination="na0-Zk-BCM" id="I0v-Wc-XEP"/>
+                        <outlet property="loginButton" destination="8eC-Cy-RcM" id="CYI-Ok-JSY"/>
                         <outlet property="passwordField" destination="eLv-E7-LCm" id="KXQ-5h-9ty"/>
+                        <outlet property="registerButton" destination="eYg-7v-LfO" id="cTz-TK-AT6"/>
                         <outlet property="usernameField" destination="Tt2-ow-Hta" id="25u-LU-q81"/>
                     </connections>
                 </viewController>
@@ -227,10 +233,10 @@
         <scene sceneID="vJL-yG-GvI">
             <objects>
                 <tableViewController id="cT7-YU-ckl" customClass="DARegisterViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="E6F-N6-vwk" customClass="DATouchUITableView">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="5" sectionFooterHeight="10" id="E6F-N6-vwk" customClass="DATouchUITableView">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="nzL-KW-9Hu">
                             <rect key="frame" x="0.0" y="271" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -253,11 +259,11 @@
                             </subviews>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="dateCell" textLabel="SPx-9X-m3N" detailTextLabel="hYX-Hd-iQf" style="IBUITableViewCellStyleValue1" id="ZaZ-9P-1o1">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="dateCell" textLabel="SPx-9X-m3N" detailTextLabel="hYX-Hd-iQf" style="IBUITableViewCellStyleValue1" id="ZaZ-9P-1o1">
                                 <rect key="frame" x="0.0" y="119" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZaZ-9P-1o1" id="0EW-Bm-fQB">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="287" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="SPx-9X-m3N">
@@ -268,7 +274,7 @@
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text=" " textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hYX-Hd-iQf">
-                                            <rect key="frame" x="300" y="11" width="5" height="21"/>
+                                            <rect key="frame" x="280" y="11" width="5" height="21"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                             <nil key="highlightedColor"/>

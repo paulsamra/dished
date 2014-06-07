@@ -9,6 +9,7 @@
 #import "DARegisterViewController.h"
 #import "DATextFieldCell.h"
 #import "DADatePickerCell.h"
+#import "DAErrorView.h"
 
 static NSString *kTextFieldCellID = @"textFieldCell";
 static NSString *kDateCellID      = @"dateCell";
@@ -16,12 +17,18 @@ static NSString *kPickerCellID    = @"pickerCell";
 static NSString *kRegisterCellID  = @"registerCell";
 
 
-@interface DARegisterViewController() <DATextFieldCellDelegate>
+@interface DARegisterViewController() <DATextFieldCellDelegate, DAErrorViewDelegate>
 
-@property (strong, nonatomic) NSDictionary        *titleData;
+@property (strong, nonatomic) UIImage             *errorIconImage;
+@property (strong, nonatomic) UIImage             *validIconImage;
+@property (strong, nonatomic) DAErrorView         *errorView;
 @property (strong, nonatomic) NSIndexPath         *pickerIndexPath;
-@property (strong, nonatomic) NSMutableDictionary *signUpData;
+@property (strong, nonatomic) NSDictionary        *titleData;
 @property (strong, nonatomic) NSDateFormatter     *birthDateFormatter;
+@property (strong, nonatomic) NSMutableDictionary *signUpData;
+@property (strong, nonatomic) NSMutableDictionary *errorData;
+
+@property (nonatomic) BOOL errorVisible;
 
 @end
 
@@ -38,11 +45,56 @@ static NSString *kRegisterCellID  = @"registerCell";
     [self.tableView registerNib:textCellNib forCellReuseIdentifier:kTextFieldCellID];
     
     self.signUpData = [[NSMutableDictionary alloc] init];
+    self.errorData  = [[NSMutableDictionary alloc] init];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    self.errorView = [[DAErrorView alloc] initWithFrame:[self invisibleErrorFrame]];
+    [[[UIApplication sharedApplication] keyWindow] addSubview:self.errorView];
+    self.errorView.delegate = self;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.errorView removeFromSuperview];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
     [self.view endEditing:YES];
+}
+
+- (void)errorViewDidTapCloseButton:(DAErrorView *)errorView
+{
+    [self dismissErrorView];
+}
+
+- (void)showErrorView
+{
+    if( self.errorVisible )
+    {
+        return;
+    }
+    
+    self.errorVisible = YES;
+    
+    [UIView animateWithDuration:0.5 animations:^
+     {
+         [self.errorView setFrame:[self visibleErrorFrame]];
+     }];
+}
+
+- (void)dismissErrorView
+{
+    self.errorVisible = NO;
+    
+    [UIView animateWithDuration:0.3 animations:^
+    {
+        [self.errorView setFrame:[self invisibleErrorFrame]];
+    }];
 }
 
 #pragma mark - Table view data source
@@ -140,6 +192,16 @@ static NSString *kRegisterCellID  = @"registerCell";
     return self.tableView.rowHeight;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if( section > 0 )
+    {
+        return tableView.sectionHeaderHeight - 10;
+    }
+    
+    return 0;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if( indexPath.section == 4 && indexPath.row == 0 )
@@ -199,27 +261,156 @@ static NSString *kRegisterCellID  = @"registerCell";
     }
 }
 
+- (void)textField:(UITextField *)textField didChangeInCell:(UITableViewCell *)cell toString:(NSString *)newString
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    
+    DATextFieldCell *textCell = (DATextFieldCell *)cell;
+    
+    if( indexPath.section == 0 )
+    {
+        if( [newString length] > 0 )
+        {
+            textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+        }
+        else
+        {
+            textCell.accessoryView = nil;
+        }
+    }
+    
+    if( indexPath.section == 1 )
+    {
+        if( [newString length] > 1 )
+        {
+            textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+        }
+        else
+        {
+            textCell.accessoryView = nil;
+        }
+    }
+    
+    if( indexPath.section == 2 )
+    {
+        if( [newString length] == 0 )
+        {
+            textCell.accessoryView = nil;
+        }
+    }
+    
+    if( indexPath.section == 3 )
+    {
+        textCell.accessoryView = nil;
+        
+        [self dismissErrorView];
+    }
+}
+
 - (void)textField:(UITextField *)textField didEndEditingInCell:(UITableViewCell *)cell
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    NSString *key = self.titleData[@(indexPath.section)][indexPath.row];
     
+    DATextFieldCell *textCell = (DATextFieldCell *)cell;
+    
+    if( indexPath.section == 2 )
+    {
+        if( [textCell.textField.text length] > 0 && ![self stringIsValidEmail:textCell.textField.text] )
+        {
+            if( !self.errorVisible )
+            {
+                self.errorView.errorTextLabel.text = @"Invalid Email Address!";
+                self.errorView.errorTipLabel.text  = @"Make sure you enter a valid email address.";
+                
+                textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+                
+                [self showErrorView];
+            }
+        }
+        else
+        {
+            textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+            
+            [self dismissErrorView];
+        }
+    }
+    
+    if( indexPath.section == 3 )
+    {
+        if( indexPath.row == 0 )
+        {
+            if( [textCell.textField.text length] < 6 )
+            {
+                if( !self.errorVisible && [textCell.textField.text length] > 0 )
+                {
+                    self.errorView.errorTextLabel.text = @"Invalid Password!";
+                    self.errorView.errorTipLabel.text  = @"Your password must be at least 6 characters.";
+                    
+                    textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+                    
+                    [self showErrorView];
+                }
+            }
+            else
+            {
+                textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+                
+                [self dismissErrorView];
+            }
+        }
+        
+        if( indexPath.row == 1 )
+        {
+            NSString *firstPasswordKey = self.titleData[@(indexPath.section)][indexPath.row - 1];
+            NSString *firstPassword = [self.signUpData objectForKey:firstPasswordKey];
+            
+            if( ![textCell.textField.text isEqualToString:firstPassword] )
+            {
+                if( !self.errorVisible )
+                {
+                    self.errorView.errorTextLabel.text = @"Passwords don't match!";
+                    self.errorView.errorTipLabel.text  = @"Make sure your passwords match.";
+                    
+                    textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+                    
+                    [self showErrorView];
+                }
+            }
+            else
+            {
+                textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+                
+                [self dismissErrorView];
+            }
+        }
+    }
+    
+    NSString *key = self.titleData[@(indexPath.section)][indexPath.row];
     [self.signUpData setObject:textField.text forKey:key];
+}
+
+- (BOOL)stringIsValidEmail:(NSString *)checkString
+{
+    NSString *emailRegex = @".+@.+\\.[A-Za-z]{2}[A-Za-z]*";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:checkString];
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string inCell:(UITableViewCell *)cell
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
+    NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    
     if( indexPath.section == 1 )
     {
-        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-        
         if( [newString length] == 0 )
         {
             return NO;
         }
     }
+    
+    [self textField:textField didChangeInCell:cell toString:newString];
     
     return YES;
 }
@@ -273,6 +464,27 @@ static NSString *kRegisterCellID  = @"registerCell";
     return NO;
 }
 
+- (CGRect)visibleErrorFrame
+{
+    CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
+    CGRect navBarRect    = self.navigationController.navigationBar.bounds;
+    
+    CGPoint location = statusBarRect.origin;
+    
+    CGFloat width = navBarRect.size.width;
+    CGFloat height = navBarRect.size.height + statusBarRect.size.height;
+    CGSize  size = CGSizeMake( width, height );
+    
+    return CGRectMake( location.x, location.y, size.width, size.height );
+}
+
+- (CGRect)invisibleErrorFrame
+{
+    CGRect visibleFrame = [self visibleErrorFrame];
+    visibleFrame.origin.y -= 100;
+    return visibleFrame;
+}
+
 - (NSDictionary *)titleData
 {
     if( !_titleData )
@@ -292,6 +504,26 @@ static NSString *kRegisterCellID  = @"registerCell";
     }
     
     return _birthDateFormatter;
+}
+
+- (UIImage *)errorIconImage
+{
+    if( !_errorIconImage )
+    {
+        _errorIconImage = [UIImage imageNamed:@"error_icon"];
+    }
+    
+    return _errorIconImage;
+}
+
+- (UIImage *)validIconImage
+{
+    if( !_validIconImage )
+    {
+        _validIconImage = [UIImage imageNamed:@"valid_icon"];
+    }
+    
+    return _validIconImage;
 }
 
 @end
