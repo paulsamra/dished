@@ -7,6 +7,7 @@
 //
 
 #import "DALoginViewController.h"
+#import "UIViewController+TAPKeyboardPop.h"
 
 
 @interface DALoginViewController()
@@ -43,6 +44,8 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
+    
     if( [self.usernameField.text length] == 0 || [self.passwordField.text length] == 0 )
     {
         self.loginButton.enabled = NO;
@@ -109,6 +112,11 @@
     }
     
     return YES;
+}
+
+- (IBAction)goToRegister
+{
+    [self performSegueWithIdentifier:@"goToRegister" sender:nil];
 }
 
 - (void)animateTextField:(UITextField*)textField up:(BOOL)up
