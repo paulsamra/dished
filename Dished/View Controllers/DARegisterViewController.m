@@ -11,6 +11,7 @@
 #import "DADatePickerCell.h"
 #import "DAErrorView.h"
 #import "DAAPIManager.h"
+#import "MRProgress.h"
 
 static NSString *kTextFieldCellID = @"textFieldCell";
 static NSString *kDateCellID      = @"dateCell";
@@ -18,18 +19,24 @@ static NSString *kPickerCellID    = @"pickerCell";
 static NSString *kRegisterCellID  = @"registerCell";
 
 
-@interface DARegisterViewController() <DATextFieldCellDelegate, DAErrorViewDelegate>
+@interface DARegisterViewController() <DATextFieldCellDelegate, DAErrorViewDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIImage             *errorIconImage;
 @property (strong, nonatomic) UIImage             *validIconImage;
 @property (strong, nonatomic) DAErrorView         *errorView;
 @property (strong, nonatomic) NSIndexPath         *pickerIndexPath;
+@property (strong, nonatomic) UIAlertView         *emailExistsAlert;
+@property (strong, nonatomic) UIAlertView         *loginFailAlert;
+@property (strong, nonatomic) UIAlertView         *registerFailAlert;
+@property (strong, nonatomic) UIAlertView         *registerSuccessAlert;
 @property (strong, nonatomic) NSDictionary        *titleData;
 @property (strong, nonatomic) NSDateFormatter     *birthDateFormatter;
 @property (strong, nonatomic) NSMutableDictionary *signUpData;
 @property (strong, nonatomic) NSMutableDictionary *errorData;
 
 @property (nonatomic) BOOL errorVisible;
+@property (nonatomic) BOOL usernameIsValid;
+@property (nonatomic) BOOL shouldUpdateUsernameStatus;
 
 @end
 
@@ -48,17 +55,9 @@ static NSString *kRegisterCellID  = @"registerCell";
     self.signUpData = [[NSMutableDictionary alloc] init];
     self.errorData  = [[NSMutableDictionary alloc] init];
     
-//    [[DAAPIManager sharedManager] checkAvailabilityOfUsername:@"testtt" completion:^( BOOL available, NSError *error )
-//    {
-//        if( available )
-//        {
-//            NSLog(@"AVAILABLE");
-//        }
-//        else
-//        {
-//            NSLog(@"NOT AVAILABLE");
-//        }
-//    }];
+    self.usernameIsValid = NO;
+    
+    self.shouldUpdateUsernameStatus = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -226,7 +225,7 @@ static NSString *kRegisterCellID  = @"registerCell";
     
     if( indexPath.section == 5 )
     {
-        [self checkInputs];
+        [self checkInputsAndRegister];
         NSLog(@"%@", self.signUpData);
     }
     
@@ -255,7 +254,7 @@ static NSString *kRegisterCellID  = @"registerCell";
     [self.tableView scrollToRowAtIndexPath:self.pickerIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
-- (void)checkInputs
+- (void)checkInputsAndRegister
 {
     NSString *firstName = [self.signUpData objectForKey:self.titleData[@0][0]];
     if( [firstName length] == 0 )
@@ -266,7 +265,7 @@ static NSString *kRegisterCellID  = @"registerCell";
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
         
         self.errorView.errorTextLabel.text = @"Invalid Input!";
-        self.errorView.errorTipLabel.text  = @"Please enter a valid first name.";
+        self.errorView.errorTipLabel.text  = @"Please enter your first name.";
         
         [self.errorData setObject:@"error" forKey:self.titleData[@0][0]];
         
@@ -284,7 +283,7 @@ static NSString *kRegisterCellID  = @"registerCell";
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
         
         self.errorView.errorTextLabel.text = @"Invalid Input!";
-        self.errorView.errorTipLabel.text  = @"Please enter a valid last name.";
+        self.errorView.errorTipLabel.text  = @"Please enter your last name.";
         
         [self.errorData setObject:@"error" forKey:self.titleData[@0][1]];
         
@@ -294,15 +293,23 @@ static NSString *kRegisterCellID  = @"registerCell";
     }
     
     NSString *username = [self.signUpData objectForKey:self.titleData[@1][0]];
-    if( [username length] <= 1 )
+    if( [username length] <= 1 || !self.usernameIsValid )
     {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
         DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
         
-        self.errorView.errorTextLabel.text = @"Invalid Input!";
-        self.errorView.errorTipLabel.text  = @"Please enter a valid username.";
+        if( !self.usernameIsValid )
+        {
+            self.errorView.errorTextLabel.text = @"Username unavailable!";
+            self.errorView.errorTipLabel.text  = @"Please choose a different username.";
+        }
+        else
+        {
+            self.errorView.errorTextLabel.text = @"Invalid Input!";
+            self.errorView.errorTipLabel.text  = @"Please enter a username.";
+        }
         
         [self.errorData setObject:@"error" forKey:self.titleData[@1][0]];
         
@@ -319,7 +326,7 @@ static NSString *kRegisterCellID  = @"registerCell";
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
         
-        self.errorView.errorTextLabel.text = @"Invalid Input!";
+        self.errorView.errorTextLabel.text = @"Invalid Email Address!";
         self.errorView.errorTipLabel.text  = @"Please enter a valid email address.";
         
         [self.errorData setObject:@"error" forKey:self.titleData[@2][0]];
@@ -337,7 +344,7 @@ static NSString *kRegisterCellID  = @"registerCell";
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
         
-        self.errorView.errorTextLabel.text = @"Invalid Input!";
+        self.errorView.errorTextLabel.text = @"Invalid Password!";
         self.errorView.errorTipLabel.text  = @"Your password must be at least 6 characters.";
         
         [self.errorData setObject:@"error" forKey:self.titleData[@3][0]];
@@ -355,7 +362,7 @@ static NSString *kRegisterCellID  = @"registerCell";
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
         
-        self.errorView.errorTextLabel.text = @"Invalid Input!";
+        self.errorView.errorTextLabel.text = @"Invalid Password!";
         self.errorView.errorTipLabel.text  = @"Your passwords must match.";
         
         [self.errorData setObject:@"error" forKey:self.titleData[@3][1]];
@@ -373,8 +380,8 @@ static NSString *kRegisterCellID  = @"registerCell";
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
         
-        self.errorView.errorTextLabel.text = @"Invalid Input!";
-        self.errorView.errorTipLabel.text  = @"You must be 13 years or older to used Dished.";
+        self.errorView.errorTextLabel.text = @"You're too young!";
+        self.errorView.errorTipLabel.text  = @"You must be 13 years or older to sign up for Dished.";
         
         [self.errorData setObject:@"error" forKey:self.titleData[@4][0]];
         
@@ -382,6 +389,44 @@ static NSString *kRegisterCellID  = @"registerCell";
         
         return;
     }
+    
+    [[DAAPIManager sharedManager] checkAvailabilityOfEmail:email completion:^( BOOL available, NSError *error )
+    {
+        if( available )
+        {
+            [self registerUser];
+        }
+        else
+        {
+            [self.emailExistsAlert show];
+        }
+    }];
+}
+
+- (void)registerUser
+{
+    NSString *firstName = [self.signUpData objectForKey:self.titleData[@0][0]];
+    NSString *lastName  = [self.signUpData objectForKey:self.titleData[@0][1]];
+    NSString *username  = [[self.signUpData objectForKey:self.titleData[@1][0]] substringFromIndex:1];
+    NSString *email     = [self.signUpData objectForKey:self.titleData[@2][0]];
+    NSString *password  = [self.signUpData objectForKey:self.titleData[@3][1]];
+    NSDate *dateOfBirth = [self.signUpData objectForKey:self.titleData[@4][0]];
+
+    [[DAAPIManager sharedManager] registerUserWithUsername:username password:password firstName:firstName lastName:lastName email:email birthday:dateOfBirth completion:^( BOOL registered, BOOL loggedIn )
+    {
+        if( !registered )
+        {
+            [self.registerFailAlert show];
+        }
+        else if( registered && !loggedIn )
+        {
+            [self.loginFailAlert show];
+        }
+        else
+        {
+            [self.registerSuccessAlert show];
+        }
+    }];
 }
 
 - (void)dateChosen:(id)sender
@@ -414,6 +459,14 @@ static NSString *kRegisterCellID  = @"registerCell";
     NSInteger age = [ageComponents year];
     
     return (int)age;
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if( alertView == self.emailExistsAlert || alertView == self.loginFailAlert || alertView == self.registerSuccessAlert )
+    {
+        [self.navigationController popToRootViewControllerAnimated:YES];
+    }
 }
 
 - (void)textField:(UITextField *)textField didBeginEditingInCell:(UITableViewCell *)cell
@@ -473,18 +526,42 @@ static NSString *kRegisterCellID  = @"registerCell";
             
             [[DAAPIManager sharedManager] checkAvailabilityOfUsername:username completion:^( BOOL available, NSError *error )
             {
-                if( available )
+                if( self.shouldUpdateUsernameStatus )
                 {
-                    textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+                    if( available )
+                    {
+                        textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+                        
+                        self.usernameIsValid = YES;
+                        
+                        [self dismissErrorView];
+                    }
+                    else
+                    {
+                        self.errorView.errorTextLabel.text = @"Username unavailable!";
+                        self.errorView.errorTipLabel.text  = @"Please choose a different username.";
+                        
+                        [self showErrorView];
+                        
+                        self.usernameIsValid = NO;
+                        
+                        textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+                    }
                 }
                 else
                 {
-                    textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+                    self.shouldUpdateUsernameStatus = YES;
                 }
             }];
         }
         else
         {
+            self.shouldUpdateUsernameStatus = NO;
+            
+            self.usernameIsValid = NO;
+            
+            [self dismissErrorView];
+            
             textCell.accessoryView = nil;
         }
     }
@@ -568,11 +645,14 @@ static NSString *kRegisterCellID  = @"registerCell";
             if( !self.errorVisible && [textCell.textField.text length] > 0 )
             {
                 self.errorView.errorTextLabel.text = @"Invalid Email Address!";
-                self.errorView.errorTipLabel.text  = @"Make sure you enter a valid email address.";
-                
-                textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+                self.errorView.errorTipLabel.text  = @"Please enter a valid email address.";
                 
                 [self showErrorView];
+            }
+            
+            if( [textCell.textField.text length] > 0 )
+            {
+                textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
             }
         }
         else
@@ -616,8 +696,8 @@ static NSString *kRegisterCellID  = @"registerCell";
             {
                 if( !self.errorVisible && [textCell.textField.text length] > 0 )
                 {
-                    self.errorView.errorTextLabel.text = @"Passwords don't match!";
-                    self.errorView.errorTipLabel.text  = @"Make sure your passwords match.";
+                    self.errorView.errorTextLabel.text = @"Invalid Password!";
+                    self.errorView.errorTipLabel.text  = @"Your passwords must match.";
                     
                     textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
                     
@@ -626,9 +706,12 @@ static NSString *kRegisterCellID  = @"registerCell";
             }
             else
             {
-                textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
-                
-                [self dismissErrorView];
+                if( [firstPassword length] > 0 && [textCell.textField.text length] > 0 )
+                {
+                    textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+                    
+                    [self dismissErrorView];
+                }
             }
         }
     }
@@ -777,6 +860,46 @@ static NSString *kRegisterCellID  = @"registerCell";
     }
     
     return _validIconImage;
+}
+
+- (UIAlertView *)emailExistsAlert
+{
+    if( !_emailExistsAlert )
+    {
+        _emailExistsAlert = [[UIAlertView alloc] initWithTitle:@"Account Exists" message:@"An account with the given email address already exists. Please sign in or submit a forgotten password request." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    }
+    
+    return _emailExistsAlert;
+}
+
+- (UIAlertView *)registerFailAlert
+{
+    if( !_registerFailAlert )
+    {
+        _registerFailAlert = [[UIAlertView alloc] initWithTitle:@"Registration Error" message:@"There was an error registering your account. Please try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    }
+    
+    return _registerFailAlert;
+}
+
+- (UIAlertView *)loginFailAlert
+{
+    if( !_loginFailAlert )
+    {
+        _loginFailAlert = [[UIAlertView alloc] initWithTitle:@"Error Logging In" message:@"We were able to register your account, but there was a problem signing in. Please sign in with your username and password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    }
+    
+    return _loginFailAlert;
+}
+
+- (UIAlertView *)registerSuccessAlert
+{
+    if( !_registerSuccessAlert )
+    {
+        _registerSuccessAlert = [[UIAlertView alloc] initWithTitle:@"Successful Registration" message:@"Account created successfully!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    }
+    
+    return _registerSuccessAlert;
 }
 
 @end

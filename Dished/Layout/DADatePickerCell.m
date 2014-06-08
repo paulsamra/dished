@@ -40,7 +40,11 @@
     self.datePicker.datePickerMode = UIDatePickerModeDate;
     
     NSDate *currentDate = [NSDate date];
-    self.datePicker.date = currentDate;
+    NSDateComponents *defaultDateComponents = [[NSDateComponents alloc] init];
+    [defaultDateComponents setYear:1990];
+    [defaultDateComponents setDay:15];
+    [defaultDateComponents setMonth:6];
+    self.datePicker.date = [[NSCalendar currentCalendar] dateFromComponents:defaultDateComponents];
     self.datePicker.maximumDate = currentDate;
     
     [self.contentView addSubview:self.datePicker];

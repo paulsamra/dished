@@ -74,34 +74,11 @@
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     [self animateTextField:textField up:YES];
-    
-    if( textField == self.usernameField )
-    {
-        if( [textField.text length] == 0 )
-        {
-            textField.text = @"@";
-        }
-    }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     [self animateTextField:textField up:NO];
-}
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    if( textField == self.usernameField )
-    {
-        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-        
-        if( [newString length] == 0 )
-        {
-            return NO;
-        }
-    }
-
-    return YES;
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
