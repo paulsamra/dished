@@ -36,7 +36,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ec-r9-XoO">
                                 <rect key="frame" x="0.0" y="349" width="320" height="53"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="23"/>
-                                <state key="normal" title="Email / Username Sign In" backgroundImage="splash_sign_in.png">
+                                <state key="normal" title="Sign In" backgroundImage="splash_sign_in.png">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -68,7 +68,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="vK5-Vo-cdC">
-                                <rect key="frame" x="49" y="114" width="222" height="55"/>
+                                <rect key="frame" x="20" y="145" width="280" height="63"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                         </subviews>
@@ -205,6 +205,9 @@
                                 <state key="normal" title="Forgot Your Password?">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="goToForgotPassword" destination="WLa-iY-AtF" eventType="touchUpInside" id="GAE-Mx-sGM"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -253,6 +256,7 @@
                         <outlet property="usernameField" destination="Tt2-ow-Hta" id="25u-LU-q81"/>
                         <segue destination="cT7-YU-ckl" kind="custom" identifier="goToRegister" customClass="DAReplaceSegue" id="AAU-fd-jiu"/>
                         <segue destination="Lf5-YT-KkR" kind="push" identifier="facebookLogin" id="aNd-9F-Yna"/>
+                        <segue destination="ibb-xv-e8O" kind="push" identifier="forgotPassword" id="LP4-KR-M1a"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iwb-My-iPS" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -294,6 +298,128 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AgN-aI-MNo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1121" y="178"/>
+        </scene>
+        <!--Forgot Password View Controller - Forgot Password-->
+        <scene sceneID="sgp-K9-cdL">
+            <objects>
+                <viewController id="ibb-xv-e8O" customClass="DAForgotPasswordViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WLj-b6-I1l"/>
+                        <viewControllerLayoutGuide type="bottom" id="5Jw-sr-3Ny"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="i0I-zx-74f">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="password_phone.png" translatesAutoresizingMaskIntoConstraints="NO" id="teY-pB-9hY">
+                                <rect key="frame" x="0.0" y="262" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JyA-Sd-K7n">
+                                <rect key="frame" x="0.0" y="306" width="320" height="54"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="22"/>
+                                <state key="normal" title="Submit" backgroundImage="password_phone_submit.png">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="submitPhoneNumber" destination="ibb-xv-e8O" eventType="touchUpInside" id="0El-eH-6sg"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="hzG-aC-Z0z">
+                                <rect key="frame" x="20" y="269" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="go"/>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Forgot Password" id="EMS-h4-wNV"/>
+                    <connections>
+                        <outlet property="phoneNumberField" destination="hzG-aC-Z0z" id="PdW-Ht-r9s"/>
+                        <outlet property="submitButton" destination="JyA-Sd-K7n" id="iXW-5Q-vob"/>
+                        <segue destination="qeS-ZS-Dfv" kind="push" identifier="resetPassword" id="xCf-jd-u1q"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kUN-gm-UGZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1629" y="177"/>
+        </scene>
+        <!--Reset Password View Controller - Reset Password-->
+        <scene sceneID="eWc-PU-7lH">
+            <objects>
+                <viewController id="qeS-ZS-Dfv" customClass="DAResetPasswordViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="moW-LQ-1Qi"/>
+                        <viewControllerLayoutGuide type="bottom" id="Rac-7K-HkI"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="j39-rS-TcJ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="reset_code.png" translatesAutoresizingMaskIntoConstraints="NO" id="MYt-73-vzK">
+                                <rect key="frame" x="0.0" y="136" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="reset_password.png" translatesAutoresizingMaskIntoConstraints="NO" id="iOU-OW-UuF">
+                                <rect key="frame" x="0.0" y="240" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="reset_confirm.png" translatesAutoresizingMaskIntoConstraints="NO" id="EyG-PF-9cv">
+                                <rect key="frame" x="0.0" y="284" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Qg-Im-I4A">
+                                <rect key="frame" x="0.0" y="328" width="320" height="54"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="22"/>
+                                <state key="normal" title="Submit" backgroundImage="reset_submit.png">
+                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Verification Code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="EVT-12-iOD">
+                                <rect key="frame" x="20" y="143" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
+                                <connections>
+                                    <outlet property="delegate" destination="qeS-ZS-Dfv" id="znZ-YN-5gm"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="New Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="8oZ-V4-DRb">
+                                <rect key="frame" x="20" y="247" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="qeS-ZS-Dfv" id="uzX-sl-LQu"/>
+                                </connections>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Confirm Password" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P7O-DU-qqV">
+                                <rect key="frame" x="20" y="291" width="280" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
+                                <connections>
+                                    <outlet property="delegate" destination="qeS-ZS-Dfv" id="Wao-Ca-bsy"/>
+                                </connections>
+                            </textField>
+                        </subviews>
+                        <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Reset Password" id="lUH-jI-apF"/>
+                    <connections>
+                        <outlet property="codeField" destination="EVT-12-iOD" id="Qzs-nY-9ST"/>
+                        <outlet property="confirmField" destination="P7O-DU-qqV" id="TWy-wg-hO6"/>
+                        <outlet property="passwordField" destination="8oZ-V4-DRb" id="Vp2-ke-NRV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AmG-0S-Ujv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2161" y="178"/>
         </scene>
         <!--Register View Controller - Register-->
         <scene sceneID="vJL-yG-GvI">
@@ -351,15 +477,15 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="registerCell" textLabel="iE0-P5-DSS" rowHeight="54" style="IBUITableViewCellStyleDefault" id="qsE-nQ-kGK">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="registerCell" textLabel="iE0-P5-DSS" rowHeight="54" style="IBUITableViewCellStyleDefault" id="qsE-nQ-kGK">
                                 <rect key="frame" x="0.0" y="163" width="320" height="54"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qsE-nQ-kGK" id="UzX-2f-F1A">
-                                    <rect key="frame" x="0.0" y="0.0" width="287" height="53"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="53"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Register" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="iE0-P5-DSS">
-                                            <rect key="frame" x="15" y="0.0" width="270" height="53"/>
+                                            <rect key="frame" x="15" y="0.0" width="290" height="53"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                             <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -416,7 +542,13 @@
         <image name="login_login.png" width="320" height="54"/>
         <image name="login_password.png" width="320" height="44"/>
         <image name="login_username.png" width="320" height="44"/>
-        <image name="logo_white.png" width="223" height="55"/>
+        <image name="logo_white.png" width="695" height="150"/>
+        <image name="password_phone.png" width="320" height="44"/>
+        <image name="password_phone_submit.png" width="320" height="54"/>
+        <image name="reset_code.png" width="320" height="44"/>
+        <image name="reset_confirm.png" width="320" height="44"/>
+        <image name="reset_password.png" width="320" height="44"/>
+        <image name="reset_submit.png" width="320" height="54"/>
         <image name="splash_background.png" width="320" height="568"/>
         <image name="splash_facebook_connect.png" width="320" height="53"/>
         <image name="splash_register.png" width="320" height="53"/>
@@ -428,7 +560,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="uu3-ER-XS1"/>
+        <segue reference="b5p-rj-pnG"/>
         <segue reference="Fgn-N5-prF"/>
         <segue reference="DWl-1Z-W5u"/>
     </inferredMetricsTieBreakers>

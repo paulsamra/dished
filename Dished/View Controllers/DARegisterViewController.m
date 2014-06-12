@@ -115,17 +115,17 @@ static NSString *kRegisterCellID  = @"registerCell";
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 6;
+    return 7;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if( section == 0 || section == 3 )
+    if( section == 0 || section == 4 )
     {
         return 2;
     }
     
-    if( section == 4 && self.pickerIndexPath )
+    if( section == 5 && self.pickerIndexPath )
     {
         return 2;
     }
@@ -137,7 +137,7 @@ static NSString *kRegisterCellID  = @"registerCell";
 {
     UITableViewCell *cell = nil;
     
-    if( indexPath.section >= 0 && indexPath.section < 4 )
+    if( indexPath.section >= 0 && indexPath.section < 5 )
     {
         cell = [tableView dequeueReusableCellWithIdentifier:kTextFieldCellID];
         DATextFieldCell *textFieldCell = (DATextFieldCell *)cell;
@@ -153,10 +153,15 @@ static NSString *kRegisterCellID  = @"registerCell";
         
         if( indexPath.section == 3 )
         {
+            textFieldCell.textField.keyboardType = UIKeyboardTypePhonePad;
+        }
+        
+        if( indexPath.section == 4 )
+        {
             textFieldCell.textField.secureTextEntry = YES;
         }
         
-        if( indexPath.section == 3 && indexPath.row == 1 )
+        if( indexPath.section == 4 && indexPath.row == 1 )
         {
             textFieldCell.textField.returnKeyType = UIReturnKeyDone;
         }
@@ -165,7 +170,7 @@ static NSString *kRegisterCellID  = @"registerCell";
             textFieldCell.textField.returnKeyType = UIReturnKeyNext;
         }
     }
-    else if( indexPath.section == 4 )
+    else if( indexPath.section == 5 )
     {
         if( indexPath.row == 0 )
         {
@@ -181,7 +186,7 @@ static NSString *kRegisterCellID  = @"registerCell";
             [datePickerCell.datePicker addTarget:self action:@selector(dateChosen:) forControlEvents:UIControlEventValueChanged];
         }
     }
-    else if( indexPath.section == 5 )
+    else if( indexPath.section == 6 )
     {
         cell = [tableView dequeueReusableCellWithIdentifier:kRegisterCellID];
         
@@ -193,12 +198,12 @@ static NSString *kRegisterCellID  = @"registerCell";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.section == 5 )
+    if( indexPath.section == 6 )
     {
         return 54;
     }
     
-    if( indexPath.section == 4 && indexPath.row == 1 )
+    if( indexPath.section == 5 && indexPath.row == 1 )
     {
         return 172;
     }
@@ -218,12 +223,12 @@ static NSString *kRegisterCellID  = @"registerCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.section == 4 && indexPath.row == 0 )
+    if( indexPath.section == 5 && indexPath.row == 0 )
     {
         [self toggleDatePicker];
     }
     
-    if( indexPath.section == 5 )
+    if( indexPath.section == 6 )
     {
         [self checkInputsAndRegister];
         NSLog(@"%@", self.signUpData);
@@ -236,7 +241,7 @@ static NSString *kRegisterCellID  = @"registerCell";
 {
     [self.tableView beginUpdates];
     
-    NSArray *indexPaths = @[ [NSIndexPath indexPathForRow:1 inSection:4] ];
+    NSArray *indexPaths = @[ [NSIndexPath indexPathForRow:1 inSection:5] ];
     
     if ( self.pickerIndexPath )
     {
@@ -336,10 +341,10 @@ static NSString *kRegisterCellID  = @"registerCell";
         return;
     }
     
-    NSString *firstPassword = [self.signUpData objectForKey:self.titleData[@3][0]];
+    NSString *firstPassword = [self.signUpData objectForKey:self.titleData[@4][0]];
     if( [firstPassword length] < 6 )
     {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:3];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
         DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
@@ -347,17 +352,17 @@ static NSString *kRegisterCellID  = @"registerCell";
         self.errorView.errorTextLabel.text = @"Invalid Password!";
         self.errorView.errorTipLabel.text  = @"Your password must be at least 6 characters.";
         
-        [self.errorData setObject:@"error" forKey:self.titleData[@3][0]];
+        [self.errorData setObject:@"error" forKey:self.titleData[@4][0]];
         
         [self showErrorView];
         
         return;
     }
     
-    NSString *confirmPassword = [self.signUpData objectForKey:self.titleData[@3][1]];
+    NSString *confirmPassword = [self.signUpData objectForKey:self.titleData[@4][1]];
     if( ![confirmPassword isEqualToString:firstPassword] )
     {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:3];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:4];
         DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
@@ -365,17 +370,17 @@ static NSString *kRegisterCellID  = @"registerCell";
         self.errorView.errorTextLabel.text = @"Invalid Password!";
         self.errorView.errorTipLabel.text  = @"Your passwords must match.";
         
-        [self.errorData setObject:@"error" forKey:self.titleData[@3][1]];
+        [self.errorData setObject:@"error" forKey:self.titleData[@4][1]];
         
         [self showErrorView];
         
         return;
     }
     
-    NSDate *dateOfBirth = [self.signUpData objectForKey:self.titleData[@4][0]];
+    NSDate *dateOfBirth = [self.signUpData objectForKey:self.titleData[@5][0]];
     if( [self ageWithDate:dateOfBirth] < 13 )
     {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:5];
         DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
@@ -383,7 +388,7 @@ static NSString *kRegisterCellID  = @"registerCell";
         self.errorView.errorTextLabel.text = @"You're too young!";
         self.errorView.errorTipLabel.text  = @"You must be 13 years or older to sign up for Dished.";
         
-        [self.errorData setObject:@"error" forKey:self.titleData[@4][0]];
+        [self.errorData setObject:@"error" forKey:self.titleData[@5][0]];
         
         [self showErrorView];
         
@@ -409,8 +414,8 @@ static NSString *kRegisterCellID  = @"registerCell";
     NSString *lastName  = [self.signUpData objectForKey:self.titleData[@0][1]];
     NSString *username  = [[self.signUpData objectForKey:self.titleData[@1][0]] substringFromIndex:1];
     NSString *email     = [self.signUpData objectForKey:self.titleData[@2][0]];
-    NSString *password  = [self.signUpData objectForKey:self.titleData[@3][1]];
-    NSDate *dateOfBirth = [self.signUpData objectForKey:self.titleData[@4][0]];
+    NSString *password  = [self.signUpData objectForKey:self.titleData[@4][1]];
+    NSDate *dateOfBirth = [self.signUpData objectForKey:self.titleData[@5][0]];
 
     [[DAAPIManager sharedManager] registerUserWithUsername:username password:password firstName:firstName lastName:lastName email:email birthday:dateOfBirth completion:^( BOOL registered, BOOL loggedIn )
     {
@@ -583,7 +588,7 @@ static NSString *kRegisterCellID  = @"registerCell";
         }
     }
     
-    if( indexPath.section == 3 )
+    if( indexPath.section == 4 )
     {
         if( indexPath.row == 0 )
         {
@@ -663,7 +668,7 @@ static NSString *kRegisterCellID  = @"registerCell";
         }
     }
     
-    if( indexPath.section == 3 )
+    if( indexPath.section == 4 )
     {
         if( indexPath.row == 0 )
         {
@@ -779,6 +784,12 @@ static NSString *kRegisterCellID  = @"registerCell";
     }
     else if( indexPath.section == 3 )
     {
+        NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:indexPath.row inSection:indexPath.section + 1];
+        DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:nextIndexPath];
+        [cell.textField becomeFirstResponder];
+    }
+    else if( indexPath.section == 4 )
+    {
         if( indexPath.row == 0 )
         {
             NSIndexPath *nextIndexPath = [NSIndexPath indexPathForRow:indexPath.row + 1 inSection:indexPath.section];
@@ -825,7 +836,7 @@ static NSString *kRegisterCellID  = @"registerCell";
 {
     if( !_titleData )
     {
-        _titleData = @{ @0 : @[ @"First Name", @"Last Name" ], @1 : @[ @"Username" ], @2 : @[ @"Email" ], @3 : @[ @"Password", @"Confirm Password" ], @4 : @[ @"Date of Birth" ], @5 : @[ @"Register" ] };
+        _titleData = @{ @0 : @[ @"First Name", @"Last Name" ], @1 : @[ @"Username" ], @2 : @[ @"Email" ], @3 : @[ @"Phone Number" ], @4 : @[ @"Password", @"Confirm Password" ], @5 : @[ @"Date of Birth" ], @6 : @[ @"Register" ] };
     }
     
     return _titleData;

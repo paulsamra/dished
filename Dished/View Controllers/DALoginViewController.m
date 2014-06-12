@@ -96,6 +96,11 @@
     [self performSegueWithIdentifier:@"facebookLogin" sender:nil];
 }
 
+- (IBAction)goToForgotPassword
+{
+    [self performSegueWithIdentifier:@"forgotPassword" sender:nil];
+}
+
 - (IBAction)goToRegister
 {
     [self performSegueWithIdentifier:@"goToRegister" sender:nil];
