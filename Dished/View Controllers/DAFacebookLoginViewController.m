@@ -13,6 +13,8 @@
 
 @interface DAFacebookLoginViewController()
 
+@property (nonatomic) BOOL shouldLogin;
+
 @end
 
 
@@ -21,6 +23,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.shouldLogin = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -28,25 +32,49 @@
     [super viewWillAppear:animated];
     
     [self.activityIndicator startAnimating];
+    self.logoutButton.hidden = YES;
+    
+    if( FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended )
+    {
+        [self.activityIndicator stopAnimating];
+        self.activityIndicator.hidden = YES;
+        self.statusLabel.text = @"Logged into Facebook";
+        self.logoutButton.hidden = NO;
+        self.shouldLogin = NO;
+    }
+    else
+    {
+        self.shouldLogin = YES;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    if( FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended )
-    {
-        [FBSession.activeSession closeAndClearTokenInformation];
-    }
-    else
+    if( self.shouldLogin )
     {
         [FBSession openActiveSessionWithReadPermissions:@[@"public_profile"] allowLoginUI:YES
-        completionHandler:^(FBSession *session, FBSessionState state, NSError *error)
-        {
-            DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-            [appDelegate sessionStateChanged:session state:state error:error];
-        }];
+                                      completionHandler:^(FBSession *session, FBSessionState state, NSError *error)
+         {
+             if( state == FBSessionStateOpen )
+             {
+                 self.statusLabel.text = @"Logged into Facebook";
+                 [self.activityIndicator stopAnimating];
+                 self.activityIndicator.hidden = YES;
+                 self.logoutButton.hidden = NO;
+             }
+             
+             DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+             [appDelegate sessionStateChanged:session state:state error:error];
+         }];
     }
+}
+
+- (IBAction)logout
+{
+    [FBSession.activeSession closeAndClearTokenInformation];
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

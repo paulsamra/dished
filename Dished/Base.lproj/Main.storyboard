@@ -286,12 +286,23 @@
                                 <rect key="frame" x="150" y="314" width="20" height="20"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </activityIndicatorView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ElI-N7-MmA">
+                                <rect key="frame" x="132" y="411" width="56" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Log Out">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="logout" destination="Lf5-YT-KkR" eventType="touchUpInside" id="srI-GM-TD6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="MdG-03-sBF"/>
                     <connections>
                         <outlet property="activityIndicator" destination="DWn-jC-f5B" id="yaf-Ro-SKP"/>
+                        <outlet property="logoutButton" destination="ElI-N7-MmA" id="0Rf-jL-skH"/>
                         <outlet property="statusLabel" destination="cGr-vh-cpR" id="qaN-rW-JtV"/>
                     </connections>
                 </viewController>
@@ -332,6 +343,9 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="go"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ibb-xv-e8O" id="QMm-13-qn4"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>

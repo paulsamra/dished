@@ -9,7 +9,7 @@
 #import "DAForgotPasswordViewController.h"
 
 
-@interface DAForgotPasswordViewController() <UIAlertViewDelegate>
+@interface DAForgotPasswordViewController() <UIAlertViewDelegate, UITextFieldDelegate>
 
 @end
 
@@ -30,6 +30,30 @@
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     [self performSegueWithIdentifier:@"resetPassword" sender:nil];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    [self animateTextField:textField up:YES];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    [self animateTextField:textField up:NO];
+}
+
+- (void)animateTextField:(UITextField*)textField up:(BOOL)up
+{
+    const int movementDistance = -30;
+    const float movementDuration = 0.3f;
+    
+    int movement = up ? movementDistance : -movementDistance;
+    
+    [UIView beginAnimations:@"animateTextField" context:nil];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    [UIView setAnimationDuration:movementDuration];
+    self.view.frame = CGRectOffset( self.view.frame, 0, movement );
+    [UIView commitAnimations];
 }
 
 @end

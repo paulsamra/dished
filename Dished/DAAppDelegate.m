@@ -82,12 +82,12 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-    [FBSession.activeSession setStateChangeHandler:
-    ^(FBSession *session, FBSessionState state, NSError *error)
-    {
-         DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-         [appDelegate sessionStateChanged:session state:state error:error];
-     }];
+//    [FBSession.activeSession setStateChangeHandler:
+//    ^(FBSession *session, FBSessionState state, NSError *error)
+//    {
+//         DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+//         [appDelegate sessionStateChanged:session state:state error:error];
+//     }];
     
     return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
 }
@@ -106,7 +106,7 @@
     {
         NSLog(@"Session opened");
         // Show the user the logged-in UI
-        [self showMessage:@"You are now logged into Facebook." withTitle:@"Login Successful"];
+        //[self showMessage:@"You are now logged into Facebook." withTitle:@"Login Successful"];
         return;
     }
     
