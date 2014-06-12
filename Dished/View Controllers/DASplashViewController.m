@@ -30,6 +30,11 @@
     return UIStatusBarStyleLightContent;
 }
 
+- (IBAction)goToFacebookLogin
+{
+    [self performSegueWithIdentifier:@"facebookLogin" sender:nil];
+}
+
 - (IBAction)goToLogin
 {
     [self performSegueWithIdentifier:@"loginSegue" sender:nil];

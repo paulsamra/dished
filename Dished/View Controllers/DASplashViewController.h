@@ -10,4 +10,7 @@
 
 @interface DASplashViewController : UIViewController
 
+@property (weak, nonatomic) IBOutlet UIImageView *backgroundImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *logoImageView;
+
 @end

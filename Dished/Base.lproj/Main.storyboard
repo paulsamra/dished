@@ -29,6 +29,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="goToFacebookLogin" destination="EzC-Jo-EoR" eventType="touchUpInside" id="k8D-WN-ru4"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ec-r9-XoO">
                                 <rect key="frame" x="0.0" y="349" width="320" height="53"/>
@@ -64,6 +67,10 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="logo_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="vK5-Vo-cdC">
+                                <rect key="frame" x="49" y="114" width="222" height="55"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -88,8 +95,11 @@
                     </view>
                     <navigationItem key="navigationItem" id="6uS-Ot-OF7"/>
                     <connections>
+                        <outlet property="backgroundImageView" destination="3TF-8t-2Jn" id="JXR-uf-85K"/>
+                        <outlet property="logoImageView" destination="vK5-Vo-cdC" id="Yc4-Aw-kdV"/>
                         <segue destination="WLa-iY-AtF" kind="push" identifier="loginSegue" id="uu3-ER-XS1"/>
                         <segue destination="cT7-YU-ckl" kind="push" identifier="registerSegue" id="Fgn-N5-prF"/>
+                        <segue destination="Lf5-YT-KkR" kind="push" identifier="facebookLogin" id="DWl-1Z-W5u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qLz-rT-0Jz" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -142,6 +152,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="goToFacebookLogin" destination="WLa-iY-AtF" eventType="touchUpInside" id="L8A-LO-DNy"/>
+                                </connections>
                             </button>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Don't Have an Account?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hs8-NB-Fc2">
                                 <rect key="frame" x="31" y="530" width="180" height="25"/>
@@ -239,11 +252,48 @@
                         <outlet property="registerButton" destination="eYg-7v-LfO" id="cTz-TK-AT6"/>
                         <outlet property="usernameField" destination="Tt2-ow-Hta" id="25u-LU-q81"/>
                         <segue destination="cT7-YU-ckl" kind="custom" identifier="goToRegister" customClass="DAReplaceSegue" id="AAU-fd-jiu"/>
+                        <segue destination="Lf5-YT-KkR" kind="push" identifier="facebookLogin" id="aNd-9F-Yna"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iwb-My-iPS" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="567" y="178"/>
+        </scene>
+        <!--Facebook Login View Controller-->
+        <scene sceneID="AcO-a5-Hdx">
+            <objects>
+                <viewController id="Lf5-YT-KkR" customClass="DAFacebookLoginViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="zLc-fe-thF"/>
+                        <viewControllerLayoutGuide type="bottom" id="TfK-Zc-pCv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="j2S-Py-Pu3">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Logging into Facebook..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGr-vh-cpR">
+                                <rect key="frame" x="0.0" y="269" width="320" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="DWn-jC-f5B">
+                                <rect key="frame" x="150" y="314" width="20" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="MdG-03-sBF"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="DWn-jC-f5B" id="yaf-Ro-SKP"/>
+                        <outlet property="statusLabel" destination="cGr-vh-cpR" id="qaN-rW-JtV"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AgN-aI-MNo" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1121" y="178"/>
         </scene>
         <!--Register View Controller - Register-->
         <scene sceneID="vJL-yG-GvI">
@@ -254,7 +304,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="nzL-KW-9Hu">
-                            <rect key="frame" x="0.0" y="207" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="271" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Already Signed Up?" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iUO-Wg-NoT">
@@ -279,7 +329,7 @@
                         </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="dateCell" textLabel="SPx-9X-m3N" detailTextLabel="hYX-Hd-iQf" style="IBUITableViewCellStyleValue1" id="ZaZ-9P-1o1">
-                                <rect key="frame" x="0.0" y="55" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="119" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ZaZ-9P-1o1" id="0EW-Bm-fQB">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -302,7 +352,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="registerCell" textLabel="iE0-P5-DSS" rowHeight="54" style="IBUITableViewCellStyleDefault" id="qsE-nQ-kGK">
-                                <rect key="frame" x="0.0" y="99" width="320" height="54"/>
+                                <rect key="frame" x="0.0" y="163" width="320" height="54"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="qsE-nQ-kGK" id="UzX-2f-F1A">
                                     <rect key="frame" x="0.0" y="0.0" width="287" height="53"/>
@@ -319,7 +369,7 @@
                                 </tableViewCellContentView>
                             </tableViewCell>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="pickerCell" id="Lzy-vL-tev" customClass="DADatePickerCell">
-                                <rect key="frame" x="0.0" y="153" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="217" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Lzy-vL-tev" id="ylE-Fr-cVP">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -366,6 +416,7 @@
         <image name="login_login.png" width="320" height="54"/>
         <image name="login_password.png" width="320" height="44"/>
         <image name="login_username.png" width="320" height="44"/>
+        <image name="logo_white.png" width="223" height="55"/>
         <image name="splash_background.png" width="320" height="568"/>
         <image name="splash_facebook_connect.png" width="320" height="53"/>
         <image name="splash_register.png" width="320" height="53"/>
@@ -377,7 +428,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="b5p-rj-pnG"/>
-        <segue reference="AAU-fd-jiu"/>
+        <segue reference="uu3-ER-XS1"/>
+        <segue reference="Fgn-N5-prF"/>
+        <segue reference="DWl-1Z-W5u"/>
     </inferredMetricsTieBreakers>
 </document>

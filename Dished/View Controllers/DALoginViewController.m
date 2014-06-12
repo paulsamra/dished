@@ -91,6 +91,11 @@
     return YES;
 }
 
+- (IBAction)goToFacebookLogin
+{
+    [self performSegueWithIdentifier:@"facebookLogin" sender:nil];
+}
+
 - (IBAction)goToRegister
 {
     [self performSegueWithIdentifier:@"goToRegister" sender:nil];
