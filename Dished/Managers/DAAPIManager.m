@@ -7,6 +7,7 @@
 //
 
 #import "DAAPIManager.h"
+#import "JSONResponseSerializerWithData.h"
 
 #define kClientIDKey     @"client_id"
 #define kClientSecretKey @"client_secret"
@@ -35,6 +36,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     
     dispatch_once(&singleton, ^{
         manager = [[DAAPIManager alloc] initWithBaseURL:[NSURL URLWithString:baseAPIURL]];
+        manager.responseSerializer = [JSONResponseSerializerWithData serializer];
     });
     
     return manager;
@@ -58,13 +60,24 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
         {
             completion( YES, nil );
         }
+        else
+        {
+            completion( NO, nil );
+        }
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
         if( error.code != -999 )
-        {
-            NSLog(@"%@", error);
-            completion( NO, error );
+        {            
+            NSString *errorResponse = error.userInfo[JSONResponseSerializerWithDataKey];
+            if( [errorResponse rangeOfString:@"username_exists"].location != NSNotFound )
+            {
+                completion( NO, nil );
+            }
+            else
+            {
+                completion( NO, error );
+            }
         }
     }];
 }
@@ -126,13 +139,10 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        if( error.code != -999 )
-        {
-            NSLog(@"%@", error);
-            completion( NO, NO );
-            
-            dispatch_group_leave( group );
-        }
+        NSLog(@"%@", error);
+        completion( NO, NO );
+        
+        dispatch_group_leave( group );
     }];
     
     dispatch_group_notify( group, dispatch_get_main_queue(), ^
@@ -157,14 +167,123 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
                     
                     completion( YES, YES );
                 }
+                else
+                {
+                    completion( YES, NO );
+                }
             }
             failure:^( NSURLSessionDataTask *task, NSError *error )
             {
-                if( error.code != -999 )
+                NSLog(@"%@", error);
+                completion( YES, NO );
+            }];
+        }
+        else
+        {
+            completion( NO, NO );
+        }
+    });
+}
+
+- (void)requestPasswordResetCodeWithPhoneNumber:(NSString *)phoneNumber completion:(void(^)( BOOL success ))completion
+{
+    NSDictionary *parameters = @{ @"phone" : phoneNumber };
+    
+    if( [self hasClientID] )
+    {
+        parameters = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber };
+    }
+    
+    [self POST:@"auth/password" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSDictionary *response = responseObject;
+        
+        if( [response[@"status"] isEqualToString:@"success"] )
+        {
+            completion( YES );
+        }
+        else
+        {
+            completion( NO );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"%@", error);
+        completion( NO );
+    }];
+}
+
+- (void)submitPasswordResetWithPin:(NSString *)pin phoneNumber:(NSString *)phoneNumber newPassword:(NSString *)password completion:(void(^)( BOOL pinValid, BOOL success ))completion
+{
+    dispatch_group_t group = dispatch_group_create();
+    
+    dispatch_group_enter( group );
+    
+    __block BOOL pinSuccess = YES;
+    
+    NSDictionary *parameters = @{ @"phone" : phoneNumber, @"pin" : pin };
+    
+    if( [self hasClientID] )
+    {
+        parameters = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber, @"pin" : pin };
+    }
+    
+    [self POST:@"auth/password" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSDictionary *response = responseObject;
+        
+        if( [response[@"status"] isEqualToString:@"success"] )
+        {
+            pinSuccess = YES;
+        }
+        else
+        {
+            pinSuccess = NO;
+        }
+        
+        dispatch_group_leave( group );
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"%@", error);
+        pinSuccess = NO;
+        
+        dispatch_group_leave( group );
+    }];
+    
+    dispatch_group_notify( group, dispatch_get_main_queue(), ^
+    {
+        NSDictionary *parameters2 = @{ @"phone" : phoneNumber, @"pin" : pin, @"password" : password };
+        
+        if( [self hasClientID] )
+        {
+            parameters2 = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber, @"pin" : pin, @"password" : password };
+        }
+        
+        if( pinSuccess )
+        {
+            [self POST:@"auth/password" parameters:parameters2
+            success:^( NSURLSessionDataTask *task, id responseObject )
+            {
+                NSDictionary *response = responseObject;
+                
+                if( [response[@"status"] isEqualToString:@"success"] )
                 {
-                    NSLog(@"%@", error);
+                    completion( YES, YES );
+                }
+                else
+                {
                     completion( YES, NO );
                 }
+            }
+            failure:^( NSURLSessionDataTask *task, NSError *error )
+            {
+                NSLog(@"%@", error);
+                
+                completion( YES, NO );
             }];
         }
         else
@@ -192,6 +311,18 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }
     
     return _clientID;
+}
+    
+- (BOOL)hasClientID
+{
+    if( [[NSUserDefaults standardUserDefaults] objectForKey:kClientIDKey] )
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
 }
 
 @end

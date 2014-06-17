@@ -397,13 +397,16 @@ static NSString *kRegisterCellID  = @"registerCell";
     
     [[DAAPIManager sharedManager] checkAvailabilityOfEmail:email completion:^( BOOL available, NSError *error )
     {
-        if( available )
+        if( !error )
         {
-            [self registerUser];
-        }
-        else
-        {
-            [self.emailExistsAlert show];
+            if( available )
+            {
+                [self registerUser];
+            }
+            else
+            {
+                [self.emailExistsAlert show];
+            }
         }
     }];
 }
@@ -416,9 +419,13 @@ static NSString *kRegisterCellID  = @"registerCell";
     NSString *email     = [self.signUpData objectForKey:self.titleData[@2][0]];
     NSString *password  = [self.signUpData objectForKey:self.titleData[@4][1]];
     NSDate *dateOfBirth = [self.signUpData objectForKey:self.titleData[@5][0]];
+    
+    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"Registering..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
 
     [[DAAPIManager sharedManager] registerUserWithUsername:username password:password firstName:firstName lastName:lastName email:email birthday:dateOfBirth completion:^( BOOL registered, BOOL loggedIn )
     {
+        [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES];
+        
         if( !registered )
         {
             [self.registerFailAlert show];
@@ -533,24 +540,33 @@ static NSString *kRegisterCellID  = @"registerCell";
             {
                 if( self.shouldUpdateUsernameStatus )
                 {
-                    if( available )
+                    if( !error )
                     {
-                        textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
-                        
-                        self.usernameIsValid = YES;
-                        
-                        [self dismissErrorView];
+                        if( available )
+                        {
+                            textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+                            
+                            self.usernameIsValid = YES;
+                            
+                            [self dismissErrorView];
+                        }
+                        else
+                        {
+                            self.errorView.errorTextLabel.text = @"Username unavailable!";
+                            self.errorView.errorTipLabel.text  = @"Please choose a different username.";
+                            
+                            [self showErrorView];
+                            
+                            self.usernameIsValid = NO;
+                            
+                            textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+                        }
                     }
                     else
                     {
-                        self.errorView.errorTextLabel.text = @"Username unavailable!";
-                        self.errorView.errorTipLabel.text  = @"Please choose a different username.";
-                        
-                        [self showErrorView];
-                        
                         self.usernameIsValid = NO;
                         
-                        textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+                        textCell.accessoryView = nil;
                     }
                 }
                 else

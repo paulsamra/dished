@@ -11,8 +11,10 @@
 
 @interface DAResetPasswordViewController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UITextField *codeField;
-@property (weak, nonatomic) IBOutlet UITextField *passwordField;
-@property (weak, nonatomic) IBOutlet UITextField *confirmField;
+@property (weak,   nonatomic) IBOutlet UITextField *codeField;
+@property (weak,   nonatomic) IBOutlet UITextField *passwordField;
+@property (weak,   nonatomic) IBOutlet UITextField *confirmField;
+@property (weak,   nonatomic) IBOutlet UIButton    *submitButton;
+@property (strong, nonatomic)          NSString    *phoneNumber;
 
 @end

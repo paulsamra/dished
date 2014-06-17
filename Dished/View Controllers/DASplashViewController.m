@@ -17,6 +17,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSLog(@"access: %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"access_token"]);
+    NSLog(@"refresh: %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"refresh_token"]);
+    NSLog(@"secret: %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"client_secret"]);
+    NSLog(@"id: %@", [[NSUserDefaults standardUserDefaults] objectForKey:@"client_id"]);
 }
 
 - (void)viewWillAppear:(BOOL)animated
