@@ -20,13 +20,26 @@
                 
 		if( data == nil )
         {
-            userInfo[JSONResponseSerializerWithDataKey] = @"";
+            //userInfo[JSONResponseSerializerWithDataKey] = @"";
 			//userInfo[JSONResponseSerializerWithDataKey] = [NSData data];
+            userInfo[JSONResponseSerializerWithDataKey] = [NSDictionary dictionary];
 		}
         else
         {
-            userInfo[JSONResponseSerializerWithDataKey] = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            //userInfo[JSONResponseSerializerWithDataKey] = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 			//userInfo[JSONResponseSerializerWithDataKey] = data;
+                        
+            NSError* err = nil;;
+            NSDictionary* json = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&err];
+            
+            if( err )
+            {
+                userInfo[JSONResponseSerializerWithDataKey] = [NSDictionary dictionary];
+            }
+            else
+            {
+                userInfo[JSONResponseSerializerWithDataKey] = json;
+            }
 		}
         
 		NSError *newError = [NSError errorWithDomain:(*error).domain code:(*error).code userInfo:userInfo];

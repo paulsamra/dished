@@ -7,10 +7,17 @@
 //
 
 #import "DALoginViewController.h"
+#import "DAAPIManager.h"
+#import "MRProgress.h"
 #import "UIViewController+TAPKeyboardPop.h"
 
 
 @interface DALoginViewController()
+
+@property (strong, nonatomic) UIAlertView *successAlert;
+@property (strong, nonatomic) UIAlertView *wrongUserAlert;
+@property (strong, nonatomic) UIAlertView *wrongPassAlert;
+@property (strong, nonatomic) UIAlertView *loginFailAlert;
 
 @end
 
@@ -20,8 +27,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textFieldDidChange:) name:UITextFieldTextDidChangeNotification object:nil];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -53,9 +58,46 @@
     }
 }
 
-- (void)textFieldDidChange:(NSNotification *)notification
+- (IBAction)textFieldDidChange:(UITextField *)sender
 {
     [self setLoginButtonState];
+}
+
+- (IBAction)login
+{
+    NSString *user = self.usernameField.text;
+    
+    if( [user characterAtIndex:0] == '@' )
+    {
+        user = [user substringFromIndex:1];
+    }
+    
+    [self.view endEditing:YES];
+    
+    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"Logging In..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    
+    [[DAAPIManager sharedManager] loginWithUser:user password:self.passwordField.text completion:^( BOOL success, BOOL wrongUser, BOOL wrongPass )
+    {
+        [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+        {
+            if( success )
+            {
+                [self.successAlert show];
+            }
+            else if( wrongUser )
+            {
+                [self.wrongUserAlert show];
+            }
+            else if( wrongPass )
+            {
+                [self.wrongPassAlert show];
+            }
+            else
+            {
+                [self.loginFailAlert show];
+            }
+        }];
+    }];
 }
 
 - (void)setLoginButtonState
@@ -88,6 +130,11 @@
         [self.passwordField becomeFirstResponder];
     }
     
+    if( textField == self.passwordField )
+    {
+        [self login];
+    }
+    
     return YES;
 }
 
@@ -118,6 +165,46 @@
     [UIView setAnimationDuration:movementDuration];
     self.view.frame = CGRectOffset( self.view.frame, 0, movement );
     [UIView commitAnimations];
+}
+
+- (UIAlertView *)successAlert
+{
+    if( !_successAlert )
+    {
+        _successAlert = [[UIAlertView alloc] initWithTitle:@"Login Successful" message:@"You have been successfully logged in." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    }
+    
+    return _successAlert;
+}
+
+- (UIAlertView *)wrongUserAlert
+{
+    if( !_wrongUserAlert )
+    {
+        _wrongUserAlert = [[UIAlertView alloc] initWithTitle:@"Incorrect Username or Email" message:@"The email or username you entered does not belong to an account." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    }
+    
+    return _wrongUserAlert;
+}
+
+- (UIAlertView *)wrongPassAlert
+{
+    if( !_wrongPassAlert )
+    {
+        _wrongPassAlert = [[UIAlertView alloc] initWithTitle:@"Incorrect Password" message:@"The password you entered is incorrect. Please try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    }
+    
+    return _wrongPassAlert;
+}
+
+- (UIAlertView *)loginFailAlert
+{
+    if( !_loginFailAlert )
+    {
+        _loginFailAlert = [[UIAlertView alloc] initWithTitle:@"Failed to Login" message:@"There was a problem logging you in. Please try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    }
+    
+    return _loginFailAlert;
 }
 
 @end

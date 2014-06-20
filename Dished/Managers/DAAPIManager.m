@@ -42,16 +42,52 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     return manager;
 }
 
-- (void)checkAvailabilityOfUsername:(NSString *)username completion:(void(^)( BOOL available, NSError *error))completion
+- (NSString *)errorResponseKey
 {
-    if( self.usernameCheckTask )
+    return JSONResponseSerializerWithDataKey;
+}
+
+- (void)checkAvailabilityOfEmail:(NSString *)email completion:(void(^)( BOOL available, NSError *error ))completion
+{
+    NSDictionary *parameters = @{ @"email" : email };
+    
+    [self GET:@"users/availability/email" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        [self.usernameCheckTask cancel];
+        NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+          
+        if( response.statusCode == 200 )
+        {
+            completion( YES, nil );
+        }
+        else
+        {
+            completion( NO, nil );
+        }
     }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"%@", error);
+        
+        NSDictionary *errorResponse = error.userInfo[JSONResponseSerializerWithDataKey];
+        
+        //if( [errorResponse rangeOfString:@"email_exists"].location != NSNotFound )
+        if( [errorResponse[@"error"] isEqualToString:@"email_exists"] )
+        {
+            completion( NO, nil );
+        }
+        else
+        {
+            completion( NO, error );
+        }
+    }];
+}
+
+- (void)checkAvailabilityOfPhoneNumber:(NSString *)phoneNumber completion:(void(^)( BOOL available, NSError *error ))completion
+{
+    NSDictionary *parameters = @{ @"phone" : phoneNumber };
     
-    NSDictionary *parameters = @{ @"username" : username };
-    
-    self.usernameCheckTask = [self GET:@"users/availability/username" parameters:parameters
+    [self GET:@"users/availability/phone" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
         NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
@@ -67,46 +103,23 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        if( error.code != -999 )
-        {            
-            NSString *errorResponse = error.userInfo[JSONResponseSerializerWithDataKey];
-            if( [errorResponse rangeOfString:@"username_exists"].location != NSNotFound )
-            {
-                completion( NO, nil );
-            }
-            else
-            {
-                completion( NO, error );
-            }
-        }
-    }];
-}
-
-- (void)checkAvailabilityOfEmail:(NSString *)email completion:(void(^)( BOOL available, NSError *error ))completion
-{
-    NSDictionary *parameters = @{ @"email" : email };
-    
-    self.usernameCheckTask = [self GET:@"users/availability/email" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-          
-        if( response.statusCode == 200 )
+        NSLog(@"%@", error);
+        
+        NSDictionary *errorResponse = error.userInfo[JSONResponseSerializerWithDataKey];
+        
+        //if( [errorResponse rangeOfString:@"phone_exists"].location != NSNotFound )
+        if( [errorResponse[@"error"] isEqualToString:@"phone_exists"] )
         {
-            completion( YES, nil );
+            completion( NO, nil );
         }
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        if( error.code != -999 )
+        else
         {
-            NSLog(@"%@", error);
             completion( NO, error );
         }
     }];
 }
 
-- (void)registerUserWithUsername:(NSString *)username password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email birthday:(NSDate *)birthday completion:(void(^)( BOOL registered, BOOL loggedIn ))completion
+- (void)registerUserWithUsername:(NSString *)username password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email phoneNumber:(NSString *)phoneNumber birthday:(NSDate *)birthday completion:(void(^)( BOOL registered, BOOL loggedIn ))completion
 {
     dispatch_group_t group = dispatch_group_create();
     
@@ -117,7 +130,8 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     NSNumber *dobTimestamp = @( [birthday timeIntervalSince1970] );
     
     NSDictionary *parameters = @{ kClientIDKey : self.clientID, @"username" : username, @"password" : password,
-                                  @"fname" : firstName, @"lname" : lastName, @"email" : email, @"dob" : dobTimestamp };
+                                  @"phone" : phoneNumber, @"fname" : firstName, @"lname" : lastName, @"email" : email,
+                                  @"dob" : dobTimestamp };
     
     [self POST:@"users" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
@@ -140,7 +154,6 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
         NSLog(@"%@", error);
-        completion( NO, NO );
         
         dispatch_group_leave( group );
     }];
@@ -181,6 +194,107 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
         else
         {
             completion( NO, NO );
+        }
+    });
+}
+
+- (void)loginWithUser:(NSString *)user password:(NSString *)password completion:(void(^)( BOOL success, BOOL wrongUser, BOOL wrongPass ))completion
+{
+    dispatch_group_t group = dispatch_group_create();
+
+    __block NSString *clientSecret = nil;
+    __block NSString *userName = nil;
+    __block BOOL badUser = NO;
+    __block BOOL badPass = NO;
+    
+    dispatch_group_enter( group );
+    
+    NSString *userKey = @"username";
+    
+    if( [user rangeOfString:@"@"].location != NSNotFound )
+    {
+        userKey = @"email";
+    }
+    
+    NSDictionary *parameters = @{ kClientIDKey : self.clientID, userKey : user, @"password" : password };
+    
+    [self POST:@"auth/add" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+        
+        if( response.statusCode == 200 )
+        {
+            NSDictionary *response = (NSDictionary *)responseObject;
+            
+            clientSecret = response[@"data"][kClientSecretKey];
+            userName = response[@"data"][@"username"];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:clientSecret forKey:kClientSecretKey];
+        }
+        
+        dispatch_group_leave( group );
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"%@", error);
+        
+        NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+        
+        if( response.statusCode == 400 )
+        {
+            NSDictionary *failResponse = error.userInfo[JSONResponseSerializerWithDataKey];
+            
+            if( [failResponse[@"error"] isEqualToString:@"data_nonexists"] )
+            {
+                badUser = YES;
+            }
+            else if( [failResponse[@"error"] isEqualToString:@"params_invalid"] )
+            {
+                badPass = YES;
+            }
+        }
+        
+        dispatch_group_leave( group );
+    }];
+    
+    dispatch_group_notify( group, dispatch_get_main_queue(), ^
+    {
+        if( clientSecret )
+        {
+            NSDictionary *authParameters = @{ kClientIDKey : self.clientID, kClientSecretKey : clientSecret,
+                                              @"username" : userName, @"password" : password };
+            
+            [self POST:@"auth/token" parameters:authParameters
+            success:^( NSURLSessionDataTask *task, id responseObject )
+            {
+                NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+                 
+                if( response.statusCode == 200 )
+                {
+                    NSDictionary *response = (NSDictionary *)responseObject;
+                     
+                    [[NSUserDefaults standardUserDefaults] setObject:response[kAccessTokenKey] forKey:kAccessTokenKey];
+                     
+                    [[NSUserDefaults standardUserDefaults] setObject:response[kRefreshTokenKey] forKey:kRefreshTokenKey];
+                     
+                    completion( YES, badUser, badPass );
+                }
+                else
+                {
+                    completion( NO, badUser, badPass );
+                }
+            }
+            failure:^( NSURLSessionDataTask *task, NSError *error )
+            {
+                NSLog(@"%@", error);
+                
+                completion( NO, badUser, badPass );
+            }];
+        }
+        else
+        {
+            completion( NO, badUser, badPass );
         }
     });
 }

@@ -21,18 +21,20 @@ static NSString *kRegisterCellID  = @"registerCell";
 
 @interface DARegisterViewController() <DATextFieldCellDelegate, DAErrorViewDelegate, UIAlertViewDelegate>
 
-@property (strong, nonatomic) UIImage             *errorIconImage;
-@property (strong, nonatomic) UIImage             *validIconImage;
-@property (strong, nonatomic) DAErrorView         *errorView;
-@property (strong, nonatomic) NSIndexPath         *pickerIndexPath;
-@property (strong, nonatomic) UIAlertView         *emailExistsAlert;
-@property (strong, nonatomic) UIAlertView         *loginFailAlert;
-@property (strong, nonatomic) UIAlertView         *registerFailAlert;
-@property (strong, nonatomic) UIAlertView         *registerSuccessAlert;
-@property (strong, nonatomic) NSDictionary        *titleData;
-@property (strong, nonatomic) NSDateFormatter     *birthDateFormatter;
-@property (strong, nonatomic) NSMutableDictionary *signUpData;
-@property (strong, nonatomic) NSMutableDictionary *errorData;
+@property (strong, nonatomic) UIImage              *errorIconImage;
+@property (strong, nonatomic) UIImage              *validIconImage;
+@property (strong, nonatomic) DAErrorView          *errorView;
+@property (strong, nonatomic) NSIndexPath          *pickerIndexPath;
+@property (strong, nonatomic) UIAlertView          *emailExistsAlert;
+@property (strong, nonatomic) UIAlertView          *phoneExistsAlert;
+@property (strong, nonatomic) UIAlertView          *loginFailAlert;
+@property (strong, nonatomic) UIAlertView          *registerFailAlert;
+@property (strong, nonatomic) UIAlertView          *registerSuccessAlert;
+@property (strong, nonatomic) NSDictionary         *titleData;
+@property (strong, nonatomic) NSDateFormatter      *birthDateFormatter;
+@property (strong, nonatomic) NSMutableDictionary  *signUpData;
+@property (strong, nonatomic) NSMutableDictionary  *errorData;
+@property (strong, nonatomic) NSURLSessionDataTask *usernameCheckTask;
 
 @property (nonatomic) BOOL errorVisible;
 @property (nonatomic) BOOL usernameIsValid;
@@ -146,6 +148,10 @@ static NSString *kRegisterCellID  = @"registerCell";
         textFieldCell.textField.placeholder = placeholder;
         textFieldCell.delegate = self;
         
+        textFieldCell.textField.tag = ( 10 * indexPath.section ) + indexPath.row;
+        
+        [textFieldCell.textField addTarget:self action:@selector(textFieldChanged:) forControlEvents:UIControlEventEditingChanged];
+        
         if( indexPath.section == 1 || indexPath.section == 2 )
         {
             textFieldCell.textField.keyboardType = UIKeyboardTypeEmailAddress;
@@ -196,6 +202,189 @@ static NSString *kRegisterCellID  = @"registerCell";
     return cell;
 }
 
+- (void)textFieldChanged:(UITextField *)textField
+{
+    if( self.errorVisible )
+    {
+        [self dismissErrorView];
+    }
+    
+    int section = (int)( textField.tag / 10 );
+    int row = textField.tag % 10;
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+    
+    DATextFieldCell *textCell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+    
+    if( indexPath.section == 0 )
+    {
+        if( [textField.text length] > 0 )
+        {
+            textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+        }
+        else
+        {
+            textCell.accessoryView = nil;
+        }
+    }
+    
+    if( indexPath.section == 1 )
+    {
+        if( [textField.text length] > 1 )
+        {
+            NSString *username = [textField.text substringFromIndex:1];
+            
+            if( self.usernameCheckTask )
+            {
+                [self.usernameCheckTask cancel];
+            }
+            
+            NSDictionary *parameters = @{ @"username" : username };
+            
+            self.usernameCheckTask = [[DAAPIManager sharedManager] GET:@"users/availability/username" parameters:parameters
+            success:^( NSURLSessionDataTask *task, id responseObject )
+            {
+                NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+              
+                if( response.statusCode == 200 )
+                {
+                    textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+                    
+                    self.usernameIsValid = YES;
+                    
+                    [self dismissErrorView];
+                }
+                else
+                {
+                    self.usernameIsValid = NO;
+                    
+                    textCell.accessoryView = nil;
+                }
+            }
+            failure:^( NSURLSessionDataTask *task, NSError *error )
+            {
+                if( error.code != -999 )
+                {
+                    NSDictionary *errorResponse = error.userInfo[[[DAAPIManager sharedManager] errorResponseKey]];
+                    
+                    if( [errorResponse[@"error"] isEqualToString:@"username_exists"] )
+                    {
+                        self.errorView.errorTextLabel.text = @"Username unavailable!";
+                        self.errorView.errorTipLabel.text  = @"Please choose a different username.";
+                        
+                        [self showErrorView];
+                        
+                        self.usernameIsValid = NO;
+                        
+                        textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+                    }
+                    else if( [errorResponse[@"error"] isEqualToString:@"username_invalid"] )
+                    {
+                        self.errorView.errorTextLabel.text = @"Invalid Username!";
+                        self.errorView.errorTipLabel.text  = @"Your username must only contain letters and numbers.";
+                        
+                        [self showErrorView];
+                        
+                        self.usernameIsValid = NO;
+                        
+                        textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+                    }
+                    else
+                    {
+                        self.usernameIsValid = NO;
+                        
+                        textCell.accessoryView = nil;
+                    }
+                }
+            }];
+        }
+        else
+        {
+            [self.usernameCheckTask cancel];
+            
+            self.shouldUpdateUsernameStatus = NO;
+            
+            self.usernameIsValid = NO;
+            
+            [self dismissErrorView];
+            
+            textCell.accessoryView = nil;
+        }
+    }
+    
+    if( indexPath.section == 2 )
+    {
+        NSString *key = self.titleData[@(indexPath.section)][indexPath.row];
+        
+        if( [self.errorData objectForKey:key] )
+        {
+            [self dismissErrorView];
+            
+            [self.errorData removeObjectForKey:key];
+            
+            textCell.accessoryView = nil;
+        }
+                
+        if( [textField.text length] == 0 )
+        {
+            textCell.accessoryView = nil;
+        }
+    }
+    
+    if( indexPath.section == 3 )
+    {
+        NSString *key = self.titleData[@(indexPath.section)][indexPath.row];
+        
+        if( [self.errorData objectForKey:key] )
+        {
+            [self dismissErrorView];
+            
+            [self.errorData removeObjectForKey:key];
+            
+            textCell.accessoryView = nil;
+        }
+        
+        if( [self phoneNumberIsValid:textField.text] )
+        {
+            textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+        }
+        else
+        {
+            textCell.accessoryView = nil;
+        }
+    }
+    
+    if( indexPath.section == 4 )
+    {
+        if( indexPath.row == 0 )
+        {
+            if( [textField.text length] >= 6 )
+            {
+                textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+            }
+            else
+            {
+                textCell.accessoryView = nil;
+            }
+        }
+        
+        if( indexPath.row == 1 )
+        {
+            NSString *firstPasswordKey = self.titleData[@(indexPath.section)][indexPath.row - 1];
+            NSString *firstPassword = [self.signUpData objectForKey:firstPasswordKey];
+            
+            if( [textField.text isEqualToString:firstPassword] )
+            {
+                textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+            }
+            else
+            {
+                textCell.accessoryView = nil;
+            }
+        }
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if( indexPath.section == 6 )
@@ -226,6 +415,18 @@ static NSString *kRegisterCellID  = @"registerCell";
     if( indexPath.section == 5 && indexPath.row == 0 )
     {
         [self toggleDatePicker];
+        
+        if( self.pickerIndexPath && ![self.signUpData objectForKey:self.titleData[@5][0]] )
+        {
+            DADatePickerCell *cell = (DADatePickerCell *)[tableView cellForRowAtIndexPath:self.pickerIndexPath];
+            UIDatePicker *picker = cell.datePicker;
+            NSString *key = self.titleData[@(self.pickerIndexPath.section)][self.pickerIndexPath.row - 1];
+            [self.signUpData setObject:picker.date forKey:key];
+            
+            NSIndexPath *datePath = [NSIndexPath indexPathForRow:self.pickerIndexPath.row - 1 inSection:self.pickerIndexPath.section];
+            UITableViewCell *dateCell = [tableView cellForRowAtIndexPath:datePath];
+            dateCell.detailTextLabel.text = [self.birthDateFormatter stringFromDate:picker.date];
+        }
     }
     
     if( indexPath.section == 6 )
@@ -261,154 +462,223 @@ static NSString *kRegisterCellID  = @"registerCell";
 
 - (void)checkInputsAndRegister
 {
+    int numOfInvalidInputs = 0;
+    BOOL tooYoung = NO;
+    
     NSString *firstName = [self.signUpData objectForKey:self.titleData[@0][0]];
-    if( [firstName length] == 0 )
+    if( !firstName || [firstName length] == 0 )
     {
+        numOfInvalidInputs++;
+        
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
-        
-        self.errorView.errorTextLabel.text = @"Invalid Input!";
-        self.errorView.errorTipLabel.text  = @"Please enter your first name.";
-        
-        [self.errorData setObject:@"error" forKey:self.titleData[@0][0]];
-        
-        [self showErrorView];
-        
-        return;
     }
     
     NSString *lastName = [self.signUpData objectForKey:self.titleData[@0][1]];
-    if( [lastName length] == 0 )
+    if( !lastName || [lastName length] == 0 )
     {
+        numOfInvalidInputs++;
+        
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:0];
         DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
-        
-        self.errorView.errorTextLabel.text = @"Invalid Input!";
-        self.errorView.errorTipLabel.text  = @"Please enter your last name.";
-        
-        [self.errorData setObject:@"error" forKey:self.titleData[@0][1]];
-        
-        [self showErrorView];
-        
-        return;
     }
     
     NSString *username = [self.signUpData objectForKey:self.titleData[@1][0]];
-    if( [username length] <= 1 || !self.usernameIsValid )
+    if( !username || [username length] <= 1 || !self.usernameIsValid )
     {
+        numOfInvalidInputs++;
+        
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:1];
         DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
-        
-        if( !self.usernameIsValid )
-        {
-            self.errorView.errorTextLabel.text = @"Username unavailable!";
-            self.errorView.errorTipLabel.text  = @"Please choose a different username.";
-        }
-        else
-        {
-            self.errorView.errorTextLabel.text = @"Invalid Input!";
-            self.errorView.errorTipLabel.text  = @"Please enter a username.";
-        }
-        
-        [self.errorData setObject:@"error" forKey:self.titleData[@1][0]];
-        
-        [self showErrorView];
-        
-        return;
     }
     
     NSString *email = [self.signUpData objectForKey:self.titleData[@2][0]];
-    if( ![self stringIsValidEmail:email] )
+    if( !email || ![self stringIsValidEmail:email] )
     {
+        numOfInvalidInputs++;
+        
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:2];
         DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+    }
+    
+    NSString *phoneNumber = [self.signUpData objectForKey:self.titleData[@3][0]];
+    if( !phoneNumber || ![self phoneNumberIsValid:phoneNumber] )
+    {
+        numOfInvalidInputs++;
         
-        self.errorView.errorTextLabel.text = @"Invalid Email Address!";
-        self.errorView.errorTipLabel.text  = @"Please enter a valid email address.";
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:3];
+        DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
-        [self.errorData setObject:@"error" forKey:self.titleData[@2][0]];
-        
-        [self showErrorView];
-        
-        return;
+        cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
     }
     
     NSString *firstPassword = [self.signUpData objectForKey:self.titleData[@4][0]];
-    if( [firstPassword length] < 6 )
+    if( !firstPassword || [firstPassword length] < 6 )
     {
+        numOfInvalidInputs++;
+        
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:4];
         DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
-        
-        self.errorView.errorTextLabel.text = @"Invalid Password!";
-        self.errorView.errorTipLabel.text  = @"Your password must be at least 6 characters.";
-        
-        [self.errorData setObject:@"error" forKey:self.titleData[@4][0]];
-        
-        [self showErrorView];
-        
-        return;
     }
     
     NSString *confirmPassword = [self.signUpData objectForKey:self.titleData[@4][1]];
-    if( ![confirmPassword isEqualToString:firstPassword] )
+    if( !confirmPassword || [confirmPassword length] < 6 || ( [firstPassword length] >= 6 && ![confirmPassword isEqualToString:firstPassword] ) )
     {
+        numOfInvalidInputs++;
+        
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:1 inSection:4];
         DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         
         cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+    }
+    
+    NSDate *dateOfBirth = [self.signUpData objectForKey:self.titleData[@5][0]];
+    if( !dateOfBirth || [self ageWithDate:dateOfBirth] < 13 )
+    {
+        numOfInvalidInputs++;
         
-        self.errorView.errorTextLabel.text = @"Invalid Password!";
-        self.errorView.errorTipLabel.text  = @"Your passwords must match.";
+        if( [self ageWithDate:dateOfBirth] < 13 )
+        {
+            tooYoung = YES;
+        }
         
-        [self.errorData setObject:@"error" forKey:self.titleData[@4][1]];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:5];
+        DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
+        
+        cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+    }
+    
+    if( numOfInvalidInputs == 1 && tooYoung )
+    {
+        self.errorView.errorTextLabel.text = @"You're too young!";
+        self.errorView.errorTipLabel.text  = @"You must be 13 years or older to sign up for Dished.";
         
         [self showErrorView];
         
         return;
     }
     
-    NSDate *dateOfBirth = [self.signUpData objectForKey:self.titleData[@5][0]];
-    if( [self ageWithDate:dateOfBirth] < 13 )
+    if( numOfInvalidInputs > 0 )
     {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:5];
-        DATextFieldCell *cell = (DATextFieldCell *)[self.tableView cellForRowAtIndexPath:indexPath];
-        
-        cell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
-        
-        self.errorView.errorTextLabel.text = @"You're too young!";
-        self.errorView.errorTipLabel.text  = @"You must be 13 years or older to sign up for Dished.";
-        
-        [self.errorData setObject:@"error" forKey:self.titleData[@5][0]];
+        self.errorView.errorTextLabel.text = [NSString stringWithFormat:@"%d fields are invalid.", numOfInvalidInputs];
+        self.errorView.errorTipLabel.text  = @"Please correct the fields marked red before registering.";
         
         [self showErrorView];
         
         return;
     }
+
+    [self showProgressView];
+    
+    [self checkEmailAndPhoneNumber];
+}
+
+- (void)checkEmailAndPhoneNumber
+{
+    __block BOOL emailSuccess = YES;
+    __block BOOL phoneSuccess = YES;
+    __block BOOL errorOccured = NO;
+    
+    dispatch_group_t group = dispatch_group_create();
+    
+    dispatch_group_enter( group );
+    
+    NSString *email = [self.signUpData objectForKey:self.titleData[@2][0]];
     
     [[DAAPIManager sharedManager] checkAvailabilityOfEmail:email completion:^( BOOL available, NSError *error )
     {
         if( !error )
         {
+            errorOccured = NO;
+            
             if( available )
             {
-                [self registerUser];
+                emailSuccess = YES;
             }
             else
             {
-                [self.emailExistsAlert show];
+                emailSuccess = NO;
             }
         }
+        else
+        {
+            errorOccured = YES;
+        }
+        
+        dispatch_group_leave( group );
     }];
+    
+    dispatch_group_enter( group );
+    
+    NSString *phoneNumber = [self.signUpData objectForKey:self.titleData[@3][0]];
+    NSString *after1 = [phoneNumber substringFromIndex:3];
+    NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
+    
+    [[DAAPIManager sharedManager] checkAvailabilityOfPhoneNumber:decimalString completion:^( BOOL available, NSError *error )
+    {
+        if( !error )
+        {
+            errorOccured = NO;
+            
+            if( available )
+            {
+                phoneSuccess = YES;
+            }
+            else
+            {
+                phoneSuccess = NO;
+            }
+        }
+        else
+        {
+            errorOccured = YES;
+        }
+        
+        dispatch_group_leave( group );
+    }];
+    
+    dispatch_group_notify( group, dispatch_get_main_queue(), ^
+    {
+        if( errorOccured )
+        {
+            [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+            {
+                [self.registerFailAlert show];
+            }];
+        }
+        else
+        {
+            if( !emailSuccess )
+            {
+                [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+                {
+                    [self.emailExistsAlert show];
+                }];
+            }
+            else if( !phoneSuccess )
+            {
+                [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+                {
+                    [self.phoneExistsAlert show];
+                }];
+            }
+            else
+            {
+                [self registerUser];
+            }
+        }
+    });
 }
 
 - (void)registerUser
@@ -417,32 +687,43 @@ static NSString *kRegisterCellID  = @"registerCell";
     NSString *lastName  = [self.signUpData objectForKey:self.titleData[@0][1]];
     NSString *username  = [[self.signUpData objectForKey:self.titleData[@1][0]] substringFromIndex:1];
     NSString *email     = [self.signUpData objectForKey:self.titleData[@2][0]];
+    NSString *phone     = [self.signUpData objectForKey:self.titleData[@3][0]];
     NSString *password  = [self.signUpData objectForKey:self.titleData[@4][1]];
     NSDate *dateOfBirth = [self.signUpData objectForKey:self.titleData[@5][0]];
     
-    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"Registering..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    NSString *after1 = [phone substringFromIndex:3];
+    NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
 
-    [[DAAPIManager sharedManager] registerUserWithUsername:username password:password firstName:firstName lastName:lastName email:email birthday:dateOfBirth completion:^( BOOL registered, BOOL loggedIn )
+    [[DAAPIManager sharedManager] registerUserWithUsername:username password:password firstName:firstName lastName:lastName email:email phoneNumber:decimalString birthday:dateOfBirth completion:^( BOOL registered, BOOL loggedIn )
     {
-        [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES];
-        
-        if( !registered )
+        [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
         {
-            [self.registerFailAlert show];
-        }
-        else if( registered && !loggedIn )
-        {
-            [self.loginFailAlert show];
-        }
-        else
-        {
-            [self.registerSuccessAlert show];
-        }
+            if( !registered )
+            {
+                [self.registerFailAlert show];
+            }
+            else if( registered && !loggedIn )
+            {
+                [self.loginFailAlert show];
+            }
+            else
+            {
+                [self.registerSuccessAlert show];
+            }
+        }];
     }];
+}
+
+- (void)showProgressView
+{
+    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"Registering..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
 }
 
 - (void)dateChosen:(id)sender
 {
+    [self dismissErrorView];
+    
     UIDatePicker *datePicker = (UIDatePicker *)sender;
     NSString *key = self.titleData[@(self.pickerIndexPath.section)][self.pickerIndexPath.row - 1];
     [self.signUpData setObject:datePicker.date forKey:key];
@@ -450,18 +731,8 @@ static NSString *kRegisterCellID  = @"registerCell";
     NSIndexPath *datePath = [NSIndexPath indexPathForRow:self.pickerIndexPath.row - 1 inSection:self.pickerIndexPath.section];
     UITableViewCell *cell = [self.tableView cellForRowAtIndexPath:datePath];
     cell.detailTextLabel.text = [self.birthDateFormatter stringFromDate:datePicker.date];
-
-    if( [self.errorData objectForKey:self.titleData[@(datePath.section)][datePath.row]] )
-    {
-        if( [self.errorData objectForKey:key] )
-        {
-            [self dismissErrorView];
-            
-            [self.errorData removeObjectForKey:key];
-            
-            cell.accessoryView = nil;
-        }
-    }
+    
+    cell.accessoryView = nil;
 }
 
 - (int)ageWithDate:(NSDate *)date
@@ -473,9 +744,28 @@ static NSString *kRegisterCellID  = @"registerCell";
     return (int)age;
 }
 
+- (BOOL)phoneNumberIsValid:(NSString *)phoneNumber
+{
+    if( !phoneNumber )
+    {
+        return NO;
+    }
+    
+    NSString *after1 = [phoneNumber substringFromIndex:3];
+    NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
+    
+    if( decimalString.length < 10 )
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if( alertView == self.emailExistsAlert || alertView == self.loginFailAlert || alertView == self.registerSuccessAlert )
+    if( alertView == self.loginFailAlert || alertView == self.registerSuccessAlert )
     {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
@@ -492,163 +782,12 @@ static NSString *kRegisterCellID  = @"registerCell";
             textField.text = @"@";
         }
     }
-}
-
-- (void)textField:(UITextField *)textField didChangeInCell:(UITableViewCell *)cell toString:(NSString *)newString
-{
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     
-    DATextFieldCell *textCell = (DATextFieldCell *)cell;
-    
-    if( indexPath.section == 0 )
+    if( indexPath.section == 3 )
     {
-        NSString *key = self.titleData[@(indexPath.section)][indexPath.row];
-        
-        if( [self.errorData objectForKey:key] )
+        if( textField.text.length == 0 )
         {
-            [self dismissErrorView];
-            
-            [self.errorData removeObjectForKey:key];
-        }
-        
-        if( [newString length] > 0 )
-        {
-            textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
-        }
-        else
-        {
-            textCell.accessoryView = nil;
-        }
-    }
-    
-    if( indexPath.section == 1 )
-    {
-        NSString *key = self.titleData[@(indexPath.section)][indexPath.row];
-        
-        if( [self.errorData objectForKey:key] )
-        {
-            [self dismissErrorView];
-            
-            [self.errorData removeObjectForKey:key];
-        }
-        
-        if( [newString length] > 1 )
-        {
-            NSString *username = [newString substringFromIndex:1];
-            
-            [[DAAPIManager sharedManager] checkAvailabilityOfUsername:username completion:^( BOOL available, NSError *error )
-            {
-                if( self.shouldUpdateUsernameStatus )
-                {
-                    if( !error )
-                    {
-                        if( available )
-                        {
-                            textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
-                            
-                            self.usernameIsValid = YES;
-                            
-                            [self dismissErrorView];
-                        }
-                        else
-                        {
-                            self.errorView.errorTextLabel.text = @"Username unavailable!";
-                            self.errorView.errorTipLabel.text  = @"Please choose a different username.";
-                            
-                            [self showErrorView];
-                            
-                            self.usernameIsValid = NO;
-                            
-                            textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
-                        }
-                    }
-                    else
-                    {
-                        self.usernameIsValid = NO;
-                        
-                        textCell.accessoryView = nil;
-                    }
-                }
-                else
-                {
-                    self.shouldUpdateUsernameStatus = YES;
-                }
-            }];
-        }
-        else
-        {
-            self.shouldUpdateUsernameStatus = NO;
-            
-            self.usernameIsValid = NO;
-            
-            [self dismissErrorView];
-            
-            textCell.accessoryView = nil;
-        }
-    }
-    
-    if( indexPath.section == 2 )
-    {
-        NSString *key = self.titleData[@(indexPath.section)][indexPath.row];
-        
-        if( [self.errorData objectForKey:key] )
-        {
-            [self dismissErrorView];
-            
-            [self.errorData removeObjectForKey:key];
-        }
-        
-        if( [newString length] == 0 )
-        {
-            textCell.accessoryView = nil;
-        }
-    }
-    
-    if( indexPath.section == 4 )
-    {
-        if( indexPath.row == 0 )
-        {
-            NSString *key = self.titleData[@(indexPath.section)][indexPath.row];
-            
-            if( [self.errorData objectForKey:key] )
-            {
-                [self dismissErrorView];
-                
-                [self.errorData removeObjectForKey:key];
-            }
-            
-            if( [newString length] >= 6 )
-            {
-                textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
-            }
-            else
-            {
-                textCell.accessoryView = nil;
-            }
-        }
-        
-        if( indexPath.row == 1 )
-        {
-            NSString *key = self.titleData[@(indexPath.section)][indexPath.row];
-            
-            if( [self.errorData objectForKey:key] )
-            {
-                [self dismissErrorView];
-                
-                [self.errorData removeObjectForKey:key];
-            }
-            
-            NSString *firstPasswordKey = self.titleData[@(indexPath.section)][indexPath.row - 1];
-            NSString *firstPassword = [self.signUpData objectForKey:firstPasswordKey];
-            
-            if( [newString isEqualToString:firstPassword] )
-            {
-                textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
-            }
-            else
-            {
-                textCell.accessoryView = nil;
-            }
+            textField.text = @"+1 ";
         }
     }
 }
@@ -667,6 +806,41 @@ static NSString *kRegisterCellID  = @"registerCell";
             {
                 self.errorView.errorTextLabel.text = @"Invalid Email Address!";
                 self.errorView.errorTipLabel.text  = @"Please enter a valid email address.";
+                
+                [self.errorData setObject:@"error" forKey:self.titleData[@2][0]];
+                
+                [self showErrorView];
+            }
+            
+            if( [textCell.textField.text length] > 0 )
+            {
+                textCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+            }
+        }
+        else
+        {
+            textCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+            
+            [self dismissErrorView];
+        }
+    }
+    
+    if( indexPath.section == 3 )
+    {
+        if( textField.text.length == 3 )
+        {
+            textField.text = @"";
+            return;
+        }
+        
+        if( ![self phoneNumberIsValid:textCell.textField.text] )
+        {
+            if( !self.errorVisible && [textCell.textField.text length] > 0 )
+            {
+                self.errorView.errorTextLabel.text = @"Invalid Phone Number!";
+                self.errorView.errorTipLabel.text  = @"Please enter a 7 digit phone number, with area code first.";
+                
+                [self.errorData setObject:@"error" forKey:self.titleData[@3][0]];
                 
                 [self showErrorView];
             }
@@ -762,7 +936,50 @@ static NSString *kRegisterCellID  = @"registerCell";
         }
     }
     
-    [self textField:textField didChangeInCell:cell toString:newString];
+    if( indexPath.section == 3 )
+    {
+        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        
+        if( newString.length < 3 )
+        {
+            return NO;
+        }
+        
+        NSString *after1 = [newString substringFromIndex:3];
+        NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+        NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
+        NSUInteger length = decimalString.length;
+        
+        if( length > 10 )
+        {
+            return NO;
+        }
+        
+        NSUInteger index = 0;
+        NSMutableString *formattedString = [[NSMutableString alloc] initWithString:@"+1 "];
+        
+        if( length - index > 3 )
+        {
+            NSString *areaCode = [decimalString substringWithRange:NSMakeRange(index, 3)];
+            [formattedString appendFormat:@"(%@) ",areaCode];
+            index += 3;
+        }
+        
+        if( length - index > 3 )
+        {
+            NSString *prefix = [decimalString substringWithRange:NSMakeRange(index, 3)];
+            [formattedString appendFormat:@"%@-",prefix];
+            index += 3;
+        }
+        
+        NSString *remainder = [decimalString substringFromIndex:index];
+        [formattedString appendString:remainder];
+        
+        textField.text = formattedString;
+        [self textFieldChanged:textField];
+        
+        return NO;
+    }
     
     return YES;
 }
@@ -897,6 +1114,16 @@ static NSString *kRegisterCellID  = @"registerCell";
     }
     
     return _emailExistsAlert;
+}
+
+- (UIAlertView *)phoneExistsAlert
+{
+    if( !_phoneExistsAlert )
+    {
+        _phoneExistsAlert = [[UIAlertView alloc] initWithTitle:@"Phone Number Exists" message:@"An account with the given phone number already exists. Please sign in or enter a different phone number." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    }
+    
+    return _phoneExistsAlert;
 }
 
 - (UIAlertView *)registerFailAlert

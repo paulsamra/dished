@@ -113,6 +113,21 @@
     [self animateTextField:textField up:NO];
 }
 
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if( textField == self.passwordField )
+    {
+        [self.confirmField becomeFirstResponder];
+    }
+    
+    if( textField == self.confirmField )
+    {
+        [self submitRequest];
+    }
+    
+    return YES;
+}
+
 - (void)setSubmitButtonStatus:(BOOL)enabled
 {
     self.submitButton.enabled = enabled;

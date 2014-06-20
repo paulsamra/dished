@@ -150,6 +150,9 @@
                                 <state key="highlighted">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="login" destination="WLa-iY-AtF" eventType="touchUpInside" id="HCR-wb-F4Y"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na0-Zk-BCM">
                                 <rect key="frame" x="0.0" y="430" width="320" height="53"/>
@@ -192,6 +195,7 @@
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" keyboardType="emailAddress" returnKeyType="next"/>
                                 <connections>
+                                    <action selector="textFieldDidChange:" destination="WLa-iY-AtF" eventType="editingChanged" id="F4X-Gg-2h2"/>
                                     <outlet property="delegate" destination="WLa-iY-AtF" id="ffD-1t-JAp"/>
                                 </connections>
                             </textField>
@@ -199,8 +203,9 @@
                                 <rect key="frame" x="20" y="291" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="go" enablesReturnKeyAutomatically="YES" secureTextEntry="YES"/>
                                 <connections>
+                                    <action selector="textFieldDidChange:" destination="WLa-iY-AtF" eventType="editingChanged" id="oQD-rS-H9Y"/>
                                     <outlet property="delegate" destination="WLa-iY-AtF" id="77m-jE-a7k"/>
                                 </connections>
                             </textField>
@@ -439,7 +444,7 @@
                                 <rect key="frame" x="20" y="291" width="280" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                <textInputTraits key="textInputTraits" returnKeyType="next" secureTextEntry="YES"/>
+                                <textInputTraits key="textInputTraits" returnKeyType="go" secureTextEntry="YES"/>
                                 <connections>
                                     <action selector="textFieldDidChange:" destination="qeS-ZS-Dfv" eventType="editingChanged" id="qlZ-Zo-yBv"/>
                                     <outlet property="delegate" destination="qeS-ZS-Dfv" id="Wao-Ca-bsy"/>
