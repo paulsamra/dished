@@ -71,7 +71,6 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
         
         NSDictionary *errorResponse = error.userInfo[JSONResponseSerializerWithDataKey];
         
-        //if( [errorResponse rangeOfString:@"email_exists"].location != NSNotFound )
         if( [errorResponse[@"error"] isEqualToString:@"email_exists"] )
         {
             completion( NO, nil );
@@ -107,7 +106,6 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
         
         NSDictionary *errorResponse = error.userInfo[JSONResponseSerializerWithDataKey];
         
-        //if( [errorResponse rangeOfString:@"phone_exists"].location != NSNotFound )
         if( [errorResponse[@"error"] isEqualToString:@"phone_exists"] )
         {
             completion( NO, nil );

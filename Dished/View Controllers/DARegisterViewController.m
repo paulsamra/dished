@@ -889,7 +889,7 @@ static NSString *kRegisterCellID  = @"registerCell";
             
             if( ![textCell.textField.text isEqualToString:firstPassword] )
             {
-                if( !self.errorVisible && [textCell.textField.text length] > 0 )
+                if( !self.errorVisible && [textCell.textField.text length] > 0 && [firstPassword length] > 0 )
                 {
                     self.errorView.errorTextLabel.text = @"Invalid Password!";
                     self.errorView.errorTipLabel.text  = @"Your passwords must match.";
