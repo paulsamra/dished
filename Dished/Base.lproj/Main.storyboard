@@ -723,6 +723,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cac-d7-BJx">
+                                <rect key="frame" x="0.0" y="64" width="320" height="415"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                            </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_dock.png" translatesAutoresizingMaskIntoConstraints="NO" id="QKw-vI-Q12">
                                 <rect key="frame" x="0.0" y="478" width="320" height="90"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -736,8 +741,11 @@
                                 <state key="normal" backgroundImage="camera_take_photo.png">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="takePicture" destination="Rsi-kn-aX0" eventType="touchUpInside" id="Y0D-4G-t8j"/>
+                                </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_overlay.png" translatesAutoresizingMaskIntoConstraints="NO" id="Mam-hH-wat">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_overlay.png" translatesAutoresizingMaskIntoConstraints="NO" id="Mam-hH-wat">
                                 <rect key="frame" x="0.0" y="64" width="320" height="415"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
@@ -767,7 +775,24 @@
                                 <state key="normal" title="Grid">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <connections>
+                                    <action selector="toggleGrid" destination="Rsi-kn-aX0" eventType="touchUpInside" id="7WA-bh-gXl"/>
+                                </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IC8-9A-Nau">
+                                <rect key="frame" x="249" y="508" width="60" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Retake">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="retakePicture" destination="Rsi-kn-aX0" eventType="touchUpInside" id="zUY-AC-ZVq"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera_grid.png" translatesAutoresizingMaskIntoConstraints="NO" id="s0i-Cc-DtF">
+                                <rect key="frame" x="11" y="129" width="298" height="275"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -800,6 +825,16 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Next" id="f7t-j7-gzJ"/>
                     </navigationItem>
+                    <connections>
+                        <outlet property="capturedImageView" destination="s0i-Cc-DtF" id="VgX-NS-OD9"/>
+                        <outlet property="flashButton" destination="xmP-6T-CdM" id="uBA-11-Mul"/>
+                        <outlet property="gridButton" destination="CtV-c0-M4f" id="zsa-fv-SZG"/>
+                        <outlet property="overlayImageVew" destination="Mam-hH-wat" id="Ke5-uL-tC7"/>
+                        <outlet property="retakeButton" destination="IC8-9A-Nau" id="fSo-PK-q3l"/>
+                        <outlet property="takePictureButton" destination="891-m0-y9C" id="AR3-ay-488"/>
+                        <outlet property="toggelCameraButton" destination="2l2-Sj-zyy" id="91U-nh-qmY"/>
+                        <outlet property="videoView" destination="Cac-d7-BJx" id="MhS-36-F9i"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j5f-hN-NDQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -904,6 +939,7 @@
         <image name="add_review.png" width="70" height="49"/>
         <image name="camera_dock.png" width="320" height="90"/>
         <image name="camera_flash.png" width="14" height="19"/>
+        <image name="camera_grid.png" width="320" height="432"/>
         <image name="camera_overlay.png" width="320" height="414"/>
         <image name="camera_source.png" width="44" height="22"/>
         <image name="camera_take_photo.png" width="75" height="75"/>

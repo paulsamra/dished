@@ -153,6 +153,8 @@
 		94E5EF781943F5530021A711 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF6E1943F5530021A711 /* MRWeakProxy.m */; };
 		94E5EF7E1943FD760021A711 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF7B1943FD760021A711 /* SSKeychain.m */; };
 		94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF7D1943FD760021A711 /* SSKeychainQuery.m */; };
+		94EE527F19610B4A00634E19 /* camera_grid.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EE527D19610B4A00634E19 /* camera_grid.png */; };
+		94EE528019610B4A00634E19 /* camera_grid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EE527E19610B4A00634E19 /* camera_grid@2x.png */; };
 		94FE15E01941195800FE00EA /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15DF1941195800FE00EA /* DARegisterViewController.m */; };
 		94FE15E519411F4F00FE00EA /* DATextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E319411F4F00FE00EA /* DATextFieldCell.m */; };
 		94FE15E619411F4F00FE00EA /* DATextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */; };
@@ -349,6 +351,8 @@
 		94E5EF7B1943FD760021A711 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		94E5EF7C1943FD760021A711 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
 		94E5EF7D1943FD760021A711 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
+		94EE527D19610B4A00634E19 /* camera_grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_grid.png; sourceTree = "<group>"; };
+		94EE527E19610B4A00634E19 /* camera_grid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_grid@2x.png"; sourceTree = "<group>"; };
 		94FE15DE1941195800FE00EA /* DARegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARegisterViewController.h; sourceTree = "<group>"; };
 		94FE15DF1941195800FE00EA /* DARegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARegisterViewController.m; sourceTree = "<group>"; };
 		94FE15E219411F4F00FE00EA /* DATextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATextFieldCell.h; sourceTree = "<group>"; };
@@ -581,6 +585,8 @@
 		944689A71960196700FAE288 /* a - Camera */ = {
 			isa = PBXGroup;
 			children = (
+				94EE527D19610B4A00634E19 /* camera_grid.png */,
+				94EE527E19610B4A00634E19 /* camera_grid@2x.png */,
 				94358D8019603B9900C38A93 /* camera_overlay.png */,
 				94358D8119603B9900C38A93 /* camera_overlay@2x.png */,
 				944689EB19601B5D00FAE288 /* camera_dock.png */,
@@ -919,6 +925,7 @@
 				941538D1193F270A008B3B79 /* Main.storyboard in Resources */,
 				944689CE1960196700FAE288 /* camera_source@2x.png in Resources */,
 				944689D21960196700FAE288 /* add_dish_drink@2x.png in Resources */,
+				94EE527F19610B4A00634E19 /* camera_grid.png in Resources */,
 				944689D11960196700FAE288 /* add_dish_drink.png in Resources */,
 				94479D5F194FDAAF0071EF6A /* password_phone.png in Resources */,
 				94237E6A194A2FD5004DFAB6 /* reset_password.png in Resources */,
@@ -965,6 +972,7 @@
 				944689E11960196700FAE288 /* add_dish_wine.png in Resources */,
 				944689DF1960196700FAE288 /* add_dish_twitter.png in Resources */,
 				944689ED19601B5D00FAE288 /* camera_dock.png in Resources */,
+				94EE528019610B4A00634E19 /* camera_grid@2x.png in Resources */,
 				9415F3BF19406B8100C3A7A1 /* login_password@2x.png in Resources */,
 				94449EFE1949A3B2008B8881 /* Icon@2x.png in Resources */,
 				9415390519404314008B3B79 /* splash_register.png in Resources */,

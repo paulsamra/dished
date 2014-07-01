@@ -7,14 +7,17 @@
 //
 
 #import "DACaptureManager.h"
+#import <UIKit/UIKit.h>
 
 
 @interface DACaptureManager() <AVCaptureVideoDataOutputSampleBufferDelegate>
 
-@property (strong, nonatomic) AVCaptureDevice  *backCamera;
-@property (strong, nonatomic) AVCaptureDevice  *frontCamera;
-@property (strong, nonatomic) AVCaptureDevice  *currentDevice;
-@property (strong, nonatomic) AVCaptureSession *captureSession;
+@property (strong, nonatomic) AVCaptureDevice           *backCamera;
+@property (strong, nonatomic) AVCaptureDevice           *frontCamera;
+@property (strong, nonatomic) AVCaptureDevice           *currentDevice;
+@property (strong, nonatomic) AVCaptureSession          *captureSession;
+@property (strong, nonatomic) AVCaptureStillImageOutput *stillImageOutput;
+@property (strong, nonatomic) AVCaptureConnection       *connection;
 
 @end
 
@@ -46,15 +49,21 @@
         [self.captureSession addInput:videoInput];
     }
     
-    AVCaptureStillImageOutput *stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
+    self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
     
-    if( [self.captureSession canAddOutput:stillImageOutput] )
+    if( [self.captureSession canAddOutput:self.stillImageOutput] )
     {
-        [self.captureSession addOutput:stillImageOutput];
+        [self.captureSession addOutput:self.stillImageOutput];
     }
     
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[self captureSession]];
-	[self.previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
+	[self.previewLayer setVideoGravity:AVLayerVideoGravityResize];
+    
+    AVCaptureConnection* connection = [self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
+    if( [connection isVideoOrientationSupported] )
+    {
+        connection.videoOrientation = AVCaptureVideoOrientationPortrait;
+    }
 }
 
 - (void)startCapture
@@ -62,9 +71,14 @@
     [self.captureSession startRunning];
 }
 
+- (void)stopCapture
+{
+    [self.captureSession stopRunning];
+}
+
 - (void)toggleCamera
 {
-    if ([[AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo] count] > 1)
+    if( [[AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo] count] > 1 )
     {
         AVCaptureDeviceInput *newVideoInput = nil;
         
@@ -103,7 +117,44 @@
 
 - (void)captureStillImage
 {
+    [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:[self sessionConnection]
+    completionHandler:^( CMSampleBufferRef imageSampleBuffer, NSError *error )
+    {
+        if( imageSampleBuffer )
+        {
+            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
+            UIImage *image = [UIImage imageWithData:imageData];
+            
+            if( [self.delegate respondsToSelector:@selector(captureManager:didCaptureImage:)] )
+            {
+                [self.delegate captureManager:self didCaptureImage:image];
+            }
+        }
+    }];
+}
+
+- (AVCaptureConnection *)sessionConnection
+{
+    AVCaptureConnection *videoConnection = nil;
     
+    for( AVCaptureConnection *connection in self.stillImageOutput.connections )
+    {
+        for( AVCaptureInputPort *port in [connection inputPorts] )
+        {
+            if( [[port mediaType] isEqual:AVMediaTypeVideo] )
+            {
+                videoConnection = connection;
+                break;
+            }
+        }
+        
+        if( videoConnection )
+        {
+            break;
+        }
+    }
+    
+    return videoConnection;
 }
 
 - (void)enableFlash:(BOOL)enabled
@@ -116,14 +167,30 @@
             {
                 if( self.currentDevice.flashAvailable )
                 {
+                    [self.currentDevice lockForConfiguration:nil];
                     self.currentDevice.flashMode = AVCaptureFlashModeOn;
+                    [self.currentDevice unlockForConfiguration];
                 }
             }
         }
     }
     else
     {
+        [self.currentDevice lockForConfiguration:nil];
         self.currentDevice.flashMode = AVCaptureFlashModeOff;
+        [self.currentDevice unlockForConfiguration];
+    }
+}
+
+- (BOOL)isFlashOn
+{
+    if( self.currentDevice.flashMode == AVCaptureFlashModeOn )
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
     }
 }
 
