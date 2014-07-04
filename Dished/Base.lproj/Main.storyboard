@@ -726,7 +726,7 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cac-d7-BJx">
                                 <rect key="frame" x="0.0" y="64" width="320" height="415"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_dock.png" translatesAutoresizingMaskIntoConstraints="NO" id="QKw-vI-Q12">
                                 <rect key="frame" x="0.0" y="478" width="320" height="90"/>
@@ -746,7 +746,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_overlay.png" translatesAutoresizingMaskIntoConstraints="NO" id="Mam-hH-wat">
-                                <rect key="frame" x="0.0" y="64" width="320" height="415"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xmP-6T-CdM">
@@ -793,6 +793,16 @@
                                 <rect key="frame" x="11" y="129" width="298" height="275"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qiy-22-s2p">
+                                <rect key="frame" x="20" y="500" width="45" height="45"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="chooseFromCameraRoll" destination="Rsi-kn-aX0" eventType="touchUpInside" id="gsg-oU-ug6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
@@ -801,18 +811,18 @@
                             <constraint firstItem="2l2-Sj-zyy" firstAttribute="top" secondItem="Mam-hH-wat" secondAttribute="top" constant="367" id="Jgk-LV-9u5"/>
                             <constraint firstItem="891-m0-y9C" firstAttribute="bottom" secondItem="QKw-vI-Q12" secondAttribute="bottom" constant="-8" id="OhZ-KO-Ey2"/>
                             <constraint firstItem="xmP-6T-CdM" firstAttribute="top" secondItem="Mam-hH-wat" secondAttribute="top" constant="367" id="QsP-f0-CdB"/>
-                            <constraint firstItem="QKw-vI-Q12" firstAttribute="top" secondItem="Mam-hH-wat" secondAttribute="bottom" constant="-1" id="TPI-Aj-032"/>
+                            <constraint firstItem="QKw-vI-Q12" firstAttribute="top" secondItem="Mam-hH-wat" secondAttribute="bottom" constant="-2" id="TPI-Aj-032"/>
                             <constraint firstAttribute="trailing" secondItem="QKw-vI-Q12" secondAttribute="trailing" id="YtU-4a-TIj"/>
                             <constraint firstItem="891-m0-y9C" firstAttribute="top" secondItem="QKw-vI-Q12" secondAttribute="top" constant="7" id="ZAf-7i-VYr"/>
                             <constraint firstItem="2l2-Sj-zyy" firstAttribute="leading" secondItem="Mam-hH-wat" secondAttribute="leading" constant="256" id="bVU-RV-gzb"/>
                             <constraint firstItem="2l2-Sj-zyy" firstAttribute="trailing" secondItem="Mam-hH-wat" secondAttribute="trailing" constant="-20" id="eT2-V7-JPO"/>
                             <constraint firstItem="891-m0-y9C" firstAttribute="leading" secondItem="QKw-vI-Q12" secondAttribute="leading" constant="123" id="hVq-LZ-Sy5"/>
                             <constraint firstAttribute="bottom" secondItem="QKw-vI-Q12" secondAttribute="bottom" id="haU-88-KXz"/>
-                            <constraint firstItem="xmP-6T-CdM" firstAttribute="bottom" secondItem="Mam-hH-wat" secondAttribute="bottom" constant="-26" id="keQ-fX-muS"/>
+                            <constraint firstItem="xmP-6T-CdM" firstAttribute="bottom" secondItem="Mam-hH-wat" secondAttribute="bottom" constant="-27" id="keQ-fX-muS"/>
                             <constraint firstItem="Mam-hH-wat" firstAttribute="top" secondItem="aiR-2c-lw9" secondAttribute="top" constant="64" id="qaG-Me-13e"/>
                             <constraint firstItem="Mam-hH-wat" firstAttribute="leading" secondItem="aiR-2c-lw9" secondAttribute="leading" id="r4h-hj-AvM"/>
                             <constraint firstAttribute="trailing" secondItem="Mam-hH-wat" secondAttribute="trailing" id="sFx-aq-cNs"/>
-                            <constraint firstItem="2l2-Sj-zyy" firstAttribute="bottom" secondItem="Mam-hH-wat" secondAttribute="bottom" constant="-26" id="t16-IQ-53d"/>
+                            <constraint firstItem="2l2-Sj-zyy" firstAttribute="bottom" secondItem="Mam-hH-wat" secondAttribute="bottom" constant="-27" id="t16-IQ-53d"/>
                             <constraint firstItem="xmP-6T-CdM" firstAttribute="trailing" secondItem="Mam-hH-wat" secondAttribute="trailing" constant="-250" id="vTC-Y0-yAf"/>
                             <constraint firstItem="QKw-vI-Q12" firstAttribute="leading" secondItem="aiR-2c-lw9" secondAttribute="leading" id="yha-D3-zdc"/>
                         </constraints>
@@ -826,13 +836,14 @@
                         <barButtonItem key="rightBarButtonItem" title="Next" id="f7t-j7-gzJ"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="capturedImageView" destination="s0i-Cc-DtF" id="VgX-NS-OD9"/>
+                        <outlet property="cameraRollButton" destination="qiy-22-s2p" id="fxL-Tm-TBT"/>
                         <outlet property="flashButton" destination="xmP-6T-CdM" id="uBA-11-Mul"/>
                         <outlet property="gridButton" destination="CtV-c0-M4f" id="zsa-fv-SZG"/>
+                        <outlet property="gridImageView" destination="s0i-Cc-DtF" id="QPr-4v-8pT"/>
                         <outlet property="overlayImageVew" destination="Mam-hH-wat" id="Ke5-uL-tC7"/>
                         <outlet property="retakeButton" destination="IC8-9A-Nau" id="fSo-PK-q3l"/>
                         <outlet property="takePictureButton" destination="891-m0-y9C" id="AR3-ay-488"/>
-                        <outlet property="toggelCameraButton" destination="2l2-Sj-zyy" id="91U-nh-qmY"/>
+                        <outlet property="toggleCameraButton" destination="2l2-Sj-zyy" id="ysH-h6-AXc"/>
                         <outlet property="videoView" destination="Cac-d7-BJx" id="MhS-36-F9i"/>
                     </connections>
                 </viewController>
@@ -873,7 +884,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Add Review" image="add_review.png" id="mlt-0l-svV">
-                        <inset key="imageInsets" minX="0.0" minY="6" maxX="0.0" maxY="-6"/>
+                        <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="V83-N9-tkG"/>
                 </viewController>

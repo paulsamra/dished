@@ -8,9 +8,10 @@
 
 #import "DACaptureManager.h"
 #import <UIKit/UIKit.h>
+#import "UIImage+Orientation.h"
 
 
-@interface DACaptureManager() <AVCaptureVideoDataOutputSampleBufferDelegate>
+@interface DACaptureManager()
 
 @property (strong, nonatomic) AVCaptureDevice           *backCamera;
 @property (strong, nonatomic) AVCaptureDevice           *frontCamera;
@@ -50,6 +51,7 @@
     }
     
     self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
+    self.stillImageOutput.outputSettings = @{ (id)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
     
     if( [self.captureSession canAddOutput:self.stillImageOutput] )
     {
@@ -58,12 +60,6 @@
     
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[self captureSession]];
 	[self.previewLayer setVideoGravity:AVLayerVideoGravityResize];
-    
-    AVCaptureConnection* connection = [self.stillImageOutput connectionWithMediaType:AVMediaTypeVideo];
-    if( [connection isVideoOrientationSupported] )
-    {
-        connection.videoOrientation = AVCaptureVideoOrientationPortrait;
-    }
 }
 
 - (void)startCapture
@@ -115,6 +111,44 @@
     }
 }
 
+- (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer
+{
+    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
+    CVPixelBufferLockBaseAddress(imageBuffer, 0);
+    
+    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+    
+    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
+    size_t width = CVPixelBufferGetWidth(imageBuffer);
+    size_t height = CVPixelBufferGetHeight(imageBuffer);
+    
+    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    
+    CGContextRef context = CGBitmapContextCreate(baseAddress, width, height, 8,
+                                                 bytesPerRow, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    
+    CGImageRef quartzImage = CGBitmapContextCreateImage(context);
+    CVPixelBufferUnlockBaseAddress(imageBuffer,0);
+    
+    CGContextRelease(context);
+    CGColorSpaceRelease(colorSpace);
+    
+    UIImage *image = nil;
+    
+    if( self.currentDevice.position == AVCaptureDevicePositionBack )
+    {
+        image = [UIImage imageWithCGImage:quartzImage scale:1 orientation:UIImageOrientationRight];
+    }
+    else
+    {
+        image = [UIImage imageWithCGImage:quartzImage scale:1 orientation:UIImageOrientationLeftMirrored];
+    }
+    
+    CGImageRelease(quartzImage);
+    
+    return (image);
+}
+
 - (void)captureStillImage
 {
     [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:[self sessionConnection]
@@ -122,15 +156,19 @@
     {
         if( imageSampleBuffer )
         {
-            NSData *imageData = [AVCaptureStillImageOutput jpegStillImageNSDataRepresentation:imageSampleBuffer];
-            UIImage *image = [UIImage imageWithData:imageData];
+            UIImage *image = [self imageFromSampleBuffer:imageSampleBuffer];
             
-            if( [self.delegate respondsToSelector:@selector(captureManager:didCaptureImage:)] )
-            {
-                [self.delegate captureManager:self didCaptureImage:image];
-            }
+            [self performSelectorOnMainThread:@selector(callDelegateWithImage:) withObject:image waitUntilDone:NO];
         }
     }];
+}
+
+- (void)callDelegateWithImage:(UIImage *)image
+{
+    if( [self.delegate respondsToSelector:@selector(captureManager:didCaptureImage:)] )
+    {
+        [self.delegate captureManager:self didCaptureImage:image];
+    }
 }
 
 - (AVCaptureConnection *)sessionConnection
@@ -152,6 +190,11 @@
         {
             break;
         }
+    }
+    
+    if( [videoConnection isVideoOrientationSupported] )
+    {
+        videoConnection.videoOrientation = AVCaptureVideoOrientationPortrait;
     }
     
     return videoConnection;
@@ -176,9 +219,15 @@
     }
     else
     {
-        [self.currentDevice lockForConfiguration:nil];
-        self.currentDevice.flashMode = AVCaptureFlashModeOff;
-        [self.currentDevice unlockForConfiguration];
+        if( [self.currentDevice hasFlash] )
+        {
+            if( [self.currentDevice isFlashModeSupported:AVCaptureFlashModeOff] )
+            {
+                [self.currentDevice lockForConfiguration:nil];
+                self.currentDevice.flashMode = AVCaptureFlashModeOff;
+                [self.currentDevice unlockForConfiguration];
+            }
+        }
     }
 }
 

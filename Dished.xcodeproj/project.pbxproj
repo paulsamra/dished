@@ -118,6 +118,7 @@
 		94479D5F194FDAAF0071EF6A /* password_phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 94479D5D194FDAAF0071EF6A /* password_phone.png */; };
 		94479D60194FDAAF0071EF6A /* password_phone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94479D5E194FDAAF0071EF6A /* password_phone@2x.png */; };
 		94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */; };
+		94649F4C1963FEAD00E2FD8D /* UIImage+Orientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94649F4B1963FEAD00E2FD8D /* UIImage+Orientation.m */; };
 		946BAE1D195FF56900EF86C0 /* add_review.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE13195FF56900EF86C0 /* add_review.png */; };
 		946BAE1E195FF56900EF86C0 /* add_review@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE14195FF56900EF86C0 /* add_review@2x.png */; };
 		946BAE1F195FF56900EF86C0 /* explore.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE15195FF56900EF86C0 /* explore.png */; };
@@ -287,6 +288,8 @@
 		94479D5E194FDAAF0071EF6A /* password_phone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "password_phone@2x.png"; sourceTree = "<group>"; };
 		94479D6319502E2F0071EF6A /* JSONResponseSerializerWithData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONResponseSerializerWithData.h; sourceTree = "<group>"; };
 		94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONResponseSerializerWithData.m; sourceTree = "<group>"; };
+		94649F4A1963FEAD00E2FD8D /* UIImage+Orientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Orientation.h"; sourceTree = "<group>"; };
+		94649F4B1963FEAD00E2FD8D /* UIImage+Orientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Orientation.m"; sourceTree = "<group>"; };
 		946BAE13195FF56900EF86C0 /* add_review.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_review.png; sourceTree = "<group>"; };
 		946BAE14195FF56900EF86C0 /* add_review@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_review@2x.png"; sourceTree = "<group>"; };
 		946BAE15195FF56900EF86C0 /* explore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explore.png; sourceTree = "<group>"; };
@@ -403,6 +406,8 @@
 				941538C7193F270A008B3B79 /* DAAppDelegate.m */,
 				941538D2193F270A008B3B79 /* Images.xcassets */,
 				941538C9193F270A008B3B79 /* Dished.xcdatamodeld */,
+				94649F4A1963FEAD00E2FD8D /* UIImage+Orientation.h */,
+				94649F4B1963FEAD00E2FD8D /* UIImage+Orientation.m */,
 				941538EE193F2A00008B3B79 /* Images */,
 				941538C2193F270A008B3B79 /* Supporting Files */,
 			);
@@ -1026,6 +1031,7 @@
 				94449EDF19481A54008B8881 /* DAFacebookLoginViewController.m in Sources */,
 				94E5EF4A1943472D0021A711 /* AFURLSessionManager.m in Sources */,
 				944689A31960048500FAE288 /* DATabBarController.m in Sources */,
+				94649F4C1963FEAD00E2FD8D /* UIImage+Orientation.m in Sources */,
 				94E5EF741943F5530021A711 /* MRNavigationBarProgressView.m in Sources */,
 				94E5EF441943472D0021A711 /* AFHTTPSessionManager.m in Sources */,
 				943093F81942633D00B1F61F /* DAErrorView.m in Sources */,

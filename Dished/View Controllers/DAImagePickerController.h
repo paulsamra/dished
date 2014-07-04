@@ -10,13 +10,14 @@
 
 @interface DAImagePickerController : UIViewController
 
-@property (weak, nonatomic) IBOutlet UIButton *flashButton;
-@property (weak, nonatomic) IBOutlet UIButton *gridButton;
-@property (weak, nonatomic) IBOutlet UIButton *toggelCameraButton;
-@property (weak, nonatomic) IBOutlet UIButton *takePictureButton;
-@property (weak, nonatomic) IBOutlet UIImageView *capturedImageView;
-@property (weak, nonatomic) IBOutlet UIButton *retakeButton;
-@property (weak, nonatomic) IBOutlet UIImageView *overlayImageVew;
-@property (weak, nonatomic) IBOutlet UIView *videoView;
+@property (weak, nonatomic) IBOutlet UIView         *videoView;
+@property (weak, nonatomic) IBOutlet UIButton       *flashButton;
+@property (weak, nonatomic) IBOutlet UIButton       *gridButton;
+@property (weak, nonatomic) IBOutlet UIButton       *toggleCameraButton;
+@property (weak, nonatomic) IBOutlet UIButton       *takePictureButton;
+@property (weak, nonatomic) IBOutlet UIButton       *cameraRollButton;
+@property (weak, nonatomic) IBOutlet UIButton       *retakeButton;
+@property (weak, nonatomic) IBOutlet UIImageView    *overlayImageVew;
+@property (weak, nonatomic) IBOutlet UIImageView    *gridImageView;
 
 @end
