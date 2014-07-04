@@ -10,6 +10,7 @@
 #import "DACaptureManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "UIImage+Orientation.h"
+#import "DAImageFilterViewController.h"
 
 
 @interface DAImagePickerController() <DACaptureManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -225,6 +226,7 @@
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
     self.shouldLoadGridImage = YES;
+    self.navigationItem.rightBarButtonItem.enabled = YES;
     
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
     self.gridImageView.image = chosenImage;
@@ -245,6 +247,20 @@
 - (IBAction)cancelReview:(UIBarButtonItem *)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (IBAction)goToFilters:(id)sender
+{
+    [self.captureManager stopCapture];
+    
+    [self performSegueWithIdentifier:@"chooseFilter" sender:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    DAImageFilterViewController *dest = segue.destinationViewController;
+    
+    dest.pictureTaken = self.pictureTaken;
 }
 
 - (UIImageView *)previewImageView

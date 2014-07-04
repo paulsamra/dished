@@ -130,6 +130,7 @@
 		946BAE25195FF56900EF86C0 /* news.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE1B195FF56900EF86C0 /* news.png */; };
 		946BAE26195FF56900EF86C0 /* news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE1C195FF56900EF86C0 /* news@2x.png */; };
 		948B7F651941B8AF005494AA /* DADatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B7F641941B8AF005494AA /* DADatePickerCell.m */; };
+		949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
 		94E5EF2D19432AE00021A711 /* UIViewController+TAPKeyboardPop.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF2C19432AE00021A711 /* UIViewController+TAPKeyboardPop.m */; };
 		94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF301943472D0021A711 /* AFHTTPRequestOperation.m */; };
 		94E5EF431943472D0021A711 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF321943472D0021A711 /* AFHTTPRequestOperationManager.m */; };
@@ -302,6 +303,8 @@
 		946BAE1C195FF56900EF86C0 /* news@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "news@2x.png"; sourceTree = "<group>"; };
 		948B7F631941B8AF005494AA /* DADatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADatePickerCell.h; sourceTree = "<group>"; };
 		948B7F641941B8AF005494AA /* DADatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADatePickerCell.m; sourceTree = "<group>"; };
+		949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAImageFilterViewController.h; sourceTree = "<group>"; };
+		949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAImageFilterViewController.m; sourceTree = "<group>"; };
 		94E5EF2B19432AE00021A711 /* UIViewController+TAPKeyboardPop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TAPKeyboardPop.h"; sourceTree = "<group>"; };
 		94E5EF2C19432AE00021A711 /* UIViewController+TAPKeyboardPop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TAPKeyboardPop.m"; sourceTree = "<group>"; };
 		94E5EF2F1943472D0021A711 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -400,6 +403,7 @@
 				941538CF193F270A008B3B79 /* Main.storyboard */,
 				94FE15E119411F3000FE00EA /* Layout */,
 				948B7F3E1941B05F005494AA /* External */,
+				949B2BFE19668D5700FE1E9D /* Model */,
 				94E5EF4B194347DA0021A711 /* Managers */,
 				941538F5194019C2008B3B79 /* View Controllers */,
 				941538C6193F270A008B3B79 /* DAAppDelegate.h */,
@@ -484,6 +488,8 @@
 				9446899F195FFA6500FAE288 /* DAExploreViewController.m */,
 				944689A41960130E00FAE288 /* DAImagePickerController.h */,
 				944689A51960130E00FAE288 /* DAImagePickerController.m */,
+				949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */,
+				949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -700,6 +706,13 @@
 				94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */,
 			);
 			path = External;
+			sourceTree = "<group>";
+		};
+		949B2BFE19668D5700FE1E9D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		94E5EF2E1943472D0021A711 /* AFNetworking */ = {
@@ -1018,6 +1031,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94E5EF761943F5530021A711 /* MRStopButton.m in Sources */,
+				949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */,
 				94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */,
 				94237E5E194A2CF6004DFAB6 /* DAForgotPasswordViewController.m in Sources */,
 				94FE15E519411F4F00FE00EA /* DATextFieldCell.m in Sources */,

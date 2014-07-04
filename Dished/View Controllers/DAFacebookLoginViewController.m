@@ -71,6 +71,13 @@
     }
 }
 
+- (IBAction)goToTabs
+{
+    DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+    
+    [delegate setRootView];
+}
+
 - (IBAction)logout
 {
     [FBSession.activeSession closeAndClearTokenInformation];

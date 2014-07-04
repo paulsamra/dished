@@ -9,6 +9,7 @@
 #import "DALoginViewController.h"
 #import "DAAPIManager.h"
 #import "MRProgress.h"
+#import "DAAppDelegate.h"
 #import "UIViewController+TAPKeyboardPop.h"
 
 
@@ -82,7 +83,9 @@
         {
             if( success )
             {
-                [self.successAlert show];
+                //[self.successAlert show];
+                DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+                [delegate setRootView];
             }
             else if( wrongUser )
             {

@@ -259,4 +259,19 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+- (void)setRootView
+{
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    UITabBarController *mainTabs = [mainStoryboard instantiateViewControllerWithIdentifier:@"mainTabs"];
+    
+    self.window.rootViewController = mainTabs;
+    
+    [UIView transitionWithView:self.window
+                      duration:0.2
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:nil
+                    completion:nil];
+}
+
 @end

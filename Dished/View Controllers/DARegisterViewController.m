@@ -11,6 +11,7 @@
 #import "DADatePickerCell.h"
 #import "DAErrorView.h"
 #import "DAAPIManager.h"
+#import "DAAppDelegate.h"
 #import "MRProgress.h"
 
 static NSString *kTextFieldCellID = @"textFieldCell";
@@ -768,6 +769,13 @@ static NSString *kRegisterCellID  = @"registerCell";
     if( alertView == self.loginFailAlert || alertView == self.registerSuccessAlert )
     {
         [self.navigationController popToRootViewControllerAnimated:YES];
+    }
+    
+    if( alertView == self.registerSuccessAlert )
+    {
+        DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+        
+        [delegate setRootView];
     }
 }
 
