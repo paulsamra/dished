@@ -7,10 +7,14 @@
 //
 
 #import "DAExploreViewController.h"
+#import "DAAPIManager.h"
+#import "DAHashtag.h"
 
-@interface DAExploreViewController ()
+
+@interface DAExploreViewController()
 
 @end
+
 
 @implementation DAExploreViewController
 

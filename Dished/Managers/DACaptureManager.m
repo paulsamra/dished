@@ -8,7 +8,6 @@
 
 #import "DACaptureManager.h"
 #import <UIKit/UIKit.h>
-#import "UIImage+Orientation.h"
 #import <Accelerate/Accelerate.h>
 
 

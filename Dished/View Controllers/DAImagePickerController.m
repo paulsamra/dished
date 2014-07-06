@@ -9,7 +9,6 @@
 #import "DAImagePickerController.h"
 #import "DACaptureManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
-#import "UIImage+Orientation.h"
 #import "DAImageFilterViewController.h"
 
 
@@ -36,11 +35,6 @@
     self.shouldShutterAfterFocus = NO;
     
     self.navigationItem.rightBarButtonItem.enabled = NO;
-    
-    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
-    self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [UIColor whiteColor] };
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     
     self.captureManager = [[DACaptureManager alloc] init];
     self.captureManager.delegate = self;
@@ -174,9 +168,7 @@
     [self.view insertSubview:self.previewImageView belowSubview:self.overlayImageVew];
     
     dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0 ), ^
-    {
-        //UIImage *fixedImage = [image fixOrientation];
-        
+    {        
         CGFloat cropWidth = ( image.size.width / self.videoView.bounds.size.width ) * self.gridImageView.bounds.size.width;
         CGFloat cropHeight = ( image.size.height / self.videoView.bounds.size.height ) * self.gridImageView.bounds.size.height;
         

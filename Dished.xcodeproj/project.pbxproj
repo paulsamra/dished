@@ -50,6 +50,8 @@
 		9430941B1942B16300B1F61F /* error_message@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 943094131942B16300B1F61F /* error_message@2x.png */; };
 		9430941C1942B16300B1F61F /* valid_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 943094141942B16300B1F61F /* valid_icon.png */; };
 		9430941D1942B16300B1F61F /* valid_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 943094151942B16300B1F61F /* valid_icon@2x.png */; };
+		9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */; };
+		9430FDEF1969E0E300C7E997 /* DAHashtag.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDEE1969E0E300C7E997 /* DAHashtag.m */; };
 		94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94358D7E1960262F00C38A93 /* DACaptureManager.m */; };
 		94358D8219603B9900C38A93 /* camera_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 94358D8019603B9900C38A93 /* camera_overlay.png */; };
 		94358D8319603B9900C38A93 /* camera_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94358D8119603B9900C38A93 /* camera_overlay@2x.png */; };
@@ -118,7 +120,6 @@
 		94479D5F194FDAAF0071EF6A /* password_phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 94479D5D194FDAAF0071EF6A /* password_phone.png */; };
 		94479D60194FDAAF0071EF6A /* password_phone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94479D5E194FDAAF0071EF6A /* password_phone@2x.png */; };
 		94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */; };
-		94649F4C1963FEAD00E2FD8D /* UIImage+Orientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94649F4B1963FEAD00E2FD8D /* UIImage+Orientation.m */; };
 		946BAE1D195FF56900EF86C0 /* add_review.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE13195FF56900EF86C0 /* add_review.png */; };
 		946BAE1E195FF56900EF86C0 /* add_review@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE14195FF56900EF86C0 /* add_review@2x.png */; };
 		946BAE1F195FF56900EF86C0 /* explore.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE15195FF56900EF86C0 /* explore.png */; };
@@ -131,7 +132,6 @@
 		946BAE26195FF56900EF86C0 /* news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE1C195FF56900EF86C0 /* news@2x.png */; };
 		948B7F651941B8AF005494AA /* DADatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B7F641941B8AF005494AA /* DADatePickerCell.m */; };
 		949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
-		94ACDE1F196911A400C59DCB /* DADishDetailsFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94ACDE1E196911A400C59DCB /* DADishDetailsFormViewController.m */; };
 		94E5EF2D19432AE00021A711 /* UIViewController+TAPKeyboardPop.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF2C19432AE00021A711 /* UIViewController+TAPKeyboardPop.m */; };
 		94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF301943472D0021A711 /* AFHTTPRequestOperation.m */; };
 		94E5EF431943472D0021A711 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF321943472D0021A711 /* AFHTTPRequestOperationManager.m */; };
@@ -216,6 +216,10 @@
 		943094131942B16300B1F61F /* error_message@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error_message@2x.png"; sourceTree = "<group>"; };
 		943094141942B16300B1F61F /* valid_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = valid_icon.png; sourceTree = "<group>"; };
 		943094151942B16300B1F61F /* valid_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "valid_icon@2x.png"; sourceTree = "<group>"; };
+		9430FDEA196956BD00C7E997 /* DAPositiveHashtagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAPositiveHashtagsViewController.h; sourceTree = "<group>"; };
+		9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAPositiveHashtagsViewController.m; sourceTree = "<group>"; };
+		9430FDED1969E0E300C7E997 /* DAHashtag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAHashtag.h; sourceTree = "<group>"; };
+		9430FDEE1969E0E300C7E997 /* DAHashtag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAHashtag.m; sourceTree = "<group>"; };
 		94358D7D1960262F00C38A93 /* DACaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACaptureManager.h; sourceTree = "<group>"; };
 		94358D7E1960262F00C38A93 /* DACaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACaptureManager.m; sourceTree = "<group>"; };
 		94358D8019603B9900C38A93 /* camera_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_overlay.png; sourceTree = "<group>"; };
@@ -290,8 +294,6 @@
 		94479D5E194FDAAF0071EF6A /* password_phone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "password_phone@2x.png"; sourceTree = "<group>"; };
 		94479D6319502E2F0071EF6A /* JSONResponseSerializerWithData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONResponseSerializerWithData.h; sourceTree = "<group>"; };
 		94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONResponseSerializerWithData.m; sourceTree = "<group>"; };
-		94649F4A1963FEAD00E2FD8D /* UIImage+Orientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Orientation.h"; sourceTree = "<group>"; };
-		94649F4B1963FEAD00E2FD8D /* UIImage+Orientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Orientation.m"; sourceTree = "<group>"; };
 		946BAE13195FF56900EF86C0 /* add_review.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_review.png; sourceTree = "<group>"; };
 		946BAE14195FF56900EF86C0 /* add_review@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_review@2x.png"; sourceTree = "<group>"; };
 		946BAE15195FF56900EF86C0 /* explore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explore.png; sourceTree = "<group>"; };
@@ -306,8 +308,6 @@
 		948B7F641941B8AF005494AA /* DADatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADatePickerCell.m; sourceTree = "<group>"; };
 		949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAImageFilterViewController.h; sourceTree = "<group>"; };
 		949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAImageFilterViewController.m; sourceTree = "<group>"; };
-		94ACDE1D196911A400C59DCB /* DADishDetailsFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishDetailsFormViewController.h; sourceTree = "<group>"; };
-		94ACDE1E196911A400C59DCB /* DADishDetailsFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishDetailsFormViewController.m; sourceTree = "<group>"; };
 		94E5EF2B19432AE00021A711 /* UIViewController+TAPKeyboardPop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TAPKeyboardPop.h"; sourceTree = "<group>"; };
 		94E5EF2C19432AE00021A711 /* UIViewController+TAPKeyboardPop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TAPKeyboardPop.m"; sourceTree = "<group>"; };
 		94E5EF2F1943472D0021A711 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -413,8 +413,6 @@
 				941538C7193F270A008B3B79 /* DAAppDelegate.m */,
 				941538D2193F270A008B3B79 /* Images.xcassets */,
 				941538C9193F270A008B3B79 /* Dished.xcdatamodeld */,
-				94649F4A1963FEAD00E2FD8D /* UIImage+Orientation.h */,
-				94649F4B1963FEAD00E2FD8D /* UIImage+Orientation.m */,
 				941538EE193F2A00008B3B79 /* Images */,
 				941538C2193F270A008B3B79 /* Supporting Files */,
 			);
@@ -493,8 +491,8 @@
 				944689A51960130E00FAE288 /* DAImagePickerController.m */,
 				949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */,
 				949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */,
-				94ACDE1D196911A400C59DCB /* DADishDetailsFormViewController.h */,
-				94ACDE1E196911A400C59DCB /* DADishDetailsFormViewController.m */,
+				9430FDEA196956BD00C7E997 /* DAPositiveHashtagsViewController.h */,
+				9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -716,8 +714,10 @@
 		949B2BFE19668D5700FE1E9D /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				9430FDED1969E0E300C7E997 /* DAHashtag.h */,
+				9430FDEE1969E0E300C7E997 /* DAHashtag.m */,
 			);
-			name = Model;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		94E5EF2E1943472D0021A711 /* AFNetworking */ = {
@@ -1050,7 +1050,7 @@
 				94449EDF19481A54008B8881 /* DAFacebookLoginViewController.m in Sources */,
 				94E5EF4A1943472D0021A711 /* AFURLSessionManager.m in Sources */,
 				944689A31960048500FAE288 /* DATabBarController.m in Sources */,
-				94649F4C1963FEAD00E2FD8D /* UIImage+Orientation.m in Sources */,
+				9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */,
 				94E5EF741943F5530021A711 /* MRNavigationBarProgressView.m in Sources */,
 				94E5EF441943472D0021A711 /* AFHTTPSessionManager.m in Sources */,
 				943093F81942633D00B1F61F /* DAErrorView.m in Sources */,
@@ -1058,8 +1058,8 @@
 				94E5EF451943472D0021A711 /* AFNetworkReachabilityManager.m in Sources */,
 				94E5EF771943F5530021A711 /* MRMessageInterceptor.m in Sources */,
 				941538CB193F270A008B3B79 /* Dished.xcdatamodeld in Sources */,
+				9430FDEF1969E0E300C7E997 /* DAHashtag.m in Sources */,
 				94E5EF491943472D0021A711 /* AFURLResponseSerialization.m in Sources */,
-				94ACDE1F196911A400C59DCB /* DADishDetailsFormViewController.m in Sources */,
 				94E5EF481943472D0021A711 /* AFURLRequestSerialization.m in Sources */,
 				94E5EF781943F5530021A711 /* MRWeakProxy.m in Sources */,
 				944689A0195FFA6500FAE288 /* DAExploreViewController.m in Sources */,
