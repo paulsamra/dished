@@ -18,6 +18,10 @@
 @required
 - (void)captureManager:(DACaptureManager *)captureManager didCaptureImage:(UIImage *)image;
 
+@optional
+- (void)captureManagerDidBeginAdjustingFocus:(DACaptureManager *)captureManager;
+- (void)captureManagerDidFinishAdjustingFocus:(DACaptureManager *)captureManager;
+
 @end
 
 
@@ -32,5 +36,6 @@
 - (void)captureStillImage;
 - (void)enableFlash:(BOOL)enabled;
 - (BOOL)isFlashOn;
+- (BOOL)cameraIsFocusing;
 
 @end

@@ -21,6 +21,7 @@
 
 @property (nonatomic) BOOL gridIsVisible;
 @property (nonatomic) BOOL shouldLoadGridImage;
+@property (nonatomic) BOOL shouldShutterAfterFocus;
 
 @end
 
@@ -32,6 +33,7 @@
     [super viewDidLoad];
     
     self.shouldLoadGridImage = NO;
+    self.shouldShutterAfterFocus = NO;
     
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [UIColor whiteColor] };
@@ -108,6 +110,18 @@
     self.takePictureButton.enabled  = NO;
     self.toggleCameraButton.hidden  = YES;
     
+    if( ![self.captureManager cameraIsFocusing] )
+    {
+        [self animateShutter];
+    }
+    else
+    {
+        self.shouldShutterAfterFocus = YES;
+    }
+}
+
+- (void)animateShutter
+{
     UIView *shutterView = [[UIView alloc] initWithFrame:self.videoView.frame];
     shutterView.backgroundColor = [UIColor blackColor];
     shutterView.alpha = 0;
@@ -116,27 +130,28 @@
     UIViewAnimationOptions options =  UIViewAnimationOptionCurveLinear;
     
     [UIView animateWithDuration:0.1
-    delay:0 options:options animations:^
-    {
-        shutterView.alpha = 1;
-    }
-    completion:^( BOOL finished )
-    {
-        if( finished )
-        {
-            [UIView animateWithDuration:0.1 delay:0 options:options animations:^
-            {
-                shutterView.alpha = 0;
-            }
-            completion:^(BOOL finished)
-            {
-                if( finished )
-                {
-                    [shutterView removeFromSuperview];
-                }
-            }];
-        }
-    }];
+                          delay:0 options:options animations:^
+     {
+         shutterView.alpha = 1;
+     }
+                     completion:^( BOOL finished )
+     {
+         if( finished )
+         {
+             [UIView animateWithDuration:0.1 delay:0 options:options animations:^
+              {
+                  shutterView.alpha = 0;
+              }
+                              completion:^(BOOL finished)
+              {
+                  if( finished )
+                  {
+                      [shutterView removeFromSuperview];
+                      self.captureManager.previewLayer.connection.enabled = NO;
+                  }
+              }];
+         }
+     }];
 }
 
 - (void)captureManager:(DACaptureManager *)captureManager didCaptureImage:(UIImage *)image
@@ -146,11 +161,10 @@
     
     self.previewImageView.image = image;
     [self.view insertSubview:self.previewImageView belowSubview:self.overlayImageVew];
-    self.captureManager.previewLayer.connection.enabled = NO;
     
     dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0 ), ^
     {
-        UIImage *fixedImage = [image fixOrientation];
+        //UIImage *fixedImage = [image fixOrientation];
         
         CGFloat cropWidth = ( image.size.width / self.videoView.bounds.size.width ) * self.gridImageView.bounds.size.width;
         CGFloat cropHeight = ( image.size.height / self.videoView.bounds.size.height ) * self.gridImageView.bounds.size.height;
@@ -160,12 +174,21 @@
         
         CGRect cropRect = CGRectMake( x, y, cropWidth, cropHeight );
         
-        CGImageRef imageRef = CGImageCreateWithImageInRect([fixedImage CGImage], cropRect);
+        CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRect);
         UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
         CGImageRelease(imageRef);
         
         self.pictureTaken = croppedImage;
     });
+}
+
+- (void)captureManagerDidFinishAdjustingFocus:(DACaptureManager *)captureManager
+{
+    if( self.shouldShutterAfterFocus )
+    {
+        self.shouldShutterAfterFocus = NO;
+        [self animateShutter];
+    }
 }
 
 - (IBAction)retakePicture

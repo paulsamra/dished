@@ -9,16 +9,17 @@
 #import "DACaptureManager.h"
 #import <UIKit/UIKit.h>
 #import "UIImage+Orientation.h"
+#import <Accelerate/Accelerate.h>
 
 
-@interface DACaptureManager()
+@interface DACaptureManager() <AVCaptureVideoDataOutputSampleBufferDelegate>
 
 @property (strong, nonatomic) AVCaptureDevice           *backCamera;
 @property (strong, nonatomic) AVCaptureDevice           *frontCamera;
 @property (strong, nonatomic) AVCaptureDevice           *currentDevice;
 @property (strong, nonatomic) AVCaptureSession          *captureSession;
-@property (strong, nonatomic) AVCaptureStillImageOutput *stillImageOutput;
 @property (strong, nonatomic) AVCaptureConnection       *connection;
+@property (strong, nonatomic) AVCaptureStillImageOutput *stillImageOutput;
 
 @end
 
@@ -50,8 +51,10 @@
         [self.captureSession addInput:videoInput];
     }
     
+    NSDictionary *outputSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
+    
     self.stillImageOutput = [[AVCaptureStillImageOutput alloc] init];
-    self.stillImageOutput.outputSettings = @{ (id)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
+    self.stillImageOutput.outputSettings = outputSettings;
     
     if( [self.captureSession canAddOutput:self.stillImageOutput] )
     {
@@ -60,6 +63,37 @@
     
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[self captureSession]];
 	[self.previewLayer setVideoGravity:AVLayerVideoGravityResize];
+    
+    int flags = NSKeyValueObservingOptionNew;
+    [self.currentDevice addObserver:self forKeyPath:@"adjustingFocus" options:flags context:nil];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if( [keyPath isEqualToString:@"adjustingFocus"] )
+    {
+        BOOL adjustingFocus = [[change objectForKey:NSKeyValueChangeNewKey] isEqualToNumber:[NSNumber numberWithInt:1]];
+        
+        if( adjustingFocus )
+        {
+            if( [self.delegate respondsToSelector:@selector(captureManagerDidBeginAdjustingFocus:)] )
+            {
+                [self.delegate captureManagerDidBeginAdjustingFocus:self];
+            }
+        }
+        else
+        {
+            if( [self.delegate respondsToSelector:@selector(captureManagerDidFinishAdjustingFocus:)] )
+            {
+                [self.delegate captureManagerDidFinishAdjustingFocus:self];
+            }
+        }
+    }
+}
+
+- (BOOL)cameraIsFocusing
+{
+    return self.currentDevice.adjustingFocus;
 }
 
 - (void)startCapture
@@ -74,6 +108,8 @@
 
 - (void)toggleCamera
 {
+    [self.currentDevice removeObserver:self forKeyPath:@"adjustingFocus"];
+    
     if( [[AVCaptureDevice devicesWithMediaType:AVMediaTypeVideo] count] > 1 )
     {
         AVCaptureDeviceInput *newVideoInput = nil;
@@ -91,6 +127,9 @@
             newVideoInput = [[AVCaptureDeviceInput alloc] initWithDevice:self.backCamera error:nil];
             self.currentDevice = self.backCamera;
         }
+        
+        int flags = NSKeyValueObservingOptionNew;
+        [self.currentDevice addObserver:self forKeyPath:@"adjustingFocus" options:flags context:nil];
         
         if( newVideoInput != nil )
         {
@@ -111,42 +150,86 @@
     }
 }
 
-- (UIImage *) imageFromSampleBuffer:(CMSampleBufferRef) sampleBuffer
+- (CVPixelBufferRef)rotateBuffer:(CMSampleBufferRef)sampleBuffer
 {
-    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer(sampleBuffer);
-    CVPixelBufferLockBaseAddress(imageBuffer, 0);
+    CVImageBufferRef imageBuffer = CMSampleBufferGetImageBuffer( sampleBuffer );
+    CVPixelBufferLockBaseAddress( imageBuffer, 0 );
     
-    void *baseAddress = CVPixelBufferGetBaseAddress(imageBuffer);
+    size_t bytesPerRow = CVPixelBufferGetBytesPerRow( imageBuffer );
+    size_t width = CVPixelBufferGetWidth( imageBuffer );
+    size_t height = CVPixelBufferGetHeight( imageBuffer );
+    size_t currSize = bytesPerRow * height * sizeof( unsigned char );
+    size_t bytesPerRowOut = 4 * height * sizeof( unsigned char );
     
-    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(imageBuffer);
-    size_t width = CVPixelBufferGetWidth(imageBuffer);
-    size_t height = CVPixelBufferGetHeight(imageBuffer);
+    uint8_t rotationConstant = 3;
     
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+    void *srcBuff = CVPixelBufferGetBaseAddress( imageBuffer );
     
-    CGContextRef context = CGBitmapContextCreate(baseAddress, width, height, 8,
-                                                 bytesPerRow, colorSpace, kCGBitmapByteOrder32Little | kCGImageAlphaPremultipliedFirst);
+    unsigned char *outBuff = (unsigned char *)malloc( currSize );
     
-    CGImageRef quartzImage = CGBitmapContextCreateImage(context);
-    CVPixelBufferUnlockBaseAddress(imageBuffer,0);
-    
-    CGContextRelease(context);
-    CGColorSpaceRelease(colorSpace);
-    
-    UIImage *image = nil;
-    
-    if( self.currentDevice.position == AVCaptureDevicePositionBack )
+    vImage_Buffer iBuff =
     {
-        image = [UIImage imageWithCGImage:quartzImage scale:1 orientation:UIImageOrientationRight];
-    }
-    else
+        srcBuff, height, width, bytesPerRow
+    };
+    
+    vImage_Buffer uBuff =
     {
-        image = [UIImage imageWithCGImage:quartzImage scale:1 orientation:UIImageOrientationLeftMirrored];
+        outBuff, width, height, bytesPerRowOut
+    };
+    
+    uint8_t bgColor[4] = { 0, 0, 0, 0 };
+    
+    vImage_Error error = vImageRotate90_ARGB8888(&iBuff, &uBuff, rotationConstant, bgColor, 0);
+    
+    if( error != kvImageNoError )
+    {
+        NSLog(@"ERROR IN VIMAGE");
     }
     
-    CGImageRelease(quartzImage);
+    CVPixelBufferRef rotatedBuffer = NULL;
+    CVPixelBufferCreateWithBytes(NULL,
+                                 height,
+                                 width,
+                                 kCVPixelFormatType_32BGRA,
+                                 uBuff.data,
+                                 bytesPerRowOut,
+                                 freePixelBufferDataAfterRelease,
+                                 NULL,
+                                 NULL,
+                                 &rotatedBuffer);
     
-    return (image);
+    return rotatedBuffer;
+}
+
+void freePixelBufferDataAfterRelease(void *releaseRefCon, const void *baseAddress)
+{
+    free((void *)baseAddress);
+}
+
+- (UIImage *)imageFromCVPixelBuffer:(CVPixelBufferRef)pixelBuffer
+{
+    size_t w = CVPixelBufferGetWidth(pixelBuffer);
+    size_t h = CVPixelBufferGetHeight(pixelBuffer);
+    
+    CVPixelBufferLockBaseAddress( pixelBuffer, 0 );
+    
+    unsigned char *buffer = CVPixelBufferGetBaseAddress(pixelBuffer);
+    
+    UIGraphicsBeginImageContext(CGSizeMake(w, h));
+    
+    CGContextRef c = UIGraphicsGetCurrentContext();
+    
+    unsigned char* data = CGBitmapContextGetData(c);
+    
+    memcpy(data, buffer, CVPixelBufferGetDataSize( pixelBuffer) );
+    
+    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    CVPixelBufferUnlockBaseAddress( pixelBuffer, 0 );
+    
+    return img;
 }
 
 - (void)captureStillImage
@@ -156,11 +239,18 @@
     {
         if( imageSampleBuffer )
         {
-            UIImage *image = [self imageFromSampleBuffer:imageSampleBuffer];
-            
-            [self performSelectorOnMainThread:@selector(callDelegateWithImage:) withObject:image waitUntilDone:NO];
+            [self receivedSampleBuffer:imageSampleBuffer];
         }
     }];
+}
+
+- (void)receivedSampleBuffer:(CMSampleBufferRef)sampleBuffer
+{
+    CVPixelBufferRef rotatedBuffer = [self rotateBuffer:sampleBuffer];
+    UIImage *image = [self imageFromCVPixelBuffer:rotatedBuffer];
+    CVBufferRelease( rotatedBuffer );
+    
+    [self performSelectorOnMainThread:@selector(callDelegateWithImage:) withObject:image waitUntilDone:NO];
 }
 
 - (void)callDelegateWithImage:(UIImage *)image
@@ -190,11 +280,6 @@
         {
             break;
         }
-    }
-    
-    if( [videoConnection isVideoOrientationSupported] )
-    {
-        videoConnection.videoOrientation = AVCaptureVideoOrientationPortrait;
     }
     
     return videoConnection;
@@ -251,11 +336,30 @@
     {
         if( [device position] == position )
         {
+            if( [device isExposureModeSupported:AVCaptureExposureModeContinuousAutoExposure] )
+            {
+                [device lockForConfiguration:nil];
+                device.exposureMode = AVCaptureExposureModeContinuousAutoExposure;
+                [device unlockForConfiguration];
+            }
+            
+            if( [device isWhiteBalanceModeSupported:AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance] )
+            {
+                [device lockForConfiguration:nil];
+                device.whiteBalanceMode = AVCaptureWhiteBalanceModeContinuousAutoWhiteBalance;
+                [device unlockForConfiguration];
+            }
+            
             return device;
         }
     }
     
     return nil;
+}
+
+- (void)dealloc
+{
+    [self.currentDevice removeObserver:self forKeyPath:@"adjustingFocus"];
 }
 
 - (AVCaptureDevice *)backCamera

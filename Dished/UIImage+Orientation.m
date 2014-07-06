@@ -13,7 +13,10 @@
 - (UIImage *)fixOrientation
 {
     // No-op if the orientation is already correct
-    if (self.imageOrientation == UIImageOrientationUp) return self;
+    if( self.imageOrientation == UIImageOrientationUp )
+    {
+        return self;
+    }
     
     // We need to calculate the proper transformation to make the image upright.
     // We do it in 2 steps: Rotate if Left/Right/Down, and then flip if Mirrored.

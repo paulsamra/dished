@@ -45,7 +45,7 @@
     
     UIImageView *imageView = (UIImageView *)[cell viewWithTag:100];
     [imageView.layer setMasksToBounds:YES];
-    imageView.layer.cornerRadius = 10;
+    imageView.layer.cornerRadius = 6;
     
     if( self.selectedIndex == indexPath.row )
     {
@@ -56,6 +56,8 @@
     {
         imageView.layer.borderWidth = 0;
     }
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     
     if( ![self.filteredImages[indexPath.row] isEqual:[NSNull null]] )
     {
@@ -70,19 +72,32 @@
         }
         else
         {
-            CIImage *beginImage = [CIImage imageWithCGImage:[self.pictureTaken CGImage]];
-            CIContext *context = [CIContext contextWithOptions:nil];
+            [cell.contentView addSubview:spinner];
+            spinner.center = cell.contentView.center;
+            [spinner startAnimating];
             
-            CIFilter *filter = [CIFilter filterWithName:self.filterNames[indexPath.row] keysAndValues: kCIInputImageKey, beginImage, nil];
-            CIImage *outputImage = [filter outputImage];
-            
-            CGImageRef cgimg = [context createCGImage:outputImage fromRect:[outputImage extent]];
-            UIImage *newImg = [UIImage imageWithCGImage:cgimg];
-            
-            self.filteredImages[indexPath.row] = newImg;
-            [imageView setImage:newImg];
-            
-            CGImageRelease(cgimg);
+            dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0 ), ^
+            {
+                CIImage *beginImage = [CIImage imageWithCGImage:[self.pictureTaken CGImage]];
+                CIContext *context = [CIContext contextWithOptions:nil];
+                
+                CIFilter *filter = [CIFilter filterWithName:self.filterNames[indexPath.row] keysAndValues:kCIInputImageKey, beginImage, nil];
+                CIImage *outputImage = [filter outputImage];
+                
+                CGImageRef cgimg = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                UIImage *newImg = [UIImage imageWithCGImage:cgimg];
+                
+                CGImageRelease(cgimg);
+                
+                dispatch_async( dispatch_get_main_queue(), ^
+                {
+                    self.filteredImages[indexPath.row] = newImg;
+                    [imageView setImage:newImg];
+                    
+                    [spinner stopAnimating];
+                    [spinner removeFromSuperview];
+                });
+            });
         }
     }
     
@@ -105,7 +120,7 @@
 {
     if( !_filterTitles )
     {
-        _filterTitles = @[ @"No Filter", @"Sepia", @"Sepia", @"Sepia" ];
+        _filterTitles = @[ @"No Filter", @"Instant", @"Transfer", @"Process", @"Sepia" ];
     }
     
     return _filterTitles;
@@ -115,7 +130,7 @@
 {
     if( !_filterNames )
     {
-        _filterNames = @[ @"None", @"CISepiaTone", @"CISepiaTone", @"CISepiaTone" ];
+        _filterNames = @[ @"None", @"CIPhotoEffectInstant", @"CIPhotoEffectTransfer", @"CIPhotoEffectProcess", @"CISepiaTone" ];
     }
     
     return _filterNames;

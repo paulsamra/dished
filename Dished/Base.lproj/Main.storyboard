@@ -797,7 +797,7 @@
                                 </connections>
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera_grid.png" translatesAutoresizingMaskIntoConstraints="NO" id="s0i-Cc-DtF">
-                                <rect key="frame" x="11" y="129" width="298" height="275"/>
+                                <rect key="frame" x="10" y="129" width="300" height="276"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qiy-22-s2p">
