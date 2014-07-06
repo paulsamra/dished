@@ -392,7 +392,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kUN-gm-UGZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1629" y="177"/>
+            <point key="canvasLocation" x="1681" y="178"/>
         </scene>
         <!--Reset Password View Controller - Reset Password-->
         <scene sceneID="eWc-PU-7lH">
@@ -499,7 +499,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AmG-0S-Ujv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2161" y="178"/>
+            <point key="canvasLocation" x="2277" y="178"/>
         </scene>
         <!--Register View Controller - Register-->
         <scene sceneID="vJL-yG-GvI">
@@ -905,16 +905,53 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Select Filter" id="deM-PR-2eP">
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="3w8-43-hit"/>
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="3w8-43-hit">
+                            <connections>
+                                <action selector="goToDetails:" destination="VNa-gW-y3a" id="5p9-6t-M0y"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="vLq-yB-2ws" id="iBt-Uo-Z6J"/>
                         <outlet property="pictureImageView" destination="AZW-iV-RWQ" id="Ehp-Cg-y4p"/>
+                        <segue destination="fwP-aq-AjU" kind="push" identifier="goToDetails" id="Gxi-0f-Q4H"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GPe-cG-DCe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1629" y="3268"/>
+            <point key="canvasLocation" x="1681" y="3268"/>
+        </scene>
+        <!--Dish Details Form View Controller-->
+        <scene sceneID="t4y-5H-HdT">
+            <objects>
+                <viewController id="fwP-aq-AjU" customClass="DADishDetailsFormViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="DAc-bA-9BG"/>
+                        <viewControllerLayoutGuide type="bottom" id="xPz-oX-6un"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="guf-hG-pYC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="rhu-Do-0QS">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="Gw4-K9-a0e">
+                            <rect key="frame" x="68" y="7" width="185" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="" image="add_dish_food.png"/>
+                                <segment title="" image="add_dish_drink.png"/>
+                                <segment title="" image="add_dish_wine.png"/>
+                            </segments>
+                            <color key="tintColor" red="0.0" green="0.61176470589999998" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" title="Post" id="Ao7-WG-2Io"/>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7ET-jy-VqI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2277" y="3268"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="RQM-Ub-OjT">
@@ -1012,6 +1049,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add_dish_drink.png" width="16" height="16"/>
+        <image name="add_dish_food.png" width="17" height="18"/>
+        <image name="add_dish_wine.png" width="11" height="18"/>
         <image name="add_review.png" width="70" height="49"/>
         <image name="camera_dock.png" width="320" height="90"/>
         <image name="camera_flash.png" width="14" height="19"/>

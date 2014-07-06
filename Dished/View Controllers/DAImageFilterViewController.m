@@ -29,6 +29,15 @@
     self.pictureImageView.image = self.pictureTaken;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [UIColor whiteColor] };
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+}
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
@@ -114,6 +123,11 @@
     self.pictureImageView.image = self.filteredImages[indexPath.row];
     
     [self.collectionView reloadData];
+}
+
+- (IBAction)goToDetails:(UIBarButtonItem *)sender
+{
+    [self performSegueWithIdentifier:@"goToDetails" sender:nil];
 }
 
 - (NSArray *)filterTitles

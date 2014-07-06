@@ -35,6 +35,8 @@
     self.shouldLoadGridImage = NO;
     self.shouldShutterAfterFocus = NO;
     
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [UIColor whiteColor] };
     self.navigationItem.rightBarButtonItem.enabled = NO;
@@ -58,6 +60,15 @@
     self.retakeButton.hidden = YES;
     
     [self loadCameraRollThumbnail];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
+    self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [UIColor whiteColor] };
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
 }
 
 - (void)loadCameraRollThumbnail
