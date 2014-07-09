@@ -1165,6 +1165,7 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="AddDishSegmentedControl" destination="G8Q-pm-yCa" id="EgV-k9-kML"/>
                         <outlet property="PostButton" destination="Gv1-wa-1bC" id="MMC-YN-u6E"/>
