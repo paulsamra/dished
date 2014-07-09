@@ -163,6 +163,16 @@
 		94FE15E519411F4F00FE00EA /* DATextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E319411F4F00FE00EA /* DATextFieldCell.m */; };
 		94FE15E619411F4F00FE00EA /* DATextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */; };
 		94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E81941239100FE00EA /* DATouchUITableView.m */; };
+		D17487C2196DE8A200D83993 /* SZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C1196DE8A200D83993 /* SZTextView.m */; };
+		D17487C9196DE8BC00D83993 /* DAFormTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C4196DE8BC00D83993 /* DAFormTableViewController.m */; };
+		D17487CA196DE8BC00D83993 /* AutoComleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C6196DE8BC00D83993 /* AutoComleteTableView.m */; };
+		D17487CB196DE8BC00D83993 /* DALocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C8196DE8BC00D83993 /* DALocationTableViewController.m */; };
+		D17487D2196DE8E100D83993 /* table_indicator.png in Resources */ = {isa = PBXBuildFile; fileRef = D17487CC196DE8E100D83993 /* table_indicator.png */; };
+		D17487D3196DE8E100D83993 /* disclosure@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D17487CD196DE8E100D83993 /* disclosure@2x.png */; };
+		D17487D4196DE8E100D83993 /* disclosure.png in Resources */ = {isa = PBXBuildFile; fileRef = D17487CE196DE8E100D83993 /* disclosure.png */; };
+		D17487D5196DE8E100D83993 /* powered.png in Resources */ = {isa = PBXBuildFile; fileRef = D17487CF196DE8E100D83993 /* powered.png */; };
+		D17487D6196DE8E100D83993 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = D17487D0196DE8E100D83993 /* plus.png */; };
+		D17487D7196DE8E100D83993 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D17487D1196DE8E100D83993 /* plus@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -372,6 +382,20 @@
 		94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DATextFieldCell.xib; sourceTree = "<group>"; };
 		94FE15E71941239100FE00EA /* DATouchUITableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATouchUITableView.h; sourceTree = "<group>"; };
 		94FE15E81941239100FE00EA /* DATouchUITableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATouchUITableView.m; sourceTree = "<group>"; };
+		D17487C0196DE8A200D83993 /* SZTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTextView.h; sourceTree = "<group>"; };
+		D17487C1196DE8A200D83993 /* SZTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTextView.m; sourceTree = "<group>"; };
+		D17487C3196DE8BC00D83993 /* DAFormTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFormTableViewController.h; sourceTree = "<group>"; };
+		D17487C4196DE8BC00D83993 /* DAFormTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFormTableViewController.m; sourceTree = "<group>"; };
+		D17487C5196DE8BC00D83993 /* AutoComleteTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AutoComleteTableView.h; sourceTree = "<group>"; };
+		D17487C6196DE8BC00D83993 /* AutoComleteTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AutoComleteTableView.m; sourceTree = "<group>"; };
+		D17487C7196DE8BC00D83993 /* DALocationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALocationTableViewController.h; sourceTree = "<group>"; };
+		D17487C8196DE8BC00D83993 /* DALocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALocationTableViewController.m; sourceTree = "<group>"; };
+		D17487CC196DE8E100D83993 /* table_indicator.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = table_indicator.png; sourceTree = "<group>"; };
+		D17487CD196DE8E100D83993 /* disclosure@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "disclosure@2x.png"; sourceTree = "<group>"; };
+		D17487CE196DE8E100D83993 /* disclosure.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = disclosure.png; sourceTree = "<group>"; };
+		D17487CF196DE8E100D83993 /* powered.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powered.png; sourceTree = "<group>"; };
+		D17487D0196DE8E100D83993 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
+		D17487D1196DE8E100D83993 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -434,6 +458,7 @@
 		941538EE193F2A00008B3B79 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D17487D8196DE8EA00D83993 /* additionalImages */,
 				946BAE12195FF55300EF86C0 /* Tab Bar */,
 				94449F011949A4B8008B8881 /* Logos */,
 				94449EE01949A3B2008B8881 /* Icons */,
@@ -474,6 +499,12 @@
 		941538F5194019C2008B3B79 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				D17487C3196DE8BC00D83993 /* DAFormTableViewController.h */,
+				D17487C4196DE8BC00D83993 /* DAFormTableViewController.m */,
+				D17487C5196DE8BC00D83993 /* AutoComleteTableView.h */,
+				D17487C6196DE8BC00D83993 /* AutoComleteTableView.m */,
+				D17487C7196DE8BC00D83993 /* DALocationTableViewController.h */,
+				D17487C8196DE8BC00D83993 /* DALocationTableViewController.m */,
 				941538F619401A14008B3B79 /* DASplashViewController.h */,
 				941538F719401A14008B3B79 /* DASplashViewController.m */,
 				9415F3C21941044000C3A7A1 /* DALoginViewController.h */,
@@ -705,6 +736,7 @@
 		948B7F3E1941B05F005494AA /* External */ = {
 			isa = PBXGroup;
 			children = (
+				D17487D9196DE8FD00D83993 /* SZTextView */,
 				94E5EF791943FD760021A711 /* SSKeychain */,
 				94E5EF541943F5530021A711 /* MRProgress */,
 				94E5EF2E1943472D0021A711 /* AFNetworking */,
@@ -846,6 +878,28 @@
 			path = Layout;
 			sourceTree = "<group>";
 		};
+		D17487D8196DE8EA00D83993 /* additionalImages */ = {
+			isa = PBXGroup;
+			children = (
+				D17487CC196DE8E100D83993 /* table_indicator.png */,
+				D17487CD196DE8E100D83993 /* disclosure@2x.png */,
+				D17487CE196DE8E100D83993 /* disclosure.png */,
+				D17487CF196DE8E100D83993 /* powered.png */,
+				D17487D0196DE8E100D83993 /* plus.png */,
+				D17487D1196DE8E100D83993 /* plus@2x.png */,
+			);
+			name = additionalImages;
+			sourceTree = "<group>";
+		};
+		D17487D9196DE8FD00D83993 /* SZTextView */ = {
+			isa = PBXGroup;
+			children = (
+				D17487C0196DE8A200D83993 /* SZTextView.h */,
+				D17487C1196DE8A200D83993 /* SZTextView.m */,
+			);
+			name = SZTextView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -923,6 +977,7 @@
 				944689D41960196700FAE288 /* add_dish_drink_white@2x.png in Resources */,
 				9415390619404314008B3B79 /* splash_register@2x.png in Resources */,
 				946BAE1D195FF56900EF86C0 /* add_review.png in Resources */,
+				D17487D2196DE8E100D83993 /* table_indicator.png in Resources */,
 				94449EF41949A3B2008B8881 /* Icon-60@2x.png in Resources */,
 				94449EFA1949A3B2008B8881 /* Icon-Small-50@2x.png in Resources */,
 				94237E6B194A2FD5004DFAB6 /* reset_password@2x.png in Resources */,
@@ -938,6 +993,7 @@
 				946BAE24195FF56900EF86C0 /* menu@2x.png in Resources */,
 				94449EF31949A3B2008B8881 /* Icon-60.png in Resources */,
 				94237E69194A2FD5004DFAB6 /* reset_confirm@2x.png in Resources */,
+				D17487D5196DE8E100D83993 /* powered.png in Resources */,
 				946BAE1E195FF56900EF86C0 /* add_review@2x.png in Resources */,
 				94237E68194A2FD5004DFAB6 /* reset_confirm.png in Resources */,
 				9415F3BA19406B8100C3A7A1 /* login_facebook_connect.png in Resources */,
@@ -951,6 +1007,7 @@
 				943094161942B16300B1F61F /* error_close.png in Resources */,
 				944689CB1960196700FAE288 /* camera_flash.png in Resources */,
 				941538D1193F270A008B3B79 /* Main.storyboard in Resources */,
+				D17487D3196DE8E100D83993 /* disclosure@2x.png in Resources */,
 				944689CE1960196700FAE288 /* camera_source@2x.png in Resources */,
 				944689D21960196700FAE288 /* add_dish_drink@2x.png in Resources */,
 				94EE527F19610B4A00634E19 /* camera_grid.png in Resources */,
@@ -968,6 +1025,7 @@
 				9415F3BC19406B8100C3A7A1 /* login_login.png in Resources */,
 				94449F071949A4B8008B8881 /* logo_black.png in Resources */,
 				94449F0B1949A805008B8881 /* logo_white@2x.png in Resources */,
+				D17487D7196DE8E100D83993 /* plus@2x.png in Resources */,
 				94449EF91949A3B2008B8881 /* Icon-Small-50.png in Resources */,
 				944689DA1960196700FAE288 /* add_dish_food@2x.png in Resources */,
 				946BAE22195FF56900EF86C0 /* feed@2x.png in Resources */,
@@ -981,6 +1039,7 @@
 				944689E01960196700FAE288 /* add_dish_twitter@2x.png in Resources */,
 				94358D8319603B9900C38A93 /* camera_overlay@2x.png in Resources */,
 				944689D01960196700FAE288 /* camera_take_photo@2x.png in Resources */,
+				D17487D4196DE8E100D83993 /* disclosure.png in Resources */,
 				944689D71960196700FAE288 /* add_dish_facebook.png in Resources */,
 				94449F091949A4B8008B8881 /* logo_white.png in Resources */,
 				944689E81960196700FAE288 /* add_dish_hashtag_checked@2x.png in Resources */,
@@ -1008,6 +1067,7 @@
 				9430941B1942B16300B1F61F /* error_message@2x.png in Resources */,
 				944689E91960196700FAE288 /* add_dish_hashtag_unchecked.png in Resources */,
 				944689EE19601B5D00FAE288 /* camera_dock@2x.png in Resources */,
+				D17487D6196DE8E100D83993 /* plus.png in Resources */,
 				9415F3C119406B8100C3A7A1 /* login_username@2x.png in Resources */,
 				946BAE1F195FF56900EF86C0 /* explore.png in Resources */,
 				9415390819404314008B3B79 /* splash_sign_in@2x.png in Resources */,
@@ -1059,19 +1119,23 @@
 				9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */,
 				94E5EF741943F5530021A711 /* MRNavigationBarProgressView.m in Sources */,
 				94E5EF441943472D0021A711 /* AFHTTPSessionManager.m in Sources */,
+				D17487CA196DE8BC00D83993 /* AutoComleteTableView.m in Sources */,
 				943093F81942633D00B1F61F /* DAErrorView.m in Sources */,
 				94237E72194A318C004DFAB6 /* DAResetPasswordViewController.m in Sources */,
 				94E5EF451943472D0021A711 /* AFNetworkReachabilityManager.m in Sources */,
+				D17487C9196DE8BC00D83993 /* DAFormTableViewController.m in Sources */,
 				94E5EF771943F5530021A711 /* MRMessageInterceptor.m in Sources */,
 				941538CB193F270A008B3B79 /* Dished.xcdatamodeld in Sources */,
 				9430FDEF1969E0E300C7E997 /* DAHashtag.m in Sources */,
 				94E5EF491943472D0021A711 /* AFURLResponseSerialization.m in Sources */,
 				94E5EF481943472D0021A711 /* AFURLRequestSerialization.m in Sources */,
+				D17487C2196DE8A200D83993 /* SZTextView.m in Sources */,
 				94E5EF781943F5530021A711 /* MRWeakProxy.m in Sources */,
 				944689A0195FFA6500FAE288 /* DAExploreViewController.m in Sources */,
 				94E5EF471943472D0021A711 /* AFURLConnectionOperation.m in Sources */,
 				94E5EF431943472D0021A711 /* AFHTTPRequestOperationManager.m in Sources */,
 				94E5EF731943F5530021A711 /* MRIconView.m in Sources */,
+				D17487CB196DE8BC00D83993 /* DALocationTableViewController.m in Sources */,
 				94E5EF751943F5530021A711 /* MRProgressOverlayView.m in Sources */,
 				94E5EF2D19432AE00021A711 /* UIViewController+TAPKeyboardPop.m in Sources */,
 				9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */,
