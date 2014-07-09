@@ -36,17 +36,20 @@
     
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
-    self.captureManager = [[DACaptureManager alloc] init];
-    self.captureManager.delegate = self;
-    
     [self.view.layer setMasksToBounds:YES];
     
-    self.captureManager.previewLayer.frame = self.videoView.bounds;
-    [self.videoView.layer addSublayer:self.captureManager.previewLayer];
-    
-    [self.captureManager startCapture];
-    
-    [self.captureManager enableFlash:NO];
+    dispatch_async( dispatch_get_main_queue(), ^
+    {
+        self.captureManager = [[DACaptureManager alloc] init];
+        self.captureManager.delegate = self;
+        
+        self.captureManager.previewLayer.frame = self.videoView.bounds;
+        [self.videoView.layer addSublayer:self.captureManager.previewLayer];
+        
+        [self.captureManager startCapture];
+        
+        [self.captureManager enableFlash:NO];
+    });
     
     self.gridIsVisible = NO;
     self.gridImageView.hidden = !self.gridIsVisible;

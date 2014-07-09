@@ -50,6 +50,7 @@
  * Get up-to-date list of positive hashtags from server.
  * Completion handler returns array of DAHashtag objects.
  * Returns nil array or error object if error occured.
+ * Dish type options: "food", "wine", "cocktail"
  */
 - (void)getPositiveHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion;
 
@@ -57,6 +58,7 @@
  * Get up-to-date list of negative hashtags from server.
  * Completion handler returns array of DAHashtag objects.
  * Returns nil array or error object if error occured.
+ * Dish type options: "food", "wine", "cocktail"
  */
 - (void)getNegativeHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion;
 

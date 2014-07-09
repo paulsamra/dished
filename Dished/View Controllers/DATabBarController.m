@@ -38,7 +38,13 @@
     if( [viewController.title isEqualToString:@"dummy"] )
     {
         DAImagePickerController *reviewImagePicker = [self.storyboard instantiateViewControllerWithIdentifier:@"addReviewNav"];
-        [self presentViewController:reviewImagePicker animated:YES completion:nil];
+        
+        CATransition* transition = [CATransition animation];
+        transition.duration = 0.3;
+        transition.type = kCATransitionReveal;
+        transition.subtype = kCATransitionFromBottom;
+        [self.view.window.layer addAnimation:transition forKey:kCATransition];
+        [self presentViewController:reviewImagePicker animated:NO completion:nil];
         
         return NO;
     }

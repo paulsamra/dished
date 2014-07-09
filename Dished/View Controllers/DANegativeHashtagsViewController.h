@@ -1,15 +1,15 @@
 //
-//  DAPositiveHashtagsViewController.h
+//  DANegativeHashtagsViewController.h
 //  Dished
 //
-//  Created by Ryan Khalili on 7/6/14.
+//  Created by Ryan Khalili on 7/8/14.
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
 
-@interface DAPositiveHashtagsViewController : UITableViewController
+@interface DANegativeHashtagsViewController : UITableViewController
 
 @property (strong, nonatomic) NSString *dishType;
 

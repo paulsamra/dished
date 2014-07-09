@@ -6,12 +6,12 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DAPositiveHashtagsViewController.h"
+#import "DANegativeHashtagsViewController.h"
 #import "DAAPIManager.h"
 #import "DAHashtag.h"
 
 
-@interface DAPositiveHashtagsViewController()
+@interface DANegativeHashtagsViewController()
 
 @property (strong, nonatomic) NSArray                 *hashtagArray;
 @property (strong, nonatomic) NSMutableDictionary     *selectedHashtags;
@@ -22,7 +22,7 @@
 @end
 
 
-@implementation DAPositiveHashtagsViewController
+@implementation DANegativeHashtagsViewController
 
 - (void)viewDidLoad
 {
@@ -35,7 +35,7 @@
     // Dish type should be set by another view controller.
     self.dishType = @"food";
     
-    [[DAAPIManager sharedManager] getPositiveHashtagsForDishType:self.dishType completion:^( NSArray *hashtags, NSError *error )
+    [[DAAPIManager sharedManager] getNegativeHashtagsForDishType:self.dishType completion:^( NSArray *hashtags, NSError *error )
     {
         if( error || !hashtags )
         {
@@ -81,7 +81,7 @@
     if( [self.hashtagArray count] == 0 )
     {
         cell.textLabel.text = @"Loading...";
-
+        
         cell.accessoryView = self.spinner;
         [self.spinner startAnimating];
     }
@@ -146,7 +146,7 @@
     header.backgroundColor = [UIColor groupTableViewBackgroundColor];
     
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
-    label.text = @"What do you like about the dish?";
+    label.text = @"What didn't you like about the dish?";
     label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
     
     label.textAlignment = NSTextAlignmentCenter;

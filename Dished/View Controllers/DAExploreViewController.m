@@ -8,7 +8,7 @@
 
 #import "DAExploreViewController.h"
 #import "DAAPIManager.h"
-#import "DAHashtag.h"
+#import "DANegativeHashtagsViewController.h"
 
 
 @interface DAExploreViewController()

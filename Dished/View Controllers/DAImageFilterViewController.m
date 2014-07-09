@@ -85,7 +85,7 @@
             spinner.center = cell.contentView.center;
             [spinner startAnimating];
             
-            dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0 ), ^
+            dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0 ), ^
             {
                 CIImage *beginImage = [CIImage imageWithCGImage:[self.pictureTaken CGImage]];
                 CIContext *context = [CIContext contextWithOptions:nil];

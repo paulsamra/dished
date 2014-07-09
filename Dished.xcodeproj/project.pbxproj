@@ -52,6 +52,7 @@
 		9430941D1942B16300B1F61F /* valid_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 943094151942B16300B1F61F /* valid_icon@2x.png */; };
 		9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */; };
 		9430FDEF1969E0E300C7E997 /* DAHashtag.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDEE1969E0E300C7E997 /* DAHashtag.m */; };
+		9430FDFA196CABDD00C7E997 /* DANegativeHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */; };
 		94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94358D7E1960262F00C38A93 /* DACaptureManager.m */; };
 		94358D8219603B9900C38A93 /* camera_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 94358D8019603B9900C38A93 /* camera_overlay.png */; };
 		94358D8319603B9900C38A93 /* camera_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94358D8119603B9900C38A93 /* camera_overlay@2x.png */; };
@@ -220,6 +221,8 @@
 		9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAPositiveHashtagsViewController.m; sourceTree = "<group>"; };
 		9430FDED1969E0E300C7E997 /* DAHashtag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAHashtag.h; sourceTree = "<group>"; };
 		9430FDEE1969E0E300C7E997 /* DAHashtag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAHashtag.m; sourceTree = "<group>"; };
+		9430FDF8196CABDD00C7E997 /* DANegativeHashtagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANegativeHashtagsViewController.h; sourceTree = "<group>"; };
+		9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANegativeHashtagsViewController.m; sourceTree = "<group>"; };
 		94358D7D1960262F00C38A93 /* DACaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACaptureManager.h; sourceTree = "<group>"; };
 		94358D7E1960262F00C38A93 /* DACaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACaptureManager.m; sourceTree = "<group>"; };
 		94358D8019603B9900C38A93 /* camera_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_overlay.png; sourceTree = "<group>"; };
@@ -493,6 +496,8 @@
 				949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */,
 				9430FDEA196956BD00C7E997 /* DAPositiveHashtagsViewController.h */,
 				9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */,
+				9430FDF8196CABDD00C7E997 /* DANegativeHashtagsViewController.h */,
+				9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1046,6 +1051,7 @@
 				941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */,
 				94E5EF711943F5530021A711 /* MRActivityIndicatorView.m in Sources */,
 				944689A61960130E00FAE288 /* DAImagePickerController.m in Sources */,
+				9430FDFA196CABDD00C7E997 /* DANegativeHashtagsViewController.m in Sources */,
 				94E5EF7E1943FD760021A711 /* SSKeychain.m in Sources */,
 				94449EDF19481A54008B8881 /* DAFacebookLoginViewController.m in Sources */,
 				94E5EF4A1943472D0021A711 /* AFURLSessionManager.m in Sources */,
