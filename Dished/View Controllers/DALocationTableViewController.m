@@ -7,6 +7,7 @@
 //
 
 #import "DALocationTableViewController.h"
+#import "DAFormTableViewController.h"
 
 @interface DALocationTableViewController () {
  
@@ -112,6 +113,21 @@
     }
     return height;
 }
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+    NSLog(@"%@", selectedCell.textLabel.text);
+
+    NSArray *navigationStack = self.navigationController.viewControllers;
+    DAFormTableViewController *parentController = [navigationStack objectAtIndex:([navigationStack count] -2)];
+   // DAFormTableViewController *parentController = (DAFormTableViewController*)[navigationStack objectAtIndex:navigationStack.count - 2];
+    [parentController setDetailItem:selectedCell.textLabel.text];
+    
+    [self.navigationController popViewControllerAnimated:YES];
+    
+}
+
 
 /*
 // Override to support conditional editing of the table view.

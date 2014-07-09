@@ -14,7 +14,7 @@
 @end
 
 @implementation DAFormTableViewController
-@synthesize autocompleteTableView;
+@synthesize autocompleteTableView, imAtLabel;
 
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -83,6 +83,31 @@
     self.ratingLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:18.0];
 
 
+}
+
+- (void)navigationController: (UINavigationController *)navigationController
+       didShowViewController: (UIViewController *)viewController
+                    animated: (BOOL)animated
+{
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+- (void)setDetailItem:(id)newData {
+    if (_data != newData) {
+        _data = newData;
+    }
+    
+}
+
+
+-(void)viewWillAppear:(BOOL)animated {
+    
+    if (_data) {
+        self.imAtLabel.text = (NSString *)_data;
+        self.imAtLabel.textColor = [UIColor blackColor];
+
+    }
+    [self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning

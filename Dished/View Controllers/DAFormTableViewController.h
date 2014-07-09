@@ -20,11 +20,13 @@
 @property (weak, nonatomic) IBOutlet UILabel *hashTagLabel;
 @property (weak, nonatomic) IBOutlet UILabel *ratingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *imAtLabel;
+@property (strong, nonatomic) id data;
+
 @property (weak, nonatomic) IBOutlet SZTextView *titleTextView;
 @property (weak, nonatomic) IBOutlet SZTextView *commentTextView;
 @property (weak, nonatomic) IBOutlet UITextField *priceTextView;
 @property (nonatomic, retain) AutoComleteTableView *autocompleteTableView;
 
 - (IBAction)Post:(id)sender;
-
+- (void)setDetailItem:(id)newData;
 @end
