@@ -93,7 +93,6 @@
         DAHashtag *hashtag = [self.hashtagArray objectAtIndex:indexPath.row];
         
         cell.textLabel.text = [NSString stringWithFormat:@"#%@", hashtag.name];
-        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
         
         UIImageView *imageView = nil;
         

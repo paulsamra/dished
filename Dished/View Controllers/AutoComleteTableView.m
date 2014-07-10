@@ -92,7 +92,7 @@ DAFormTableViewController *caller;
     
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
     NSLog(@"%@", selectedCell.textLabel.text);
-    caller.titleTextView.text = selectedCell.textLabel.text;
+    caller.titleTextField.text = selectedCell.textLabel.text;
     self.hidden = YES;
     
     

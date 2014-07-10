@@ -53,6 +53,8 @@
 		9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */; };
 		9430FDEF1969E0E300C7E997 /* DAHashtag.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDEE1969E0E300C7E997 /* DAHashtag.m */; };
 		9430FDFA196CABDD00C7E997 /* DANegativeHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */; };
+		9430FDFF196E8AD600C7E997 /* add_dish_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9430FDFD196E8AD600C7E997 /* add_dish_arrow.png */; };
+		9430FE00196E8AD600C7E997 /* add_dish_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9430FDFE196E8AD600C7E997 /* add_dish_arrow@2x.png */; };
 		94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94358D7E1960262F00C38A93 /* DACaptureManager.m */; };
 		94358D8219603B9900C38A93 /* camera_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 94358D8019603B9900C38A93 /* camera_overlay.png */; };
 		94358D8319603B9900C38A93 /* camera_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94358D8119603B9900C38A93 /* camera_overlay@2x.png */; };
@@ -233,6 +235,8 @@
 		9430FDEE1969E0E300C7E997 /* DAHashtag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAHashtag.m; sourceTree = "<group>"; };
 		9430FDF8196CABDD00C7E997 /* DANegativeHashtagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANegativeHashtagsViewController.h; sourceTree = "<group>"; };
 		9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANegativeHashtagsViewController.m; sourceTree = "<group>"; };
+		9430FDFD196E8AD600C7E997 /* add_dish_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_dish_arrow.png; sourceTree = "<group>"; };
+		9430FDFE196E8AD600C7E997 /* add_dish_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_dish_arrow@2x.png"; sourceTree = "<group>"; };
 		94358D7D1960262F00C38A93 /* DACaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACaptureManager.h; sourceTree = "<group>"; };
 		94358D7E1960262F00C38A93 /* DACaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACaptureManager.m; sourceTree = "<group>"; };
 		94358D8019603B9900C38A93 /* camera_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_overlay.png; sourceTree = "<group>"; };
@@ -499,12 +503,6 @@
 		941538F5194019C2008B3B79 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D17487C3196DE8BC00D83993 /* DAFormTableViewController.h */,
-				D17487C4196DE8BC00D83993 /* DAFormTableViewController.m */,
-				D17487C5196DE8BC00D83993 /* AutoComleteTableView.h */,
-				D17487C6196DE8BC00D83993 /* AutoComleteTableView.m */,
-				D17487C7196DE8BC00D83993 /* DALocationTableViewController.h */,
-				D17487C8196DE8BC00D83993 /* DALocationTableViewController.m */,
 				941538F619401A14008B3B79 /* DASplashViewController.h */,
 				941538F719401A14008B3B79 /* DASplashViewController.m */,
 				9415F3C21941044000C3A7A1 /* DALoginViewController.h */,
@@ -525,6 +523,12 @@
 				944689A51960130E00FAE288 /* DAImagePickerController.m */,
 				949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */,
 				949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */,
+				D17487C3196DE8BC00D83993 /* DAFormTableViewController.h */,
+				D17487C4196DE8BC00D83993 /* DAFormTableViewController.m */,
+				D17487C5196DE8BC00D83993 /* AutoComleteTableView.h */,
+				D17487C6196DE8BC00D83993 /* AutoComleteTableView.m */,
+				D17487C7196DE8BC00D83993 /* DALocationTableViewController.h */,
+				D17487C8196DE8BC00D83993 /* DALocationTableViewController.m */,
 				9430FDEA196956BD00C7E997 /* DAPositiveHashtagsViewController.h */,
 				9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */,
 				9430FDF8196CABDD00C7E997 /* DANegativeHashtagsViewController.h */,
@@ -654,6 +658,8 @@
 		944689AE1960196700FAE288 /* d - Dish Details */ = {
 			isa = PBXGroup;
 			children = (
+				9430FDFD196E8AD600C7E997 /* add_dish_arrow.png */,
+				9430FDFE196E8AD600C7E997 /* add_dish_arrow@2x.png */,
 				944689AF1960196700FAE288 /* add_dish_drink.png */,
 				944689B01960196700FAE288 /* add_dish_drink@2x.png */,
 				944689B11960196700FAE288 /* add_dish_drink_white.png */,
@@ -1018,6 +1024,7 @@
 				94449EF71949A3B2008B8881 /* Icon-76.png in Resources */,
 				94237E6F194A3085004DFAB6 /* reset_submit@2x.png in Resources */,
 				946BAE23195FF56900EF86C0 /* menu.png in Resources */,
+				9430FDFF196E8AD600C7E997 /* add_dish_arrow.png in Resources */,
 				944689E21960196700FAE288 /* add_dish_wine@2x.png in Resources */,
 				9415F3BE19406B8100C3A7A1 /* login_password.png in Resources */,
 				9415390719404314008B3B79 /* splash_sign_in.png in Resources */,
@@ -1051,6 +1058,7 @@
 				9415390219404314008B3B79 /* splash_background@2x.png in Resources */,
 				94449F001949A3B2008B8881 /* iTunesArtwork@2x.png in Resources */,
 				944689DB1960196700FAE288 /* add_dish_food_white.png in Resources */,
+				9430FE00196E8AD600C7E997 /* add_dish_arrow@2x.png in Resources */,
 				9430941D1942B16300B1F61F /* valid_icon@2x.png in Resources */,
 				944689EA1960196700FAE288 /* add_dish_hashtag_unchecked@2x.png in Resources */,
 				94237E67194A2FD5004DFAB6 /* reset_code@2x.png in Resources */,
