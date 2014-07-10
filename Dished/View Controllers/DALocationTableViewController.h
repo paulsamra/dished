@@ -10,4 +10,8 @@
 
 @interface DALocationTableViewController : UITableViewController
 
+@property (strong, nonatomic) id data;
+
+- (void)setDetailItem:(id)newData;
+
 @end

@@ -91,10 +91,8 @@ DAFormTableViewController *caller;
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-    NSLog(@"%@", selectedCell.textLabel.text);
     caller.titleTextView.text = selectedCell.textLabel.text;
     self.hidden = YES;
-    
     
 }
 

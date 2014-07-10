@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *ratingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *imAtLabel;
 @property (strong, nonatomic) id data;
+@property (strong, nonatomic) id label;
 
 @property (weak, nonatomic) IBOutlet SZTextView *titleTextView;
 @property (weak, nonatomic) IBOutlet SZTextView *commentTextView;
@@ -29,4 +30,5 @@
 
 - (IBAction)Post:(id)sender;
 - (void)setDetailItem:(id)newData;
+
 @end

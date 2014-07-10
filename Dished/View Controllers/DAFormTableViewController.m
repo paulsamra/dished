@@ -14,7 +14,7 @@
 @end
 
 @implementation DAFormTableViewController
-@synthesize autocompleteTableView, imAtLabel;
+@synthesize autocompleteTableView, imAtLabel, ratingLabel;
 
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -93,21 +93,37 @@
 }
 
 - (void)setDetailItem:(id)newData {
-    if (_data != newData) {
-        _data = newData;
-    }
     
+    if ([newData isKindOfClass:[UILabel class]]) {
+        _label = newData;
+    } else {
+        if (_data != newData) {
+            _data = newData;
+        }
+    }
+
+
 }
 
-
 -(void)viewWillAppear:(BOOL)animated {
+    
+    [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES]; // For some reason the tableview does not do it automatically
+	if (_label) {
+        self.ratingLabel.text = ((UILabel *)_label).text;
+        self.ratingLabel.textColor = [UIColor blackColor];
+        self.ratingLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:18.0];
+    }
     
     if (_data) {
         self.imAtLabel.text = (NSString *)_data;
         self.imAtLabel.textColor = [UIColor blackColor];
+        [self.priceTextView becomeFirstResponder];
+
+    } else {
+       // [self.titleTextView becomeFirstResponder];
 
     }
-    [self.tableView reloadData];
+    //[self.tableView reloadData];
 }
 
 - (void)didReceiveMemoryWarning
