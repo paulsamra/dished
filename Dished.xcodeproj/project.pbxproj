@@ -165,6 +165,9 @@
 		94FE15E519411F4F00FE00EA /* DATextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E319411F4F00FE00EA /* DATextFieldCell.m */; };
 		94FE15E619411F4F00FE00EA /* DATextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */; };
 		94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E81941239100FE00EA /* DATouchUITableView.m */; };
+		D105C327196E04C400CA7E99 /* DASaveLocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D105C326196E04C400CA7E99 /* DASaveLocationTableViewController.m */; };
+		D168A1D2196EF76C00254423 /* DARatingTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D168A1D1196EF76C00254423 /* DARatingTableViewController.m */; };
+		D168A1D5196EFC7100254423 /* DARatingCustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D168A1D4196EFC7100254423 /* DARatingCustomTableViewCell.m */; };
 		D17487C2196DE8A200D83993 /* SZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C1196DE8A200D83993 /* SZTextView.m */; };
 		D17487C9196DE8BC00D83993 /* DAFormTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C4196DE8BC00D83993 /* DAFormTableViewController.m */; };
 		D17487CA196DE8BC00D83993 /* AutoComleteTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C6196DE8BC00D83993 /* AutoComleteTableView.m */; };
@@ -386,6 +389,12 @@
 		94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DATextFieldCell.xib; sourceTree = "<group>"; };
 		94FE15E71941239100FE00EA /* DATouchUITableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATouchUITableView.h; sourceTree = "<group>"; };
 		94FE15E81941239100FE00EA /* DATouchUITableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATouchUITableView.m; sourceTree = "<group>"; };
+		D105C325196E04C400CA7E99 /* DASaveLocationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DASaveLocationTableViewController.h; path = ../DASaveLocationTableViewController.h; sourceTree = "<group>"; };
+		D105C326196E04C400CA7E99 /* DASaveLocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DASaveLocationTableViewController.m; path = ../DASaveLocationTableViewController.m; sourceTree = "<group>"; };
+		D168A1D0196EF76C00254423 /* DARatingTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DARatingTableViewController.h; path = ../../DARatingTableViewController.h; sourceTree = "<group>"; };
+		D168A1D1196EF76C00254423 /* DARatingTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DARatingTableViewController.m; path = ../../DARatingTableViewController.m; sourceTree = "<group>"; };
+		D168A1D3196EFC7100254423 /* DARatingCustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARatingCustomTableViewCell.h; sourceTree = "<group>"; };
+		D168A1D4196EFC7100254423 /* DARatingCustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARatingCustomTableViewCell.m; sourceTree = "<group>"; };
 		D17487C0196DE8A200D83993 /* SZTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTextView.h; sourceTree = "<group>"; };
 		D17487C1196DE8A200D83993 /* SZTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTextView.m; sourceTree = "<group>"; };
 		D17487C3196DE8BC00D83993 /* DAFormTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFormTableViewController.h; sourceTree = "<group>"; };
@@ -1129,6 +1138,7 @@
 				94E5EF441943472D0021A711 /* AFHTTPSessionManager.m in Sources */,
 				D17487CA196DE8BC00D83993 /* AutoComleteTableView.m in Sources */,
 				943093F81942633D00B1F61F /* DAErrorView.m in Sources */,
+				D168A1D2196EF76C00254423 /* DARatingTableViewController.m in Sources */,
 				94237E72194A318C004DFAB6 /* DAResetPasswordViewController.m in Sources */,
 				94E5EF451943472D0021A711 /* AFNetworkReachabilityManager.m in Sources */,
 				D17487C9196DE8BC00D83993 /* DAFormTableViewController.m in Sources */,
@@ -1153,7 +1163,9 @@
 				94E5EF4E194348380021A711 /* DAAPIManager.m in Sources */,
 				94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */,
 				94E5EF461943472D0021A711 /* AFSecurityPolicy.m in Sources */,
+				D105C327196E04C400CA7E99 /* DASaveLocationTableViewController.m in Sources */,
 				941538F819401A14008B3B79 /* DASplashViewController.m in Sources */,
+				D168A1D5196EFC7100254423 /* DARatingCustomTableViewCell.m in Sources */,
 				94FE15E01941195800FE00EA /* DARegisterViewController.m in Sources */,
 				941538C5193F270A008B3B79 /* main.m in Sources */,
 				94E5EF511943B9A30021A711 /* DAReplaceSegue.m in Sources */,

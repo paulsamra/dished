@@ -8,10 +8,11 @@
 
 #import "DALocationTableViewController.h"
 #import "DAFormTableViewController.h"
+#import "DASaveLocationTableViewController.h"
 
 @interface DALocationTableViewController () {
  
-    NSDictionary *tableDict;
+    NSMutableDictionary *tableDict;
 }
 
 @end
@@ -26,7 +27,7 @@
     
     NSArray *arrayOfDistances = @[@"40m", @"200m", @"15m"];
     
-    tableDict = [[NSDictionary alloc] initWithObjects:arrayOfDistances forKeys:arrayOfPlaces];
+    tableDict = [[NSMutableDictionary alloc] initWithObjects:arrayOfDistances forKeys:arrayOfPlaces];
 
     self.tableView.backgroundColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1];
 }
@@ -63,10 +64,10 @@
         cell.imageView.image = [UIImage imageNamed:@"plus.png"];
 
     } else if (indexPath.row == ([[tableDict allKeys] count] + 1)) {
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
         
-       // cell.imageView.image = [UIImage imageNamed:@"add_dish_facebook.png"];
-        
-        UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 300.0)]; //create a view- the width should usually be the width of the screen
+        UIView* view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 300.0)];
         view.backgroundColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1];
         UIImageView *image = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"powered.png"]];
         image.frame = CGRectMake((self.view.frame.size.width / 2) - ((482/2)/ 2), 5, 482/2, 43/2);
@@ -100,16 +101,31 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-    NSLog(@"%@", selectedCell.textLabel.text);
+    if (indexPath.row < ([[tableDict allKeys] count])) {
+        UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
+        NSLog(@"%@", selectedCell.textLabel.text);
+        
+        NSArray *navigationStack = self.navigationController.viewControllers;
+        DAFormTableViewController *parentController = [navigationStack objectAtIndex:([navigationStack count] -2)];
+        [parentController setDetailItem:selectedCell.textLabel.text];
+        
+        [self.navigationController popViewControllerAnimated:YES];
 
-    NSArray *navigationStack = self.navigationController.viewControllers;
-    DAFormTableViewController *parentController = [navigationStack objectAtIndex:([navigationStack count] -2)];
-   // DAFormTableViewController *parentController = (DAFormTableViewController*)[navigationStack objectAtIndex:navigationStack.count - 2];
-    [parentController setDetailItem:selectedCell.textLabel.text];
+    } else if(indexPath.row == ([[tableDict allKeys] count])) {
+		//Add new place selected.
+        [self performSegueWithIdentifier:@"add" sender:nil];
+
     
-    [self.navigationController popViewControllerAnimated:YES];
+    } else {
+        //bottom cell
+    }
+        
+}
+
+- (void)setDetailItem:(id)newData {
+    if (_data != newData) {
+        _data = newData;
+    }
     
 }
 
