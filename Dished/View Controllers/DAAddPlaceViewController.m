@@ -1,5 +1,5 @@
 //
-//  DASaveLocationTableViewController.m
+//  DAAddPlaceViewController.m
 //  Dished
 //
 //  Created by Daryl Stimm on 7/9/14.
