@@ -72,7 +72,8 @@
     if( _data )
     {
         [self.imAtButton setTitle:(NSString *)_data forState:UIControlStateNormal];
-        self.imAtButton.titleLabel.textColor = [UIColor blackColor];
+        [self.imAtButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+
         [self.priceTextField becomeFirstResponder];
     }
     
