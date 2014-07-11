@@ -12,14 +12,10 @@
 
 
 @interface DARatingTableViewController ()
-{
-    NSMutableDictionary *gradeSelected;
-    NSString *plusOrMinus;
-    NSIndexPath *indexPathLastSelected;
-
-}
 
 @property (strong, nonatomic) NSArray *grades;
+@property (strong, nonatomic) NSMutableDictionary *gradeSelected;
+@property (weak, nonatomic) NSIndexPath *indexPathLastSelected;
 
 @end
 
@@ -32,7 +28,7 @@
     
     self.grades = @[@"A", @"B", @"C", @"D", @"F"];
     
-    gradeSelected = [[NSMutableDictionary alloc] init];
+    self.gradeSelected = [[NSMutableDictionary alloc] init];
 }
 
 #pragma mark - Table view data source
@@ -74,7 +70,7 @@
 
 - (void)plusOrMinusGrade:(id)sender
 {
-    DARatingCustomTableViewCell *cell = (DARatingCustomTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPathLastSelected];
+    DARatingCustomTableViewCell *cell = (DARatingCustomTableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPathLastSelected];
 
 	if ([((UIButton *)sender).currentTitleColor isEqual:[UIColor grayColor]])
     {
@@ -92,7 +88,7 @@
 
         }
         
-        [gradeSelected setObject:((UIButton *)sender).titleLabel.text forKey:@"plusorminus"];
+        [self.gradeSelected setObject:((UIButton *)sender).titleLabel.text forKey:@"plusorminus"];
 
     }
     else
@@ -107,10 +103,10 @@
             [cell.minusButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
 
         }
-        [gradeSelected setObject:@"" forKey:@"plusorminus"];
+        [self.gradeSelected setObject:@"" forKey:@"plusorminus"];
     }
     
-    [gradeSelected setObject:cell.gradeLabel.text forKey:@"grade"];
+    [self.gradeSelected setObject:cell.gradeLabel.text forKey:@"grade"];
 
 }
 
@@ -119,7 +115,7 @@
     
     DARatingCustomTableViewCell *cell = (DARatingCustomTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     
-    indexPathLastSelected = indexPath;
+    self.indexPathLastSelected = indexPath;
     
     if( [cell.gradeLabel.textColor isEqual:[UIColor blueColor]] )
     {
@@ -134,8 +130,8 @@
         cell.minusButton.hidden = NO;
     }
     
-    [gradeSelected setObject:cell.gradeLabel.text forKey:@"grade"];
-    [gradeSelected setObject:@"" forKey:@"plusorminus"];
+    [self.gradeSelected setObject:cell.gradeLabel.text forKey:@"grade"];
+    [self.gradeSelected setObject:@"" forKey:@"plusorminus"];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -178,9 +174,9 @@
 
     UILabel *label = [[UILabel alloc] init];
     
-    if ([gradeSelected objectForKey:@"grade"])
+    if ([self.gradeSelected objectForKey:@"grade"])
     {
-        label.text = [NSString stringWithFormat:@"%@ %@", [gradeSelected objectForKey:@"grade"], [gradeSelected objectForKey:@"plusorminus"]];
+        label.text = [NSString stringWithFormat:@"%@ %@", [self.gradeSelected objectForKey:@"grade"], [self.gradeSelected objectForKey:@"plusorminus"]];
         [parentController setDetailItem:label];
     }
     

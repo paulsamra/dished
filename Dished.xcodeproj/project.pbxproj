@@ -424,8 +424,8 @@
 		D17487CF196DE8E100D83993 /* powered.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powered.png; sourceTree = "<group>"; };
 		D17487D0196DE8E100D83993 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		D17487D1196DE8E100D83993 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
-		D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+DADishColor.h"; sourceTree = "<group>"; };
-		D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+DADishColor.m"; sourceTree = "<group>"; };
+		D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+DADishColor.h"; path = "../View Controllers/UIColor+DADishColor.h"; sourceTree = "<group>"; };
+		D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+DADishColor.m"; path = "../View Controllers/UIColor+DADishColor.m"; sourceTree = "<group>"; };
 		D1B05D5719703F9900E16C53 /* Dished-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dished-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -532,8 +532,6 @@
 			isa = PBXGroup;
 			children = (
 				941538F619401A14008B3B79 /* DASplashViewController.h */,
-				D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */,
-				D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */,
 				941538F719401A14008B3B79 /* DASplashViewController.m */,
 				9415F3C21941044000C3A7A1 /* DALoginViewController.h */,
 				9415F3C31941044000C3A7A1 /* DALoginViewController.m */,
@@ -932,6 +930,8 @@
 				94E5EF501943B9A30021A711 /* DAReplaceSegue.m */,
 				94A027A5196F264A004D5CD7 /* DARatingCustomTableViewCell.h */,
 				94A027A6196F264A004D5CD7 /* DARatingCustomTableViewCell.m */,
+				D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */,
+				D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
