@@ -184,6 +184,7 @@
 		D17487D5196DE8E100D83993 /* powered.png in Resources */ = {isa = PBXBuildFile; fileRef = D17487CF196DE8E100D83993 /* powered.png */; };
 		D17487D6196DE8E100D83993 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = D17487D0196DE8E100D83993 /* plus.png */; };
 		D17487D7196DE8E100D83993 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D17487D1196DE8E100D83993 /* plus@2x.png */; };
+		D1B05D5619703D8700E16C53 /* UIColor+DADishColor.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -423,6 +424,9 @@
 		D17487CF196DE8E100D83993 /* powered.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = powered.png; sourceTree = "<group>"; };
 		D17487D0196DE8E100D83993 /* plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = plus.png; sourceTree = "<group>"; };
 		D17487D1196DE8E100D83993 /* plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "plus@2x.png"; sourceTree = "<group>"; };
+		D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+DADishColor.h"; sourceTree = "<group>"; };
+		D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+DADishColor.m"; sourceTree = "<group>"; };
+		D1B05D5719703F9900E16C53 /* Dished-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dished-Prefix.pch"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -477,6 +481,7 @@
 			isa = PBXGroup;
 			children = (
 				941538C3193F270A008B3B79 /* Info.plist */,
+				D1B05D5719703F9900E16C53 /* Dished-Prefix.pch */,
 				941538C4193F270A008B3B79 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -527,6 +532,8 @@
 			isa = PBXGroup;
 			children = (
 				941538F619401A14008B3B79 /* DASplashViewController.h */,
+				D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */,
+				D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */,
 				941538F719401A14008B3B79 /* DASplashViewController.m */,
 				9415F3C21941044000C3A7A1 /* DALoginViewController.h */,
 				9415F3C31941044000C3A7A1 /* DALoginViewController.m */,
@@ -1201,6 +1208,7 @@
 				9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */,
 				941F3215196FCC04000042AE /* DANewReview.m in Sources */,
 				94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */,
+				D1B05D5619703D8700E16C53 /* UIColor+DADishColor.m in Sources */,
 				94E5EF6F1943F5530021A711 /* MRBlurView.m in Sources */,
 				94E5EF701943F5530021A711 /* UIImage+MRImageEffects.m in Sources */,
 				94E5EF4E194348380021A711 /* DAAPIManager.m in Sources */,
@@ -1252,6 +1260,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREFIX_HEADER = "Dished/Dished-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1292,6 +1301,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREFIX_HEADER = "Dished/Dished-Prefix.pch";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1318,6 +1328,7 @@
 				);
 				INFOPLIST_FILE = Dished/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				"OTHER_LDFLAGS[arch=*]" = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1337,6 +1348,7 @@
 				);
 				INFOPLIST_FILE = Dished/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
