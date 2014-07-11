@@ -8,6 +8,7 @@
 
 #import "DAAPIManager.h"
 #import "JSONResponseSerializerWithData.h"
+#import "DALocationManager.h"
 
 #define kClientIDKey     @"client_id"
 #define kClientSecretKey @"client_secret"
@@ -37,6 +38,8 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     dispatch_once(&singleton, ^{
         manager = [[DAAPIManager alloc] initWithBaseURL:[NSURL URLWithString:baseAPIURL]];
         manager.responseSerializer = [JSONResponseSerializerWithData serializer];
+        
+        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"application/json", nil];
     });
     
     return manager;
@@ -483,6 +486,140 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }];
 }
 
+- (void)getDishTitleSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( NSArray *suggestions, NSError *error ) )completion
+{
+    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"name" : query, @"type" : dishType };
+    
+    [self GET:@"dishes/search" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSDictionary *response = (NSDictionary *)responseObject;
+        
+        if( [response[@"status"] isEqualToString:@"success"] )
+        {
+            NSArray *dishes = response[@"data"];
+            
+            NSMutableArray *dishNames = [NSMutableArray array];
+            
+            for( NSDictionary *dish in dishes )
+            {
+                [dishNames addObject:dish[@"name"]];
+            }
+            
+            completion( [dishNames copy], nil );
+        }
+        else
+        {
+            completion( nil, nil );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"Error getting dish name suggestions: %@", error );
+        completion( nil, error );
+    }];
+}
+
+- (void)searchLocationsWithQuery:(NSString *)query completion:( void(^)( NSArray *locations, NSArray *distances, NSError *error ) )completion
+{
+    NSDictionary *parameters = nil;
+    
+    if( [[DALocationManager sharedManager] hasDeterminedLocation] )
+    {
+        CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
+
+        parameters = @{ kAccessTokenKey : [self accessToken], @"dish_loc" : query,
+                        @"longitude" : @( currentLocation.longitude ), @"latitude" : @( currentLocation.latitude ) };
+    }
+    else
+    {
+        parameters = @{ kAccessTokenKey : [self accessToken], @"dish_loc" : query, @"return" : @"loc" };
+    }
+    
+    [self GET:@"explore" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSDictionary *response = (NSDictionary *)responseObject;
+        
+        if( [response[@"status"] isEqualToString:@"success"] )
+        {
+            NSArray *locations = response[@"data"][@"locations"];
+            
+            NSMutableArray *locationNames = [NSMutableArray array];
+            NSMutableArray *distances = [NSMutableArray array];
+            
+            if( locations && ![locations isEqual:[NSNull null]] )
+            {
+                for( NSDictionary *location in locations )
+                {
+                    [locationNames addObject:location[@"name"]];
+                    
+                    if( location[@"distance"] )
+                    {
+                        [distances addObject:location[@"distance"]];
+                    }
+                    else
+                    {
+                        [distances addObject:@""];
+                    }
+                }
+            }
+            
+            completion( locationNames, distances, nil );
+        }
+        else
+        {
+            completion( nil, nil, nil );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"Error searching locations: %@", error );
+        completion( nil, nil, error );
+    }];
+}
+
+- (void)postNewReview:(DANewReview *)review completion:( void(^)( BOOL success ) )completion
+{
+    NSString *hashtagString = @"";
+    for( DAHashtag *hashtag in review.hashtags )
+    {
+        hashtagString = [hashtagString stringByAppendingFormat:@"%@,", hashtag.hashtagID];
+    }
+    
+    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"comment" : review.comment,
+                                  @"price" : review.price, @"grade" : review.grade, @"hashtags" : hashtagString,
+                                  @"type" : review.type, @"title" : review.title };
+    
+    [self POST:@"reviews" parameters:parameters
+    constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
+    {
+        float compression = 0.8;
+        NSData *imageData = UIImageJPEGRepresentation( review.image, compression );
+        int maxFileSize = 2000000;
+        while( [imageData length] > maxFileSize )
+        {
+            compression -= 0.1;
+            imageData = UIImageJPEGRepresentation( review.image, compression );
+        }
+        
+        [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+    }
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        
+    }];
+}
+
+- (NSString *)accessToken
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kAccessTokenKey];
+}
+    
 - (NSString *)clientID
 {
     if( _clientID )

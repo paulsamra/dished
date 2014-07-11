@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AutoComleteTableView : UITableView <UITableViewDataSource, UITableViewDelegate> {
+@interface DADishNamesTableView : UITableView <UITableViewDataSource, UITableViewDelegate> {
     NSMutableArray *pastUrls;
     NSMutableArray *autocompleteUrls;
 }

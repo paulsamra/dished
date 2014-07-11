@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DASaveLocationTableViewController : UITableViewController
+@interface DAAddPlaceViewController : UITableViewController
+
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 
 - (IBAction)save:(id)sender;

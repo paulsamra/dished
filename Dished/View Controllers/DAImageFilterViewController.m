@@ -134,7 +134,7 @@
 {
     if( !_filterTitles )
     {
-        _filterTitles = @[ @"No Filter", @"Instant", @"Transfer", @"Process", @"Sepia" ];
+        _filterTitles = @[ @"No Filter", @"Instant", @"Transfer", @"Process", @"Sepia", @"Noir", @"Tonal", @"Cube", @"Chrome", @"False" ];
     }
     
     return _filterTitles;
@@ -144,7 +144,7 @@
 {
     if( !_filterNames )
     {
-        _filterNames = @[ @"None", @"CIPhotoEffectInstant", @"CIPhotoEffectTransfer", @"CIPhotoEffectProcess", @"CISepiaTone" ];
+        _filterNames = @[ @"None", @"CIPhotoEffectInstant", @"CIPhotoEffectTransfer", @"CIPhotoEffectProcess", @"CISepiaTone", @"CIPhotoEffectNoir", @"CIPhotoEffectTonal", @"CIColorCube", @"CIPhotoEffectChrome", @"CIFalseColor" ];
     }
     
     return _filterNames;

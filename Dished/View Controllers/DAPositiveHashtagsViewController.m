@@ -7,6 +7,7 @@
 //
 
 #import "DAPositiveHashtagsViewController.h"
+#import "DANegativeHashtagsViewController.h"
 #import "DAAPIManager.h"
 #import "DAHashtag.h"
 
@@ -32,10 +33,8 @@
     self.selectedHashtags = [NSMutableDictionary dictionary];
     self.errorLoading = NO;
     
-    // Dish type should be set by another view controller.
-    self.dishType = @"food";
-    
-    [[DAAPIManager sharedManager] getPositiveHashtagsForDishType:self.dishType completion:^( NSArray *hashtags, NSError *error )
+    [[DAAPIManager sharedManager] getPositiveHashtagsForDishType:self.dishType
+    completion:^( NSArray *hashtags, NSError *error )
     {
         if( error || !hashtags )
         {
@@ -158,6 +157,20 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 50;
+}
+
+- (IBAction)goToNegHashtags:(UIBarButtonItem *)sender
+{
+    [self performSegueWithIdentifier:@"negHashtags" sender:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"negHashtags"] )
+    {
+        DANegativeHashtagsViewController *dest = segue.destinationViewController;
+        dest.dishType = self.dishType;
+    }
 }
 
 - (UIActivityIndicatorView *)spinner

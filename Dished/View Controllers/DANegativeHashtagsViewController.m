@@ -32,10 +32,8 @@
     self.selectedHashtags = [NSMutableDictionary dictionary];
     self.errorLoading = NO;
     
-    // Dish type should be set by another view controller.
-    self.dishType = @"food";
-    
-    [[DAAPIManager sharedManager] getNegativeHashtagsForDishType:self.dishType completion:^( NSArray *hashtags, NSError *error )
+    [[DAAPIManager sharedManager] getNegativeHashtagsForDishType:self.dishType
+    completion:^( NSArray *hashtags, NSError *error )
     {
         if( error || !hashtags )
         {
@@ -158,6 +156,13 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 50;
+}
+
+- (IBAction)doneWithHashtags:(UIBarButtonItem *)sender
+{
+    UIViewController *targetViewController = [self.navigationController.viewControllers objectAtIndex:2];
+    
+    [self.navigationController popToViewController:targetViewController animated:YES];
 }
 
 - (UIActivityIndicatorView *)spinner

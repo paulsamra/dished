@@ -8,6 +8,7 @@
 
 #import "AFHTTPSessionManager.h"
 #import "DAHashtag.h"
+#import "DANewReview.h"
 
 
 @interface DAAPIManager : AFHTTPSessionManager
@@ -61,5 +62,24 @@
  * Dish type options: "food", "wine", "cocktail"
  */
 - (void)getNegativeHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion;
+
+/*
+ * Returns an array of dish title suggestions given
+ * a search string.
+ */
+- (void)getDishTitleSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( NSArray *suggestions, NSError *error ) )completion;
+
+/*
+ * Returns an array of locations and an array of the
+ * distances to those locations given a search string.
+ * The sizes of the arrays will always be the same.
+ * If there is not distance available for a location, 
+ * the corresponding distance for that location will
+ * be an empty string in the array. The distances are
+ * in miles, and represented as strings in the array.
+ */
+- (void)searchLocationsWithQuery:(NSString *)query completion:( void(^)( NSArray *locations, NSArray *distances, NSError *error ) )completion;
+
+- (void)postNewReview:(DANewReview *)review completion:( void(^)( BOOL success ) )completion;
 
 @end

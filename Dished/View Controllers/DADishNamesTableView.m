@@ -6,69 +6,69 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "AutoComleteTableView.h"
+#import "DADishNamesTableView.h"
 #import "DAFormTableViewController.h"
+#import "DAAPIManager.h"
 
 
-@implementation AutoComleteTableView
+@implementation DADishNamesTableView
 @synthesize pastUrls;
 @synthesize autocompleteUrls;
 
-
 DAFormTableViewController *caller;
 
-
-
-- (id)initWithFrame:(CGRect)frame withClass:(id) class
+- (id)initWithFrame:(CGRect)frame withClass:(id)class
 {
     self = [super initWithFrame:frame];
     
-    if (self) {
-        
-        
-        // Initialization code
+    if (self)
+    {
         caller = class;
         self.pastUrls = [[NSMutableArray alloc] initWithObjects:@"YooGood Cream", @"Yoaghetti", @"Yogart", nil];
         self.autocompleteUrls = [[NSMutableArray alloc] init];
         self.delegate = self;
         self.dataSource	= self;
-
-        
-        
     }
+    
     return self;
 }
 
-
-- (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring {
-    
+- (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring
+{
     [autocompleteUrls removeAllObjects];
-    for(NSString *curString in pastUrls) {
-        NSRange substringRange = [curString.lowercaseString rangeOfString:substring.lowercaseString];
-        if (substringRange.location == 0) {
-            [autocompleteUrls addObject:curString];
-        }
-    }
     [self reloadData];
+    
+    [[DAAPIManager sharedManager] getDishTitleSuggestionsWithQuery:substring dishType:@"food"
+    completion:^( NSArray *suggestions, NSError *error )
+    {
+        if( suggestions )
+        {
+            autocompleteUrls = [suggestions mutableCopy];
+            [self reloadData];
+        }
+    }];
 }
-
-
 
 #pragma mark UITableViewDataSource methods
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger) section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return autocompleteUrls.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell *cell = nil;
+    
     static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
+    
     cell = [tableView dequeueReusableCellWithIdentifier:AutoCompleteRowIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc]
-                initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
+    
+    if (cell == nil)
+    {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
     }
+    
     UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
     
     UIImageView *iconPlaceImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"add_dish_location.png"]];
@@ -82,22 +82,15 @@ DAFormTableViewController *caller;
     cell.backgroundView = backgroundView;
     cell.textLabel.text = [autocompleteUrls objectAtIndex:indexPath.row];
     return cell;
-    
-    
 }
 
 #pragma mark UITableViewDelegate methods
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-    NSLog(@"%@", selectedCell.textLabel.text);
     caller.titleTextField.text = selectedCell.textLabel.text;
     self.hidden = YES;
-    
 }
-
-
-
 
 @end

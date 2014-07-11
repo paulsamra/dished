@@ -38,11 +38,14 @@
 
 - (void)setupAppearance
 {
-    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:18] };
+    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:18],
+                                  NSForegroundColorAttributeName : [UIColor colorWithRed:0 green:0.61 blue:1 alpha:1] };
     [[UIBarButtonItem appearance] setTitleTextAttributes:attributes forState:UIControlStateNormal];
     
     NSDictionary *titleAttributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:18] };
     [[UINavigationBar appearance] setTitleTextAttributes:titleAttributes];
+    
+    [[UINavigationBar appearance] setTintColor:[UIColor colorWithRed:0 green:0.61 blue:1 alpha:1]];
     
     UITextField *lagFreeField = [[UITextField alloc] init];
     [self.window addSubview:lagFreeField];

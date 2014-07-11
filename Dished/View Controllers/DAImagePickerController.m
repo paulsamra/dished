@@ -38,6 +38,11 @@
     
     [self.view.layer setMasksToBounds:YES];
     
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
+    spinner.center = self.view.center;
+    
     dispatch_async( dispatch_get_main_queue(), ^
     {
         self.captureManager = [[DACaptureManager alloc] init];
@@ -49,6 +54,8 @@
         [self.captureManager startCapture];
         
         [self.captureManager enableFlash:NO];
+        
+        [spinner removeFromSuperview];
     });
     
     self.gridIsVisible = NO;
@@ -280,7 +287,10 @@
 
 - (IBAction)goToFilters:(id)sender
 {
-    [self.captureManager stopCapture];
+    dispatch_async( dispatch_get_main_queue(), ^
+    {
+        [self.captureManager stopCapture];
+    });
     
     [self performSegueWithIdentifier:@"chooseFilter" sender:nil];
 }

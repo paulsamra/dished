@@ -9,24 +9,24 @@
 
 #import <UIKit/UIKit.h>
 #import "SZTextView.h"
-#import "AutoComleteTableView.h"
+#import "DADishNamesTableView.h"
 
 
 @interface DAFormTableViewController : UITableViewController <UITextFieldDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel            *ratingLabel;
-@property (weak, nonatomic) IBOutlet UIButton           *hashTagButton;
+@property (weak, nonatomic) IBOutlet UIButton           *hashtagButton;
 @property (weak, nonatomic) IBOutlet UIButton           *imAtButton;
-@property (weak, nonatomic) IBOutlet UITextField        *titleTextField;
 @property (weak, nonatomic) IBOutlet SZTextView         *commentTextView;
+@property (weak, nonatomic) IBOutlet UITextField        *titleTextField;
 @property (weak, nonatomic) IBOutlet UITextField        *priceTextField;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem    *PostButton;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *dishTypeSegementedControl;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem    *postButton;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *dishTypeSegmentedControl;
+@property (weak, nonatomic) IBOutlet UIButton *ratingButton;
 
 @property (strong, nonatomic) id data;
-@property (nonatomic, retain) AutoComleteTableView *autocompleteTableView;
+@property (strong, nonatomic) id label;
+@property (nonatomic, retain) DADishNamesTableView *autocompleteTableView;
 
-- (IBAction)Post:(id)sender;
 - (void)setDetailItem:(id)newData;
 
 @end
