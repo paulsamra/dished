@@ -137,10 +137,11 @@
     if( textField == self.priceTextField )
     {
         NSString *newAmount;
-        [self.storedValue appendString:string];
 
-        if ([string isEqualToString:@""])
+        if ([string isEqualToString:@""] && [self.storedValue length] > 0)
         {
+            [self.storedValue appendString:string];
+
             [self.storedValue deleteCharactersInRange:NSMakeRange([self.storedValue length]-1, 1)];
             
             newAmount = [self formatCurrencyValue:([self.storedValue doubleValue]/100)];
@@ -150,8 +151,10 @@
         }
         else
         {
-            if ( [self.storedValue doubleValue] < 10000000.0 )
+            if ( [self.storedValue doubleValue] < 1000000.0 )
             {
+                [self.storedValue appendString:string];
+
                 newAmount = [self formatCurrencyValue:([self.storedValue doubleValue]/100)];
                 [textField setText:[NSString stringWithFormat:@"%@",newAmount]];
 
