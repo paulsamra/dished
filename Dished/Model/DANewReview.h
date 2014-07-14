@@ -8,18 +8,25 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "DALocation.h"
 
 
 @interface DANewReview : NSObject
 
-@property (strong, nonatomic) UIImage  *image;
-@property (strong, nonatomic) NSArray  *hashtags;
-@property (strong, nonatomic) NSString *title;
-@property (strong, nonatomic) NSString *type;
-@property (strong, nonatomic) NSString *comment;
-@property (strong, nonatomic) NSString *price;
-@property (strong, nonatomic) NSString *grade;
-@property (strong, nonatomic) NSString *reviewID;
-@property (strong, nonatomic) NSString *location;
+@property (copy,   nonatomic) NSArray   *hashtags;
+@property (copy,   nonatomic) NSString  *type;
+@property (copy,   nonatomic) NSString  *title;
+@property (copy,   nonatomic) NSString  *comment;
+@property (copy,   nonatomic) NSString  *price;
+@property (copy,   nonatomic) NSString  *grade;
+@property (copy,   nonatomic) NSString  *dishID;
+@property (copy,   nonatomic) NSString  *locationName;
+@property (copy,   nonatomic) NSString  *locationStreetNum;
+@property (copy,   nonatomic) NSString  *locationStreetName;
+@property (copy,   nonatomic) NSString  *locationCity;
+@property (copy,   nonatomic) NSString  *locationState;
+@property (copy,   nonatomic) NSString  *locationZip;
+@property (copy,   nonatomic) NSString  *locationPhone;
+@property (strong, nonatomic) UIImage   *image;
 
 @end

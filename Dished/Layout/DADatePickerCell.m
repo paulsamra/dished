@@ -36,7 +36,7 @@
 
 - (void)setupDatePicker
 {
-    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, -25, 320, 162)];
+    self.datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, -25, self.frame.size.width, 162)];
     self.datePicker.datePickerMode = UIDatePickerModeDate;
     
     NSDate *currentDate = [NSDate date];

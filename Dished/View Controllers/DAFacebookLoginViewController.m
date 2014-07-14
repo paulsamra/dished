@@ -9,6 +9,7 @@
 #import "DAFacebookLoginViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import "DAAppDelegate.h"
+#import "DARegisterViewController.h"
 
 
 @interface DAFacebookLoginViewController()
@@ -54,15 +55,26 @@
     
     if( self.shouldLogin )
     {
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile"] allowLoginUI:YES
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_birthday"] allowLoginUI:YES
                                       completionHandler:^(FBSession *session, FBSessionState state, NSError *error)
          {
              if( state == FBSessionStateOpen )
              {
-                 self.statusLabel.text = @"Logged into Facebook";
-                 [self.activityIndicator stopAnimating];
-                 self.activityIndicator.hidden = YES;
-                 self.logoutButton.hidden = NO;
+                 [[FBRequest requestForMe] startWithCompletionHandler:
+                 ^( FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error )
+                 {
+                     if( !error )
+                     {
+                         self.statusLabel.text = @"Logged into Facebook";
+                         [self.activityIndicator stopAnimating];
+                         self.activityIndicator.hidden = YES;
+                         self.logoutButton.hidden = NO;
+                         
+                         NSLog(@"%@", user);
+                         
+                         [self performSegueWithIdentifier:@"goToRegister" sender:user];
+                     }
+                 }];
              }
              
              DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
@@ -76,6 +88,17 @@
     DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
     
     [delegate setRootView];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"goToRegister"] )
+    {
+        //DARegisterViewController *dest = segue.destinationViewController;
+        NSDictionary *userInfo = (NSDictionary *)sender;
+        
+        NSLog(@"%@", userInfo);
+    }
 }
 
 - (IBAction)logout

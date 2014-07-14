@@ -10,6 +10,7 @@
 #import "DACaptureManager.h"
 #import <AssetsLibrary/AssetsLibrary.h>
 #import "DAImageFilterViewController.h"
+#import "DALocationManager.h"
 
 
 @interface DAImagePickerController() <DACaptureManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
@@ -30,6 +31,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    [[DALocationManager sharedManager] startUpdatingLocation];
     
     self.shouldLoadGridImage = NO;
     self.shouldShutterAfterFocus = NO;

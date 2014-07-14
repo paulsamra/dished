@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem    *postButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *dishTypeSegmentedControl;
 @property (weak, nonatomic) IBOutlet UIButton *ratingButton;
+@property (weak, nonatomic) IBOutlet UIImageView *tagsImageView;
 
 @property (strong, nonatomic) id data;
 @property (strong, nonatomic) id label;

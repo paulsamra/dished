@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DANewReview.h"
 
 
 @interface DAPositiveHashtagsViewController : UITableViewController
 
-@property (strong, nonatomic) NSString *dishType;
+@property (strong, nonatomic) DANewReview *review;
 
 @end

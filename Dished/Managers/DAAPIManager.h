@@ -15,6 +15,8 @@
 
 + (DAAPIManager *)sharedManager;
 
+- (BOOL)isLoggedIn;
+- (NSString *)accessToken;
 - (NSString *)errorResponseKey;
 
 /*
@@ -80,6 +82,9 @@
  */
 - (void)searchLocationsWithQuery:(NSString *)query completion:( void(^)( NSArray *locations, NSArray *distances, NSError *error ) )completion;
 
+/*
+ * Posts a new dish review to the server.
+ */
 - (void)postNewReview:(DANewReview *)review completion:( void(^)( BOOL success ) )completion;
 
 @end

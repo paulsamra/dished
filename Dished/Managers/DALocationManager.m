@@ -42,7 +42,7 @@
     {
         self.locationManager = [[CLLocationManager alloc] init];
         self.locationManager.delegate = self;
-        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters;
+        self.locationManager.desiredAccuracy = 20.0f;
         self.locationFound = NO;
     }
     

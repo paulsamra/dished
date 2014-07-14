@@ -9,12 +9,13 @@
 #import "DANegativeHashtagsViewController.h"
 #import "DAAPIManager.h"
 #import "DAHashtag.h"
+#import "DAFormTableViewController.h"
 
 
 @interface DANegativeHashtagsViewController()
 
 @property (strong, nonatomic) NSArray                 *hashtagArray;
-@property (strong, nonatomic) NSMutableDictionary     *selectedHashtags;
+@property (strong, nonatomic) NSMutableDictionary     *hashtagDict;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
 @property (nonatomic) BOOL errorLoading;
@@ -29,10 +30,10 @@
     [super viewDidLoad];
     
     self.hashtagArray = [NSArray array];
-    self.selectedHashtags = [NSMutableDictionary dictionary];
+    self.hashtagDict = [NSMutableDictionary dictionary];
     self.errorLoading = NO;
     
-    [[DAAPIManager sharedManager] getNegativeHashtagsForDishType:self.dishType
+    [[DAAPIManager sharedManager] getNegativeHashtagsForDishType:self.review.type
     completion:^( NSArray *hashtags, NSError *error )
     {
         if( error || !hashtags )
@@ -42,6 +43,22 @@
         else
         {
             self.hashtagArray = hashtags;
+            
+            for( DAHashtag *tag in self.selectedHashtags )
+            {
+                NSUInteger index = [self.hashtagArray indexOfObject:tag];
+                
+                if( index != NSNotFound )
+                {
+                    [self.hashtagDict setObject:@"selected" forKey:@(index)];
+                }
+            }
+            
+            for( id key in self.hashtagDict )
+            {
+                [self.selectedHashtags removeObject:[self.hashtagArray objectAtIndex:[key intValue]]];
+            }
+            
             [self.tableView reloadData];
         }
     }];
@@ -94,7 +111,7 @@
         
         UIImageView *imageView = nil;
         
-        if( [self.selectedHashtags[@(indexPath.row)] boolValue] )
+        if( [self.hashtagDict objectForKey:@(indexPath.row)] )
         {
             imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"add_dish_hashtag_checked"]];
         }
@@ -114,9 +131,16 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    BOOL selected = ![[self.selectedHashtags objectForKey:@(indexPath.row)] boolValue];
+    BOOL selected = ![self.hashtagDict objectForKey:@(indexPath.row)];
     
-    [self.selectedHashtags setObject:@(selected) forKey:@(indexPath.row)];
+    if( selected )
+    {
+        [self.hashtagDict setObject:@"selected" forKey:@(indexPath.row)];
+    }
+    else
+    {
+        [self.hashtagDict removeObjectForKey:@(indexPath.row)];
+    }
     
     UIView *accessoryView = [[tableView cellForRowAtIndexPath:indexPath] accessoryView];
     
@@ -160,9 +184,20 @@
 
 - (IBAction)doneWithHashtags:(UIBarButtonItem *)sender
 {
-    UIViewController *targetViewController = [self.navigationController.viewControllers objectAtIndex:2];
+    for( id key in self.hashtagDict )
+    {
+        [self.selectedHashtags addObject:[self.hashtagArray objectAtIndex:[key intValue]]];
+    }
     
-    [self.navigationController popToViewController:targetViewController animated:YES];
+    self.review.hashtags = self.selectedHashtags;
+    
+    for( UIViewController *vc in self.navigationController.viewControllers )
+    {
+        if( [vc isMemberOfClass:[DAFormTableViewController class]] )
+        {
+            [self.navigationController popToViewController:vc animated:YES];
+        }
+    }
 }
 
 - (UIActivityIndicatorView *)spinner

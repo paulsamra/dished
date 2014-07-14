@@ -9,11 +9,12 @@
 #import "DAFormTableViewController.h"
 #import "DAPositiveHashtagsViewController.h"
 #import "SZTextView.h"
+#import "DANewReview.h"
 
 
 @interface DAFormTableViewController ()
 
-@property (strong, nonatomic) NSString *dishType;
+@property (strong, nonatomic) DANewReview *review;
 
 @end
 
@@ -24,7 +25,8 @@
 {
     [super viewDidLoad];
     
-    self.dishType = @"food";
+    self.review = [[DANewReview alloc] init];
+    self.review.type = @"food";
     
     self.autocompleteTableView = [[DADishNamesTableView alloc] initWithFrame:CGRectMake(0, 44, 320, 189) withClass:self];
     [self.view addSubview:self.autocompleteTableView];
@@ -56,17 +58,9 @@
     {
         [self.titleTextField becomeFirstResponder];
     }
-    else if( self.commentTextView.text.length == 0 )
-    {
-        [self.titleTextField becomeFirstResponder];
-    }
-    else if( self.priceTextField.text.length == 0 )
-    {
-        [self.commentTextView becomeFirstResponder];
-    }
     else
     {
-        [self.priceTextField becomeFirstResponder];
+        [self.commentTextView becomeFirstResponder];
     }
     
     if( _data )
@@ -82,6 +76,15 @@
         UILabel *labelWithRating = (UILabel *)_label;
         [self.ratingButton setTitle:labelWithRating.text forState:UIControlStateNormal];
         [self.ratingButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }
+    
+    if( [self.review.hashtags count] > 0 )
+    {
+        self.tagsImageView.image = [UIImage imageNamed:@"valid_icon"];
+    }
+    else
+    {
+        self.tagsImageView.image = [UIImage imageNamed:@"add_dish_arrow"];
     }
 }
 
@@ -146,9 +149,9 @@
 {
     switch (self.dishTypeSegmentedControl.selectedSegmentIndex)
     {
-        case 0: self.dishType = @"food";  break;
-        case 1: self.dishType = @"drink"; break;
-        case 2: self.dishType = @"wine";  break;
+        case 0: self.review.type = @"food";  break;
+        case 1: self.review.type = @"drink"; break;
+        case 2: self.review.type = @"wine";  break;
     }
 }
 
@@ -187,13 +190,13 @@
     if( [segue.identifier isEqualToString:@"posHashtags"] )
     {
         DAPositiveHashtagsViewController *dest = segue.destinationViewController;
-        dest.dishType = self.dishType;
+        dest.review = self.review;
     }
 }
 
 - (IBAction)postDish:(UIBarButtonItem *)sender
 {
-    NSLog(@"Post: %@ %@ %@ %@ %@ %@", self.dishType,
+    NSLog(@"Post: %@ %@ %@ %@ %@ %@", self.review.type,
                                       self.titleTextField.text,
     						 		  self.commentTextView.text,
                                       self.imAtButton.titleLabel.text,

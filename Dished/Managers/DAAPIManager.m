@@ -21,8 +21,6 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 @interface DAAPIManager()
 
 @property (strong, nonatomic) NSString *clientID;
-@property (strong, nonatomic) NSString *clientSecret;
-@property (strong, nonatomic) NSURLSessionDataTask *usernameCheckTask;
 
 @end
 
@@ -37,12 +35,22 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     
     dispatch_once(&singleton, ^{
         manager = [[DAAPIManager alloc] initWithBaseURL:[NSURL URLWithString:baseAPIURL]];
-        manager.responseSerializer = [JSONResponseSerializerWithData serializer];
-        
-        manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"application/json", nil];
     });
     
     return manager;
+}
+
+- (id)initWithBaseURL:(NSURL *)url
+{
+    self = [super initWithBaseURL:url];
+    
+    if( self )
+    {
+        self.responseSerializer = [JSONResponseSerializerWithData serializer];
+        self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"application/json", nil];
+    }
+    
+    return self;
 }
 
 - (NSString *)errorResponseKey
@@ -410,8 +418,12 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 
 - (void)getPositiveHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion
 {
-    NSDictionary *parameters = @{ kAccessTokenKey : [[NSUserDefaults standardUserDefaults] objectForKey:kAccessTokenKey],
-                              @"dish_type" : dishType, @"tag_type" : @"rev_p" };
+    if( ![self accessToken] )
+    {
+        completion( nil, nil );
+    }
+    
+    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"dish_type" : dishType, @"tag_type" : @"rev_p" };
     
     [self GET:@"hashtags" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
@@ -449,8 +461,12 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 
 - (void)getNegativeHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion;
 {
-    NSDictionary *parameters = @{ kAccessTokenKey : [[NSUserDefaults standardUserDefaults] objectForKey:kAccessTokenKey],
-                                  @"dish_type" : dishType, @"tag_type" : @"rev_n" };
+    if( ![self accessToken] )
+    {
+        completion( nil, nil );
+    }
+    
+    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"dish_type" : dishType, @"tag_type" : @"rev_n" };
     
     [self GET:@"hashtags" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
@@ -488,6 +504,11 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 
 - (void)getDishTitleSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( NSArray *suggestions, NSError *error ) )completion
 {
+    if( ![self accessToken] )
+    {
+        completion( nil, nil );
+    }
+    
     NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"name" : query, @"type" : dishType };
     
     [self GET:@"dishes/search" parameters:parameters
@@ -522,18 +543,19 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 
 - (void)searchLocationsWithQuery:(NSString *)query completion:( void(^)( NSArray *locations, NSArray *distances, NSError *error ) )completion
 {
-    NSDictionary *parameters = nil;
+    if( ![self accessToken] )
+    {
+        completion( nil, nil, nil );
+    }
+    
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{ kAccessTokenKey : [self accessToken], @"dish_loc" : query, @"return" : @"loc" }];
     
     if( [[DALocationManager sharedManager] hasDeterminedLocation] )
     {
         CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
-
-        parameters = @{ kAccessTokenKey : [self accessToken], @"dish_loc" : query,
-                        @"longitude" : @( currentLocation.longitude ), @"latitude" : @( currentLocation.latitude ) };
-    }
-    else
-    {
-        parameters = @{ kAccessTokenKey : [self accessToken], @"dish_loc" : query, @"return" : @"loc" };
+        
+        [parameters setObject:@(currentLocation.longitude) forKey:@"longitude"];
+        [parameters setObject:@(currentLocation.latitude)  forKey:@"latitude"];
     }
     
     [self GET:@"explore" parameters:parameters
@@ -618,6 +640,23 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 - (NSString *)accessToken
 {
     return [[NSUserDefaults standardUserDefaults] objectForKey:kAccessTokenKey];
+}
+
+- (BOOL)isLoggedIn
+{
+    if( [self accessToken] )
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
+- (NSString *)clientSecret
+{
+    return [[NSUserDefaults standardUserDefaults] objectForKey:kClientSecretKey];
 }
     
 - (NSString *)clientID
