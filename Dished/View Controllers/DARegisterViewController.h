@@ -27,5 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITableViewCell    *dateOfBirthCell;
 @property (weak, nonatomic) IBOutlet UIButton           *signInButton;
 
+@property (strong, nonatomic) NSDictionary *facebookUserInfo;
+
 
 @end

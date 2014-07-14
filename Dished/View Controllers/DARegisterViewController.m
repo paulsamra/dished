@@ -26,7 +26,6 @@
 @property (strong, nonatomic) UIAlertView          *loginFailAlert;
 @property (strong, nonatomic) UIAlertView          *registerFailAlert;
 @property (strong, nonatomic) UIAlertView          *registerSuccessAlert;
-@property (strong, nonatomic) NSDictionary         *titleData;
 @property (strong, nonatomic) NSDateFormatter      *birthDateFormatter;
 @property (strong, nonatomic) NSMutableDictionary  *errorData;
 @property (strong, nonatomic) NSURLSessionDataTask *usernameCheckTask;
@@ -52,6 +51,23 @@
 - (void)errorViewDidTapCloseButton:(DAErrorView *)errorView
 {
     [self dismissErrorView];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if( self.facebookUserInfo )
+    {
+        self.firstNameField.text = self.facebookUserInfo[@"first_name"];
+        self.lastNameField.text  = self.facebookUserInfo[@"last_name"];
+        self.emailField.text     = self.facebookUserInfo[@"email"];
+        
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        dateFormatter.dateFormat = @"MM/dd/yyyy";
+        self.dateOfBirth = [dateFormatter dateFromString:self.facebookUserInfo[@"birthday"]];
+        self.dateOfBirthCell.detailTextLabel.text = [self.birthDateFormatter stringFromDate:self.dateOfBirth];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -85,9 +101,9 @@
     self.errorVisible = YES;
     
     [UIView animateWithDuration:0.5 animations:^
-     {
-         [self.errorView setFrame:[self visibleErrorFrame]];
-     }];
+    {
+        [self.errorView setFrame:[self visibleErrorFrame]];
+    }];
 }
 
 - (void)dismissErrorView
@@ -95,9 +111,9 @@
     self.errorVisible = NO;
     
     [UIView animateWithDuration:0.3 animations:^
-     {
-         [self.errorView setFrame:[self invisibleErrorFrame]];
-     }];
+    {
+        [self.errorView setFrame:[self invisibleErrorFrame]];
+    }];
 }
 
 - (CGRect)invisibleErrorFrame
@@ -113,10 +129,8 @@
     CGRect navBarRect    = self.navigationController.navigationBar.bounds;
     
     CGPoint location = statusBarRect.origin;
-    
-    CGFloat width = navBarRect.size.width;
     CGFloat height = navBarRect.size.height + statusBarRect.size.height;
-    CGSize  size = CGSizeMake( width, height );
+    CGSize  size = CGSizeMake( navBarRect.size.width, height );
     
     return CGRectMake( location.x, location.y, size.width, size.height );
 }
@@ -230,12 +244,10 @@
     
     if( textField == self.emailField )
     {
-        NSString *key = self.titleData[@2][0];
-        
-        if( [self.errorData objectForKey:key] )
+        if( [self.errorData objectForKey:@"Email"] )
         {
             [self dismissErrorView];
-            [self.errorData removeObjectForKey:key];
+            [self.errorData removeObjectForKey:@"Email"];
             self.emailCell.accessoryView = nil;
         }
         
@@ -247,12 +259,10 @@
     
     if( textField == self.phoneNumberField )
     {
-        NSString *key = self.titleData[@3][0];
-        
-        if( [self.errorData objectForKey:key] )
+        if( [self.errorData objectForKey:@"Phone Number"] )
         {
             [self dismissErrorView];
-            [self.errorData removeObjectForKey:key];
+            [self.errorData removeObjectForKey:@"Phone Number"];
             self.phoneNumberCell.accessoryView = nil;
         }
         
@@ -496,7 +506,6 @@
     }
     
     [self showProgressView];
-    
     [self checkEmailAndPhoneNumber];
 }
 
@@ -565,10 +574,10 @@
     
     NSString *phoneNumber = self.phoneNumberField.text;
     NSString *after1 = [phoneNumber substringFromIndex:3];
-    NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
-    NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
+    NSArray  *parts = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *decimalStr = [[parts componentsJoinedByString:@""] mutableCopy];
     
-    [[DAAPIManager sharedManager] checkAvailabilityOfPhoneNumber:decimalString completion:^( BOOL available, NSError *error )
+    [[DAAPIManager sharedManager] checkAvailabilityOfPhoneNumber:decimalStr completion:^( BOOL available, NSError *error )
     {
         if( !error )
         {
@@ -635,8 +644,8 @@
     NSDate *dateOfBirth = self.dateOfBirth;
     
     NSString *after1 = [phone substringFromIndex:3];
-    NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
-    NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
+    NSArray  *parts = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *decimalString = [[parts componentsJoinedByString:@""] mutableCopy];
     
     [[DAAPIManager sharedManager] registerUserWithUsername:username password:password firstName:firstName lastName:lastName email:email phoneNumber:decimalString birthday:dateOfBirth completion:^( BOOL registered, BOOL loggedIn )
     {
@@ -713,7 +722,7 @@
                 self.errorView.errorTextLabel.text = @"Invalid Email Address!";
                 self.errorView.errorTipLabel.text  = @"Please enter a valid email address.";
                 
-                [self.errorData setObject:@"error" forKey:self.titleData[@2][0]];
+                [self.errorData setObject:@"error" forKey:@"Email"];
                 [self showErrorView];
             }
             
@@ -744,7 +753,7 @@
                 self.errorView.errorTextLabel.text = @"Invalid Phone Number!";
                 self.errorView.errorTipLabel.text  = @"Please enter a 7 digit phone number, with area code first.";
                 
-                [self.errorData setObject:@"error" forKey:self.titleData[@3][0]];
+                [self.errorData setObject:@"error" forKey:@"Phone Number"];
                 [self showErrorView];
             }
             
@@ -905,16 +914,6 @@
 - (IBAction)goToSignIn
 {
     [self performSegueWithIdentifier:@"goToLogin" sender:nil];
-}
-
-- (NSDictionary *)titleData
-{
-    if( !_titleData )
-    {
-        _titleData = @{ @0 : @[ @"First Name", @"Last Name" ], @1 : @[ @"Username" ], @2 : @[ @"Email" ], @3 : @[ @"Phone Number" ], @4 : @[ @"Password", @"Confirm Password" ], @5 : @[ @"Date of Birth" ], @6 : @[ @"Register" ] };
-    }
-    
-    return _titleData;
 }
 
 - (NSDateFormatter *)birthDateFormatter
