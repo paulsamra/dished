@@ -12,7 +12,7 @@
 #import "DADishNamesTableView.h"
 
 
-@interface DAFormTableViewController : UITableViewController <UITextFieldDelegate>
+@interface DAFormTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton           *hashtagButton;
 @property (weak, nonatomic) IBOutlet UIButton           *imAtButton;

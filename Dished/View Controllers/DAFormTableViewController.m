@@ -36,6 +36,7 @@
 
     self.titleTextField.delegate = self;
     self.priceTextField.delegate = self;
+    self.commentTextView.delegate = self;
 
     [[SZTextView appearance] setPlaceholderTextColor:[UIColor lightGrayColor]];
     self.commentTextView.placeholder = @"Comment";
@@ -112,6 +113,25 @@
     return [numberFormatter stringFromNumber:c];
 }
 
+#define MAX_LENGTH 1000
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    NSUInteger newLength = ( textView.text.length - range.length ) + text.length;
+    if( newLength <= MAX_LENGTH )
+    {
+        return YES;
+    }
+    else
+    {
+        NSUInteger emptySpace = MAX_LENGTH - ( textView.text.length - range.length );
+        textView.text = [[[textView.text substringToIndex:range.location]
+                          stringByAppendingString:[text substringToIndex:emptySpace]]
+                         stringByAppendingString:[textView.text substringFromIndex:(range.location + range.length)]];
+        return NO;
+    }
+}
+
 - (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if( textField == self.priceTextField )
@@ -119,12 +139,16 @@
         NSString *newAmount;
         [self.storedValue appendString:string];
 
-        if ([string isEqualToString:@""]) {
+        if ([string isEqualToString:@""])
+        {
             [textField setText:@"$"];
             [self.storedValue setString:@""];
 
-        } else {
-            if ([self.storedValue doubleValue] < 1000000.0) {
+        }
+        else
+        {
+            if ( [self.storedValue doubleValue] < 1000000.0 )
+            {
                 newAmount = [self formatCurrencyValue:([self.storedValue doubleValue]/100)];
                 [textField setText:[NSString stringWithFormat:@"%@",newAmount]];
 
@@ -135,24 +159,8 @@
         return NO;
     }
     
-    //Returning yes allows the entered chars to be processed
     return YES;
 }
-
-//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-//{
-//    if( textField == self.priceTextField )
-//    {
-//        NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
-//        
-//        if (![newText hasPrefix:[[NSLocale currentLocale] objectForKey:NSLocaleCurrencySymbol]])
-//        {
-//            return NO;
-//        }
-//    }
-//    
-//    return YES;
-//}
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
