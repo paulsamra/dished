@@ -126,8 +126,10 @@
     else
     {
         cell.gradeLabel.textColor = [UIColor dishedColor];
-        cell.plusButton.hidden = NO;
-        cell.minusButton.hidden = NO;
+        if (![cell.gradeLabel.text isEqualToString:@"F"]) {
+            cell.plusButton.hidden = NO;
+            cell.minusButton.hidden = NO;
+        }
     }
     
     [self.gradeSelected setObject:cell.gradeLabel.text forKey:@"grade"];

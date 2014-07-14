@@ -15,6 +15,7 @@
 @interface DAFormTableViewController ()
 
 @property (strong, nonatomic) DANewReview *review;
+@property (nonatomic, retain) NSMutableString *storedValue;
 
 @end
 
@@ -25,6 +26,7 @@
 {
     [super viewDidLoad];
     
+    self.storedValue = [[NSMutableString alloc] init];
     self.review = [[DANewReview alloc] init];
     self.review.type = @"food";
     
@@ -99,20 +101,58 @@
     }
 }
 
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+-(NSString*) formatCurrencyValue:(double)value
+{
+    NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
+    [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
+    [numberFormatter setCurrencySymbol:@"$"];
+    [numberFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    
+    NSNumber *c = [NSNumber numberWithFloat:value];
+    return [numberFormatter stringFromNumber:c];
+}
+
+- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if( textField == self.priceTextField )
     {
-        NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
-        
-        if (![newText hasPrefix:[[NSLocale currentLocale] objectForKey:NSLocaleCurrencySymbol]])
-        {
-            return NO;
+        NSString *newAmount;
+        [self.storedValue appendString:string];
+
+        if ([string isEqualToString:@""]) {
+            [textField setText:@"$"];
+            [self.storedValue setString:@""];
+
+        } else {
+            if ([self.storedValue doubleValue] < 1000000.0) {
+                newAmount = [self formatCurrencyValue:([self.storedValue doubleValue]/100)];
+                [textField setText:[NSString stringWithFormat:@"%@",newAmount]];
+
+            }
+
         }
+        
+        return NO;
     }
     
+    //Returning yes allows the entered chars to be processed
     return YES;
 }
+
+//- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+//{
+//    if( textField == self.priceTextField )
+//    {
+//        NSString *newText = [textField.text stringByReplacingCharactersInRange:range withString:string];
+//        
+//        if (![newText hasPrefix:[[NSLocale currentLocale] objectForKey:NSLocaleCurrencySymbol]])
+//        {
+//            return NO;
+//        }
+//    }
+//    
+//    return YES;
+//}
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
