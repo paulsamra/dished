@@ -105,6 +105,11 @@
     [self.captureSession stopRunning];
 }
 
+- (BOOL)isCapturing
+{
+    return [self.captureSession isRunning];
+}
+
 - (void)toggleCamera
 {
     [self.currentDevice removeObserver:self forKeyPath:@"adjustingFocus"];

@@ -15,7 +15,7 @@
 @interface DAFormTableViewController ()
 
 @property (strong, nonatomic) DANewReview *review;
-@property (nonatomic, retain) NSMutableString *storedValue;
+@property (nonatomic, retain) NSMutableString *dishPrice;
 
 @end
 
@@ -26,7 +26,7 @@
 {
     [super viewDidLoad];
     
-    self.storedValue = [[NSMutableString alloc] init];
+    self.dishPrice = [[NSMutableString alloc] init];
     self.review = [[DANewReview alloc] init];
     self.review.type = @"food";
     
@@ -138,28 +138,24 @@
     {
         NSString *newAmount;
 
-        if ([string isEqualToString:@""] && [self.storedValue length] > 0)
+        if ([string isEqualToString:@""] && [self.dishPrice length] > 0)
         {
-            [self.storedValue appendString:string];
+            [self.dishPrice appendString:string];
 
-            [self.storedValue deleteCharactersInRange:NSMakeRange([self.storedValue length]-1, 1)];
+            [self.dishPrice deleteCharactersInRange:NSMakeRange([self.dishPrice length]-1, 1)];
             
-            newAmount = [self formatCurrencyValue:([self.storedValue doubleValue]/100)];
+            newAmount = [self formatCurrencyValue:([self.dishPrice doubleValue]/100)];
             [textField setText:[NSString stringWithFormat:@"%@",newAmount]];
-
-
         }
         else
         {
-            if ( [self.storedValue doubleValue] < 1000000.0 )
+            if ( [self.dishPrice doubleValue] < 1000000.0 )
             {
-                [self.storedValue appendString:string];
+                [self.dishPrice appendString:string];
 
-                newAmount = [self formatCurrencyValue:([self.storedValue doubleValue]/100)];
+                newAmount = [self formatCurrencyValue:([self.dishPrice doubleValue]/100)];
                 [textField setText:[NSString stringWithFormat:@"%@",newAmount]];
-
             }
-
         }
         
         return NO;
@@ -203,9 +199,9 @@
 {
     switch (self.dishTypeSegmentedControl.selectedSegmentIndex)
     {
-        case 0: self.review.type = @"food";  break;
-        case 1: self.review.type = @"drink"; break;
-        case 2: self.review.type = @"wine";  break;
+        case 0: self.review.type = kFood;     break;
+        case 1: self.review.type = kCocktail; break;
+        case 2: self.review.type = kWine;     break;
     }
 }
 

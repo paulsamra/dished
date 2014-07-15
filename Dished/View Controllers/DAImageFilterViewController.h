@@ -10,8 +10,9 @@
 
 @interface DAImageFilterViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UIImageView      *pictureImageView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (weak, nonatomic) IBOutlet UIImageView *pictureImageView;
+
 @property (strong, nonatomic) UIImage *pictureTaken;
 
 @end
