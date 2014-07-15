@@ -7,7 +7,6 @@
 //
 
 #import "DALocationManager.h"
-#import <AddressBook/AddressBook.h>
 
 
 @interface DALocationManager() <CLLocationManagerDelegate>
@@ -82,21 +81,8 @@
                        {
                            CLPlacemark *placemark = placemarks[0];
                            
-                           NSDictionary *addressDictionary =
-                           placemark.addressDictionary;
-                           
-                           NSLog(@"address: %@, %f, %f", addressDictionary, self.currentLocation.latitude, self.currentLocation.longitude);
-                           NSString *address = [addressDictionary
-                                                objectForKey:(NSString *)kABPersonAddressStreetKey];
-                           NSString *city = [addressDictionary
-                                             objectForKey:(NSString *)kABPersonAddressCityKey];
-                           NSString *state = [addressDictionary
-                                              objectForKey:(NSString *)kABPersonAddressStateKey];
-                           NSString *zip = [addressDictionary
-                                            objectForKey:(NSString *)kABPersonAddressZIPKey];
-                           
-                           
-                           NSLog(@"%@ %@ %@ %@", address,city, state, zip);
+                           [[NSNotificationCenter defaultCenter] postNotificationName:@"addressReady" object:placemark.addressDictionary];
+
                        }
                        
                    }];
