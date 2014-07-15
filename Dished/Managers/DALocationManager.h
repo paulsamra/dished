@@ -16,6 +16,7 @@
 
 + (DALocationManager *)sharedManager;
 
+- (void)getAddress;
 - (BOOL)hasDeterminedLocation;
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;
