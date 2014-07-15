@@ -47,19 +47,19 @@
     spinner.center = self.view.center;
     
     dispatch_async( dispatch_get_main_queue(), ^
-                   {
-                       self.captureManager = [[DACaptureManager alloc] init];
-                       self.captureManager.delegate = self;
-                       
-                       self.captureManager.previewLayer.frame = self.videoView.bounds;
-                       [self.videoView.layer addSublayer:self.captureManager.previewLayer];
-                       
-                       [self.captureManager startCapture];
-                       
-                       [self.captureManager enableFlash:NO];
-                       
-                       [spinner removeFromSuperview];
-                   });
+    {
+        self.captureManager = [[DACaptureManager alloc] init];
+        self.captureManager.delegate = self;
+       
+        self.captureManager.previewLayer.frame = self.videoView.bounds;
+        [self.videoView.layer addSublayer:self.captureManager.previewLayer];
+       
+        [self.captureManager startCapture];
+       
+        [self.captureManager enableFlash:NO];
+        
+        [spinner removeFromSuperview];
+    });
     
     self.gridIsVisible = NO;
     self.gridImageView.hidden = !self.gridIsVisible;
@@ -189,10 +189,10 @@
 {
     dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0 ), ^
     {        
-        CGFloat cropWidth = ( image.size.width / self.videoView.bounds.size.width ) * self.gridImageView.bounds.size.width;
+        CGFloat cropWidth = ( image.size.width / self.videoView.bounds.size.width ) * self.overlayImageVew.bounds.size.width;
         CGFloat cropHeight = ( image.size.height / self.videoView.bounds.size.height ) * self.gridImageView.bounds.size.height;
         
-        CGFloat x = self.gridImageView.frame.origin.x * ( image.size.width / self.videoView.bounds.size.width );
+        CGFloat x = 0;
         CGFloat y = ( self.gridImageView.frame.origin.y - self.videoView.frame.origin.y ) * ( image.size.height / self.videoView.bounds.size.height );
         
         CGRect cropRect = CGRectMake( x, y, cropWidth, cropHeight );
