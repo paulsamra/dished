@@ -35,7 +35,12 @@
 - (IBAction)save:(id)sender
 {
     NSArray *navigationStack = self.navigationController.viewControllers;
-    [[DALocationManager sharedManager] getAddress];
+    
+    if ([[DALocationManager sharedManager] hasDeterminedLocation])
+    {
+        [[DALocationManager sharedManager] getAddress];
+
+    }
     
     for( UIViewController *parentController in navigationStack )
     {
