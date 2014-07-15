@@ -30,7 +30,13 @@
     [super viewDidLoad];
     
     [[DALocationManager sharedManager] startUpdatingLocation];
-    
+#if TARGET_IPHONE_SIMULATOR
+    NSLog(@"Running in the simulator");
+    [self performSelectorOnMainThread:@selector(imageIsReady:) withObject:[UIImage imageNamed:@"logo_blue.png"] waitUntilDone:NO];
+    [self performSegueWithIdentifier:@"chooseFilter" sender:nil];
+
+#elif TARGET_OS_IPHONE
+    NSLog(@"Running on a device");
     self.shouldShutterAfterFocus = NO;
     
     [self.view.layer setMasksToBounds:YES];
@@ -41,24 +47,27 @@
     spinner.center = self.view.center;
     
     dispatch_async( dispatch_get_main_queue(), ^
-    {
-        self.captureManager = [[DACaptureManager alloc] init];
-        self.captureManager.delegate = self;
-        
-        self.captureManager.previewLayer.frame = self.videoView.bounds;
-        [self.videoView.layer addSublayer:self.captureManager.previewLayer];
-        
-        [self.captureManager startCapture];
-        
-        [self.captureManager enableFlash:NO];
-        
-        [spinner removeFromSuperview];
-    });
+                   {
+                       self.captureManager = [[DACaptureManager alloc] init];
+                       self.captureManager.delegate = self;
+                       
+                       self.captureManager.previewLayer.frame = self.videoView.bounds;
+                       [self.videoView.layer addSublayer:self.captureManager.previewLayer];
+                       
+                       [self.captureManager startCapture];
+                       
+                       [self.captureManager enableFlash:NO];
+                       
+                       [spinner removeFromSuperview];
+                   });
     
     self.gridIsVisible = NO;
     self.gridImageView.hidden = !self.gridIsVisible;
     
     [self loadCameraRollThumbnail];
+
+#else
+#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated
