@@ -10,13 +10,13 @@
 #import <MapKit/MapKit.h>
 
 #define kLocationUpdateNotificationKey @"location_updated"
+#define kAddressReadyNotificationKey   @"address_ready"
 
 
 @interface DALocationManager : NSObject
 
 @property (nonatomic, readonly) CLLocationCoordinate2D currentLocation;
 
-#define kAddressReadyNotificationKey @"address_ready"
 
 + (DALocationManager *)sharedManager;
 
