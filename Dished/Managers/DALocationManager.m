@@ -67,39 +67,34 @@
 
 - (void)getAddress
 {
-    
     CLLocation *location = [[CLLocation alloc] initWithLatitude:self.currentLocation.latitude longitude:self.currentLocation.longitude];
+    
     CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    [geocoder reverseGeocodeLocation:location
-                   completionHandler:^(NSArray *placemarks, NSError *error) {
-                       
-                       if (error) {
-                           NSLog(@"Geocode failed with error: %@", error);
-                           return;
-                       }
-                       
-                       if (placemarks && placemarks.count > 0)
-                       {
-                           CLPlacemark *placemark = placemarks[0];
-                           
-                           NSDictionary *addressDictionary =
-                           placemark.addressDictionary;
-                           
-                           NSLog(@"address: %@, %f, %f", addressDictionary, self.currentLocation.latitude, self.currentLocation.longitude);
-                           NSString *address = [addressDictionary
-                                                objectForKey:(NSString *)kABPersonAddressStreetKey];
-                           NSString *city = [addressDictionary
-                                             objectForKey:(NSString *)kABPersonAddressCityKey];
-                           NSString *state = [addressDictionary
-                                              objectForKey:(NSString *)kABPersonAddressStateKey];
-                           NSString *zip = [addressDictionary
-                                            objectForKey:(NSString *)kABPersonAddressZIPKey];
-                           
-                           
-                           NSLog(@"%@ %@ %@ %@", address,city, state, zip);
-                       }
-                       
-                   }];
+    
+    [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error)
+    {
+        if( error )
+        {
+            NSLog(@"Geocode failed with error: %@", error);
+            return;
+        }
+
+        if( placemarks && placemarks.count > 0 )
+        {
+            CLPlacemark *placemark = placemarks[0];
+       
+            NSDictionary *addressDictionary =
+            placemark.addressDictionary;
+       
+            NSLog(@"address: %@, %f, %f", addressDictionary, self.currentLocation.latitude, self.currentLocation.longitude);
+            NSString *address = [addressDictionary objectForKey:(NSString *)kABPersonAddressStreetKey];
+            NSString *city    = [addressDictionary objectForKey:(NSString *)kABPersonAddressCityKey];
+            NSString *state   = [addressDictionary objectForKey:(NSString *)kABPersonAddressStateKey];
+            NSString *zip     = [addressDictionary objectForKey:(NSString *)kABPersonAddressZIPKey];
+            
+            NSLog(@"%@ %@ %@ %@", address,city, state, zip);
+        }
+    }];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations

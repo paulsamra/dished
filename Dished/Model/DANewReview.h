@@ -20,6 +20,7 @@
 @property (copy,   nonatomic) NSString  *price;
 @property (copy,   nonatomic) NSString  *grade;
 @property (copy,   nonatomic) NSString  *dishID;
+@property (copy,   nonatomic) NSString  *locationID;
 @property (copy,   nonatomic) NSString  *locationName;
 @property (copy,   nonatomic) NSString  *locationStreetNum;
 @property (copy,   nonatomic) NSString  *locationStreetName;

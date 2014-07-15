@@ -66,10 +66,10 @@
 - (void)getNegativeHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion;
 
 /*
- * Returns an array of dish title suggestions given
- * a search string.
+ * Returns an URL session task for retrieving dish
+ * suggestions based on a search string.
  */
-- (void)getDishTitleSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( NSArray *suggestions, NSError *error ) )completion;
+- (NSURLSessionTask *)dishTitleSuggestionTaskWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( id responseData, NSError *error ) )completion;
 
 /*
  * Returns an array of locations and an array of the

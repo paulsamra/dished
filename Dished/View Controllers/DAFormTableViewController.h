@@ -9,10 +9,10 @@
 
 #import <UIKit/UIKit.h>
 #import "SZTextView.h"
-#import "DADishNamesTableView.h"
+#import "DADishSuggestionsTableView.h"
 
 
-@interface DAFormTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate>
+@interface DAFormTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton           *hashtagButton;
 @property (weak, nonatomic) IBOutlet UIButton           *imAtButton;
@@ -26,7 +26,7 @@
 
 @property (strong, nonatomic) id data;
 @property (strong, nonatomic) id label;
-@property (nonatomic, retain) DADishNamesTableView *autocompleteTableView;
+@property (nonatomic, retain) DADishSuggestionsTableView *dishSuggestionsTable;
 
 - (void)setDetailItem:(id)newData;
 

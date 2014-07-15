@@ -30,9 +30,10 @@
     self.review = [[DANewReview alloc] init];
     self.review.type = kFood;
     
-    self.autocompleteTableView = [[DADishNamesTableView alloc] initWithFrame:CGRectMake(0, 44, 320, 189) withClass:self];
-    [self.view addSubview:self.autocompleteTableView];
-    self.autocompleteTableView.hidden = YES;
+    self.dishSuggestionsTable = [[DADishSuggestionsTableView alloc] initWithFrame:CGRectMake(0, 44, 320, 189)];
+    [self.view addSubview:self.dishSuggestionsTable];
+    self.dishSuggestionsTable.suggestionDelegate = self;
+    self.dishSuggestionsTable.hidden = YES;
 
     self.titleTextField.delegate = self;
     self.priceTextField.delegate = self;
@@ -168,7 +169,7 @@
 {
     if( textField == self.titleTextField )
     {
-        self.autocompleteTableView.hidden = YES;
+        self.dishSuggestionsTable.hidden = YES;
     }
 }
 
@@ -186,13 +187,25 @@
 {
     if( self.titleTextField.text.length == 0 )
     {
-        self.autocompleteTableView.hidden = YES;
+        self.dishSuggestionsTable.hidden = YES;
     }
     else
     {
-        self.autocompleteTableView.hidden = NO;
-        [self.autocompleteTableView searchAutocompleteEntriesWithSubstring:self.titleTextField.text];
+        self.dishSuggestionsTable.hidden = NO;
+        [self.dishSuggestionsTable updateSuggestionsWithQuery:self.titleTextField.text];
     }
+}
+
+- (void)selectedSuggestionWithDishName:(NSString *)dishName dishID:(NSString *)dishID locationName:(NSString *)locationName locationID:(NSString *)locationID
+{
+    self.titleTextField.text = dishName;
+    [self.imAtButton setTitle:locationName forState:UIControlStateNormal];
+    [self.imAtButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    
+    self.review.dishID = dishID;
+    self.review.title = dishName;
+    self.review.locationName = locationName;
+    self.review.locationID = locationID;
 }
 
 - (IBAction)changedDishType

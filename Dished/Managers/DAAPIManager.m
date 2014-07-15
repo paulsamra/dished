@@ -541,6 +541,39 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }];
 }
 
+- (NSURLSessionTask *)dishTitleSuggestionTaskWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( id responseData, NSError *error ) )completion
+{
+    if( ![self accessToken] )
+    {
+        completion( nil, nil );
+    }
+    
+    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"name" : query, @"type" : dishType };
+    
+    return [self GET:@"dishes/search" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSDictionary *response = (NSDictionary *)responseObject;
+        
+        if( [response[@"status"] isEqualToString:@"success"] )
+        {
+            completion( response[@"data"], nil );
+        }
+        else
+        {
+            completion( nil, nil );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( error.code != -999 )
+        {
+            NSLog(@"Error getting dish name suggestions: %@", error );
+            completion( nil, error );
+        }
+    }];
+}
+
 - (void)searchLocationsWithQuery:(NSString *)query completion:( void(^)( NSArray *locations, NSArray *distances, NSError *error ) )completion
 {
     if( ![self accessToken] )
