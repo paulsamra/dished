@@ -36,11 +36,7 @@
 {
     NSArray *navigationStack = self.navigationController.viewControllers;
     
-    if ([[DALocationManager sharedManager] hasDeterminedLocation])
-    {
-        [[DALocationManager sharedManager] getAddress];
-
-    }
+    [[DALocationManager sharedManager] getAddress];
     
     for( UIViewController *parentController in navigationStack )
     {

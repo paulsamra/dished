@@ -67,25 +67,31 @@
 - (void)getAddress
 {
     
-    CLLocation *location = [[CLLocation alloc] initWithLatitude:self.currentLocation.latitude longitude:self.currentLocation.longitude];
-    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-    [geocoder reverseGeocodeLocation:location
-                   completionHandler:^(NSArray *placemarks, NSError *error) {
-                       
-                       if (error) {
-                           NSLog(@"Geocode failed with error: %@", error);
-                           return;
-                       }
-                       
-                       if (placemarks && placemarks.count > 0)
-                       {
-                           CLPlacemark *placemark = placemarks[0];
+    if (self.locationFound)
+    {
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:self.currentLocation.latitude longitude:self.currentLocation.longitude];
+        CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+        [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error)
+        {
                            
-                           [[NSNotificationCenter defaultCenter] postNotificationName:@"addressReady" object:placemark.addressDictionary];
+            if (error)
+            {
+                NSLog(@"Geocode failed with error: %@", error);
+                return;
+            }
+            
+            if (placemarks && placemarks.count > 0)
+            {
+                CLPlacemark *placemark = placemarks[0];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:kAddressReadyNotificationKey object:placemark.addressDictionary];
+                
+            }
+            
+        }];
 
-                       }
-                       
-                   }];
+    }
+    
 }
 
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
