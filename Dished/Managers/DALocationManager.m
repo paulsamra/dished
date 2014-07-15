@@ -7,7 +7,6 @@
 //
 
 #import "DALocationManager.h"
-#import <AddressBook/AddressBook.h>
 
 
 @interface DALocationManager() <CLLocationManagerDelegate>

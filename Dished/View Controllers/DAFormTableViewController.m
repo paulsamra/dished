@@ -10,7 +10,8 @@
 #import "DAPositiveHashtagsViewController.h"
 #import "SZTextView.h"
 #import "DANewReview.h"
-
+#import <AddressBook/AddressBook.h>
+#import "DALocationManager.h"
 
 @interface DAFormTableViewController ()
 
@@ -25,6 +26,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressReady:) name:kAddressReadyNotificationKey object:nil];
+
     
     self.dishPrice = [[NSMutableString alloc] init];
     self.review = [[DANewReview alloc] init];
@@ -256,6 +259,19 @@
         dest.review = self.review;
     }
 }
+
+- (void)addressReady:(NSNotification *)notification;
+{
+    NSDictionary *addressDictionary = notification.object;
+    
+    NSString *address = [addressDictionary objectForKey:(NSString *)kABPersonAddressStreetKey];
+    NSString *city =  	[addressDictionary objectForKey:(NSString *)kABPersonAddressCityKey];
+    NSString *state = 	[addressDictionary objectForKey:(NSString *)kABPersonAddressStateKey];
+    NSString *zip =   	[addressDictionary objectForKey:(NSString *)kABPersonAddressZIPKey];
+    
+    NSLog(@"%@ %@ %@ %@", address, city, state, zip);
+}
+
 
 - (IBAction)postDish:(UIBarButtonItem *)sender
 {

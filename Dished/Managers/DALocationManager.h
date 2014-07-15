@@ -16,6 +16,7 @@
 
 @property (nonatomic, readonly) CLLocationCoordinate2D currentLocation;
 
+#define kAddressReadyNotificationKey @"address_ready"
 
 + (DALocationManager *)sharedManager;
 
