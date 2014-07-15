@@ -15,12 +15,9 @@
 
 @interface DAImagePickerController() <DACaptureManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
-@property (strong, nonatomic) UIImage           *pictureTaken;
-@property (strong, nonatomic) UIImageView       *previewImageView;
 @property (strong, nonatomic) DACaptureManager  *captureManager;
 
 @property (nonatomic) BOOL gridIsVisible;
-@property (nonatomic) BOOL shouldLoadGridImage;
 @property (nonatomic) BOOL shouldShutterAfterFocus;
 
 @end
@@ -34,10 +31,7 @@
     
     [[DALocationManager sharedManager] startUpdatingLocation];
     
-    self.shouldLoadGridImage = NO;
     self.shouldShutterAfterFocus = NO;
-    
-    self.navigationItem.rightBarButtonItem.enabled = NO;
     
     [self.view.layer setMasksToBounds:YES];
     
@@ -64,8 +58,6 @@
     self.gridIsVisible = NO;
     self.gridImageView.hidden = !self.gridIsVisible;
     
-    self.retakeButton.hidden = YES;
-    
     [self loadCameraRollThumbnail];
 }
 
@@ -76,6 +68,16 @@
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [UIColor whiteColor] };
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
+    self.takePictureButton.enabled = YES;
+    
+    dispatch_async( dispatch_get_main_queue(), ^
+    {
+        if( !self.captureManager.previewLayer.connection.enabled )
+        {
+            self.captureManager.previewLayer.connection.enabled = YES;
+        }
+    });
 }
 
 - (void)loadCameraRollThumbnail
@@ -122,11 +124,8 @@
 {
     [self.captureManager captureStillImage];
     
-    self.gridButton.hidden          = YES;
-    self.flashButton.hidden         = YES;
-    self.cameraRollButton.hidden    = YES;
-    self.takePictureButton.enabled  = NO;
-    self.toggleCameraButton.hidden  = YES;
+    self.takePictureButton.enabled = NO;
+    self.pictureTaken = nil;
     
     if( ![self.captureManager cameraIsFocusing] )
     {
@@ -147,39 +146,38 @@
     
     UIViewAnimationOptions options =  UIViewAnimationOptionCurveLinear;
     
-    [UIView animateWithDuration:0.1
-                          delay:0 options:options animations:^
-     {
-         shutterView.alpha = 1;
-     }
-                     completion:^( BOOL finished )
-     {
-         if( finished )
-         {
-             [UIView animateWithDuration:0.1 delay:0 options:options animations:^
-              {
-                  shutterView.alpha = 0;
-              }
-                              completion:^(BOOL finished)
-              {
-                  if( finished )
-                  {
-                      [shutterView removeFromSuperview];
-                      self.captureManager.previewLayer.connection.enabled = NO;
-                  }
-              }];
-         }
-     }];
+    [UIView animateWithDuration:0.1 delay:0 options:options animations:^
+    {
+        shutterView.alpha = 1;
+    }
+    completion:^( BOOL finished )
+    {
+        if( finished )
+        {
+            [UIView animateWithDuration:0.1 delay:0 options:options animations:^
+            {
+                shutterView.alpha = 0;
+            }
+            completion:^(BOOL finished)
+            {
+                if( finished )
+                {
+                    [shutterView removeFromSuperview];
+                    
+                    dispatch_async( dispatch_get_main_queue(), ^
+                    {
+                        self.captureManager.previewLayer.connection.enabled = NO;
+                    });
+                      
+                    [self performSegueWithIdentifier:@"chooseFilter" sender:nil];
+                }
+            }];
+        }
+    }];
 }
 
 - (void)captureManager:(DACaptureManager *)captureManager didCaptureImage:(UIImage *)image
 {
-    self.retakeButton.hidden = NO;
-    self.navigationItem.rightBarButtonItem.enabled = YES;
-    
-    self.previewImageView.image = image;
-    [self.view insertSubview:self.previewImageView belowSubview:self.overlayImageVew];
-    
     dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0 ), ^
     {        
         CGFloat cropWidth = ( image.size.width / self.videoView.bounds.size.width ) * self.gridImageView.bounds.size.width;
@@ -195,7 +193,14 @@
         CGImageRelease(imageRef);
         
         self.pictureTaken = croppedImage;
+        
+        [self performSelectorOnMainThread:@selector(imageIsReady:) withObject:croppedImage waitUntilDone:NO];
     });
+}
+
+- (void)imageIsReady:(UIImage *)image
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:kImageReadyNotificationKey object:image];
 }
 
 - (void)captureManagerDidFinishAdjustingFocus:(DACaptureManager *)captureManager
@@ -205,40 +210,6 @@
         self.shouldShutterAfterFocus = NO;
         [self animateShutter];
     }
-}
-
-- (IBAction)retakePicture
-{
-    [self.previewImageView removeFromSuperview];
-    
-    if( self.shouldLoadGridImage )
-    {
-        self.gridImageView.image = [UIImage imageNamed:@"camera_grid"];
-        self.shouldLoadGridImage = NO;
-    }
-    self.gridImageView.hidden = !self.gridIsVisible;
-    
-    [self.captureManager startCapture];
-    
-    self.retakeButton.hidden = YES;
-    self.takePictureButton.enabled = YES;
-    
-    self.cameraRollButton.hidden = NO;
-    self.flashButton.hidden = NO;
-    self.gridButton.hidden = NO;
-    self.toggleCameraButton.hidden = NO;
-    
-    self.pictureTaken = nil;
-    
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    
-    self.captureManager.previewLayer.connection.enabled = YES;
-    self.videoView.hidden = NO;
-}
-
-- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
-{
-    [self retakePicture];
 }
 
 - (IBAction)toggleGrid
@@ -257,62 +228,29 @@
     imagePicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     
     [self presentViewController:imagePicker animated:YES completion:nil];
-    
-    self.captureManager.previewLayer.connection.enabled = NO;
-    self.videoView.hidden = YES;
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    self.shouldLoadGridImage = YES;
-    self.navigationItem.rightBarButtonItem.enabled = YES;
-    
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    self.gridImageView.image = chosenImage;
-    self.gridImageView.hidden = NO;
     self.pictureTaken = chosenImage;
     
-    self.retakeButton.hidden = NO;
     self.takePictureButton.enabled = NO;
     
-    self.gridButton.hidden = YES;
-    self.flashButton.hidden = YES;
-    self.toggleCameraButton.hidden = YES;
-    self.cameraRollButton.hidden = YES;
-    
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self dismissViewControllerAnimated:YES completion:^
+    {
+        dispatch_async( dispatch_get_main_queue(), ^
+        {
+            self.captureManager.previewLayer.connection.enabled = NO;
+        });
+        
+        [self performSegueWithIdentifier:@"chooseFilter" sender:nil];
+    }];
 }
 
 - (IBAction)cancelReview:(UIBarButtonItem *)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (IBAction)goToFilters:(id)sender
-{
-    dispatch_async( dispatch_get_main_queue(), ^
-    {
-        [self.captureManager stopCapture];
-    });
-    
-    [self performSegueWithIdentifier:@"chooseFilter" sender:nil];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    DAImageFilterViewController *dest = segue.destinationViewController;
-    
-    dest.pictureTaken = self.pictureTaken;
-}
-
-- (UIImageView *)previewImageView
-{
-    if( !_previewImageView )
-    {
-        _previewImageView = [[UIImageView alloc] initWithFrame:self.videoView.frame];
-    }
-    
-    return _previewImageView;
 }
 
 @end

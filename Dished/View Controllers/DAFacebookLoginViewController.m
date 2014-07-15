@@ -70,8 +70,6 @@
                          self.activityIndicator.hidden = YES;
                          self.logoutButton.hidden = NO;
                          
-                         NSLog(@"%@", user);
-                         
                          [self performSegueWithIdentifier:@"goToRegister" sender:user];
                      }
                  }];
@@ -94,10 +92,8 @@
 {
     if( [segue.identifier isEqualToString:@"goToRegister"] )
     {
-        //DARegisterViewController *dest = segue.destinationViewController;
-        NSDictionary *userInfo = (NSDictionary *)sender;
-        
-        NSLog(@"%@", userInfo);
+        DARegisterViewController *dest = segue.destinationViewController;
+        dest.facebookUserInfo = (NSDictionary *)sender;
     }
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "DAImageFilterViewController.h"
+#import "DAImagePickerController.h"
 
 
 @interface DAImageFilterViewController()
@@ -26,7 +27,17 @@
 {
     [super viewDidLoad];
     
-    self.pictureImageView.image = self.pictureTaken;
+    self.pictureImageView.backgroundColor = [UIColor blackColor];
+    
+    DAImagePickerController *parentVC = [self.navigationController.viewControllers objectAtIndex:0];
+    
+    if( parentVC.pictureTaken )
+    {
+        self.pictureTaken = parentVC.pictureTaken;
+        self.pictureImageView.image = self.pictureTaken;
+    }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageReady:) name:kImageReadyNotificationKey object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -36,6 +47,16 @@
     self.navigationController.navigationBar.barTintColor = [UIColor blackColor];
     self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [UIColor whiteColor] };
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+}
+
+- (void)imageReady:(NSNotification *)notification;
+{
+    UIImage *pictureTaken = notification.object;
+    
+    self.pictureTaken = pictureTaken;
+    self.pictureImageView.image = self.pictureTaken;
+    
+    [self.collectionView reloadData];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -66,7 +87,7 @@
         imageView.layer.borderWidth = 0;
     }
     
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:101];
     
     if( ![self.filteredImages[indexPath.row] isEqual:[NSNull null]] )
     {
@@ -76,37 +97,46 @@
     {
         if( indexPath.row == 0 )
         {
-            self.filteredImages[indexPath.row] = self.pictureTaken;
-            imageView.image = self.pictureTaken;
+            if( !self.pictureTaken )
+            {
+                [spinner startAnimating];
+            }
+            else
+            {
+                self.filteredImages[indexPath.row] = self.pictureTaken;
+                imageView.image = self.pictureTaken;
+                
+                [spinner stopAnimating];
+            }
         }
         else
         {
-            [cell.contentView addSubview:spinner];
-            spinner.center = cell.contentView.center;
             [spinner startAnimating];
             
-            dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0 ), ^
+            if( self.pictureTaken )
             {
-                CIImage *beginImage = [CIImage imageWithCGImage:[self.pictureTaken CGImage]];
-                CIContext *context = [CIContext contextWithOptions:nil];
-                
-                CIFilter *filter = [CIFilter filterWithName:self.filterNames[indexPath.row] keysAndValues:kCIInputImageKey, beginImage, nil];
-                CIImage *outputImage = [filter outputImage];
-                
-                CGImageRef cgimg = [context createCGImage:outputImage fromRect:[outputImage extent]];
-                UIImage *newImg = [UIImage imageWithCGImage:cgimg];
-                
-                CGImageRelease(cgimg);
-                
-                dispatch_async( dispatch_get_main_queue(), ^
+                dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0 ), ^
                 {
-                    self.filteredImages[indexPath.row] = newImg;
-                    [imageView setImage:newImg];
+                    CIImage *beginImage = [CIImage imageWithCGImage:[self.pictureTaken CGImage]];
+                    CIContext *context = [CIContext contextWithOptions:nil];
                     
-                    [spinner stopAnimating];
-                    [spinner removeFromSuperview];
+                    CIFilter *filter = [CIFilter filterWithName:self.filterNames[indexPath.row] keysAndValues:kCIInputImageKey, beginImage, nil];
+                    CIImage *outputImage = [filter outputImage];
+                    
+                    CGImageRef cgimg = [context createCGImage:outputImage fromRect:[outputImage extent]];
+                    UIImage *newImg = [UIImage imageWithCGImage:cgimg];
+                    
+                    CGImageRelease(cgimg);
+                    
+                    dispatch_async( dispatch_get_main_queue(), ^
+                    {
+                        self.filteredImages[indexPath.row] = newImg;
+                        [imageView setImage:newImg];
+                        
+                        [spinner stopAnimating];
+                    });
                 });
-            });
+            }
         }
     }
     
@@ -134,7 +164,7 @@
 {
     if( !_filterTitles )
     {
-        _filterTitles = @[ @"No Filter", @"Instant", @"Transfer", @"Process", @"Sepia", @"Noir", @"Tonal", @"Cube", @"Chrome", @"False" ];
+        _filterTitles = @[ @"No Filter", @"Instant", @"Transfer", @"Process", @"Sepia", @"Noir", @"Tonal", @"Chrome", @"False" ];
     }
     
     return _filterTitles;
@@ -144,7 +174,7 @@
 {
     if( !_filterNames )
     {
-        _filterNames = @[ @"None", @"CIPhotoEffectInstant", @"CIPhotoEffectTransfer", @"CIPhotoEffectProcess", @"CISepiaTone", @"CIPhotoEffectNoir", @"CIPhotoEffectTonal", @"CIColorCube", @"CIPhotoEffectChrome", @"CIFalseColor" ];
+        _filterNames = @[ @"None", @"CIPhotoEffectInstant", @"CIPhotoEffectTransfer", @"CIPhotoEffectProcess", @"CISepiaTone", @"CIPhotoEffectNoir", @"CIPhotoEffectTonal", @"CIPhotoEffectChrome", @"CIFalseColor" ];
     }
     
     return _filterNames;

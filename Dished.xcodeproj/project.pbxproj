@@ -172,8 +172,6 @@
 		94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF7D1943FD760021A711 /* SSKeychainQuery.m */; };
 		94EE527F19610B4A00634E19 /* camera_grid.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EE527D19610B4A00634E19 /* camera_grid.png */; };
 		94EE528019610B4A00634E19 /* camera_grid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EE527E19610B4A00634E19 /* camera_grid@2x.png */; };
-		94FE15E519411F4F00FE00EA /* DATextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E319411F4F00FE00EA /* DATextFieldCell.m */; };
-		94FE15E619411F4F00FE00EA /* DATextFieldCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */; };
 		94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E81941239100FE00EA /* DATouchUITableView.m */; };
 		94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FF526A197347F200B97A61 /* DARegisterViewController.m */; };
 		D17487C2196DE8A200D83993 /* SZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C1196DE8A200D83993 /* SZTextView.m */; };
@@ -409,9 +407,6 @@
 		94E5EF7D1943FD760021A711 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
 		94EE527D19610B4A00634E19 /* camera_grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_grid.png; sourceTree = "<group>"; };
 		94EE527E19610B4A00634E19 /* camera_grid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_grid@2x.png"; sourceTree = "<group>"; };
-		94FE15E219411F4F00FE00EA /* DATextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATextFieldCell.h; sourceTree = "<group>"; };
-		94FE15E319411F4F00FE00EA /* DATextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATextFieldCell.m; sourceTree = "<group>"; };
-		94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DATextFieldCell.xib; sourceTree = "<group>"; };
 		94FE15E71941239100FE00EA /* DATouchUITableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATouchUITableView.h; sourceTree = "<group>"; };
 		94FE15E81941239100FE00EA /* DATouchUITableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATouchUITableView.m; sourceTree = "<group>"; };
 		94FF5269197347F200B97A61 /* DARegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARegisterViewController.h; sourceTree = "<group>"; };
@@ -543,10 +538,10 @@
 				941538F719401A14008B3B79 /* DASplashViewController.m */,
 				9415F3C21941044000C3A7A1 /* DALoginViewController.h */,
 				9415F3C31941044000C3A7A1 /* DALoginViewController.m */,
-				94FF5269197347F200B97A61 /* DARegisterViewController.h */,
-				94FF526A197347F200B97A61 /* DARegisterViewController.m */,
 				94449EDD19481A54008B8881 /* DAFacebookLoginViewController.h */,
 				94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */,
+				94FF5269197347F200B97A61 /* DARegisterViewController.h */,
+				94FF526A197347F200B97A61 /* DARegisterViewController.m */,
 				94237E5C194A2CF6004DFAB6 /* DAForgotPasswordViewController.h */,
 				94237E5D194A2CF6004DFAB6 /* DAForgotPasswordViewController.m */,
 				94237E70194A318C004DFAB6 /* DAResetPasswordViewController.h */,
@@ -926,9 +921,6 @@
 		94FE15E119411F3000FE00EA /* Layout */ = {
 			isa = PBXGroup;
 			children = (
-				94FE15E219411F4F00FE00EA /* DATextFieldCell.h */,
-				94FE15E319411F4F00FE00EA /* DATextFieldCell.m */,
-				94FE15E419411F4F00FE00EA /* DATextFieldCell.xib */,
 				94FE15E71941239100FE00EA /* DATouchUITableView.h */,
 				94FE15E81941239100FE00EA /* DATouchUITableView.m */,
 				948B7F631941B8AF005494AA /* DADatePickerCell.h */,
@@ -1036,7 +1028,6 @@
 				94449F14194A2AFF008B8881 /* password_phone_submit@2x.png in Resources */,
 				946BAE20195FF56900EF86C0 /* explore@2x.png in Resources */,
 				9430941A1942B16300B1F61F /* error_message.png in Resources */,
-				94FE15E619411F4F00FE00EA /* DATextFieldCell.xib in Resources */,
 				94449EFF1949A3B2008B8881 /* iTunesArtwork.png in Resources */,
 				94237E6E194A3085004DFAB6 /* reset_submit.png in Resources */,
 				9415390319404314008B3B79 /* splash_facebook_connect.png in Resources */,
@@ -1178,7 +1169,6 @@
 				949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */,
 				94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */,
 				94237E5E194A2CF6004DFAB6 /* DAForgotPasswordViewController.m in Sources */,
-				94FE15E519411F4F00FE00EA /* DATextFieldCell.m in Sources */,
 				94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */,
 				94A027A7196F264A004D5CD7 /* DARatingCustomTableViewCell.m in Sources */,
 				94E5EF721943F5530021A711 /* MRCircularProgressView.m in Sources */,

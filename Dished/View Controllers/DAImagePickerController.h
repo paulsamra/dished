@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+#define kImageReadyNotificationKey @"image_ready"
+
+
 @interface DAImagePickerController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UIView         *videoView;
@@ -16,8 +19,9 @@
 @property (weak, nonatomic) IBOutlet UIButton       *toggleCameraButton;
 @property (weak, nonatomic) IBOutlet UIButton       *takePictureButton;
 @property (weak, nonatomic) IBOutlet UIButton       *cameraRollButton;
-@property (weak, nonatomic) IBOutlet UIButton       *retakeButton;
 @property (weak, nonatomic) IBOutlet UIImageView    *overlayImageVew;
 @property (weak, nonatomic) IBOutlet UIImageView    *gridImageView;
+
+@property (strong, nonatomic) UIImage *pictureTaken;
 
 @end

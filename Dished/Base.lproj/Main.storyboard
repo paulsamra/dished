@@ -659,15 +659,6 @@
                                     <action selector="toggleGrid" destination="Rsi-kn-aX0" eventType="touchUpInside" id="7WA-bh-gXl"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IC8-9A-Nau">
-                                <rect key="frame" x="249" y="508" width="60" height="30"/>
-                                <state key="normal" title="Retake">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="retakePicture" destination="Rsi-kn-aX0" eventType="touchUpInside" id="zUY-AC-ZVq"/>
-                                </connections>
-                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera_grid.png" translatesAutoresizingMaskIntoConstraints="NO" id="s0i-Cc-DtF">
                                 <rect key="frame" x="10" y="129" width="300" height="276"/>
                             </imageView>
@@ -690,11 +681,6 @@
                                 <action selector="cancelReview:" destination="Rsi-kn-aX0" id="PEA-cU-u02"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="f7t-j7-gzJ">
-                            <connections>
-                                <action selector="goToFilters:" destination="Rsi-kn-aX0" id="hY1-L4-L98"/>
-                            </connections>
-                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="cameraRollButton" destination="qiy-22-s2p" id="fxL-Tm-TBT"/>
@@ -702,7 +688,6 @@
                         <outlet property="gridButton" destination="CtV-c0-M4f" id="zsa-fv-SZG"/>
                         <outlet property="gridImageView" destination="s0i-Cc-DtF" id="QPr-4v-8pT"/>
                         <outlet property="overlayImageVew" destination="Mam-hH-wat" id="Ke5-uL-tC7"/>
-                        <outlet property="retakeButton" destination="IC8-9A-Nau" id="fSo-PK-q3l"/>
                         <outlet property="takePictureButton" destination="891-m0-y9C" id="AR3-ay-488"/>
                         <outlet property="toggleCameraButton" destination="2l2-Sj-zyy" id="ysH-h6-AXc"/>
                         <outlet property="videoView" destination="Cac-d7-BJx" id="MhS-36-F9i"/>
@@ -753,6 +738,10 @@
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <activityIndicatorView hidden="YES" opaque="NO" tag="101" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="tTS-3l-iXZ">
+                                                    <rect key="frame" x="31" y="21" width="20" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                </activityIndicatorView>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
