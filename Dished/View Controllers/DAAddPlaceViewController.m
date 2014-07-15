@@ -8,6 +8,7 @@
 
 #import "DAAddPlaceViewController.h"
 #import "DAFormTableViewController.h"
+#import "DALocationManager.h"
 
 @interface DAAddPlaceViewController ()
 
@@ -19,6 +20,7 @@
 {
     [super viewDidLoad];
     
+    [[DALocationManager sharedManager] startUpdatingLocation];
     [self.nameTextField becomeFirstResponder];
     
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell"];
@@ -33,7 +35,8 @@
 - (IBAction)save:(id)sender
 {
     NSArray *navigationStack = self.navigationController.viewControllers;
-
+    [[DALocationManager sharedManager] getAddress];
+    
     for( UIViewController *parentController in navigationStack )
     {
         if( [parentController isKindOfClass:[DAFormTableViewController class]] )
