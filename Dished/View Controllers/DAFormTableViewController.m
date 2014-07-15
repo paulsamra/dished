@@ -50,26 +50,6 @@
     self.titleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Title" attributes:@{ NSForegroundColorAttributeName : [UIColor lightGrayColor] } ];
 }
 
-- (void)addressReady:(NSNotification *)notification;
-{
-    NSDictionary *addressDictionary = notification.object;
-    
-    NSString *address = [addressDictionary
-                         objectForKey:(NSString *)kABPersonAddressStreetKey];
-    NSString *city = [addressDictionary
-                      objectForKey:(NSString *)kABPersonAddressCityKey];
-    NSString *state = [addressDictionary
-                       objectForKey:(NSString *)kABPersonAddressStateKey];
-    NSString *zip = [addressDictionary
-                     objectForKey:(NSString *)kABPersonAddressZIPKey];
-    
-    
-    NSLog(@"%@ %@ %@ %@", address, city, state, zip);
-
-    
-}
-
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -266,6 +246,19 @@
         dest.review = self.review;
     }
 }
+
+- (void)addressReady:(NSNotification *)notification;
+{
+    NSDictionary *addressDictionary = notification.object;
+    
+    NSString *address = [addressDictionary objectForKey:(NSString *)kABPersonAddressStreetKey];
+    NSString *city =  	[addressDictionary objectForKey:(NSString *)kABPersonAddressCityKey];
+    NSString *state = 	[addressDictionary objectForKey:(NSString *)kABPersonAddressStateKey];
+    NSString *zip =   	[addressDictionary objectForKey:(NSString *)kABPersonAddressZIPKey];
+    
+    NSLog(@"%@ %@ %@ %@", address, city, state, zip);
+}
+
 
 - (IBAction)postDish:(UIBarButtonItem *)sender
 {
