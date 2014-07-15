@@ -8,16 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DADishNamesTableView : UITableView <UITableViewDataSource, UITableViewDelegate> {
-    NSMutableArray *pastUrls;
-    NSMutableArray *autocompleteUrls;
-}
+@interface DADishNamesTableView : UITableView <UITableViewDataSource, UITableViewDelegate>
 
-@property (nonatomic, retain) NSMutableArray *pastUrls;
-@property (nonatomic, retain) NSMutableArray *autocompleteUrls;
+@property (strong, nonatomic) NSMutableArray *pastUrls;
+@property (strong, nonatomic) NSMutableArray *autocompleteUrls;
 
 
 - (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring;
-- (id)initWithFrame:(CGRect)frame withClass:(id) class;
+- (id)initWithFrame:(CGRect)frame withClass:(id)class;
 
 @end

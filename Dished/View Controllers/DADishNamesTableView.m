@@ -12,8 +12,6 @@
 
 
 @implementation DADishNamesTableView
-@synthesize pastUrls;
-@synthesize autocompleteUrls;
 
 DAFormTableViewController *caller;
 
@@ -21,11 +19,11 @@ DAFormTableViewController *caller;
 {
     self = [super initWithFrame:frame];
     
-    if (self)
+    if( self )
     {
         caller = class;
-        self.pastUrls = [[NSMutableArray alloc] initWithObjects:@"YooGood Cream", @"Yoaghetti", @"Yogart", nil];
-        self.autocompleteUrls = [[NSMutableArray alloc] init];
+        _pastUrls = [[NSMutableArray alloc] initWithObjects:@"YooGood Cream", @"Yoaghetti", @"Yogart", nil];
+        _autocompleteUrls = [[NSMutableArray alloc] init];
         self.delegate = self;
         self.dataSource	= self;
     }
@@ -35,15 +33,15 @@ DAFormTableViewController *caller;
 
 - (void)searchAutocompleteEntriesWithSubstring:(NSString *)substring
 {
-    [autocompleteUrls removeAllObjects];
+    [self.autocompleteUrls removeAllObjects];
     [self reloadData];
     
-    [[DAAPIManager sharedManager] getDishTitleSuggestionsWithQuery:substring dishType:@"food"
+    [[DAAPIManager sharedManager] getDishTitleSuggestionsWithQuery:substring dishType:kFood
     completion:^( NSArray *suggestions, NSError *error )
     {
         if( suggestions )
         {
-            autocompleteUrls = [suggestions mutableCopy];
+            self.autocompleteUrls = [suggestions mutableCopy];
             [self reloadData];
         }
     }];
@@ -53,7 +51,7 @@ DAFormTableViewController *caller;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return autocompleteUrls.count;
+    return self.autocompleteUrls.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -80,7 +78,7 @@ DAFormTableViewController *caller;
     [backgroundView addSubview:location];
     iconPlaceImage.frame = CGRectMake(210, 44/2 - 7.5, 21/2, 30/2);
     cell.backgroundView = backgroundView;
-    cell.textLabel.text = [autocompleteUrls objectAtIndex:indexPath.row];
+    cell.textLabel.text = [self.autocompleteUrls objectAtIndex:indexPath.row];
     return cell;
 }
 

@@ -40,10 +40,10 @@
     
     if( self )
     {
-        self.locationManager = [[CLLocationManager alloc] init];
-        self.locationManager.delegate = self;
-        self.locationManager.desiredAccuracy = 20.0f;
-        self.locationFound = NO;
+        _locationManager = [[CLLocationManager alloc] init];
+        _locationManager.delegate = self;
+        _locationManager.desiredAccuracy = 20.0f;
+        _locationFound = NO;
     }
     
     return self;
@@ -68,6 +68,8 @@
 {
     CLLocation *location = [locations lastObject];
     self.currentLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude);
+    
+    NSLog(@"%f, %f", self.currentLocation.longitude, self.currentLocation.latitude);
     
     if( location.coordinate.latitude != 0 && location.coordinate.longitude != 0 )
     {

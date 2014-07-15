@@ -28,7 +28,7 @@
     
     self.dishPrice = [[NSMutableString alloc] init];
     self.review = [[DANewReview alloc] init];
-    self.review.type = @"food";
+    self.review.type = kFood;
     
     self.autocompleteTableView = [[DADishNamesTableView alloc] initWithFrame:CGRectMake(0, 44, 320, 189) withClass:self];
     [self.view addSubview:self.autocompleteTableView];

@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 
+#define kLocationUpdateNotificationKey @"location_updated"
+
+
 @interface DALocationManager : NSObject
 
 @property (nonatomic, readonly) CLLocationCoordinate2D currentLocation;

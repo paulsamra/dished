@@ -250,6 +250,8 @@
 
 - (IBAction)cancelReview:(UIBarButtonItem *)sender
 {
+    [[DALocationManager sharedManager] stopUpdatingLocation];
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
