@@ -10,13 +10,17 @@
 #import "DAFormTableViewController.h"
 #import "DAAddPlaceViewController.h"
 #import "DAAPIManager.h"
+#import "DALocationManager.h"
+
+static NSString *kLocationNameKey     = @"name";
+static NSString *kLocationIDKey       = @"id";
+static NSString *kLocationDistanceKey = @"distance";
 
 
 @interface DALocationTableViewController() <UISearchBarDelegate>
 
-@property (strong, nonatomic) NSArray *locationNames;
-@property (strong, nonatomic) NSArray *locationDistances;
-@property (strong, nonatomic) NSDictionary *tableData;
+@property (strong, nonatomic) NSMutableArray    *locationData;
+@property (strong, nonatomic) NSURLSessionTask  *searchTask;
 
 @end
 
@@ -29,10 +33,7 @@
     
     self.tableView.backgroundColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1];
     
-    self.locationNames = @[];
-    self.locationDistances = @[];
-    
-    self.tableData = [[NSMutableDictionary alloc] initWithObjects:self.locationDistances forKeys:self.locationNames];
+    self.locationData = [NSMutableArray array];
 }
 
 
@@ -45,27 +46,23 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [[self.tableData allKeys] count] + 2;
+    return [self.locationData count] + 1;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = nil;
     
-    if( indexPath.row == [[self.tableData allKeys] count] )
+    if( indexPath.row == [self.locationData count] )
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"newPlaceCell"];
-    }
-    else if( indexPath.row == ( [[self.tableData allKeys] count] + 1 ) )
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:@"footerCell"];
     }
     else
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"locationCell"];
         
-        cell.textLabel.text = [[self.tableData allKeys] objectAtIndex:indexPath.row];
-        cell.detailTextLabel.text = [self.tableData objectForKey:[[self.tableData allKeys] objectAtIndex:indexPath.row]];
+        cell.textLabel.text       = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationNameKey];
+        cell.detailTextLabel.text = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationDistanceKey];
     }
     
     UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, 0.5)];
@@ -79,7 +76,7 @@
 {
     double height = 0.0;
     
-	if( indexPath.row == ( [[self.tableData allKeys] count] + 1 ) )
+	if( indexPath.row == ( [self.locationData count] + 1 ) )
     {
         height = 300.0;
     }
@@ -93,10 +90,9 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.row < [[self.tableData allKeys] count] )
+    if( indexPath.row < [self.locationData count] )
     {
         UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-        NSLog(@"%@", selectedCell.textLabel.text);
         
         NSArray *navigationStack = self.navigationController.viewControllers;
         DAFormTableViewController *parentController = [navigationStack objectAtIndex:([navigationStack count] -2)];
@@ -105,7 +101,7 @@
         [self.navigationController popViewControllerAnimated:YES];
 
     }
-    else if( indexPath.row == [[self.tableData allKeys] count] )
+    else if( indexPath.row == [self.locationData count] )
     {
         [self performSegueWithIdentifier:@"add" sender:nil];
     }
@@ -115,21 +111,44 @@
 {
     if( searchText.length == 0 )
     {
-        self.tableData = [NSDictionary dictionary];
+        self.locationData = [NSMutableArray array];
         [self.tableView reloadData];
         return;
     }
     
-    [[DAAPIManager sharedManager] searchLocationsWithQuery:searchText
-    completion:^( NSArray *locations, NSArray *distances, NSError *error )
+    double longitude = [[DALocationManager sharedManager] currentLocation].longitude;
+    double latitude  = [[DALocationManager sharedManager] currentLocation].latitude;
+    
+    if( self.searchTask )
     {
-        if( locations )
-        {
-            self.locationNames = locations;
-            self.locationDistances = distances;
-        }
+        [self.searchTask cancel];
+    }
+    
+    self.searchTask = [[DAAPIManager sharedManager] locationSearchTaskWithQuery:searchText
+    longitude:longitude latitude:latitude completion:^( id responseObject, NSError *error )
+    {
+        NSArray *searchResults = (NSArray *)responseObject;
         
-        self.tableData = [NSDictionary dictionaryWithObjects:self.locationDistances forKeys:self.locationNames];
+        if( !searchResults )
+        {
+            self.locationData = [NSMutableArray array];
+        }
+        else
+        {
+            for( NSDictionary *locationInfo in searchResults )
+            {
+                NSMutableDictionary *location = [NSMutableDictionary dictionary];
+                location[kLocationNameKey]    = locationInfo[kLocationNameKey];
+                location[kLocationIDKey]      = locationInfo[kLocationIDKey];
+                
+                if( locationInfo[kLocationDistanceKey] )
+                {
+                    location[kLocationDistanceKey] = locationInfo[kLocationDistanceKey];
+                }
+                
+                [self.locationData addObject:location];
+            }
+        }
         
         [self.tableView reloadData];
     }];

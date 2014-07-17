@@ -66,21 +66,16 @@
 - (void)getNegativeHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion;
 
 /*
- * Returns an URL session task for retrieving dish
- * suggestions based on a search string.
+ * Returns an NSURLSessionTask object for retrieving
+ * dish suggestions based on a search string.
  */
 - (NSURLSessionTask *)dishTitleSuggestionTaskWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( id responseData, NSError *error ) )completion;
 
 /*
- * Returns an array of locations and an array of the
- * distances to those locations given a search string.
- * The sizes of the arrays will always be the same.
- * If there is not distance available for a location, 
- * the corresponding distance for that location will
- * be an empty string in the array. The distances are
- * in miles, and represented as strings in the array.
+ * Returns an array of locations given a search string.
+ * Distances are given in miles.
  */
-- (void)searchLocationsWithQuery:(NSString *)query completion:( void(^)( NSArray *locations, NSArray *distances, NSError *error ) )completion;
+- (NSURLSessionTask *)locationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
 
 /*
  * Posts a new dish review to the server.

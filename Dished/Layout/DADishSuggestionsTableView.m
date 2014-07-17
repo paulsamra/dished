@@ -11,6 +11,11 @@
 #import "DAAPIManager.h"
 #import "DADishSuggestionTableViewCell.h"
 
+static NSString *kDishNameKey     = @"name";
+static NSString *kDishIDKey       = @"id";
+static NSString *kLocationNameKey = @"loc_name";
+static NSString *kLocationIDKey   = @"loc_id";
+
 
 @interface DADishSuggestionsTableView()
 
@@ -59,10 +64,10 @@
             for( NSDictionary *dishInfo in searchResults )
             {
                 NSMutableDictionary *newDish = [NSMutableDictionary dictionary];
-                newDish[@"dish_name"] = dishInfo[@"name"];
-                newDish[@"dish_id"]   = dishInfo[@"id"];
-                newDish[@"loc_name"]  = dishInfo[@"loc_name"];
-                newDish[@"loc_id"]    = dishInfo[@"loc_id"];
+                newDish[kDishNameKey]      = dishInfo[kDishNameKey];
+                newDish[kDishIDKey]        = dishInfo[kDishIDKey];
+                newDish[kLocationNameKey]  = dishInfo[kLocationNameKey];
+                newDish[kLocationIDKey]    = dishInfo[kLocationIDKey];
                 
                 [self.dishSearchResults addObject:newDish];
             }
@@ -83,8 +88,8 @@
 {
     DADishSuggestionTableViewCell *cell = (DADishSuggestionTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"suggestionCell"];
     
-    cell.placeLabel.text = [[self.dishSearchResults objectAtIndex:indexPath.row] objectForKey:@"loc_name"];
-    cell.nameLabel.text  = [[self.dishSearchResults objectAtIndex:indexPath.row] objectForKey:@"dish_name"];
+    cell.placeLabel.text = [[self.dishSearchResults objectAtIndex:indexPath.row] objectForKey:kLocationNameKey];
+    cell.nameLabel.text  = [[self.dishSearchResults objectAtIndex:indexPath.row] objectForKey:kDishNameKey];
     
     return cell;
 }
@@ -94,10 +99,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *selectedDishInfo = self.dishSearchResults[indexPath.row];
-    NSString *dishName = selectedDishInfo[@"dish_name"];
-    NSString *dishID   = selectedDishInfo[@"dish_id"];
-    NSString *locationName = selectedDishInfo[@"loc_name"];
-    NSString *locationID   = selectedDishInfo[@"loc_id"];
+    NSString *dishName = selectedDishInfo[kDishNameKey];
+    NSString *dishID   = selectedDishInfo[kDishIDKey];
+    NSString *locationName = selectedDishInfo[kLocationNameKey];
+    NSString *locationID   = selectedDishInfo[kLocationIDKey];
     
     if( [self.suggestionDelegate respondsToSelector:@selector(selectedSuggestionWithDishName:dishID:locationName:locationID:)] )
     {

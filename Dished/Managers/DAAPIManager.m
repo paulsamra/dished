@@ -502,45 +502,6 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }];
 }
 
-- (void)getDishTitleSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( NSArray *suggestions, NSError *error ) )completion
-{
-    if( ![self accessToken] )
-    {
-        completion( nil, nil );
-    }
-    
-    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"name" : query, @"type" : dishType };
-    
-    [self GET:@"dishes/search" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        NSDictionary *response = (NSDictionary *)responseObject;
-        
-        if( [response[@"status"] isEqualToString:@"success"] )
-        {
-            NSArray *dishes = response[@"data"];
-            
-            NSMutableArray *dishNames = [NSMutableArray array];
-            
-            for( NSDictionary *dish in dishes )
-            {
-                [dishNames addObject:dish[@"name"]];
-            }
-            
-            completion( [dishNames copy], nil );
-        }
-        else
-        {
-            completion( nil, nil );
-        }
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        NSLog(@"Error getting dish name suggestions: %@", error );
-        completion( nil, error );
-    }];
-}
-
 - (NSURLSessionTask *)dishTitleSuggestionTaskWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( id responseData, NSError *error ) )completion
 {
     if( ![self accessToken] )
@@ -574,63 +535,36 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }];
 }
 
-- (void)searchLocationsWithQuery:(NSString *)query completion:( void(^)( NSArray *locations, NSArray *distances, NSError *error ) )completion
+- (NSURLSessionTask *)locationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
 {
     if( ![self accessToken] )
     {
-        completion( nil, nil, nil );
+        completion( nil, nil );
     }
     
-    NSMutableDictionary *parameters = [NSMutableDictionary dictionaryWithDictionary:@{ kAccessTokenKey : [self accessToken], @"dish_loc" : query, @"return" : @"loc" }];
+    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"query" : query, @"longitude" : @(longitude), @"latitude" : @(latitude) };
     
-    if( [[DALocationManager sharedManager] hasDeterminedLocation] )
-    {
-        CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
-        
-        [parameters setObject:@(currentLocation.longitude) forKey:@"longitude"];
-        [parameters setObject:@(currentLocation.latitude)  forKey:@"latitude"];
-    }
-    
-    [self GET:@"explore" parameters:parameters
+    return [self GET:@"explore/locations" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
         NSDictionary *response = (NSDictionary *)responseObject;
         
         if( [response[@"status"] isEqualToString:@"success"] )
         {
-            NSArray *locations = response[@"data"][@"locations"];
-            
-            NSMutableArray *locationNames = [NSMutableArray array];
-            NSMutableArray *distances = [NSMutableArray array];
-            
-            if( locations && ![locations isEqual:[NSNull null]] )
-            {
-                for( NSDictionary *location in locations )
-                {
-                    [locationNames addObject:location[@"name"]];
-                    
-                    if( location[@"distance"] )
-                    {
-                        [distances addObject:location[@"distance"]];
-                    }
-                    else
-                    {
-                        [distances addObject:@""];
-                    }
-                }
-            }
-            
-            completion( locationNames, distances, nil );
+            completion( response[@"data"][@"locations"], nil );
         }
         else
         {
-            completion( nil, nil, nil );
+            completion( nil, nil );
         }
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"Error searching locations: %@", error );
-        completion( nil, nil, error );
+        if( error.code != -999 )
+        {
+            NSLog(@"Error searching for locations: %@", error);
+            completion( nil, error );
+        }
     }];
 }
 

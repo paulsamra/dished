@@ -1514,21 +1514,6 @@
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
-                            <tableViewCell appearanceType="aqua" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="footerCell" id="9Ve-ZV-0Ra">
-                                <rect key="frame" x="0.0" y="218" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9Ve-ZV-0Ra" id="Nhb-G2-i1r">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="add_dish_powered.png" translatesAutoresizingMaskIntoConstraints="NO" id="sDa-UI-UOR">
-                                            <rect key="frame" x="57" y="11" width="207" height="22"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </imageView>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="ZvA-N9-6Oj" id="WOO-Bu-KsJ"/>
@@ -1801,7 +1786,6 @@
         <image name="add_dish_food.png" width="17" height="18"/>
         <image name="add_dish_foursquare.png" width="22" height="22"/>
         <image name="add_dish_location.png" width="10" height="15"/>
-        <image name="add_dish_powered.png" width="207" height="22"/>
         <image name="add_dish_twitter.png" width="22" height="22"/>
         <image name="add_dish_wine.png" width="11" height="18"/>
         <image name="add_review.png" width="70" height="49"/>
@@ -1837,8 +1821,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="uu3-ER-XS1"/>
         <segue reference="e1c-XP-t2f"/>
-        <segue reference="DWl-1Z-W5u"/>
+        <segue reference="wCN-0l-elF"/>
+        <segue reference="aNd-9F-Yna"/>
     </inferredMetricsTieBreakers>
 </document>
