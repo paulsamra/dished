@@ -131,6 +131,8 @@
 		94479D5F194FDAAF0071EF6A /* password_phone.png in Resources */ = {isa = PBXBuildFile; fileRef = 94479D5D194FDAAF0071EF6A /* password_phone.png */; };
 		94479D60194FDAAF0071EF6A /* password_phone@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94479D5E194FDAAF0071EF6A /* password_phone@2x.png */; };
 		94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */; };
+		945E2D3D1977B7C600D2848D /* camera_utility_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E2D3B1977B7C600D2848D /* camera_utility_background.png */; };
+		945E2D3E1977B7C600D2848D /* camera_utility_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 945E2D3C1977B7C600D2848D /* camera_utility_background@2x.png */; };
 		946BAE1D195FF56900EF86C0 /* add_review.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE13195FF56900EF86C0 /* add_review.png */; };
 		946BAE1E195FF56900EF86C0 /* add_review@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE14195FF56900EF86C0 /* add_review@2x.png */; };
 		946BAE1F195FF56900EF86C0 /* explore.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE15195FF56900EF86C0 /* explore.png */; };
@@ -335,6 +337,8 @@
 		94479D5E194FDAAF0071EF6A /* password_phone@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "password_phone@2x.png"; sourceTree = "<group>"; };
 		94479D6319502E2F0071EF6A /* JSONResponseSerializerWithData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONResponseSerializerWithData.h; sourceTree = "<group>"; };
 		94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONResponseSerializerWithData.m; sourceTree = "<group>"; };
+		945E2D3B1977B7C600D2848D /* camera_utility_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_utility_background.png; sourceTree = "<group>"; };
+		945E2D3C1977B7C600D2848D /* camera_utility_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_utility_background@2x.png"; sourceTree = "<group>"; };
 		946BAE13195FF56900EF86C0 /* add_review.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_review.png; sourceTree = "<group>"; };
 		946BAE14195FF56900EF86C0 /* add_review@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_review@2x.png"; sourceTree = "<group>"; };
 		946BAE15195FF56900EF86C0 /* explore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explore.png; sourceTree = "<group>"; };
@@ -688,6 +692,8 @@
 		944689A71960196700FAE288 /* a - Camera */ = {
 			isa = PBXGroup;
 			children = (
+				945E2D3B1977B7C600D2848D /* camera_utility_background.png */,
+				945E2D3C1977B7C600D2848D /* camera_utility_background@2x.png */,
 				94EE527D19610B4A00634E19 /* camera_grid.png */,
 				94EE527E19610B4A00634E19 /* camera_grid@2x.png */,
 				94358D8019603B9900C38A93 /* camera_overlay.png */,
@@ -1037,6 +1043,7 @@
 				946BAE20195FF56900EF86C0 /* explore@2x.png in Resources */,
 				9430941A1942B16300B1F61F /* error_message.png in Resources */,
 				94449EFF1949A3B2008B8881 /* iTunesArtwork.png in Resources */,
+				945E2D3D1977B7C600D2848D /* camera_utility_background.png in Resources */,
 				94237E6E194A3085004DFAB6 /* reset_submit.png in Resources */,
 				9415390319404314008B3B79 /* splash_facebook_connect.png in Resources */,
 				944689E31960196700FAE288 /* add_dish_wine_white.png in Resources */,
@@ -1080,6 +1087,7 @@
 				944689D21960196700FAE288 /* add_dish_drink@2x.png in Resources */,
 				94EE527F19610B4A00634E19 /* camera_grid.png in Resources */,
 				944689D11960196700FAE288 /* add_dish_drink.png in Resources */,
+				945E2D3E1977B7C600D2848D /* camera_utility_background@2x.png in Resources */,
 				94479D5F194FDAAF0071EF6A /* password_phone.png in Resources */,
 				94237E6A194A2FD5004DFAB6 /* reset_password.png in Resources */,
 				944689D61960196700FAE288 /* add_dish_email@2x.png in Resources */,

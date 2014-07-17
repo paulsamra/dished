@@ -459,7 +459,7 @@
                             <constraint firstAttribute="trailing" secondItem="EyG-PF-9cv" secondAttribute="trailing" id="eeX-zA-4hN"/>
                             <constraint firstItem="iOU-OW-UuF" firstAttribute="top" secondItem="8oZ-V4-DRb" secondAttribute="top" constant="-7" id="gIB-O9-nkg"/>
                             <constraint firstItem="EyG-PF-9cv" firstAttribute="top" secondItem="iOU-OW-UuF" secondAttribute="bottom" id="hK6-By-MD2"/>
-                            <constraint firstItem="MYt-73-vzK" firstAttribute="top" secondItem="moW-LQ-1Qi" secondAttribute="bottom" constant="116" id="hL3-gu-kpt"/>
+                            <constraint firstItem="MYt-73-vzK" firstAttribute="top" secondItem="moW-LQ-1Qi" secondAttribute="bottom" constant="72" id="hL3-gu-kpt"/>
                             <constraint firstItem="MYt-73-vzK" firstAttribute="leading" secondItem="j39-rS-TcJ" secondAttribute="leading" id="hdB-xJ-7l2"/>
                             <constraint firstItem="EyG-PF-9cv" firstAttribute="bottom" secondItem="P7O-DU-qqV" secondAttribute="bottom" constant="7" id="lcS-xc-Kce"/>
                             <constraint firstItem="iOU-OW-UuF" firstAttribute="leading" secondItem="j39-rS-TcJ" secondAttribute="leading" id="muX-m8-9f8"/>
@@ -614,9 +614,13 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cac-d7-BJx" userLabel="Video View">
-                                <rect key="frame" x="0.0" y="64" width="320" height="415"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="478"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera_utility_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="m1X-Kp-RiQ" userLabel="Utility Background">
+                                <rect key="frame" x="0.0" y="404" width="320" height="74"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera_dock.png" translatesAutoresizingMaskIntoConstraints="NO" id="QKw-vI-Q12" userLabel="Camera Dock">
                                 <rect key="frame" x="0.0" y="478" width="320" height="90"/>
                             </imageView>
@@ -629,9 +633,6 @@
                                     <action selector="takePicture" destination="Rsi-kn-aX0" eventType="touchUpInside" id="Y0D-4G-t8j"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera_overlay.png" translatesAutoresizingMaskIntoConstraints="NO" id="Mam-hH-wat" userLabel="Overlay">
-                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xmP-6T-CdM" userLabel="Flash Button">
                                 <rect key="frame" x="20" y="431" width="50" height="22"/>
                                 <state key="normal" title=" Off" image="camera_flash.png">
@@ -659,9 +660,6 @@
                                     <action selector="toggleGrid" destination="Rsi-kn-aX0" eventType="touchUpInside" id="7WA-bh-gXl"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera_grid.png" translatesAutoresizingMaskIntoConstraints="NO" id="s0i-Cc-DtF" userLabel="Grid">
-                                <rect key="frame" x="0.0" y="129" width="320" height="276"/>
-                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qiy-22-s2p" userLabel="Camera Roll Button">
                                 <rect key="frame" x="20" y="500" width="45" height="45"/>
                                 <state key="normal">
@@ -671,6 +669,10 @@
                                     <action selector="chooseFromCameraRoll" destination="Rsi-kn-aX0" eventType="touchUpInside" id="gsg-oU-ug6"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera_grid.png" translatesAutoresizingMaskIntoConstraints="NO" id="DaX-8E-wYK">
+                                <rect key="frame" x="0.0" y="64" width="320" height="340"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -686,8 +688,8 @@
                         <outlet property="cameraRollButton" destination="qiy-22-s2p" id="fxL-Tm-TBT"/>
                         <outlet property="flashButton" destination="xmP-6T-CdM" id="uBA-11-Mul"/>
                         <outlet property="gridButton" destination="CtV-c0-M4f" id="zsa-fv-SZG"/>
-                        <outlet property="gridImageView" destination="s0i-Cc-DtF" id="QPr-4v-8pT"/>
-                        <outlet property="overlayImageVew" destination="Mam-hH-wat" id="Ke5-uL-tC7"/>
+                        <outlet property="gridImageView" destination="DaX-8E-wYK" id="cJd-26-YNs"/>
+                        <outlet property="overlayImageVew" destination="m1X-Kp-RiQ" id="ORe-60-pS7"/>
                         <outlet property="takePictureButton" destination="891-m0-y9C" id="AR3-ay-488"/>
                         <outlet property="toggleCameraButton" destination="2l2-Sj-zyy" id="ysH-h6-AXc"/>
                         <outlet property="videoView" destination="Cac-d7-BJx" id="MhS-36-F9i"/>
@@ -710,11 +712,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera_overlay.png" translatesAutoresizingMaskIntoConstraints="NO" id="LU9-W9-wAB">
-                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                            </imageView>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vLq-yB-2ws">
-                                <rect key="frame" x="0.0" y="423" width="320" height="145"/>
+                                <rect key="frame" x="0.0" y="404" width="320" height="164"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="OJM-aN-zm4">
                                     <size key="itemSize" width="82" height="82"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -723,7 +722,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="filterCell" id="tfz-hd-W1r">
-                                        <rect key="frame" x="24" y="33" width="82" height="82"/>
+                                        <rect key="frame" x="24" y="42" width="82" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="82" height="82"/>
@@ -753,7 +752,7 @@
                                 </connections>
                             </collectionView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AZW-iV-RWQ">
-                                <rect key="frame" x="0.0" y="129" width="320" height="276"/>
+                                <rect key="frame" x="0.0" y="64" width="320" height="340"/>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -1182,7 +1181,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="isF-uG-jrV">
-                            <rect key="frame" x="0.0" y="571" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="635" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Already Signed Up?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Yt-SU-IaH">
@@ -1210,7 +1209,7 @@
                             <tableViewSection id="XQj-mY-Unk">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1RO-oe-aum">
-                                        <rect key="frame" x="0.0" y="35" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="99" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1RO-oe-aum" id="C7r-N9-RzI">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1230,7 +1229,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="kJH-OL-8G1">
-                                        <rect key="frame" x="0.0" y="79" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="143" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kJH-OL-8G1" id="MFu-Vy-jYP">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1254,7 +1253,7 @@
                             <tableViewSection id="Jyc-8h-zlz">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="sJV-Bk-6Dh">
-                                        <rect key="frame" x="0.0" y="143" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="207" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sJV-Bk-6Dh" id="CIg-Lw-4jn">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1278,7 +1277,7 @@
                             <tableViewSection id="3z5-sA-guI">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="h8m-k6-MXE">
-                                        <rect key="frame" x="0.0" y="207" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="271" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="h8m-k6-MXE" id="aOa-lW-9ig">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1302,7 +1301,7 @@
                             <tableViewSection id="quY-Xb-yRc">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="sWv-zK-Ujb">
-                                        <rect key="frame" x="0.0" y="271" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="335" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sWv-zK-Ujb" id="tfJ-Jr-Bx8">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1326,7 +1325,7 @@
                             <tableViewSection id="s3p-xS-IaI">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="smd-1k-Z5h">
-                                        <rect key="frame" x="0.0" y="335" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="399" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="smd-1k-Z5h" id="4KY-WU-cdQ">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1346,7 +1345,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Fij-oq-qKa">
-                                        <rect key="frame" x="0.0" y="379" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="443" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fij-oq-qKa" id="I1z-gN-wKo">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1370,7 +1369,7 @@
                             <tableViewSection id="Cyg-NE-ttH">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="7DZ-uQ-RxQ" detailTextLabel="odg-wF-6dL" style="IBUITableViewCellStyleValue1" id="WJZ-FR-CAl">
-                                        <rect key="frame" x="0.0" y="443" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="507" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WJZ-FR-CAl" id="CTe-16-Frc">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1398,7 +1397,7 @@
                             <tableViewSection id="aAn-NM-Av3">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="g8V-34-Qsl" rowHeight="54" style="IBUITableViewCellStyleDefault" id="5pr-ND-hj2">
-                                        <rect key="frame" x="0.0" y="507" width="320" height="54"/>
+                                        <rect key="frame" x="0.0" y="571" width="320" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5pr-ND-hj2" id="b01-G4-lbt">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="53"/>
@@ -1809,9 +1808,9 @@
         <image name="camera_dock.png" width="320" height="90"/>
         <image name="camera_flash.png" width="14" height="19"/>
         <image name="camera_grid.png" width="320" height="432"/>
-        <image name="camera_overlay.png" width="320" height="414"/>
         <image name="camera_source.png" width="44" height="22"/>
         <image name="camera_take_photo.png" width="75" height="75"/>
+        <image name="camera_utility_background.png" width="320" height="75"/>
         <image name="explore.png" width="26" height="25"/>
         <image name="feed.png" width="30" height="24"/>
         <image name="login_facebook_connect.png" width="320" height="53"/>
@@ -1838,8 +1837,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="aNd-9F-Yna"/>
-        <segue reference="wCN-0l-elF"/>
-        <segue reference="YE9-MJ-lWu"/>
+        <segue reference="uu3-ER-XS1"/>
+        <segue reference="e1c-XP-t2f"/>
+        <segue reference="DWl-1Z-W5u"/>
     </inferredMetricsTieBreakers>
 </document>

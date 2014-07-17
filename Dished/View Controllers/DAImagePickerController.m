@@ -189,7 +189,7 @@
 {
     dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0 ), ^
     {        
-        CGFloat cropWidth = ( image.size.width / self.videoView.bounds.size.width ) * self.overlayImageVew.bounds.size.width;
+        CGFloat cropWidth = ( image.size.width / self.videoView.bounds.size.width ) * self.view.bounds.size.width;
         CGFloat cropHeight = ( image.size.height / self.videoView.bounds.size.height ) * self.gridImageView.bounds.size.height;
         
         CGFloat x = 0;
