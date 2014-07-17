@@ -22,14 +22,6 @@
     
     [[DALocationManager sharedManager] startUpdatingLocation];
     [self.nameTextField becomeFirstResponder];
-    
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell"];
-    
-    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, 0.5)];
-    separatorLineView.backgroundColor = [UIColor lightGrayColor];
-    [cell.contentView addSubview:separatorLineView];
-    
-    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
 
 - (IBAction)save:(id)sender

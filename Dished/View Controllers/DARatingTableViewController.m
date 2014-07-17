@@ -13,9 +13,9 @@
 
 @interface DARatingTableViewController ()
 
-@property (strong, nonatomic) NSArray *grades;
+@property (strong, nonatomic) NSArray             *grades;
+@property (weak,   nonatomic) NSIndexPath         *indexPathLastSelected;
 @property (strong, nonatomic) NSMutableDictionary *gradeSelected;
-@property (weak, nonatomic) NSIndexPath *indexPathLastSelected;
 
 @end
 
@@ -27,7 +27,6 @@
     [super viewDidLoad];
     
     self.grades = @[@"A", @"B", @"C", @"D", @"F"];
-    
     self.gradeSelected = [[NSMutableDictionary alloc] init];
 }
 
@@ -50,12 +49,11 @@
 	cell.plusButton.hidden = YES;
     cell.minusButton.hidden = YES;
     
-
     [cell.plusButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [cell.minusButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     
-    [cell.plusButton addTarget:self action:@selector(plusOrMinusGrade:)  forControlEvents:UIControlEventTouchUpInside];
-    [cell.minusButton addTarget:self action:@selector(plusOrMinusGrade:) forControlEvents:UIControlEventTouchUpInside];
+    [cell.plusButton  addTarget:self action:@selector(plusOrMinusGrade:)  forControlEvents:UIControlEventTouchUpInside];
+    [cell.minusButton addTarget:self action:@selector(plusOrMinusGrade:)  forControlEvents:UIControlEventTouchUpInside];
 
     cell.gradeLabel.text = [self.grades objectAtIndex:indexPath.row];
     cell.gradeLabel.textColor = [UIColor grayColor];
@@ -72,20 +70,17 @@
 {
     DARatingCustomTableViewCell *cell = (DARatingCustomTableViewCell *)[self.tableView cellForRowAtIndexPath:self.indexPathLastSelected];
 
-	if ([((UIButton *)sender).currentTitleColor isEqual:[UIColor grayColor]])
+	if( [((UIButton *)sender).currentTitleColor isEqual:[UIColor grayColor]] )
     {
         if( [((UIButton *)sender).titleLabel.text isEqualToString:@"+"] )
         {
-            [cell.minusButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-            [cell.plusButton setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
-
+            [cell.minusButton setTitleColor:[UIColor grayColor]   forState:UIControlStateNormal];
+            [cell.plusButton  setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
         }
         else
         {
-
             [cell.minusButton setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
-            [cell.plusButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-
+            [cell.plusButton  setTitleColor:[UIColor grayColor]   forState:UIControlStateNormal];
         }
         
         [self.gradeSelected setObject:((UIButton *)sender).titleLabel.text forKey:@"plusorminus"];
@@ -96,18 +91,16 @@
         if( [((UIButton *)sender).titleLabel.text isEqualToString:@"+"] )
         {
             [cell.plusButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-            
         }
         else
         {
             [cell.minusButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
-
         }
+        
         [self.gradeSelected setObject:@"" forKey:@"plusorminus"];
     }
     
     [self.gradeSelected setObject:cell.gradeLabel.text forKey:@"grade"];
-
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -120,14 +113,16 @@
     if( [cell.gradeLabel.textColor isEqual:[UIColor blueColor]] )
     {
         cell.gradeLabel.textColor = [UIColor grayColor];
-        cell.plusButton.hidden = YES;
+        cell.plusButton.hidden  = YES;
         cell.minusButton.hidden = YES;
     }
     else
     {
         cell.gradeLabel.textColor = [UIColor dishedColor];
-        if (![cell.gradeLabel.text isEqualToString:@"F"]) {
-            cell.plusButton.hidden = NO;
+        
+        if (![cell.gradeLabel.text isEqualToString:@"F"])
+        {
+            cell.plusButton.hidden  = NO;
             cell.minusButton.hidden = NO;
         }
     }
@@ -144,39 +139,15 @@
     cell.minusButton.hidden = YES;
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    CGRect frame = CGRectMake( 0, 0, self.tableView.frame.size.width, 50 );
-    
-    UIView *header = [[UIView alloc] initWithFrame:frame];
-    header.backgroundColor = self.tableView.backgroundColor;
-    
-    UILabel *label = [[UILabel alloc] initWithFrame:frame];
-    label.text = @"Add Your Rating";
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
-    label.textColor = [UIColor grayColor];
-    
-    label.textAlignment = NSTextAlignmentCenter;
-    
-    [header addSubview:label];
-    
-    return header;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return 50;
-}
-
 - (IBAction)done:(id)sender
 {
     NSArray *navigationStack = self.navigationController.viewControllers;
 
-    DAFormTableViewController *parentController = [navigationStack objectAtIndex:( [navigationStack count] - 2 )];
+    DAFormTableViewController *parentController = [navigationStack objectAtIndex:[navigationStack count] - 2];
 
     UILabel *label = [[UILabel alloc] init];
     
-    if ([self.gradeSelected objectForKey:@"grade"])
+    if( [self.gradeSelected objectForKey:@"grade"] )
     {
         label.text = [NSString stringWithFormat:@"%@ %@", [self.gradeSelected objectForKey:@"grade"], [self.gradeSelected objectForKey:@"plusorminus"]];
         [parentController setDetailItem:label];
