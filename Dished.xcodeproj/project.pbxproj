@@ -142,6 +142,8 @@
 		946BAE25195FF56900EF86C0 /* news.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE1B195FF56900EF86C0 /* news.png */; };
 		946BAE26195FF56900EF86C0 /* news@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE1C195FF56900EF86C0 /* news@2x.png */; };
 		947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13411975AC62000553EF /* DADishSuggestionsTableView.m */; };
+		947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */; };
+		947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */; };
 		948B7F651941B8AF005494AA /* DADatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B7F641941B8AF005494AA /* DADatePickerCell.m */; };
 		949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
 		94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */; };
@@ -345,6 +347,9 @@
 		946BAE1C195FF56900EF86C0 /* news@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "news@2x.png"; sourceTree = "<group>"; };
 		947A13401975AC62000553EF /* DADishSuggestionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishSuggestionsTableView.h; sourceTree = "<group>"; };
 		947A13411975AC62000553EF /* DADishSuggestionsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishSuggestionsTableView.m; sourceTree = "<group>"; };
+		947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DADishSuggestionTableViewCell.xib; sourceTree = "<group>"; };
+		947A13451975D06D000553EF /* DADishSuggestionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishSuggestionTableViewCell.h; sourceTree = "<group>"; };
+		947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishSuggestionTableViewCell.m; sourceTree = "<group>"; };
 		948B7F631941B8AF005494AA /* DADatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADatePickerCell.h; sourceTree = "<group>"; };
 		948B7F641941B8AF005494AA /* DADatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADatePickerCell.m; sourceTree = "<group>"; };
 		949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAImageFilterViewController.h; sourceTree = "<group>"; };
@@ -932,6 +937,9 @@
 				94A027A6196F264A004D5CD7 /* DARatingCustomTableViewCell.m */,
 				947A13401975AC62000553EF /* DADishSuggestionsTableView.h */,
 				947A13411975AC62000553EF /* DADishSuggestionsTableView.m */,
+				947A13451975D06D000553EF /* DADishSuggestionTableViewCell.h */,
+				947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */,
+				947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */,
 				D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */,
 				D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */,
 			);
@@ -1021,6 +1029,7 @@
 				94237E66194A2FD5004DFAB6 /* reset_code.png in Resources */,
 				943094171942B16300B1F61F /* error_close@2x.png in Resources */,
 				944689D31960196700FAE288 /* add_dish_drink_white.png in Resources */,
+				947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */,
 				941F320F196FB586000042AE /* add_dish_add_place.png in Resources */,
 				943094181942B16300B1F61F /* error_icon.png in Resources */,
 				9415390119404314008B3B79 /* splash_background.png in Resources */,
@@ -1174,6 +1183,7 @@
 				948B7F651941B8AF005494AA /* DADatePickerCell.m in Sources */,
 				941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */,
 				94E5EF711943F5530021A711 /* MRActivityIndicatorView.m in Sources */,
+				947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */,
 				944689A61960130E00FAE288 /* DAImagePickerController.m in Sources */,
 				9430FDFA196CABDD00C7E997 /* DANegativeHashtagsViewController.m in Sources */,
 				94E5EF7E1943FD760021A711 /* SSKeychain.m in Sources */,

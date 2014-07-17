@@ -13,6 +13,7 @@
 #import <AddressBook/AddressBook.h>
 #import "DALocationManager.h"
 
+
 @interface DAFormTableViewController ()
 
 @property (strong, nonatomic) DANewReview *review;
@@ -26,20 +27,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressReady:) name:kAddressReadyNotificationKey object:nil];
 
+    [self setupSuggestionTable];
     
-    self.dishPrice = [[NSMutableString alloc] init];
-    self.review = [[DANewReview alloc] init];
+    self.dishPrice   = [[NSMutableString alloc] init];
+    self.review      = [[DANewReview alloc] init];
     self.review.type = kFood;
-    
-    self.dishSuggestionsTable = [[DADishSuggestionsTableView alloc] initWithFrame:CGRectMake(0, 44, 320, 189)];
-    [self.view addSubview:self.dishSuggestionsTable];
-    self.dishSuggestionsTable.suggestionDelegate = self;
-    self.dishSuggestionsTable.hidden = YES;
 
-    self.titleTextField.delegate = self;
-    self.priceTextField.delegate = self;
+    self.titleTextField.delegate  = self;
+    self.priceTextField.delegate  = self;
     self.commentTextView.delegate = self;
 
     [[SZTextView appearance] setPlaceholderTextColor:[UIColor lightGrayColor]];
@@ -51,7 +49,7 @@
     self.titleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Title" attributes:@{ NSForegroundColorAttributeName : [UIColor lightGrayColor] } ];
 }
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
@@ -95,6 +93,19 @@
     }
 }
 
+- (void)setupSuggestionTable
+{
+    CGFloat x = 0;
+    CGFloat y = self.tableView.rowHeight;
+    CGFloat width = self.tableView.frame.size.width;
+    CGFloat height = self.commentTextView.frame.size.height + self.imAtButton.frame.size.height;
+    
+    self.dishSuggestionsTable = [[DADishSuggestionsTableView alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    [self.view addSubview:self.dishSuggestionsTable];
+    self.dishSuggestionsTable.suggestionDelegate = self;
+    self.dishSuggestionsTable.hidden = YES;
+}
+
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     if( textField == self.priceTextField )
@@ -106,7 +117,7 @@
     }
 }
 
--(NSString*) formatCurrencyValue:(double)value
+- (NSString *)formatCurrencyValue:(double)value
 {
     NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc] init];
     [numberFormatter setFormatterBehavior:NSNumberFormatterBehavior10_4];
@@ -136,7 +147,7 @@
     }
 }
 
-- (BOOL) textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if( textField == self.priceTextField )
     {
@@ -195,7 +206,7 @@
     else
     {
         self.dishSuggestionsTable.hidden = NO;
-        [self.dishSuggestionsTable updateSuggestionsWithQuery:self.titleTextField.text];
+        [self.dishSuggestionsTable updateSuggestionsWithQuery:self.titleTextField.text dishType:self.review.type];
     }
 }
 
@@ -219,6 +230,8 @@
         case 1: self.review.type = kCocktail; break;
         case 2: self.review.type = kWine;     break;
     }
+    
+    self.dishSuggestionsTable.hidden = YES;
 }
 
 - (void)setDetailItem:(id)newData

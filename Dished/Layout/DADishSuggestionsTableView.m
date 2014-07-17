@@ -9,6 +9,7 @@
 #import "DADishSuggestionsTableView.h"
 #import "DAFormTableViewController.h"
 #import "DAAPIManager.h"
+#import "DADishSuggestionTableViewCell.h"
 
 
 @interface DADishSuggestionsTableView()
@@ -30,12 +31,15 @@
         _dishSearchResults = [[NSMutableArray alloc] init];
         self.delegate = self;
         self.dataSource	= self;
+        
+        UINib *broadcastCellNib = [UINib nibWithNibName:@"DADishSuggestionTableViewCell" bundle:nil];
+        [self registerNib:broadcastCellNib forCellReuseIdentifier:@"suggestionCell"];
     }
     
     return self;
 }
 
-- (void)updateSuggestionsWithQuery:(NSString *)query;
+- (void)updateSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType;
 {
     [self.dishSearchResults removeAllObjects];
     [self reloadData];
@@ -45,7 +49,7 @@
         [self.searchTask cancel];
     }
     
-    self.searchTask = [[DAAPIManager sharedManager] dishTitleSuggestionTaskWithQuery:query dishType:kFood
+    self.searchTask = [[DAAPIManager sharedManager] dishTitleSuggestionTaskWithQuery:query dishType:dishType
     completion:^( id responseData, NSError *error )
     {
         if( responseData )
@@ -77,29 +81,11 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = nil;
+    DADishSuggestionTableViewCell *cell = (DADishSuggestionTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"suggestionCell"];
     
-    static NSString *AutoCompleteRowIdentifier = @"AutoCompleteRowIdentifier";
+    cell.placeLabel.text = [[self.dishSearchResults objectAtIndex:indexPath.row] objectForKey:@"loc_name"];
+    cell.nameLabel.text  = [[self.dishSearchResults objectAtIndex:indexPath.row] objectForKey:@"dish_name"];
     
-    cell = [tableView dequeueReusableCellWithIdentifier:AutoCompleteRowIdentifier];
-    
-    if (cell == nil)
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:AutoCompleteRowIdentifier];
-    }
-    
-    UIView *backgroundView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height)];
-    
-    UIImageView *iconPlaceImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"add_dish_location.png"]];
-    UILabel *location = [[UILabel alloc] initWithFrame:CGRectMake(225, 44/2 - 7.5, 80, 30/2)];
-    location.text = [[self.dishSearchResults objectAtIndex:indexPath.row] objectForKey:@"loc_name"];
-    location.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:11.0];
-    location.textColor = [UIColor lightGrayColor];
-    [backgroundView addSubview:iconPlaceImage];
-    [backgroundView addSubview:location];
-    iconPlaceImage.frame = CGRectMake(210, 44/2 - 7.5, 21/2, 30/2);
-    cell.backgroundView = backgroundView;
-    cell.textLabel.text = [[self.dishSearchResults objectAtIndex:indexPath.row] objectForKey:@"dish_name"];
     return cell;
 }
 

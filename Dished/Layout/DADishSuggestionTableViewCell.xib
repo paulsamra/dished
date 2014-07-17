@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="suggestionCell" id="JLR-ue-jvR" customClass="DADishSuggestionTableViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JLR-ue-jvR" id="WRP-mw-kut">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="characterWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" preferredMaxLayoutWidth="182" translatesAutoresizingMaskIntoConstraints="NO" id="Gfy-ox-Iqo" userLabel="Name Label">
+                        <rect key="frame" x="20" y="7" width="182" height="30"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_dish_location.png" translatesAutoresizingMaskIntoConstraints="NO" id="DAr-le-VpM">
+                        <rect key="frame" x="210" y="14" width="10" height="15"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="15" id="Qqz-oW-vfZ"/>
+                            <constraint firstAttribute="width" constant="10" id="dkZ-Qy-ivn"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="85" translatesAutoresizingMaskIntoConstraints="NO" id="UvJ-aR-phm" userLabel="Place Label">
+                        <rect key="frame" x="228" y="9" width="85" height="25"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                        <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="DAr-le-VpM" firstAttribute="leading" secondItem="Gfy-ox-Iqo" secondAttribute="trailing" constant="8" id="6eZ-t1-LUj"/>
+                    <constraint firstItem="UvJ-aR-phm" firstAttribute="leading" secondItem="DAr-le-VpM" secondAttribute="trailing" constant="8" id="GC9-nu-rf8"/>
+                    <constraint firstAttribute="bottom" secondItem="Gfy-ox-Iqo" secondAttribute="bottom" constant="6" id="S8W-w1-exo"/>
+                    <constraint firstItem="Gfy-ox-Iqo" firstAttribute="leading" secondItem="WRP-mw-kut" secondAttribute="leading" constant="20" id="YmM-JF-atW"/>
+                    <constraint firstAttribute="trailing" secondItem="UvJ-aR-phm" secondAttribute="trailing" constant="7" id="c0v-f0-aJQ"/>
+                    <constraint firstAttribute="centerX" secondItem="DAr-le-VpM" secondAttribute="centerX" constant="-55" id="cpY-DT-baE"/>
+                    <constraint firstAttribute="bottom" secondItem="UvJ-aR-phm" secondAttribute="bottom" constant="9" id="jnf-uN-RTf"/>
+                    <constraint firstAttribute="centerY" secondItem="DAr-le-VpM" secondAttribute="centerY" id="oFa-l4-PBO"/>
+                    <constraint firstItem="UvJ-aR-phm" firstAttribute="top" secondItem="WRP-mw-kut" secondAttribute="top" constant="9" id="sOE-YU-XA1"/>
+                    <constraint firstItem="Gfy-ox-Iqo" firstAttribute="top" secondItem="WRP-mw-kut" secondAttribute="top" constant="7" id="yGV-lL-PZf"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="nameLabel" destination="Gfy-ox-Iqo" id="BH9-Gi-FPy"/>
+                <outlet property="placeLabel" destination="UvJ-aR-phm" id="VKY-Za-FXA"/>
+            </connections>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="add_dish_location.png" width="10" height="15"/>
+    </resources>
+</document>

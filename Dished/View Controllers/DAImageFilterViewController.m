@@ -164,7 +164,8 @@
 {
     if( !_filterTitles )
     {
-        _filterTitles = @[ @"No Filter", @"Instant", @"Transfer", @"Process", @"Sepia", @"Noir", @"Tonal", @"Chrome", @"False" ];
+        //_filterTitles = @[ @"No Filter", @"Instant", @"Transfer", @"Process", @"Sepia", @"Noir", @"Tonal", @"Chrome", @"False" ];
+        _filterTitles = @[ @"No Filter", @"Garlic", @"Ginger", @"Coriander", @"Cumin", @"Salt", @"Pepper", @"Thyme", @"Paprika" ];
     }
     
     return _filterTitles;
