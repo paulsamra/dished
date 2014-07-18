@@ -31,6 +31,8 @@
         _locationState      = @"";
         _locationZip        = @"";
         _locationPhone      = @"";
+        _locationLongitude  = 0;
+        _locationLatitude   = 0;
     }
     
     return self;

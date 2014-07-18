@@ -576,9 +576,43 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
         hashtagString = [hashtagString stringByAppendingFormat:@"%@,", hashtag.hashtagID];
     }
     
-    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"comment" : review.comment,
-                                  @"price" : review.price, @"grade" : review.rating, @"hashtags" : hashtagString,
-                                  @"type" : review.type, @"title" : review.title };
+    NSDictionary *baseParams = @{ kAccessTokenKey : [self accessToken], @"comment" : review.comment,
+                                  @"price" : review.price, @"grade" : review.rating };
+    
+    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:baseParams];
+    
+    if( hashtagString.length > 0 )
+    {
+        hashtagString = [hashtagString substringToIndex:hashtagString.length - 1];
+        [parameters setObject:hashtagString forKey:@"hashtags"];
+    }
+    
+    if( review.dishID.length > 0 )
+    {
+        [parameters setObject:review.dishID forKey:@"dish_id"];
+    }
+    else if( review.locationID.length > 0 )
+    {
+        [parameters setObject:review.locationID forKey:@"loc_id"];
+        
+        [parameters setObject:review.type forKey:@"type"];
+        [parameters setObject:review.title forKey:@"title"];
+    }
+    else
+    {
+        [parameters setObject:review.locationName forKey:@"loc_name"];
+        [parameters setObject:@(review.locationLongitude) forKey:@"loc_longitude"];
+        [parameters setObject:@(review.locationLatitude) forKey:@"loc_latitude"];
+        [parameters setObject:review.locationStreetNum forKey:@"loc_street_number"];
+        [parameters setObject:review.locationStreetName forKey:@"loc_street_name"];
+        [parameters setObject:@"st" forKey:@"loc_street_type"];
+        [parameters setObject:review.locationCity forKey:@"loc_city"];
+        [parameters setObject:review.locationState forKey:@"loc_state"];
+        [parameters setObject:review.locationZip forKey:@"loc_zip"];
+        
+        [parameters setObject:review.type forKey:@"type"];
+        [parameters setObject:review.title forKey:@"title"];
+    }
     
     [self POST:@"reviews" parameters:parameters
     constructingBodyWithBlock:^( id<AFMultipartFormData> formData )

@@ -47,6 +47,9 @@
     
     [[DALocationManager sharedManager] getAddress];
     
+    self.review.locationLatitude  = [[DALocationManager sharedManager] currentLocation].latitude;
+    self.review.locationLongitude = [[DALocationManager sharedManager] currentLocation].longitude;
+    
     for( UIViewController *parentController in navigationStack )
     {
         if( [parentController isKindOfClass:[DAFormTableViewController class]] )

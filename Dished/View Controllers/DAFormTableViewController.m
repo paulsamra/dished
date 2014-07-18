@@ -14,15 +14,17 @@
 #import "DALocationManager.h"
 #import "DALocationTableViewController.h"
 #import "DARatingTableViewController.h"
+#import "MRProgress.h"
+#import "DAHashtag.h"
 
 
-@interface DAFormTableViewController ()
+@interface DAFormTableViewController()
 
 @property (strong, nonatomic) DANewReview     *foodReview;
 @property (strong, nonatomic) DANewReview     *cocktailReview;
 @property (strong, nonatomic) DANewReview     *wineReview;
 @property (strong, nonatomic) DANewReview     *selectedReview;
-@property (nonatomic, retain) NSMutableString *dishPrice;
+@property (strong, nonatomic) NSMutableString *dishPrice;
 
 @property (nonatomic) BOOL addressFound;
 
@@ -175,7 +177,6 @@
         }
         
         self.selectedReview.price = price;
-        NSLog(@"%@", price);
         
         return NO;
     }
@@ -229,6 +230,13 @@
     self.selectedReview.title = dishName;
     self.selectedReview.locationName = locationName;
     self.selectedReview.locationID = locationID;
+    
+    if( [dishPrice characterAtIndex:0] != '$' )
+    {
+        dishPrice = [NSString stringWithFormat:@"$%@", dishPrice];
+    }
+    
+    self.dishPrice = [[NSMutableString alloc] init];
     self.selectedReview.price = dishPrice;
     
     [self updateFields];
@@ -324,6 +332,7 @@
 - (void)addressReady:(NSNotification *)notification;
 {
     NSDictionary *addressDictionary = notification.object;
+    NSLog(@"%@", addressDictionary);
     
     self.selectedReview.locationStreetNum  = addressDictionary[@"SubThoroughfare"];
     self.selectedReview.locationStreetName = addressDictionary[@"Thoroughfare"];
