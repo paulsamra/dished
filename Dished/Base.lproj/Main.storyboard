@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RzW-un-BhE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A283o" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RzW-un-BhE">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -761,7 +761,7 @@
                         <barButtonItem key="rightBarButtonItem" title="Next" id="3w8-43-hit">
                             <connections>
                                 <action selector="goToDetails:" destination="VNa-gW-y3a" id="5p9-6t-M0y"/>
-                                <segue destination="bLN-bd-eSr" kind="push" id="gb9-O0-0zY"/>
+                                <segue destination="bLN-bd-eSr" kind="push" identifier="form" id="gb9-O0-0zY"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -1089,26 +1089,35 @@
                                                     <rect key="frame" x="175" y="22" width="8" height="12"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yh4-pv-zx8">
+                                                <button appearanceType="aqua" opaque="NO" tag="3" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yh4-pv-zx8">
                                                     <rect key="frame" x="288" y="17" width="21" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" backgroundImage="add_dish_email.png">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="share:" destination="bLN-bd-eSr" eventType="touchUpInside" id="cMK-MZ-hu5"/>
+                                                    </connections>
                                                 </button>
-                                                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dh7-Fo-B25">
+                                                <button appearanceType="aqua" opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dh7-Fo-B25">
                                                     <rect key="frame" x="259" y="17" width="21" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" backgroundImage="add_dish_foursquare.png">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="share:" destination="bLN-bd-eSr" eventType="touchUpInside" id="7PQ-bU-0Tp"/>
+                                                    </connections>
                                                 </button>
-                                                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oo9-eL-N81">
+                                                <button appearanceType="aqua" opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oo9-eL-N81">
                                                     <rect key="frame" x="230" y="17" width="21" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" backgroundImage="add_dish_twitter.png">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="share:" destination="bLN-bd-eSr" eventType="touchUpInside" id="3eD-cj-Ibv"/>
+                                                    </connections>
                                                 </button>
                                                 <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fno-on-lRq">
                                                     <rect key="frame" x="201" y="17" width="21" height="21"/>
@@ -1116,6 +1125,9 @@
                                                     <state key="normal" backgroundImage="add_dish_facebook.png">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <action selector="share:" destination="bLN-bd-eSr" eventType="touchUpInside" id="4m4-fR-amh"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </tableViewCellContentView>
@@ -1156,6 +1168,9 @@
                     <connections>
                         <outlet property="commentTextView" destination="xjP-f2-Xqa" id="1hi-i0-lyj"/>
                         <outlet property="dishTypeSegmentedControl" destination="G8Q-pm-yCa" id="fSj-bw-lk1"/>
+                        <outlet property="emailToggleButton" destination="yh4-pv-zx8" id="cKh-0e-WEh"/>
+                        <outlet property="facebookToggleButton" destination="Fno-on-lRq" id="xgA-gd-IPR"/>
+                        <outlet property="googleplusToggleButton" destination="dh7-Fo-B25" id="HSf-uj-fUy"/>
                         <outlet property="hashtagButton" destination="hR5-1G-wJH" id="nOU-PQ-2uC"/>
                         <outlet property="imAtButton" destination="IfG-71-O0d" id="QmW-e4-NMZ"/>
                         <outlet property="postButton" destination="nrn-hE-TfP" id="iEo-wO-qHp"/>
@@ -1163,6 +1178,7 @@
                         <outlet property="ratingButton" destination="iFU-Wg-dlY" id="d63-os-YJB"/>
                         <outlet property="tagsImageView" destination="CbB-LQ-9qZ" id="0Dz-If-Het"/>
                         <outlet property="titleTextField" destination="vl6-g3-7xj" id="gL1-4m-ztm"/>
+                        <outlet property="twitterToggleButton" destination="Oo9-eL-N81" id="E2Y-fO-aok"/>
                         <segue destination="Mba-S1-obM" kind="push" identifier="posHashtags" id="Kxc-a0-QXl"/>
                         <segue destination="ZvA-N9-6Oj" kind="push" identifier="imAt" id="6ej-lN-n4u"/>
                         <segue destination="UcG-uD-D96" kind="push" identifier="rating" id="XdP-Pi-Qco"/>
