@@ -36,7 +36,6 @@ static NSString *kLocationDistanceKey = @"distance";
     self.locationData = [NSMutableArray array];
 }
 
-
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -92,18 +91,22 @@ static NSString *kLocationDistanceKey = @"distance";
 {
     if( indexPath.row < [self.locationData count] )
     {
-        UITableViewCell *selectedCell = [tableView cellForRowAtIndexPath:indexPath];
-        
-        NSArray *navigationStack = self.navigationController.viewControllers;
-        DAFormTableViewController *parentController = [navigationStack objectAtIndex:([navigationStack count] -2)];
-        [parentController setDetailItem:selectedCell.textLabel.text];
-        
+        self.review.locationID = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationIDKey];
         [self.navigationController popViewControllerAnimated:YES];
-
     }
     else if( indexPath.row == [self.locationData count] )
     {
+        [self.view endEditing:YES];
         [self performSegueWithIdentifier:@"add" sender:nil];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"add"] )
+    {
+        DAAddPlaceViewController *dest = segue.destinationViewController;
+        dest.review = self.review;
     }
 }
 
@@ -152,14 +155,6 @@ static NSString *kLocationDistanceKey = @"distance";
         
         [self.tableView reloadData];
     }];
-}
-
-- (void)setDetailItem:(id)newData
-{
-    if( _data != newData )
-    {
-        _data = newData;
-    }
 }
 
 @end

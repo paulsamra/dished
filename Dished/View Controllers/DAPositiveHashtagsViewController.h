@@ -12,6 +12,6 @@
 
 @interface DAPositiveHashtagsViewController : UITableViewController
 
-@property (strong, nonatomic) DANewReview *review;
+@property (weak, nonatomic) DANewReview *review;
 
 @end

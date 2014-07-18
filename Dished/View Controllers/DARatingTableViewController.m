@@ -14,7 +14,7 @@
 @interface DARatingTableViewController ()
 
 @property (strong, nonatomic) NSArray             *grades;
-@property (weak,   nonatomic) NSIndexPath         *indexPathLastSelected;
+@property (strong, nonatomic) NSIndexPath         *indexPathLastSelected;
 @property (strong, nonatomic) NSMutableDictionary *gradeSelected;
 
 @end
@@ -30,6 +30,28 @@
     self.gradeSelected = [[NSMutableDictionary alloc] init];
     
     self.navigationItem.rightBarButtonItem.enabled = NO;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if( self.review.rating.length > 0 )
+    {
+        const char *splitRating = [self.review.rating UTF8String];
+        NSString *letterGrade = [NSString stringWithFormat:@"%c", splitRating[0]];
+        NSString *plusOrMinus = nil;
+        
+        if( self.review.rating.length > 1 )
+        {
+            plusOrMinus = [NSString stringWithFormat:@"%c", splitRating[1]];
+            [self.gradeSelected setObject:plusOrMinus forKey:@"plusorminus"];
+        }
+        
+        self.navigationItem.rightBarButtonItem.enabled = YES;
+        
+        [self selectLetterGrade:letterGrade];
+    }
 }
 
 #pragma mark - Table view data source
@@ -59,6 +81,23 @@
 
     cell.gradeLabel.text = [self.grades objectAtIndex:indexPath.row];
     cell.gradeLabel.textColor = [UIColor grayColor];
+    
+    if( [[self.gradeSelected objectForKey:@"grade"] isEqualToString:cell.gradeLabel.text] )
+    {
+        cell.gradeLabel.textColor = [UIColor dishedColor];
+        cell.plusButton.hidden    = NO;
+        cell.minusButton.hidden   = NO;
+    }
+    
+    if( [[self.gradeSelected objectForKey:@"plusorminus"] isEqualToString:cell.plusButton.titleLabel.text] )
+    {
+        [cell.plusButton setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
+    }
+    
+    if( [[self.gradeSelected objectForKey:@"plusorminus"] isEqualToString:cell.minusButton.titleLabel.text] )
+    {
+        [cell.minusButton setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
+    }
 
     return cell;
 }
@@ -113,7 +152,7 @@
     
     self.indexPathLastSelected = indexPath;
     
-    if( [cell.gradeLabel.textColor isEqual:[UIColor blueColor]] )
+    if( [cell.gradeLabel.textColor isEqual:[UIColor dishedColor]] )
     {
         cell.gradeLabel.textColor = [UIColor grayColor];
         cell.plusButton.hidden  = YES;
@@ -144,19 +183,31 @@
 
 - (IBAction)done:(id)sender
 {
-    NSArray *navigationStack = self.navigationController.viewControllers;
-
-    DAFormTableViewController *parentController = [navigationStack objectAtIndex:[navigationStack count] - 2];
-
-    UILabel *label = [[UILabel alloc] init];
-    
     if( [self.gradeSelected objectForKey:@"grade"] )
     {
-        label.text = [NSString stringWithFormat:@"%@%@", [self.gradeSelected objectForKey:@"grade"], [self.gradeSelected objectForKey:@"plusorminus"]];
-        [parentController setDetailItem:label];
+        NSString *grade = [NSString stringWithFormat:@"%@%@", [self.gradeSelected objectForKey:@"grade"], [self.gradeSelected objectForKey:@"plusorminus"]];
+        self.review.rating = grade;
     }
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)selectLetterGrade:(NSString *)letterGrade
+{
+    int rowToSelect = 0;
+    
+    switch( [letterGrade characterAtIndex:0] )
+    {
+        case 'A': rowToSelect = 0; break;
+        case 'B': rowToSelect = 1; break;
+        case 'C': rowToSelect = 2; break;
+        case 'D': rowToSelect = 3; break;
+        case 'E': rowToSelect = 4; break;
+    }
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:rowToSelect inSection:0];
+    self.indexPathLastSelected = indexPath;
+    [self.gradeSelected setObject:letterGrade forKey:@"grade"];
 }
 
 @end

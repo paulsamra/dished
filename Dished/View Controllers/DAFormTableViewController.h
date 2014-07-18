@@ -24,10 +24,6 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem     *postButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl  *dishTypeSegmentedControl;
 
-@property (strong, nonatomic) id data;
-@property (strong, nonatomic) id label;
 @property (strong, nonatomic) DADishSuggestionsTableView *dishSuggestionsTable;
-
-- (void)setDetailItem:(id)newData;
 
 @end

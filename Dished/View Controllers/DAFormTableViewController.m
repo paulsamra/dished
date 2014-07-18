@@ -12,6 +12,8 @@
 #import "DANewReview.h"
 #import <AddressBook/AddressBook.h>
 #import "DALocationManager.h"
+#import "DALocationTableViewController.h"
+#import "DARatingTableViewController.h"
 
 
 @interface DAFormTableViewController ()
@@ -36,7 +38,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressReady:) name:kAddressReadyNotificationKey object:nil];
 
     [self setupSuggestionTable];
-    
     self.addressFound = NO;
     
     self.dishPrice = [[NSMutableString alloc] init];
@@ -51,10 +52,11 @@
     self.commentTextView.placeholder = @"Comment";
     self.commentTextView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10);
     
-    self.imAtButton.titleLabel.numberOfLines = 1;
-    self.imAtButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.imAtButton.titleLabel.numberOfLines = 2;
     
-    self.titleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Title" attributes:@{ NSForegroundColorAttributeName : [UIColor lightGrayColor] } ];
+    NSDictionary *attributes = @{ NSForegroundColorAttributeName : [UIColor lightGrayColor] };
+    self.titleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Title" attributes:attributes];
+    self.priceTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Price" attributes:attributes];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -67,7 +69,7 @@
     self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [UIColor blackColor] };
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
     
-    if( self.titleTextField.text.length == 0 )
+    if( !self.titleTextField.text || self.titleTextField.text.length == 0 )
     {
         [self.titleTextField becomeFirstResponder];
     }
@@ -76,27 +78,14 @@
         [self.commentTextView becomeFirstResponder];
     }
     
-    if( _data )
-    {
-        [self.imAtButton setTitle:(NSString *)_data forState:UIControlStateNormal];
-        [self.imAtButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    }
+    [self updateFields];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self.commentTextView resignFirstResponder];
     
-    if( _label )
-    {
-        UILabel *labelWithRating = (UILabel *)_label;
-        [self.ratingButton setTitle:labelWithRating.text forState:UIControlStateNormal];
-        [self.ratingButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    }
-    
-    if( [self.selectedReview.hashtags count] > 0 )
-    {
-        self.tagsImageView.image = [UIImage imageNamed:@"valid_icon"];
-    }
-    else
-    {
-        self.tagsImageView.image = [UIImage imageNamed:@"add_dish_arrow"];
-    }
+    [super viewDidDisappear:animated];
 }
 
 - (void)setupSuggestionTable
@@ -179,6 +168,15 @@
             }
         }
         
+        NSString *price = textField.text;
+        if( [price characterAtIndex:0] == '$' )
+        {
+            price = [price substringFromIndex:1];
+        }
+        
+        self.selectedReview.price = price;
+        NSLog(@"%@", price);
+        
         return NO;
     }
     
@@ -225,16 +223,15 @@
     }
 }
 
-- (void)selectedSuggestionWithDishName:(NSString *)dishName dishID:(NSString *)dishID locationName:(NSString *)locationName locationID:(NSString *)locationID
+- (void)selectedSuggestionWithDishName:(NSString *)dishName dishID:(NSString *)dishID dishPrice:dishPrice locationName:(NSString *)locationName locationID:(NSString *)locationID
 {
-    self.titleTextField.text = dishName;
-    [self.imAtButton setTitle:locationName forState:UIControlStateNormal];
-    [self.imAtButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    
     self.selectedReview.dishID = dishID;
     self.selectedReview.title = dishName;
     self.selectedReview.locationName = locationName;
     self.selectedReview.locationID = locationID;
+    self.selectedReview.price = dishPrice;
+    
+    [self updateFields];
 }
 
 - (IBAction)changedDishType
@@ -256,7 +253,16 @@
     self.commentTextView.text = self.selectedReview.comment;
     self.priceTextField.text  = self.selectedReview.price;
     
-    [self.imAtButton setTitle:self.selectedReview.locationName forState:UIControlStateNormal];
+    if( self.selectedReview.locationName.length > 0 )
+    {
+        [self.imAtButton setTitle:self.selectedReview.locationName forState:UIControlStateNormal];
+        [self.imAtButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [self.imAtButton setTitle:@"I'm at" forState:UIControlStateNormal];
+        [self.imAtButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    }
     
     if( [self.selectedReview.hashtags count] > 0 )
     {
@@ -267,21 +273,15 @@
         self.tagsImageView.image = [UIImage imageNamed:@"add_dish_arrow"];
     }
     
-    [self.ratingButton setTitle:self.selectedReview.rating forState:UIControlStateNormal];
-}
-
-- (void)setDetailItem:(id)newData
-{
-    if( [newData isKindOfClass:[UILabel class]] )
+    if( self.selectedReview.rating.length > 0 )
     {
-        _label = newData;
+        [self.ratingButton setTitle:self.selectedReview.rating forState:UIControlStateNormal];
+        [self.ratingButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     else
     {
-        if( _data != newData )
-        {
-            _data = newData;
-        }
+        [self.ratingButton setTitle:@"Rating" forState:UIControlStateNormal];
+        [self.ratingButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     }
 }
 
@@ -305,6 +305,18 @@
     if( [segue.identifier isEqualToString:@"posHashtags"] )
     {
         DAPositiveHashtagsViewController *dest = segue.destinationViewController;
+        dest.review = self.selectedReview;
+    }
+    
+    if( [segue.identifier isEqualToString:@"rating"] )
+    {
+        DARatingTableViewController *dest = segue.destinationViewController;
+        dest.review = self.selectedReview;
+    }
+    
+    if( [segue.identifier isEqualToString:@"imAt"] )
+    {
+        DALocationTableViewController *dest = segue.destinationViewController;
         dest.review = self.selectedReview;
     }
 }

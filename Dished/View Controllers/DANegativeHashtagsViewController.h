@@ -12,7 +12,7 @@
 
 @interface DANegativeHashtagsViewController : UITableViewController
 
-@property (strong, nonatomic) DANewReview *review;
+@property (weak,   nonatomic) DANewReview *review;
 @property (strong, nonatomic) NSMutableArray *selectedHashtags;
 
 @end

@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DANewReview.h"
 
 @interface DALocationTableViewController : UITableViewController
 
-@property (strong, nonatomic) id data;
-
-- (void)setDetailItem:(id)newData;
+@property (weak, nonatomic) DANewReview *review;
 
 @end

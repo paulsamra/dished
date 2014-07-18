@@ -11,7 +11,7 @@
 
 @interface DARatingTableViewController : UITableViewController
 
-@property (strong, nonatomic) DANewReview *review;
+@property (weak, nonatomic) DANewReview *review;
 
 - (IBAction)done:(id)sender;
 

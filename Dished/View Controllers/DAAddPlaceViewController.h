@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DANewReview.h"
 
 @interface DAAddPlaceViewController : UITableViewController
 
+@property (weak, nonatomic) DANewReview *review;
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 
 - (IBAction)save:(id)sender;

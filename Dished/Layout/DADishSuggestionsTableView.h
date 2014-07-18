@@ -13,7 +13,7 @@
 
 @protocol DADishSuggestionsTableDelegate <NSObject>
 
-- (void)selectedSuggestionWithDishName:(NSString *)dishName dishID:(NSString *)dishID locationName:(NSString *)locationName locationID:(NSString *)locationID;
+- (void)selectedSuggestionWithDishName:(NSString *)dishName dishID:(NSString *)dishID dishPrice:(NSString *)dishPrice locationName:(NSString *)locationName locationID:(NSString *)locationID;
 
 @end
 

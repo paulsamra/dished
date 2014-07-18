@@ -13,6 +13,7 @@
 
 static NSString *kDishNameKey     = @"name";
 static NSString *kDishIDKey       = @"id";
+static NSString *kDishPriceKey    = @"price";
 static NSString *kLocationNameKey = @"loc_name";
 static NSString *kLocationIDKey   = @"loc_id";
 
@@ -66,6 +67,7 @@ static NSString *kLocationIDKey   = @"loc_id";
                 NSMutableDictionary *newDish = [NSMutableDictionary dictionary];
                 newDish[kDishNameKey]      = dishInfo[kDishNameKey];
                 newDish[kDishIDKey]        = dishInfo[kDishIDKey];
+                newDish[kDishPriceKey]     = dishInfo[kDishPriceKey];
                 newDish[kLocationNameKey]  = dishInfo[kLocationNameKey];
                 newDish[kLocationIDKey]    = dishInfo[kLocationIDKey];
                 
@@ -99,14 +101,15 @@ static NSString *kLocationIDKey   = @"loc_id";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *selectedDishInfo = self.dishSearchResults[indexPath.row];
-    NSString *dishName = selectedDishInfo[kDishNameKey];
-    NSString *dishID   = selectedDishInfo[kDishIDKey];
+    NSString *dishName     = selectedDishInfo[kDishNameKey];
+    NSString *dishID       = selectedDishInfo[kDishIDKey];
+    NSString *dishPrice    = selectedDishInfo[kDishPriceKey];
     NSString *locationName = selectedDishInfo[kLocationNameKey];
     NSString *locationID   = selectedDishInfo[kLocationIDKey];
     
-    if( [self.suggestionDelegate respondsToSelector:@selector(selectedSuggestionWithDishName:dishID:locationName:locationID:)] )
+    if( [self.suggestionDelegate respondsToSelector:@selector(selectedSuggestionWithDishName:dishID:dishPrice:locationName:locationID:)] )
     {
-        [self.suggestionDelegate selectedSuggestionWithDishName:dishName dishID:dishID locationName:locationName locationID:locationID];
+        [self.suggestionDelegate selectedSuggestionWithDishName:dishName dishID:dishID dishPrice:dishPrice locationName:locationName locationID:locationID];
     }
     
     self.hidden = YES;

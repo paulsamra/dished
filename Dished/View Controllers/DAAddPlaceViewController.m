@@ -28,13 +28,15 @@
 {
     NSArray *navigationStack = self.navigationController.viewControllers;
     
+    [self.nameTextField resignFirstResponder];
+    
     [[DALocationManager sharedManager] getAddress];
     
     for( UIViewController *parentController in navigationStack )
     {
         if( [parentController isKindOfClass:[DAFormTableViewController class]] )
         {
-            [(DAFormTableViewController *)parentController setDetailItem:self.nameTextField.text];
+            self.review.locationName = self.nameTextField.text;
             [self.navigationController popToViewController:parentController animated:YES];
         }
     }
