@@ -28,6 +28,5 @@
 @property (copy,   nonatomic) NSString  *locationState;
 @property (copy,   nonatomic) NSString  *locationZip;
 @property (copy,   nonatomic) NSString  *locationPhone;
-@property (strong, nonatomic) UIImage   *image;
 
 @end

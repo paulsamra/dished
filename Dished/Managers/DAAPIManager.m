@@ -568,7 +568,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }];
 }
 
-- (void)postNewReview:(DANewReview *)review completion:( void(^)( BOOL success ) )completion
+- (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success ) )completion
 {
     NSString *hashtagString = @"";
     for( DAHashtag *hashtag in review.hashtags )
@@ -583,24 +583,27 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     [self POST:@"reviews" parameters:parameters
     constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
     {
-        float compression = 0.8;
-        NSData *imageData = UIImageJPEGRepresentation( review.image, compression );
-        int maxFileSize = 2000000;
-        while( [imageData length] > maxFileSize )
+        if( image )
         {
-            compression -= 0.1;
-            imageData = UIImageJPEGRepresentation( review.image, compression );
+            float compression = 0.8;
+            NSData *imageData = UIImageJPEGRepresentation( image, compression );
+            int maxFileSize = 2000000;
+            while( [imageData length] > maxFileSize )
+            {
+                compression -= 0.1;
+                imageData = UIImageJPEGRepresentation( image, compression );
+            }
+            
+            [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
         }
-        
-        [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
     }
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        
+        NSLog(@"success");
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        
+        NSLog(@"failure: %@", error );
     }];
 }
 

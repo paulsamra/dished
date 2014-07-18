@@ -18,7 +18,6 @@
     {
         _hashtags = [NSArray array];
         _type     = kFood;
-        _image    = nil;
         _title    = @"";
         _comment  = @"";
         _price    = @"";

@@ -24,6 +24,21 @@
     [self.nameTextField becomeFirstResponder];
 }
 
+- (IBAction)textFieldChanged:(UITextField *)sender
+{
+    if( sender == self.nameTextField )
+    {
+        if( self.nameTextField.text.length > 0 )
+        {
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+        else
+        {
+            self.navigationItem.rightBarButtonItem.enabled = NO;
+        }
+    }
+}
+
 - (IBAction)save:(id)sender
 {
     NSArray *navigationStack = self.navigationController.viewControllers;
