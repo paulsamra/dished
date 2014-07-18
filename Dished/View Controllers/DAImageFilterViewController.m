@@ -8,7 +8,7 @@
 
 #import "DAImageFilterViewController.h"
 #import "DAImagePickerController.h"
-
+#import "DAFormTableViewController.h"
 
 @interface DAImageFilterViewController()
 
@@ -158,6 +158,18 @@
 - (IBAction)goToDetails:(UIBarButtonItem *)sender
 {
     [self performSegueWithIdentifier:@"goToDetails" sender:nil];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+    if ([[segue identifier] isEqualToString:@"form"])
+    {
+        // Get reference to the destination view controller
+        DAFormTableViewController *vc = [segue destinationViewController];
+        
+        // Pass the current UIImageView to a different UIImageView in a different view controller
+        [vc setReviewImage:self.pictureImageView.image];
+    }
 }
 
 - (NSArray *)filterTitles

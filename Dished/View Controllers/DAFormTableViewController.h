@@ -23,6 +23,7 @@
 @property (weak, nonatomic) IBOutlet UITextField         *priceTextField;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem     *postButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl  *dishTypeSegmentedControl;
+@property (weak, nonatomic) UIImage *reviewImage;
 
 @property (strong, nonatomic) DADishSuggestionsTableView *dishSuggestionsTable;
 

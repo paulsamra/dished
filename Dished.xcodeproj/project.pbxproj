@@ -189,6 +189,7 @@
 		D17487D6196DE8E100D83993 /* plus.png in Resources */ = {isa = PBXBuildFile; fileRef = D17487D0196DE8E100D83993 /* plus.png */; };
 		D17487D7196DE8E100D83993 /* plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D17487D1196DE8E100D83993 /* plus@2x.png */; };
 		D1B05D5619703D8700E16C53 /* UIColor+DADishColor.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */; };
+		D1C1F6EF1979A2F600A2D652 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C1F6EE1979A2F600A2D652 /* Social.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -437,6 +438,7 @@
 		D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+DADishColor.h"; path = "../View Controllers/UIColor+DADishColor.h"; sourceTree = "<group>"; };
 		D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+DADishColor.m"; path = "../View Controllers/UIColor+DADishColor.m"; sourceTree = "<group>"; };
 		D1B05D5719703F9900E16C53 /* Dished-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dished-Prefix.pch"; sourceTree = "<group>"; };
+		D1C1F6EE1979A2F600A2D652 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -444,6 +446,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1C1F6EF1979A2F600A2D652 /* Social.framework in Frameworks */,
 				94449ED91946565C008B8881 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -638,6 +641,7 @@
 		94449ED71946564B008B8881 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D1C1F6EE1979A2F600A2D652 /* Social.framework */,
 				94449ED81946565C008B8881 /* FacebookSDK.framework */,
 			);
 			name = Frameworks;
