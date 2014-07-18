@@ -80,6 +80,6 @@
 /*
  * Posts a new dish review to the server.
  */
-- (void)postNewReview:(DANewReview *)review completion:( void(^)( BOOL success ) )completion;
+- (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success ) )completion;
 
 @end

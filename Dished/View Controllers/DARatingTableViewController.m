@@ -125,7 +125,6 @@
         }
         
         [self.gradeSelected setObject:((UIButton *)sender).titleLabel.text forKey:@"plusorminus"];
-
     }
     else
     {
@@ -162,7 +161,7 @@
     {
         cell.gradeLabel.textColor = [UIColor dishedColor];
         
-        if (![cell.gradeLabel.text isEqualToString:@"F"])
+        if( ![cell.gradeLabel.text isEqualToString:@"F"] )
         {
             cell.plusButton.hidden  = NO;
             cell.minusButton.hidden = NO;
@@ -171,13 +170,16 @@
     
     [self.gradeSelected setObject:cell.gradeLabel.text forKey:@"grade"];
     [self.gradeSelected setObject:@"" forKey:@"plusorminus"];
+    
+    [cell.plusButton  setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [cell.minusButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
 }
 
 - (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DARatingCustomTableViewCell *cell = (DARatingCustomTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     cell.gradeLabel.textColor = [UIColor grayColor];
-    cell.plusButton.hidden = YES;
+    cell.plusButton.hidden  = YES;
     cell.minusButton.hidden = YES;
 }
 
@@ -208,6 +210,7 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:rowToSelect inSection:0];
     self.indexPathLastSelected = indexPath;
     [self.gradeSelected setObject:letterGrade forKey:@"grade"];
+    [self.tableView selectRowAtIndexPath:indexPath animated:YES scrollPosition:UITableViewScrollPositionNone];
 }
 
 @end
