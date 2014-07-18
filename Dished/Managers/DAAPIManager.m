@@ -577,7 +577,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }
     
     NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"comment" : review.comment,
-                                  @"price" : review.price, @"grade" : review.grade, @"hashtags" : hashtagString,
+                                  @"price" : review.price, @"grade" : review.rating, @"hashtags" : hashtagString,
                                   @"type" : review.type, @"title" : review.title };
     
     [self POST:@"reviews" parameters:parameters

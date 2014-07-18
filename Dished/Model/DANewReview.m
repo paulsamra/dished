@@ -22,7 +22,7 @@
         _title    = @"";
         _comment  = @"";
         _price    = @"";
-        _grade    = @"";
+        _rating   = @"";
         _dishID   = @"";
         
         _locationName       = @"";

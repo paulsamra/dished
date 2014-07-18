@@ -28,6 +28,8 @@
     
     self.grades = @[@"A", @"B", @"C", @"D", @"F"];
     self.gradeSelected = [[NSMutableDictionary alloc] init];
+    
+    self.navigationItem.rightBarButtonItem.enabled = NO;
 }
 
 #pragma mark - Table view data source
@@ -105,6 +107,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    self.navigationItem.rightBarButtonItem.enabled = YES;
     
     DARatingCustomTableViewCell *cell = (DARatingCustomTableViewCell *)[tableView cellForRowAtIndexPath:indexPath];
     
@@ -149,7 +152,7 @@
     
     if( [self.gradeSelected objectForKey:@"grade"] )
     {
-        label.text = [NSString stringWithFormat:@"%@ %@", [self.gradeSelected objectForKey:@"grade"], [self.gradeSelected objectForKey:@"plusorminus"]];
+        label.text = [NSString stringWithFormat:@"%@%@", [self.gradeSelected objectForKey:@"grade"], [self.gradeSelected objectForKey:@"plusorminus"]];
         [parentController setDetailItem:label];
     }
     

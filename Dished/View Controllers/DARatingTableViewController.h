@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DANewReview.h"
 
 @interface DARatingTableViewController : UITableViewController
 
--(IBAction)done:(id)sender;
+@property (strong, nonatomic) DANewReview *review;
+
+- (IBAction)done:(id)sender;
 
 @end

@@ -16,8 +16,13 @@
 
 @interface DAFormTableViewController ()
 
-@property (strong, nonatomic) DANewReview *review;
+@property (strong, nonatomic) DANewReview     *foodReview;
+@property (strong, nonatomic) DANewReview     *cocktailReview;
+@property (strong, nonatomic) DANewReview     *wineReview;
+@property (strong, nonatomic) DANewReview     *selectedReview;
 @property (nonatomic, retain) NSMutableString *dishPrice;
+
+@property (nonatomic) BOOL addressFound;
 
 @end
 
@@ -32,9 +37,11 @@
 
     [self setupSuggestionTable];
     
-    self.dishPrice   = [[NSMutableString alloc] init];
-    self.review      = [[DANewReview alloc] init];
-    self.review.type = kFood;
+    self.addressFound = NO;
+    
+    self.dishPrice = [[NSMutableString alloc] init];
+    
+    self.selectedReview = self.foodReview;
 
     self.titleTextField.delegate  = self;
     self.priceTextField.delegate  = self;
@@ -44,6 +51,7 @@
     self.commentTextView.placeholder = @"Comment";
     self.commentTextView.textContainerInset = UIEdgeInsetsMake(10, 10, 10, 10);
     
+    self.imAtButton.titleLabel.numberOfLines = 1;
     self.imAtButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     
     self.titleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Title" attributes:@{ NSForegroundColorAttributeName : [UIColor lightGrayColor] } ];
@@ -72,8 +80,6 @@
     {
         [self.imAtButton setTitle:(NSString *)_data forState:UIControlStateNormal];
         [self.imAtButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-
-        [self.priceTextField becomeFirstResponder];
     }
     
     if( _label )
@@ -83,7 +89,7 @@
         [self.ratingButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     
-    if( [self.review.hashtags count] > 0 )
+    if( [self.selectedReview.hashtags count] > 0 )
     {
         self.tagsImageView.image = [UIImage imageNamed:@"valid_icon"];
     }
@@ -184,6 +190,15 @@
     if( textField == self.titleTextField )
     {
         self.dishSuggestionsTable.hidden = YES;
+        self.selectedReview.title = textField.text;
+    }
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if( textView == self.commentTextView )
+    {
+        self.selectedReview.comment = textView.text;
     }
 }
 
@@ -206,7 +221,7 @@
     else
     {
         self.dishSuggestionsTable.hidden = NO;
-        [self.dishSuggestionsTable updateSuggestionsWithQuery:self.titleTextField.text dishType:self.review.type];
+        [self.dishSuggestionsTable updateSuggestionsWithQuery:self.titleTextField.text dishType:self.selectedReview.type];
     }
 }
 
@@ -216,22 +231,43 @@
     [self.imAtButton setTitle:locationName forState:UIControlStateNormal];
     [self.imAtButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     
-    self.review.dishID = dishID;
-    self.review.title = dishName;
-    self.review.locationName = locationName;
-    self.review.locationID = locationID;
+    self.selectedReview.dishID = dishID;
+    self.selectedReview.title = dishName;
+    self.selectedReview.locationName = locationName;
+    self.selectedReview.locationID = locationID;
 }
 
 - (IBAction)changedDishType
 {
     switch (self.dishTypeSegmentedControl.selectedSegmentIndex)
     {
-        case 0: self.review.type = kFood;     break;
-        case 1: self.review.type = kCocktail; break;
-        case 2: self.review.type = kWine;     break;
+        case 0: self.selectedReview = self.foodReview;      break;
+        case 1: self.selectedReview = self.cocktailReview;  break;
+        case 2: self.selectedReview = self.wineReview;      break;
     }
     
     self.dishSuggestionsTable.hidden = YES;
+    [self updateFields];
+}
+
+- (void)updateFields
+{
+    self.titleTextField.text  = self.selectedReview.title;
+    self.commentTextView.text = self.selectedReview.comment;
+    self.priceTextField.text  = self.selectedReview.price;
+    
+    [self.imAtButton setTitle:self.selectedReview.locationName forState:UIControlStateNormal];
+    
+    if( [self.selectedReview.hashtags count] > 0 )
+    {
+        self.tagsImageView.image = [UIImage imageNamed:@"valid_icon"];
+    }
+    else
+    {
+        self.tagsImageView.image = [UIImage imageNamed:@"add_dish_arrow"];
+    }
+    
+    [self.ratingButton setTitle:self.selectedReview.rating forState:UIControlStateNormal];
 }
 
 - (void)setDetailItem:(id)newData
@@ -269,7 +305,7 @@
     if( [segue.identifier isEqualToString:@"posHashtags"] )
     {
         DAPositiveHashtagsViewController *dest = segue.destinationViewController;
-        dest.review = self.review;
+        dest.review = self.selectedReview;
     }
 }
 
@@ -277,23 +313,56 @@
 {
     NSDictionary *addressDictionary = notification.object;
     
-    NSString *address = [addressDictionary objectForKey:(NSString *)kABPersonAddressStreetKey];
-    NSString *city =  	[addressDictionary objectForKey:(NSString *)kABPersonAddressCityKey];
-    NSString *state = 	[addressDictionary objectForKey:(NSString *)kABPersonAddressStateKey];
-    NSString *zip =   	[addressDictionary objectForKey:(NSString *)kABPersonAddressZIPKey];
+    self.selectedReview.locationStreetNum  = addressDictionary[@"SubThoroughfare"];
+    self.selectedReview.locationStreetName = addressDictionary[@"Thoroughfare"];
+    self.selectedReview.locationCity       = addressDictionary[(NSString *)kABPersonAddressCityKey];
+    self.selectedReview.locationState      = addressDictionary[(NSString *)kABPersonAddressStateKey];
+    self.selectedReview.locationZip        = addressDictionary[(NSString *)kABPersonAddressZIPKey];
     
-    NSLog(@"%@ %@ %@ %@", address, city, state, zip);
+    self.addressFound = YES;
 }
-
 
 - (IBAction)postDish:(UIBarButtonItem *)sender
 {
-    NSLog(@"Post: %@ %@ %@ %@ %@ %@", self.review.type,
+    NSLog(@"Post: %@ %@ %@ %@ %@ %@", self.selectedReview.type,
                                       self.titleTextField.text,
     						 		  self.commentTextView.text,
                                       self.imAtButton.titleLabel.text,
                                       self.priceTextField.text,
     						 		  self.ratingButton.titleLabel.text);
+}
+
+- (DANewReview *)foodReview
+{
+    if( !_foodReview )
+    {
+        _foodReview = [[DANewReview alloc] init];
+        _foodReview.type = kFood;
+    }
+    
+    return _foodReview;
+}
+
+- (DANewReview *)cocktailReview
+{
+    if( !_cocktailReview )
+    {
+        _cocktailReview = [[DANewReview alloc] init];
+        _cocktailReview.type = kCocktail;
+    }
+    
+    return _cocktailReview;
+}
+
+- (DANewReview *)wineReview
+{
+    if( !_wineReview )
+    {
+        _wineReview = [[DANewReview alloc] init];
+        _wineReview.type = kWine;
+    }
+    
+    return _wineReview;
 }
 
 @end
