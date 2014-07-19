@@ -10,9 +10,10 @@
 #import <UIKit/UIKit.h>
 #import "SZTextView.h"
 #import "DADishSuggestionsTableView.h"
+#import <MessageUI/MessageUI.h>
 
 
-@interface DAFormTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate>
+@interface DAFormTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate, MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton            *ratingButton;
 @property (weak, nonatomic) IBOutlet UIButton            *hashtagButton;

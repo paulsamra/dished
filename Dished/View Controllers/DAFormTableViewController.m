@@ -337,7 +337,7 @@
                     [controller setInitialText:@"Post your favorite dish!"];
                     [controller addImage:self.reviewImage];
 
-                    [self presentViewController:controller animated:YES completion:Nil];
+                    [self presentViewController:controller animated:YES completion:nil];
                 }
 
             }
@@ -379,12 +379,26 @@
             else
             {
                 self.emailToggleButton.alpha = 1.0;
+                if ([MFMailComposeViewController canSendMail]) {
+                    MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+                    [composeViewController setMailComposeDelegate:self];
+                    [composeViewController setSubject:@"Wow this Dish is awesome!"];
+                    NSData *imageData = UIImagePNGRepresentation(self.reviewImage);
+                    [composeViewController addAttachmentData:imageData mimeType:nil fileName:@"image.png"];
+                    [self presentViewController:composeViewController animated:YES completion:nil];
+                }
             }
             break;
         default:
             break;
     }
 
+}
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+    //Add an alert in case of failure
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
