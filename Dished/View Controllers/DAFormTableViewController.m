@@ -8,7 +8,6 @@
 
 #import "DAFormTableViewController.h"
 #import "DAPositiveHashtagsViewController.h"
-#import "SZTextView.h"
 #import "DANewReview.h"
 #import <AddressBook/AddressBook.h>
 #import "DALocationManager.h"
@@ -16,6 +15,8 @@
 #import "DARatingTableViewController.h"
 #import "MRProgress.h"
 #import "DAHashtag.h"
+#import <Social/Social.h>
+#import "DAAPIManager.h"
 
 
 @interface DAFormTableViewController()
@@ -28,12 +29,6 @@
 
 @property (nonatomic) BOOL addressFound;
 
-@property (weak, nonatomic) IBOutlet UIButton *facebookToggleButton;
-@property (weak, nonatomic) IBOutlet UIButton *twitterToggleButton;
-@property (weak, nonatomic) IBOutlet UIButton *googleplusToggleButton;
-@property (weak, nonatomic) IBOutlet UIButton *emailToggleButton;
-
-
 @end
 
 
@@ -42,10 +37,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.facebookToggleButton.alpha = 0.3;
-    self.twitterToggleButton.alpha = 0.3;
+    self.facebookToggleButton.alpha   = 0.3;
+    self.twitterToggleButton.alpha    = 0.3;
     self.googleplusToggleButton.alpha = 0.3;
-    self.emailToggleButton.alpha = 0.3;
+    self.emailToggleButton.alpha      = 0.3;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressReady:) name:kAddressReadyNotificationKey object:nil];
 
@@ -240,14 +235,8 @@
     self.selectedReview.title = dishName;
     self.selectedReview.locationName = locationName;
     self.selectedReview.locationID = locationID;
-    
-    if( [dishPrice characterAtIndex:0] != '$' )
-    {
-        dishPrice = [NSString stringWithFormat:@"$%@", dishPrice];
-    }
-    
     self.dishPrice = [[NSMutableString alloc] init];
-    self.selectedReview.price = dishPrice;
+    self.selectedReview.price = [NSString stringWithFormat:@"$%@", dishPrice];
     
     [self updateFields];
 }
@@ -318,20 +307,21 @@
     [self performSegueWithIdentifier:@"rating" sender:nil];
 }
 
--(IBAction)share:(UIButton *)sender {
-    
-
-    switch (sender.tag)
+- (IBAction)share:(UIButton *)sender
+{
+    switch( sender.tag )
     {
         case 0:
-            if (self.facebookToggleButton.alpha == 1.0)
+            if( self.facebookToggleButton.alpha == 1.0 )
             {
                 self.facebookToggleButton.alpha = 0.5;
             }
             else
             {
                 self.facebookToggleButton.alpha = 1.0;
-                if([SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook]) {
+                
+                if( [SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook] )
+                {
                     SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
                     
                     [controller setInitialText:@"Post your favorite dish!"];
@@ -339,18 +329,17 @@
 
                     [self presentViewController:controller animated:YES completion:nil];
                 }
-
             }
             break;
         case 1:
-            if (self.twitterToggleButton.alpha == 1.0)
+            if( self.twitterToggleButton.alpha == 1.0 )
             {
                 self.twitterToggleButton.alpha = 0.5;
             }
             else
             {
                 self.twitterToggleButton.alpha = 1.0;
-                if ([SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter])
+                if( [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] )
                 {
                     SLComposeViewController *tweetSheet = [SLComposeViewController
                                                            composeViewControllerForServiceType:SLServiceTypeTwitter];
@@ -362,7 +351,7 @@
             }
             break;
         case 2:
-            if (self.googleplusToggleButton.alpha == 1.0)
+            if( self.googleplusToggleButton.alpha == 1.0 )
             {
                 self.googleplusToggleButton.alpha = 0.5;
             }
@@ -372,14 +361,16 @@
             }
             break;
         case 3:
-            if (self.emailToggleButton.alpha == 1.0)
+            if( self.emailToggleButton.alpha == 1.0 )
             {
                 self.emailToggleButton.alpha = 0.5;
             }
             else
             {
                 self.emailToggleButton.alpha = 1.0;
-                if ([MFMailComposeViewController canSendMail]) {
+                
+                if( [MFMailComposeViewController canSendMail] )
+                {
                     MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
                     [composeViewController setMailComposeDelegate:self];
                     [composeViewController setSubject:@"Wow this Dish is awesome!"];
@@ -389,10 +380,7 @@
                 }
             }
             break;
-        default:
-            break;
     }
-
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
@@ -438,6 +426,8 @@
 
 - (IBAction)postDish:(UIBarButtonItem *)sender
 {
+    [[DAAPIManager sharedManager] postNewReview:self.selectedReview withImage:nil completion:nil];
+    
     NSLog(@"Post: %@ %@ %@ %@ %@ %@", self.selectedReview.type,
                                       self.titleTextField.text,
     						 		  self.commentTextView.text,

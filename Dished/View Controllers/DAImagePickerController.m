@@ -187,7 +187,7 @@
 
 - (void)captureManager:(DACaptureManager *)captureManager didCaptureImage:(UIImage *)image
 {
-    dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_DEFAULT, 0 ), ^
+    dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0 ), ^
     {        
         CGFloat cropWidth = ( image.size.width / self.videoView.bounds.size.width ) * self.view.bounds.size.width;
         CGFloat cropHeight = ( image.size.height / self.videoView.bounds.size.height ) * self.gridImageView.bounds.size.height;
@@ -197,9 +197,9 @@
         
         CGRect cropRect = CGRectMake( x, y, cropWidth, cropHeight );
         
-        CGImageRef imageRef = CGImageCreateWithImageInRect([image CGImage], cropRect);
+        CGImageRef imageRef = CGImageCreateWithImageInRect( [image CGImage], cropRect );
         UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
-        CGImageRelease(imageRef);
+        CGImageRelease( imageRef );
         
         self.pictureTaken = croppedImage;
         

@@ -12,9 +12,11 @@
 
 @interface DAImageFilterViewController()
 
-@property (strong, nonatomic) NSArray        *filterTitles;
-@property (strong, nonatomic) NSArray        *filterNames;
-@property (strong, nonatomic) NSMutableArray *filteredImages;
+@property (strong, nonatomic) UIImage               *scaledImage;
+@property (strong, nonatomic) NSArray               *filterTitles;
+@property (strong, nonatomic) NSArray               *filterNames;
+@property (strong, nonatomic) NSMutableDictionary   *filteredImages;
+@property (strong, nonatomic) NSOperationQueue      *imageFilterQueue;
 
 @property (nonatomic) int selectedIndex;
 
@@ -33,11 +35,23 @@
     
     if( parentVC.pictureTaken )
     {
-        self.pictureTaken = parentVC.pictureTaken;
-        self.pictureImageView.image = self.pictureTaken;
+        UIImage *pictureTaken = parentVC.pictureTaken;
+        
+        CGSize newSize = CGSizeMake( pictureTaken.size.width / 4, pictureTaken.size.height / 4 );
+        UIGraphicsBeginImageContextWithOptions( newSize, NO, 0.0 );
+        [pictureTaken drawInRect:CGRectMake( 0, 0, newSize.width, newSize.height )];
+        UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        
+        self.scaledImage = newImage;
+        self.pictureTaken = pictureTaken;
+        self.pictureImageView.image = self.scaledImage;
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageReady:) name:kImageReadyNotificationKey object:nil];
+    
+    self.imageFilterQueue = [[NSOperationQueue alloc] init];
+    self.imageFilterQueue.maxConcurrentOperationCount = 1;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -53,8 +67,16 @@
 {
     UIImage *pictureTaken = notification.object;
     
+    CGSize newSize = CGSizeMake( pictureTaken.size.width / 4, pictureTaken.size.height / 4 );
+    UIGraphicsBeginImageContextWithOptions( newSize, NO, 0.0 );
+    [pictureTaken drawInRect:CGRectMake( 0, 0, newSize.width, newSize.height )];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    NSLog(@"%f, %f", newImage.size.width, newImage.size.height);
+    self.scaledImage = newImage;
     self.pictureTaken = pictureTaken;
-    self.pictureImageView.image = self.pictureTaken;
+    self.pictureImageView.image = self.scaledImage;
     
     [self.collectionView reloadData];
 }
@@ -89,22 +111,22 @@
     
     UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:101];
     
-    if( ![self.filteredImages[indexPath.row] isEqual:[NSNull null]] )
+    if( self.filteredImages[self.filterNames[indexPath.row]] )
     {
-        imageView.image = self.filteredImages[indexPath.row];
+        imageView.image = self.filteredImages[self.filterNames[indexPath.row]];
     }
     else
     {
         if( indexPath.row == 0 )
         {
-            if( !self.pictureTaken )
+            if( !self.scaledImage )
             {
                 [spinner startAnimating];
             }
             else
             {
-                self.filteredImages[indexPath.row] = self.pictureTaken;
-                imageView.image = self.pictureTaken;
+                self.filteredImages[self.filterNames[indexPath.row]] = self.scaledImage;
+                imageView.image = self.scaledImage;
                 
                 [spinner stopAnimating];
             }
@@ -113,29 +135,27 @@
         {
             [spinner startAnimating];
             
-            if( self.pictureTaken )
+            if( self.scaledImage )
             {
-                dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0 ), ^
+                NSBlockOperation *filterOperation = [NSBlockOperation blockOperationWithBlock:^
                 {
-                    CIImage *beginImage = [CIImage imageWithCGImage:[self.pictureTaken CGImage]];
-                    CIContext *context = [CIContext contextWithOptions:nil];
+                    CIImage *beginImage = [CIImage imageWithCGImage:[self.scaledImage CGImage]];
                     
                     CIFilter *filter = [CIFilter filterWithName:self.filterNames[indexPath.row] keysAndValues:kCIInputImageKey, beginImage, nil];
                     CIImage *outputImage = [filter outputImage];
                     
-                    CGImageRef cgimg = [context createCGImage:outputImage fromRect:[outputImage extent]];
-                    UIImage *newImg = [UIImage imageWithCGImage:cgimg];
-                    
-                    CGImageRelease(cgimg);
+                    UIImage *newImg = [UIImage imageWithCIImage:outputImage];
                     
                     dispatch_async( dispatch_get_main_queue(), ^
                     {
-                        self.filteredImages[indexPath.row] = newImg;
+                        self.filteredImages[self.filterNames[indexPath.row]] = newImg;
                         [imageView setImage:newImg];
-                        
+                       
                         [spinner stopAnimating];
                     });
-                });
+                }];
+                
+                [self.imageFilterQueue addOperation:filterOperation];
             }
         }
     }
@@ -150,7 +170,7 @@
 {
     self.selectedIndex = (int)indexPath.row;
     
-    self.pictureImageView.image = self.filteredImages[indexPath.row];
+    self.pictureImageView.image = self.filteredImages[self.filterNames[indexPath.row]];
     
     [self.collectionView reloadData];
 }
@@ -160,15 +180,12 @@
     [self performSegueWithIdentifier:@"goToDetails" sender:nil];
 }
 
--(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    if ([[segue identifier] isEqualToString:@"form"])
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [[segue identifier] isEqualToString:@"form"] )
     {
-        // Get reference to the destination view controller
-        DAFormTableViewController *vc = [segue destinationViewController];
-        
-        // Pass the current UIImageView to a different UIImageView in a different view controller
-        [vc setReviewImage:self.pictureImageView.image];
+        DAFormTableViewController *dest = [segue destinationViewController];
+        dest.reviewImage = self.pictureImageView.image;
     }
 }
 
@@ -176,7 +193,6 @@
 {
     if( !_filterTitles )
     {
-        //_filterTitles = @[ @"No Filter", @"Instant", @"Transfer", @"Process", @"Sepia", @"Noir", @"Tonal", @"Chrome", @"False" ];
         _filterTitles = @[ @"No Filter", @"Garlic", @"Ginger", @"Coriander", @"Cumin", @"Salt", @"Pepper", @"Thyme", @"Paprika" ];
     }
     
@@ -193,16 +209,11 @@
     return _filterNames;
 }
 
-- (NSArray *)filteredImages
+- (NSMutableDictionary *)filteredImages
 {
     if( !_filteredImages )
     {
-        _filteredImages = [NSMutableArray array];
-        
-        for( int i = 0; i < [self.filterNames count]; i++ )
-        {
-            _filteredImages[i] = [NSNull null];
-        }
+        _filteredImages = [NSMutableDictionary dictionary];
     }
     
     return _filteredImages;

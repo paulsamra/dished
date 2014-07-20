@@ -576,6 +576,11 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
         hashtagString = [hashtagString stringByAppendingFormat:@"%@,", hashtag.hashtagID];
     }
     
+    if( [review.price characterAtIndex:0] == '$' )
+    {
+        review.price = [review.price substringFromIndex:1];
+    }
+    
     NSDictionary *baseParams = @{ kAccessTokenKey : [self accessToken], @"comment" : review.comment,
                                   @"price" : review.price, @"grade" : review.rating };
     
@@ -604,8 +609,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
         [parameters setObject:@(review.locationLongitude) forKey:@"loc_longitude"];
         [parameters setObject:@(review.locationLatitude) forKey:@"loc_latitude"];
         [parameters setObject:review.locationStreetNum forKey:@"loc_street_number"];
-        [parameters setObject:review.locationStreetName forKey:@"loc_street_name"];
-        [parameters setObject:@"st" forKey:@"loc_street_type"];
+        [parameters setObject:review.locationStreetName forKey:@"loc_street"];
         [parameters setObject:review.locationCity forKey:@"loc_city"];
         [parameters setObject:review.locationState forKey:@"loc_state"];
         [parameters setObject:review.locationZip forKey:@"loc_zip"];
@@ -614,6 +618,8 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
         [parameters setObject:review.title forKey:@"title"];
     }
     
+    NSLog(@"%@", parameters);
+        
     [self POST:@"reviews" parameters:parameters
     constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
     {

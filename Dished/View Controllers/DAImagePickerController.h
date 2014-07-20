@@ -23,5 +23,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView    *gridImageView;
 
 @property (strong, nonatomic) UIImage *pictureTaken;
+@property (strong, nonatomic) UIImage *scaledPicture;
 
 @end
