@@ -16,7 +16,7 @@
 @interface DAFormTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate, MFMailComposeViewControllerDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton            *facebookToggleButton;
-@property (weak, nonatomic) IBOutlet UIButton            *twitterToggleButton;
+@property (strong, nonatomic) IBOutlet UIButton            *twitterToggleButton;
 @property (weak, nonatomic) IBOutlet UIButton            *googleplusToggleButton;
 @property (weak, nonatomic) IBOutlet UIButton            *emailToggleButton;
 @property (weak, nonatomic) IBOutlet UIButton            *ratingButton;

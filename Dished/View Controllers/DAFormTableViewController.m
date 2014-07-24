@@ -439,7 +439,7 @@
         case 1:
             if( self.twitterToggleButton.alpha == 1.0 )
             {
-                self.twitterToggleButton.alpha = 0.5;
+                self.twitterToggleButton.alpha = 0.3;
             }
             else
             {
@@ -456,7 +456,7 @@
         case 2:
             if( self.googleplusToggleButton.alpha == 1.0 )
             {
-                self.googleplusToggleButton.alpha = 0.5;
+                self.googleplusToggleButton.alpha = 0.3;
             }
             else
             {
@@ -466,20 +466,22 @@
         case 3:
             if( self.emailToggleButton.alpha == 1.0 )
             {
-                self.emailToggleButton.alpha = 0.5;
+                self.emailToggleButton.alpha = 0.3;
+                self.emailButtonPressed = NO;
+
             }
             else
             {
-                self.emailToggleButton.alpha = 1.0;
                 
                 if( [MFMailComposeViewController canSendMail] )
                 {
-                    MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
-                    [composeViewController setMailComposeDelegate:self];
-                    [composeViewController setSubject:@"Wow this Dish is awesome!"];
-                    NSData *imageData = UIImagePNGRepresentation(self.reviewImage);
-                    [composeViewController addAttachmentData:imageData mimeType:nil fileName:@"image.png"];
-                    [self presentViewController:composeViewController animated:YES completion:nil];
+                    self.emailButtonPressed = YES;
+                    self.emailToggleButton.alpha = 1.0;
+
+                }
+                else
+                {
+                    //TODO maybe alert the user and let them know they can't send email
                 }
             }
             break;
