@@ -93,8 +93,6 @@
     CLLocation *location = [locations lastObject];
     self.currentLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude);
     
-    NSLog(@"%f, %f", self.currentLocation.longitude, self.currentLocation.latitude);
-    
     if( location.coordinate.latitude != 0 && location.coordinate.longitude != 0 )
     {
         self.locationFound = YES;

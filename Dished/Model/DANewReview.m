@@ -25,6 +25,8 @@
         _dishID   = @"";
         
         _locationName       = @"";
+        _locationID         = @"";
+        _googleID           = @"";
         _locationStreetNum  = @"";
         _locationStreetName = @"";
         _locationCity       = @"";

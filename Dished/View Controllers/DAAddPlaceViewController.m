@@ -45,6 +45,9 @@
     
     [self.nameTextField resignFirstResponder];
     
+    self.review.locationID = @"";
+    self.review.googleID   = @"";
+    
     [[DALocationManager sharedManager] getAddress];
     
     self.review.locationLatitude  = [[DALocationManager sharedManager] currentLocation].latitude;

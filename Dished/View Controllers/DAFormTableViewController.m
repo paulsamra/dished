@@ -17,18 +17,22 @@
 #import "DAHashtag.h"
 #import <Social/Social.h>
 #import "DAAPIManager.h"
+#import "DAAppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
+#import <Accounts/Accounts.h>
 
-@interface DAFormTableViewController()
+
+@interface DAFormTableViewController() <UIAlertViewDelegate>
 
 @property (strong, nonatomic) DANewReview     *foodReview;
 @property (strong, nonatomic) DANewReview     *cocktailReview;
 @property (strong, nonatomic) DANewReview     *wineReview;
 @property (strong, nonatomic) DANewReview     *selectedReview;
+@property (strong, nonatomic) UIAlertView     *facebookLoginAlert;
+@property (strong, nonatomic) UIAlertView     *postFailAlert;
 @property (strong, nonatomic) NSMutableString *dishPrice;
-@property (strong, nonatomic) ACAccountStore *accountStore;
-@property (strong, nonatomic) ACAccountType *accountType;
-
+@property (strong, nonatomic) ACAccountStore  *accountStore;
+@property (strong, nonatomic) ACAccountType   *accountType;
 
 @property (nonatomic) BOOL shouldPostToFacebook;
 @property (nonatomic) BOOL shouldPostToTwitter;
@@ -45,11 +49,8 @@
     [super viewDidLoad];
     
     self.accountStore = [[ACAccountStore alloc] init];
-    self.accountType = [self.accountStore accountTypeWithAccountTypeIdentifier:
-                                  ACAccountTypeIdentifierTwitter];
+    self.accountType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
 
-    
-    
     self.facebookToggleButton.alpha   = 0.3;
     self.twitterToggleButton.alpha    = 0.3;
     self.googleplusToggleButton.alpha = 0.3;
@@ -108,6 +109,11 @@
     [self.commentTextView resignFirstResponder];
     
     [super viewDidDisappear:animated];
+}
+
+- (void)showProgressView
+{
+    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"Posting..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
 }
 
 - (void)setupSuggestionTable
@@ -391,6 +397,21 @@
     [self performSegueWithIdentifier:@"rating" sender:nil];
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if( alertView == self.facebookLoginAlert )
+    {
+        if( buttonIndex != alertView.cancelButtonIndex )
+        {
+            [self openFacebookSession];
+        }
+        else
+        {
+            self.facebookToggleButton.alpha = 0.5;
+        }
+    }
+}
+
 - (IBAction)share:(UIButton *)sender
 {
     switch( sender.tag )
@@ -399,43 +420,20 @@
             if( self.facebookToggleButton.alpha == 1.0 )
             {
                 self.facebookToggleButton.alpha = 0.5;
+                self.shouldPostToFacebook = NO;
             }
             else
             {
                 self.facebookToggleButton.alpha = 1.0;
                 
-                NSArray *requestPermissions = @[ @"publish_actions" ];
-                
-                [FBRequestConnection startWithGraphPath:@"/me/permissions" completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
+                if( FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended )
                 {
-                    if( !error )
-                    {
-                        NSDictionary *permissions= [(NSArray *)[result data] objectAtIndex:0];
-                        
-                        if( ![permissions objectForKey:[requestPermissions objectAtIndex:0]] )
-                        {
-                            [FBSession.activeSession requestNewPublishPermissions:requestPermissions defaultAudience:FBSessionDefaultAudienceFriends completionHandler:^( FBSession *session, NSError *error )
-                            {
-                                if( !error )
-                                {
-                                    //[self shareDishOnFacebook];
-                                }
-                                else
-                                {
-                                    NSLog(@"%@", error);
-                                }
-                            }];
-                        }
-                        else
-                        {
-                            NSLog(@"has permission");
-                        }
-                    }
-                    else
-                    {
-                        NSLog( @"%@", error );
-                    }
-                }];
+                    [self requestFacebookPermissions];
+                }
+                else
+                {
+                    [self.facebookLoginAlert show];
+                }
             }
             break;
         case 1:
@@ -445,18 +443,14 @@
             }
             else
             {
-                
                 [self.accountStore requestAccessToAccountsWithType:self.accountType options:nil
-                                              completion:^(BOOL granted, NSError *error)
+                completion:^( BOOL granted, NSError *error )
                 {
-                    if (granted == YES)
+                    if( granted == YES )
                     {
                         self.twitterToggleButton.alpha = 1.0;
                     }
                 }];
-                
-                
-                
             }
             break;
         case 2:
@@ -492,23 +486,146 @@
     }
 }
 
-- (void)shareDishOnFacebook
+- (void)requestFacebookPermissions
+{
+    NSArray *requestPermissions = @[ @"publish_actions" ];
+    
+    [FBRequestConnection startWithGraphPath:@"/me/permissions"
+    completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
+    {
+        if( !error )
+        {
+            BOOL hasPermission = NO;
+            
+            for( NSDictionary *permission in (NSArray *)[result data] )
+            {
+                if( [[permission objectForKey:@"permission"] isEqualToString:[requestPermissions objectAtIndex:0]] )
+                {
+                    hasPermission = YES;
+                }
+            }
+            
+            if( !hasPermission )
+            {
+                [FBSession.activeSession requestNewPublishPermissions:requestPermissions defaultAudience:FBSessionDefaultAudienceNone completionHandler:^( FBSession *session, NSError *error )
+                {
+                    if( !error )
+                    {
+                        self.shouldPostToFacebook = YES;
+                    }
+                }];
+            }
+            else
+            {
+                self.shouldPostToFacebook = YES;
+            }
+        }
+        else
+        {
+            if( [FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession )
+            {
+                [self openFacebookSession];
+            }
+        }
+    }];
+}
+
+- (void)openFacebookSession
+{
+    [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:YES
+    completionHandler:^( FBSession *session, FBSessionState status, NSError *error )
+    {
+        if( status == FBSessionStateOpen || status == FBSessionStateOpenTokenExtended )
+        {
+            [self requestFacebookPermissions];
+        }
+        else
+        {
+            self.facebookToggleButton.alpha = 0.5;
+        }
+        
+        DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+        [appDelegate sessionStateChanged:session state:status error:error];
+    }];
+}
+
+- (void)shareDishOnFacebookWithCompletion:( void(^)( BOOL success ) )completion;
 {
     NSDictionary *shareParams = @{ @"name" : @"Test Share", @"caption" : @"Some Test Caption",
-                                          @"description" : @"Some description here.", @"link" : @"http://dishedapp.com" };
+                                   @"description" : @"Some description here.", @"link" : @"http://dishedapp.com" };
     
     [FBRequestConnection startWithGraphPath:@"/me/feed" parameters:shareParams HTTPMethod:@"POST"
     completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
     {
         if( !error )
         {
-            NSLog(@"result: %@", result);
+            completion( YES );
         }
         else
         {
-            NSLog(@"%@", error.description);
+            completion( NO );
         }
     }];
+}
+
+- (void)postToTwitterWithImage:(UIImage *)image andStatus:(NSString *)status
+{
+    ACAccountType *twitterType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    
+    SLRequestHandler requestHandler = ^( NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error )
+    {
+        if( responseData )
+        {
+            NSInteger statusCode = urlResponse.statusCode;
+            
+            if( statusCode >= 200 && statusCode < 300 )
+            {
+                NSDictionary *postResponseData = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:NULL];
+                NSLog(@"[SUCCESS!] Created Tweet with ID: %@", postResponseData[@"id_str"]);
+            }
+            else
+            {
+                NSLog(@"[ERROR] Server responded: status code %ld %@", (long)statusCode, [NSHTTPURLResponse localizedStringForStatusCode:statusCode]);
+            }
+        }
+        else
+        {
+            NSLog(@"[ERROR] An error occurred while posting: %@", [error localizedDescription]);
+        }
+    };
+    
+    ACAccountStoreRequestAccessCompletionHandler accountStoreHandler = ^( BOOL granted, NSError *error )
+    {
+        if( granted )
+        {
+            NSLog(@"granted");
+            NSArray *accounts = [self.accountStore accountsWithAccountType:twitterType];
+            NSURL *url = [NSURL URLWithString:@"https://api.twitter.com/1.1/statuses/update_with_media.json"];
+            
+            NSDictionary *params = @{ @"status" : status };
+            
+            SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                                    requestMethod:SLRequestMethodPOST
+                                                              URL:url
+                                                       parameters:params];
+            
+            NSData *imageData = UIImageJPEGRepresentation(image, 1.0f);
+            
+            [request addMultipartData:imageData
+                             withName:@"media[]"
+                                 type:@"image/jpeg"
+                             filename:@"image.jpg"];
+            
+            [request setAccount:[accounts lastObject]];
+            [request performRequestWithHandler:requestHandler];
+        }
+        else
+        {
+            NSLog(@"[ERROR] An error occurred while asking for user authorization: %@", [error localizedDescription]);
+        }
+    };
+    
+    [self.accountStore requestAccessToAccountsWithType:twitterType options:NULL completion:accountStoreHandler];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
@@ -554,7 +671,65 @@
 
 - (IBAction)postDish:(UIBarButtonItem *)sender
 {
-    [[DAAPIManager sharedManager] postNewReview:self.selectedReview withImage:self.reviewImage completion:nil];
+    [self showProgressView];
+    
+    dispatch_group_t group = dispatch_group_create();
+    
+    __block BOOL postSuccess = YES;
+    
+    dispatch_group_enter( group );
+
+    [[DAAPIManager sharedManager] postNewReview:self.selectedReview withImage:self.reviewImage completion:^( BOOL success )
+    {
+        if( success )
+        {
+            postSuccess = YES;
+        }
+        else
+        {
+            postSuccess = NO;
+        }
+        
+        dispatch_group_leave( group );
+    }];
+    
+    if( self.shouldPostToFacebook )
+    {
+        dispatch_group_enter( group );
+        
+        [self shareDishOnFacebookWithCompletion:^( BOOL success )
+        {
+            dispatch_group_leave( group );
+        }];
+    }
+    
+    if( self.shouldPostToTwitter )
+    {
+        dispatch_group_enter( group );
+        // put code for posting to twitter here, with completion handler
+        // handle similar to above with facebook.
+    }
+    
+    dispatch_group_notify( group, dispatch_get_main_queue(), ^
+    {
+        if( postSuccess )
+        {
+            [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+            {
+                if( postSuccess )
+                {
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }
+                else
+                {
+                    [self.postFailAlert show];
+                }
+            }];
+        }
+    });
+    
+//    NSString *twitterMessage = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
+//    [self postToTwitterWithImage:self.reviewImage andStatus:twitterMessage];
 }
 
 - (DANewReview *)foodReview
@@ -588,6 +763,26 @@
     }
     
     return _wineReview;
+}
+
+- (UIAlertView *)facebookLoginAlert
+{
+    if( !_facebookLoginAlert )
+    {
+        _facebookLoginAlert = [[UIAlertView alloc] initWithTitle:@"You are not logged into Facebook" message:@"You must login to Facebook to share reviews. Do you want to login now?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    }
+    
+    return _facebookLoginAlert;
+}
+
+- (UIAlertView *)postFailAlert
+{
+    if( !_postFailAlert )
+    {
+        _postFailAlert = [[UIAlertView alloc] initWithTitle:@"Failed to post Dish Review" message:@"There was a problem posting your review. Please try again." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    }
+    
+    return _postFailAlert;
 }
 
 @end

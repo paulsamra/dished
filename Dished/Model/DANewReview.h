@@ -21,6 +21,7 @@
 @property (copy, nonatomic) NSString  *rating;
 @property (copy, nonatomic) NSString  *dishID;
 @property (copy, nonatomic) NSString  *locationID;
+@property (copy, nonatomic) NSString  *googleID;
 @property (copy, nonatomic) NSString  *locationName;
 @property (copy, nonatomic) NSString  *locationStreetNum;
 @property (copy, nonatomic) NSString  *locationStreetName;

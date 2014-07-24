@@ -59,7 +59,7 @@
                                       completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
         {
             if( state == FBSessionStateOpen )
-        {
+            {
                 [[FBRequest requestForMe] startWithCompletionHandler:
                 ^( FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error )
                 {

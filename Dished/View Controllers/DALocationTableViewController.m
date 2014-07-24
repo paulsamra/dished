@@ -11,11 +11,12 @@
 #import "DAAddPlaceViewController.h"
 #import "DAAPIManager.h"
 #import "DALocationManager.h"
-#import "MRProgress.h"
 
 static NSString *kLocationNameKey     = @"name";
 static NSString *kLocationIDKey       = @"id";
 static NSString *kLocationDistanceKey = @"distance";
+static NSString *kLocationGoogleIDKey = @"google_id";
+static NSString *kLocationTypeKey     = @"type";
 
 
 @interface DALocationTableViewController() <UISearchBarDelegate>
@@ -92,8 +93,18 @@ static NSString *kLocationDistanceKey = @"distance";
 {
     if( indexPath.row < [self.locationData count] )
     {
-        self.review.locationID = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationIDKey];
         self.review.locationName = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationNameKey];
+        self.review.locationID = @"";
+        self.review.googleID   = @"";
+        
+        if( [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationIDKey] )
+        {
+            self.review.locationID = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationIDKey];
+        }
+        else if( [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationGoogleIDKey] )
+        {
+            self.review.googleID = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationGoogleIDKey];
+        }
         
         [self.navigationController popViewControllerAnimated:YES];
     }
@@ -111,11 +122,6 @@ static NSString *kLocationDistanceKey = @"distance";
         DAAddPlaceViewController *dest = segue.destinationViewController;
         dest.review = self.review;
     }
-}
-
-- (void)showProgressView
-{
-    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"Searching..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -149,8 +155,16 @@ static NSString *kLocationDistanceKey = @"distance";
             for( NSDictionary *locationInfo in searchResults )
             {
                 NSMutableDictionary *location = [NSMutableDictionary dictionary];
-                location[kLocationNameKey]    = locationInfo[kLocationNameKey];
-                location[kLocationIDKey]      = locationInfo[kLocationIDKey];
+                location[kLocationNameKey] = locationInfo[kLocationNameKey];
+                
+                if( [locationInfo[kLocationTypeKey] isEqualToString:@"system"] )
+                {
+                    location[kLocationIDKey] = locationInfo[kLocationIDKey];
+                }
+                else if( [locationInfo[kLocationTypeKey] isEqualToString:@"google"] )
+                {
+                    location[kLocationGoogleIDKey] = locationInfo[kLocationGoogleIDKey];
+                }
                 
                 if( locationInfo[kLocationDistanceKey] )
                 {

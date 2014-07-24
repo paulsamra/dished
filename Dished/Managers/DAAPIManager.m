@@ -600,9 +600,16 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     {
         [parameters setObject:review.dishID forKey:@"dish_id"];
     }
-    else if( review.locationID.length > 0 )
+    else if( review.locationID.length > 0 || review.googleID.length > 0 )
     {
-        [parameters setObject:review.locationID forKey:@"loc_id"];
+        if( review.locationID.length > 0 )
+        {
+            [parameters setObject:review.locationID forKey:@"loc_id"];
+        }
+        else if( review.googleID.length > 0 )
+        {
+            [parameters setObject:review.googleID forKey:@"loc_google_id"];
+        }
         
         [parameters setObject:review.type forKey:@"type"];
         [parameters setObject:review.title forKey:@"title"];
@@ -643,12 +650,12 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSLog(@"success");
-        NSLog(@"%@", responseObject);
+        completion( YES );
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
         NSLog(@"failure: %@", error );
+        completion( NO );
     }];
 }
 
