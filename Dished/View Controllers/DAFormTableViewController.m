@@ -17,6 +17,7 @@
 #import "DAHashtag.h"
 #import <Social/Social.h>
 #import "DAAPIManager.h"
+#import <Accounts/Accounts.h>
 
 
 @interface DAFormTableViewController()
@@ -26,6 +27,9 @@
 @property (strong, nonatomic) DANewReview     *wineReview;
 @property (strong, nonatomic) DANewReview     *selectedReview;
 @property (strong, nonatomic) NSMutableString *dishPrice;
+@property (strong, nonatomic) ACAccountStore *accountStore;
+@property (strong, nonatomic) ACAccountType *accountType;
+
 
 @property (nonatomic) BOOL addressFound;
 
@@ -37,6 +41,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.accountStore = [[ACAccountStore alloc] init];
+    self.accountType = [self.accountStore accountTypeWithAccountTypeIdentifier:
+                                  ACAccountTypeIdentifierTwitter];
+
+    
+    
     self.facebookToggleButton.alpha   = 0.3;
     self.twitterToggleButton.alpha    = 0.3;
     self.googleplusToggleButton.alpha = 0.3;
@@ -338,16 +349,18 @@
             }
             else
             {
-                self.twitterToggleButton.alpha = 1.0;
-                if( [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] )
+                
+                [self.accountStore requestAccessToAccountsWithType:self.accountType options:nil
+                                              completion:^(BOOL granted, NSError *error)
                 {
-                    SLComposeViewController *tweetSheet = [SLComposeViewController
-                                                           composeViewControllerForServiceType:SLServiceTypeTwitter];
-                    [tweetSheet setInitialText:@"Tweet your favorite dish!"];
-                    [tweetSheet addImage:self.reviewImage];
-
-                    [self presentViewController:tweetSheet animated:YES completion:nil];
-                }
+                    if (granted == YES)
+                    {
+                        self.twitterToggleButton.alpha = 1.0;
+                    }
+                }];
+                
+                
+                
             }
             break;
         case 2:
@@ -382,6 +395,66 @@
             break;
     }
 }
+
+
+- (void)postToTwitterWithImage:(UIImage *)image andStatus:(NSString *)status
+{
+    ACAccountType *twitterType =
+    [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    
+    SLRequestHandler requestHandler =
+    ^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
+        if (responseData) {
+            NSInteger statusCode = urlResponse.statusCode;
+            if (statusCode >= 200 && statusCode < 300) {
+                NSDictionary *postResponseData =
+                [NSJSONSerialization JSONObjectWithData:responseData
+                                                options:NSJSONReadingMutableContainers
+                                                  error:NULL];
+                NSLog(@"[SUCCESS!] Created Tweet with ID: %@", postResponseData[@"id_str"]);
+            }
+            else {
+                NSLog(@"[ERROR] Server responded: status code %ld %@", (long)statusCode,
+                      [NSHTTPURLResponse localizedStringForStatusCode:statusCode]);
+            }
+        }
+        else {
+            NSLog(@"[ERROR] An error occurred while posting: %@", [error localizedDescription]);
+        }
+    };
+    
+    ACAccountStoreRequestAccessCompletionHandler accountStoreHandler =
+    ^(BOOL granted, NSError *error) {
+        if (granted) {
+            NSLog(@"granted");
+            NSArray *accounts = [self.accountStore accountsWithAccountType:twitterType];
+            NSURL *url = [NSURL URLWithString:@"https://api.twitter.com"
+                          @"/1.1/statuses/update_with_media.json"];
+            NSDictionary *params = @{@"status" : status};
+            SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                                    requestMethod:SLRequestMethodPOST
+                                                              URL:url
+                                                       parameters:params];
+            NSData *imageData = UIImageJPEGRepresentation(image, 1.f);
+            [request addMultipartData:imageData
+                             withName:@"media[]"
+                                 type:@"image/jpeg"
+                             filename:@"image.jpg"];
+            [request setAccount:[accounts lastObject]];
+            [request performRequestWithHandler:requestHandler];
+        }
+        else {
+            NSLog(@"[ERROR] An error occurred while asking for user authorization: %@",
+                  [error localizedDescription]);
+        }
+    };
+    
+    [self.accountStore requestAccessToAccountsWithType:twitterType
+                                               options:NULL
+                                            completion:accountStoreHandler];
+}
+
+
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
@@ -426,7 +499,7 @@
 
 - (IBAction)postDish:(UIBarButtonItem *)sender
 {
-    [[DAAPIManager sharedManager] postNewReview:self.selectedReview withImage:nil completion:nil];
+   // [[DAAPIManager sharedManager] postNewReview:self.selectedReview withImage:nil completion:nil];
     
     NSLog(@"Post: %@ %@ %@ %@ %@ %@", self.selectedReview.type,
                                       self.titleTextField.text,
@@ -434,6 +507,10 @@
                                       self.imAtButton.titleLabel.text,
                                       self.priceTextField.text,
     						 		  self.ratingButton.titleLabel.text);
+
+    
+    NSString *twitterMessage = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
+    [self postToTwitterWithImage:self.reviewImage andStatus:twitterMessage];
 }
 
 - (DANewReview *)foodReview
