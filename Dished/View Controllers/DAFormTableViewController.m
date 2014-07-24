@@ -29,8 +29,8 @@
 @property (strong, nonatomic) NSMutableString *dishPrice;
 @property (strong, nonatomic) ACAccountStore *accountStore;
 @property (strong, nonatomic) ACAccountType *accountType;
-
-
+@property BOOL emailButtonPressed;
+@property (strong, nonatomic) ACAccountType *twitterType;
 @property (nonatomic) BOOL addressFound;
 
 @end
@@ -325,7 +325,7 @@
         case 0:
             if( self.facebookToggleButton.alpha == 1.0 )
             {
-                self.facebookToggleButton.alpha = 0.5;
+                self.facebookToggleButton.alpha = 0.3;
             }
             else
             {
@@ -345,28 +345,30 @@
         case 1:
             if( self.twitterToggleButton.alpha == 1.0 )
             {
-                self.twitterToggleButton.alpha = 0.5;
+                self.twitterToggleButton.alpha = 0.3;
             }
             else
             {
+                self.twitterType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
                 
-                [self.accountStore requestAccessToAccountsWithType:self.accountType options:nil
-                                              completion:^(BOOL granted, NSError *error)
-                {
-                    if (granted == YES)
-                    {
-                        self.twitterToggleButton.alpha = 1.0;
-                    }
-                }];
-                
-                
+                NSArray *accounts = [self.accountStore accountsWithAccountType:self.twitterType];
+				
+                if ([accounts count] == 0) {
+                    self.twitterToggleButton.alpha = 0.3;
+                    
+                    //TODO Not logged in. Promt user for login with settings.
+
+                } else {
+                    self.twitterToggleButton.alpha = 1.0;
+
+                }
                 
             }
             break;
         case 2:
             if( self.googleplusToggleButton.alpha == 1.0 )
             {
-                self.googleplusToggleButton.alpha = 0.5;
+                self.googleplusToggleButton.alpha = 0.3;
             }
             else
             {
@@ -376,20 +378,22 @@
         case 3:
             if( self.emailToggleButton.alpha == 1.0 )
             {
-                self.emailToggleButton.alpha = 0.5;
+                self.emailToggleButton.alpha = 0.3;
+                self.emailButtonPressed = NO;
+
             }
             else
             {
-                self.emailToggleButton.alpha = 1.0;
                 
                 if( [MFMailComposeViewController canSendMail] )
                 {
-                    MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
-                    [composeViewController setMailComposeDelegate:self];
-                    [composeViewController setSubject:@"Wow this Dish is awesome!"];
-                    NSData *imageData = UIImagePNGRepresentation(self.reviewImage);
-                    [composeViewController addAttachmentData:imageData mimeType:nil fileName:@"image.png"];
-                    [self presentViewController:composeViewController animated:YES completion:nil];
+                    self.emailButtonPressed = YES;
+                    self.emailToggleButton.alpha = 1.0;
+
+                }
+                else
+                {
+                    //TODO maybe alert the user and let them know they can't send email
                 }
             }
             break;
@@ -399,8 +403,7 @@
 
 - (void)postToTwitterWithImage:(UIImage *)image andStatus:(NSString *)status
 {
-    ACAccountType *twitterType =
-    [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+
     
     SLRequestHandler requestHandler =
     ^(NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error) {
@@ -427,7 +430,7 @@
     ^(BOOL granted, NSError *error) {
         if (granted) {
             NSLog(@"granted");
-            NSArray *accounts = [self.accountStore accountsWithAccountType:twitterType];
+            NSArray *accounts = [self.accountStore accountsWithAccountType:self.twitterType];
             NSURL *url = [NSURL URLWithString:@"https://api.twitter.com"
                           @"/1.1/statuses/update_with_media.json"];
             NSDictionary *params = @{@"status" : status};
@@ -449,9 +452,11 @@
         }
     };
     
-    [self.accountStore requestAccessToAccountsWithType:twitterType
+    [self.accountStore requestAccessToAccountsWithType:self.twitterType
                                                options:NULL
                                             completion:accountStoreHandler];
+    
+
 }
 
 
@@ -511,6 +516,17 @@
     
     NSString *twitterMessage = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
     [self postToTwitterWithImage:self.reviewImage andStatus:twitterMessage];
+    
+    
+    if (self.emailButtonPressed) {
+        MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+        [composeViewController setMailComposeDelegate:self];
+        [composeViewController setSubject:@"Wow this Dish is awesome!"];
+        NSData *imageData = UIImagePNGRepresentation(self.reviewImage);
+        [composeViewController addAttachmentData:imageData mimeType:nil fileName:@"image.png"];
+        [self presentViewController:composeViewController animated:YES completion:nil];
+
+    }
 }
 
 - (DANewReview *)foodReview
