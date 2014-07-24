@@ -27,6 +27,9 @@
 @property (strong, nonatomic) DANewReview     *selectedReview;
 @property (strong, nonatomic) NSMutableString *dishPrice;
 
+@property (nonatomic) BOOL shouldPostToFacebook;
+@property (nonatomic) BOOL shouldPostToTwitter;
+@property (nonatomic) BOOL shouldPostToGooglePlus;
 @property (nonatomic) BOOL addressFound;
 
 @end

@@ -11,6 +11,7 @@
 #import "DAAddPlaceViewController.h"
 #import "DAAPIManager.h"
 #import "DALocationManager.h"
+#import "MRProgress.h"
 
 static NSString *kLocationNameKey     = @"name";
 static NSString *kLocationIDKey       = @"id";
@@ -108,6 +109,11 @@ static NSString *kLocationDistanceKey = @"distance";
         DAAddPlaceViewController *dest = segue.destinationViewController;
         dest.review = self.review;
     }
+}
+
+- (void)showProgressView
+{
+    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"Searching..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText

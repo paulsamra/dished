@@ -12,7 +12,6 @@
 
 @interface DAImageFilterViewController()
 
-@property (strong, nonatomic) UIImage               *scaledImage;
 @property (strong, nonatomic) NSArray               *filterTitles;
 @property (strong, nonatomic) NSArray               *filterNames;
 @property (strong, nonatomic) NSMutableDictionary   *filteredImages;
@@ -37,15 +36,8 @@
     {
         UIImage *pictureTaken = parentVC.pictureTaken;
         
-        CGSize newSize = CGSizeMake( pictureTaken.size.width / 4, pictureTaken.size.height / 4 );
-        UIGraphicsBeginImageContextWithOptions( newSize, NO, 0.0 );
-        [pictureTaken drawInRect:CGRectMake( 0, 0, newSize.width, newSize.height )];
-        UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-        UIGraphicsEndImageContext();
-        
-        self.scaledImage = newImage;
         self.pictureTaken = pictureTaken;
-        self.pictureImageView.image = self.scaledImage;
+        self.pictureImageView.image = self.pictureTaken;
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageReady:) name:kImageReadyNotificationKey object:nil];
@@ -67,16 +59,8 @@
 {
     UIImage *pictureTaken = notification.object;
     
-    CGSize newSize = CGSizeMake( pictureTaken.size.width / 4, pictureTaken.size.height / 4 );
-    UIGraphicsBeginImageContextWithOptions( newSize, NO, 0.0 );
-    [pictureTaken drawInRect:CGRectMake( 0, 0, newSize.width, newSize.height )];
-    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
-    
-    NSLog(@"%f, %f", newImage.size.width, newImage.size.height);
-    self.scaledImage = newImage;
     self.pictureTaken = pictureTaken;
-    self.pictureImageView.image = self.scaledImage;
+    self.pictureImageView.image = self.pictureTaken;
     
     [self.collectionView reloadData];
 }
@@ -119,14 +103,14 @@
     {
         if( indexPath.row == 0 )
         {
-            if( !self.scaledImage )
+            if( !self.pictureTaken )
             {
                 [spinner startAnimating];
             }
             else
             {
-                self.filteredImages[self.filterNames[indexPath.row]] = self.scaledImage;
-                imageView.image = self.scaledImage;
+                self.filteredImages[self.filterNames[indexPath.row]] = self.pictureTaken;
+                imageView.image = self.pictureTaken;
                 
                 [spinner stopAnimating];
             }
@@ -135,16 +119,23 @@
         {
             [spinner startAnimating];
             
-            if( self.scaledImage )
+            if( self.pictureTaken )
             {
                 NSBlockOperation *filterOperation = [NSBlockOperation blockOperationWithBlock:^
                 {
-                    CIImage *beginImage = [CIImage imageWithCGImage:[self.scaledImage CGImage]];
+                    CIImage *beginImage = [CIImage imageWithCGImage:[self.pictureTaken CGImage]];
                     
                     CIFilter *filter = [CIFilter filterWithName:self.filterNames[indexPath.row] keysAndValues:kCIInputImageKey, beginImage, nil];
-                    CIImage *outputImage = [filter outputImage];
+                    CIFilter *scaleFilter = [CIFilter filterWithName:@"CILanczosScaleTransform"];
+                    [scaleFilter setValue:filter.outputImage forKey:@"inputImage"];
+                    [scaleFilter setValue:[NSNumber numberWithFloat:0.5] forKey:@"inputScale"];
+                    [scaleFilter setValue:[NSNumber numberWithFloat:1.0] forKey:@"inputAspectRatio"];
                     
-                    UIImage *newImg = [UIImage imageWithCIImage:outputImage];
+                    CIImage *outputImage = [scaleFilter outputImage];
+                    
+                    CGImageRef imageRef = [[CIContext contextWithOptions:nil] createCGImage:outputImage fromRect:outputImage.extent];
+                    UIImage *newImg = [UIImage imageWithCGImage:imageRef];
+                    CGImageRelease(imageRef);
                     
                     dispatch_async( dispatch_get_main_queue(), ^
                     {

@@ -56,28 +56,28 @@
     if( self.shouldLogin )
     {
         [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_birthday"] allowLoginUI:YES
-                                      completionHandler:^(FBSession *session, FBSessionState state, NSError *error)
-         {
-             if( state == FBSessionStateOpen )
-             {
-                 [[FBRequest requestForMe] startWithCompletionHandler:
-                 ^( FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error )
-                 {
-                     if( !error )
-                     {
-                         self.statusLabel.text = @"Logged into Facebook";
-                         [self.activityIndicator stopAnimating];
-                         self.activityIndicator.hidden = YES;
-                         self.logoutButton.hidden = NO;
-                         
-                         [self performSegueWithIdentifier:@"goToRegister" sender:user];
-                     }
-                 }];
-             }
-             
-             DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-             [appDelegate sessionStateChanged:session state:state error:error];
-         }];
+                                      completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
+        {
+            if( state == FBSessionStateOpen )
+        {
+                [[FBRequest requestForMe] startWithCompletionHandler:
+                ^( FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error )
+                {
+                    if( !error )
+                    {
+                        self.statusLabel.text = @"Logged into Facebook";
+                        [self.activityIndicator stopAnimating];
+                        self.activityIndicator.hidden = YES;
+                        self.logoutButton.hidden = NO;
+                        
+                        [self performSegueWithIdentifier:@"goToRegister" sender:user];
+                    }
+                }];
+            }
+            
+            DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+            [appDelegate sessionStateChanged:session state:state error:error];
+        }];
     }
 }
 
