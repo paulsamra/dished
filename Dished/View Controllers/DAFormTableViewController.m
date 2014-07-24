@@ -26,6 +26,9 @@
 @property (strong, nonatomic) DANewReview     *wineReview;
 @property (strong, nonatomic) DANewReview     *selectedReview;
 @property (strong, nonatomic) NSMutableString *dishPrice;
+@property (strong, nonatomic) ACAccountStore *accountStore;
+@property (strong, nonatomic) ACAccountType *accountType;
+
 
 @property (nonatomic) BOOL shouldPostToFacebook;
 @property (nonatomic) BOOL shouldPostToTwitter;
@@ -40,6 +43,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.accountStore = [[ACAccountStore alloc] init];
+    self.accountType = [self.accountStore accountTypeWithAccountTypeIdentifier:
+                                  ACAccountTypeIdentifierTwitter];
+
+    
+    
     self.facebookToggleButton.alpha   = 0.3;
     self.twitterToggleButton.alpha    = 0.3;
     self.googleplusToggleButton.alpha = 0.3;
@@ -435,16 +445,18 @@
             }
             else
             {
-                self.twitterToggleButton.alpha = 1.0;
-                if( [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] )
+                
+                [self.accountStore requestAccessToAccountsWithType:self.accountType options:nil
+                                              completion:^(BOOL granted, NSError *error)
                 {
-                    SLComposeViewController *tweetSheet = [SLComposeViewController
-                                                           composeViewControllerForServiceType:SLServiceTypeTwitter];
-                    [tweetSheet setInitialText:@"Tweet your favorite dish!"];
-                    [tweetSheet addImage:self.reviewImage];
-
-                    [self presentViewController:tweetSheet animated:YES completion:nil];
-                }
+                    if (granted == YES)
+                    {
+                        self.twitterToggleButton.alpha = 1.0;
+                    }
+                }];
+                
+                
+                
             }
             break;
         case 2:
