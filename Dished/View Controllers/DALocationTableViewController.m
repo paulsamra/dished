@@ -146,7 +146,7 @@ static NSString *kLocationTypeKey     = @"type";
     {
         NSArray *searchResults = (NSArray *)responseObject;
         
-        if( !searchResults )
+        if( !searchResults || [searchResults isEqual:[NSNull null]] )
         {
             self.locationData = [NSMutableArray array];
         }

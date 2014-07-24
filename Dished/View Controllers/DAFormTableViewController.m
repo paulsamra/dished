@@ -30,13 +30,15 @@
 @property (strong, nonatomic) DANewReview     *selectedReview;
 @property (strong, nonatomic) UIAlertView     *facebookLoginAlert;
 @property (strong, nonatomic) UIAlertView     *postFailAlert;
+@property (strong, nonatomic) UIAlertView     *twitterLoginAlert;
 @property (strong, nonatomic) NSMutableString *dishPrice;
 @property (strong, nonatomic) ACAccountStore  *accountStore;
-@property (strong, nonatomic) ACAccountType   *accountType;
+@property (strong, nonatomic) ACAccountType   *twitterType;
 
 @property (nonatomic) BOOL shouldPostToFacebook;
 @property (nonatomic) BOOL shouldPostToTwitter;
 @property (nonatomic) BOOL shouldPostToGooglePlus;
+@property (nonatomic) BOOL shouldEmailReview;
 @property (nonatomic) BOOL addressFound;
 
 @end
@@ -49,7 +51,6 @@
     [super viewDidLoad];
     
     self.accountStore = [[ACAccountStore alloc] init];
-    self.accountType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
 
     self.facebookToggleButton.alpha   = 0.3;
     self.twitterToggleButton.alpha    = 0.3;
@@ -113,7 +114,7 @@
 
 - (void)showProgressView
 {
-    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"Posting..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    [MRProgressOverlayView showOverlayAddedTo:self.view.window title:@"Posting..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
 }
 
 - (void)setupSuggestionTable
@@ -419,8 +420,8 @@
         case 0:
             if( self.facebookToggleButton.alpha == 1.0 )
             {
-                self.facebookToggleButton.alpha = 0.5;
                 self.shouldPostToFacebook = NO;
+                self.facebookToggleButton.alpha = 0.3;
             }
             else
             {
@@ -443,14 +444,8 @@
             }
             else
             {
-                [self.accountStore requestAccessToAccountsWithType:self.accountType options:nil
-                completion:^( BOOL granted, NSError *error )
-                {
-                    if( granted == YES )
-                    {
-                        self.twitterToggleButton.alpha = 1.0;
-                    }
-                }];
+                self.twitterToggleButton.alpha = 1.0;
+                [self requestTwitterAccountAccess];
             }
             break;
         case 2:
@@ -467,17 +462,14 @@
             if( self.emailToggleButton.alpha == 1.0 )
             {
                 self.emailToggleButton.alpha = 0.3;
-                self.emailButtonPressed = NO;
-
+                self.shouldEmailReview = NO;
             }
             else
             {
-                
                 if( [MFMailComposeViewController canSendMail] )
                 {
-                    self.emailButtonPressed = YES;
+                    self.shouldEmailReview = YES;
                     self.emailToggleButton.alpha = 1.0;
-
                 }
                 else
                 {
@@ -486,6 +478,38 @@
             }
             break;
     }
+}
+
+- (void)requestTwitterAccountAccess
+{
+    self.twitterType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    
+    [self.accountStore requestAccessToAccountsWithType:self.twitterType options:nil
+    completion:^( BOOL granted, NSError *error )
+    {
+        if( granted )
+        {
+            NSArray *accounts = [self.accountStore accountsWithAccountType:self.twitterType];
+            if( [accounts count] == 0 )
+            {
+                self.shouldPostToTwitter = NO;
+                self.twitterToggleButton.alpha = 0.3;
+                
+                [self.twitterLoginAlert show];
+            }
+            else
+            {
+                self.shouldPostToTwitter = YES;
+            }
+        }
+        else
+        {
+            self.shouldPostToTwitter = NO;
+            self.twitterToggleButton.alpha = 0.3;
+            
+            [self.twitterLoginAlert show];
+        }
+    }];
 }
 
 - (void)requestFacebookPermissions
@@ -526,7 +550,7 @@
         {
             if( [FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession )
             {
-                [self openFacebookSession];
+                [self.facebookLoginAlert show];
             }
         }
     }];
@@ -553,8 +577,10 @@
 
 - (void)shareDishOnFacebookWithCompletion:( void(^)( BOOL success ) )completion;
 {
-    NSDictionary *shareParams = @{ @"name" : @"Test Share", @"caption" : @"Some Test Caption",
-                                   @"description" : @"Some description here.", @"link" : @"http://dishedapp.com" };
+    NSString *message = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
+    
+    NSDictionary *shareParams = @{ @"name" : self.selectedReview.title, @"caption" : message,
+                                   @"description" : self.selectedReview.comment, @"link" : @"http://dishedapp.com" };
     
     [FBRequestConnection startWithGraphPath:@"/me/feed" parameters:shareParams HTTPMethod:@"POST"
     completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
@@ -570,9 +596,9 @@
     }];
 }
 
-- (void)postToTwitterWithImage:(UIImage *)image andStatus:(NSString *)status
+- (void)postToTwitterWithCompletion:( void(^)( BOOL success ) )completion
 {
-    ACAccountType *twitterType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    NSString *twitterMessage = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
     
     SLRequestHandler requestHandler = ^( NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error )
     {
@@ -584,50 +610,40 @@
             {
                 NSDictionary *postResponseData = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:NULL];
                 NSLog(@"[SUCCESS!] Created Tweet with ID: %@", postResponseData[@"id_str"]);
+                completion( YES );
             }
             else
             {
                 NSLog(@"[ERROR] Server responded: status code %ld %@", (long)statusCode, [NSHTTPURLResponse localizedStringForStatusCode:statusCode]);
+                completion( NO );
             }
         }
         else
         {
             NSLog(@"[ERROR] An error occurred while posting: %@", [error localizedDescription]);
+            completion( NO );
         }
     };
     
-    ACAccountStoreRequestAccessCompletionHandler accountStoreHandler = ^( BOOL granted, NSError *error )
-    {
-        if( granted )
-        {
-            NSLog(@"granted");
-            NSArray *accounts = [self.accountStore accountsWithAccountType:twitterType];
-            NSURL *url = [NSURL URLWithString:@"https://api.twitter.com/1.1/statuses/update_with_media.json"];
-            
-            NSDictionary *params = @{ @"status" : status };
-            
-            SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
-                                                    requestMethod:SLRequestMethodPOST
-                                                              URL:url
-                                                       parameters:params];
-            
-            NSData *imageData = UIImageJPEGRepresentation(image, 1.0f);
-            
-            [request addMultipartData:imageData
-                             withName:@"media[]"
-                                 type:@"image/jpeg"
-                             filename:@"image.jpg"];
-            
-            [request setAccount:[accounts lastObject]];
-            [request performRequestWithHandler:requestHandler];
-        }
-        else
-        {
-            NSLog(@"[ERROR] An error occurred while asking for user authorization: %@", [error localizedDescription]);
-        }
-    };
+    NSArray *accounts = [self.accountStore accountsWithAccountType:self.twitterType];
+    NSURL *url = [NSURL URLWithString:@"https://api.twitter.com/1.1/statuses/update_with_media.json"];
     
-    [self.accountStore requestAccessToAccountsWithType:twitterType options:NULL completion:accountStoreHandler];
+    NSDictionary *params = @{ @"status" : twitterMessage };
+    
+    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
+                                            requestMethod:SLRequestMethodPOST
+                                                      URL:url
+                                               parameters:params];
+    
+    NSData *imageData = UIImageJPEGRepresentation( self.reviewImage, 1.0f );
+    
+    [request addMultipartData:imageData
+                     withName:@"media[]"
+                         type:@"image/jpeg"
+                     filename:@"image.jpg"];
+    
+    [request setAccount:[accounts lastObject]];
+    [request performRequestWithHandler:requestHandler];
 }
 
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
@@ -708,15 +724,18 @@
     if( self.shouldPostToTwitter )
     {
         dispatch_group_enter( group );
-        // put code for posting to twitter here, with completion handler
-        // handle similar to above with facebook.
+        
+        [self postToTwitterWithCompletion:^( BOOL success )
+        {
+            dispatch_group_leave( group );
+        }];
     }
     
     dispatch_group_notify( group, dispatch_get_main_queue(), ^
     {
         if( postSuccess )
         {
-            [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+            [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
             {
                 if( postSuccess )
                 {
@@ -730,8 +749,15 @@
         }
     });
     
-//    NSString *twitterMessage = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
-//    [self postToTwitterWithImage:self.reviewImage andStatus:twitterMessage];
+    if( self.shouldEmailReview )
+    {
+        MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+        [composeViewController setMailComposeDelegate:self];
+        [composeViewController setSubject:@"Wow this Dish is awesome!"];
+        NSData *imageData = UIImagePNGRepresentation(self.reviewImage);
+        [composeViewController addAttachmentData:imageData mimeType:nil fileName:@"image.png"];
+        [self presentViewController:composeViewController animated:YES completion:nil];
+    }
 }
 
 - (DANewReview *)foodReview
@@ -785,6 +811,16 @@
     }
     
     return _postFailAlert;
+}
+
+- (UIAlertView *)twitterLoginAlert
+{
+    if( !_twitterLoginAlert )
+    {
+        _twitterLoginAlert = [[UIAlertView alloc] initWithTitle:@"You are not logged into Twitter" message:@"You must login to Twitter from your device settings to be able to post to Twitter." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    }
+    
+    return _twitterLoginAlert;
 }
 
 @end

@@ -1102,7 +1102,7 @@
                                                 <button appearanceType="aqua" opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dh7-Fo-B25">
                                                     <rect key="frame" x="259" y="17" width="21" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <state key="normal" backgroundImage="add_dish_foursquare.png">
+                                                    <state key="normal" backgroundImage="add_dish_google_plus.png">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                     <connections>
@@ -1794,7 +1794,7 @@
         <image name="add_dish_email.png" width="21" height="22"/>
         <image name="add_dish_facebook.png" width="21" height="22"/>
         <image name="add_dish_food.png" width="17" height="18"/>
-        <image name="add_dish_foursquare.png" width="22" height="22"/>
+        <image name="add_dish_google_plus.png" width="21" height="21"/>
         <image name="add_dish_location.png" width="10" height="15"/>
         <image name="add_dish_twitter.png" width="22" height="22"/>
         <image name="add_dish_wine.png" width="11" height="18"/>

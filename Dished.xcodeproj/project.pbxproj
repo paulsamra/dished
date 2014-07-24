@@ -159,6 +159,8 @@
 		94DCE9BC1980ABB100396C0A /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9B21980ABB100396C0A /* UIProgressView+AFNetworking.m */; };
 		94DCE9BD1980ABB100396C0A /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9B41980ABB100396C0A /* UIRefreshControl+AFNetworking.m */; };
 		94DCE9BE1980ABB100396C0A /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9B61980ABB100396C0A /* UIWebView+AFNetworking.m */; };
+		94DCE9C1198105F900396C0A /* add_dish_google_plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 94DCE9BF198105F900396C0A /* add_dish_google_plus.png */; };
+		94DCE9C2198105F900396C0A /* add_dish_google_plus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94DCE9C0198105F900396C0A /* add_dish_google_plus@2x.png */; };
 		94E5EF2D19432AE00021A711 /* UIViewController+TAPKeyboardPop.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF2C19432AE00021A711 /* UIViewController+TAPKeyboardPop.m */; };
 		94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF301943472D0021A711 /* AFHTTPRequestOperation.m */; };
 		94E5EF431943472D0021A711 /* AFHTTPRequestOperationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF321943472D0021A711 /* AFHTTPRequestOperationManager.m */; };
@@ -390,6 +392,8 @@
 		94DCE9B41980ABB100396C0A /* UIRefreshControl+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIRefreshControl+AFNetworking.m"; sourceTree = "<group>"; };
 		94DCE9B51980ABB100396C0A /* UIWebView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIWebView+AFNetworking.h"; sourceTree = "<group>"; };
 		94DCE9B61980ABB100396C0A /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
+		94DCE9BF198105F900396C0A /* add_dish_google_plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_dish_google_plus.png; sourceTree = "<group>"; };
+		94DCE9C0198105F900396C0A /* add_dish_google_plus@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_dish_google_plus@2x.png"; sourceTree = "<group>"; };
 		94E5EF2B19432AE00021A711 /* UIViewController+TAPKeyboardPop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+TAPKeyboardPop.h"; sourceTree = "<group>"; };
 		94E5EF2C19432AE00021A711 /* UIViewController+TAPKeyboardPop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+TAPKeyboardPop.m"; sourceTree = "<group>"; };
 		94E5EF2F1943472D0021A711 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -742,6 +746,8 @@
 		944689AE1960196700FAE288 /* d - Dish Details */ = {
 			isa = PBXGroup;
 			children = (
+				94DCE9BF198105F900396C0A /* add_dish_google_plus.png */,
+				94DCE9C0198105F900396C0A /* add_dish_google_plus@2x.png */,
 				9430FDFD196E8AD600C7E997 /* add_dish_arrow.png */,
 				9430FDFE196E8AD600C7E997 /* add_dish_arrow@2x.png */,
 				944689AF1960196700FAE288 /* add_dish_drink.png */,
@@ -1139,6 +1145,7 @@
 				D17487D3196DE8E100D83993 /* disclosure@2x.png in Resources */,
 				944689CE1960196700FAE288 /* camera_source@2x.png in Resources */,
 				944689D21960196700FAE288 /* add_dish_drink@2x.png in Resources */,
+				94DCE9C2198105F900396C0A /* add_dish_google_plus@2x.png in Resources */,
 				94EE527F19610B4A00634E19 /* camera_grid.png in Resources */,
 				944689D11960196700FAE288 /* add_dish_drink.png in Resources */,
 				945E2D3E1977B7C600D2848D /* camera_utility_background@2x.png in Resources */,
@@ -1184,6 +1191,7 @@
 				944689DB1960196700FAE288 /* add_dish_food_white.png in Resources */,
 				9430FE00196E8AD600C7E997 /* add_dish_arrow@2x.png in Resources */,
 				9430941D1942B16300B1F61F /* valid_icon@2x.png in Resources */,
+				94DCE9C1198105F900396C0A /* add_dish_google_plus.png in Resources */,
 				944689EA1960196700FAE288 /* add_dish_hashtag_unchecked@2x.png in Resources */,
 				94237E67194A2FD5004DFAB6 /* reset_code@2x.png in Resources */,
 				94479D60194FDAAF0071EF6A /* password_phone@2x.png in Resources */,
