@@ -77,7 +77,7 @@
             
             DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
             [appDelegate sessionStateChanged:session state:state error:error];
-        }];
+        }];        
     }
 }
 

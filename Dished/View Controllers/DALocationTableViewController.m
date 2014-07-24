@@ -93,6 +93,8 @@ static NSString *kLocationDistanceKey = @"distance";
     if( indexPath.row < [self.locationData count] )
     {
         self.review.locationID = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationIDKey];
+        self.review.locationName = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationNameKey];
+        
         [self.navigationController popViewControllerAnimated:YES];
     }
     else if( indexPath.row == [self.locationData count] )

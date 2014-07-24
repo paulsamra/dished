@@ -17,7 +17,7 @@
 #import "DAHashtag.h"
 #import <Social/Social.h>
 #import "DAAPIManager.h"
-
+#import <FacebookSDK/FacebookSDK.h>
 
 @interface DAFormTableViewController()
 
@@ -44,6 +44,8 @@
     self.twitterToggleButton.alpha    = 0.3;
     self.googleplusToggleButton.alpha = 0.3;
     self.emailToggleButton.alpha      = 0.3;
+    
+    self.navigationItem.rightBarButtonItem.enabled = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressReady:) name:kAddressReadyNotificationKey object:nil];
 
@@ -152,6 +154,15 @@
     }
 }
 
+- (void)textViewDidChange:(UITextView *)textView
+{
+    if( textView == self.commentTextView )
+    {
+        self.selectedReview.comment = textView.text;
+        [self updateFields];
+    }
+}
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
 {
     if( textField == self.priceTextField )
@@ -185,6 +196,7 @@
         }
         
         self.selectedReview.price = price;
+        [self updateFields];
         
         return NO;
     }
@@ -230,6 +242,19 @@
         self.dishSuggestionsTable.hidden = NO;
         [self.dishSuggestionsTable updateSuggestionsWithQuery:self.titleTextField.text dishType:self.selectedReview.type];
     }
+    
+    self.selectedReview.title = self.titleTextField.text;
+    
+    if( self.selectedReview.dishID.length != 0 )
+    {
+        self.selectedReview.dishID = @"";
+        self.selectedReview.price = @"";
+        self.selectedReview.locationName = @"";
+        self.selectedReview.locationID = @"";
+        self.dishPrice = [[NSMutableString alloc] init];
+    }
+    
+    [self updateFields];
 }
 
 - (void)selectedSuggestionWithDishName:(NSString *)dishName dishID:(NSString *)dishID dishPrice:dishPrice locationName:(NSString *)locationName locationID:(NSString *)locationID
@@ -293,6 +318,52 @@
         [self.ratingButton setTitle:@"Rating" forState:UIControlStateNormal];
         [self.ratingButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     }
+    
+    if( self.selectedReview.dishID.length != 0 )
+    {
+        self.imAtButton.enabled = NO;
+        self.priceTextField.enabled = NO;
+        [self.imAtButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        self.priceTextField.textColor = [UIColor lightGrayColor];
+    }
+    else
+    {
+        self.imAtButton.enabled = YES;
+        self.priceTextField.enabled = YES;
+        self.priceTextField.textColor = [UIColor blackColor];
+
+        if( self.selectedReview.locationName.length != 0 )
+        {
+            [self.imAtButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        }
+    }
+    
+    [self setPostButtonStatus];
+}
+
+- (void)setPostButtonStatus
+{
+    DANewReview *review = self.selectedReview;
+    
+    if( review.comment.length > 0 && review.rating.length > 0 )
+    {
+        if( review.dishID.length > 0 )
+        {
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+        else if( review.title.length > 0 && review.locationID.length > 0 && review.price.length > 0 )
+        {
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+        else if( review.title.length > 0 && review.locationName.length > 0 && review.price.length > 0 )
+        {
+            self.navigationItem.rightBarButtonItem.enabled = YES;
+        }
+        else
+        {
+            self.navigationItem.rightBarButtonItem.enabled = NO;
+        }
+    }
 }
 
 - (IBAction)goToHashtags
@@ -323,15 +394,38 @@
             {
                 self.facebookToggleButton.alpha = 1.0;
                 
-                if( [SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook] )
+                NSArray *requestPermissions = @[ @"publish_actions" ];
+                
+                [FBRequestConnection startWithGraphPath:@"/me/permissions" completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
                 {
-                    SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-                    
-                    [controller setInitialText:@"Post your favorite dish!"];
-                    [controller addImage:self.reviewImage];
-
-                    [self presentViewController:controller animated:YES completion:nil];
-                }
+                    if( !error )
+                    {
+                        NSDictionary *permissions= [(NSArray *)[result data] objectAtIndex:0];
+                        
+                        if( ![permissions objectForKey:[requestPermissions objectAtIndex:0]] )
+                        {
+                            [FBSession.activeSession requestNewPublishPermissions:requestPermissions defaultAudience:FBSessionDefaultAudienceFriends completionHandler:^( FBSession *session, NSError *error )
+                            {
+                                if( !error )
+                                {
+                                    //[self shareDishOnFacebook];
+                                }
+                                else
+                                {
+                                    NSLog(@"%@", error);
+                                }
+                            }];
+                        }
+                        else
+                        {
+                            NSLog(@"has permission");
+                        }
+                    }
+                    else
+                    {
+                        NSLog( @"%@", error );
+                    }
+                }];
             }
             break;
         case 1:
@@ -386,6 +480,25 @@
     }
 }
 
+- (void)shareDishOnFacebook
+{
+    NSDictionary *shareParams = @{ @"name" : @"Test Share", @"caption" : @"Some Test Caption",
+                                          @"description" : @"Some description here.", @"link" : @"http://dishedapp.com" };
+    
+    [FBRequestConnection startWithGraphPath:@"/me/feed" parameters:shareParams HTTPMethod:@"POST"
+    completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
+    {
+        if( !error )
+        {
+            NSLog(@"result: %@", result);
+        }
+        else
+        {
+            NSLog(@"%@", error.description);
+        }
+    }];
+}
+
 - (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
 {
     //Add an alert in case of failure
@@ -429,14 +542,7 @@
 
 - (IBAction)postDish:(UIBarButtonItem *)sender
 {
-    [[DAAPIManager sharedManager] postNewReview:self.selectedReview withImage:nil completion:nil];
-    
-    NSLog(@"Post: %@ %@ %@ %@ %@ %@", self.selectedReview.type,
-                                      self.titleTextField.text,
-    						 		  self.commentTextView.text,
-                                      self.imAtButton.titleLabel.text,
-                                      self.priceTextField.text,
-    						 		  self.ratingButton.titleLabel.text);
+    [[DAAPIManager sharedManager] postNewReview:self.selectedReview withImage:self.reviewImage completion:nil];
 }
 
 - (DANewReview *)foodReview

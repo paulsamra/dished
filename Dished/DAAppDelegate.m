@@ -7,6 +7,7 @@
 //
 
 #import "DAAppDelegate.h"
+#import "AFNetworkActivityIndicatorManager.h"
 
 
 @interface DAAppDelegate()
@@ -23,6 +24,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self setupAppearance];
+    
+    [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
     if( FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded )
     {

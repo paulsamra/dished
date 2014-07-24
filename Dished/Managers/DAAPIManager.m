@@ -421,6 +421,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     if( ![self accessToken] )
     {
         completion( nil, nil );
+        return;
     }
     
     NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"dish_type" : dishType, @"tag_type" : @"rev_p" };
@@ -464,6 +465,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     if( ![self accessToken] )
     {
         completion( nil, nil );
+        return;
     }
     
     NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"dish_type" : dishType, @"tag_type" : @"rev_n" };
@@ -507,6 +509,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     if( ![self accessToken] )
     {
         completion( nil, nil );
+        return nil;
     }
     
     NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"name" : query, @"type" : dishType };
@@ -540,6 +543,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     if( ![self accessToken] )
     {
         completion( nil, nil );
+        return nil;
     }
     
     NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"query" : query, @"longitude" : @(longitude), @"latitude" : @(latitude) };
@@ -619,7 +623,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }
     
     NSLog(@"%@", parameters);
-        
+    
     [self POST:@"reviews" parameters:parameters
     constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
     {
@@ -640,6 +644,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
         NSLog(@"success");
+        NSLog(@"%@", responseObject);
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {

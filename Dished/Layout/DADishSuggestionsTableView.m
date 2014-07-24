@@ -47,9 +47,6 @@ static NSString *kLocationIDKey   = @"loc_id";
 
 - (void)updateSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType;
 {
-    [self.dishSearchResults removeAllObjects];
-    [self reloadData];
-    
     if( self.searchTask )
     {
         [self.searchTask cancel];
@@ -58,6 +55,8 @@ static NSString *kLocationIDKey   = @"loc_id";
     self.searchTask = [[DAAPIManager sharedManager] dishTitleSuggestionTaskWithQuery:query dishType:dishType
     completion:^( id responseData, NSError *error )
     {
+        [self.dishSearchResults removeAllObjects];
+        
         if( responseData )
         {
             NSArray *searchResults = (NSArray *)responseData;
@@ -73,9 +72,9 @@ static NSString *kLocationIDKey   = @"loc_id";
                 
                 [self.dishSearchResults addObject:newDish];
             }
-            
-            [self reloadData];
         }
+        
+        [self reloadData];
     }];
 }
 
