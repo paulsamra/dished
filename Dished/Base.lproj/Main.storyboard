@@ -589,7 +589,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Tt8-nM-5aM">
             <objects>
-                <navigationController storyboardIdentifier="addReviewNav" definesPresentationContext="YES" id="ZWa-ag-Kbq" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="addReview" definesPresentationContext="YES" id="ZWa-ag-Kbq" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="aLD-J3-yY4">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -616,6 +616,11 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Cac-d7-BJx" userLabel="Video View">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="478"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="1zK-6n-LAK" appends="YES" id="Gf9-6E-lT9"/>
+                                    <outletCollection property="gestureRecognizers" destination="3dI-96-yqN" appends="YES" id="92s-tm-bUs"/>
+                                </connections>
                             </view>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="camera_utility_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="m1X-Kp-RiQ" userLabel="Utility Background">
                                 <rect key="frame" x="0.0" y="404" width="320" height="74"/>
@@ -690,13 +695,27 @@
                         <outlet property="gridButton" destination="CtV-c0-M4f" id="zsa-fv-SZG"/>
                         <outlet property="gridImageView" destination="DaX-8E-wYK" id="cJd-26-YNs"/>
                         <outlet property="overlayImageVew" destination="m1X-Kp-RiQ" id="ORe-60-pS7"/>
+                        <outlet property="pinchGesture" destination="1zK-6n-LAK" id="IOa-Ye-z6J"/>
                         <outlet property="takePictureButton" destination="891-m0-y9C" id="AR3-ay-488"/>
+                        <outlet property="tapGesture" destination="3dI-96-yqN" id="YPx-P6-bZ3"/>
                         <outlet property="toggleCameraButton" destination="2l2-Sj-zyy" id="ysH-h6-AXc"/>
                         <outlet property="videoView" destination="Cac-d7-BJx" id="MhS-36-F9i"/>
                         <segue destination="VNa-gW-y3a" kind="push" identifier="chooseFilter" id="TGa-DU-dxj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="j5f-hN-NDQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <pinchGestureRecognizer id="1zK-6n-LAK">
+                    <connections>
+                        <action selector="handlePinchGesture:" destination="Rsi-kn-aX0" id="9aZ-xZ-cRy"/>
+                        <outlet property="delegate" destination="Rsi-kn-aX0" id="mcd-YD-VEx"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <tapGestureRecognizer id="3dI-96-yqN">
+                    <connections>
+                        <action selector="handleTapGesture:" destination="Rsi-kn-aX0" id="1Id-GW-45w"/>
+                        <outlet property="delegate" destination="Rsi-kn-aX0" id="mUt-Lg-W1B"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1121" y="3268"/>
         </scene>
@@ -761,13 +780,13 @@
                         <barButtonItem key="rightBarButtonItem" title="Next" id="3w8-43-hit">
                             <connections>
                                 <action selector="goToDetails:" destination="VNa-gW-y3a" id="5p9-6t-M0y"/>
-                                <segue destination="bLN-bd-eSr" kind="push" identifier="form" id="gb9-O0-0zY"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="vLq-yB-2ws" id="iBt-Uo-Z6J"/>
                         <outlet property="pictureImageView" destination="AZW-iV-RWQ" id="Ehp-Cg-y4p"/>
+                        <segue destination="bLN-bd-eSr" kind="push" identifier="form" id="XLJ-sn-Zxg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GPe-cG-DCe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -971,7 +990,7 @@
                                                     <rect key="frame" x="0.0" y="1" width="320" height="143"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="18"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="emailAddress"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences" keyboardType="twitter"/>
                                                 </textView>
                                                 <view appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bol-IJ-p24">
                                                     <rect key="frame" x="0.0" y="143" width="320" height="1"/>
@@ -1754,7 +1773,7 @@
                                                 <textField appearanceType="aqua" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="GM1-uE-MD9">
                                                     <rect key="frame" x="20" y="7" width="280" height="30"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits"/>
+                                                    <textInputTraits key="textInputTraits" returnKeyType="go"/>
                                                     <connections>
                                                         <action selector="textFieldChanged:" destination="6yn-fV-DJE" eventType="editingChanged" id="Dui-ew-6Ej"/>
                                                     </connections>

@@ -13,12 +13,15 @@
 #import "DALocationManager.h"
 
 
-@interface DAImagePickerController() <DACaptureManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
+@interface DAImagePickerController() <DACaptureManagerDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIGestureRecognizerDelegate>
 
-@property (strong, nonatomic) DACaptureManager  *captureManager;
+@property (strong, nonatomic) UIView           *focusView;
+@property (strong, nonatomic) DACaptureManager *captureManager;
 
-@property (nonatomic) BOOL gridIsVisible;
-@property (nonatomic) BOOL shouldShutterAfterFocus;
+@property (nonatomic) BOOL    gridIsVisible;
+@property (nonatomic) BOOL    shouldShutterAfterFocus;
+@property (nonatomic) CGFloat beginGestureScale;
+@property (nonatomic) CGFloat effectiveScale;
 
 @end
 
@@ -41,6 +44,8 @@
     
     [self.view.layer setMasksToBounds:YES];
     
+    self.effectiveScale = 1.0f;
+    
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     [self.view addSubview:spinner];
     [spinner startAnimating];
@@ -53,6 +58,7 @@
        
         self.captureManager.previewLayer.frame = self.videoView.bounds;
         [self.videoView.layer addSublayer:self.captureManager.previewLayer];
+        self.videoView.layer.masksToBounds = YES;
        
         [self.captureManager startCapture];
        
@@ -205,6 +211,105 @@
         
         [self performSelectorOnMainThread:@selector(imageIsReady:) withObject:croppedImage waitUntilDone:NO];
     });
+}
+
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    if( gestureRecognizer == self.pinchGesture )
+    {
+        self.beginGestureScale = self.effectiveScale;
+    }
+    
+    return YES;
+}
+
+- (IBAction)handlePinchGesture:(UIPinchGestureRecognizer *)sender
+{
+    BOOL allTouchesAreOnThePreviewLayer = YES;
+    
+	NSUInteger numTouches = [sender numberOfTouches];
+    
+	for( int i = 0; i < numTouches; ++i )
+    {
+		CGPoint location = [sender locationOfTouch:i inView:self.videoView];
+        
+		CGPoint convertedLocation = [self.captureManager.previewLayer convertPoint:location fromLayer:self.captureManager.previewLayer.superlayer];
+        
+		if( ![self.captureManager.previewLayer containsPoint:convertedLocation] )
+        {
+			allTouchesAreOnThePreviewLayer = NO;
+			break;
+		}
+	}
+	
+	if( allTouchesAreOnThePreviewLayer )
+    {
+		self.effectiveScale = self.beginGestureScale * sender.scale;
+        
+		if( self.effectiveScale < 1.0 )
+        {
+            self.effectiveScale = 1.0;
+        }
+        
+		CGFloat maxScaleAndCropFactor = [[self.captureManager sessionConnection] videoMaxScaleAndCropFactor];
+        
+		if( self.effectiveScale > maxScaleAndCropFactor )
+        {
+			self.effectiveScale = maxScaleAndCropFactor;
+        }
+        
+        [[self.captureManager sessionConnection] setVideoScaleAndCropFactor:self.effectiveScale];
+        
+		[CATransaction begin];
+		[CATransaction setAnimationDuration:.025];
+		[self.captureManager.previewLayer setAffineTransform:CGAffineTransformMakeScale( self.effectiveScale, self.effectiveScale )];
+		[CATransaction commit];
+	}
+}
+
+- (IBAction)handleTapGesture:(UITapGestureRecognizer *)sender
+{
+    if( [self.captureManager isTapToFocusSupported] )
+    {
+        CGPoint tapPoint = [sender locationInView:self.videoView];
+        [self.captureManager focusAtPoint:tapPoint inFrame:self.videoView.frame];
+        
+        if( self.focusView )
+        {
+            [self.focusView removeFromSuperview];
+        }
+        
+        self.focusView = [self focusViewAtPoint:tapPoint];
+        [self.videoView addSubview:self.focusView];
+        [self.focusView setNeedsDisplay];
+        
+        [UIView animateWithDuration:2.0f animations:^
+        {
+            self.focusView.alpha = 0.0f;
+        }
+        completion:^( BOOL finished )
+        {
+            if( finished )
+            {
+                [self.focusView removeFromSuperview];
+            }
+        }];
+    }
+}
+
+- (UIView *)focusViewAtPoint:(CGPoint)point
+{
+    UIView *focusView = [[UIView alloc] initWithFrame:CGRectMake( point.x - 40, point.y - 40, 80, 80 )];
+    focusView.backgroundColor = [UIColor clearColor];
+    focusView.layer.borderWidth = 1.5f;
+    focusView.layer.borderColor = [UIColor whiteColor].CGColor;
+    
+    CABasicAnimation* selectionAnimation = [CABasicAnimation animationWithKeyPath:@"borderColor"];
+    selectionAnimation.toValue = (id)[UIColor yellowColor].CGColor;
+    selectionAnimation.repeatCount = 8;
+    [focusView.layer addAnimation:selectionAnimation forKey:@"selectionAnimation"];
+    
+    return focusView;
 }
 
 - (void)imageIsReady:(UIImage *)image

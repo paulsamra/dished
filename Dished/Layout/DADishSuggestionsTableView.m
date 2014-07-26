@@ -57,8 +57,22 @@ static NSString *kLocationIDKey   = @"loc_id";
     {
         [self.dishSearchResults removeAllObjects];
         
-        if( responseData )
+        if( error )
         {
+            NSDictionary *errorResponse = [error.userInfo objectForKey:[[DAAPIManager sharedManager] errorResponseKey]];
+            
+            if( [errorResponse[@"status"] isEqualToString:@"error"] )
+            {
+                if( [errorResponse[@"error"] isEqualToString:@"data_nonexists"] )
+                {
+                    self.hidden = YES;
+                }
+            }
+        }
+        else if( responseData )
+        {
+            self.hidden = NO;
+            
             NSArray *searchResults = (NSArray *)responseData;
             
             for( NSDictionary *dishInfo in searchResults )
@@ -76,6 +90,12 @@ static NSString *kLocationIDKey   = @"loc_id";
         
         [self reloadData];
     }];
+}
+
+- (void)resetTable
+{
+    self.dishSearchResults = [NSMutableArray array];
+    [self reloadData];
 }
 
 #pragma mark UITableViewDataSource methods

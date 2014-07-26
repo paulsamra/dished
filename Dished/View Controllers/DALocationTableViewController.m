@@ -21,6 +21,7 @@ static NSString *kLocationTypeKey     = @"type";
 
 @interface DALocationTableViewController() <UISearchBarDelegate>
 
+@property (strong, nonatomic) NSString          *currentTaskID;
 @property (strong, nonatomic) NSMutableArray    *locationData;
 @property (strong, nonatomic) NSURLSessionTask  *searchTask;
 
@@ -128,7 +129,8 @@ static NSString *kLocationTypeKey     = @"type";
 {
     if( searchText.length == 0 )
     {
-        self.locationData = [NSMutableArray array];
+        [self.searchTask cancel];
+        self.locationData  = [NSMutableArray array];
         [self.tableView reloadData];
         return;
     }
@@ -146,11 +148,9 @@ static NSString *kLocationTypeKey     = @"type";
     {
         NSArray *searchResults = (NSArray *)responseObject;
         
-        if( !searchResults || [searchResults isEqual:[NSNull null]] )
-        {
-            self.locationData = [NSMutableArray array];
-        }
-        else
+        self.locationData = [NSMutableArray array];
+    
+        if( searchResults && ![searchResults isEqual:[NSNull null]] )
         {
             for( NSDictionary *locationInfo in searchResults )
             {

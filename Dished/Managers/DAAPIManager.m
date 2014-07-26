@@ -145,8 +145,6 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     [self POST:@"users" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSLog(@"%@", responseObject);
-        
         NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
         
         if( response.statusCode == 200 )
@@ -566,13 +564,12 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     {
         if( error.code != -999 )
         {
-            NSLog(@"Error searching for locations: %@", error);
             completion( nil, error );
         }
     }];
 }
 
-- (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success ) )completion
+- (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success, NSString *imageURL ) )completion
 {
     NSString *hashtagString = @"";
     for( DAHashtag *hashtag in review.hashtags )
@@ -650,12 +647,13 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        completion( YES );
+        NSString *imageAddress = responseObject[@"data"][@"img"][@"url"];
+        completion( YES, imageAddress );
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
         NSLog(@"failure: %@", error );
-        completion( NO );
+        completion( NO, nil );
     }];
 }
 

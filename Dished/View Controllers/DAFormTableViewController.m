@@ -14,12 +14,12 @@
 #import "DALocationTableViewController.h"
 #import "DARatingTableViewController.h"
 #import "MRProgress.h"
-#import "DAHashtag.h"
 #import <Social/Social.h>
 #import "DAAPIManager.h"
 #import "DAAppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import <Accounts/Accounts.h>
+#import <MessageUI/MessageUI.h>
 
 
 @interface DAFormTableViewController() <UIAlertViewDelegate>
@@ -31,6 +31,7 @@
 @property (strong, nonatomic) UIAlertView     *facebookLoginAlert;
 @property (strong, nonatomic) UIAlertView     *postFailAlert;
 @property (strong, nonatomic) UIAlertView     *twitterLoginAlert;
+@property (strong, nonatomic) UIAlertView     *emailFailAlert;
 @property (strong, nonatomic) NSMutableString *dishPrice;
 @property (strong, nonatomic) ACAccountStore  *accountStore;
 @property (strong, nonatomic) ACAccountType   *twitterType;
@@ -47,17 +48,13 @@
 @implementation DAFormTableViewController
 
 - (void)viewDidLoad
-{
+{    
     [super viewDidLoad];
     
-    self.accountStore = [[ACAccountStore alloc] init];
-
     self.facebookToggleButton.alpha   = 0.3;
     self.twitterToggleButton.alpha    = 0.3;
     self.googleplusToggleButton.alpha = 0.3;
     self.emailToggleButton.alpha      = 0.3;
-    
-    self.navigationItem.rightBarButtonItem.enabled = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressReady:) name:kAddressReadyNotificationKey object:nil];
 
@@ -134,9 +131,9 @@
 {
     if( textField == self.priceTextField )
     {
-        if (textField.text.length  == 0)
+        if (textField.text.length == 0 )
         {
-            textField.text = [[NSLocale currentLocale] objectForKey:NSLocaleCurrencySymbol];
+            textField.text = [NSString stringWithFormat:@"%@0.00", [[NSLocale currentLocale] objectForKey:NSLocaleCurrencySymbol]];
         }
     }
 }
@@ -186,14 +183,14 @@
     {
         NSString *newAmount;
 
-        if ([string isEqualToString:@""] && [self.dishPrice length] > 0)
+        if( [string isEqualToString:@""] && [self.dishPrice length] > 0 )
         {
             [self.dishPrice appendString:string];
 
-            [self.dishPrice deleteCharactersInRange:NSMakeRange([self.dishPrice length]-1, 1)];
+            [self.dishPrice deleteCharactersInRange:NSMakeRange( [self.dishPrice length] - 1, 1 )];
             
-            newAmount = [self formatCurrencyValue:([self.dishPrice doubleValue]/100)];
-            [textField setText:[NSString stringWithFormat:@"%@",newAmount]];
+            newAmount = [self formatCurrencyValue:( [self.dishPrice doubleValue] / 100 )];
+            [textField setText:[NSString stringWithFormat:@"$%@",newAmount]];
         }
         else
         {
@@ -201,8 +198,8 @@
             {
                 [self.dishPrice appendString:string];
 
-                newAmount = [self formatCurrencyValue:([self.dishPrice doubleValue]/100)];
-                [textField setText:[NSString stringWithFormat:@"%@",newAmount]];
+                newAmount = [self formatCurrencyValue:( [self.dishPrice doubleValue] / 100 )];
+                [textField setText:[NSString stringWithFormat:@"$%@", newAmount]];
             }
         }
         
@@ -242,7 +239,10 @@
 {
     if( textField == self.titleTextField )
     {
+        [textField resignFirstResponder];
         [self.commentTextView becomeFirstResponder];
+        
+        return NO;
     }
     
     return YES;
@@ -253,10 +253,10 @@
     if( self.titleTextField.text.length == 0 )
     {
         self.dishSuggestionsTable.hidden = YES;
+        [self.dishSuggestionsTable resetTable];
     }
     else
     {
-        self.dishSuggestionsTable.hidden = NO;
         [self.dishSuggestionsTable updateSuggestionsWithQuery:self.titleTextField.text dishType:self.selectedReview.type];
     }
     
@@ -381,6 +381,10 @@
             self.navigationItem.rightBarButtonItem.enabled = NO;
         }
     }
+    else
+    {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+    }
 }
 
 - (IBAction)goToHashtags
@@ -473,7 +477,7 @@
                 }
                 else
                 {
-                    //TODO maybe alert the user and let them know they can't send email
+                    [self.emailFailAlert show];
                 }
             }
             break;
@@ -482,33 +486,34 @@
 
 - (void)requestTwitterAccountAccess
 {
-    self.twitterType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    
     [self.accountStore requestAccessToAccountsWithType:self.twitterType options:nil
     completion:^( BOOL granted, NSError *error )
     {
-        if( granted )
+        dispatch_async( dispatch_get_main_queue(), ^
         {
-            NSArray *accounts = [self.accountStore accountsWithAccountType:self.twitterType];
-            if( [accounts count] == 0 )
+            if( granted )
+            {
+                NSArray *accounts = [self.accountStore accountsWithAccountType:self.twitterType];
+                if( [accounts count] == 0 )
+                {
+                    self.shouldPostToTwitter = NO;
+                    self.twitterToggleButton.alpha = 0.3;
+                    
+                    [self.twitterLoginAlert show];
+                }
+                else
+                {
+                    self.shouldPostToTwitter = YES;
+                }
+            }
+            else
             {
                 self.shouldPostToTwitter = NO;
                 self.twitterToggleButton.alpha = 0.3;
                 
                 [self.twitterLoginAlert show];
             }
-            else
-            {
-                self.shouldPostToTwitter = YES;
-            }
-        }
-        else
-        {
-            self.shouldPostToTwitter = NO;
-            self.twitterToggleButton.alpha = 0.3;
-            
-            [self.twitterLoginAlert show];
-        }
+        });
     }];
 }
 
@@ -575,12 +580,13 @@
     }];
 }
 
-- (void)shareDishOnFacebookWithCompletion:( void(^)( BOOL success ) )completion;
+- (void)shareDishOnFacebookWithImage:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion;
 {
     NSString *message = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
     
     NSDictionary *shareParams = @{ @"name" : self.selectedReview.title, @"caption" : message,
-                                   @"description" : self.selectedReview.comment, @"link" : @"http://dishedapp.com" };
+                                   @"description" : self.selectedReview.comment, @"link" : @"http://dishedapp.com",
+                                   @"picture" : imageURL};
     
     [FBRequestConnection startWithGraphPath:@"/me/feed" parameters:shareParams HTTPMethod:@"POST"
     completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
@@ -608,8 +614,6 @@
             
             if( statusCode >= 200 && statusCode < 300 )
             {
-                NSDictionary *postResponseData = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableContainers error:NULL];
-                NSLog(@"[SUCCESS!] Created Tweet with ID: %@", postResponseData[@"id_str"]);
                 completion( YES );
             }
             else
@@ -644,12 +648,6 @@
     
     [request setAccount:[accounts lastObject]];
     [request performRequestWithHandler:requestHandler];
-}
-
-- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
-{
-    //Add an alert in case of failure
-    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -689,6 +687,8 @@
 
 - (IBAction)postDish:(UIBarButtonItem *)sender
 {
+    NSData *data = nil;
+    
     [self showProgressView];
     
     dispatch_group_t group = dispatch_group_create();
@@ -697,7 +697,7 @@
     
     dispatch_group_enter( group );
 
-    [[DAAPIManager sharedManager] postNewReview:self.selectedReview withImage:self.reviewImage completion:^( BOOL success )
+    [[DAAPIManager sharedManager] postNewReview:self.selectedReview withImage:self.reviewImage completion:^( BOOL success, NSString *imageURL )
     {
         if( success )
         {
@@ -708,18 +708,18 @@
             postSuccess = NO;
         }
         
-        dispatch_group_leave( group );
-    }];
-    
-    if( self.shouldPostToFacebook )
-    {
-        dispatch_group_enter( group );
-        
-        [self shareDishOnFacebookWithCompletion:^( BOOL success )
+        if( self.shouldPostToFacebook )
+        {
+            [self shareDishOnFacebookWithImage:imageURL completion:^( BOOL success )
+            {
+                dispatch_group_leave( group );
+            }];
+        }
+        else
         {
             dispatch_group_leave( group );
-        }];
-    }
+        }
+    }];
     
     if( self.shouldPostToTwitter )
     {
@@ -731,6 +731,11 @@
         }];
     }
     
+    if( self.shouldEmailReview )
+    {
+        data = UIImageJPEGRepresentation( self.reviewImage, 0.5 );
+    }
+    
     dispatch_group_notify( group, dispatch_get_main_queue(), ^
     {
         if( postSuccess )
@@ -739,7 +744,11 @@
             {
                 if( postSuccess )
                 {
-                    [self dismissViewControllerAnimated:YES completion:nil];
+                    [self dismissViewControllerAnimated:YES completion:^
+                    {
+                        NSDictionary *info = @{ @"review" : self.selectedReview, @"imageData" : data };
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"presentEmail" object:info];
+                    }];
                 }
                 else
                 {
@@ -748,16 +757,6 @@
             }];
         }
     });
-    
-    if( self.shouldEmailReview )
-    {
-        MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
-        [composeViewController setMailComposeDelegate:self];
-        [composeViewController setSubject:@"Wow this Dish is awesome!"];
-        NSData *imageData = UIImagePNGRepresentation(self.reviewImage);
-        [composeViewController addAttachmentData:imageData mimeType:nil fileName:@"image.png"];
-        [self presentViewController:composeViewController animated:YES completion:nil];
-    }
 }
 
 - (DANewReview *)foodReview
@@ -821,6 +820,36 @@
     }
     
     return _twitterLoginAlert;
+}
+
+- (UIAlertView *)emailFailAlert
+{
+    if( !_emailFailAlert )
+    {
+        _emailFailAlert = [[UIAlertView alloc] initWithTitle:@"You can't send E-mails" message:@"You must add an email account in your device settings to be able to email a dish review." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+    }
+    
+    return _emailFailAlert;
+}
+
+- (ACAccountStore *)accountStore
+{
+    if( !_accountStore )
+    {
+        _accountStore = [[ACAccountStore alloc] init];
+    }
+    
+    return _accountStore;
+}
+
+- (ACAccountType *)twitterType
+{
+    if( !_twitterType )
+    {
+        _twitterType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
+    }
+    
+    return _twitterType;
 }
 
 @end

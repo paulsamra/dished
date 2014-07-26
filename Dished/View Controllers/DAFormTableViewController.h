@@ -10,13 +10,12 @@
 #import <UIKit/UIKit.h>
 #import "SZTextView.h"
 #import "DADishSuggestionsTableView.h"
-#import <MessageUI/MessageUI.h>
 
 
-@interface DAFormTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate, MFMailComposeViewControllerDelegate>
+@interface DAFormTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate>
 
 @property (weak, nonatomic) IBOutlet UIButton            *facebookToggleButton;
-@property (strong, nonatomic) IBOutlet UIButton            *twitterToggleButton;
+@property (weak, nonatomic) IBOutlet UIButton            *twitterToggleButton;
 @property (weak, nonatomic) IBOutlet UIButton            *googleplusToggleButton;
 @property (weak, nonatomic) IBOutlet UIButton            *emailToggleButton;
 @property (weak, nonatomic) IBOutlet UIButton            *ratingButton;

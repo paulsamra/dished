@@ -21,6 +21,8 @@
 @property (weak, nonatomic) IBOutlet UIButton       *cameraRollButton;
 @property (weak, nonatomic) IBOutlet UIImageView    *overlayImageVew;
 @property (weak, nonatomic) IBOutlet UIImageView    *gridImageView;
+@property (strong, nonatomic) IBOutlet UIPinchGestureRecognizer *pinchGesture;
+@property (strong, nonatomic) IBOutlet UITapGestureRecognizer *tapGesture;
 
 @property (strong, nonatomic) UIImage *pictureTaken;
 @property (strong, nonatomic) UIImage *scaledPicture;

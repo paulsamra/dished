@@ -10,6 +10,7 @@
 #import "DAImagePickerController.h"
 #import "DAFormTableViewController.h"
 
+
 @interface DAImageFilterViewController()
 
 @property (strong, nonatomic) NSArray               *filterTitles;
@@ -125,13 +126,15 @@
                 {
                     CIImage *beginImage = [CIImage imageWithCGImage:[self.pictureTaken CGImage]];
                     
-                    CIFilter *filter = [CIFilter filterWithName:self.filterNames[indexPath.row] keysAndValues:kCIInputImageKey, beginImage, nil];
                     CIFilter *scaleFilter = [CIFilter filterWithName:@"CILanczosScaleTransform"];
-                    [scaleFilter setValue:filter.outputImage forKey:@"inputImage"];
-                    [scaleFilter setValue:[NSNumber numberWithFloat:0.5] forKey:@"inputScale"];
-                    [scaleFilter setValue:[NSNumber numberWithFloat:1.0] forKey:@"inputAspectRatio"];
+                    [scaleFilter setValue:beginImage forKeyPath:@"inputImage"];
+                    [scaleFilter setValue:@(0.4f) forKeyPath:@"inputScale"];
+                    [scaleFilter setValue:@(1.0f) forKeyPath:@"inputAspectRatio"];
                     
-                    CIImage *outputImage = [scaleFilter outputImage];
+                    CIFilter *filter = [CIFilter filterWithName:self.filterNames[indexPath.row]];
+                    [filter setValue:scaleFilter.outputImage forKeyPath:kCIInputImageKey];
+                    
+                    CIImage *outputImage = [filter outputImage];
                     
                     CGImageRef imageRef = [[CIContext contextWithOptions:nil] createCGImage:outputImage fromRect:outputImage.extent];
                     UIImage *newImg = [UIImage imageWithCGImage:imageRef];
@@ -168,7 +171,7 @@
 
 - (IBAction)goToDetails:(UIBarButtonItem *)sender
 {
-    [self performSegueWithIdentifier:@"goToDetails" sender:nil];
+    [self performSegueWithIdentifier:@"form" sender:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

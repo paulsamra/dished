@@ -10,7 +10,7 @@
 #import "DAFormTableViewController.h"
 #import "DALocationManager.h"
 
-@interface DAAddPlaceViewController ()
+@interface DAAddPlaceViewController() <UITextFieldDelegate>
 
 @end
 
@@ -22,6 +22,8 @@
     
     [[DALocationManager sharedManager] startUpdatingLocation];
     [self.nameTextField becomeFirstResponder];
+    
+    self.nameTextField.delegate = self;
 }
 
 - (IBAction)textFieldChanged:(UITextField *)sender
@@ -37,6 +39,16 @@
             self.navigationItem.rightBarButtonItem.enabled = NO;
         }
     }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if( textField == self.nameTextField )
+    {
+        [self save:nil];
+    }
+    
+    return YES;
 }
 
 - (IBAction)save:(id)sender

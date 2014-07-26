@@ -38,5 +38,8 @@
 - (void)enableFlash:(BOOL)enabled;
 - (BOOL)isFlashOn;
 - (BOOL)cameraIsFocusing;
+- (BOOL)isTapToFocusSupported;
+- (AVCaptureConnection *)sessionConnection;
+- (void)focusAtPoint:(CGPoint)point inFrame:(CGRect)frame;
 
 @end

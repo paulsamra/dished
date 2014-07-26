@@ -18,6 +18,7 @@
 @property (strong, nonatomic) AVCaptureDevice           *currentDevice;
 @property (strong, nonatomic) AVCaptureSession          *captureSession;
 @property (strong, nonatomic) AVCaptureConnection       *connection;
+@property (strong, nonatomic) AVCaptureDeviceInput      *videoInput;
 @property (strong, nonatomic) AVCaptureStillImageOutput *stillImageOutput;
 
 @end
@@ -42,12 +43,12 @@
     self.captureSession = [[AVCaptureSession alloc] init];
     self.captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
     
-    AVCaptureDeviceInput *videoInput = [AVCaptureDeviceInput deviceInputWithDevice:self.backCamera error:nil];
+    self.videoInput = [AVCaptureDeviceInput deviceInputWithDevice:self.backCamera error:nil];
     self.currentDevice = self.backCamera;
     
-    if( [self.captureSession canAddInput:videoInput] )
+    if( [self.captureSession canAddInput:self.videoInput] )
     {
-        [self.captureSession addInput:videoInput];
+        [self.captureSession addInput:self.videoInput];
     }
     
     NSDictionary *outputSettings = @{ (NSString *)kCVPixelBufferPixelFormatTypeKey : @(kCVPixelFormatType_32BGRA) };
@@ -61,7 +62,7 @@
     }
     
     self.previewLayer = [[AVCaptureVideoPreviewLayer alloc] initWithSession:[self captureSession]];
-	[self.previewLayer setVideoGravity:AVLayerVideoGravityResize];
+	[self.previewLayer setVideoGravity:AVLayerVideoGravityResizeAspectFill];
     
     int flags = NSKeyValueObservingOptionNew;
     [self.currentDevice addObserver:self forKeyPath:@"adjustingFocus" options:flags context:nil];
@@ -289,6 +290,71 @@ void freePixelBufferDataAfterRelease(void *releaseRefCon, const void *baseAddres
     return videoConnection;
 }
 
+- (void)focusAtPoint:(CGPoint)point inFrame:(CGRect)frame
+{
+    CGPoint focusPoint = [self convertToPointOfInterestFromViewCoordinates:point inFrame:frame];
+    
+    AVCaptureDevice *device = [[self videoInput] device];
+    
+    if( [device isFocusPointOfInterestSupported] && [device isFocusModeSupported:AVCaptureFocusModeAutoFocus] )
+    {
+        NSError *error;
+        
+        if( [device lockForConfiguration:&error] )
+        {
+            [device setFocusPointOfInterest:focusPoint];
+            [device setFocusMode:AVCaptureFocusModeAutoFocus];
+            [device unlockForConfiguration];
+        }
+    }
+}
+
+- (CGPoint)convertToPointOfInterestFromViewCoordinates:(CGPoint)viewCoordinates inFrame:(CGRect)frame
+{
+    CGPoint pointOfInterest = CGPointMake( 0.5f, 0.5f );
+    CGSize frameSize = frame.size;
+    
+    if( [self sessionConnection].videoMirrored )
+    {
+        viewCoordinates.x = frameSize.width - viewCoordinates.x;
+    }
+    
+    CGRect cleanAperture;
+    
+    for( AVCaptureInputPort *port in [self.videoInput ports] )
+    {
+        if( port.mediaType == AVMediaTypeVideo )
+        {
+            cleanAperture = CMVideoFormatDescriptionGetCleanAperture( [port formatDescription], YES );
+            CGSize apertureSize = cleanAperture.size;
+            CGPoint newPoint = viewCoordinates;
+            
+            CGFloat apertureRatio = apertureSize.height / apertureSize.width;
+            CGFloat viewRatio = frameSize.width / frameSize.height;
+            CGFloat xc = 0.5f;
+            CGFloat yc = 0.5f;
+            
+            if( viewRatio > apertureRatio )
+            {
+                CGFloat y2 = apertureSize.width * ( frameSize.width / apertureSize.height );
+                xc = ( newPoint.y + ( ( y2 - frameSize.height ) / 2.f ) ) / y2;
+                yc = ( frameSize.width - newPoint.x ) / frameSize.width;
+            }
+            else
+            {
+                CGFloat x2 = apertureSize.height * ( frameSize.height / apertureSize.width );
+                yc = 1.f - ( ( newPoint.x + ( ( x2 - frameSize.width ) / 2 ) ) / x2 );
+                xc = newPoint.y / frameSize.height;
+            }
+            
+            pointOfInterest = CGPointMake( xc, yc );
+            break;
+        }
+    }
+    
+    return pointOfInterest;
+}
+
 - (void)enableFlash:(BOOL)enabled
 {
     if( enabled )
@@ -330,6 +396,11 @@ void freePixelBufferDataAfterRelease(void *releaseRefCon, const void *baseAddres
     {
         return NO;
     }
+}
+
+- (BOOL)isTapToFocusSupported
+{
+    return [self.currentDevice isFocusPointOfInterestSupported];
 }
 
 - (AVCaptureDevice *)cameraWithPosition:(AVCaptureDevicePosition)position

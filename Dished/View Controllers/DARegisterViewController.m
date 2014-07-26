@@ -637,7 +637,7 @@
 {
     NSString *firstName = self.firstNameField.text;
     NSString *lastName  = self.lastNameField.text;
-    NSString *username  = self.usernameField.text;
+    NSString *username  = [self.usernameField.text substringFromIndex:1];
     NSString *email     = self.emailField.text;
     NSString *phone     = self.phoneNumberField.text;
     NSString *password  = self.passwordField.text;
