@@ -20,18 +20,20 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <Accounts/Accounts.h>
 #import <MessageUI/MessageUI.h>
+#import <GoogleOpenSource/GoogleOpenSource.h>
+
+static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j0su.apps.googleusercontent.com";
 
 
 @interface DAFormTableViewController() <UIAlertViewDelegate>
 
-@property (strong, nonatomic) DANewReview     *foodReview;
-@property (strong, nonatomic) DANewReview     *cocktailReview;
-@property (strong, nonatomic) DANewReview     *wineReview;
 @property (strong, nonatomic) DANewReview     *selectedReview;
 @property (strong, nonatomic) UIAlertView     *facebookLoginAlert;
 @property (strong, nonatomic) UIAlertView     *postFailAlert;
 @property (strong, nonatomic) UIAlertView     *twitterLoginAlert;
 @property (strong, nonatomic) UIAlertView     *emailFailAlert;
+@property (strong, nonatomic) UIAlertView     *googleLoginAlert;
+@property (strong, nonatomic) UIAlertView     *googleLoginFailAlert;
 @property (strong, nonatomic) NSMutableString *dishPrice;
 @property (strong, nonatomic) ACAccountStore  *accountStore;
 @property (strong, nonatomic) ACAccountType   *twitterType;
@@ -41,6 +43,7 @@
 @property (nonatomic) BOOL shouldPostToGooglePlus;
 @property (nonatomic) BOOL shouldEmailReview;
 @property (nonatomic) BOOL addressFound;
+@property (nonatomic) BOOL googleSilentAuth;
 
 @end
 
@@ -55,6 +58,9 @@
     self.twitterToggleButton.alpha    = 0.3;
     self.googleplusToggleButton.alpha = 0.3;
     self.emailToggleButton.alpha      = 0.3;
+    
+    self.googleSilentAuth = NO;
+    [self setupGooglePlusSignIn];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressReady:) name:kAddressReadyNotificationKey object:nil];
 
@@ -415,6 +421,19 @@
             self.facebookToggleButton.alpha = 0.5;
         }
     }
+    
+    if( alertView == self.googleLoginAlert )
+    {
+        if( buttonIndex != alertView.cancelButtonIndex )
+        {
+            [[GPPSignIn sharedInstance] authenticate];
+        }
+        else
+        {
+            self.googleplusToggleButton.alpha = 0.3;
+            self.shouldPostToGooglePlus = NO;
+        }
+    }
 }
 
 - (IBAction)share:(UIButton *)sender
@@ -444,6 +463,7 @@
         case 1:
             if( self.twitterToggleButton.alpha == 1.0 )
             {
+                self.shouldPostToTwitter = NO;
                 self.twitterToggleButton.alpha = 0.3;
             }
             else
@@ -455,11 +475,28 @@
         case 2:
             if( self.googleplusToggleButton.alpha == 1.0 )
             {
+                self.shouldPostToGooglePlus = NO;
                 self.googleplusToggleButton.alpha = 0.3;
             }
             else
             {
-                self.googleplusToggleButton.alpha = 1.0;
+                if( [GPPSignIn sharedInstance].authentication || [[GPPSignIn sharedInstance] hasAuthInKeychain] )
+                {
+                    [[GPPSignIn sharedInstance] trySilentAuthentication];
+                    self.shouldPostToGooglePlus = YES;
+                    self.googleplusToggleButton.alpha = 1.0;
+                }
+                else
+                {
+                    self.googleSilentAuth = YES;
+                    
+                    if( ![[GPPSignIn sharedInstance] trySilentAuthentication] )
+                    {
+                        self.googleSilentAuth = NO;
+                        [self.googleLoginAlert show];
+                    }
+                    
+                }
             }
             break;
         case 3:
@@ -650,6 +687,77 @@
     [request performRequestWithHandler:requestHandler];
 }
 
+- (void)setupGooglePlusSignIn
+{
+    GPPSignIn *signIn = [GPPSignIn sharedInstance];
+    signIn.shouldFetchGooglePlusUser = YES;
+    
+    signIn.clientID = kClientID;
+    signIn.scopes = @[ kGTLAuthScopePlusLogin ];
+    
+    signIn.delegate = self;
+    
+    signIn.actions = @[ @"http://schema.org/ReviewAction" ];
+}
+
+- (void)finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error
+{
+    if( error )
+    {
+        if( self.googleSilentAuth )
+        {
+            [self.googleLoginAlert show];
+            self.googleSilentAuth = NO;
+        }
+        else
+        {
+            [self.googleLoginFailAlert show];
+            self.googleplusToggleButton.alpha = 0.3;
+            self.shouldPostToGooglePlus = NO;
+        }
+    }
+    else
+    {
+        self.shouldPostToGooglePlus = YES;
+        self.googleplusToggleButton.alpha = 1.0;
+        self.googleSilentAuth = NO;
+    }
+}
+
+- (void)shareDishOnGooglePlusWithImageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion
+{
+    GTLServicePlus *plusService = [[GTLServicePlus alloc] init];
+    plusService.retryEnabled = NO;
+    [plusService setAuthorizer:[GPPSignIn sharedInstance].authentication];
+    
+    GTLPlusMoment *moment = [[GTLPlusMoment alloc] init];
+    
+    moment.type = @"http://schemas.google.com/ReviewAction";
+    
+    GTLPlusItemScope *target = [[GTLPlusItemScope alloc] init];
+    
+    target.image = imageURL;
+    target.text  = self.selectedReview.comment;
+    
+    target.name = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
+    
+    moment.target = target;
+    
+    GTLQueryPlus *query = [GTLQueryPlus queryForMomentsInsertWithObject:moment userId:@"me" collection:kGTLPlusCollectionVault];
+    
+    [plusService executeQuery:query completionHandler:^(GTLServiceTicket *ticket, id object, NSError *error)
+    {
+        if( error )
+        {
+            completion( NO );
+        }
+        else
+        {
+            completion( YES );
+        }
+    }];
+}
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if( [segue.identifier isEqualToString:@"posHashtags"] )
@@ -702,23 +810,33 @@
         if( success )
         {
             postSuccess = YES;
+            
+            if( self.shouldPostToFacebook )
+            {
+                dispatch_group_enter( group );
+                
+                [self shareDishOnFacebookWithImage:imageURL completion:^( BOOL success )
+                 {
+                     dispatch_group_leave( group );
+                 }];
+            }
+            
+            if( self.shouldPostToGooglePlus )
+            {
+                dispatch_group_enter( group );
+                
+                [self shareDishOnGooglePlusWithImageURL:imageURL completion:^( BOOL success )
+                 {
+                     dispatch_group_leave( group );
+                 }];
+            }
         }
         else
         {
             postSuccess = NO;
         }
         
-        if( self.shouldPostToFacebook )
-        {
-            [self shareDishOnFacebookWithImage:imageURL completion:^( BOOL success )
-            {
-                dispatch_group_leave( group );
-            }];
-        }
-        else
-        {
-            dispatch_group_leave( group );
-        }
+        dispatch_group_leave( group );
     }];
     
     if( self.shouldPostToTwitter )
@@ -738,58 +856,25 @@
     
     dispatch_group_notify( group, dispatch_get_main_queue(), ^
     {
-        if( postSuccess )
+        [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
         {
-            [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+            if( postSuccess )
             {
-                if( postSuccess )
+                [self dismissViewControllerAnimated:YES completion:^
                 {
-                    [self dismissViewControllerAnimated:YES completion:^
+                    if( self.shouldEmailReview )
                     {
                         NSDictionary *info = @{ @"review" : self.selectedReview, @"imageData" : data };
                         [[NSNotificationCenter defaultCenter] postNotificationName:@"presentEmail" object:info];
-                    }];
-                }
-                else
-                {
-                    [self.postFailAlert show];
-                }
-            }];
-        }
+                    }
+                }];
+            }
+            else
+            {
+                [self.postFailAlert show];
+            }
+        }];
     });
-}
-
-- (DANewReview *)foodReview
-{
-    if( !_foodReview )
-    {
-        _foodReview = [[DANewReview alloc] init];
-        _foodReview.type = kFood;
-    }
-    
-    return _foodReview;
-}
-
-- (DANewReview *)cocktailReview
-{
-    if( !_cocktailReview )
-    {
-        _cocktailReview = [[DANewReview alloc] init];
-        _cocktailReview.type = kCocktail;
-    }
-    
-    return _cocktailReview;
-}
-
-- (DANewReview *)wineReview
-{
-    if( !_wineReview )
-    {
-        _wineReview = [[DANewReview alloc] init];
-        _wineReview.type = kWine;
-    }
-    
-    return _wineReview;
 }
 
 - (UIAlertView *)facebookLoginAlert
@@ -830,6 +915,26 @@
     }
     
     return _emailFailAlert;
+}
+
+- (UIAlertView *)googleLoginAlert
+{
+    if( !_googleLoginAlert )
+    {
+        _googleLoginAlert = [[UIAlertView alloc] initWithTitle:@"You are not logged into Google Plus" message:@"You must login to Google Plus to share reviews. Do you want to login now?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    }
+    
+    return _googleLoginAlert;
+}
+
+- (UIAlertView *)googleLoginFailAlert
+{
+    if( !_googleLoginFailAlert )
+    {
+        _googleLoginFailAlert = [[UIAlertView alloc] initWithTitle:@"Error Signing In to Google Plus" message:@"There was a problem signing into Google Plus. Please try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    }
+    
+    return _googleLoginFailAlert;
 }
 
 - (ACAccountStore *)accountStore

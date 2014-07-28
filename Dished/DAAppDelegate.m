@@ -8,6 +8,7 @@
 
 #import "DAAppDelegate.h"
 #import "AFNetworkActivityIndicatorManager.h"
+#import <GooglePlus/GooglePlus.h>
 
 
 @interface DAAppDelegate()
@@ -89,14 +90,18 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
-//    [FBSession.activeSession setStateChangeHandler:
-//    ^(FBSession *session, FBSessionState state, NSError *error)
-//    {
-//         DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-//         [appDelegate sessionStateChanged:session state:state error:error];
-//     }];
+    if( [[url absoluteString] rangeOfString:@"com.dishedapp.dished"].location == NSNotFound )
+    {
+        BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+        
+        return wasHandled;
+    }
+    else
+    {
+        return [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
+    }
     
-    return [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    return YES;
 }
 
 - (void)showMessage:(NSString *)message withTitle:(NSString *)title

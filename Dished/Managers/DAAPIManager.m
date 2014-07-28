@@ -194,7 +194,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
             }
             failure:^( NSURLSessionDataTask *task, NSError *error )
             {
-                NSLog(@"%@", error);
+                NSLog(@"%@", error.userInfo[JSONResponseSerializerWithDataKey]);
                 completion( YES, NO );
             }];
         }
@@ -571,6 +571,11 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 
 - (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success, NSString *imageURL ) )completion
 {
+    if( ![self accessToken] )
+    {
+        completion( nil, nil );
+    }
+    
     NSString *hashtagString = @"";
     for( DAHashtag *hashtag in review.hashtags )
     {
@@ -625,8 +630,6 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
         [parameters setObject:review.type forKey:@"type"];
         [parameters setObject:review.title forKey:@"title"];
     }
-    
-    NSLog(@"%@", parameters);
     
     [self POST:@"reviews" parameters:parameters
     constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
@@ -692,6 +695,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     {
         NSString *newClientID = [[NSUUID UUID] UUIDString];
         [[NSUserDefaults standardUserDefaults] setObject:newClientID forKey:kClientIDKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
         
         _clientID = newClientID;
     }

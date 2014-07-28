@@ -10,10 +10,15 @@
 #import <UIKit/UIKit.h>
 #import "SZTextView.h"
 #import "DADishSuggestionsTableView.h"
+#import <GooglePlus/GooglePlus.h>
 
+@class DANewReview;
 
-@interface DAFormTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate>
+@interface DAFormTableViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate, GPPSignInDelegate>
 
+@property (strong, nonatomic) DANewReview                *foodReview;
+@property (strong, nonatomic) DANewReview                *cocktailReview;
+@property (strong, nonatomic) DANewReview                *wineReview;
 @property (weak, nonatomic) IBOutlet UIButton            *facebookToggleButton;
 @property (weak, nonatomic) IBOutlet UIButton            *twitterToggleButton;
 @property (weak, nonatomic) IBOutlet UIButton            *googleplusToggleButton;

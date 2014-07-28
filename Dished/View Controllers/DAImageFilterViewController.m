@@ -9,10 +9,14 @@
 #import "DAImageFilterViewController.h"
 #import "DAImagePickerController.h"
 #import "DAFormTableViewController.h"
+#import "DANewReview.h"
 
 
 @interface DAImageFilterViewController()
 
+@property (strong, nonatomic) DANewReview           *foodReview;
+@property (strong, nonatomic) DANewReview           *cocktailReview;
+@property (strong, nonatomic) DANewReview           *wineReview;
 @property (strong, nonatomic) NSArray               *filterTitles;
 @property (strong, nonatomic) NSArray               *filterNames;
 @property (strong, nonatomic) NSMutableDictionary   *filteredImages;
@@ -40,6 +44,14 @@
         self.pictureTaken = pictureTaken;
         self.pictureImageView.image = self.pictureTaken;
     }
+    
+    self.foodReview     = [[DANewReview alloc] init];
+    self.cocktailReview = [[DANewReview alloc] init];
+    self.wineReview     = [[DANewReview alloc] init];
+    
+    self.foodReview.type     = kFood;
+    self.cocktailReview.type = kCocktail;
+    self.wineReview.type     = kWine;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageReady:) name:kImageReadyNotificationKey object:nil];
     
@@ -180,6 +192,10 @@
     {
         DAFormTableViewController *dest = [segue destinationViewController];
         dest.reviewImage = self.pictureImageView.image;
+        
+        dest.foodReview     = self.foodReview;
+        dest.wineReview     = self.wineReview;
+        dest.cocktailReview = self.cocktailReview;
     }
 }
 
