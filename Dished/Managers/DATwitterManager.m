@@ -17,8 +17,6 @@
 #define kTwitterTokenSecret  @"dishedTwitterTokenSecret"
 #define kTwitterTokenAccount @"com.dishedapp.Dished"
 
-#define kTwitterCallbackURL  @"dishedapp://twitterCallback"
-
 
 typedef void ( ^DATwitterSuccessBlock )( BOOL );
 
