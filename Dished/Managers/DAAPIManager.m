@@ -573,7 +573,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 {
     if( ![self accessToken] )
     {
-        completion( nil, nil );
+        completion( NO, nil );
     }
     
     NSString *hashtagString = @"";

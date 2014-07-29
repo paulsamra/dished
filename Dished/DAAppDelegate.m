@@ -9,6 +9,8 @@
 #import "DAAppDelegate.h"
 #import "AFNetworkActivityIndicatorManager.h"
 #import <GooglePlus/GooglePlus.h>
+#import "SSKeychain.h"
+#import "DATwitterManager.h"
 
 
 @interface DAAppDelegate()
@@ -25,6 +27,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [self setupAppearance];
+    
+    [DATwitterManager sharedManager];
+    
+    [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
     
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
@@ -90,6 +96,13 @@
 
 - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
 {
+    if( [[url absoluteString] rangeOfString:kTwitterCallbackURL].location != NSNotFound )
+    {
+        [[DATwitterManager sharedManager] processURL:url];
+        
+        return YES;
+    }
+    
     if( [[url absoluteString] rangeOfString:@"com.dishedapp.dished"].location == NSNotFound )
     {
         BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
