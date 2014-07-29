@@ -554,7 +554,7 @@
         <!--Explore View Controller - Explore-->
         <scene sceneID="ZCh-PU-AHP">
             <objects>
-                <viewController id="A0b-Vs-Ly3" customClass="DAExploreViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="A0b-Vs-Ly3" customClass="DAExploreViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="BAP-zm-Qfd"/>
                         <viewControllerLayoutGuide type="bottom" id="hCs-MV-fsx"/>
@@ -575,7 +575,7 @@
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="eUX-77-iU3" customClass="DAExploreCell">
-                                        <rect key="frame" x="0.0" y="64" width="117" height="97"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="117" height="97"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="117" height="97"/>
