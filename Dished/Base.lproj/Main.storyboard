@@ -678,7 +678,13 @@
                             <constraint firstItem="ln4-70-H0K" firstAttribute="top" secondItem="PNK-EB-jFU" secondAttribute="bottom" id="tvB-KS-VwQ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Explore" id="bS8-sm-phL"/>
+                    <navigationItem key="navigationItem" title="Explore" id="bS8-sm-phL">
+                        <barButtonItem key="rightBarButtonItem" image="3b-change-location_location-icon.png" id="4om-QH-3FY">
+                            <connections>
+                                <segue destination="gcr-dc-GVi" kind="modal" id="FP8-De-HC6"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="exploreCollectionView" destination="ln4-70-H0K" id="mBi-T8-9BH"/>
                         <outlet property="searchDisplayController" destination="1X7-dA-EE5" id="scg-W7-MaV"/>
@@ -846,6 +852,90 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1121" y="3268"/>
+        </scene>
+        <!--Current Location Table View Controller - Change Location-->
+        <scene sceneID="yWO-L9-bnA">
+            <objects>
+                <tableViewController id="ZQV-Y0-lXh" customClass="DACurrentLocationTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="e6n-GR-T9O">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <searchBar key="tableHeaderView" appearanceType="aqua" contentMode="redraw" id="Yki-tV-1i7">
+                            <rect key="frame" x="0.0" y="64" width="320" height="44"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <connections>
+                                <outlet property="delegate" destination="ZQV-Y0-lXh" id="Z22-FU-TEc"/>
+                            </connections>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="22B-qc-s2r" imageView="Zd4-0t-n6u" style="IBUITableViewCellStyleDefault" id="eRx-u1-kwf">
+                                <rect key="frame" x="0.0" y="163" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eRx-u1-kwf" id="btz-4f-dwf">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Current Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="22B-qc-s2r">
+                                            <rect key="frame" x="45" y="0.0" width="260" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="3b-change-location_location-icon.png" id="Zd4-0t-n6u">
+                                            <rect key="frame" x="15" y="14" width="15" height="15"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </imageView>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
+                        <connections>
+                            <outlet property="dataSource" destination="ZQV-Y0-lXh" id="qXF-02-F9J"/>
+                            <outlet property="delegate" destination="ZQV-Y0-lXh" id="BP7-XF-3GY"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Change Location" id="xg0-hb-4G4">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="DEV-py-Jit">
+                            <connections>
+                                <action selector="cancelChangeLocation:" destination="ZQV-Y0-lXh" id="J37-ef-k2T"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="searchDisplayController" destination="dy8-Ue-Mgo" id="18M-PP-ja5"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0LA-WJ-12o" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="dy8-Ue-Mgo">
+                    <connections>
+                        <outlet property="delegate" destination="ZQV-Y0-lXh" id="ikE-Kh-MUO"/>
+                        <outlet property="searchBar" destination="Yki-tV-1i7" id="MuH-E9-CDA"/>
+                        <outlet property="searchContentsController" destination="ZQV-Y0-lXh" id="8jb-vZ-92s"/>
+                        <outlet property="searchResultsDataSource" destination="ZQV-Y0-lXh" id="Blh-j9-yRW"/>
+                        <outlet property="searchResultsDelegate" destination="ZQV-Y0-lXh" id="DU0-kj-Yzr"/>
+                    </connections>
+                </searchDisplayController>
+            </objects>
+            <point key="canvasLocation" x="1526" y="2501"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="VFV-5T-MgT">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="gcr-dc-GVi" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eKa-a1-0w8">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ZQV-Y0-lXh" kind="relationship" relationship="rootViewController" id="TMp-eW-g4Q"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cwL-Ys-CQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="992" y="2501"/>
         </scene>
         <!--Image Filter View Controller - Select Filter-->
         <scene sceneID="Eue-0U-051">
@@ -1717,7 +1807,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="2713" y="2470"/>
+            <point key="canvasLocation" x="3239" y="2470"/>
         </scene>
         <!--Positive Hashtags View Controller - #Tags-->
         <scene sceneID="pQh-ZK-iL8">
@@ -1931,10 +2021,11 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tNT-Wo-2hv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3298" y="2470"/>
+            <point key="canvasLocation" x="3824" y="2470"/>
         </scene>
     </scenes>
     <resources>
+        <image name="3b-change-location_location-icon.png" width="15" height="15"/>
         <image name="add_dish_add_place.png" width="13" height="13"/>
         <image name="add_dish_arrow.png" width="8" height="12"/>
         <image name="add_dish_drink.png" width="16" height="16"/>

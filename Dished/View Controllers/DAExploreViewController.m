@@ -41,7 +41,18 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    UITableViewCell *cell;
+    
+    
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell"];
+    }
+    else
+    {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+    }
+
     if (indexPath.row == 0)
     {
         cell.textLabel.text = @"Editor's Picks";
