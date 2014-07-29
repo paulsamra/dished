@@ -36,6 +36,16 @@
 				<string>com.dishedapp.Dished</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.dishedapp.Dished</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>dishedapp</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>2126</string>

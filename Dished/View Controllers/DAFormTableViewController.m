@@ -14,13 +14,12 @@
 #import "DALocationTableViewController.h"
 #import "DARatingTableViewController.h"
 #import "MRProgress.h"
-#import <Social/Social.h>
 #import "DAAPIManager.h"
 #import "DAAppDelegate.h"
 #import <FacebookSDK/FacebookSDK.h>
-#import <Accounts/Accounts.h>
 #import <MessageUI/MessageUI.h>
 #import <GoogleOpenSource/GoogleOpenSource.h>
+#import "DATwitterManager.h"
 
 static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j0su.apps.googleusercontent.com";
 
@@ -31,12 +30,11 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
 @property (strong, nonatomic) UIAlertView     *facebookLoginAlert;
 @property (strong, nonatomic) UIAlertView     *postFailAlert;
 @property (strong, nonatomic) UIAlertView     *twitterLoginAlert;
+@property (strong, nonatomic) UIAlertView     *twitterLoginFailAlert;
 @property (strong, nonatomic) UIAlertView     *emailFailAlert;
 @property (strong, nonatomic) UIAlertView     *googleLoginAlert;
 @property (strong, nonatomic) UIAlertView     *googleLoginFailAlert;
 @property (strong, nonatomic) NSMutableString *dishPrice;
-@property (strong, nonatomic) ACAccountStore  *accountStore;
-@property (strong, nonatomic) ACAccountType   *twitterType;
 
 @property (nonatomic) BOOL shouldPostToFacebook;
 @property (nonatomic) BOOL shouldPostToTwitter;
@@ -434,6 +432,21 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
             self.shouldPostToGooglePlus = NO;
         }
     }
+    
+    if( alertView == self.twitterLoginAlert )
+    {
+        if( buttonIndex != alertView.cancelButtonIndex )
+        {
+            self.twitterToggleButton.alpha = 0.3;
+            self.shouldPostToTwitter = NO;
+            [self loginToTwitter];
+        }
+        else
+        {
+            self.twitterToggleButton.alpha = 0.3;
+            self.shouldPostToTwitter = NO;
+        }
+    }
 }
 
 - (IBAction)share:(UIButton *)sender
@@ -468,8 +481,15 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
             }
             else
             {
-                self.twitterToggleButton.alpha = 1.0;
-                [self requestTwitterAccountAccess];
+                if( [[DATwitterManager sharedManager] isLoggedIn] )
+                {
+                    self.twitterToggleButton.alpha = 1.0;
+                    self.shouldPostToTwitter = YES;
+                }
+                else
+                {
+                    [self.twitterLoginAlert show];
+                }
             }
             break;
         case 2:
@@ -521,36 +541,20 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
     }
 }
 
-- (void)requestTwitterAccountAccess
+- (void)loginToTwitter
 {
-    [self.accountStore requestAccessToAccountsWithType:self.twitterType options:nil
-    completion:^( BOOL granted, NSError *error )
+    [[DATwitterManager sharedManager] loginWithCompletion:^( BOOL success )
     {
-        dispatch_async( dispatch_get_main_queue(), ^
+        if( success )
         {
-            if( granted )
-            {
-                NSArray *accounts = [self.accountStore accountsWithAccountType:self.twitterType];
-                if( [accounts count] == 0 )
-                {
-                    self.shouldPostToTwitter = NO;
-                    self.twitterToggleButton.alpha = 0.3;
-                    
-                    [self.twitterLoginAlert show];
-                }
-                else
-                {
-                    self.shouldPostToTwitter = YES;
-                }
-            }
-            else
-            {
-                self.shouldPostToTwitter = NO;
-                self.twitterToggleButton.alpha = 0.3;
-                
-                [self.twitterLoginAlert show];
-            }
-        });
+            self.twitterToggleButton.alpha = 1.0;
+            self.shouldPostToTwitter = YES;
+        }
+        else
+        {
+            self.twitterToggleButton.alpha = 0.3;
+            self.shouldPostToTwitter = NO;
+        }
     }];
 }
 
@@ -639,52 +643,15 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
     }];
 }
 
-- (void)postToTwitterWithCompletion:( void(^)( BOOL success ) )completion
+- (void)postToTwitterWithImageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion
 {
     NSString *twitterMessage = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
     
-    SLRequestHandler requestHandler = ^( NSData *responseData, NSHTTPURLResponse *urlResponse, NSError *error )
+    [[DATwitterManager sharedManager] postDishReviewTweetWithMessage:twitterMessage imageURL:imageURL
+    completion:^( BOOL success )
     {
-        if( responseData )
-        {
-            NSInteger statusCode = urlResponse.statusCode;
-            
-            if( statusCode >= 200 && statusCode < 300 )
-            {
-                completion( YES );
-            }
-            else
-            {
-                NSLog(@"[ERROR] Server responded: status code %ld %@", (long)statusCode, [NSHTTPURLResponse localizedStringForStatusCode:statusCode]);
-                completion( NO );
-            }
-        }
-        else
-        {
-            NSLog(@"[ERROR] An error occurred while posting: %@", [error localizedDescription]);
-            completion( NO );
-        }
-    };
-    
-    NSArray *accounts = [self.accountStore accountsWithAccountType:self.twitterType];
-    NSURL *url = [NSURL URLWithString:@"https://api.twitter.com/1.1/statuses/update_with_media.json"];
-    
-    NSDictionary *params = @{ @"status" : twitterMessage };
-    
-    SLRequest *request = [SLRequest requestForServiceType:SLServiceTypeTwitter
-                                            requestMethod:SLRequestMethodPOST
-                                                      URL:url
-                                               parameters:params];
-    
-    NSData *imageData = UIImageJPEGRepresentation( self.reviewImage, 1.0f );
-    
-    [request addMultipartData:imageData
-                     withName:@"media[]"
-                         type:@"image/jpeg"
-                     filename:@"image.jpg"];
-    
-    [request setAccount:[accounts lastObject]];
-    [request performRequestWithHandler:requestHandler];
+        completion( success );
+    }];
 }
 
 - (void)setupGooglePlusSignIn
@@ -697,7 +664,7 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
     
     signIn.delegate = self;
     
-    signIn.actions = @[ @"http://schema.org/ReviewAction" ];
+    signIn.actions = @[ @"http://schema.org/ReviewAction", @"http://schema.org/CreateAction" ];
 }
 
 - (void)finishedWithAuth:(GTMOAuth2Authentication *)auth error:(NSError *)error
@@ -731,16 +698,12 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
     [plusService setAuthorizer:[GPPSignIn sharedInstance].authentication];
     
     GTLPlusMoment *moment = [[GTLPlusMoment alloc] init];
-    
-    moment.type = @"http://schemas.google.com/ReviewAction";
+
+    moment.type = @"http://schemas.google.com/CreateActivity";
     
     GTLPlusItemScope *target = [[GTLPlusItemScope alloc] init];
-    
-    target.image = imageURL;
-    target.text  = self.selectedReview.comment;
-    
-    target.name = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
-    
+    target.url  = @"http://dishedapp.com";
+
     moment.target = target;
     
     GTLQueryPlus *query = [GTLQueryPlus queryForMomentsInsertWithObject:moment userId:@"me" collection:kGTLPlusCollectionVault];
@@ -749,6 +712,7 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
     {
         if( error )
         {
+            NSLog(@"%@", error);
             completion( NO );
         }
         else
@@ -816,9 +780,9 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
                 dispatch_group_enter( group );
                 
                 [self shareDishOnFacebookWithImage:imageURL completion:^( BOOL success )
-                 {
-                     dispatch_group_leave( group );
-                 }];
+                {
+                    dispatch_group_leave( group );
+                }];
             }
             
             if( self.shouldPostToGooglePlus )
@@ -826,9 +790,19 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
                 dispatch_group_enter( group );
                 
                 [self shareDishOnGooglePlusWithImageURL:imageURL completion:^( BOOL success )
-                 {
-                     dispatch_group_leave( group );
-                 }];
+                {
+                    dispatch_group_leave( group );
+                }];
+            }
+            
+            if( self.shouldPostToTwitter )
+            {
+                dispatch_group_enter( group );
+                
+                [self postToTwitterWithImageURL:imageURL completion:^( BOOL success )
+                {
+                    dispatch_group_leave( group );
+                }];
             }
         }
         else
@@ -838,16 +812,6 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
         
         dispatch_group_leave( group );
     }];
-    
-    if( self.shouldPostToTwitter )
-    {
-        dispatch_group_enter( group );
-        
-        [self postToTwitterWithCompletion:^( BOOL success )
-        {
-            dispatch_group_leave( group );
-        }];
-    }
     
     if( self.shouldEmailReview )
     {
@@ -901,7 +865,7 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
 {
     if( !_twitterLoginAlert )
     {
-        _twitterLoginAlert = [[UIAlertView alloc] initWithTitle:@"You are not logged into Twitter" message:@"You must login to Twitter from your device settings to be able to post to Twitter." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
+        _twitterLoginAlert = [[UIAlertView alloc] initWithTitle:@"You are not logged into Twitter" message:@"You must login to Twitter to share reviews. Do you want to login now?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     }
     
     return _twitterLoginAlert;
@@ -935,26 +899,6 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
     }
     
     return _googleLoginFailAlert;
-}
-
-- (ACAccountStore *)accountStore
-{
-    if( !_accountStore )
-    {
-        _accountStore = [[ACAccountStore alloc] init];
-    }
-    
-    return _accountStore;
-}
-
-- (ACAccountType *)twitterType
-{
-    if( !_twitterType )
-    {
-        _twitterType = [self.accountStore accountTypeWithAccountTypeIdentifier:ACAccountTypeIdentifierTwitter];
-    }
-    
-    return _twitterType;
 }
 
 @end
