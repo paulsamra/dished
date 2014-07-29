@@ -591,7 +591,7 @@
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#Speghetti" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dIf-2X-O2S">
-                                                    <rect key="frame" x="10" y="48" width="97" height="23"/>
+                                                    <rect key="frame" x="10" y="40" width="97" height="57"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                                     <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
@@ -602,15 +602,15 @@
                                         </view>
                                         <constraints>
                                             <constraint firstItem="L24-J2-caG" firstAttribute="leading" secondItem="mok-ma-Hp5" secondAttribute="leading" id="8GO-bq-88Q"/>
-                                            <constraint firstItem="dIf-2X-O2S" firstAttribute="top" secondItem="eUX-77-iU3" secondAttribute="top" constant="48" id="9qI-hQ-Jg2"/>
                                             <constraint firstItem="L24-J2-caG" firstAttribute="trailing" secondItem="mok-ma-Hp5" secondAttribute="trailing" id="9zd-nJ-FCp"/>
                                             <constraint firstItem="mok-ma-Hp5" firstAttribute="top" secondItem="L24-J2-caG" secondAttribute="top" id="C0h-ns-l97"/>
                                             <constraint firstItem="L24-J2-caG" firstAttribute="leading" secondItem="eUX-77-iU3" secondAttribute="leading" id="ILS-uV-Jvv"/>
-                                            <constraint firstItem="dIf-2X-O2S" firstAttribute="leading" secondItem="eUX-77-iU3" secondAttribute="leading" constant="10" id="MaS-pA-cFR"/>
-                                            <constraint firstAttribute="bottom" secondItem="dIf-2X-O2S" secondAttribute="bottom" constant="26" id="MyS-J3-hqB"/>
+                                            <constraint firstAttribute="bottom" secondItem="dIf-2X-O2S" secondAttribute="bottom" id="Klx-wr-LTR"/>
+                                            <constraint firstItem="dIf-2X-O2S" firstAttribute="centerX" secondItem="L24-J2-caG" secondAttribute="centerX" id="N5b-Pb-iQM"/>
                                             <constraint firstAttribute="bottom" secondItem="L24-J2-caG" secondAttribute="bottom" id="XjW-Hu-ehE"/>
+                                            <constraint firstItem="dIf-2X-O2S" firstAttribute="top" secondItem="eUX-77-iU3" secondAttribute="top" constant="40" id="YTk-AZ-fXt"/>
+                                            <constraint firstItem="dIf-2X-O2S" firstAttribute="leading" secondItem="eUX-77-iU3" secondAttribute="leading" constant="10" id="tCD-Lx-GHm"/>
                                             <constraint firstAttribute="trailing" secondItem="mok-ma-Hp5" secondAttribute="trailing" id="tUO-zb-V4x"/>
-                                            <constraint firstItem="L24-J2-caG" firstAttribute="centerX" secondItem="dIf-2X-O2S" secondAttribute="centerX" id="vqp-v0-ja7"/>
                                             <constraint firstItem="mok-ma-Hp5" firstAttribute="top" secondItem="eUX-77-iU3" secondAttribute="top" id="vvp-Mn-f8K"/>
                                             <constraint firstItem="mok-ma-Hp5" firstAttribute="bottom" secondItem="L24-J2-caG" secondAttribute="bottom" id="xCN-Ox-wcu"/>
                                         </constraints>

@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #define kTwitterLoginNotificationKey @"login_complete"
+#define kTwitterCallbackURL  @"dishedapp://twitterCallback"
 
 
 typedef void ( ^DATwitterSuccessBlock )( BOOL );
