@@ -42,13 +42,14 @@
 {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-    if (indexPath.row == 0) {
-        
+    if (indexPath.row == 0)
+    {
         cell.textLabel.text = @"Editor's Picks";
 
-    } else {
+    }
+    else
+    {
         cell.textLabel.text = @"Popular Now";
-
     }
 
     return cell;
@@ -57,16 +58,20 @@
 
 
 
-- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section {
+- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
+{
     return 12;
 }
 
-- (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView {
+- (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView
+{
     return 1;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
     DAExploreCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    
     cell.backgroundColor = [UIColor whiteColor];
 
     cell.image.image = [UIImage imageNamed:@"food.jpg"];
@@ -75,7 +80,8 @@
 }
 
 
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
 
     return CGSizeMake((self.view.frame.size.width / 3)-4, (self.view.frame.size.width / 4)-4);
 }
