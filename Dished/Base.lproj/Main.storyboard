@@ -861,9 +861,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                        <searchBar key="tableHeaderView" appearanceType="aqua" contentMode="redraw" id="Yki-tV-1i7">
+                        <searchBar key="tableHeaderView" appearanceType="aqua" contentMode="redraw" placeholder="Enter address, city name, or zip" translucent="NO" id="Yki-tV-1i7">
                             <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="barTintColor" white="0.94851762820512819" alpha="1" colorSpace="calibratedWhite"/>
                             <textInputTraits key="textInputTraits"/>
                             <connections>
                                 <outlet property="delegate" destination="ZQV-Y0-lXh" id="Z22-FU-TEc"/>

@@ -52,6 +52,7 @@
     {
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     }
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
 
     if (indexPath.row == 0)
     {

@@ -73,8 +73,7 @@
     {
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
     }
-    
-    
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
     // Configure the cell...
     cell.imageView.image = [UIImage imageNamed:@"3b-change-location_location-icon.png"];
     cell.textLabel.text = @"Current Location";
