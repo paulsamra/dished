@@ -9,9 +9,11 @@
 #import "DAExploreViewController.h"
 #import "DAAPIManager.h"
 #import "DANegativeHashtagsViewController.h"
-
+#import "DAExploreCell.h"
 
 @interface DAExploreViewController()
+@property (weak, nonatomic) IBOutlet UICollectionView *exploreCollectionView;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @end
 
@@ -21,6 +23,105 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
 }
 
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        return 110;
+    }
+    else if (tableView == self.tableView)
+    {
+        return  2;
+    }
+    return 2;
+}
+
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    UITableViewCell *cell;
+    
+    
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"cellSearch"];
+    }
+    else
+    {
+        
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+        if (indexPath.row == 0)
+        {
+            cell.textLabel.text = @"Editor's Picks";
+            
+        }
+        else
+        {
+            cell.textLabel.text = @"Popular Now";
+        }
+    }
+    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+
+
+
+    return cell;
+}
+
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        return 110;
+    }
+    else if (tableView == self.tableView)
+    {
+        return  44;
+    }
+    return 44;
+}
+
+
+- (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
+{
+    return 12;
+}
+
+- (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView
+{
+    return 1;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    DAExploreCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    
+    cell.backgroundColor = [UIColor whiteColor];
+
+    cell.image.image = [UIImage imageNamed:@"food.jpg"];
+
+    return cell;
+}
+
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+
+    return CGSizeMake((self.view.frame.size.width / 3)-4, (self.view.frame.size.width / 4)-4);
+}
+
+
+//- (UIEdgeInsets)collectionView:
+//(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+//    return UIEdgeInsetsMake(20, 20, 50, 20);
+//}
 @end

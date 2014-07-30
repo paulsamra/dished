@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DAExploreViewController : UIViewController
+@interface DAExploreViewController : UIViewController<UITableViewDataSource, UITableViewDelegate,
+                                                      UICollectionViewDataSource, UICollectionViewDelegate,
+                                                      UICollectionViewDelegateFlowLayout>
 
 @end
