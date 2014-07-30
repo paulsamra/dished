@@ -218,6 +218,7 @@
 		94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FF526A197347F200B97A61 /* DARegisterViewController.m */; };
 		D13605B91986F5B60085DC7D /* food.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D13605B81986F5B60085DC7D /* food.jpg */; };
 		D13605BC1986F7810085DC7D /* DAExploreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D13605BB1986F7810085DC7D /* DAExploreCell.m */; };
+		D13DB8F51988B221008C86BB /* DAExploreSearchCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D13DB8F41988B221008C86BB /* DAExploreSearchCellTableViewCell.m */; };
 		D17487C2196DE8A200D83993 /* SZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C1196DE8A200D83993 /* SZTextView.m */; };
 		D17487C9196DE8BC00D83993 /* DAFormTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C4196DE8BC00D83993 /* DAFormTableViewController.m */; };
 		D17487CB196DE8BC00D83993 /* DALocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C8196DE8BC00D83993 /* DALocationTableViewController.m */; };
@@ -566,6 +567,8 @@
 		D13605B81986F5B60085DC7D /* food.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = food.jpg; sourceTree = "<group>"; };
 		D13605BA1986F7810085DC7D /* DAExploreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DAExploreCell.h; path = ../DAExploreCell.h; sourceTree = "<group>"; };
 		D13605BB1986F7810085DC7D /* DAExploreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DAExploreCell.m; path = ../DAExploreCell.m; sourceTree = "<group>"; };
+		D13DB8F31988B221008C86BB /* DAExploreSearchCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreSearchCellTableViewCell.h; sourceTree = "<group>"; };
+		D13DB8F41988B221008C86BB /* DAExploreSearchCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreSearchCellTableViewCell.m; sourceTree = "<group>"; };
 		D17487C0196DE8A200D83993 /* SZTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTextView.h; sourceTree = "<group>"; };
 		D17487C1196DE8A200D83993 /* SZTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTextView.m; sourceTree = "<group>"; };
 		D17487C3196DE8BC00D83993 /* DAFormTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFormTableViewController.h; sourceTree = "<group>"; };
@@ -1237,6 +1240,8 @@
 				D13605BB1986F7810085DC7D /* DAExploreCell.m */,
 				9446899E195FFA6500FAE288 /* DAExploreViewController.h */,
 				9446899F195FFA6500FAE288 /* DAExploreViewController.m */,
+				D13DB8F31988B221008C86BB /* DAExploreSearchCellTableViewCell.h */,
+				D13DB8F41988B221008C86BB /* DAExploreSearchCellTableViewCell.m */,
 				D1F17702198844BE006BC6BA /* DACurrentLocationTableViewController.h */,
 				D1F17703198844BE006BC6BA /* DACurrentLocationTableViewController.m */,
 			);
@@ -1600,6 +1605,7 @@
 				94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */,
 				94A027A7196F264A004D5CD7 /* DARatingCustomTableViewCell.m in Sources */,
 				94DCE9B81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				D13DB8F51988B221008C86BB /* DAExploreSearchCellTableViewCell.m in Sources */,
 				94DCE9BD1980ABB100396C0A /* UIRefreshControl+AFNetworking.m in Sources */,
 				94E5EF721943F5530021A711 /* MRCircularProgressView.m in Sources */,
 				948B7F651941B8AF005494AA /* DADatePickerCell.m in Sources */,

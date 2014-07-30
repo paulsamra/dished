@@ -34,7 +34,15 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-	return 2;
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        return 110;
+    }
+    else if (tableView == self.tableView)
+    {
+        return  2;
+    }
+    return 2;
 }
 
 
@@ -46,28 +54,41 @@
     
     if (tableView == self.searchDisplayController.searchResultsTableView)
     {
-        cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell"];
+        cell = [self.tableView dequeueReusableCellWithIdentifier:@"cellSearch"];
     }
     else
     {
+        
         cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+        if (indexPath.row == 0)
+        {
+            cell.textLabel.text = @"Editor's Picks";
+            
+        }
+        else
+        {
+            cell.textLabel.text = @"Popular Now";
+        }
     }
     cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
 
-    if (indexPath.row == 0)
-    {
-        cell.textLabel.text = @"Editor's Picks";
 
-    }
-    else
-    {
-        cell.textLabel.text = @"Popular Now";
-    }
 
     return cell;
 }
 
-
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        return 110;
+    }
+    else if (tableView == self.tableView)
+    {
+        return  44;
+    }
+    return 44;
+}
 
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
