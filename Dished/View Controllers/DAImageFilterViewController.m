@@ -8,7 +8,7 @@
 
 #import "DAImageFilterViewController.h"
 #import "DAImagePickerController.h"
-#import "DAFormTableViewController.h"
+#import "DAReviewFormViewController.h"
 #import "DANewReview.h"
 
 
@@ -190,7 +190,7 @@
 {
     if( [[segue identifier] isEqualToString:@"form"] )
     {
-        DAFormTableViewController *dest = [segue destinationViewController];
+        DAReviewFormViewController *dest = [segue destinationViewController];
         dest.reviewImage = self.pictureImageView.image;
         
         dest.foodReview     = self.foodReview;

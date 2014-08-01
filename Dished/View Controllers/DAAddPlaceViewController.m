@@ -7,7 +7,7 @@
 //
 
 #import "DAAddPlaceViewController.h"
-#import "DAFormTableViewController.h"
+#import "DAReviewFormViewController.h"
 #import "DALocationManager.h"
 
 @interface DAAddPlaceViewController() <UITextFieldDelegate>
@@ -67,7 +67,7 @@
     
     for( UIViewController *parentController in navigationStack )
     {
-        if( [parentController isKindOfClass:[DAFormTableViewController class]] )
+        if( [parentController isKindOfClass:[DAReviewFormViewController class]] )
         {
             self.review.locationName = self.nameTextField.text;
             [self.navigationController popToViewController:parentController animated:YES];

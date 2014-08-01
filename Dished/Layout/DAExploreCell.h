@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface DAExploreCell : UICollectionViewCell
+
 @property (weak, nonatomic) IBOutlet UIImageView *image;
 @property (weak, nonatomic) IBOutlet UILabel *hashLabel;
 

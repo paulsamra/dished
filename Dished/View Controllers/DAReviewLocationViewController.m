@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DALocationTableViewController.h"
-#import "DAFormTableViewController.h"
+#import "DAReviewLocationViewController.h"
+#import "DAReviewFormViewController.h"
 #import "DAAddPlaceViewController.h"
 #import "DAAPIManager.h"
 #import "DALocationManager.h"
@@ -19,7 +19,7 @@ static NSString *kLocationGoogleIDKey = @"google_id";
 static NSString *kLocationTypeKey     = @"type";
 
 
-@interface DALocationTableViewController() <UISearchBarDelegate>
+@interface DAReviewLocationViewController() <UISearchBarDelegate>
 
 @property (strong, nonatomic) NSString          *currentTaskID;
 @property (strong, nonatomic) NSMutableArray    *locationData;
@@ -28,7 +28,7 @@ static NSString *kLocationTypeKey     = @"type";
 @end
 
 
-@implementation DALocationTableViewController
+@implementation DAReviewLocationViewController
 
 - (void)viewDidLoad
 {

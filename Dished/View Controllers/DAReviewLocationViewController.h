@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "DANewReview.h"
 
-@interface DALocationTableViewController : UITableViewController
+
+@interface DAReviewLocationViewController : UITableViewController
 
 @property (weak, nonatomic) DANewReview *review;
 

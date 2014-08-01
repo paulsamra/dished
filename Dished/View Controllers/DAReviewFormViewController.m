@@ -6,13 +6,13 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DAFormTableViewController.h"
+#import "DAReviewFormViewController.h"
 #import "DAPositiveHashtagsViewController.h"
 #import "DANewReview.h"
 #import <AddressBook/AddressBook.h>
 #import "DALocationManager.h"
-#import "DALocationTableViewController.h"
-#import "DARatingTableViewController.h"
+#import "DAReviewLocationViewController.h"
+#import "DARatingViewController.h"
 #import "MRProgress.h"
 #import "DAAPIManager.h"
 #import "DAAppDelegate.h"
@@ -24,7 +24,7 @@
 static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j0su.apps.googleusercontent.com";
 
 
-@interface DAFormTableViewController() <UIAlertViewDelegate>
+@interface DAReviewFormViewController() <UIAlertViewDelegate>
 
 @property (strong, nonatomic) DANewReview     *selectedReview;
 @property (strong, nonatomic) UIAlertView     *facebookLoginAlert;
@@ -46,7 +46,7 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
 @end
 
 
-@implementation DAFormTableViewController
+@implementation DAReviewFormViewController
 
 - (void)viewDidLoad
 {    
@@ -732,13 +732,13 @@ static NSString * const kClientID = @"594273145073-q3gdlhm4jjgg6u491o7s70u9l738j
     
     if( [segue.identifier isEqualToString:@"rating"] )
     {
-        DARatingTableViewController *dest = segue.destinationViewController;
+        DARatingViewController *dest = segue.destinationViewController;
         dest.review = self.selectedReview;
     }
     
     if( [segue.identifier isEqualToString:@"imAt"] )
     {
-        DALocationTableViewController *dest = segue.destinationViewController;
+        DAReviewLocationViewController *dest = segue.destinationViewController;
         dest.review = self.selectedReview;
     }
 }

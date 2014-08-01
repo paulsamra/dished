@@ -9,7 +9,7 @@
 #import "DANegativeHashtagsViewController.h"
 #import "DAAPIManager.h"
 #import "DAHashtag.h"
-#import "DAFormTableViewController.h"
+#import "DAReviewFormViewController.h"
 
 
 @interface DANegativeHashtagsViewController()
@@ -193,7 +193,7 @@
     
     for( UIViewController *vc in self.navigationController.viewControllers )
     {
-        if( [vc isMemberOfClass:[DAFormTableViewController class]] )
+        if( [vc isMemberOfClass:[DAReviewFormViewController class]] )
         {
             [self.navigationController popToViewController:vc animated:YES];
         }

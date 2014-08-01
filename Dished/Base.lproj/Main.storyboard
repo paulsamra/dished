@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A298i" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="sNj-ty-PrG">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="sNj-ty-PrG">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -568,29 +568,29 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="Nml-dn-HGC">
-                                    <size key="itemSize" width="117" height="97"/>
+                                    <size key="itemSize" width="100" height="75"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="eUX-77-iU3" customClass="DAExploreCell">
-                                        <rect key="frame" x="0.0" y="0.0" width="117" height="97"/>
+                                        <rect key="frame" x="5" y="5" width="100" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="117" height="97"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="100" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="mok-ma-Hp5">
-                                                    <rect key="frame" x="0.0" y="0.0" width="117" height="97"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="100" height="75"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 </imageView>
-                                                <view appearanceType="aqua" alpha="0.39999999999999963" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="L24-J2-caG">
+                                                <view appearanceType="aqua" alpha="0.29999999999999966" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="L24-J2-caG">
                                                     <rect key="frame" x="0.0" y="0.0" width="117" height="97"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
-                                                <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="#Speghetti" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dIf-2X-O2S">
+                                                <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="#Speghetti" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dIf-2X-O2S">
                                                     <rect key="frame" x="10" y="40" width="97" height="57"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
@@ -659,7 +659,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell appearanceType="aqua" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellSearch" rowHeight="112" id="EKq-e0-Vwj" customClass="DAExploreSearchCellTableViewCell">
+                                    <tableViewCell appearanceType="aqua" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cellSearch" rowHeight="112" id="EKq-e0-Vwj" customClass="DAExploreSearchTableViewCell">
                                         <rect key="frame" x="0.0" y="110" width="320" height="112"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="EKq-e0-Vwj" id="TYm-LU-1dd">
@@ -667,56 +667,51 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A+" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X7C-bh-MND">
-                                                    <rect key="frame" x="133" y="82" width="87" height="21"/>
+                                                    <rect key="frame" x="140" y="84" width="87" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Skopje City Mall" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xpH-Uu-myq">
-                                                    <rect key="frame" x="156" y="59" width="98" height="21"/>
+                                                    <rect key="frame" x="163" y="54" width="98" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="13"/>
                                                     <color key="textColor" red="0.1541515053620176" green="0.32964647181681428" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="No-Bake Blueberry" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AgT-IQ-gsq">
-                                                    <rect key="frame" x="133" y="9" width="149" height="21"/>
+                                                <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" preferredMaxLayoutWidth="138" translatesAutoresizingMaskIntoConstraints="NO" id="AgT-IQ-gsq">
+                                                    <rect key="frame" x="140" y="9" width="138" height="31"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="13"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Truffle Tarlets" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N4u-mH-Wx8">
-                                                    <rect key="frame" x="133" y="24" width="149" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <string key="text">No-Bake Blueberry
+Truffle Tartlets</string>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Thin" family="Helvetica Neue" pointSize="13"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="food.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="JaE-RE-gkk">
-                                                    <rect key="frame" x="17" y="9" width="108" height="94"/>
+                                                    <rect key="frame" x="17" y="9" width="115" height="94"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="3c-search_place-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="USe-i8-sWM">
-                                                    <rect key="frame" x="133" y="58" width="15" height="22"/>
+                                                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="explore_search_place.png" translatesAutoresizingMaskIntoConstraints="NO" id="USe-i8-sWM">
+                                                    <rect key="frame" x="140" y="54" width="15" height="22"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="3d-search-results-comment.png" translatesAutoresizingMaskIntoConstraints="NO" id="KUN-cc-GpH">
-                                                    <rect key="frame" x="229" y="88" width="18" height="17"/>
+                                                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="explore_result_comment.png" translatesAutoresizingMaskIntoConstraints="NO" id="KUN-cc-GpH">
+                                                    <rect key="frame" x="232" y="86" width="18" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="3d-search-results-dishes_plate.png" translatesAutoresizingMaskIntoConstraints="NO" id="Jnu-LX-5yt">
-                                                    <rect key="frame" x="258" y="88" width="17" height="17"/>
+                                                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="explore_result_dishes_plate.png" translatesAutoresizingMaskIntoConstraints="NO" id="Jnu-LX-5yt">
+                                                    <rect key="frame" x="258" y="86" width="17" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
-                                                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="3d-search-results-dishes_influencer.png" translatesAutoresizingMaskIntoConstraints="NO" id="QB8-y0-2We">
-                                                    <rect key="frame" x="286" y="88" width="17" height="17"/>
+                                                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="explore_result_influencer.png" translatesAutoresizingMaskIntoConstraints="NO" id="QB8-y0-2We">
+                                                    <rect key="frame" x="283" y="86" width="17" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                 </imageView>
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
                                             <outlet property="dishName" destination="AgT-IQ-gsq" id="j9I-l2-aA1"/>
-                                            <outlet property="dishNameDetails" destination="N4u-mH-Wx8" id="BaW-37-OhD"/>
                                             <outlet property="grade" destination="X7C-bh-MND" id="pa2-58-S0B"/>
                                             <outlet property="locationName" destination="xpH-Uu-myq" id="CLf-OS-ubc"/>
                                             <outlet property="mainImageView" destination="JaE-RE-gkk" id="4te-8O-LEf"/>
@@ -742,7 +737,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Explore" id="bS8-sm-phL">
-                        <barButtonItem key="rightBarButtonItem" image="3b-change-location_location-icon.png" id="4om-QH-3FY">
+                        <barButtonItem key="rightBarButtonItem" image="explore_change_location.png" id="4om-QH-3FY">
                             <connections>
                                 <segue destination="gcr-dc-GVi" kind="modal" id="FP8-De-HC6"/>
                             </connections>
@@ -948,7 +943,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="3b-change-location_location-icon.png" id="Zd4-0t-n6u">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="explore_current_location.png" id="Zd4-0t-n6u">
                                             <rect key="frame" x="15" y="14" width="15" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -984,7 +979,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="1526" y="2501"/>
+            <point key="canvasLocation" x="1681" y="2490"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="VFV-5T-MgT">
@@ -999,7 +994,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cwL-Ys-CQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="992" y="2501"/>
+            <point key="canvasLocation" x="1121" y="2490"/>
         </scene>
         <!--Image Filter View Controller - Select Filter-->
         <scene sceneID="Eue-0U-051">
@@ -1169,10 +1164,10 @@
             </objects>
             <point key="canvasLocation" x="547" y="4892"/>
         </scene>
-        <!--Form Table View Controller-->
+        <!--Review Form View Controller-->
         <scene sceneID="Xlq-CR-vdm">
             <objects>
-                <tableViewController id="bLN-bd-eSr" customClass="DAFormTableViewController" sceneMemberID="viewController">
+                <tableViewController id="bLN-bd-eSr" customClass="DAReviewFormViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Hkp-aT-VsZ">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1764,10 +1759,10 @@
             </objects>
             <point key="canvasLocation" x="547" y="938"/>
         </scene>
-        <!--Location Table View Controller - Select Place-->
+        <!--Review Location View Controller - Select Place-->
         <scene sceneID="A5Y-Nb-tlN">
             <objects>
-                <tableViewController id="ZvA-N9-6Oj" customClass="DALocationTableViewController" sceneMemberID="viewController">
+                <tableViewController id="ZvA-N9-6Oj" customClass="DAReviewLocationViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Sb5-dm-Nwk">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -1965,10 +1960,10 @@
             </objects>
             <point key="canvasLocation" x="3283" y="3268"/>
         </scene>
-        <!--Rating Table View Controller - Add Rating-->
+        <!--Rating View Controller - Add Rating-->
         <scene sceneID="xYa-YA-ZUc">
             <objects>
-                <tableViewController id="UcG-uD-D96" customClass="DARatingTableViewController" sceneMemberID="viewController">
+                <tableViewController id="UcG-uD-D96" customClass="DARatingViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="S6e-fJ-lVm">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2089,11 +2084,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="3b-change-location_location-icon.png" width="15" height="15"/>
-        <image name="3c-search_place-icon.png" width="11" height="15"/>
-        <image name="3d-search-results-comment.png" width="19" height="17"/>
-        <image name="3d-search-results-dishes_influencer.png" width="21" height="20"/>
-        <image name="3d-search-results-dishes_plate.png" width="20" height="20"/>
         <image name="add_dish_add_place.png" width="13" height="13"/>
         <image name="add_dish_arrow.png" width="8" height="12"/>
         <image name="add_dish_drink.png" width="16" height="16"/>
@@ -2112,6 +2102,12 @@
         <image name="camera_take_photo.png" width="75" height="75"/>
         <image name="camera_utility_background.png" width="320" height="75"/>
         <image name="explore.png" width="26" height="25"/>
+        <image name="explore_change_location.png" width="14" height="14"/>
+        <image name="explore_current_location.png" width="15" height="15"/>
+        <image name="explore_result_comment.png" width="19" height="17"/>
+        <image name="explore_result_dishes_plate.png" width="20" height="20"/>
+        <image name="explore_result_influencer.png" width="21" height="20"/>
+        <image name="explore_search_place.png" width="11" height="15"/>
         <image name="feed.png" width="30" height="24"/>
         <image name="food.jpg" width="400" height="320"/>
         <image name="login_facebook_connect.png" width="320" height="53"/>

@@ -7,7 +7,7 @@
 //
 
 #import "DADishSuggestionsTableView.h"
-#import "DAFormTableViewController.h"
+#import "DAReviewFormViewController.h"
 #import "DAAPIManager.h"
 #import "DADishSuggestionTableViewCell.h"
 
