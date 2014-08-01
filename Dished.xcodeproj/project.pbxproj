@@ -93,7 +93,7 @@
 		943E62631987362100DF2135 /* JSONSyntaxHighlight.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E62551987362100DF2135 /* JSONSyntaxHighlight.m */; };
 		943E62641987362100DF2135 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E62571987362100DF2135 /* STHTTPRequest.m */; };
 		943E62671987705B00DF2135 /* DATwitterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E62661987705B00DF2135 /* DATwitterManager.m */; };
-		943E6274198984FE00DF2135 /* DAExploreCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E6273198984FE00DF2135 /* DAExploreCell.m */; };
+		943E6274198984FE00DF2135 /* DAExploreCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */; };
 		94449ED91946565C008B8881 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94449ED81946565C008B8881 /* FacebookSDK.framework */; };
 		94449EDF19481A54008B8881 /* DAFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */; };
 		94449EF11949A3B2008B8881 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 94449EE11949A3B2008B8881 /* Icon-40.png */; };
@@ -178,7 +178,7 @@
 		949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
 		94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */; };
 		94A027A4196F25B5004D5CD7 /* DARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A3196F25B5004D5CD7 /* DARatingViewController.m */; };
-		94A027A7196F264A004D5CD7 /* DARatingCustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A6196F264A004D5CD7 /* DARatingCustomTableViewCell.m */; };
+		94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */; };
 		94B58B40198AE483002547B1 /* explore_change_location.png in Resources */ = {isa = PBXBuildFile; fileRef = 94B58B2B198AE483002547B1 /* explore_change_location.png */; };
 		94B58B41198AE483002547B1 /* explore_change_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94B58B2C198AE483002547B1 /* explore_change_location@2x.png */; };
 		94B58B42198AE483002547B1 /* explore_current_location.png in Resources */ = {isa = PBXBuildFile; fileRef = 94B58B2E198AE483002547B1 /* explore_current_location.png */; };
@@ -242,7 +242,7 @@
 		D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C8196DE8BC00D83993 /* DAReviewLocationViewController.m */; };
 		D1B05D5619703D8700E16C53 /* UIColor+DADishColor.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */; };
 		D1C1F6EF1979A2F600A2D652 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C1F6EE1979A2F600A2D652 /* Social.framework */; };
-		D1F17704198844BE006BC6BA /* DACurrentLocationTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1F17703198844BE006BC6BA /* DACurrentLocationTableViewController.m */; };
+		D1F17704198844BE006BC6BA /* DACurrentLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1F17703198844BE006BC6BA /* DACurrentLocationViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -364,8 +364,8 @@
 		943E62571987362100DF2135 /* STHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = STHTTPRequest.m; sourceTree = "<group>"; };
 		943E62651987705B00DF2135 /* DATwitterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATwitterManager.h; sourceTree = "<group>"; };
 		943E62661987705B00DF2135 /* DATwitterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATwitterManager.m; sourceTree = "<group>"; };
-		943E6272198984FE00DF2135 /* DAExploreCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreCell.h; sourceTree = "<group>"; };
-		943E6273198984FE00DF2135 /* DAExploreCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreCell.m; sourceTree = "<group>"; };
+		943E6272198984FE00DF2135 /* DAExploreCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreCollectionViewCell.h; sourceTree = "<group>"; };
+		943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreCollectionViewCell.m; sourceTree = "<group>"; };
 		94449ED81946565C008B8881 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		94449EDD19481A54008B8881 /* DAFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFacebookLoginViewController.h; sourceTree = "<group>"; };
 		94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFacebookLoginViewController.m; sourceTree = "<group>"; };
@@ -461,8 +461,8 @@
 		94A027A0196F2571004D5CD7 /* DAAddPlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAAddPlaceViewController.h; sourceTree = "<group>"; };
 		94A027A2196F25B5004D5CD7 /* DARatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARatingViewController.h; sourceTree = "<group>"; };
 		94A027A3196F25B5004D5CD7 /* DARatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARatingViewController.m; sourceTree = "<group>"; };
-		94A027A5196F264A004D5CD7 /* DARatingCustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARatingCustomTableViewCell.h; sourceTree = "<group>"; };
-		94A027A6196F264A004D5CD7 /* DARatingCustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARatingCustomTableViewCell.m; sourceTree = "<group>"; };
+		94A027A5196F264A004D5CD7 /* DARatingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARatingTableViewCell.h; sourceTree = "<group>"; };
+		94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARatingTableViewCell.m; sourceTree = "<group>"; };
 		94B58B2B198AE483002547B1 /* explore_change_location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explore_change_location.png; sourceTree = "<group>"; };
 		94B58B2C198AE483002547B1 /* explore_change_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "explore_change_location@2x.png"; sourceTree = "<group>"; };
 		94B58B2E198AE483002547B1 /* explore_current_location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explore_current_location.png; sourceTree = "<group>"; };
@@ -571,8 +571,8 @@
 		D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+DADishColor.m"; path = "../View Controllers/UIColor+DADishColor.m"; sourceTree = "<group>"; };
 		D1B05D5719703F9900E16C53 /* Dished-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dished-Prefix.pch"; sourceTree = "<group>"; };
 		D1C1F6EE1979A2F600A2D652 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
-		D1F17702198844BE006BC6BA /* DACurrentLocationTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACurrentLocationTableViewController.h; sourceTree = "<group>"; };
-		D1F17703198844BE006BC6BA /* DACurrentLocationTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACurrentLocationTableViewController.m; sourceTree = "<group>"; };
+		D1F17702198844BE006BC6BA /* DACurrentLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACurrentLocationViewController.h; sourceTree = "<group>"; };
+		D1F17703198844BE006BC6BA /* DACurrentLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACurrentLocationViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -724,6 +724,10 @@
 				94A027A3196F25B5004D5CD7 /* DARatingViewController.m */,
 				94A027A0196F2571004D5CD7 /* DAAddPlaceViewController.h */,
 				94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */,
+				9446899E195FFA6500FAE288 /* DAExploreViewController.h */,
+				9446899F195FFA6500FAE288 /* DAExploreViewController.m */,
+				D1F17702198844BE006BC6BA /* DACurrentLocationViewController.h */,
+				D1F17703198844BE006BC6BA /* DACurrentLocationViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1225,15 +1229,17 @@
 				943093FB1942638200B1F61F /* DAErrorView.xib */,
 				94E5EF4F1943B9A30021A711 /* DAReplaceSegue.h */,
 				94E5EF501943B9A30021A711 /* DAReplaceSegue.m */,
-				94A027A5196F264A004D5CD7 /* DARatingCustomTableViewCell.h */,
-				94A027A6196F264A004D5CD7 /* DARatingCustomTableViewCell.m */,
+				94A027A5196F264A004D5CD7 /* DARatingTableViewCell.h */,
+				94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */,
 				947A13401975AC62000553EF /* DADishSuggestionsTableView.h */,
 				947A13411975AC62000553EF /* DADishSuggestionsTableView.m */,
 				947A13451975D06D000553EF /* DADishSuggestionTableViewCell.h */,
 				947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */,
 				947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */,
-				943E6272198984FE00DF2135 /* DAExploreCell.h */,
-				943E6273198984FE00DF2135 /* DAExploreCell.m */,
+				D13DB8F31988B221008C86BB /* DAExploreSearchTableViewCell.h */,
+				D13DB8F41988B221008C86BB /* DAExploreSearchTableViewCell.m */,
+				943E6272198984FE00DF2135 /* DAExploreCollectionViewCell.h */,
+				943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */,
 				D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */,
 				D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */,
 			);
@@ -1243,12 +1249,6 @@
 		D13605B71986F14A0085DC7D /* explore */ = {
 			isa = PBXGroup;
 			children = (
-				9446899E195FFA6500FAE288 /* DAExploreViewController.h */,
-				9446899F195FFA6500FAE288 /* DAExploreViewController.m */,
-				D13DB8F31988B221008C86BB /* DAExploreSearchTableViewCell.h */,
-				D13DB8F41988B221008C86BB /* DAExploreSearchTableViewCell.m */,
-				D1F17702198844BE006BC6BA /* DACurrentLocationTableViewController.h */,
-				D1F17703198844BE006BC6BA /* DACurrentLocationTableViewController.m */,
 			);
 			name = explore;
 			sourceTree = "<group>";
@@ -1498,7 +1498,7 @@
 				94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */,
 				94237E5E194A2CF6004DFAB6 /* DAForgotPasswordViewController.m in Sources */,
 				94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */,
-				94A027A7196F264A004D5CD7 /* DARatingCustomTableViewCell.m in Sources */,
+				94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */,
 				94DCE9B81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				D13DB8F51988B221008C86BB /* DAExploreSearchTableViewCell.m in Sources */,
 				94DCE9BD1980ABB100396C0A /* UIRefreshControl+AFNetworking.m in Sources */,
@@ -1546,7 +1546,7 @@
 				94DCE9BA1980ABB100396C0A /* UIButton+AFNetworking.m in Sources */,
 				D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */,
 				94E5EF751943F5530021A711 /* MRProgressOverlayView.m in Sources */,
-				D1F17704198844BE006BC6BA /* DACurrentLocationTableViewController.m in Sources */,
+				D1F17704198844BE006BC6BA /* DACurrentLocationViewController.m in Sources */,
 				94E5EF2D19432AE00021A711 /* UIViewController+TAPKeyboardPop.m in Sources */,
 				9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */,
 				941F3215196FCC04000042AE /* DANewReview.m in Sources */,
@@ -1567,7 +1567,7 @@
 				94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */,
 				94E5EF461943472D0021A711 /* AFSecurityPolicy.m in Sources */,
 				941538F819401A14008B3B79 /* DASplashViewController.m in Sources */,
-				943E6274198984FE00DF2135 /* DAExploreCell.m in Sources */,
+				943E6274198984FE00DF2135 /* DAExploreCollectionViewCell.m in Sources */,
 				941538C5193F270A008B3B79 /* main.m in Sources */,
 				94E5EF511943B9A30021A711 /* DAReplaceSegue.m in Sources */,
 				94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */,

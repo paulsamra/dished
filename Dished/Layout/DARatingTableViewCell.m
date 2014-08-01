@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DARatingCustomTableViewCell.h"
+#import "DARatingTableViewCell.h"
 
-@implementation DARatingCustomTableViewCell
+@implementation DARatingTableViewCell
 
 @end

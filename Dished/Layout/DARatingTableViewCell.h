@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DARatingCustomTableViewCell : UITableViewCell
+@interface DARatingTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel  *gradeLabel;
 @property (weak, nonatomic) IBOutlet UIButton *plusButton;

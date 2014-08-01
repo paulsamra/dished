@@ -6,15 +6,15 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DACurrentLocationTableViewController.h"
+#import "DACurrentLocationViewController.h"
 
 
-@interface DACurrentLocationTableViewController()
+@interface DACurrentLocationViewController()
 
 @end
 
 
-@implementation DACurrentLocationTableViewController
+@implementation DACurrentLocationViewController
 
 - (void)viewDidLoad
 {

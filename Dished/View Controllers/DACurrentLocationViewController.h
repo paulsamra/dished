@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DACurrentLocationTableViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
+@interface DACurrentLocationViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
 
 @end

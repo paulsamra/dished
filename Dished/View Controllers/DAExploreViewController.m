@@ -9,7 +9,7 @@
 #import "DAExploreViewController.h"
 #import "DAAPIManager.h"
 #import "DANegativeHashtagsViewController.h"
-#import "DAExploreCell.h"
+#import "DAExploreCollectionViewCell.h"
 
 
 @interface DAExploreViewController()
@@ -100,7 +100,7 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)cv cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAExploreCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
+    DAExploreCollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
     cell.backgroundColor = [UIColor whiteColor];
     cell.image.image = [UIImage imageNamed:@"food.jpg"];
