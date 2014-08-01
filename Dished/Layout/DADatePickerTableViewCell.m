@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Burlington Code Factory. All rights reserved.
 //
 
-#import "DADatePickerCell.h"
+#import "DADatePickerTableViewCell.h"
 
-@implementation DADatePickerCell
+@implementation DADatePickerTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

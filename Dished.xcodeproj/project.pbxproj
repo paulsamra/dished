@@ -174,7 +174,7 @@
 		947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13411975AC62000553EF /* DADishSuggestionsTableView.m */; };
 		947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */; };
 		947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */; };
-		948B7F651941B8AF005494AA /* DADatePickerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B7F641941B8AF005494AA /* DADatePickerCell.m */; };
+		948B7F651941B8AF005494AA /* DADatePickerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B7F641941B8AF005494AA /* DADatePickerTableViewCell.m */; };
 		949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
 		94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */; };
 		94A027A4196F25B5004D5CD7 /* DARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A3196F25B5004D5CD7 /* DARatingViewController.m */; };
@@ -453,8 +453,8 @@
 		947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DADishSuggestionTableViewCell.xib; sourceTree = "<group>"; };
 		947A13451975D06D000553EF /* DADishSuggestionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishSuggestionTableViewCell.h; sourceTree = "<group>"; };
 		947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishSuggestionTableViewCell.m; sourceTree = "<group>"; };
-		948B7F631941B8AF005494AA /* DADatePickerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADatePickerCell.h; sourceTree = "<group>"; };
-		948B7F641941B8AF005494AA /* DADatePickerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADatePickerCell.m; sourceTree = "<group>"; };
+		948B7F631941B8AF005494AA /* DADatePickerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADatePickerTableViewCell.h; sourceTree = "<group>"; };
+		948B7F641941B8AF005494AA /* DADatePickerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADatePickerTableViewCell.m; sourceTree = "<group>"; };
 		949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAImageFilterViewController.h; sourceTree = "<group>"; };
 		949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAImageFilterViewController.m; sourceTree = "<group>"; };
 		94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAAddPlaceViewController.m; sourceTree = "<group>"; };
@@ -693,41 +693,11 @@
 		941538F5194019C2008B3B79 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				D13605B71986F14A0085DC7D /* explore */,
-				941538F619401A14008B3B79 /* DASplashViewController.h */,
-				941538F719401A14008B3B79 /* DASplashViewController.m */,
-				9415F3C21941044000C3A7A1 /* DALoginViewController.h */,
-				9415F3C31941044000C3A7A1 /* DALoginViewController.m */,
-				94449EDD19481A54008B8881 /* DAFacebookLoginViewController.h */,
-				94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */,
-				94FF5269197347F200B97A61 /* DARegisterViewController.h */,
-				94FF526A197347F200B97A61 /* DARegisterViewController.m */,
-				94237E5C194A2CF6004DFAB6 /* DAForgotPasswordViewController.h */,
-				94237E5D194A2CF6004DFAB6 /* DAForgotPasswordViewController.m */,
-				94237E70194A318C004DFAB6 /* DAResetPasswordViewController.h */,
-				94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */,
 				944689A11960048500FAE288 /* DATabBarController.h */,
 				944689A21960048500FAE288 /* DATabBarController.m */,
-				944689A41960130E00FAE288 /* DAImagePickerController.h */,
-				944689A51960130E00FAE288 /* DAImagePickerController.m */,
-				949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */,
-				949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */,
-				D17487C3196DE8BC00D83993 /* DAReviewFormViewController.h */,
-				D17487C4196DE8BC00D83993 /* DAReviewFormViewController.m */,
-				9430FDEA196956BD00C7E997 /* DAPositiveHashtagsViewController.h */,
-				9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */,
-				9430FDF8196CABDD00C7E997 /* DANegativeHashtagsViewController.h */,
-				9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */,
-				D17487C7196DE8BC00D83993 /* DAReviewLocationViewController.h */,
-				D17487C8196DE8BC00D83993 /* DAReviewLocationViewController.m */,
-				94A027A2196F25B5004D5CD7 /* DARatingViewController.h */,
-				94A027A3196F25B5004D5CD7 /* DARatingViewController.m */,
-				94A027A0196F2571004D5CD7 /* DAAddPlaceViewController.h */,
-				94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */,
-				9446899E195FFA6500FAE288 /* DAExploreViewController.h */,
-				9446899F195FFA6500FAE288 /* DAExploreViewController.m */,
-				D1F17702198844BE006BC6BA /* DACurrentLocationViewController.h */,
-				D1F17703198844BE006BC6BA /* DACurrentLocationViewController.m */,
+				94F2AD69198B2D5E00450C6F /* Login & Register */,
+				94F2AD6A198B2D6400450C6F /* Add Review */,
+				94F2AD6B198B2D6E00450C6F /* Explore */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1217,13 +1187,66 @@
 			path = SSKeychain;
 			sourceTree = "<group>";
 		};
+		94F2AD69198B2D5E00450C6F /* Login & Register */ = {
+			isa = PBXGroup;
+			children = (
+				941538F619401A14008B3B79 /* DASplashViewController.h */,
+				941538F719401A14008B3B79 /* DASplashViewController.m */,
+				9415F3C21941044000C3A7A1 /* DALoginViewController.h */,
+				9415F3C31941044000C3A7A1 /* DALoginViewController.m */,
+				94449EDD19481A54008B8881 /* DAFacebookLoginViewController.h */,
+				94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */,
+				94FF5269197347F200B97A61 /* DARegisterViewController.h */,
+				94FF526A197347F200B97A61 /* DARegisterViewController.m */,
+				94237E5C194A2CF6004DFAB6 /* DAForgotPasswordViewController.h */,
+				94237E5D194A2CF6004DFAB6 /* DAForgotPasswordViewController.m */,
+				94237E70194A318C004DFAB6 /* DAResetPasswordViewController.h */,
+				94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */,
+			);
+			name = "Login & Register";
+			sourceTree = "<group>";
+		};
+		94F2AD6A198B2D6400450C6F /* Add Review */ = {
+			isa = PBXGroup;
+			children = (
+				944689A41960130E00FAE288 /* DAImagePickerController.h */,
+				944689A51960130E00FAE288 /* DAImagePickerController.m */,
+				949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */,
+				949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */,
+				D17487C3196DE8BC00D83993 /* DAReviewFormViewController.h */,
+				D17487C4196DE8BC00D83993 /* DAReviewFormViewController.m */,
+				9430FDEA196956BD00C7E997 /* DAPositiveHashtagsViewController.h */,
+				9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */,
+				9430FDF8196CABDD00C7E997 /* DANegativeHashtagsViewController.h */,
+				9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */,
+				D17487C7196DE8BC00D83993 /* DAReviewLocationViewController.h */,
+				D17487C8196DE8BC00D83993 /* DAReviewLocationViewController.m */,
+				94A027A2196F25B5004D5CD7 /* DARatingViewController.h */,
+				94A027A3196F25B5004D5CD7 /* DARatingViewController.m */,
+				94A027A0196F2571004D5CD7 /* DAAddPlaceViewController.h */,
+				94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */,
+			);
+			name = "Add Review";
+			sourceTree = "<group>";
+		};
+		94F2AD6B198B2D6E00450C6F /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				9446899E195FFA6500FAE288 /* DAExploreViewController.h */,
+				9446899F195FFA6500FAE288 /* DAExploreViewController.m */,
+				D1F17702198844BE006BC6BA /* DACurrentLocationViewController.h */,
+				D1F17703198844BE006BC6BA /* DACurrentLocationViewController.m */,
+			);
+			name = Explore;
+			sourceTree = "<group>";
+		};
 		94FE15E119411F3000FE00EA /* Layout */ = {
 			isa = PBXGroup;
 			children = (
 				94FE15E71941239100FE00EA /* DATouchUITableView.h */,
 				94FE15E81941239100FE00EA /* DATouchUITableView.m */,
-				948B7F631941B8AF005494AA /* DADatePickerCell.h */,
-				948B7F641941B8AF005494AA /* DADatePickerCell.m */,
+				948B7F631941B8AF005494AA /* DADatePickerTableViewCell.h */,
+				948B7F641941B8AF005494AA /* DADatePickerTableViewCell.m */,
 				943093F61942633D00B1F61F /* DAErrorView.h */,
 				943093F71942633D00B1F61F /* DAErrorView.m */,
 				943093FB1942638200B1F61F /* DAErrorView.xib */,
@@ -1244,13 +1267,6 @@
 				D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */,
 			);
 			path = Layout;
-			sourceTree = "<group>";
-		};
-		D13605B71986F14A0085DC7D /* explore */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = explore;
 			sourceTree = "<group>";
 		};
 		D17487D8196DE8EA00D83993 /* additionalImages */ = {
@@ -1503,7 +1519,7 @@
 				D13DB8F51988B221008C86BB /* DAExploreSearchTableViewCell.m in Sources */,
 				94DCE9BD1980ABB100396C0A /* UIRefreshControl+AFNetworking.m in Sources */,
 				94E5EF721943F5530021A711 /* MRCircularProgressView.m in Sources */,
-				948B7F651941B8AF005494AA /* DADatePickerCell.m in Sources */,
+				948B7F651941B8AF005494AA /* DADatePickerTableViewCell.m in Sources */,
 				941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */,
 				94E5EF711943F5530021A711 /* MRActivityIndicatorView.m in Sources */,
 				947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */,

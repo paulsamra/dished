@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DADatePickerCell : UITableViewCell
+
+@interface DADatePickerTableViewCell : UITableViewCell
 
 @property (strong, nonatomic) UIDatePicker *datePicker;
 

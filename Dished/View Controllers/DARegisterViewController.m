@@ -9,7 +9,7 @@
 #import "DARegisterViewController.h"
 #import "DAErrorView.h"
 #import "DAAPIManager.h"
-#import "DADatePickerCell.h"
+#import "DADatePickerTableViewCell.h"
 #import "MRProgress.h"
 #import "DAAppDelegate.h"
 
@@ -339,7 +339,7 @@
         
         if( self.pickerIndexPath && !self.dateOfBirth )
         {
-            DADatePickerCell *cell = (DADatePickerCell *)[tableView cellForRowAtIndexPath:self.pickerIndexPath];
+            DADatePickerTableViewCell *cell = (DADatePickerTableViewCell *)[tableView cellForRowAtIndexPath:self.pickerIndexPath];
             UIDatePicker *picker = cell.datePicker;
             self.dateOfBirth = picker.date;
             self.dateOfBirthCell.detailTextLabel.text = [self.birthDateFormatter stringFromDate:picker.date];
@@ -358,7 +358,7 @@
 {
     if( indexPath.section == 5 && indexPath.row == 1 )
     {
-        DADatePickerCell *cell = [[DADatePickerCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"datePickerCell"];
+        DADatePickerTableViewCell *cell = [[DADatePickerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"datePickerCell"];
         
         if( self.dateOfBirth )
         {
