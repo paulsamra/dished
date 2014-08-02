@@ -61,7 +61,6 @@
         if( indexPath.row == 0 )
         {
             cell.textLabel.text = @"Editor's Picks";
-            
         }
         else
         {
@@ -78,7 +77,7 @@
 {
     if( tableView == self.searchDisplayController.searchResultsTableView )
     {
-        return 110;
+        return 97;
     }
     else if( tableView == self.tableView )
     {

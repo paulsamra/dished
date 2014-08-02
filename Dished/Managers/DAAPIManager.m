@@ -574,6 +574,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     if( ![self accessToken] )
     {
         completion( NO, nil );
+        return;
     }
     
     NSString *hashtagString = @"";
@@ -657,6 +658,51 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     {
         NSLog(@"failure: %@", error );
         completion( NO, nil );
+    }];
+}
+
+- (void)getExploreTabContentWithCompletion:( void(^)( NSArray *hashtags, NSArray *imageURLs, NSError *error ) )completion
+{
+    if( ![self accessToken] )
+    {
+        completion( nil, nil, nil );
+        return;
+    }
+    
+    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken] };
+    
+    [self GET:@"hashtags/explore" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        if( [responseObject[@"status"] isEqualToString:@"success"] )
+        {
+            NSArray *content = responseObject[@"data"];
+            
+            NSMutableArray *hashtags  = [NSMutableArray array];
+            NSMutableArray *imageURLs = [NSMutableArray array];
+            
+            for( NSDictionary *data in content )
+            {
+                DAHashtag *hashtag = [[DAHashtag alloc] init];
+                hashtag.name = data[@"name"];
+                hashtag.hashtagID = data[@"id"];
+                [hashtags addObject:hashtag];
+                
+                NSString *imageURL = data[@"image_thumb"];
+                [imageURLs addObject:imageURL];
+            }
+            
+            completion( hashtags, imageURLs, nil );
+        }
+        else
+        {
+            completion( nil, nil, nil );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"Error getting Explore content: %@", error.localizedDescription);
+        completion( nil, nil, error );
     }];
 }
 

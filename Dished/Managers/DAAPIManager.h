@@ -82,4 +82,11 @@
  */
 - (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success, NSString *imageURL ) )completion;
 
+/*
+ * Get content for main screen on explore tab incl.
+ * hashtags and images. Completion handler return
+ * array of DAHashtag objects and array of image URLs.
+ */
+- (void)getExploreTabContentWithCompletion:( void(^)( NSArray *hashtags, NSArray *imageURLs, NSError *error ) )completion;
+
 @end

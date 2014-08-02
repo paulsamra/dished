@@ -6,6 +6,9 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
+#define IS_IPHONE5 (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
+
+
 extern NSString *const kFood;
 extern NSString *const kWine;
 extern NSString *const kCocktail;

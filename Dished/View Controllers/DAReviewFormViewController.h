@@ -10,11 +10,11 @@
 #import <UIKit/UIKit.h>
 #import "SZTextView.h"
 #import "DADishSuggestionsTableView.h"
-#import <GooglePlus/GooglePlus.h>
+
 
 @class DANewReview;
 
-@interface DAReviewFormViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate, GPPSignInDelegate>
+@interface DAReviewFormViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate>
 
 @property (strong, nonatomic) DANewReview                *foodReview;
 @property (strong, nonatomic) DANewReview                *cocktailReview;

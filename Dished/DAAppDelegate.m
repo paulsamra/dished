@@ -8,7 +8,6 @@
 
 #import "DAAppDelegate.h"
 #import "AFNetworkActivityIndicatorManager.h"
-#import <GooglePlus/GooglePlus.h>
 #import "SSKeychain.h"
 #import "DATwitterManager.h"
 
@@ -109,10 +108,6 @@
         
         return wasHandled;
     }
-    else
-    {
-        return [GPPURLHandler handleURL:url sourceApplication:sourceApplication annotation:annotation];
-    }
     
     return YES;
 }
@@ -130,15 +125,12 @@
     if (!error && state == FBSessionStateOpen)
     {
         NSLog(@"Session opened");
-        // Show the user the logged-in UI
-        //[self showMessage:@"You are now logged into Facebook." withTitle:@"Login Successful"];
         return;
     }
     
     if( state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed )
     {
         NSLog(@"Session closed");
-        // Show the user the logged-out UI
     }
     
     // Handle errors
@@ -187,9 +179,7 @@
         }
         
         // Clear this token
-        [FBSession.activeSession closeAndClearTokenInformation];
-        
-        // Show the user the logged-out UI
+        [FBSession.activeSession closeAndClearTokenInformation];        
     }
 }
 
