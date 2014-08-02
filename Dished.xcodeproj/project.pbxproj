@@ -231,7 +231,6 @@
 		94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF7D1943FD760021A711 /* SSKeychainQuery.m */; };
 		94EE527F19610B4A00634E19 /* camera_grid.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EE527D19610B4A00634E19 /* camera_grid.png */; };
 		94EE528019610B4A00634E19 /* camera_grid@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94EE527E19610B4A00634E19 /* camera_grid@2x.png */; };
-		94F2AD6E198B6CC600450C6F /* DAExploreVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD6D198B6CC600450C6F /* DAExploreVC.m */; };
 		94F2AD74198B7BE400450C6F /* cell_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 94F2AD72198B7BE400450C6F /* cell_background.png */; };
 		94F2AD75198B7BE400450C6F /* cell_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94F2AD73198B7BE400450C6F /* cell_background@2x.png */; };
 		94F2AD77198C454600450C6F /* DAExploreSearchTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F2AD76198C454600450C6F /* DAExploreSearchTableViewCell.xib */; };
@@ -570,8 +569,6 @@
 		94E5EF7D1943FD760021A711 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
 		94EE527D19610B4A00634E19 /* camera_grid.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_grid.png; sourceTree = "<group>"; };
 		94EE527E19610B4A00634E19 /* camera_grid@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "camera_grid@2x.png"; sourceTree = "<group>"; };
-		94F2AD6C198B6CC600450C6F /* DAExploreVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreVC.h; sourceTree = "<group>"; };
-		94F2AD6D198B6CC600450C6F /* DAExploreVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreVC.m; sourceTree = "<group>"; };
 		94F2AD72198B7BE400450C6F /* cell_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = cell_background.png; sourceTree = "<group>"; };
 		94F2AD73198B7BE400450C6F /* cell_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cell_background@2x.png"; sourceTree = "<group>"; };
 		94F2AD76198C454600450C6F /* DAExploreSearchTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAExploreSearchTableViewCell.xib; sourceTree = "<group>"; };
@@ -1289,8 +1286,6 @@
 				9446899F195FFA6500FAE288 /* DAExploreViewController.m */,
 				D1F17702198844BE006BC6BA /* DACurrentLocationViewController.h */,
 				D1F17703198844BE006BC6BA /* DACurrentLocationViewController.m */,
-				94F2AD6C198B6CC600450C6F /* DAExploreVC.h */,
-				94F2AD6D198B6CC600450C6F /* DAExploreVC.m */,
 			);
 			name = Explore;
 			sourceTree = "<group>";
@@ -1672,7 +1667,6 @@
 				D1F17704198844BE006BC6BA /* DACurrentLocationViewController.m in Sources */,
 				94E5EF2D19432AE00021A711 /* UIViewController+TAPKeyboardPop.m in Sources */,
 				9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */,
-				94F2AD6E198B6CC600450C6F /* DAExploreVC.m in Sources */,
 				941F3215196FCC04000042AE /* DANewReview.m in Sources */,
 				94F2AD9A198C539200450C6F /* MKAnnotationView+WebCache.m in Sources */,
 				94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */,

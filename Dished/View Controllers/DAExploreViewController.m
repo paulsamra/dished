@@ -7,15 +7,18 @@
 //
 
 #import "DAExploreViewController.h"
-#import "DAAPIManager.h"
-#import "DANegativeHashtagsViewController.h"
 #import "DAExploreCollectionViewCell.h"
+#import "DAAPIManager.h"
+#import "UIImageView+WebCache.h"
+
+static NSString *searchCellID = @"searchCell";
 
 
 @interface DAExploreViewController()
 
-@property (weak, nonatomic) IBOutlet UICollectionView *exploreCollectionView;
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSArray *rowTitles;
+@property (strong, nonatomic) NSArray *imageURLs;
+@property (strong, nonatomic) NSArray *hashtags;
 
 @end
 
@@ -25,6 +28,23 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
+    
+    UINib *searchCellNib = [UINib nibWithNibName:@"DAExploreSearchTableViewCell" bundle:nil];
+    [self.searchDisplayController.searchResultsTableView registerNib:searchCellNib forCellReuseIdentifier:searchCellID];
+    
+    [[DAAPIManager sharedManager] getExploreTabContentWithCompletion:
+    ^( NSArray *hashtags, NSArray *imageURLs, NSError *error )
+    {
+        if( !error )
+        {
+            self.imageURLs = imageURLs;
+            self.hashtags = hashtags;
+             
+            [self.collectionView reloadData];
+        }
+    }];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -36,11 +56,7 @@
 {
     if( tableView == self.searchDisplayController.searchResultsTableView )
     {
-        return 110;
-    }
-    else if( tableView == self.tableView )
-    {
-        return  2;
+        return 100;
     }
     
     return 2;
@@ -48,28 +64,18 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
+    UITableViewCell *cell = nil;
     
     if( tableView == self.searchDisplayController.searchResultsTableView )
     {
-        cell = [self.tableView dequeueReusableCellWithIdentifier:@"cellSearch"];
+        cell = [tableView dequeueReusableCellWithIdentifier:searchCellID];
     }
     else
     {
-        cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
-        
-        if( indexPath.row == 0 )
-        {
-            cell.textLabel.text = @"Editor's Picks";
-        }
-        else
-        {
-            cell.textLabel.text = @"Popular Now";
-        }
+        cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+        cell.textLabel.text = self.rowTitles[indexPath.row];
     }
     
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
-
     return cell;
 }
 
@@ -79,12 +85,8 @@
     {
         return 97;
     }
-    else if( tableView == self.tableView )
-    {
-        return  44;
-    }
     
-    return 44;
+    return tableView.rowHeight;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
@@ -101,10 +103,23 @@
 {
     DAExploreCollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
-    cell.backgroundColor = [UIColor whiteColor];
-    cell.image.image = [UIImage imageNamed:@"food.jpg"];
-
+    NSURL *url = [NSURL URLWithString:self.imageURLs[indexPath.row]];
+    [cell.imageView sd_setImageWithURL:url];
+    
+    DAHashtag *hashtag = [self.hashtags objectAtIndex:indexPath.row];
+    cell.hashtagLabel.text = [NSString stringWithFormat:@"#%@", hashtag.name];
+    
     return cell;
+}
+
+- (NSArray *)rowTitles
+{
+    if( !_rowTitles )
+    {
+        _rowTitles = @[ @"Editor's Picks", @"Popular Now" ];
+    }
+    
+    return _rowTitles;
 }
 
 @end
