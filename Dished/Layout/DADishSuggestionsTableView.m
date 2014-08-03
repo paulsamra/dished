@@ -94,6 +94,7 @@ static NSString *kLocationIDKey   = @"loc_id";
 
 - (void)resetTable
 {
+    [self.searchTask cancel];
     self.dishSearchResults = [NSMutableArray array];
     [self reloadData];
 }
