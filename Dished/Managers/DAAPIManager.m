@@ -89,7 +89,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }
     
     NSDate *lastRefreshDate = [[NSUserDefaults standardUserDefaults] objectForKey:kLastRefreshKey];
-    
+
     if( [[NSDate date] timeIntervalSinceDate:lastRefreshDate] > 3600 )
     {
         dispatch_async( self.queue, ^
@@ -103,11 +103,12 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
                 success:^( NSURLSessionDataTask *task, id responseObject )
                 {
                     NSDictionary *auth = (NSDictionary *)responseObject;
-                    
+
                     [SSKeychain setPassword:auth[kAccessTokenKey]  forService:kKeychainService account:kAccessTokenKey];
                     [SSKeychain setPassword:auth[kRefreshTokenKey] forService:kKeychainService account:kRefreshTokenKey];
                     
                     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kLastRefreshKey];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
                     
                     dispatch_semaphore_signal( self.sem );
                 }
@@ -222,6 +223,9 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
                     [SSKeychain setPassword:auth[kAccessTokenKey] forService:kKeychainService account:kAccessTokenKey];
                     [SSKeychain setPassword:auth[kRefreshTokenKey] forService:kKeychainService account:kRefreshTokenKey];
                     
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kLastRefreshKey];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    
                     completion( YES, YES );
                 }
                 else
@@ -315,6 +319,9 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
                     
                     [SSKeychain setPassword:auth[kAccessTokenKey]  forService:kKeychainService account:kAccessTokenKey];
                     [SSKeychain setPassword:auth[kRefreshTokenKey] forService:kKeychainService account:kRefreshTokenKey];
+                    
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kLastRefreshKey];
+                    [[NSUserDefaults standardUserDefaults] synchronize];
                      
                     completion( YES, badUser, badPass );
                 }
@@ -687,6 +694,16 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     {
         return NO;
     }
+}
+
+- (NSString *)refreshToken
+{
+    if( !_refreshToken )
+    {
+        _refreshToken = [SSKeychain passwordForService:kKeychainService account:kRefreshTokenKey];
+    }
+    
+    return _refreshToken;
 }
 
 - (NSString *)accessToken
