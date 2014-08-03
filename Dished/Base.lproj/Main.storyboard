@@ -1216,12 +1216,12 @@
                                                         <action selector="goToHashtags" destination="bLN-bd-eSr" eventType="touchUpInside" id="CoW-5k-5dF"/>
                                                     </connections>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_dish_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="CbB-LQ-9qZ">
-                                                    <rect key="frame" x="292" y="16" width="8" height="12"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_dish_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="CbB-LQ-9qZ">
+                                                    <rect key="frame" x="292" y="12" width="20" height="20"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="width" constant="8" id="Xcy-ww-a8l"/>
-                                                        <constraint firstAttribute="height" constant="12" id="jBR-zr-Ugh"/>
+                                                        <constraint firstAttribute="width" constant="20" id="Xcy-ww-a8l"/>
+                                                        <constraint firstAttribute="height" constant="20" id="jBR-zr-Ugh"/>
                                                     </constraints>
                                                 </imageView>
                                             </subviews>
@@ -1234,7 +1234,7 @@
                                                 <constraint firstItem="vl6-g3-7xj" firstAttribute="top" secondItem="ASu-cy-XYO" secondAttribute="top" id="BC8-Qq-Cch"/>
                                                 <constraint firstItem="hR5-1G-wJH" firstAttribute="centerY" secondItem="CbB-LQ-9qZ" secondAttribute="centerY" id="JWv-Ae-Lth"/>
                                                 <constraint firstAttribute="centerX" secondItem="hR5-1G-wJH" secondAttribute="centerX" constant="-98" id="KzH-hO-lt4"/>
-                                                <constraint firstItem="hR5-1G-wJH" firstAttribute="trailing" secondItem="CbB-LQ-9qZ" secondAttribute="trailing" constant="20" id="NjU-v1-7T2"/>
+                                                <constraint firstItem="hR5-1G-wJH" firstAttribute="trailing" secondItem="CbB-LQ-9qZ" secondAttribute="trailing" constant="8" id="NjU-v1-7T2"/>
                                                 <constraint firstItem="qGF-j8-3Fb" firstAttribute="leading" secondItem="vl6-g3-7xj" secondAttribute="trailing" constant="8" id="XC0-8O-C7v"/>
                                                 <constraint firstAttribute="trailing" secondItem="hR5-1G-wJH" secondAttribute="trailing" id="Yz6-Ab-PpB"/>
                                                 <constraint firstItem="qGF-j8-3Fb" firstAttribute="top" secondItem="ASu-cy-XYO" secondAttribute="top" id="f2v-I5-7uv"/>

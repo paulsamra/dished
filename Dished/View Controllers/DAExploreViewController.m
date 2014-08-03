@@ -91,7 +91,7 @@ static NSString *searchCellID = @"searchCell";
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-    return 12;
+    return [self.hashtags count];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView

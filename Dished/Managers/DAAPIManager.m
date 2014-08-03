@@ -9,6 +9,7 @@
 #import "DAAPIManager.h"
 #import "JSONResponseSerializerWithData.h"
 #import "DALocationManager.h"
+#import "SSKeychain.h"
 
 #define kClientIDKey     @"client_id"
 #define kClientSecretKey @"client_secret"
@@ -65,21 +66,10 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     [self GET:@"users/availability/email" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-          
-        if( response.statusCode == 200 )
-        {
-            completion( YES, nil );
-        }
-        else
-        {
-            completion( NO, nil );
-        }
+        completion( YES, nil );
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"%@", error);
-        
         NSDictionary *errorResponse = error.userInfo[JSONResponseSerializerWithDataKey];
         
         if( [errorResponse[@"error"] isEqualToString:@"email_exists"] )
@@ -100,21 +90,10 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     [self GET:@"users/availability/phone" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-        
-        if( response.statusCode == 200 )
-        {
-            completion( YES, nil );
-        }
-        else
-        {
-            completion( NO, nil );
-        }
+        completion( YES, nil );
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"%@", error);
-        
         NSDictionary *errorResponse = error.userInfo[JSONResponseSerializerWithDataKey];
         
         if( [errorResponse[@"error"] isEqualToString:@"phone_exists"] )
@@ -160,7 +139,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"%@", error);
+        NSLog(@"%@", error.userInfo[JSONResponseSerializerWithDataKey]);
         
         dispatch_group_leave( group );
     }];
@@ -182,7 +161,6 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
                     NSDictionary *response = (NSDictionary *)responseObject;
                     
                     [[NSUserDefaults standardUserDefaults] setObject:response[kAccessTokenKey] forKey:kAccessTokenKey];
-                    
                     [[NSUserDefaults standardUserDefaults] setObject:response[kRefreshTokenKey] forKey:kRefreshTokenKey];
                     
                     completion( YES, YES );
@@ -331,7 +309,6 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"%@", error);
         completion( NO );
     }];
 }
@@ -416,49 +393,15 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 
 - (void)getPositiveHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion
 {
-    if( ![self accessToken] )
-    {
-        completion( nil, nil );
-        return;
-    }
-    
-    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"dish_type" : dishType, @"tag_type" : @"rev_p" };
-    
-    [self GET:@"hashtags" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        NSDictionary *response = (NSDictionary *)responseObject;
-        
-        if( [response[@"status"] isEqualToString:@"success"] )
-        {
-            NSArray *hashtags = response[@"data"];
-            
-            NSMutableArray *newHashtags = [NSMutableArray array];
-            
-            for( NSDictionary *hashtag in hashtags )
-            {
-                DAHashtag *newHashtag = [[DAHashtag alloc] init];
-                newHashtag.name = hashtag[@"name"];
-                newHashtag.hashtagID = hashtag[@"id"];
-                
-                [newHashtags addObject:newHashtag];
-            }
-            
-            completion( [newHashtags copy], nil );
-        }
-        else
-        {
-            completion( nil, nil );
-        }
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        NSLog(@"Error getting positive hashtags: %@", error.localizedDescription);
-        completion( nil, error );
-    }];
+    [self getHashtagsWithType:@"rev_p" forDishType:dishType completion:completion];
 }
 
-- (void)getNegativeHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion;
+- (void)getNegativeHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion
+{
+    [self getHashtagsWithType:@"rev_n" forDishType:dishType completion:completion];
+}
+
+- (void)getHashtagsWithType:(NSString *)type forDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion
 {
     if( ![self accessToken] )
     {
@@ -466,29 +409,29 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
         return;
     }
     
-    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"dish_type" : dishType, @"tag_type" : @"rev_n" };
+    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"dish_type" : dishType, @"tag_type" : type };
     
     [self GET:@"hashtags" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
         NSDictionary *response = (NSDictionary *)responseObject;
-        
+         
         if( [response[@"status"] isEqualToString:@"success"] )
         {
             NSArray *hashtags = response[@"data"];
-            
+             
             NSMutableArray *newHashtags = [NSMutableArray array];
-            
+             
             for( NSDictionary *hashtag in hashtags )
             {
                 DAHashtag *newHashtag = [[DAHashtag alloc] init];
                 newHashtag.name = hashtag[@"name"];
                 newHashtag.hashtagID = hashtag[@"id"];
-                
+                 
                 [newHashtags addObject:newHashtag];
             }
-            
-            completion( [newHashtags copy], nil );
+             
+            completion( newHashtags, nil );
         }
         else
         {
@@ -497,7 +440,6 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"Error getting negative hashtags: %@", error.localizedDescription);
         completion( nil, error );
     }];
 }
