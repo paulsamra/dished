@@ -18,6 +18,7 @@
 - (BOOL)isLoggedIn;
 - (NSString *)accessToken;
 - (NSString *)errorResponseKey;
+- (BOOL)authenticate;
 
 /*
  * Check if another user is already signed up with a given email address.

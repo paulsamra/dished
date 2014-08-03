@@ -15,13 +15,21 @@
 #define kClientSecretKey @"client_secret"
 #define kAccessTokenKey  @"access_token"
 #define kRefreshTokenKey @"refresh_token"
+#define kLastRefreshKey  @"last_refresh"
 
-static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
+static NSString *const kbaseAPIURL      = @"http://54.215.184.64/api/";
+static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 
 @interface DAAPIManager()
 
 @property (strong, nonatomic) NSString *clientID;
+@property (strong, nonatomic) NSString *clientSecret;
+@property (strong, nonatomic) NSString *accessToken;
+@property (strong, nonatomic) NSString *refreshToken;
+
+@property (nonatomic) dispatch_queue_t     queue;
+@property (nonatomic) dispatch_semaphore_t sem;
 
 @end
 
@@ -35,7 +43,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     static dispatch_once_t singleton;
     
     dispatch_once(&singleton, ^{
-        manager = [[DAAPIManager alloc] initWithBaseURL:[NSURL URLWithString:baseAPIURL]];
+        manager = [[DAAPIManager alloc] initWithBaseURL:[NSURL URLWithString:kbaseAPIURL]];
     });
     
     return manager;
@@ -49,6 +57,20 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     {
         self.responseSerializer = [JSONResponseSerializerWithData serializer];
         self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"application/json", nil];
+        
+        _sem = dispatch_semaphore_create( 0 );
+        _queue = dispatch_queue_create( "com.dishedapp.Dished.api", 0 );
+        
+        if( ![[NSUserDefaults standardUserDefaults] objectForKey:@"firstRun"] )
+        {
+            [SSKeychain deletePasswordForService:kKeychainService account:kClientSecretKey];
+            [SSKeychain deletePasswordForService:kKeychainService account:kAccessTokenKey];
+            [SSKeychain deletePasswordForService:kKeychainService account:kRefreshTokenKey];
+            
+            [self createClientID];
+            
+            [[NSUserDefaults standardUserDefaults] setObject:@"firstRun" forKey:@"firstRun"];
+        }
     }
     
     return self;
@@ -57,6 +79,51 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 - (NSString *)errorResponseKey
 {
     return JSONResponseSerializerWithDataKey;
+}
+
+- (BOOL)authenticate
+{
+    if( ![self isLoggedIn] || !self.refreshToken || !self.clientSecret )
+    {
+        return NO;
+    }
+    
+    NSDate *lastRefreshDate = [[NSUserDefaults standardUserDefaults] objectForKey:kLastRefreshKey];
+    
+    if( [[NSDate date] timeIntervalSinceDate:lastRefreshDate] > 3600 )
+    {
+        dispatch_async( self.queue, ^
+        {
+            dispatch_async( dispatch_get_main_queue(), ^
+            {
+                NSDictionary *parameters = @{ kClientIDKey : self.clientID, kClientSecretKey : self.clientSecret,
+                                              kRefreshTokenKey : self.refreshToken };
+                
+                [self POST:@"auth/refresh" parameters:parameters
+                success:^( NSURLSessionDataTask *task, id responseObject )
+                {
+                    NSDictionary *auth = (NSDictionary *)responseObject;
+                    
+                    [SSKeychain setPassword:auth[kAccessTokenKey]  forService:kKeychainService account:kAccessTokenKey];
+                    [SSKeychain setPassword:auth[kRefreshTokenKey] forService:kKeychainService account:kRefreshTokenKey];
+                    
+                    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kLastRefreshKey];
+                    
+                    dispatch_semaphore_signal( self.sem );
+                }
+                failure:^( NSURLSessionDataTask *task, NSError *error )
+                {
+                    NSLog(@"%@", error.localizedDescription);
+                    
+                    dispatch_semaphore_signal( self.sem );
+                }];
+            });
+            
+            dispatch_semaphore_wait( self.sem, DISPATCH_TIME_FOREVER );
+        });
+    }
+    
+    return YES;
 }
 
 - (void)checkAvailabilityOfEmail:(NSString *)email completion:(void(^)( BOOL available, NSError *error ))completion
@@ -124,16 +191,8 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     [self POST:@"users" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-        
-        if( response.statusCode == 200 )
-        {
-            NSDictionary *response = (NSDictionary *)responseObject;
-            
-            clientSecret = response[@"data"][kClientSecretKey];
-            
-            [[NSUserDefaults standardUserDefaults] setObject:clientSecret forKey:kClientSecretKey];
-        }
+        clientSecret = responseObject[@"data"][kClientSecretKey];
+        [SSKeychain setPassword:clientSecret forService:kKeychainService account:kClientSecretKey];
         
         dispatch_group_leave( group );
     }
@@ -158,10 +217,10 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
                 
                 if( response.statusCode == 200 )
                 {
-                    NSDictionary *response = (NSDictionary *)responseObject;
+                    NSDictionary *auth = (NSDictionary *)responseObject;
                     
-                    [[NSUserDefaults standardUserDefaults] setObject:response[kAccessTokenKey] forKey:kAccessTokenKey];
-                    [[NSUserDefaults standardUserDefaults] setObject:response[kRefreshTokenKey] forKey:kRefreshTokenKey];
+                    [SSKeychain setPassword:auth[kAccessTokenKey] forService:kKeychainService account:kAccessTokenKey];
+                    [SSKeychain setPassword:auth[kRefreshTokenKey] forService:kKeychainService account:kRefreshTokenKey];
                     
                     completion( YES, YES );
                 }
@@ -206,23 +265,18 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     [self POST:@"auth/add" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+        NSDictionary *response = (NSDictionary *)responseObject;
         
-        if( response.statusCode == 200 )
-        {
-            NSDictionary *response = (NSDictionary *)responseObject;
-            
-            clientSecret = response[@"data"][kClientSecretKey];
-            userName = response[@"data"][@"username"];
-            
-            [[NSUserDefaults standardUserDefaults] setObject:clientSecret forKey:kClientSecretKey];
-        }
+        clientSecret = response[@"data"][kClientSecretKey];
+        [SSKeychain setPassword:clientSecret forService:kKeychainService account:kClientSecretKey];
+        
+        userName = response[@"data"][@"username"];
         
         dispatch_group_leave( group );
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"%@", error);
+        NSLog(@"%@", error.localizedDescription);
         
         NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
         
@@ -257,11 +311,10 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
                  
                 if( response.statusCode == 200 )
                 {
-                    NSDictionary *response = (NSDictionary *)responseObject;
-                     
-                    [[NSUserDefaults standardUserDefaults] setObject:response[kAccessTokenKey] forKey:kAccessTokenKey];
-                    [[NSUserDefaults standardUserDefaults] setObject:response[kRefreshTokenKey] forKey:kRefreshTokenKey];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
+                    NSDictionary *auth = (NSDictionary *)responseObject;
+                    
+                    [SSKeychain setPassword:auth[kAccessTokenKey]  forService:kKeychainService account:kAccessTokenKey];
+                    [SSKeychain setPassword:auth[kRefreshTokenKey] forService:kKeychainService account:kRefreshTokenKey];
                      
                     completion( YES, badUser, badPass );
                 }
@@ -286,12 +339,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 
 - (void)requestPasswordResetCodeWithPhoneNumber:(NSString *)phoneNumber completion:(void(^)( BOOL success ))completion
 {
-    NSDictionary *parameters = @{ @"phone" : phoneNumber };
-    
-    if( [self hasClientID] )
-    {
-        parameters = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber };
-    }
+    NSDictionary *parameters = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber };
     
     [self POST:@"auth/password" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
@@ -321,12 +369,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     
     __block BOOL pinSuccess = YES;
     
-    NSDictionary *parameters = @{ @"phone" : phoneNumber, @"pin" : pin };
-    
-    if( [self hasClientID] )
-    {
-        parameters = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber, @"pin" : pin };
-    }
+    NSDictionary *parameters = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber, @"pin" : pin };
     
     [self POST:@"auth/password" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
@@ -354,12 +397,7 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     
     dispatch_group_notify( group, dispatch_get_main_queue(), ^
     {
-        NSDictionary *parameters2 = @{ @"phone" : phoneNumber, @"pin" : pin, @"password" : password };
-        
-        if( [self hasClientID] )
-        {
-            parameters2 = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber, @"pin" : pin, @"password" : password };
-        }
+        NSDictionary *parameters2 = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber, @"pin" : pin, @"password" : password };
         
         if( pinSuccess )
         {
@@ -403,56 +441,53 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 
 - (void)getHashtagsWithType:(NSString *)type forDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion
 {
-    if( ![self accessToken] )
+    dispatch_async( self.queue, ^
     {
-        completion( nil, nil );
-        return;
-    }
-    
-    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"dish_type" : dishType, @"tag_type" : type };
-    
-    [self GET:@"hashtags" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        NSDictionary *response = (NSDictionary *)responseObject;
-         
-        if( [response[@"status"] isEqualToString:@"success"] )
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"dish_type" : dishType, @"tag_type" : type };
+        
+        [self GET:@"hashtags" parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            NSArray *hashtags = response[@"data"];
+            NSDictionary *response = (NSDictionary *)responseObject;
              
-            NSMutableArray *newHashtags = [NSMutableArray array];
-             
-            for( NSDictionary *hashtag in hashtags )
+            if( [response[@"status"] isEqualToString:@"success"] )
             {
-                DAHashtag *newHashtag = [[DAHashtag alloc] init];
-                newHashtag.name = hashtag[@"name"];
-                newHashtag.hashtagID = hashtag[@"id"];
+                NSArray *hashtags = response[@"data"];
                  
-                [newHashtags addObject:newHashtag];
+                NSMutableArray *newHashtags = [NSMutableArray array];
+                 
+                for( NSDictionary *hashtag in hashtags )
+                {
+                    DAHashtag *newHashtag = [[DAHashtag alloc] init];
+                    newHashtag.name = hashtag[@"name"];
+                    newHashtag.hashtagID = hashtag[@"id"];
+                     
+                    [newHashtags addObject:newHashtag];
+                }
+                 
+                completion( newHashtags, nil );
             }
-             
-            completion( newHashtags, nil );
+            else
+            {
+                completion( nil, nil );
+            }
         }
-        else
+        failure:^( NSURLSessionDataTask *task, NSError *error )
         {
-            completion( nil, nil );
-        }
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        completion( nil, error );
-    }];
+            completion( nil, error );
+        }];
+    });
 }
 
 - (NSURLSessionTask *)dishTitleSuggestionTaskWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( id responseData, NSError *error ) )completion
 {
-    if( ![self accessToken] )
+    if( ![self isLoggedIn] )
     {
         completion( nil, nil );
         return nil;
     }
     
-    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"name" : query, @"type" : dishType };
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"name" : query, @"type" : dishType };
     
     return [self GET:@"dishes/search" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
@@ -480,13 +515,13 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 
 - (NSURLSessionTask *)locationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
 {
-    if( ![self accessToken] )
+    if( ![self isLoggedIn] )
     {
         completion( nil, nil );
         return nil;
     }
     
-    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken], @"query" : query, @"longitude" : @(longitude), @"latitude" : @(latitude) };
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query, @"longitude" : @(longitude), @"latitude" : @(latitude) };
     
     return [self GET:@"explore/locations" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
@@ -513,144 +548,133 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
 
 - (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success, NSString *imageURL ) )completion
 {
-    if( ![self accessToken] )
+    dispatch_async( self.queue, ^
     {
-        completion( NO, nil );
-        return;
-    }
-    
-    NSString *hashtagString = @"";
-    for( DAHashtag *hashtag in review.hashtags )
-    {
-        hashtagString = [hashtagString stringByAppendingFormat:@"%@,", hashtag.hashtagID];
-    }
-    
-    if( [review.price characterAtIndex:0] == '$' )
-    {
-        review.price = [review.price substringFromIndex:1];
-    }
-    
-    NSDictionary *baseParams = @{ kAccessTokenKey : [self accessToken], @"comment" : review.comment,
-                                  @"price" : review.price, @"grade" : review.rating };
-    
-    NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:baseParams];
-    
-    if( hashtagString.length > 0 )
-    {
-        hashtagString = [hashtagString substringToIndex:hashtagString.length - 1];
-        [parameters setObject:hashtagString forKey:@"hashtags"];
-    }
-    
-    if( review.dishID.length > 0 )
-    {
-        [parameters setObject:review.dishID forKey:@"dish_id"];
-    }
-    else if( review.locationID.length > 0 || review.googleID.length > 0 )
-    {
-        if( review.locationID.length > 0 )
+        NSString *hashtagString = @"";
+        for( DAHashtag *hashtag in review.hashtags )
         {
-            [parameters setObject:review.locationID forKey:@"loc_id"];
-        }
-        else if( review.googleID.length > 0 )
-        {
-            [parameters setObject:review.googleID forKey:@"loc_google_id"];
+            hashtagString = [hashtagString stringByAppendingFormat:@"%@,", hashtag.hashtagID];
         }
         
-        [parameters setObject:review.type forKey:@"type"];
-        [parameters setObject:review.title forKey:@"title"];
-    }
-    else
-    {
-        [parameters setObject:review.locationName forKey:@"loc_name"];
-        [parameters setObject:@(review.locationLongitude) forKey:@"loc_longitude"];
-        [parameters setObject:@(review.locationLatitude) forKey:@"loc_latitude"];
-        [parameters setObject:review.locationStreetNum forKey:@"loc_street_number"];
-        [parameters setObject:review.locationStreetName forKey:@"loc_street"];
-        [parameters setObject:review.locationCity forKey:@"loc_city"];
-        [parameters setObject:review.locationState forKey:@"loc_state"];
-        [parameters setObject:review.locationZip forKey:@"loc_zip"];
-        
-        [parameters setObject:review.type forKey:@"type"];
-        [parameters setObject:review.title forKey:@"title"];
-    }
-    
-    [self POST:@"reviews" parameters:parameters
-    constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
-    {
-        if( image )
+        if( [review.price characterAtIndex:0] == '$' )
         {
-            float compression = 0.8;
-            NSData *imageData = UIImageJPEGRepresentation( image, compression );
-            int maxFileSize = 2000000;
-            while( [imageData length] > maxFileSize )
+            review.price = [review.price substringFromIndex:1];
+        }
+        
+        NSDictionary *baseParams = @{ kAccessTokenKey : self.accessToken, @"comment" : review.comment,
+                                      @"price" : review.price, @"grade" : review.rating };
+        
+        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:baseParams];
+        
+        if( hashtagString.length > 0 )
+        {
+            hashtagString = [hashtagString substringToIndex:hashtagString.length - 1];
+            [parameters setObject:hashtagString forKey:@"hashtags"];
+        }
+        
+        if( review.dishID.length > 0 )
+        {
+            [parameters setObject:review.dishID forKey:@"dish_id"];
+        }
+        else if( review.locationID.length > 0 || review.googleID.length > 0 )
+        {
+            if( review.locationID.length > 0 )
             {
-                compression -= 0.1;
-                imageData = UIImageJPEGRepresentation( image, compression );
+                [parameters setObject:review.locationID forKey:@"loc_id"];
+            }
+            else if( review.googleID.length > 0 )
+            {
+                [parameters setObject:review.googleID forKey:@"loc_google_id"];
             }
             
-            [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+            [parameters setObject:review.type forKey:@"type"];
+            [parameters setObject:review.title forKey:@"title"];
         }
-    }
-    success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        NSString *imageAddress = responseObject[@"data"][@"img"][@"url"];
-        completion( YES, imageAddress );
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        NSLog(@"failure: %@", error );
-        completion( NO, nil );
-    }];
+        else
+        {
+            [parameters setObject:review.locationName forKey:@"loc_name"];
+            [parameters setObject:@(review.locationLongitude) forKey:@"loc_longitude"];
+            [parameters setObject:@(review.locationLatitude) forKey:@"loc_latitude"];
+            [parameters setObject:review.locationStreetNum forKey:@"loc_street_number"];
+            [parameters setObject:review.locationStreetName forKey:@"loc_street"];
+            [parameters setObject:review.locationCity forKey:@"loc_city"];
+            [parameters setObject:review.locationState forKey:@"loc_state"];
+            [parameters setObject:review.locationZip forKey:@"loc_zip"];
+            
+            [parameters setObject:review.type forKey:@"type"];
+            [parameters setObject:review.title forKey:@"title"];
+        }
+        
+        [self POST:@"reviews" parameters:parameters
+        constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
+        {
+            if( image )
+            {
+                float compression = 0.8;
+                NSData *imageData = UIImageJPEGRepresentation( image, compression );
+                int maxFileSize = 2000000;
+                while( [imageData length] > maxFileSize )
+                {
+                    compression -= 0.1;
+                    imageData = UIImageJPEGRepresentation( image, compression );
+                }
+                
+                [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+            }
+        }
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            NSString *imageAddress = responseObject[@"data"][@"img"][@"url"];
+            completion( YES, imageAddress );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"failure: %@", error );
+            completion( NO, nil );
+        }];
+    });
 }
 
 - (void)getExploreTabContentWithCompletion:( void(^)( NSArray *hashtags, NSArray *imageURLs, NSError *error ) )completion
 {
-    if( ![self accessToken] )
+    dispatch_async( self.queue, ^
     {
-        completion( nil, nil, nil );
-        return;
-    }
-    
-    NSDictionary *parameters = @{ kAccessTokenKey : [self accessToken] };
-    
-    [self GET:@"hashtags/explore" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        if( [responseObject[@"status"] isEqualToString:@"success"] )
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken };
+        
+        [self GET:@"hashtags/explore" parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            NSArray *content = responseObject[@"data"];
-            
-            NSMutableArray *hashtags  = [NSMutableArray array];
-            NSMutableArray *imageURLs = [NSMutableArray array];
-            
-            for( NSDictionary *data in content )
+            if( [responseObject[@"status"] isEqualToString:@"success"] )
             {
-                DAHashtag *hashtag = [[DAHashtag alloc] init];
-                hashtag.name = data[@"name"];
-                hashtag.hashtagID = data[@"id"];
-                [hashtags addObject:hashtag];
+                NSArray *content = responseObject[@"data"];
                 
-                NSString *imageURL = data[@"image_thumb"];
-                [imageURLs addObject:imageURL];
+                NSMutableArray *hashtags  = [NSMutableArray array];
+                NSMutableArray *imageURLs = [NSMutableArray array];
+                
+                for( NSDictionary *data in content )
+                {
+                    DAHashtag *hashtag = [[DAHashtag alloc] init];
+                    hashtag.name = data[@"name"];
+                    hashtag.hashtagID = data[@"id"];
+                    [hashtags addObject:hashtag];
+                    
+                    NSString *imageURL = data[@"image_thumb"];
+                    [imageURLs addObject:imageURL];
+                }
+                
+                completion( hashtags, imageURLs, nil );
             }
-            
-            completion( hashtags, imageURLs, nil );
+            else
+            {
+                completion( nil, nil, nil );
+            }
         }
-        else
+        failure:^( NSURLSessionDataTask *task, NSError *error )
         {
-            completion( nil, nil, nil );
-        }
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        NSLog(@"Error getting Explore content: %@", error.localizedDescription);
-        completion( nil, nil, error );
-    }];
-}
-
-- (NSString *)accessToken
-{
-    return [[NSUserDefaults standardUserDefaults] objectForKey:kAccessTokenKey];
+            NSLog(@"Error getting Explore content: %@", error.localizedDescription);
+            completion( nil, nil, error );
+        }];
+    });
 }
 
 - (BOOL)isLoggedIn
@@ -665,9 +689,32 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
     }
 }
 
+- (NSString *)accessToken
+{
+    if( !_accessToken )
+    {
+        _accessToken = [SSKeychain passwordForService:kKeychainService account:kAccessTokenKey];
+    }
+    
+    return _accessToken;
+}
+
 - (NSString *)clientSecret
 {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:kClientSecretKey];
+    if( !_clientSecret )
+    {
+        _clientSecret = [SSKeychain passwordForService:kKeychainService account:kClientSecretKey];
+    }
+    
+    return _clientSecret;
+}
+
+- (void)createClientID
+{
+    NSString *newClientID = [[NSUUID UUID] UUIDString];
+    [SSKeychain setPassword:newClientID forService:kKeychainService account:kClientIDKey];
+    
+    _clientID = newClientID;
 }
     
 - (NSString *)clientID
@@ -677,30 +724,14 @@ static NSString *const baseAPIURL = @"http://54.215.184.64/api/";
         return _clientID;
     }
     
-    _clientID = [[NSUserDefaults standardUserDefaults] objectForKey:kClientIDKey];
+    _clientID = [SSKeychain passwordForService:kKeychainService account:kClientIDKey];
     
     if( !_clientID )
     {
-        NSString *newClientID = [[NSUUID UUID] UUIDString];
-        [[NSUserDefaults standardUserDefaults] setObject:newClientID forKey:kClientIDKey];
-        [[NSUserDefaults standardUserDefaults] synchronize];
-        
-        _clientID = newClientID;
+        [self createClientID];
     }
     
     return _clientID;
-}
-    
-- (BOOL)hasClientID
-{
-    if( [[NSUserDefaults standardUserDefaults] objectForKey:kClientIDKey] )
-    {
-        return YES;
-    }
-    else
-    {
-        return NO;
-    }
 }
 
 @end

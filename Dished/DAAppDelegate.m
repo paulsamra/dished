@@ -10,6 +10,7 @@
 #import "AFNetworkActivityIndicatorManager.h"
 #import "SSKeychain.h"
 #import "DATwitterManager.h"
+#import "DAAPIManager.h"
 
 
 @interface DAAppDelegate()
@@ -40,6 +41,14 @@
         {
             [self sessionStateChanged:session state:state error:error];
         }];
+    }
+    
+    if( [[DAAPIManager sharedManager] isLoggedIn] )
+    {
+        if( [[DAAPIManager sharedManager] authenticate] )
+        {
+            [self setRootView];
+        }
     }
     
     return YES;
