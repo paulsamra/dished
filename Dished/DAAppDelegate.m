@@ -10,6 +10,7 @@
 #import "AFNetworkActivityIndicatorManager.h"
 #import "SSKeychain.h"
 #import "DATwitterManager.h"
+#import "DAAPIManager.h"
 
 
 @interface DAAppDelegate()
@@ -40,6 +41,14 @@
         {
             [self sessionStateChanged:session state:state error:error];
         }];
+    }
+    
+    if( [[DAAPIManager sharedManager] isLoggedIn] )
+    {
+        if( [[DAAPIManager sharedManager] authenticate] )
+        {
+            [self setRootView];
+        }
     }
     
     return YES;
@@ -84,6 +93,11 @@
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
     [FBAppCall handleDidBecomeActive];
+    
+    if( [[DAAPIManager sharedManager] isLoggedIn] )
+    {
+        [[DAAPIManager sharedManager] authenticate];
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application

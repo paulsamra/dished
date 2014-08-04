@@ -143,7 +143,7 @@ static NSString *kLocationTypeKey     = @"type";
         [self.searchTask cancel];
     }
     
-    self.searchTask = [[DAAPIManager sharedManager] locationSearchTaskWithQuery:searchText
+    self.searchTask = [[DAAPIManager sharedManager] exploreLocationSearchTaskWithQuery:searchText
     longitude:longitude latitude:latitude completion:^( id responseObject, NSError *error )
     {
         NSArray *searchResults = (NSArray *)responseObject;

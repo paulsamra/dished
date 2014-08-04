@@ -18,6 +18,7 @@
 - (BOOL)isLoggedIn;
 - (NSString *)accessToken;
 - (NSString *)errorResponseKey;
+- (BOOL)authenticate;
 
 /*
  * Check if another user is already signed up with a given email address.
@@ -75,7 +76,7 @@
  * Returns an array of locations given a search string.
  * Distances are given in miles.
  */
-- (NSURLSessionTask *)locationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
 
 /*
  * Posts a new dish review to the server.
@@ -88,5 +89,13 @@
  * array of DAHashtag objects and array of image URLs.
  */
 - (void)getExploreTabContentWithCompletion:( void(^)( NSArray *hashtags, NSArray *imageURLs, NSError *error ) )completion;
+
+/*
+ * Search task for usernames given a search string.
+ * Completion returns array of usernames.
+ */
+- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id responseData, NSError *error ) )completion;
+
+- (NSURLSessionTask *)exploreHashtagSearchTaskWithQuery:(NSString *)query completion:( void(^)( id responseData, NSError *error ) )completion;
 
 @end
