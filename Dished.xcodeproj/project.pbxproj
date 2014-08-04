@@ -173,6 +173,7 @@
 		947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */; };
 		947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */; };
 		948B7F651941B8AF005494AA /* DADatePickerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B7F641941B8AF005494AA /* DADatePickerTableViewCell.m */; };
+		94942A10198FF89900095A70 /* DAUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A0F198FF89900095A70 /* DAUsername.m */; };
 		949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
 		94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */; };
 		94A027A4196F25B5004D5CD7 /* DARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A3196F25B5004D5CD7 /* DARatingViewController.m */; };
@@ -470,6 +471,8 @@
 		947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishSuggestionTableViewCell.m; sourceTree = "<group>"; };
 		948B7F631941B8AF005494AA /* DADatePickerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADatePickerTableViewCell.h; sourceTree = "<group>"; };
 		948B7F641941B8AF005494AA /* DADatePickerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADatePickerTableViewCell.m; sourceTree = "<group>"; };
+		94942A0E198FF89900095A70 /* DAUsername.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUsername.h; sourceTree = "<group>"; };
+		94942A0F198FF89900095A70 /* DAUsername.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUsername.m; sourceTree = "<group>"; };
 		949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAImageFilterViewController.h; sourceTree = "<group>"; };
 		949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAImageFilterViewController.m; sourceTree = "<group>"; };
 		94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAAddPlaceViewController.m; sourceTree = "<group>"; };
@@ -1041,6 +1044,8 @@
 			children = (
 				9418100B1970DF7900C83034 /* DAHashtag.h */,
 				9418100C1970DF7900C83034 /* DAHashtag.m */,
+				94942A0E198FF89900095A70 /* DAUsername.h */,
+				94942A0F198FF89900095A70 /* DAUsername.m */,
 				9418101A1970EE5200C83034 /* DALocation.h */,
 				9418101B1970EE5200C83034 /* DALocation.m */,
 				941F3213196FCC04000042AE /* DANewReview.h */,
@@ -1694,6 +1699,7 @@
 				943E6274198984FE00DF2135 /* DAExploreCollectionViewCell.m in Sources */,
 				941538C5193F270A008B3B79 /* main.m in Sources */,
 				94E5EF511943B9A30021A711 /* DAReplaceSegue.m in Sources */,
+				94942A10198FF89900095A70 /* DAUsername.m in Sources */,
 				94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */,
 				94F2ADA0198C539200450C6F /* SDWebImageDownloaderOperation.m in Sources */,
 				943E62621987362100DF2135 /* BAVPlistNode.m in Sources */,

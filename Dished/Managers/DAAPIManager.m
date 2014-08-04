@@ -71,6 +71,11 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             
             [[NSUserDefaults standardUserDefaults] setObject:@"firstRun" forKey:@"firstRun"];
         }
+        
+        NSLog(@"access: %@",  self.accessToken);
+        NSLog(@"refresh: %@", self.refreshToken);
+        NSLog(@"secret: %@",  self.clientSecret);
+        NSLog(@"id: %@",      self.clientID);
     }
     
     return self;
@@ -121,6 +126,10 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
                      
                     dispatch_semaphore_signal( self.sem );
                 }];
+            }
+            else
+            {
+                dispatch_semaphore_signal( self.sem );
             }
         });
         
@@ -683,12 +692,53 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id responseData, NSError *error ) )completion
 {
-    return nil;
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"username" : query };
+    
+    return [self GET:@"explore/usernames" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSDictionary *response = (NSDictionary *)responseObject;
+        
+        if( [response[@"status"] isEqualToString:@"success"] )
+        {
+            completion( response[@"data"], nil );
+        }
+        else
+        {
+            completion( nil, nil );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"Username search error: %@", error);
+        completion( nil, error );
+    }];
 }
 
-- (NSURLSessionTask *)exploreHashtagSearchTaskWithQuery:(NSString *)query completion:( void(^)( id responseData, NSError *error ) )completion
+- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
 {
-    return nil;
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"hashtag" : query,
+                                  @"longitude" : @(longitude), @"latitude" : @(latitude) };
+    
+    return [self GET:@"explore/dishes/hashtag" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSDictionary *response = (NSDictionary *)responseObject;
+                
+        if( [response[@"status"] isEqualToString:@"success"] )
+        {
+            completion( response[@"data"][@"dishes"], nil );
+        }
+        else
+        {
+            completion( nil, nil );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"Username search error: %@", error);
+        completion( nil, error );
+    }];
 }
 
 - (BOOL)isLoggedIn

@@ -96,6 +96,6 @@
  */
 - (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id responseData, NSError *error ) )completion;
 
-- (NSURLSessionTask *)exploreHashtagSearchTaskWithQuery:(NSString *)query completion:( void(^)( id responseData, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
 
 @end
