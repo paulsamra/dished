@@ -523,7 +523,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }];
 }
 
-- (NSURLSessionTask *)locationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query, @"longitude" : @(longitude), @"latitude" : @(latitude) };
     
@@ -679,6 +679,16 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             completion( nil, nil, error );
         }];
     });
+}
+
+- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id responseData, NSError *error ) )completion
+{
+    return nil;
+}
+
+- (NSURLSessionTask *)exploreHashtagSearchTaskWithQuery:(NSString *)query completion:( void(^)( id responseData, NSError *error ) )completion
+{
+    return nil;
 }
 
 - (BOOL)isLoggedIn
