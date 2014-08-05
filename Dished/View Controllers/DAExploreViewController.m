@@ -12,8 +12,8 @@
 #import "UIImageView+WebCache.h"
 #import "DALocationManager.h"
 #import "DAExploreLiveSearchResult.h"
-
-static NSString *searchCellID = @"searchCell";
+#import "DAExploreDishTableViewCell.h"
+#import "DAExploreDefinedSearchViewController.h"
 
 
 @interface DAExploreViewController()
@@ -36,7 +36,7 @@ static NSString *searchCellID = @"searchCell";
     self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
     
     UINib *searchCellNib = [UINib nibWithNibName:@"DAExploreSearchTableViewCell" bundle:nil];
-    [self.searchDisplayController.searchResultsTableView registerNib:searchCellNib forCellReuseIdentifier:searchCellID];
+    [self.searchDisplayController.searchResultsTableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
     
     [[DAAPIManager sharedManager] getExploreTabContentWithCompletion:
     ^( NSArray *hashtags, NSArray *imageURLs, NSError *error )
@@ -180,6 +180,17 @@ static NSString *searchCellID = @"searchCell";
     return cell;
 }
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if( tableView == self.tableView )
+    {
+        if( indexPath.row == 0 )
+        {
+            [self performSegueWithIdentifier:@"definedSearch" sender:nil];
+        }
+    }
+}
+
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
     return [self.hashtags count];
@@ -203,16 +214,17 @@ static NSString *searchCellID = @"searchCell";
     return cell;
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    [self performSegueWithIdentifier:@"definedSearch" sender:nil];
-}
+//- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    [self performSegueWithIdentifier:@"definedSearch" sender:nil];
+//}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if( [segue.identifier isEqualToString:@"definedSearch"] )
     {
-        
+        DAExploreDefinedSearchViewController *dest = segue.destinationViewController;
+        dest.searchTerm = @"editorsPicks";
     }
 }
 

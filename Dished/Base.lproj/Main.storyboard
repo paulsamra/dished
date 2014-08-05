@@ -654,6 +654,7 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Explore" id="PDS-U3-7m0">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="WK0-Ht-qkM"/>
                         <barButtonItem key="rightBarButtonItem" image="explore_change_location.png" id="EgZ-r7-5Sr">
                             <connections>
                                 <segue destination="gcr-dc-GVi" kind="modal" id="eIB-7F-L4c"/>
@@ -681,10 +682,10 @@
             </objects>
             <point key="canvasLocation" x="547" y="2490"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Explore Defined Search View Controller-->
         <scene sceneID="T8V-Q3-nBv">
             <objects>
-                <tableViewController id="ip7-Gm-KZc" sceneMemberID="viewController">
+                <tableViewController id="ip7-Gm-KZc" customClass="DAExploreDefinedSearchViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vgq-L9-vAe">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

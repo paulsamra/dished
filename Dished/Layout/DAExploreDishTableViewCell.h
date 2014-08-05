@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#define kDishSearchCellID @"dishCell"
 
-@interface DAExploreSearchTableViewCell : UITableViewCell
+
+@interface DAExploreDishTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel     *dishName;
 @property (weak, nonatomic) IBOutlet UILabel     *locationName;

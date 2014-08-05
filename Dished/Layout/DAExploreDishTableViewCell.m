@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DAExploreSearchTableViewCell.h"
+#import "DAExploreDishTableViewCell.h"
 
 
-@implementation DAExploreSearchTableViewCell
+@implementation DAExploreDishTableViewCell
 
 @end
