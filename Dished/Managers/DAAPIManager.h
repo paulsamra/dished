@@ -70,13 +70,13 @@
  * Returns an NSURLSessionTask object for retrieving
  * dish suggestions based on a search string.
  */
-- (NSURLSessionTask *)dishTitleSuggestionTaskWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( id responseData, NSError *error ) )completion;
+- (NSURLSessionTask *)dishTitleSuggestionTaskWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
 
 /*
  * Returns an array of locations given a search string.
  * Distances are given in miles.
  */
-- (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *locations, NSError *error ) )completion;
 
 /*
  * Posts a new dish review to the server.
@@ -94,10 +94,24 @@
  * Search task for usernames given a search string.
  * Completion returns array of usernames.
  */
-- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id responseData, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( NSArray *usernames, NSError *error ) )completion;
 
-- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
+/*
+ * Search task for dishes given a hashtag.
+ * Completion returns array of dishes.
+ */
+- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
 
-- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
+/*
+ * Get Editor's Picks dishes.
+ * Completion returns array of dishes.
+ */
+- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
+
+/*
+ * Get popular and trending dishes.
+ * Completion returns array of dishes.
+ */
+- (void)getPopularDishesWithLongitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
 
 @end

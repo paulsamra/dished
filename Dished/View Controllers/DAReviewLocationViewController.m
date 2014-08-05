@@ -144,15 +144,13 @@ static NSString *kLocationTypeKey     = @"type";
     }
     
     self.searchTask = [[DAAPIManager sharedManager] exploreLocationSearchTaskWithQuery:searchText
-    longitude:longitude latitude:latitude completion:^( id responseObject, NSError *error )
+    longitude:longitude latitude:latitude completion:^( NSArray *locations, NSError *error )
     {
-        NSArray *searchResults = (NSArray *)responseObject;
-        
         self.locationData = [NSMutableArray array];
     
-        if( searchResults && ![searchResults isEqual:[NSNull null]] )
+        if( locations && ![locations isEqual:[NSNull null]] )
         {
-            for( NSDictionary *locationInfo in searchResults )
+            for( NSDictionary *locationInfo in locations )
             {
                 NSMutableDictionary *location = [NSMutableDictionary dictionary];
                 location[kLocationNameKey] = locationInfo[kLocationNameKey];

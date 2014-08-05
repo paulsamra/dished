@@ -53,7 +53,7 @@ static NSString *kLocationIDKey   = @"loc_id";
     }
     
     self.searchTask = [[DAAPIManager sharedManager] dishTitleSuggestionTaskWithQuery:query dishType:dishType
-    completion:^( id responseData, NSError *error )
+    completion:^( NSArray *dishes, NSError *error )
     {
         [self.dishSearchResults removeAllObjects];
         
@@ -69,20 +69,19 @@ static NSString *kLocationIDKey   = @"loc_id";
                 }
             }
         }
-        else if( responseData )
+        else if( dishes )
         {
             self.hidden = NO;
             
-            NSArray *searchResults = (NSArray *)responseData;
-            
-            for( NSDictionary *dishInfo in searchResults )
+            for( NSDictionary *dishInfo in dishes )
             {
                 NSMutableDictionary *newDish = [NSMutableDictionary dictionary];
-                newDish[kDishNameKey]      = dishInfo[kDishNameKey];
-                newDish[kDishIDKey]        = dishInfo[kDishIDKey];
-                newDish[kDishPriceKey]     = dishInfo[kDishPriceKey];
-                newDish[kLocationNameKey]  = dishInfo[kLocationNameKey];
-                newDish[kLocationIDKey]    = dishInfo[kLocationIDKey];
+                
+                newDish[kDishNameKey]     = dishInfo[kDishNameKey];
+                newDish[kDishIDKey]       = dishInfo[kDishIDKey];
+                newDish[kDishPriceKey]    = dishInfo[kDishPriceKey];
+                newDish[kLocationNameKey] = dishInfo[kLocationNameKey];
+                newDish[kLocationIDKey]   = dishInfo[kLocationIDKey];
                 
                 [self.dishSearchResults addObject:newDish];
             }

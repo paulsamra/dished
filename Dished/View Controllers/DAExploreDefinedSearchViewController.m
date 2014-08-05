@@ -34,51 +34,76 @@
     
     if( self.searchTerm )
     {
-        if( [self.searchTerm isEqualToString:@"editorsPicks"] )
+        CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
+        
+        if( [self.searchTerm isEqualToString:@"dished_editors_picks"] )
         {
             self.title = @"Editor's Picks";
             
-            CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
-            
             [[DAAPIManager sharedManager] getEditorsPicksDishesWithLongitude:currentLocation.longitude
-            latitude:currentLocation.latitude completion:^( id responseData, NSError *error )
+            latitude:currentLocation.latitude completion:^( NSArray *dishes, NSError *error )
             {
-                if( responseData )
+                if( dishes && ![dishes isEqual:[NSNull null]] )
                 {
-                    NSMutableArray *results = [NSMutableArray array];
-                    
-                    for( NSDictionary *dish in responseData )
-                    {
-                        DAExploreDishSearchResult *result = [[DAExploreDishSearchResult alloc] init];
-                        
-                        result.dishID            = dish[@"id"];
-                        result.name              = dish[@"name"];
-                        result.price             = dish[@"price"];
-                        result.type              = dish[@"type"];
-                        result.totalReviews      = [dish[@"num_reviews"] intValue];
-                        result.friendReviews     = [dish[@"num_reviews_friends"] intValue];
-                        result.influencerReviews = [dish[@"num_reviews_influencers"] intValue];
-                        result.locationID        = dish[@"location"][@"id"];
-                        result.locationName      = dish[@"location"][@"name"];
-                        
-                        if( ![dish[@"avg_grade"] isEqual:[NSNull null]] )
-                        {
-                            result.grade = dish[@"avg_grade"];
-                        }
-                        else
-                        {
-                            result.grade = @"";
-                        }
-                        
-                        [results addObject:result];
-                    }
-                    
-                    self.searchResults = [results copy];
-                    [self.tableView reloadData];
+                    [self loadDishes:dishes];
+                }
+            }];
+        }
+        else if( [self.searchTerm isEqualToString:@"dished_popular"] )
+        {
+            self.title = @"Popular Now";
+            
+            [[DAAPIManager sharedManager] getPopularDishesWithLongitude:currentLocation.longitude
+            latitude:currentLocation.latitude completion:^( NSArray *dishes, NSError *error )
+            {
+                if( dishes && ![dishes isEqual:[NSNull null]] )
+                {
+                    [self loadDishes:dishes];
+                }
+            }];
+        }
+        else
+        {
+            self.title = [NSString stringWithFormat:@"#%@", self.searchTerm];
+            
+            [[DAAPIManager sharedManager] exploreDishesWithHashtagSearchTaskWithQuery:self.searchTerm
+            longitude:currentLocation.longitude latitude:currentLocation.latitude
+            completion:^( NSArray *dishes, NSError *error )
+            {
+                if( dishes && ![dishes isEqual:[NSNull null]] )
+                {
+                    [self loadDishes:dishes];
                 }
             }];
         }
     }
+}
+
+- (void)loadDishes:(NSArray *)dishes
+{
+    NSMutableArray *results = [NSMutableArray array];
+    
+    for( NSDictionary *dish in dishes )
+    {
+        DAExploreDishSearchResult *result = [[DAExploreDishSearchResult alloc] init];
+        
+        result.dishID            = dish[@"id"];
+        result.name              = dish[@"name"];
+        result.price             = ![dish[@"price"] isEqual:[NSNull null]] ? dish[@"price"] : @"";
+        result.type              = dish[@"type"];
+        result.totalReviews      = [dish[@"num_reviews"] intValue];
+        result.friendReviews     = [dish[@"num_reviews_friends"] intValue];
+        result.influencerReviews = [dish[@"num_reviews_influencers"] intValue];
+        result.locationID        = dish[@"location"][@"id"];
+        result.locationName      = dish[@"location"][@"name"];
+        result.grade             = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"";
+        
+        [results addObject:result];
+    }
+    
+    self.searchResults = [results copy];
+    
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Table view data source

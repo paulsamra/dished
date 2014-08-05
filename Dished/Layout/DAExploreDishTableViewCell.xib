@@ -15,7 +15,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A+" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="29v-6h-ZEZ">
-                        <rect key="frame" x="140" y="72" width="80" height="16"/>
+                        <rect key="frame" x="130" y="72" width="80" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="16" id="Jla-NY-m1e"/>
@@ -25,7 +25,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Skopje City Mall" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="11" translatesAutoresizingMaskIntoConstraints="NO" id="1ks-kn-SU8">
-                        <rect key="frame" x="157" y="46" width="153" height="21"/>
+                        <rect key="frame" x="147" y="46" width="153" height="21"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="21" id="7mH-xO-Acx"/>
@@ -35,7 +35,7 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label appearanceType="aqua" opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" preferredMaxLayoutWidth="160" translatesAutoresizingMaskIntoConstraints="NO" id="fgI-8i-wgp">
-                        <rect key="frame" x="140" y="5" width="160" height="34"/>
+                        <rect key="frame" x="130" y="5" width="160" height="34"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <string key="text">No-Bake Blueberry
 Truffle Tartlets</string>
@@ -43,14 +43,14 @@ Truffle Tartlets</string>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="food.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="u1c-pF-dRm">
-                        <rect key="frame" x="16" y="5" width="115" height="86"/>
+                        <rect key="frame" x="6" y="5" width="115" height="86"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="width" secondItem="u1c-pF-dRm" secondAttribute="height" multiplier="115:86" id="B7v-zr-FDb"/>
                         </constraints>
                     </imageView>
                     <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="explore_search_place.png" translatesAutoresizingMaskIntoConstraints="NO" id="kVr-4C-VgQ">
-                        <rect key="frame" x="140" y="49" width="11" height="15"/>
+                        <rect key="frame" x="130" y="49" width="11" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="11" id="4NC-ca-ps8"/>
@@ -83,9 +83,9 @@ Truffle Tartlets</string>
                     </imageView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="1ks-kn-SU8" secondAttribute="trailing" constant="10" id="1bu-me-Ngt"/>
+                    <constraint firstAttribute="trailing" secondItem="1ks-kn-SU8" secondAttribute="trailing" constant="20" id="1bu-me-Ngt"/>
                     <constraint firstItem="29v-6h-ZEZ" firstAttribute="top" secondItem="1ks-kn-SU8" secondAttribute="bottom" constant="5" id="2vc-4J-tzh"/>
-                    <constraint firstAttribute="trailing" secondItem="fgI-8i-wgp" secondAttribute="trailing" constant="20" id="5Au-iR-ehY"/>
+                    <constraint firstAttribute="trailing" secondItem="fgI-8i-wgp" secondAttribute="trailing" constant="30" id="5Au-iR-ehY"/>
                     <constraint firstAttribute="centerY" secondItem="u1c-pF-dRm" secondAttribute="centerY" id="5w4-Rm-ekq"/>
                     <constraint firstItem="u1c-pF-dRm" firstAttribute="top" secondItem="VAm-Dq-PNs" secondAttribute="top" constant="5" id="GRs-rn-fJz"/>
                     <constraint firstItem="fgI-8i-wgp" firstAttribute="top" secondItem="VAm-Dq-PNs" secondAttribute="top" constant="5" id="Jfh-tb-824"/>
@@ -99,10 +99,10 @@ Truffle Tartlets</string>
                     <constraint firstItem="29v-6h-ZEZ" firstAttribute="top" secondItem="kVr-4C-VgQ" secondAttribute="bottom" constant="8" id="hNX-MS-tpe"/>
                     <constraint firstItem="29v-6h-ZEZ" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="pBI-uR-4IV"/>
                     <constraint firstItem="fgI-8i-wgp" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="ptz-Hh-hGw"/>
-                    <constraint firstItem="Emt-cY-kLa" firstAttribute="leading" secondItem="29v-6h-ZEZ" secondAttribute="trailing" constant="8" id="q5u-yk-Qr7"/>
+                    <constraint firstItem="Emt-cY-kLa" firstAttribute="leading" secondItem="29v-6h-ZEZ" secondAttribute="trailing" constant="18" id="q5u-yk-Qr7"/>
                     <constraint firstAttribute="bottom" secondItem="XTZ-pt-jK4" secondAttribute="bottom" constant="5" id="rEm-Ap-jx3"/>
                     <constraint firstItem="XTZ-pt-jK4" firstAttribute="leading" secondItem="o0Q-6M-yaf" secondAttribute="trailing" constant="10" id="u8M-ub-WuZ"/>
-                    <constraint firstItem="u1c-pF-dRm" firstAttribute="leading" secondItem="VAm-Dq-PNs" secondAttribute="leading" constant="16" id="wBj-MI-1wN"/>
+                    <constraint firstItem="u1c-pF-dRm" firstAttribute="leading" secondItem="VAm-Dq-PNs" secondAttribute="leading" constant="6" id="wBj-MI-1wN"/>
                     <constraint firstAttribute="bottom" secondItem="u1c-pF-dRm" secondAttribute="bottom" constant="5" id="yYn-Hu-jPG"/>
                 </constraints>
             </tableViewCellContentView>

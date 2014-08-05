@@ -504,7 +504,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
-- (NSURLSessionTask *)dishTitleSuggestionTaskWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( id responseData, NSError *error ) )completion
+- (NSURLSessionTask *)dishTitleSuggestionTaskWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( NSArray *dishes, NSError *error ) )completion
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"name" : query, @"type" : dishType };
     
@@ -532,7 +532,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }];
 }
 
-- (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *locations, NSError *error ) )completion;
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query, @"longitude" : @(longitude), @"latitude" : @(latitude) };
     
@@ -690,7 +690,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
-- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id responseData, NSError *error ) )completion
+- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( NSArray *usernames, NSError *error ) )completion
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"username" : query };
     
@@ -715,7 +715,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }];
 }
 
-- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"hashtag" : query,
                                   @"longitude" : @(longitude), @"latitude" : @(latitude) };
@@ -741,16 +741,45 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }];
 }
 
-- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion
+- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *dishes, NSError *error ) )completion
+{
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"longitude" : @(longitude),
+                                      @"latitude" : @(latitude) };
+        
+        [self GET:@"explore/dishes/editors_pick" parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            NSDictionary *response = (NSDictionary *)responseObject;
+            
+            if( [response[@"status"] isEqualToString:@"success"] )
+            {
+                completion( response[@"data"][@"dishes"], nil );
+            }
+            else
+            {
+                completion( nil, nil );
+            }
+        }
+        failure:^(NSURLSessionDataTask *task, NSError *error)
+        {
+            NSLog(@"Editors Picks error: %@", error.localizedDescription);
+            completion( nil, error );
+        }];
+    });
+}
+
+- (void)getPopularDishesWithLongitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *dishes, NSError *error ) )completion
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"longitude" : @(longitude),
                                   @"latitude" : @(latitude) };
     
-    [self GET:@"explore/dishes/editors_pick" parameters:parameters
+    [self GET:@"explore/dishes/popular" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
         NSDictionary *response = (NSDictionary *)responseObject;
-        
+         
         if( [response[@"status"] isEqualToString:@"success"] )
         {
             completion( response[@"data"][@"dishes"], nil );
