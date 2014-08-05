@@ -736,7 +736,33 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"Username search error: %@", error);
+        NSLog(@"Username search error: %@", error.localizedDescription);
+        completion( nil, error );
+    }];
+}
+
+- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude completion:( void(^)( id responseData, NSError *error ) )completion
+{
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"longitude" : @(longitude),
+                                  @"latitude" : @(latitude) };
+    
+    [self GET:@"explore/dishes/editors_pick" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSDictionary *response = (NSDictionary *)responseObject;
+        
+        if( [response[@"status"] isEqualToString:@"success"] )
+        {
+            completion( response[@"data"][@"dishes"], nil );
+        }
+        else
+        {
+            completion( nil, nil );
+        }
+    }
+    failure:^(NSURLSessionDataTask *task, NSError *error)
+    {
+        NSLog(@"Editors Picks error: %@", error.localizedDescription);
         completion( nil, error );
     }];
 }

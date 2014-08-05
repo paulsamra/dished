@@ -10,15 +10,19 @@
 #import "DAExploreCollectionViewCell.h"
 #import "DAAPIManager.h"
 #import "UIImageView+WebCache.h"
+#import "DALocationManager.h"
+#import "DAExploreLiveSearchResult.h"
 
 static NSString *searchCellID = @"searchCell";
 
 
 @interface DAExploreViewController()
 
-@property (strong, nonatomic) NSArray *rowTitles;
-@property (strong, nonatomic) NSArray *imageURLs;
-@property (strong, nonatomic) NSArray *hashtags;
+@property (strong, nonatomic) NSArray          *rowTitles;
+@property (strong, nonatomic) NSArray          *imageURLs;
+@property (strong, nonatomic) NSArray          *hashtags;
+@property (strong, nonatomic) NSArray          *liveSearchResults;
+@property (strong, nonatomic) NSURLSessionTask *liveSearchTask;
 
 @end
 
@@ -47,6 +51,72 @@ static NSString *searchCellID = @"searchCell";
     }];
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self.searchDisplayController setDisplaysSearchBarInNavigationBar:NO];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    if( searchText.length > 0 )
+    {
+        if( self.liveSearchTask )
+        {
+            [self.liveSearchTask cancel];
+        }
+        
+        if( [searchText characterAtIndex:0] == '#' )
+        {
+            CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
+            NSString *query = [searchText substringFromIndex:1];
+            
+            self.liveSearchTask = [[DAAPIManager sharedManager] exploreDishesWithHashtagSearchTaskWithQuery:query
+            longitude:currentLocation.longitude latitude:currentLocation.latitude
+            completion:^( id responseData, NSError *error )
+            {
+                if( responseData )
+                {
+                    
+                }
+            }];
+        }
+        
+        if( [searchText characterAtIndex:0] == '@' && searchText.length > 1 )
+        {
+            NSString *query = [searchText substringFromIndex:1];
+            
+            self.liveSearchTask = [[DAAPIManager sharedManager] exploreUsernameSearchTaskWithQuery:query
+            competion:^( id responseData, NSError *error )
+            {
+                if( responseData )
+                {
+                    NSArray *searchResults = (NSArray *)responseData;
+                    NSMutableArray *usernames = [NSMutableArray array];
+                    
+                    for( NSDictionary *username in searchResults )
+                    {
+                        DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
+                        
+                        searchResult.name = username[@"username"];
+                        searchResult.resultID = username[@"id"];
+                        searchResult.resultType = eUsernameSearchResult;
+                        
+                        [usernames addObject:searchResult];
+                    }
+                    
+                    self.liveSearchResults = [usernames copy];
+                    [self.searchDisplayController.searchResultsTableView reloadData];
+                }
+            }];
+        }
+    }
+    else
+    {
+        [self.liveSearchTask cancel];
+        self.liveSearchResults = [NSArray array];
+    }
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -56,7 +126,7 @@ static NSString *searchCellID = @"searchCell";
 {
     if( tableView == self.searchDisplayController.searchResultsTableView )
     {
-        return 100;
+        return [self.liveSearchResults count];
     }
     
     return 2;
@@ -66,9 +136,40 @@ static NSString *searchCellID = @"searchCell";
 {
     UITableViewCell *cell = nil;
     
+    DAExploreLiveSearchResult *searchResult = [self.liveSearchResults objectAtIndex:indexPath.row];
+    
     if( tableView == self.searchDisplayController.searchResultsTableView )
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:searchCellID];
+        if( self.searchDisplayController.active )
+        {
+            switch( searchResult.resultType )
+            {
+                    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"searchResultCell"];
+                    cell.textLabel.text = [NSString stringWithFormat:@"@%@", searchResult.name];
+                    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+                    
+                case eUsernameSearchResult:
+                {
+                    cell.imageView.image = [UIImage imageNamed:@"explore_search_user"];
+                }
+                    break;
+                case eHashtagSearchResult:
+                {
+                    cell.imageView.image = nil;
+                }
+                    break;
+                case eLocationSearchResult:
+                {
+                    cell.imageView.image = [UIImage imageNamed:@"explore_search_place"];
+                }
+                    break;
+                case eDishSearchResult:
+                {
+                    cell.imageView.image = [UIImage imageNamed:@"explore_search_food"];
+                }
+                    break;
+            }
+        }
     }
     else
     {
@@ -77,16 +178,6 @@ static NSString *searchCellID = @"searchCell";
     }
     
     return cell;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if( tableView == self.searchDisplayController.searchResultsTableView )
-    {
-        return 97;
-    }
-    
-    return tableView.rowHeight;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
@@ -110,6 +201,19 @@ static NSString *searchCellID = @"searchCell";
     cell.hashtagLabel.text = [NSString stringWithFormat:@"#%@", hashtag.name];
     
     return cell;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self performSegueWithIdentifier:@"definedSearch" sender:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"definedSearch"] )
+    {
+        
+    }
 }
 
 - (NSArray *)rowTitles
