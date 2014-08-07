@@ -257,6 +257,9 @@
 		94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FF526A197347F200B97A61 /* DARegisterViewController.m */; };
 		D13605B91986F5B60085DC7D /* food.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D13605B81986F5B60085DC7D /* food.jpg */; };
 		D13DB8F51988B221008C86BB /* DAExploreDishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D13DB8F41988B221008C86BB /* DAExploreDishTableViewCell.m */; };
+		D170CA5E1992A0A3006D9DCB /* DASocialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D170CA5D1992A0A3006D9DCB /* DASocialViewController.m */; };
+		D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D170CA661992B7C4006D9DCB /* DASocialCollectionViewController.m */; };
+		D170CA6A19931D3F006D9DCB /* DASocialCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */; };
 		D17487C2196DE8A200D83993 /* SZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C1196DE8A200D83993 /* SZTextView.m */; };
 		D17487C9196DE8BC00D83993 /* DAReviewFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C4196DE8BC00D83993 /* DAReviewFormViewController.m */; };
 		D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C8196DE8BC00D83993 /* DAReviewLocationViewController.m */; };
@@ -621,6 +624,12 @@
 		D13605B81986F5B60085DC7D /* food.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = food.jpg; sourceTree = "<group>"; };
 		D13DB8F31988B221008C86BB /* DAExploreDishTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreDishTableViewCell.h; sourceTree = "<group>"; };
 		D13DB8F41988B221008C86BB /* DAExploreDishTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreDishTableViewCell.m; sourceTree = "<group>"; };
+		D170CA5C1992A0A3006D9DCB /* DASocialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DASocialViewController.h; path = ../DASocialViewController.h; sourceTree = "<group>"; };
+		D170CA5D1992A0A3006D9DCB /* DASocialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DASocialViewController.m; path = ../DASocialViewController.m; sourceTree = "<group>"; };
+		D170CA651992B7C4006D9DCB /* DASocialCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DASocialCollectionViewController.h; path = ../DASocialCollectionViewController.h; sourceTree = "<group>"; };
+		D170CA661992B7C4006D9DCB /* DASocialCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DASocialCollectionViewController.m; path = ../DASocialCollectionViewController.m; sourceTree = "<group>"; };
+		D170CA6819931D3F006D9DCB /* DASocialCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DASocialCollectionViewCell.h; path = ../DASocialCollectionViewCell.h; sourceTree = "<group>"; };
+		D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DASocialCollectionViewCell.m; path = ../DASocialCollectionViewCell.m; sourceTree = "<group>"; };
 		D17487C0196DE8A200D83993 /* SZTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTextView.h; sourceTree = "<group>"; };
 		D17487C1196DE8A200D83993 /* SZTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTextView.m; sourceTree = "<group>"; };
 		D17487C3196DE8BC00D83993 /* DAReviewFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewFormViewController.h; sourceTree = "<group>"; };
@@ -1272,12 +1281,18 @@
 		94F2AD6A198B2D6400450C6F /* Add Review */ = {
 			isa = PBXGroup;
 			children = (
+				D17487C3196DE8BC00D83993 /* DAReviewFormViewController.h */,
+				D17487C4196DE8BC00D83993 /* DAReviewFormViewController.m */,
+				D170CA6819931D3F006D9DCB /* DASocialCollectionViewCell.h */,
+				D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */,
+				D170CA651992B7C4006D9DCB /* DASocialCollectionViewController.h */,
+				D170CA661992B7C4006D9DCB /* DASocialCollectionViewController.m */,
+				D170CA5C1992A0A3006D9DCB /* DASocialViewController.h */,
+				D170CA5D1992A0A3006D9DCB /* DASocialViewController.m */,
 				944689A41960130E00FAE288 /* DAImagePickerController.h */,
 				944689A51960130E00FAE288 /* DAImagePickerController.m */,
 				949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */,
 				949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */,
-				D17487C3196DE8BC00D83993 /* DAReviewFormViewController.h */,
-				D17487C4196DE8BC00D83993 /* DAReviewFormViewController.m */,
 				9430FDEA196956BD00C7E997 /* DAPositiveHashtagsViewController.h */,
 				9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */,
 				9430FDF8196CABDD00C7E997 /* DANegativeHashtagsViewController.h */,
@@ -1631,6 +1646,7 @@
 				94F2ADA6198C539200450C6F /* UIImage+WebP.m in Sources */,
 				94E5EF721943F5530021A711 /* MRCircularProgressView.m in Sources */,
 				94F2ADA3198C539200450C6F /* UIButton+WebCache.m in Sources */,
+				D170CA6A19931D3F006D9DCB /* DASocialCollectionViewCell.m in Sources */,
 				948B7F651941B8AF005494AA /* DADatePickerTableViewCell.m in Sources */,
 				941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */,
 				94E5EF711943F5530021A711 /* MRActivityIndicatorView.m in Sources */,
@@ -1660,6 +1676,7 @@
 				94E5EF491943472D0021A711 /* AFURLResponseSerialization.m in Sources */,
 				943E62641987362100DF2135 /* STHTTPRequest.m in Sources */,
 				943E62601987362100DF2135 /* STTwitterOS.m in Sources */,
+				D170CA5E1992A0A3006D9DCB /* DASocialViewController.m in Sources */,
 				94E5EF481943472D0021A711 /* AFURLRequestSerialization.m in Sources */,
 				94F2ADA4198C539200450C6F /* UIImage+GIF.m in Sources */,
 				D17487C2196DE8A200D83993 /* SZTextView.m in Sources */,
@@ -1680,6 +1697,7 @@
 				94DCE9BA1980ABB100396C0A /* UIButton+AFNetworking.m in Sources */,
 				D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */,
 				94E5EF751943F5530021A711 /* MRProgressOverlayView.m in Sources */,
+				D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */,
 				D1F17704198844BE006BC6BA /* DACurrentLocationViewController.m in Sources */,
 				94E5EF2D19432AE00021A711 /* UIViewController+TAPKeyboardPop.m in Sources */,
 				9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */,

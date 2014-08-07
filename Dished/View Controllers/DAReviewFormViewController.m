@@ -19,11 +19,16 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <MessageUI/MessageUI.h>
 #import "DATwitterManager.h"
-
+#import "DASocialViewController.h"
+#import "DASocialCollectionViewController.h"
 
 @interface DAReviewFormViewController() <UIAlertViewDelegate>
 
 @property (strong, nonatomic) DANewReview     *selectedReview;
+@property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
+@property (strong, nonatomic) UIView *darken;
+
+
 @property (strong, nonatomic) UIAlertView     *facebookLoginAlert;
 @property (strong, nonatomic) UIAlertView     *postFailAlert;
 @property (strong, nonatomic) UIAlertView     *twitterLoginAlert;
@@ -52,6 +57,7 @@
     self.emailToggleButton.alpha      = 0.3;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressReady:) name:kAddressReadyNotificationKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissView:) name:@"dismissView" object:nil];
 
     [self setupSuggestionTable];
     self.addressFound = NO;
@@ -95,6 +101,69 @@
     }
     
     [self updateFields];
+}
+
+- (void)dismissView:(NSNotification *)notification {
+	
+    [self.socialViewController.view removeFromSuperview];
+    [self.darken removeFromSuperview];
+    
+    NSDictionary *boolDictionary = notification.object;
+    
+    self.facebookToggleButton.alpha   = 0.3;
+    self.twitterToggleButton.alpha    = 0.3;
+    self.googleplusToggleButton.alpha = 0.3;
+    self.emailToggleButton.alpha      = 0.3;
+    
+    for (NSString *social in [boolDictionary allKeys])
+    {
+        if ([social isEqualToString:@"facebook"])
+        {
+            if ([[boolDictionary objectForKey:social] isEqualToNumber:@1])
+            {
+                self.shouldPostToFacebook = YES;
+                self.facebookToggleButton.alpha = 1.0;
+            }
+            else
+            {
+                self.shouldPostToFacebook = NO;
+                self.facebookToggleButton.alpha = 0.3;
+
+            }
+        }
+        else if ([social isEqualToString:@"twitter"])
+        {
+            if ([[boolDictionary objectForKey:social] isEqualToNumber:@1])
+            {
+                self.shouldPostToTwitter = YES;
+                self.twitterToggleButton.alpha = 1.0;
+            }
+            else
+            {
+                self.shouldPostToTwitter = NO;
+                self.twitterToggleButton.alpha = 0.3;
+
+                
+            }
+        }
+        else if ([social isEqualToString:@"email"])
+        {
+            if ([[boolDictionary objectForKey:social] isEqualToNumber:@1])
+            {
+                self.shouldEmailReview = YES;
+                self.emailToggleButton.alpha = 1.0;
+            }
+            else
+            {
+                self.shouldEmailReview = NO;
+                self.emailToggleButton.alpha = 0.3;
+
+            }
+        }
+
+    }
+    
+
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -449,67 +518,53 @@
 
 - (IBAction)share:(UIButton *)sender
 {
-    switch( sender.tag )
-    {
-        case 0:
-            if( self.facebookToggleButton.alpha == 1.0 )
-            {
-                self.shouldPostToFacebook = NO;
-                self.facebookToggleButton.alpha = 0.3;
-            }
-            else
-            {
-                self.facebookToggleButton.alpha = 1.0;
-                
-                if( FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended )
-                {
-                    [self requestFacebookPermissions];
-                }
-                else
-                {
-                    [self.facebookLoginAlert show];
-                }
-            }
-            break;
-        case 1:
-            if( self.twitterToggleButton.alpha == 1.0 )
-            {
-                self.shouldPostToTwitter = NO;
-                self.twitterToggleButton.alpha = 0.3;
-            }
-            else
-            {
-                if( [[DATwitterManager sharedManager] isLoggedIn] )
-                {
-                    self.twitterToggleButton.alpha = 1.0;
-                    self.shouldPostToTwitter = YES;
-                }
-                else
-                {
-                    [self.twitterLoginAlert show];
-                }
-            }
-            break;
-        case 3:
-            if( self.emailToggleButton.alpha == 1.0 )
-            {
-                self.emailToggleButton.alpha = 0.3;
-                self.shouldEmailReview = NO;
-            }
-            else
-            {
-                if( [MFMailComposeViewController canSendMail] )
-                {
-                    self.shouldEmailReview = YES;
-                    self.emailToggleButton.alpha = 1.0;
-                }
-                else
-                {
-                    [self.emailFailAlert show];
-                }
-            }
-            break;
+    
+    self.socialViewController =[[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"social"];
+
+    self.socialViewController.view.frame = CGRectMake(0, -100, self.view.bounds.size.width, self.view.bounds.size.height);
+    
+	self.darken = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    
+
+    
+    [self.view addSubview:self.darken];
+    [self.view addSubview:self.socialViewController.view];
+
+
+
+    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:
+     ^{
+        if (self.socialViewController.view.transform.ty == 0)
+        {
+            self.darken.backgroundColor = [UIColor lightGrayColor];
+            
+            self.darken.alpha = 0.2;
+
+            [self.socialViewController.view setTransform:CGAffineTransformMakeTranslation(0, 140+100)];
+            
+        }
+        else
+        {
+            [self.socialViewController.view setTransform:CGAffineTransformMakeTranslation(0, 0)];
+        }
     }
+    completion:^( BOOL done )
+    {
+
+        [UIView animateWithDuration:0.4 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:
+         ^{
+            self.darken.backgroundColor = [UIColor lightGrayColor];
+            
+            self.darken.alpha = 0.8;
+            
+        }completion:^(BOOL done) {
+
+
+        }];
+
+    }];
+    
+
 }
 
 - (void)loginToTwitter
@@ -528,6 +583,8 @@
         }
     }];
 }
+
+//click button, check facebook login
 
 - (void)requestFacebookPermissions
 {
@@ -783,5 +840,6 @@
     
     return _googleLoginFailAlert;
 }
+
 
 @end
