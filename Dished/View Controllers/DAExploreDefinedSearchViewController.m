@@ -96,7 +96,7 @@
         result.influencerReviews = [dish[@"num_reviews_influencers"] intValue];
         result.locationID        = dish[@"location"][@"id"];
         result.locationName      = dish[@"location"][@"name"];
-        result.grade             = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"";
+        result.grade             = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"No Ratings";
         
         [results addObject:result];
     }
@@ -115,21 +115,36 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-//    if( [self.searchResults count] == 0 )
-//    {
-//        return 1;
-//    }
+    if( [self.searchResults count] == 0 )
+    {
+        return 1;
+    }
     
     return [self.searchResults count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if( [self.searchResults count] == 0 )
+    {
+        UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
+        
+        cell.textLabel.text = @"Loading...";
+        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+        
+        cell.accessoryView = self.spinner;
+        [self.spinner startAnimating];
+        
+        return cell;
+    }
+    
     DAExploreDishTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDishSearchCellID];
     
     DAExploreDishSearchResult *result = [self.searchResults objectAtIndex:indexPath.row];
     
-    cell.dishName.text     = result.name;
+    cell.dishName.text = result.name;
+    [cell.dishName sizeToFit];
+    
     cell.grade.text        = result.grade;
     cell.locationName.text = result.locationName;
     
@@ -138,7 +153,22 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if( [self.searchResults count] == 0 )
+    {
+        return tableView.rowHeight;
+    }
+    
     return 97;
+}
+
+- (UIActivityIndicatorView *)spinner
+{
+    if( !_spinner )
+    {
+        _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    }
+    
+    return _spinner;
 }
 
 @end

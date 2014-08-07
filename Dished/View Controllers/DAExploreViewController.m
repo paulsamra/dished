@@ -156,10 +156,10 @@
             
             switch( searchResult.resultType )
             {
-                case eUsernameSearchResult: cell.imageView.image = [UIImage imageNamed:@"explore_search_user"]; break;
                 case eHashtagSearchResult:  cell.imageView.image = nil; break;
+                case eUsernameSearchResult: cell.imageView.image = [UIImage imageNamed:@"explore_search_user"];  break;
                 case eLocationSearchResult: cell.imageView.image = [UIImage imageNamed:@"explore_search_place"]; break;
-                case eDishSearchResult:     cell.imageView.image = [UIImage imageNamed:@"explore_search_food"]; break;
+                case eDishSearchResult:     cell.imageView.image = [UIImage imageNamed:@"explore_search_food"];  break;
             }
         }
     }
