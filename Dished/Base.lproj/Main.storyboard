@@ -1379,6 +1379,13 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="56"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
+                                                <view appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XoP-Dl-Pkt" userLabel="Divider">
+                                                    <rect key="frame" x="196" y="0.0" width="1" height="56"/>
+                                                    <color key="backgroundColor" red="0.78823529410000004" green="0.78823529410000004" blue="0.78823529410000004" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="1" id="cfe-ke-Lvc"/>
+                                                    </constraints>
+                                                </view>
                                                 <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iFU-Wg-dlY">
                                                     <rect key="frame" x="0.0" y="0.0" width="198" height="55"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -1400,7 +1407,7 @@
                                                         <constraint firstAttribute="height" constant="12" id="lVa-gU-aiH"/>
                                                     </constraints>
                                                 </imageView>
-                                                <button appearanceType="aqua" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yh4-pv-zx8" userLabel="Email Button">
+                                                <button hidden="YES" appearanceType="aqua" opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yh4-pv-zx8" userLabel="Email Button">
                                                     <rect key="frame" x="288" y="17" width="21" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
@@ -1414,7 +1421,7 @@
                                                         <action selector="share:" destination="bLN-bd-eSr" eventType="touchUpInside" id="cMK-MZ-hu5"/>
                                                     </connections>
                                                 </button>
-                                                <button appearanceType="aqua" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oo9-eL-N81" userLabel="Twitter Button">
+                                                <button hidden="YES" appearanceType="aqua" opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Oo9-eL-N81" userLabel="Twitter Button">
                                                     <rect key="frame" x="259" y="17" width="21" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
@@ -1428,7 +1435,7 @@
                                                         <action selector="share:" destination="bLN-bd-eSr" eventType="touchUpInside" id="3eD-cj-Ibv"/>
                                                     </connections>
                                                 </button>
-                                                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fno-on-lRq" userLabel="Facebook Button">
+                                                <button hidden="YES" appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Fno-on-lRq" userLabel="Facebook Button">
                                                     <rect key="frame" x="230" y="17" width="21" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
@@ -1442,20 +1449,50 @@
                                                         <action selector="share:" destination="bLN-bd-eSr" eventType="touchUpInside" id="4m4-fR-amh"/>
                                                     </connections>
                                                 </button>
+                                                <button appearanceType="aqua" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dHY-pL-bwy">
+                                                    <rect key="frame" x="196" y="1" width="122" height="55"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <inset key="contentEdgeInsets" minX="15" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" title="Share">
+                                                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                    <connections>
+                                                        <action selector="share:" destination="bLN-bd-eSr" eventType="touchUpInside" id="d61-kA-c4i"/>
+                                                    </connections>
+                                                </button>
+                                                <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_dish_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="DrQ-Tc-oFP">
+                                                    <rect key="frame" x="292" y="18" width="20" height="20"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="lHJ-9i-exR"/>
+                                                        <constraint firstAttribute="width" constant="20" id="n1V-Tj-P52"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="Oo9-eL-N81" firstAttribute="leading" secondItem="Fno-on-lRq" secondAttribute="trailing" constant="8" id="0lo-5N-iH2"/>
                                                 <constraint firstAttribute="centerY" secondItem="Fno-on-lRq" secondAttribute="centerY" constant="0.5" id="13U-MY-4lK"/>
+                                                <constraint firstItem="dHY-pL-bwy" firstAttribute="leading" secondItem="LMd-zy-5yV" secondAttribute="trailing" constant="13" id="1Lf-Wo-Irt"/>
                                                 <constraint firstItem="yh4-pv-zx8" firstAttribute="leading" secondItem="Oo9-eL-N81" secondAttribute="trailing" constant="8" id="7km-U6-N0Q"/>
                                                 <constraint firstItem="LMd-zy-5yV" firstAttribute="centerY" secondItem="iFU-Wg-dlY" secondAttribute="centerY" constant="0.5" id="857-xm-4K9"/>
+                                                <constraint firstAttribute="bottom" secondItem="dHY-pL-bwy" secondAttribute="bottom" id="BPc-15-ZMk"/>
                                                 <constraint firstAttribute="trailing" secondItem="yh4-pv-zx8" secondAttribute="trailing" constant="11" id="G4c-w4-F2a"/>
                                                 <constraint firstItem="iFU-Wg-dlY" firstAttribute="top" secondItem="BRw-U1-mS4" secondAttribute="top" id="GMb-Gy-nea"/>
+                                                <constraint firstItem="dHY-pL-bwy" firstAttribute="leading" secondItem="XoP-Dl-Pkt" secondAttribute="leading" id="KBY-io-Cux"/>
+                                                <constraint firstItem="DrQ-Tc-oFP" firstAttribute="centerY" secondItem="dHY-pL-bwy" secondAttribute="centerY" id="PHc-rg-kiG"/>
                                                 <constraint firstAttribute="centerY" secondItem="yh4-pv-zx8" secondAttribute="centerY" constant="0.5" id="Wvm-66-Bjg"/>
                                                 <constraint firstAttribute="centerY" secondItem="Oo9-eL-N81" secondAttribute="centerY" constant="0.5" id="Y1m-AA-PuW"/>
                                                 <constraint firstAttribute="bottom" secondItem="iFU-Wg-dlY" secondAttribute="bottom" constant="1" id="cFW-Pg-w93"/>
                                                 <constraint firstItem="Fno-on-lRq" firstAttribute="leading" secondItem="iFU-Wg-dlY" secondAttribute="trailing" constant="32" id="fl8-cJ-QWJ"/>
+                                                <constraint firstAttribute="trailing" secondItem="dHY-pL-bwy" secondAttribute="trailing" constant="2" id="g8F-fF-bUJ"/>
                                                 <constraint firstItem="iFU-Wg-dlY" firstAttribute="leading" secondItem="BRw-U1-mS4" secondAttribute="leading" id="hbA-bA-nP1"/>
+                                                <constraint firstItem="DrQ-Tc-oFP" firstAttribute="centerY" secondItem="XoP-Dl-Pkt" secondAttribute="centerY" id="iyK-S8-Y4W"/>
+                                                <constraint firstItem="DrQ-Tc-oFP" firstAttribute="leading" secondItem="Oo9-eL-N81" secondAttribute="trailing" constant="12" id="n0w-NP-uCJ"/>
                                                 <constraint firstItem="LMd-zy-5yV" firstAttribute="trailing" secondItem="iFU-Wg-dlY" secondAttribute="trailing" constant="-15" id="qIV-6X-sxi"/>
+                                                <constraint firstItem="dHY-pL-bwy" firstAttribute="bottom" secondItem="XoP-Dl-Pkt" secondAttribute="bottom" id="s2m-lc-75g"/>
+                                                <constraint firstItem="DrQ-Tc-oFP" firstAttribute="bottom" secondItem="yh4-pv-zx8" secondAttribute="bottom" id="tZe-LP-dcX"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
@@ -1502,6 +1539,8 @@
                         <outlet property="postButton" destination="nrn-hE-TfP" id="iEo-wO-qHp"/>
                         <outlet property="priceTextField" destination="dAB-Kj-4FP" id="gFy-Hs-g5g"/>
                         <outlet property="ratingButton" destination="iFU-Wg-dlY" id="d63-os-YJB"/>
+                        <outlet property="shareButton" destination="dHY-pL-bwy" id="MPU-sl-XYK"/>
+                        <outlet property="shareDisclosureIndicator" destination="DrQ-Tc-oFP" id="IJI-tj-prK"/>
                         <outlet property="tagsImageView" destination="CbB-LQ-9qZ" id="0Dz-If-Het"/>
                         <outlet property="titleTextField" destination="vl6-g3-7xj" id="gL1-4m-ztm"/>
                         <outlet property="twitterToggleButton" destination="Oo9-eL-N81" id="E2Y-fO-aok"/>
@@ -1993,7 +2032,6 @@
         <!--Social Collection View Controller-->
         <scene sceneID="lqp-oc-e2V">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hzz-2A-QiJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="social" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lzf-aF-r7D" customClass="DASocialCollectionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="euq-5g-sbu"/>
@@ -2069,6 +2107,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hzz-2A-QiJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3790" y="3268"/>
         </scene>

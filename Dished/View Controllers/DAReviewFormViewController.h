@@ -34,6 +34,8 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem     *postButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl  *dishTypeSegmentedControl;
 @property (weak, nonatomic) UIImage *reviewImage;
+@property (weak, nonatomic) IBOutlet UIButton *shareButton;
+@property (weak, nonatomic) IBOutlet UIImageView *shareDisclosureIndicator;
 
 @property (strong, nonatomic) DADishSuggestionsTableView *dishSuggestionsTable;
 
