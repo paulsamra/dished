@@ -257,7 +257,6 @@
 		94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FF526A197347F200B97A61 /* DARegisterViewController.m */; };
 		D13605B91986F5B60085DC7D /* food.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D13605B81986F5B60085DC7D /* food.jpg */; };
 		D13DB8F51988B221008C86BB /* DAExploreDishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D13DB8F41988B221008C86BB /* DAExploreDishTableViewCell.m */; };
-		D170CA5E1992A0A3006D9DCB /* DASocialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D170CA5D1992A0A3006D9DCB /* DASocialViewController.m */; };
 		D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D170CA661992B7C4006D9DCB /* DASocialCollectionViewController.m */; };
 		D170CA6A19931D3F006D9DCB /* DASocialCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */; };
 		D17487C2196DE8A200D83993 /* SZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C1196DE8A200D83993 /* SZTextView.m */; };
@@ -624,12 +623,10 @@
 		D13605B81986F5B60085DC7D /* food.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = food.jpg; sourceTree = "<group>"; };
 		D13DB8F31988B221008C86BB /* DAExploreDishTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreDishTableViewCell.h; sourceTree = "<group>"; };
 		D13DB8F41988B221008C86BB /* DAExploreDishTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreDishTableViewCell.m; sourceTree = "<group>"; };
-		D170CA5C1992A0A3006D9DCB /* DASocialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DASocialViewController.h; path = ../DASocialViewController.h; sourceTree = "<group>"; };
-		D170CA5D1992A0A3006D9DCB /* DASocialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DASocialViewController.m; path = ../DASocialViewController.m; sourceTree = "<group>"; };
 		D170CA651992B7C4006D9DCB /* DASocialCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DASocialCollectionViewController.h; path = ../DASocialCollectionViewController.h; sourceTree = "<group>"; };
 		D170CA661992B7C4006D9DCB /* DASocialCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DASocialCollectionViewController.m; path = ../DASocialCollectionViewController.m; sourceTree = "<group>"; };
-		D170CA6819931D3F006D9DCB /* DASocialCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DASocialCollectionViewCell.h; path = ../DASocialCollectionViewCell.h; sourceTree = "<group>"; };
-		D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DASocialCollectionViewCell.m; path = ../DASocialCollectionViewCell.m; sourceTree = "<group>"; };
+		D170CA6819931D3F006D9DCB /* DASocialCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DASocialCollectionViewCell.h; sourceTree = "<group>"; };
+		D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DASocialCollectionViewCell.m; sourceTree = "<group>"; };
 		D17487C0196DE8A200D83993 /* SZTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SZTextView.h; sourceTree = "<group>"; };
 		D17487C1196DE8A200D83993 /* SZTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SZTextView.m; sourceTree = "<group>"; };
 		D17487C3196DE8BC00D83993 /* DAReviewFormViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewFormViewController.h; sourceTree = "<group>"; };
@@ -1283,12 +1280,8 @@
 			children = (
 				D17487C3196DE8BC00D83993 /* DAReviewFormViewController.h */,
 				D17487C4196DE8BC00D83993 /* DAReviewFormViewController.m */,
-				D170CA6819931D3F006D9DCB /* DASocialCollectionViewCell.h */,
-				D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */,
 				D170CA651992B7C4006D9DCB /* DASocialCollectionViewController.h */,
 				D170CA661992B7C4006D9DCB /* DASocialCollectionViewController.m */,
-				D170CA5C1992A0A3006D9DCB /* DASocialViewController.h */,
-				D170CA5D1992A0A3006D9DCB /* DASocialViewController.m */,
 				944689A41960130E00FAE288 /* DAImagePickerController.h */,
 				944689A51960130E00FAE288 /* DAImagePickerController.m */,
 				949B2BFF19668E0000FE1E9D /* DAImageFilterViewController.h */,
@@ -1384,6 +1377,8 @@
 				94F2AD76198C454600450C6F /* DAExploreDishTableViewCell.xib */,
 				943E6272198984FE00DF2135 /* DAExploreCollectionViewCell.h */,
 				943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */,
+				D170CA6819931D3F006D9DCB /* DASocialCollectionViewCell.h */,
+				D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */,
 				D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */,
 				D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */,
 			);
@@ -1676,7 +1671,6 @@
 				94E5EF491943472D0021A711 /* AFURLResponseSerialization.m in Sources */,
 				943E62641987362100DF2135 /* STHTTPRequest.m in Sources */,
 				943E62601987362100DF2135 /* STTwitterOS.m in Sources */,
-				D170CA5E1992A0A3006D9DCB /* DASocialViewController.m in Sources */,
 				94E5EF481943472D0021A711 /* AFURLRequestSerialization.m in Sources */,
 				94F2ADA4198C539200450C6F /* UIImage+GIF.m in Sources */,
 				D17487C2196DE8A200D83993 /* SZTextView.m in Sources */,

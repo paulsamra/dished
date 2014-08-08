@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A314h" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RzW-un-BhE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RzW-un-BhE">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -1993,7 +1993,6 @@
         <!--Social Collection View Controller-->
         <scene sceneID="lqp-oc-e2V">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hzz-2A-QiJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <viewController storyboardIdentifier="social" useStoryboardIdentifierAsRestorationIdentifier="YES" id="lzf-aF-r7D" customClass="DASocialCollectionViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="euq-5g-sbu"/>
@@ -2054,8 +2053,8 @@
                                         </constraints>
                                         <size key="customSize" width="156" height="43"/>
                                         <connections>
-                                            <outlet property="SocialImageView" destination="mpL-NN-Ffb" id="lUl-6Q-p8F"/>
                                             <outlet property="button" destination="2Ru-P1-vke" id="PXA-eA-beK"/>
+                                            <outlet property="socialImageView" destination="mpL-NN-Ffb" id="TLG-tN-e5U"/>
                                             <outlet property="socialLabel" destination="GfH-xb-PHP" id="bJH-cQ-cms"/>
                                         </connections>
                                     </collectionViewCell>
@@ -2069,6 +2068,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hzz-2A-QiJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3790" y="3268"/>
         </scene>

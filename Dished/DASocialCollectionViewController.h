@@ -8,7 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface DASocialCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end

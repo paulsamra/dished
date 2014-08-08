@@ -19,7 +19,6 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <MessageUI/MessageUI.h>
 #import "DATwitterManager.h"
-#import "DASocialViewController.h"
 #import "DASocialCollectionViewController.h"
 
 @interface DAReviewFormViewController() <UIAlertViewDelegate>
@@ -518,7 +517,6 @@
 
 - (IBAction)share:(UIButton *)sender
 {
-    
     self.socialViewController =[[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"social"];
 
     self.socialViewController.view.frame = CGRectMake(0, -100, self.view.bounds.size.width, self.view.bounds.size.height);
