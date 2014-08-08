@@ -106,14 +106,19 @@
 	
     [self.socialViewController.view removeFromSuperview];
     [self.darken removeFromSuperview];
-    
+    [self.shareButton setTitle:@"" forState:UIControlStateNormal];
+    self.shareDisclosureIndicator.hidden = YES;
     NSDictionary *boolDictionary = notification.object;
     
-    self.facebookToggleButton.alpha   = 0.3;
-    self.twitterToggleButton.alpha    = 0.3;
-    self.googleplusToggleButton.alpha = 0.3;
-    self.emailToggleButton.alpha      = 0.3;
-    
+    self.facebookToggleButton.alpha    = 0.3;
+    self.facebookToggleButton.hidden   = NO;
+    self.twitterToggleButton.alpha     = 0.3;
+    self.twitterToggleButton.hidden    = NO;
+    self.googleplusToggleButton.alpha  = 0.3;
+    self.googleplusToggleButton.hidden = NO;
+    self.emailToggleButton.alpha       = 0.3;
+    self.emailToggleButton.hidden      = NO;
+
     for (NSString *social in [boolDictionary allKeys])
     {
         if ([social isEqualToString:@"facebook"])
