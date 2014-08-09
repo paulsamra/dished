@@ -11,12 +11,15 @@
 #import "DAExploreDishTableViewCell.h"
 #import "DALocationManager.h"
 #import "DAExploreDishSearchResult.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 
 @interface DAExploreDefinedSearchViewController()
 
 @property (strong, nonatomic) NSArray                 *searchResults;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
+
+@property (nonatomic) BOOL isLoading;
 
 @end
 
@@ -34,6 +37,8 @@
     
     if( self.searchTerm )
     {
+        self.isLoading = YES;
+        
         CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
         
         if( [self.searchTerm isEqualToString:@"dished_editors_picks"] )
@@ -43,10 +48,14 @@
             [[DAAPIManager sharedManager] getEditorsPicksDishesWithLongitude:currentLocation.longitude
             latitude:currentLocation.latitude completion:^( NSArray *dishes, NSError *error )
             {
+                self.isLoading = NO;
+                
                 if( dishes && ![dishes isEqual:[NSNull null]] )
                 {
-                    [self loadDishes:dishes];
+                    [self setDishes:dishes];
                 }
+                
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
             }];
         }
         else if( [self.searchTerm isEqualToString:@"dished_popular"] )
@@ -56,10 +65,14 @@
             [[DAAPIManager sharedManager] getPopularDishesWithLongitude:currentLocation.longitude
             latitude:currentLocation.latitude completion:^( NSArray *dishes, NSError *error )
             {
+                self.isLoading = NO;
+                
                 if( dishes && ![dishes isEqual:[NSNull null]] )
                 {
-                    [self loadDishes:dishes];
+                    [self setDishes:dishes];
                 }
+                
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
             }];
         }
         else
@@ -70,16 +83,20 @@
             longitude:currentLocation.longitude latitude:currentLocation.latitude
             completion:^( NSArray *dishes, NSError *error )
             {
+                self.isLoading = NO;
+                
                 if( dishes && ![dishes isEqual:[NSNull null]] )
                 {
-                    [self loadDishes:dishes];
+                    [self setDishes:dishes];
                 }
+                
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
             }];
         }
     }
 }
 
-- (void)loadDishes:(NSArray *)dishes
+- (void)setDishes:(NSArray *)dishes
 {
     NSMutableArray *results = [NSMutableArray array];
     
@@ -97,13 +114,12 @@
         result.locationID        = dish[@"location"][@"id"];
         result.locationName      = dish[@"location"][@"name"];
         result.grade             = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"No Ratings";
+        result.imageURL          = ![dish[@"img"] isEqual:[NSNull null]] ? dish[@"img"] : nil;
         
         [results addObject:result];
     }
     
     self.searchResults = [results copy];
-    
-    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 #pragma mark - Table view data source
@@ -115,7 +131,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if( [self.searchResults count] == 0 )
+    if( self.isLoading || [self.searchResults count] == 0 )
     {
         return 1;
     }
@@ -125,15 +141,25 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( [self.searchResults count] == 0 )
+    if( self.isLoading || [self.searchResults count] == 0 )
     {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         
-        cell.textLabel.text = @"Loading...";
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
         
-        cell.accessoryView = self.spinner;
-        [self.spinner startAnimating];
+        if( self.isLoading )
+        {
+            cell.textLabel.text = @"Loading...";
+            
+            cell.accessoryView = self.spinner;
+            [self.spinner startAnimating];
+        }
+        else
+        {
+            cell.textLabel.text = @"No Dishes Found";
+            
+            [self.spinner removeFromSuperview];
+        }
         
         return cell;
     }
@@ -147,6 +173,13 @@
     
     cell.grade.text        = result.grade;
     cell.locationName.text = result.locationName;
+    
+    if( result.imageURL )
+    {
+        NSURL *url = [NSURL URLWithString:result.imageURL];
+        
+        [cell.mainImageView setImageWithURL:url usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    }
     
     return cell;
 }

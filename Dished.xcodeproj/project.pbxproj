@@ -63,6 +63,7 @@
 		9430FDFA196CABDD00C7E997 /* DANegativeHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */; };
 		9430FDFF196E8AD600C7E997 /* add_dish_arrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 9430FDFD196E8AD600C7E997 /* add_dish_arrow.png */; };
 		9430FE00196E8AD600C7E997 /* add_dish_arrow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9430FDFE196E8AD600C7E997 /* add_dish_arrow@2x.png */; };
+		94331FFF1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 94331FFE1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
 		94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94358D7E1960262F00C38A93 /* DACaptureManager.m */; };
 		94358D8219603B9900C38A93 /* camera_overlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 94358D8019603B9900C38A93 /* camera_overlay.png */; };
 		94358D8319603B9900C38A93 /* camera_overlay@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94358D8119603B9900C38A93 /* camera_overlay@2x.png */; };
@@ -339,6 +340,8 @@
 		9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANegativeHashtagsViewController.m; sourceTree = "<group>"; };
 		9430FDFD196E8AD600C7E997 /* add_dish_arrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_dish_arrow.png; sourceTree = "<group>"; };
 		9430FDFE196E8AD600C7E997 /* add_dish_arrow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_dish_arrow@2x.png"; sourceTree = "<group>"; };
+		94331FFD1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+UIActivityIndicatorForSDWebImage.h"; sourceTree = "<group>"; };
+		94331FFE1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+UIActivityIndicatorForSDWebImage.m"; sourceTree = "<group>"; };
 		94358D7D1960262F00C38A93 /* DACaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACaptureManager.h; sourceTree = "<group>"; };
 		94358D7E1960262F00C38A93 /* DACaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACaptureManager.m; sourceTree = "<group>"; };
 		94358D8019603B9900C38A93 /* camera_overlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_overlay.png; sourceTree = "<group>"; };
@@ -1316,6 +1319,8 @@
 		94F2AD78198C539200450C6F /* SDWebImage */ = {
 			isa = PBXGroup;
 			children = (
+				94331FFD1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.h */,
+				94331FFE1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m */,
 				94F2AD79198C539200450C6F /* MKAnnotationView+WebCache.h */,
 				94F2AD7A198C539200450C6F /* MKAnnotationView+WebCache.m */,
 				94F2AD7B198C539200450C6F /* NSData+ImageContentType.h */,
@@ -1724,6 +1729,7 @@
 				943E6274198984FE00DF2135 /* DAExploreCollectionViewCell.m in Sources */,
 				941538C5193F270A008B3B79 /* main.m in Sources */,
 				94E5EF511943B9A30021A711 /* DAReplaceSegue.m in Sources */,
+				94331FFF1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */,
 				94F2ADA0198C539200450C6F /* SDWebImageDownloaderOperation.m in Sources */,
 				943E62621987362100DF2135 /* BAVPlistNode.m in Sources */,

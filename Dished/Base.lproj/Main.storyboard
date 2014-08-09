@@ -610,6 +610,12 @@
                                                 </imageView>
                                                 <view alpha="0.29999999999999999" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gVP-VG-GYR">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="75"/>
+                                                    <subviews>
+                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="1hi-S7-kHa">
+                                                            <rect key="frame" x="40" y="28" width="20" height="20"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                        </activityIndicatorView>
+                                                    </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                 </view>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhX-OB-QtU">
@@ -622,6 +628,7 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <connections>
+                                            <outlet property="activityIndicatorView" destination="1hi-S7-kHa" id="OXJ-OA-wWl"/>
                                             <outlet property="hashtagLabel" destination="lhX-OB-QtU" id="ulY-8x-icr"/>
                                             <outlet property="imageView" destination="qv1-V2-lv5" id="gdy-4I-4CJ"/>
                                         </connections>

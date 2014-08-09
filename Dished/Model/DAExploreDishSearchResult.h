@@ -18,6 +18,7 @@
 @property (copy, nonatomic) NSString *grade;
 @property (copy, nonatomic) NSString *locationName;
 @property (copy, nonatomic) NSString *locationID;
+@property (copy, nonatomic) NSString *imageURL;
 
 @property (nonatomic) int totalReviews;
 @property (nonatomic) int friendReviews;

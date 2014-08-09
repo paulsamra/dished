@@ -9,7 +9,7 @@
 #import "DAExploreViewController.h"
 #import "DAExploreCollectionViewCell.h"
 #import "DAAPIManager.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DALocationManager.h"
 #import "DAExploreLiveSearchResult.h"
 #import "DAExploreDishTableViewCell.h"
@@ -186,7 +186,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
 {
-    return [self.hashtags count];
+    return [self.imageURLs count];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView: (UICollectionView *)collectionView
@@ -198,11 +198,33 @@
 {
     DAExploreCollectionViewCell *cell = [cv dequeueReusableCellWithReuseIdentifier:@"cell" forIndexPath:indexPath];
     
-    NSURL *url = [NSURL URLWithString:self.imageURLs[indexPath.row]];
-    [cell.imageView sd_setImageWithURL:url];
+    if( [self.imageURLs[indexPath.row] isEqual:[NSNull null]] )
+    {
+        cell.hashtagLabel.text = @"";
+        
+        [cell.activityIndicatorView startAnimating];
+        
+        return cell;
+    }
     
-    DAHashtag *hashtag = [self.hashtags objectAtIndex:indexPath.row];
-    cell.hashtagLabel.text = [NSString stringWithFormat:@"#%@", hashtag.name];
+    NSURL *url = [NSURL URLWithString:self.imageURLs[indexPath.row]];
+    
+    [cell.imageView sd_setImageWithURL:url
+    completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
+    {
+        [cell.activityIndicatorView stopAnimating];
+        cell.activityIndicatorView.hidden = YES;
+        
+        DAHashtag *hashtag = [self.hashtags objectAtIndex:indexPath.row];
+        cell.hashtagLabel.text = [NSString stringWithFormat:@"#%@", hashtag.name];
+        
+        [UIView transitionWithView:cell.imageView duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve
+        animations:^
+        {
+            [cell.imageView setImage:image];
+        }
+        completion:nil];
+    }];
     
     return cell;
 }
@@ -221,6 +243,23 @@
         DAExploreDefinedSearchViewController *dest = segue.destinationViewController;
         dest.searchTerm = (NSString *)sender;
     }
+}
+
+- (NSArray *)imageURLs
+{
+    if( !_imageURLs )
+    {
+        NSMutableArray *nullArray = [NSMutableArray array];
+        
+        for( int i = 0; i < 12; i++ )
+        {
+            [nullArray addObject:[NSNull null]];
+        }
+        
+        _imageURLs = [nullArray copy];
+    }
+    
+    return _imageURLs;
 }
 
 - (NSArray *)rowTitles
