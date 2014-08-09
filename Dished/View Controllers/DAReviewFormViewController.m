@@ -16,29 +16,20 @@
 #import "MRProgress.h"
 #import "DAAPIManager.h"
 #import "DAAppDelegate.h"
-#import <FacebookSDK/FacebookSDK.h>
 #import <MessageUI/MessageUI.h>
 #import "DATwitterManager.h"
 #import "DASocialCollectionViewController.h"
 
 @interface DAReviewFormViewController() <UIAlertViewDelegate>
 
+@property (strong, nonatomic) UIView          *dimView;
 @property (strong, nonatomic) DANewReview     *selectedReview;
-@property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
-@property (strong, nonatomic) UIView *darken;
-
-
-@property (strong, nonatomic) UIAlertView     *facebookLoginAlert;
 @property (strong, nonatomic) UIAlertView     *postFailAlert;
-@property (strong, nonatomic) UIAlertView     *twitterLoginAlert;
 @property (strong, nonatomic) UIAlertView     *twitterLoginFailAlert;
-@property (strong, nonatomic) UIAlertView     *emailFailAlert;
 @property (strong, nonatomic) UIAlertView     *googleLoginFailAlert;
 @property (strong, nonatomic) NSMutableString *dishPrice;
+@property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
 
-@property (nonatomic) BOOL shouldPostToFacebook;
-@property (nonatomic) BOOL shouldPostToTwitter;
-@property (nonatomic) BOOL shouldEmailReview;
 @property (nonatomic) BOOL addressFound;
 
 @end
@@ -50,19 +41,18 @@
 {    
     [super viewDidLoad];
     
-    self.facebookToggleButton.alpha   = 0.3;
-    self.twitterToggleButton.alpha    = 0.3;
-    self.googleplusToggleButton.alpha = 0.3;
-    self.emailToggleButton.alpha      = 0.3;
+    self.facebookImage.alpha = 0.3;
+    self.twitterImage.alpha  = 0.3;
+    self.emailImage.alpha    = 0.3;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressReady:) name:kAddressReadyNotificationKey object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissView:) name:@"dismissView" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissSocialView) name:kDoneSelecting object:nil];
 
     [self setupSuggestionTable];
-    self.addressFound = NO;
+    [self setupShareView];
     
-    self.dishPrice = [[NSMutableString alloc] init];
-    
+    self.addressFound   = NO;
+    self.dishPrice      = [[NSMutableString alloc] init];
     self.selectedReview = self.foodReview;
 
     self.titleTextField.delegate  = self;
@@ -102,72 +92,53 @@
     [self updateFields];
 }
 
-- (void)dismissView:(NSNotification *)notification {
-	
-    [self.socialViewController.view removeFromSuperview];
-    [self.darken removeFromSuperview];
-    [self.shareButton setTitle:@"" forState:UIControlStateNormal];
-    self.shareDisclosureIndicator.hidden = YES;
-    NSDictionary *boolDictionary = notification.object;
+- (void)setupShareView
+{
+    self.dimView = [[UIView alloc] initWithFrame:self.view.frame];
+    self.dimView.backgroundColor = [UIColor clearColor];
     
-    self.facebookToggleButton.alpha    = 0.3;
-    self.facebookToggleButton.hidden   = NO;
-    self.twitterToggleButton.alpha     = 0.3;
-    self.twitterToggleButton.hidden    = NO;
-    self.googleplusToggleButton.alpha  = 0.3;
-    self.googleplusToggleButton.hidden = NO;
-    self.emailToggleButton.alpha       = 0.3;
-    self.emailToggleButton.hidden      = NO;
+    self.socialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"social"];
+    self.socialViewController.view.frame = CGRectMake( 0, 600, self.view.bounds.size.width, self.view.bounds.size.height );
+}
 
-    for (NSString *social in [boolDictionary allKeys])
+- (void)dismissSocialView
+{
+    [UIView animateWithDuration:0.3 animations:^
     {
-        if ([social isEqualToString:@"facebook"])
-        {
-            if ([[boolDictionary objectForKey:social] isEqualToNumber:@1])
-            {
-                self.shouldPostToFacebook = YES;
-                self.facebookToggleButton.alpha = 1.0;
-            }
-            else
-            {
-                self.shouldPostToFacebook = NO;
-                self.facebookToggleButton.alpha = 0.3;
-
-            }
-        }
-        else if ([social isEqualToString:@"twitter"])
-        {
-            if ([[boolDictionary objectForKey:social] isEqualToNumber:@1])
-            {
-                self.shouldPostToTwitter = YES;
-                self.twitterToggleButton.alpha = 1.0;
-            }
-            else
-            {
-                self.shouldPostToTwitter = NO;
-                self.twitterToggleButton.alpha = 0.3;
-
-                
-            }
-        }
-        else if ([social isEqualToString:@"email"])
-        {
-            if ([[boolDictionary objectForKey:social] isEqualToNumber:@1])
-            {
-                self.shouldEmailReview = YES;
-                self.emailToggleButton.alpha = 1.0;
-            }
-            else
-            {
-                self.shouldEmailReview = NO;
-                self.emailToggleButton.alpha = 0.3;
-
-            }
-        }
-
+        self.dimView.backgroundColor = [UIColor clearColor];
+        self.dimView.alpha = 1.0;
+    }
+    completion:^( BOOL finished )
+    {
+        [self.dimView removeFromSuperview];
+    }];
+    
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^
+    {
+        CGRect hiddenRect = self.socialViewController.view.frame;
+        hiddenRect.origin.y = 600;
+        self.socialViewController.view.frame = hiddenRect;
+    }
+    completion:nil];
+    
+    self.facebookImage.alpha = 0.3;
+    self.twitterImage.alpha  = 0.3;
+    self.emailImage.alpha    = 0.3;
+    
+    if( [self.socialViewController.selectedSharing objectForKey:self.socialViewController.cellLabels[0]] )
+    {
+        self.facebookImage.alpha = 1.0;
     }
     
-
+    if( [self.socialViewController.selectedSharing objectForKey:self.socialViewController.cellLabels[1]] )
+    {
+        self.twitterImage.alpha = 1.0;
+    }
+    
+    if( [self.socialViewController.selectedSharing objectForKey:self.socialViewController.cellLabels[2]] )
+    {
+        self.emailImage.alpha = 1.0;
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -179,7 +150,9 @@
 
 - (void)showProgressView
 {
-    [MRProgressOverlayView showOverlayAddedTo:self.view.window title:@"Posting..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    UIWindow *window = [UIApplication sharedApplication].windows.lastObject;
+    
+    [MRProgressOverlayView showOverlayAddedTo:window title:@"Posting..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
 }
 
 - (void)setupSuggestionTable
@@ -490,199 +463,25 @@
     [self performSegueWithIdentifier:@"rating" sender:nil];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if( alertView == self.facebookLoginAlert )
-    {
-        if( buttonIndex != alertView.cancelButtonIndex )
-        {
-            [self openFacebookSession];
-        }
-        else
-        {
-            self.facebookToggleButton.alpha = 0.5;
-        }
-    }
-    
-    if( alertView == self.twitterLoginAlert )
-    {
-        if( buttonIndex != alertView.cancelButtonIndex )
-        {
-            self.twitterToggleButton.alpha = 0.3;
-            self.shouldPostToTwitter = NO;
-            [self loginToTwitter];
-        }
-        else
-        {
-            self.twitterToggleButton.alpha = 0.3;
-            self.shouldPostToTwitter = NO;
-        }
-    }
-}
-
 - (IBAction)share:(UIButton *)sender
 {
-    self.socialViewController =[[UIStoryboard storyboardWithName:@"Main" bundle:nil]instantiateViewControllerWithIdentifier:@"social"];
-
-    self.socialViewController.view.frame = CGRectMake(0, -100, self.view.bounds.size.width, self.view.bounds.size.height);
+    [self.navigationController.view addSubview:self.dimView];
+    [self.navigationController.view addSubview:self.socialViewController.view];
     
-	self.darken = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
-    
+    [UIView animateWithDuration:0.3 animations:^
+    {
+        self.dimView.backgroundColor = [UIColor lightGrayColor];
+        self.dimView.alpha = 0.7;
+    }];
 
-    
-    [self.view addSubview:self.darken];
-    [self.view addSubview:self.socialViewController.view];
-
-
-
-    [UIView animateWithDuration:0.2 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:
-     ^{
-        if (self.socialViewController.view.transform.ty == 0)
-        {
-            self.darken.backgroundColor = [UIColor lightGrayColor];
-            
-            self.darken.alpha = 0.2;
-
-            [self.socialViewController.view setTransform:CGAffineTransformMakeTranslation(0, 140+100)];
-            
-        }
-        else
-        {
-            [self.socialViewController.view setTransform:CGAffineTransformMakeTranslation(0, 0)];
-        }
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+    {
+        CGRect socialViewFrame = self.socialViewController.view.frame;
+        socialViewFrame.origin = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]].frame.origin;
+        socialViewFrame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+        self.socialViewController.view.frame = socialViewFrame;
     }
-    completion:^( BOOL done )
-    {
-
-        [UIView animateWithDuration:0.4 delay:0.0 options:UIViewAnimationOptionCurveEaseIn animations:
-         ^{
-            self.darken.backgroundColor = [UIColor lightGrayColor];
-            
-            self.darken.alpha = 0.8;
-            
-        }completion:^(BOOL done) {
-
-
-        }];
-
-    }];
-    
-
-}
-
-- (void)loginToTwitter
-{
-    [[DATwitterManager sharedManager] loginWithCompletion:^( BOOL success )
-    {
-        if( success )
-        {
-            self.twitterToggleButton.alpha = 1.0;
-            self.shouldPostToTwitter = YES;
-        }
-        else
-        {
-            self.twitterToggleButton.alpha = 0.3;
-            self.shouldPostToTwitter = NO;
-        }
-    }];
-}
-
-//click button, check facebook login
-
-- (void)requestFacebookPermissions
-{
-    NSArray *requestPermissions = @[ @"publish_actions" ];
-    
-    [FBRequestConnection startWithGraphPath:@"/me/permissions"
-    completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
-    {
-        if( !error )
-        {
-            BOOL hasPermission = NO;
-            
-            for( NSDictionary *permission in (NSArray *)[result data] )
-            {
-                if( [[permission objectForKey:@"permission"] isEqualToString:[requestPermissions objectAtIndex:0]] )
-                {
-                    hasPermission = YES;
-                }
-            }
-            
-            if( !hasPermission )
-            {
-                [FBSession.activeSession requestNewPublishPermissions:requestPermissions defaultAudience:FBSessionDefaultAudienceNone completionHandler:^( FBSession *session, NSError *error )
-                {
-                    if( !error )
-                    {
-                        self.shouldPostToFacebook = YES;
-                    }
-                }];
-            }
-            else
-            {
-                self.shouldPostToFacebook = YES;
-            }
-        }
-        else
-        {
-            if( [FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession )
-            {
-                [self.facebookLoginAlert show];
-            }
-        }
-    }];
-}
-
-- (void)openFacebookSession
-{
-    [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:YES
-    completionHandler:^( FBSession *session, FBSessionState status, NSError *error )
-    {
-        if( status == FBSessionStateOpen || status == FBSessionStateOpenTokenExtended )
-        {
-            [self requestFacebookPermissions];
-        }
-        else
-        {
-            self.facebookToggleButton.alpha = 0.5;
-        }
-        
-        DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-        [appDelegate sessionStateChanged:session state:status error:error];
-    }];
-}
-
-- (void)shareDishOnFacebookWithImage:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion;
-{
-    NSString *message = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
-    
-    NSDictionary *shareParams = @{ @"name" : self.selectedReview.title, @"caption" : message,
-                                   @"description" : self.selectedReview.comment, @"link" : @"http://dishedapp.com",
-                                   @"picture" : imageURL};
-    
-    [FBRequestConnection startWithGraphPath:@"/me/feed" parameters:shareParams HTTPMethod:@"POST"
-    completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
-    {
-        if( !error )
-        {
-            completion( YES );
-        }
-        else
-        {
-            completion( NO );
-        }
-    }];
-}
-
-- (void)postToTwitterWithImageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion
-{
-    NSString *twitterMessage = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", self.ratingButton.titleLabel.text, self.titleTextField.text, self.imAtButton.titleLabel.text];
-    
-    [[DATwitterManager sharedManager] postDishReviewTweetWithMessage:twitterMessage imageURL:imageURL
-    completion:^( BOOL success )
-    {
-        completion( success );
-    }];
+    completion:nil];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -738,25 +537,12 @@
         {
             postSuccess = YES;
             
-            if( self.shouldPostToFacebook )
-            {
-                dispatch_group_enter( group );
-                
-                [self shareDishOnFacebookWithImage:imageURL completion:^( BOOL success )
-                {
-                    dispatch_group_leave( group );
-                }];
-            }
+            dispatch_group_enter( group );
             
-            if( self.shouldPostToTwitter )
+            [self.socialViewController shareReview:self.selectedReview imageURL:imageURL completion:^( BOOL success )
             {
-                dispatch_group_enter( group );
-                
-                [self postToTwitterWithImageURL:imageURL completion:^( BOOL success )
-                {
-                    dispatch_group_leave( group );
-                }];
-            }
+                dispatch_group_leave( group );
+            }];
         }
         else
         {
@@ -766,20 +552,22 @@
         dispatch_group_leave( group );
     }];
     
-    if( self.shouldEmailReview )
+    if( [self.socialViewController.selectedSharing objectForKey:self.socialViewController.cellLabels[2]] )
     {
         data = UIImageJPEGRepresentation( self.reviewImage, 0.5 );
     }
     
     dispatch_group_notify( group, dispatch_get_main_queue(), ^
     {
-        [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+        UIWindow *window = [UIApplication sharedApplication].windows.lastObject;
+
+        [MRProgressOverlayView dismissOverlayForView:window animated:YES completion:^
         {
             if( postSuccess )
             {
                 [self dismissViewControllerAnimated:YES completion:^
                 {
-                    if( self.shouldEmailReview )
+                    if( data )
                     {
                         NSDictionary *info = @{ @"review" : self.selectedReview, @"imageData" : data };
                         [[NSNotificationCenter defaultCenter] postNotificationName:@"presentEmail" object:info];
@@ -794,16 +582,6 @@
     });
 }
 
-- (UIAlertView *)facebookLoginAlert
-{
-    if( !_facebookLoginAlert )
-    {
-        _facebookLoginAlert = [[UIAlertView alloc] initWithTitle:@"You are not logged into Facebook" message:@"You must login to Facebook to share reviews. Do you want to login now?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-    }
-    
-    return _facebookLoginAlert;
-}
-
 - (UIAlertView *)postFailAlert
 {
     if( !_postFailAlert )
@@ -813,36 +591,5 @@
     
     return _postFailAlert;
 }
-
-- (UIAlertView *)twitterLoginAlert
-{
-    if( !_twitterLoginAlert )
-    {
-        _twitterLoginAlert = [[UIAlertView alloc] initWithTitle:@"You are not logged into Twitter" message:@"You must login to Twitter to share reviews. Do you want to login now?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-    }
-    
-    return _twitterLoginAlert;
-}
-
-- (UIAlertView *)emailFailAlert
-{
-    if( !_emailFailAlert )
-    {
-        _emailFailAlert = [[UIAlertView alloc] initWithTitle:@"You can't send E-mails" message:@"You must add an email account in your device settings to be able to email a dish review." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-    }
-    
-    return _emailFailAlert;
-}
-
-- (UIAlertView *)googleLoginFailAlert
-{
-    if( !_googleLoginFailAlert )
-    {
-        _googleLoginFailAlert = [[UIAlertView alloc] initWithTitle:@"Error Signing In to Google Plus" message:@"There was a problem signing into Google Plus. Please try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    }
-    
-    return _googleLoginFailAlert;
-}
-
 
 @end

@@ -7,10 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DANewReview.h"
+
+#define kDoneSelecting @"doneSelecting"
 
 
-@interface DASocialCollectionViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface DASocialCollectionViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
-@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (strong, nonatomic) NSArray             *cellLabels;
+@property (strong, nonatomic) NSArray             *cellImages;
+@property (strong, nonatomic) UIAlertView         *facebookLoginAlert;
+@property (strong, nonatomic) UIAlertView         *twitterLoginAlert;
+@property (strong, nonatomic) UIAlertView         *emailFailAlert;
+@property (strong, nonatomic) NSMutableDictionary *selectedSharing;
+
+- (void)shareReview:(DANewReview *)review imageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion;
 
 @end

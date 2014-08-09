@@ -16,14 +16,10 @@
 
 @interface DAReviewFormViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate>
 
-@property (strong, nonatomic) DANewReview                *foodReview;
-@property (strong, nonatomic) DANewReview                *cocktailReview;
-@property (strong, nonatomic) DANewReview                *wineReview;
 
-@property (weak, nonatomic) IBOutlet UIButton            *facebookToggleButton;
-@property (weak, nonatomic) IBOutlet UIButton            *twitterToggleButton;
-@property (weak, nonatomic) IBOutlet UIButton            *googleplusToggleButton;
-@property (weak, nonatomic) IBOutlet UIButton            *emailToggleButton;
+@property (weak, nonatomic) IBOutlet UIImageView *facebookImage;
+@property (weak, nonatomic) IBOutlet UIImageView *twitterImage;
+@property (weak, nonatomic) IBOutlet UIImageView *emailImage;
 @property (weak, nonatomic) IBOutlet UIButton            *ratingButton;
 @property (weak, nonatomic) IBOutlet UIButton            *hashtagButton;
 @property (weak, nonatomic) IBOutlet UIButton            *imAtButton;
@@ -33,10 +29,11 @@
 @property (weak, nonatomic) IBOutlet UITextField         *priceTextField;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem     *postButton;
 @property (weak, nonatomic) IBOutlet UISegmentedControl  *dishTypeSegmentedControl;
-@property (weak, nonatomic) UIImage *reviewImage;
-@property (weak, nonatomic) IBOutlet UIButton *shareButton;
-@property (weak, nonatomic) IBOutlet UIImageView *shareDisclosureIndicator;
 
+@property (weak,   nonatomic) UIImage                    *reviewImage;
+@property (strong, nonatomic) DANewReview                *foodReview;
+@property (strong, nonatomic) DANewReview                *cocktailReview;
+@property (strong, nonatomic) DANewReview                *wineReview;
 @property (strong, nonatomic) DADishSuggestionsTableView *dishSuggestionsTable;
 
 @end
