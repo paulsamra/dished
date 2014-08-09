@@ -42,7 +42,7 @@ Truffle Tartlets</string>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="food.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="u1c-pF-dRm">
+                    <imageView appearanceType="aqua" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="food.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="u1c-pF-dRm">
                         <rect key="frame" x="6" y="5" width="115" height="86"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>

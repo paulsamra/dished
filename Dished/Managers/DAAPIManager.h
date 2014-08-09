@@ -103,6 +103,12 @@
 - (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
 
 /*
+ * Search task for when it is unknown
+ * when user is searching for dishes or locations.
+ */
+- (NSURLSessionTask *)exploreDishAndLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSArray *locations, NSError *error ) )completion;
+
+/*
  * Get Editor's Picks dishes.
  * Completion returns array of dishes.
  */

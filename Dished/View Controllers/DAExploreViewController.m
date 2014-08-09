@@ -13,7 +13,7 @@
 #import "DALocationManager.h"
 #import "DAExploreLiveSearchResult.h"
 #import "DAExploreDishTableViewCell.h"
-#import "DAExploreDefinedSearchViewController.h"
+#import "DAExploreDishResultsViewController.h"
 
 
 @interface DAExploreViewController()
@@ -58,13 +58,6 @@
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
 }
 
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
-{
-    [self.searchDisplayController setDisplaysSearchBarInNavigationBar:NO];
-    
-    [self.searchDisplayController setActive:NO animated:YES];
-}
-
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if( searchText.length > 0 )
@@ -74,9 +67,10 @@
             [self.liveSearchTask cancel];
         }
         
+        CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
+        
         if( [searchText characterAtIndex:0] == '#' )
         {
-            CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
             NSString *query = [searchText substringFromIndex:1];
             
             self.liveSearchTask = [[DAAPIManager sharedManager] exploreDishesWithHashtagSearchTaskWithQuery:query
@@ -85,12 +79,29 @@
             {
                 if( dishes )
                 {
+                    NSMutableArray *dishResults = [NSMutableArray array];
                     
+                    if( [dishes isEqual:[NSNull null]] )
+                    {
+                        for( NSDictionary *dish in dishes )
+                        {
+                            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
+                            
+                            searchResult.name     = dish[@"name"];
+                            searchResult.resultID = dish[@"id"];
+                            searchResult.rating   = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"";
+                            searchResult.resultType = eDishSearchResult;
+                            
+                            [dishResults addObject:searchResult];
+                        }
+                    }
+                    
+                    self.liveSearchResults = [dishResults copy];
+                    [self.searchDisplayController.searchResultsTableView reloadData];
                 }
             }];
         }
-        
-        if( [searchText characterAtIndex:0] == '@' && searchText.length > 1 )
+        else if( [searchText characterAtIndex:0] == '@' && searchText.length > 1 )
         {
             NSString *query = [searchText substringFromIndex:1];
             
@@ -101,20 +112,66 @@
                 {
                     NSMutableArray *searchResults = [NSMutableArray array];
                     
-                    for( NSDictionary *username in usernames )
+                    if( [usernames isEqual:[NSNull null]] )
                     {
-                        DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
-                        
-                        searchResult.name = username[@"username"];
-                        searchResult.resultID = username[@"id"];
-                        searchResult.resultType = eUsernameSearchResult;
-                        
-                        [searchResults addObject:searchResult];
+                        for( NSDictionary *username in usernames )
+                        {
+                            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
+                            
+                            searchResult.name = username[@"username"];
+                            searchResult.resultID = username[@"id"];
+                            searchResult.resultType = eUsernameSearchResult;
+                            
+                            [searchResults addObject:searchResult];
+                        }
                     }
                     
                     self.liveSearchResults = [searchResults copy];
                     [self.searchDisplayController.searchResultsTableView reloadData];
                 }
+            }];
+        }
+        else
+        {
+            NSString *query = searchText;
+            
+            self.liveSearchTask = [[DAAPIManager sharedManager] exploreDishAndLocationSearchTaskWithQuery:query
+            longitude:currentLocation.longitude latitude:currentLocation.latitude radius:15
+            completion:^( NSArray *dishes, NSArray *locations, NSError *error )
+            {
+                NSMutableArray *searchResults = [NSMutableArray array];
+                
+                if( ![dishes isEqual:[NSNull null]] )
+                {
+                    for( NSDictionary *dish in dishes )
+                    {
+                        DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
+                        
+                        searchResult.name       = dish[@"name"];
+                        searchResult.resultID   = dish[@"id"];
+                        searchResult.rating     = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"";
+                        searchResult.resultType = eDishSearchResult;
+                        
+                        [searchResults addObject:searchResult];
+                    }
+                }
+                
+                if( ![locations isEqual:[NSNull null]] )
+                {
+                    for( NSDictionary *location in locations )
+                    {
+                        DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
+                        
+                        searchResult.name       = location[@"name"];
+                        searchResult.resultID   = location[@"id"];
+                        searchResult.resultType = eLocationSearchResult;
+                        
+                        [searchResults addObject:searchResult];
+                    }
+                }
+                
+                self.liveSearchResults = [searchResults copy];
+                [self.searchDisplayController.searchResultsTableView reloadData];
             }];
         }
     }
@@ -123,6 +180,11 @@
         [self.liveSearchTask cancel];
         self.liveSearchResults = [NSArray array];
     }
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    self.liveSearchResults = [NSArray array];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -144,23 +206,40 @@
 {
     UITableViewCell *cell = nil;
     
-    DAExploreLiveSearchResult *searchResult = [self.liveSearchResults objectAtIndex:indexPath.row];
-    
     if( tableView == self.searchDisplayController.searchResultsTableView )
     {
-        if( self.searchDisplayController.active )
+        DAExploreLiveSearchResult *searchResult = [self.liveSearchResults objectAtIndex:indexPath.row];
+        
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"searchResultCell"];
+        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+        
+        switch( searchResult.resultType )
         {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"searchResultCell"];
-            cell.textLabel.text = [NSString stringWithFormat:@"@%@", searchResult.name];
-            cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
-            
-            switch( searchResult.resultType )
+            case eHashtagSearchResult:
             {
-                case eHashtagSearchResult:  cell.imageView.image = nil; break;
-                case eUsernameSearchResult: cell.imageView.image = [UIImage imageNamed:@"explore_search_user"];  break;
-                case eLocationSearchResult: cell.imageView.image = [UIImage imageNamed:@"explore_search_place"]; break;
-                case eDishSearchResult:     cell.imageView.image = [UIImage imageNamed:@"explore_search_food"];  break;
+                cell.imageView.image = nil;
+                cell.textLabel.text  = searchResult.name;
             }
+            break;
+            case eUsernameSearchResult:
+            {
+                cell.imageView.image = [UIImage imageNamed:@"explore_search_user"];
+                cell.textLabel.text  = [NSString stringWithFormat:@"@%@", searchResult.name];
+            }
+            break;
+            case eLocationSearchResult:
+            {
+                cell.imageView.image = [UIImage imageNamed:@"explore_search_place"];
+                cell.textLabel.text  = searchResult.name;
+            }
+            break;
+            case eDishSearchResult:
+            {
+                cell.imageView.image      = [UIImage imageNamed:@"explore_search_food"];
+                cell.textLabel.text       = searchResult.name;
+                cell.detailTextLabel.text = searchResult.rating;
+            }
+            break;
         }
     }
     else
@@ -240,7 +319,7 @@
 {
     if( [segue.identifier isEqualToString:@"definedSearch"] )
     {
-        DAExploreDefinedSearchViewController *dest = segue.destinationViewController;
+        DAExploreDishResultsViewController *dest = segue.destinationViewController;
         dest.searchTerm = (NSString *)sender;
     }
 }

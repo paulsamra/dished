@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DAExploreDefinedSearchViewController : UITableViewController
+@interface DAExploreDishResultsViewController : UITableViewController
 
 @property (strong, nonatomic) NSString *searchTerm;
 

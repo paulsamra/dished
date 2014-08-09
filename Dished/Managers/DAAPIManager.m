@@ -710,8 +710,11 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"Username search error: %@", error);
-        completion( nil, error );
+        if( error.code != -999 )
+        {
+            NSLog(@"Username search error: %@", error);
+            completion( nil, error );
+        }
     }];
 }
 
@@ -736,8 +739,11 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"Username search error: %@", error.localizedDescription);
-        completion( nil, error );
+        if( error.code != -999 )
+        {
+            NSLog(@"Username search error: %@", error.localizedDescription);
+            completion( nil, error );
+        }
     }];
 }
 
@@ -793,6 +799,36 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     {
         NSLog(@"Editors Picks error: %@", error.localizedDescription);
         completion( nil, error );
+    }];
+}
+
+- (NSURLSessionTask *)exploreDishAndLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSArray *locations, NSError *error ) )completion
+{
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query,
+                                  @"longitude" : @(longitude), @"latitude" : @(latitude),
+                                  @"radius" : @(radius) };
+    
+    return [self GET:@"explore/dishes_locations" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSDictionary *response = (NSDictionary *)responseObject;
+        
+        if( [response[@"status"] isEqualToString:@"success"] )
+        {
+            completion( response[@"data"][@"dishes"], response[@"data"][@"locations"], nil );
+        }
+        else
+        {
+            completion( nil, nil, nil );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( error.code != -999 )
+        {
+            NSLog(@"Error searching dishes and locations: %@", error.localizedDescription);
+            completion( nil, nil, error );
+        }
     }];
 }
 

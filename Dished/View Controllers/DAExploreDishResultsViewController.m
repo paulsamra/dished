@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DAExploreDefinedSearchViewController.h"
+#import "DAExploreDishResultsViewController.h"
 #import "DAAPIManager.h"
 #import "DAExploreDishTableViewCell.h"
 #import "DALocationManager.h"
@@ -14,7 +14,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 
-@interface DAExploreDefinedSearchViewController()
+@interface DAExploreDishResultsViewController()
 
 @property (strong, nonatomic) NSArray                 *searchResults;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
@@ -24,7 +24,7 @@
 @end
 
 
-@implementation DAExploreDefinedSearchViewController
+@implementation DAExploreDishResultsViewController
 
 - (void)viewDidLoad
 {
@@ -168,9 +168,7 @@
     
     DAExploreDishSearchResult *result = [self.searchResults objectAtIndex:indexPath.row];
     
-    cell.dishName.text = result.name;
-    [cell.dishName sizeToFit];
-    
+    cell.dishName.text     = result.name;
     cell.grade.text        = result.grade;
     cell.locationName.text = result.locationName;
     
