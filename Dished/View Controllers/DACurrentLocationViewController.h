@@ -1,5 +1,5 @@
 //
-//  DACurrentLocationTableViewController.h
+//  DACurrentLocationViewController.h
 //  Dished
 //
 //  Created by POST on 7/29/14.
@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DACurrentLocationViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource>
+@interface DACurrentLocationViewController : UITableViewController <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate>
+
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end

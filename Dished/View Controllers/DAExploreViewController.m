@@ -6,14 +6,14 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DAExploreViewController.h"
-#import "DAExploreCollectionViewCell.h"
 #import "DAAPIManager.h"
-#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DALocationManager.h"
+#import "DAExploreViewController.h"
 #import "DAExploreLiveSearchResult.h"
 #import "DAExploreDishTableViewCell.h"
+#import "DAExploreCollectionViewCell.h"
 #import "DAExploreDishResultsViewController.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 
 @interface DAExploreViewController()
@@ -81,7 +81,7 @@
                 {
                     NSMutableArray *dishResults = [NSMutableArray array];
                     
-                    if( [dishes isEqual:[NSNull null]] )
+                    if( ![dishes isEqual:[NSNull null]] )
                     {
                         for( NSDictionary *dish in dishes )
                         {
@@ -112,7 +112,7 @@
                 {
                     NSMutableArray *searchResults = [NSMutableArray array];
                     
-                    if( [usernames isEqual:[NSNull null]] )
+                    if( ![usernames isEqual:[NSNull null]] )
                     {
                         for( NSDictionary *username in usernames )
                         {
@@ -257,8 +257,36 @@
     {
         switch( indexPath.row )
         {
-            case 0: [self performSegueWithIdentifier:@"definedSearch" sender:@"dished_editors_picks"]; break;
-            case 1: [self performSegueWithIdentifier:@"definedSearch" sender:@"dished_popular"]; break;
+            case 0: [self performSegueWithIdentifier:@"dishResults" sender:@"dished_editors_picks"]; break;
+            case 1: [self performSegueWithIdentifier:@"dishResults" sender:@"dished_popular"]; break;
+        }
+    }
+    else
+    {
+        DAExploreLiveSearchResult *searchResult = [self.liveSearchResults objectAtIndex:indexPath.row];
+        
+        switch( searchResult.resultType )
+        {
+            case eHashtagSearchResult:
+            {
+                
+            }
+            break;
+            case eDishSearchResult:
+            {
+                
+            }
+            break;
+            case eLocationSearchResult:
+            {
+                
+            }
+            break;
+            case eUsernameSearchResult:
+            {
+                
+            }
+            break;
         }
     }
 }
@@ -312,12 +340,12 @@
 {
     DAHashtag *selectedHashtag = self.hashtags[indexPath.row];
     
-    [self performSegueWithIdentifier:@"definedSearch" sender:selectedHashtag.name];
+    [self performSegueWithIdentifier:@"dishResults" sender:selectedHashtag.name];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if( [segue.identifier isEqualToString:@"definedSearch"] )
+    if( [segue.identifier isEqualToString:@"dishResults"] )
     {
         DAExploreDishResultsViewController *dest = segue.destinationViewController;
         dest.searchTerm = (NSString *)sender;

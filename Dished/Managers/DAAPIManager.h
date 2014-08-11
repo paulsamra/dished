@@ -10,6 +10,9 @@
 #import "DAHashtag.h"
 #import "DANewReview.h"
 
+#define kNetworkUnreachableKey @"network_unreachable"
+#define kNetworkReachableKey   @"network_reachable"
+
 
 @interface DAAPIManager : AFHTTPSessionManager
 
@@ -39,6 +42,11 @@
  * User login.
  */
 - (void)loginWithUser:(NSString *)user password:(NSString *)password completion:(void(^)( BOOL success, BOOL wrongUser, BOOL wrongPass ) )completion;
+
+/*
+ * User logout.
+ */
+- (void)logout;
 
 /*
  * Request password reset verification code.

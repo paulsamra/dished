@@ -11,9 +11,12 @@
 #import "SSKeychain.h"
 #import "DATwitterManager.h"
 #import "DAAPIManager.h"
+#import "DAErrorView.h"
 
 
-@interface DAAppDelegate()
+@interface DAAppDelegate() <DAErrorViewDelegate>
+
+@property (strong, nonatomic) DAErrorView *errorView;
 
 @end
 
@@ -50,6 +53,9 @@
             [self setRootView];
         }
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachable) name:kNetworkReachableKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkUnreachable) name:kNetworkUnreachableKey object:nil];
     
     return YES;
 }
@@ -124,6 +130,47 @@
     }
     
     return YES;
+}
+
+- (void)errorViewDidTapCloseButton:(DAErrorView *)errorView
+{
+    CGRect hiddenFrame = self.errorView.frame;
+    hiddenFrame.origin.y -= 100;
+    
+    [UIView animateWithDuration:0.3 animations:^
+    {
+        [self.errorView setFrame:hiddenFrame];
+    }];
+}
+
+- (void)showErrorViewWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
+{
+    self.errorView.errorTextLabel.text = title;
+    self.errorView.errorTipLabel.text  = subtitle;
+    
+    CGRect  statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
+    CGPoint location = statusBarRect.origin;
+    CGFloat height = statusBarRect.size.height + 44;
+    CGSize  size = CGSizeMake( self.window.frame.size.width, height );
+    CGRect  visibleFrame = CGRectMake( location.x, location.y, size.width, size.height );
+    
+    [UIView animateWithDuration:0.5 animations:^
+    {
+        [self.errorView setFrame:visibleFrame];
+    }];
+}
+
+- (void)networkReachable
+{
+    [self errorViewDidTapCloseButton:self.errorView];
+}
+
+- (void)networkUnreachable
+{
+    NSString *message = @"Unable to connect to network.";
+    NSString *detail  = @"Please check your internet connection";
+    
+    [self showErrorViewWithTitle:message subtitle:detail];
 }
 
 - (void)showMessage:(NSString *)message withTitle:(NSString *)title
@@ -301,6 +348,39 @@
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:nil
                     completion:nil];
+}
+
+- (void)setLoginView
+{
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    
+    UINavigationController *loginView = [mainStoryboard instantiateViewControllerWithIdentifier:@"splashNav"];
+    
+    self.window.rootViewController = loginView;
+    
+    [UIView transitionWithView:self.window
+                      duration:0.2
+                       options:UIViewAnimationOptionTransitionCrossDissolve
+                    animations:nil
+                    completion:nil];
+}
+
+- (DAErrorView *)errorView
+{
+    if( !_errorView )
+    {
+        CGRect  statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
+        CGPoint location = statusBarRect.origin;
+        CGFloat height = statusBarRect.size.height + 44;
+        CGSize  size = CGSizeMake( self.window.frame.size.width, height );
+        CGRect  hiddenFrame = CGRectMake( location.x, location.y - 100, size.width, size.height);
+        
+        _errorView = [[DAErrorView alloc] initWithFrame:hiddenFrame];
+        _errorView.delegate = self;
+        [self.window addSubview:_errorView];
+    }
+    
+    return _errorView;
 }
 
 @end

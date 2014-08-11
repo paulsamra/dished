@@ -1,5 +1,5 @@
 //
-//  DACurrentLocationTableViewController.m
+//  DACurrentLocationViewController.m
 //  Dished
 //
 //  Created by POST on 7/29/14.
@@ -7,9 +7,17 @@
 //
 
 #import "DACurrentLocationViewController.h"
+#import <MapKit/MapKit.h>
+#import "DALocationManager.h"
 
 
 @interface DACurrentLocationViewController()
+
+@property (strong, nonatomic) NSArray              *searchResults;
+@property (strong, nonatomic) MKLocalSearch        *locationSearch;
+@property (strong, nonatomic) MKLocalSearchRequest *locationSearchRequest;
+
+@property (nonatomic) int selectedRadius;
 
 @end
 
@@ -19,11 +27,50 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.searchResults         = [NSArray array];
+    self.locationSearchRequest = [[MKLocalSearchRequest alloc] init];
+    
+    [[DALocationManager sharedManager] startUpdatingLocation];
 }
 
 - (IBAction)cancelChangeLocation:(id)sender
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    if( self.locationSearch )
+    {
+        [self.locationSearch cancel];
+    }
+    
+    self.locationSearchRequest.naturalLanguageQuery = searchText;
+    
+    CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
+    MKCoordinateRegion region = MKCoordinateRegionMakeWithDistance( currentLocation, 24140, 24140 );
+    self.locationSearchRequest.region = region;
+    
+    self.locationSearch = [[MKLocalSearch alloc] initWithRequest:self.locationSearchRequest];
+    
+    [self.locationSearch startWithCompletionHandler:^( MKLocalSearchResponse *response, NSError *error )
+    {
+        if( !error )
+        {
+            NSPredicate *noBusiness = [NSPredicate predicateWithFormat:@"business.uID == 0"];
+            NSMutableArray *itemsWithoutBusinesses = [response.mapItems mutableCopy];
+            [itemsWithoutBusinesses filterUsingPredicate:noBusiness];
+            
+            NSLog(@"%d", (int)[itemsWithoutBusinesses count]);
+            self.searchResults = itemsWithoutBusinesses;
+            [self.tableView reloadData];
+        }
+        else
+        {
+            NSLog(@"%@", error.localizedDescription);
+        }
+    }];
 }
 
 #pragma mark - Table view data source
@@ -35,27 +82,42 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return [self.searchResults count] + 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell;
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
     
-    if( tableView == self.searchDisplayController.searchResultsTableView )
+    if( indexPath.row == [self.searchResults count] )
     {
-        cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell"];
+        cell.textLabel.text  = @"Current Location";
+        cell.imageView.image = [UIImage imageNamed:@"explore_current_location"];
+        
+        return cell;
     }
-    else
+    else if( indexPath.row == [self.searchResults count] + 1 )
     {
-        cell = [self.tableView dequeueReusableCellWithIdentifier:@"cell" forIndexPath:indexPath];
+        cell.textLabel.text       = @"Search Radius";
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d mi", self.selectedRadius];
+        cell.imageView.image      = nil;
+        
+        return cell;
     }
     
-    cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
-    cell.imageView.image = [UIImage imageNamed:@"3b-change-location_location-icon.png"];
-    cell.textLabel.text = @"Current Location";
+    MKMapItem *mapItem = [self.searchResults objectAtIndex:indexPath.row];
+    cell.textLabel.text = mapItem.name;
+    cell.imageView.image = nil;
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if( indexPath.row == [self.searchResults count] )
+    {
+        
+    }
 }
 
 @end

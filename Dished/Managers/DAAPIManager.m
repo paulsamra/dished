@@ -72,6 +72,13 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             [[NSUserDefaults standardUserDefaults] setObject:@"firstRun" forKey:@"firstRun"];
         }
         
+        AFNetworkReachabilityManager *reachabilityManager = [AFNetworkReachabilityManager sharedManager];
+        [reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
+        {
+            [self networkReachabilityStatusChanged:( status != 0 ? YES : NO )];
+        }];
+        [reachabilityManager startMonitoring];
+        
         NSLog(@"access: %@",  self.accessToken);
         NSLog(@"refresh: %@", self.refreshToken);
         NSLog(@"secret: %@",  self.clientSecret);
@@ -79,6 +86,20 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }
     
     return self;
+}
+
+- (void)networkReachabilityStatusChanged:(BOOL)reachable
+{
+    NSLog(@"%@", reachable ? @"network reachable" : @"network unreachable");
+    
+    if( reachable )
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkReachableKey object:nil];
+    }
+    else
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkUnreachableKey object:nil];
+    }
 }
 
 - (NSString *)errorResponseKey
@@ -123,7 +144,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
                 failure:^( NSURLSessionDataTask *task, NSError *error )
                 {
                     NSLog(@"%@", error.localizedDescription);
-                     
+                    
                     dispatch_semaphore_signal( self.sem );
                 }];
             }
@@ -360,6 +381,17 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             completion( NO, badUser, badPass );
         }
     });
+}
+
+- (void)logout
+{
+    [SSKeychain deletePasswordForService:kKeychainService account:kClientSecretKey];
+    [SSKeychain deletePasswordForService:kKeychainService account:kAccessTokenKey];
+    [SSKeychain deletePasswordForService:kKeychainService account:kRefreshTokenKey];
+    
+    self.accessToken  = nil;
+    self.refreshToken = nil;
+    self.clientSecret = nil;
 }
 
 - (void)requestPasswordResetCodeWithPhoneNumber:(NSString *)phoneNumber completion:(void(^)( BOOL success ))completion

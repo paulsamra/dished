@@ -177,6 +177,7 @@
 		947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */; };
 		947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */; };
 		948B7F651941B8AF005494AA /* DADatePickerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B7F641941B8AF005494AA /* DADatePickerTableViewCell.m */; };
+		948EE6A61996FA2E004EC600 /* DANewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948EE6A51996FA2E004EC600 /* DANewsViewController.m */; };
 		94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */; };
 		94942A1F1990AB0800095A70 /* DAExploreLiveSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1E1990AB0800095A70 /* DAExploreLiveSearchResult.m */; };
 		94942A221990AB5900095A70 /* DAExploreDishSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A211990AB5900095A70 /* DAExploreDishSearchResult.m */; };
@@ -485,6 +486,8 @@
 		947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishSuggestionTableViewCell.m; sourceTree = "<group>"; };
 		948B7F631941B8AF005494AA /* DADatePickerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADatePickerTableViewCell.h; sourceTree = "<group>"; };
 		948B7F641941B8AF005494AA /* DADatePickerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADatePickerTableViewCell.m; sourceTree = "<group>"; };
+		948EE6A41996FA2E004EC600 /* DANewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANewsViewController.h; sourceTree = "<group>"; };
+		948EE6A51996FA2E004EC600 /* DANewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANewsViewController.m; sourceTree = "<group>"; };
 		94942A1519902D1E00095A70 /* DAExploreLiveSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreLiveSearchResult.h; sourceTree = "<group>"; };
 		94942A1B1990A6C700095A70 /* DAExploreDishResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreDishResultsViewController.h; sourceTree = "<group>"; };
 		94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreDishResultsViewController.m; sourceTree = "<group>"; };
@@ -772,9 +775,10 @@
 				944689A11960048500FAE288 /* DATabBarController.h */,
 				944689A21960048500FAE288 /* DATabBarController.m */,
 				94F2AD69198B2D5E00450C6F /* Login & Register */,
-				94F2AD6A198B2D6400450C6F /* Add Review */,
 				943320041995ED04000A8E2B /* Feed */,
 				94F2AD6B198B2D6E00450C6F /* Explore */,
+				94F2AD6A198B2D6400450C6F /* Add Review */,
+				948EE6A31996FA1C004EC600 /* News */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -1071,6 +1075,15 @@
 				94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */,
 			);
 			path = External;
+			sourceTree = "<group>";
+		};
+		948EE6A31996FA1C004EC600 /* News */ = {
+			isa = PBXGroup;
+			children = (
+				948EE6A41996FA2E004EC600 /* DANewsViewController.h */,
+				948EE6A51996FA2E004EC600 /* DANewsViewController.m */,
+			);
+			name = News;
 			sourceTree = "<group>";
 		};
 		949B2BFE19668D5700FE1E9D /* Model */ = {
@@ -1746,6 +1759,7 @@
 				943E62591987362100DF2135 /* NSError+STTwitter.m in Sources */,
 				94E5EF4E194348380021A711 /* DAAPIManager.m in Sources */,
 				94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */,
+				948EE6A61996FA2E004EC600 /* DANewsViewController.m in Sources */,
 				94E5EF461943472D0021A711 /* AFSecurityPolicy.m in Sources */,
 				941538F819401A14008B3B79 /* DASplashViewController.m in Sources */,
 				943E6274198984FE00DF2135 /* DAExploreCollectionViewCell.m in Sources */,

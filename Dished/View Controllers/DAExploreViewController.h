@@ -16,4 +16,6 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UITableView      *tableView;
 
+@property (strong, nonatomic) CLLocation *selectedLocation;
+
 @end
