@@ -60,25 +60,27 @@
 
 /*
  * Get up-to-date list of positive hashtags from server.
- * Completion handler returns array of DAHashtag objects.
- * Returns nil array or error object if error occured.
+ * Returns nil or error object if error occured.
  * Dish type options: "food", "wine", "cocktail"
+ * Returns task identifier that can be used to cancel
+ * the data task.
  */
-- (void)getPositiveHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion;
+- (void)getPositiveHashtagsForDishType:(NSString *)dishType completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Get up-to-date list of negative hashtags from server.
- * Completion handler returns array of DAHashtag objects.
- * Returns nil array or error object if error occured.
+ * Returns nil or error object if error occured.
  * Dish type options: "food", "wine", "cocktail"
+ * Returns task identifier that can be used to cancel
+ * the data task.
  */
-- (void)getNegativeHashtagsForDishType:(NSString *)dishType completion:( void(^)( NSArray *hashtags, NSError *error ) )completion;
+- (void)getNegativeHashtagsForDishType:(NSString *)dishType completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Returns an NSURLSessionTask object for retrieving
  * dish suggestions based on a search string.
  */
-- (NSURLSessionTask *)dishTitleSuggestionTaskWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
+- (NSURLSessionTask *)getDishTitleSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Returns an array of locations given a search string.
@@ -108,7 +110,7 @@
  * Search task for dishes given a hashtag.
  * Completion returns array of dishes.
  */
-- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
 
 /*
  * Search task for when it is unknown
@@ -120,12 +122,12 @@
  * Get Editor's Picks dishes.
  * Completion returns array of dishes.
  */
-- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
+- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
 
 /*
  * Get popular and trending dishes.
  * Completion returns array of dishes.
  */
-- (void)getPopularDishesWithLongitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
+- (void)getPopularDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
 
 @end

@@ -20,7 +20,7 @@ static NSString *kLocationIDKey   = @"loc_id";
 
 @interface DADishSuggestionsTableView()
 
-@property (strong, nonatomic) NSMutableArray   *dishSearchResults;
+@property (strong, nonatomic) NSArray          *dishSearchResults;
 @property (strong, nonatomic) NSURLSessionTask *searchTask;
 
 @end
@@ -34,7 +34,7 @@ static NSString *kLocationIDKey   = @"loc_id";
     
     if( self )
     {
-        _dishSearchResults = [[NSMutableArray alloc] init];
+        _dishSearchResults = [NSArray array];
         self.delegate = self;
         self.dataSource	= self;
         
@@ -52,10 +52,10 @@ static NSString *kLocationIDKey   = @"loc_id";
         [self.searchTask cancel];
     }
     
-    self.searchTask = [[DAAPIManager sharedManager] dishTitleSuggestionTaskWithQuery:query dishType:dishType
-    completion:^( NSArray *dishes, NSError *error )
+    self.searchTask = [[DAAPIManager sharedManager] getDishTitleSuggestionsWithQuery:query dishType:dishType
+    completion:^( id response, NSError *error )
     {
-        [self.dishSearchResults removeAllObjects];
+        self.dishSearchResults = [NSArray array];
         
         if( error )
         {
@@ -69,32 +69,42 @@ static NSString *kLocationIDKey   = @"loc_id";
                 }
             }
         }
-        else if( dishes )
+        else if( response )
         {
             self.hidden = NO;
             
-            for( NSDictionary *dishInfo in dishes )
-            {
-                NSMutableDictionary *newDish = [NSMutableDictionary dictionary];
-                
-                newDish[kDishNameKey]     = dishInfo[kDishNameKey];
-                newDish[kDishIDKey]       = dishInfo[kDishIDKey];
-                newDish[kDishPriceKey]    = dishInfo[kDishPriceKey];
-                newDish[kLocationNameKey] = dishInfo[kLocationNameKey];
-                newDish[kLocationIDKey]   = dishInfo[kLocationIDKey];
-                
-                [self.dishSearchResults addObject:newDish];
-            }
+            self.dishSearchResults = [self dishesWithResponse:response];
         }
         
         [self reloadData];
     }];
 }
 
+- (NSArray *)dishesWithResponse:(id)response
+{
+    NSArray *dishes = response[@"data"];
+    NSMutableArray *newDishes = [NSMutableArray array];
+    
+    for( NSDictionary *dishInfo in dishes )
+    {
+        NSMutableDictionary *newDish = [NSMutableDictionary dictionary];
+        
+        newDish[kDishNameKey]     = dishInfo[kDishNameKey];
+        newDish[kDishIDKey]       = dishInfo[kDishIDKey];
+        newDish[kDishPriceKey]    = dishInfo[kDishPriceKey];
+        newDish[kLocationNameKey] = dishInfo[kLocationNameKey];
+        newDish[kLocationIDKey]   = dishInfo[kLocationIDKey];
+        
+        [newDishes addObject:newDish];
+    }
+    
+    return newDishes;
+}
+
 - (void)resetTable
 {
     [self.searchTask cancel];
-    self.dishSearchResults = [NSMutableArray array];
+    self.dishSearchResults = [NSArray array];
     [self reloadData];
 }
 

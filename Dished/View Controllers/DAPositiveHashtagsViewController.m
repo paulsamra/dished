@@ -35,15 +35,15 @@
     self.errorLoading = NO;
     
     [[DAAPIManager sharedManager] getPositiveHashtagsForDishType:self.review.type
-    completion:^( NSArray *hashtags, NSError *error )
+    completion:^( id response, NSError *error )
     {
-        if( error || !hashtags )
+        if( error || !response )
         {
             self.errorLoading = YES;
         }
         else
         {
-            self.hashtagArray = hashtags;
+            self.hashtagArray = [self hashtagsFromResponse:response];
             
             self.selectedHashtags = [self.review.hashtags mutableCopy];
             
@@ -65,6 +65,24 @@
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     }];
+}
+
+- (NSArray *)hashtagsFromResponse:(id)response
+{
+    NSArray *hashtags = response[@"data"];
+    NSMutableArray *newHashtags = [NSMutableArray array];
+
+    for( NSDictionary *hashtag in hashtags )
+    {
+        DAHashtag *newHashtag = [[DAHashtag alloc] init];
+        
+        newHashtag.name      = hashtag[@"name"];
+        newHashtag.hashtagID = hashtag[@"id"];
+        
+        [newHashtags addObject:newHashtag];
+    }
+    
+    return [newHashtags copy];
 }
 
 #pragma mark - Table view data source

@@ -459,7 +459,7 @@
                             <constraint firstAttribute="trailing" secondItem="EyG-PF-9cv" secondAttribute="trailing" id="eeX-zA-4hN"/>
                             <constraint firstItem="iOU-OW-UuF" firstAttribute="top" secondItem="8oZ-V4-DRb" secondAttribute="top" constant="-7" id="gIB-O9-nkg"/>
                             <constraint firstItem="EyG-PF-9cv" firstAttribute="top" secondItem="iOU-OW-UuF" secondAttribute="bottom" id="hK6-By-MD2"/>
-                            <constraint firstItem="MYt-73-vzK" firstAttribute="top" secondItem="moW-LQ-1Qi" secondAttribute="bottom" constant="116" id="hL3-gu-kpt"/>
+                            <constraint firstItem="MYt-73-vzK" firstAttribute="top" secondItem="moW-LQ-1Qi" secondAttribute="bottom" constant="72" id="hL3-gu-kpt"/>
                             <constraint firstItem="MYt-73-vzK" firstAttribute="leading" secondItem="j39-rS-TcJ" secondAttribute="leading" id="hdB-xJ-7l2"/>
                             <constraint firstItem="EyG-PF-9cv" firstAttribute="bottom" secondItem="P7O-DU-qqV" secondAttribute="bottom" constant="7" id="lcS-xc-Kce"/>
                             <constraint firstItem="iOU-OW-UuF" firstAttribute="leading" secondItem="j39-rS-TcJ" secondAttribute="leading" id="muX-m8-9f8"/>
@@ -655,10 +655,10 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Explore" id="PDS-U3-7m0">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="WK0-Ht-qkM"/>
+                        <barButtonItem key="backBarButtonItem" title="Back" id="G7x-Ia-pTM"/>
                         <barButtonItem key="rightBarButtonItem" image="explore_change_location.png" id="EgZ-r7-5Sr">
                             <connections>
-                                <segue destination="gcr-dc-GVi" kind="modal" id="eIB-7F-L4c"/>
+                                <action selector="showCurrentLocationView" destination="97x-wT-dc3" id="7Fe-hB-net"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -668,6 +668,7 @@
                         <outlet property="searchDisplayController" destination="k48-DH-csE" id="RPj-hB-NWC"/>
                         <outlet property="tableView" destination="UFy-8r-qIx" id="ySv-it-PQH"/>
                         <segue destination="ip7-Gm-KZc" kind="push" identifier="dishResults" id="yLK-pf-rXh"/>
+                        <segue destination="gcr-dc-GVi" kind="modal" identifier="currentLocation" id="2MJ-Kr-UF4"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AXe-Lj-4GA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -934,7 +935,7 @@
                             </connections>
                         </searchBar>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="22B-qc-s2r" imageView="Zd4-0t-n6u" style="IBUITableViewCellStyleDefault" id="eRx-u1-kwf">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="22B-qc-s2r" detailTextLabel="KKW-Mh-nSS" imageView="Zd4-0t-n6u" style="IBUITableViewCellStyleValue1" id="eRx-u1-kwf">
                                 <rect key="frame" x="0.0" y="163" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="eRx-u1-kwf" id="btz-4f-dwf">
@@ -942,7 +943,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Current Location" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="22B-qc-s2r">
-                                            <rect key="frame" x="45" y="0.0" width="260" height="43"/>
+                                            <rect key="frame" x="45" y="11" width="123" height="21"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -952,6 +953,13 @@
                                             <rect key="frame" x="15" y="14" width="15" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
+                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Detail" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="KKW-Mh-nSS">
+                                            <rect key="frame" x="264" y="11" width="41" height="21"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                            <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                 </tableViewCellContentView>
                             </tableViewCell>
@@ -981,6 +989,7 @@
         <scene sceneID="VFV-5T-MgT">
             <objects>
                 <navigationController definesPresentationContext="YES" id="gcr-dc-GVi" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="BvG-sR-Wqd"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eKa-a1-0w8">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -2209,8 +2218,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="uu3-ER-XS1"/>
         <segue reference="DWl-1Z-W5u"/>
         <segue reference="e1c-XP-t2f"/>
+        <segue reference="uu3-ER-XS1"/>
     </inferredMetricsTieBreakers>
 </document>

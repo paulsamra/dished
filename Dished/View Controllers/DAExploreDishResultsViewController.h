@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreLocation/CoreLocation.h>
 
 
 @interface DAExploreDishResultsViewController : UITableViewController
 
 @property (strong, nonatomic) NSString *searchTerm;
+
+@property (nonatomic) double                 selectedRadius;
+@property (nonatomic) CLLocationCoordinate2D selectedLocation;
 
 @end

@@ -12,17 +12,22 @@
 #import "DAExploreLiveSearchResult.h"
 #import "DAExploreDishTableViewCell.h"
 #import "DAExploreCollectionViewCell.h"
+#import "DACurrentLocationViewController.h"
 #import "DAExploreDishResultsViewController.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 
-@interface DAExploreViewController()
+@interface DAExploreViewController() <DACurrentLocationViewControllerDelegate>
 
 @property (strong, nonatomic) NSArray          *rowTitles;
 @property (strong, nonatomic) NSArray          *imageURLs;
 @property (strong, nonatomic) NSArray          *hashtags;
 @property (strong, nonatomic) NSArray          *liveSearchResults;
+@property (strong, nonatomic) NSString         *selectedLocationName;
 @property (strong, nonatomic) NSURLSessionTask *liveSearchTask;
+
+@property (nonatomic) double                 selectedRadius;
+@property (nonatomic) CLLocationCoordinate2D selectedLocation;
 
 @end
 
@@ -38,6 +43,39 @@
     UINib *searchCellNib = [UINib nibWithNibName:@"DAExploreSearchTableViewCell" bundle:nil];
     [self.searchDisplayController.searchResultsTableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
     
+    [[DALocationManager sharedManager] startUpdatingLocation];
+    
+    [[DAAPIManager sharedManager] getExploreTabContentWithCompletion:
+    ^( NSArray *hashtags, NSArray *imageURLs, NSError *error )
+    {
+        if( !error )
+        {
+            self.imageURLs = imageURLs;
+            self.hashtags = hashtags;
+             
+            [self.collectionView reloadData];
+        }
+    }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:kNetworkReachableKey object:nil];
+    
+    self.selectedRadius = 15;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+- (void)refreshData
+{
     [[DAAPIManager sharedManager] getExploreTabContentWithCompletion:
     ^( NSArray *hashtags, NSArray *imageURLs, NSError *error )
     {
@@ -51,11 +89,16 @@
     }];
 }
 
-- (void)viewWillAppear:(BOOL)animated
+- (IBAction)showCurrentLocationView
 {
-    [super viewWillAppear:animated];
-    
-    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    [self performSegueWithIdentifier:@"currentLocation" sender:nil];
+}
+
+- (void)locationViewControllerDidSelectLocationName:(NSString *)locationName atLocation:(CLLocationCoordinate2D)location radius:(double)radius
+{
+    self.selectedLocation     = location;
+    self.selectedLocationName = locationName;
+    self.selectedRadius       = radius;
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -67,14 +110,12 @@
             [self.liveSearchTask cancel];
         }
         
-        CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
-        
         if( [searchText characterAtIndex:0] == '#' )
         {
             NSString *query = [searchText substringFromIndex:1];
             
             self.liveSearchTask = [[DAAPIManager sharedManager] exploreDishesWithHashtagSearchTaskWithQuery:query
-            longitude:currentLocation.longitude latitude:currentLocation.latitude
+            longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:self.selectedRadius
             completion:^( NSArray *dishes, NSError *error )
             {
                 if( dishes )
@@ -136,7 +177,7 @@
             NSString *query = searchText;
             
             self.liveSearchTask = [[DAAPIManager sharedManager] exploreDishAndLocationSearchTaskWithQuery:query
-            longitude:currentLocation.longitude latitude:currentLocation.latitude radius:15
+            longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:15
             completion:^( NSArray *dishes, NSArray *locations, NSError *error )
             {
                 NSMutableArray *searchResults = [NSMutableArray array];
@@ -348,7 +389,18 @@
     if( [segue.identifier isEqualToString:@"dishResults"] )
     {
         DAExploreDishResultsViewController *dest = segue.destinationViewController;
-        dest.searchTerm = (NSString *)sender;
+        dest.searchTerm       = (NSString *)sender;
+        dest.selectedRadius   = self.selectedRadius;
+        dest.selectedLocation = self.selectedLocation;
+    }
+    
+    if( [segue.identifier isEqualToString:@"currentLocation"] )
+    {
+        UINavigationController *nav = segue.destinationViewController;
+        DACurrentLocationViewController *dest = nav.viewControllers[0];
+        dest.delegate             = self;
+        dest.selectedLocationName = self.selectedLocationName;
+        dest.selectedRadius       = self.selectedRadius;
     }
 }
 

@@ -39,14 +39,12 @@
     {
         self.isLoading = YES;
         
-        CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
-        
         if( [self.searchTerm isEqualToString:@"dished_editors_picks"] )
         {
             self.title = @"Editor's Picks";
             
-            [[DAAPIManager sharedManager] getEditorsPicksDishesWithLongitude:currentLocation.longitude
-            latitude:currentLocation.latitude completion:^( NSArray *dishes, NSError *error )
+            [[DAAPIManager sharedManager] getEditorsPicksDishesWithLongitude:self.selectedLocation.longitude
+            latitude:self.selectedLocation.latitude radius:self.selectedRadius completion:^( NSArray *dishes, NSError *error )
             {
                 self.isLoading = NO;
                 
@@ -62,8 +60,8 @@
         {
             self.title = @"Popular Now";
             
-            [[DAAPIManager sharedManager] getPopularDishesWithLongitude:currentLocation.longitude
-            latitude:currentLocation.latitude completion:^( NSArray *dishes, NSError *error )
+            [[DAAPIManager sharedManager] getPopularDishesWithLongitude:self.selectedLocation.longitude
+            latitude:self.selectedLocation.latitude radius:self.selectedRadius completion:^( NSArray *dishes, NSError *error )
             {
                 self.isLoading = NO;
                 
@@ -80,7 +78,7 @@
             self.title = [NSString stringWithFormat:@"#%@", self.searchTerm];
             
             [[DAAPIManager sharedManager] exploreDishesWithHashtagSearchTaskWithQuery:self.searchTerm
-            longitude:currentLocation.longitude latitude:currentLocation.latitude
+            longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:self.selectedRadius
             completion:^( NSArray *dishes, NSError *error )
             {
                 self.isLoading = NO;

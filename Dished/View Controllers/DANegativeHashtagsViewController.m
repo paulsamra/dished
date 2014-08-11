@@ -34,15 +34,15 @@
     self.errorLoading = NO;
     
     [[DAAPIManager sharedManager] getNegativeHashtagsForDishType:self.review.type
-    completion:^( NSArray *hashtags, NSError *error )
+    completion:^( id response, NSError *error )
     {
-        if( error || !hashtags )
+        if( error || !response )
         {
             self.errorLoading = YES;
         }
         else
         {
-            self.hashtagArray = hashtags;
+            self.hashtagArray = [self hashtagsFromResponse:response];
             
             for( DAHashtag *tag in self.selectedHashtags )
             {
@@ -62,6 +62,24 @@
             [self.tableView reloadData];
         }
     }];
+}
+
+- (NSArray *)hashtagsFromResponse:(id)response
+{
+    NSArray *hashtags = response[@"data"];
+    NSMutableArray *newHashtags = [NSMutableArray array];
+    
+    for( NSDictionary *hashtag in hashtags )
+    {
+        DAHashtag *newHashtag = [[DAHashtag alloc] init];
+        
+        newHashtag.name      = hashtag[@"name"];
+        newHashtag.hashtagID = hashtag[@"id"];
+        
+        [newHashtags addObject:newHashtag];
+    }
+    
+    return [newHashtags copy];
 }
 
 #pragma mark - Table view data source
