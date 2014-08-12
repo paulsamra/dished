@@ -44,13 +44,13 @@
             self.title = @"Editor's Picks";
             
             [[DAAPIManager sharedManager] getEditorsPicksDishesWithLongitude:self.selectedLocation.longitude
-            latitude:self.selectedLocation.latitude radius:self.selectedRadius completion:^( NSArray *dishes, NSError *error )
+            latitude:self.selectedLocation.latitude radius:self.selectedRadius completion:^( id response, NSError *error )
             {
                 self.isLoading = NO;
                 
-                if( dishes && ![dishes isEqual:[NSNull null]] )
+                if( response && ![response isEqual:[NSNull null]] )
                 {
-                    [self setDishes:dishes];
+                    self.searchResults = [self dishesFromResponse:response];
                 }
                 
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -61,13 +61,13 @@
             self.title = @"Popular Now";
             
             [[DAAPIManager sharedManager] getPopularDishesWithLongitude:self.selectedLocation.longitude
-            latitude:self.selectedLocation.latitude radius:self.selectedRadius completion:^( NSArray *dishes, NSError *error )
+            latitude:self.selectedLocation.latitude radius:self.selectedRadius completion:^( id response, NSError *error )
             {
                 self.isLoading = NO;
                 
-                if( dishes && ![dishes isEqual:[NSNull null]] )
+                if( response && ![response isEqual:[NSNull null]] )
                 {
-                    [self setDishes:dishes];
+                    self.searchResults = [self dishesFromResponse:response];
                 }
                 
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -79,13 +79,13 @@
             
             [[DAAPIManager sharedManager] exploreDishesWithHashtagSearchTaskWithQuery:self.searchTerm
             longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:self.selectedRadius
-            completion:^( NSArray *dishes, NSError *error )
+            completion:^( id response, NSError *error )
             {
                 self.isLoading = NO;
                 
-                if( dishes && ![dishes isEqual:[NSNull null]] )
+                if( response && ![response isEqual:[NSNull null]] )
                 {
-                    [self setDishes:dishes];
+                    self.searchResults = [self dishesFromResponse:response];
                 }
                 
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -94,8 +94,9 @@
     }
 }
 
-- (void)setDishes:(NSArray *)dishes
+- (NSArray *)dishesFromResponse:(id)response
 {
+    NSArray *dishes = response[@"data"][@"dishes"];
     NSMutableArray *results = [NSMutableArray array];
     
     for( NSDictionary *dish in dishes )
@@ -117,7 +118,7 @@
         [results addObject:result];
     }
     
-    self.searchResults = [results copy];
+    return [results copy];
 }
 
 #pragma mark - Table view data source

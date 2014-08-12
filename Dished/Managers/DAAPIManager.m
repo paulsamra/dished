@@ -560,7 +560,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }];
 }
 
-- (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *locations, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id response, NSError *error ) )completion;
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query, @"longitude" : @(longitude), @"latitude" : @(latitude) };
     
@@ -571,7 +571,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         
         if( [response[@"status"] isEqualToString:@"success"] )
         {
-            completion( response[@"data"][@"locations"], nil );
+            completion( responseObject, nil );
         }
         else
         {
@@ -676,7 +676,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
-- (void)getExploreTabContentWithCompletion:( void(^)( NSArray *hashtags, NSArray *imageURLs, NSError *error ) )completion
+- (void)getExploreTabContentWithCompletion:( void(^)( id response, NSError *error ) )completion
 {
     dispatch_async( self.queue, ^
     {
@@ -687,38 +687,22 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         {
             if( [responseObject[@"status"] isEqualToString:@"success"] )
             {
-                NSArray *content = responseObject[@"data"];
-                
-                NSMutableArray *hashtags  = [NSMutableArray array];
-                NSMutableArray *imageURLs = [NSMutableArray array];
-                
-                for( NSDictionary *data in content )
-                {
-                    DAHashtag *hashtag = [[DAHashtag alloc] init];
-                    hashtag.name = data[@"name"];
-                    hashtag.hashtagID = data[@"id"];
-                    [hashtags addObject:hashtag];
-                    
-                    NSString *imageURL = data[@"image_thumb"];
-                    [imageURLs addObject:imageURL];
-                }
-                
-                completion( hashtags, imageURLs, nil );
+                completion( responseObject, nil );
             }
             else
             {
-                completion( nil, nil, nil );
+                completion( nil, nil );
             }
         }
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {
             NSLog(@"Error getting Explore content: %@", error.localizedDescription);
-            completion( nil, nil, error );
+            completion( nil, error );
         }];
     });
 }
 
-- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( NSArray *usernames, NSError *error ) )completion
+- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id response, NSError *error ) )completion
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"username" : query };
     
@@ -729,7 +713,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         
         if( [response[@"status"] isEqualToString:@"success"] )
         {
-            completion( response[@"data"], nil );
+            completion( responseObject, nil );
         }
         else
         {
@@ -746,7 +730,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }];
 }
 
-- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"hashtag" : query,
                                   @"longitude" : @(longitude), @"latitude" : @(latitude),
@@ -759,7 +743,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
                 
         if( [response[@"status"] isEqualToString:@"success"] )
         {
-            completion( response[@"data"][@"dishes"], nil );
+            completion( responseObject, nil );
         }
         else
         {
@@ -776,7 +760,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }];
 }
 
-- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSError *error ) )completion
+- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
 {
     dispatch_async( self.queue, ^
     {
@@ -790,7 +774,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             
             if( [response[@"status"] isEqualToString:@"success"] )
             {
-                completion( response[@"data"][@"dishes"], nil );
+                completion( responseObject, nil );
             }
             else
             {
@@ -805,7 +789,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
-- (void)getPopularDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSError *error ) )completion
+- (void)getPopularDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"longitude" : @(longitude),
                                   @"latitude" : @(latitude), @"radius" : @(radius) };
@@ -817,7 +801,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
          
         if( [response[@"status"] isEqualToString:@"success"] )
         {
-            completion( response[@"data"][@"dishes"], nil );
+            completion( responseObject, nil );
         }
         else
         {
@@ -831,7 +815,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }];
 }
 
-- (NSURLSessionTask *)exploreDishAndLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSArray *locations, NSError *error ) )completion
+- (NSURLSessionTask *)exploreDishAndLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query,
                                   @"longitude" : @(longitude), @"latitude" : @(latitude),
@@ -844,11 +828,11 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         
         if( [response[@"status"] isEqualToString:@"success"] )
         {
-            completion( response[@"data"][@"dishes"], response[@"data"][@"locations"], nil );
+            completion( responseObject, nil );
         }
         else
         {
-            completion( nil, nil, nil );
+            completion( nil, nil );
         }
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
@@ -856,7 +840,34 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         if( error.code != -999 )
         {
             NSLog(@"Error searching dishes and locations: %@", error.localizedDescription);
-            completion( nil, nil, error );
+            completion( nil, error );
+        }
+    }];
+}
+
+- (NSURLSessionTask *)exploreHashtagSuggestionsSearchTaskWithQuery:(NSString *)query completion:( void(^)( id response, NSError *error ) )completion
+{
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"name" : query };
+    
+    return [self GET:@"hashtags" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSDictionary *response = (NSDictionary *)responseObject;
+        
+        if( [response[@"status"] isEqualToString:@"success"] )
+        {
+            completion( responseObject, nil );
+        }
+        else
+        {
+            completion( nil, nil );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( error.code != -999 )
+        {
+            NSLog(@"Error searching dishes and locations: %@", error.localizedDescription);
+            completion( nil, error );
         }
     }];
 }

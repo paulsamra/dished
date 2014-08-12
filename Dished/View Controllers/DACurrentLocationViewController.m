@@ -35,11 +35,6 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
     self.radiusSelectionVisible = NO;
     
     [[DALocationManager sharedManager] startUpdatingLocation];
-    
-    if( self.selectedRadius == 0 )
-    {
-        self.selectedRadius = 15;
-    }
 }
 
 - (IBAction)cancelChangeLocation:(id)sender
@@ -275,7 +270,7 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
 {
     if( !_radiusArray )
     {
-        _radiusArray = @[ @(5), @(10), @(20), @(50), @(100), @"No Radius" ];
+        _radiusArray = @[ @(1), @(2), @(3), @(10), @(15), @"No Radius" ];
     }
     
     return _radiusArray;

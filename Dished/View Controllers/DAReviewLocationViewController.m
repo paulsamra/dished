@@ -21,8 +21,8 @@ static NSString *kLocationTypeKey     = @"type";
 
 @interface DAReviewLocationViewController() <UISearchBarDelegate>
 
+@property (strong, nonatomic) NSArray           *locationData;
 @property (strong, nonatomic) NSString          *currentTaskID;
-@property (strong, nonatomic) NSMutableArray    *locationData;
 @property (strong, nonatomic) NSURLSessionTask  *searchTask;
 
 @end
@@ -36,7 +36,7 @@ static NSString *kLocationTypeKey     = @"type";
     
     self.tableView.backgroundColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1];
     
-    self.locationData = [NSMutableArray array];
+    self.locationData = [NSArray array];
 }
 
 #pragma mark - Table view data source
@@ -144,37 +144,45 @@ static NSString *kLocationTypeKey     = @"type";
     }
     
     self.searchTask = [[DAAPIManager sharedManager] exploreLocationSearchTaskWithQuery:searchText
-    longitude:longitude latitude:latitude completion:^( NSArray *locations, NSError *error )
+    longitude:longitude latitude:latitude completion:^( id response, NSError *error )
     {
-        self.locationData = [NSMutableArray array];
-    
-        if( locations && ![locations isEqual:[NSNull null]] )
-        {
-            for( NSDictionary *locationInfo in locations )
-            {
-                NSMutableDictionary *location = [NSMutableDictionary dictionary];
-                location[kLocationNameKey] = locationInfo[kLocationNameKey];
-                
-                if( [locationInfo[kLocationTypeKey] isEqualToString:@"system"] )
-                {
-                    location[kLocationIDKey] = locationInfo[kLocationIDKey];
-                }
-                else if( [locationInfo[kLocationTypeKey] isEqualToString:@"google"] )
-                {
-                    location[kLocationGoogleIDKey] = locationInfo[kLocationGoogleIDKey];
-                }
-                
-                if( locationInfo[kLocationDistanceKey] )
-                {
-                    location[kLocationDistanceKey] = locationInfo[kLocationDistanceKey];
-                }
-                
-                [self.locationData addObject:location];
-            }
-        }
+        self.locationData = [self locationsFromResponse:response];
         
         [self.tableView reloadData];
     }];
+}
+
+- (NSArray *)locationsFromResponse:(id)response
+{
+    NSArray *locations = response[@"data"][@"locations"];
+    NSMutableArray *newLocations = [NSMutableArray array];
+    
+    if( locations && ![locations isEqual:[NSNull null]] )
+    {
+        for( NSDictionary *locationInfo in locations )
+        {
+            NSMutableDictionary *location = [NSMutableDictionary dictionary];
+            location[kLocationNameKey] = locationInfo[kLocationNameKey];
+            
+            if( [locationInfo[kLocationTypeKey] isEqualToString:@"system"] )
+            {
+                location[kLocationIDKey] = locationInfo[kLocationIDKey];
+            }
+            else if( [locationInfo[kLocationTypeKey] isEqualToString:@"google"] )
+            {
+                location[kLocationGoogleIDKey] = locationInfo[kLocationGoogleIDKey];
+            }
+            
+            if( locationInfo[kLocationDistanceKey] )
+            {
+                location[kLocationDistanceKey] = locationInfo[kLocationDistanceKey];
+            }
+            
+            [newLocations addObject:location];
+        }
+    }
+    
+    return [newLocations copy];
 }
 
 @end

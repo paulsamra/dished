@@ -46,25 +46,55 @@
     [[DALocationManager sharedManager] startUpdatingLocation];
     
     [[DAAPIManager sharedManager] getExploreTabContentWithCompletion:
-    ^( NSArray *hashtags, NSArray *imageURLs, NSError *error )
+    ^( id response, NSError *error )
     {
         if( !error )
         {
-            self.imageURLs = imageURLs;
-            self.hashtags = hashtags;
-             
+            self.imageURLs = [self imageURLsFromResponse:response];
+            self.hashtags  = [self hashtagsFromResponse:response];
+            
             [self.collectionView reloadData];
         }
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:kNetworkReachableKey object:nil];
     
-    self.selectedRadius = 15;
+    self.selectedRadius = 3;
 }
 
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (NSArray *)hashtagsFromResponse:(id)response
+{
+    NSArray *data = response[@"data"];
+    NSMutableArray *hashtags = [NSMutableArray array];
+    
+    for( NSDictionary *dataObject in data )
+    {
+        DAHashtag *hashtag = [[DAHashtag alloc] init];
+        hashtag.name = dataObject[@"name"];
+        hashtag.hashtagID = dataObject[@"id"];
+        [hashtags addObject:hashtag];
+    }
+    
+    return [hashtags copy];
+}
+
+- (NSArray *)imageURLsFromResponse:(id)response
+{
+    NSArray *data = response[@"data"];
+    NSMutableArray *imageURLs = [NSMutableArray array];
+    
+    for( NSDictionary *dataObject in data )
+    {
+        NSString *imageURL = dataObject[@"image_thumb"];
+        [imageURLs addObject:imageURL];
+    }
+    
+    return [imageURLs copy];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -77,12 +107,12 @@
 - (void)refreshData
 {
     [[DAAPIManager sharedManager] getExploreTabContentWithCompletion:
-    ^( NSArray *hashtags, NSArray *imageURLs, NSError *error )
+    ^( id response, NSError *error )
     {
         if( !error )
         {
-            self.imageURLs = imageURLs;
-            self.hashtags = hashtags;
+            self.imageURLs = [self imageURLsFromResponse:response];
+            self.hashtags  = [self hashtagsFromResponse:response];
              
             [self.collectionView reloadData];
         }
@@ -110,36 +140,19 @@
             [self.liveSearchTask cancel];
         }
         
-        if( [searchText characterAtIndex:0] == '#' )
+        if( [searchText characterAtIndex:0] == '#' && searchText.length > 1 )
         {
             NSString *query = [searchText substringFromIndex:1];
             
-            self.liveSearchTask = [[DAAPIManager sharedManager] exploreDishesWithHashtagSearchTaskWithQuery:query
-            longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:self.selectedRadius
-            completion:^( NSArray *dishes, NSError *error )
+            self.liveSearchTask = [[DAAPIManager sharedManager] exploreHashtagSuggestionsSearchTaskWithQuery:query
+            completion:^(id response, NSError *error)
             {
-                if( dishes )
+                if( response && ![response isEqual:[NSNull null]] )
                 {
-                    NSMutableArray *dishResults = [NSMutableArray array];
-                    
-                    if( ![dishes isEqual:[NSNull null]] )
-                    {
-                        for( NSDictionary *dish in dishes )
-                        {
-                            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
-                            
-                            searchResult.name     = dish[@"name"];
-                            searchResult.resultID = dish[@"id"];
-                            searchResult.rating   = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"";
-                            searchResult.resultType = eDishSearchResult;
-                            
-                            [dishResults addObject:searchResult];
-                        }
-                    }
-                    
-                    self.liveSearchResults = [dishResults copy];
-                    [self.searchDisplayController.searchResultsTableView reloadData];
+                    self.liveSearchResults = [self hashtagResultsFromResponse:response];
                 }
+                
+                [self.searchDisplayController.searchResultsTableView reloadData];
             }];
         }
         else if( [searchText characterAtIndex:0] == '@' && searchText.length > 1 )
@@ -147,29 +160,14 @@
             NSString *query = [searchText substringFromIndex:1];
             
             self.liveSearchTask = [[DAAPIManager sharedManager] exploreUsernameSearchTaskWithQuery:query
-            competion:^( NSArray *usernames, NSError *error )
+            competion:^( id response, NSError *error )
             {
-                if( usernames )
+                if( response && ![response isEqual:[NSNull null]] )
                 {
-                    NSMutableArray *searchResults = [NSMutableArray array];
-                    
-                    if( ![usernames isEqual:[NSNull null]] )
-                    {
-                        for( NSDictionary *username in usernames )
-                        {
-                            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
-                            
-                            searchResult.name = username[@"username"];
-                            searchResult.resultID = username[@"id"];
-                            searchResult.resultType = eUsernameSearchResult;
-                            
-                            [searchResults addObject:searchResult];
-                        }
-                    }
-                    
-                    self.liveSearchResults = [searchResults copy];
-                    [self.searchDisplayController.searchResultsTableView reloadData];
+                    self.liveSearchResults = [self usernameResultsFromResponse:response];
                 }
+                
+                [self.searchDisplayController.searchResultsTableView reloadData];
             }];
         }
         else
@@ -178,40 +176,13 @@
             
             self.liveSearchTask = [[DAAPIManager sharedManager] exploreDishAndLocationSearchTaskWithQuery:query
             longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:15
-            completion:^( NSArray *dishes, NSArray *locations, NSError *error )
+            completion:^( id response, NSError *error )
             {
-                NSMutableArray *searchResults = [NSMutableArray array];
-                
-                if( ![dishes isEqual:[NSNull null]] )
+                if( response && ![response isEqual:[NSNull null]] )
                 {
-                    for( NSDictionary *dish in dishes )
-                    {
-                        DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
-                        
-                        searchResult.name       = dish[@"name"];
-                        searchResult.resultID   = dish[@"id"];
-                        searchResult.rating     = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"";
-                        searchResult.resultType = eDishSearchResult;
-                        
-                        [searchResults addObject:searchResult];
-                    }
+                    self.liveSearchResults = [self dishAndLocationResultsFromResponse:response];
                 }
                 
-                if( ![locations isEqual:[NSNull null]] )
-                {
-                    for( NSDictionary *location in locations )
-                    {
-                        DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
-                        
-                        searchResult.name       = location[@"name"];
-                        searchResult.resultID   = location[@"id"];
-                        searchResult.resultType = eLocationSearchResult;
-                        
-                        [searchResults addObject:searchResult];
-                    }
-                }
-                
-                self.liveSearchResults = [searchResults copy];
                 [self.searchDisplayController.searchResultsTableView reloadData];
             }];
         }
@@ -221,6 +192,88 @@
         [self.liveSearchTask cancel];
         self.liveSearchResults = [NSArray array];
     }
+}
+
+- (NSArray *)usernameResultsFromResponse:(id)response
+{
+    NSArray *usernames = response[@"data"];
+    NSMutableArray *searchResults = [NSMutableArray array];
+    
+    if( usernames && ![usernames isEqual:[NSNull null]] )
+    {
+        for( NSDictionary *username in usernames )
+        {
+            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
+            
+            searchResult.name = username[@"username"];
+            searchResult.resultID = username[@"id"];
+            searchResult.resultType = eUsernameSearchResult;
+            
+            [searchResults addObject:searchResult];
+        }
+    }
+    
+    return [searchResults copy];
+}
+
+- (NSArray *)hashtagResultsFromResponse:(id)response
+{
+    NSArray *hashtags = response[@"data"];
+    NSMutableArray *searchResults = [NSMutableArray array];
+    
+    if( hashtags && ![hashtags isEqual:[NSNull null]] )
+    {
+        for( NSDictionary *hashtag in hashtags )
+        {
+            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
+            
+            searchResult.name = hashtag[@"name"];
+            searchResult.resultID = hashtag[@"id"];
+            searchResult.resultType = eHashtagSearchResult;
+            
+            [searchResults addObject:searchResult];
+        }
+    }
+    
+    return searchResults;
+}
+
+- (NSArray *)dishAndLocationResultsFromResponse:(id)response
+{
+    NSArray *dishes = response[@"data"][@"dishes"];
+    NSArray *locations = response[@"data"][@"locations"];
+    NSMutableArray *searchResults = [NSMutableArray array];
+    
+    if( ![dishes isEqual:[NSNull null]] )
+    {
+        for( NSDictionary *dish in dishes )
+        {
+            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
+            
+            searchResult.name       = dish[@"name"];
+            searchResult.resultID   = dish[@"id"];
+            searchResult.rating     = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"";
+            searchResult.resultType = eDishSearchResult;
+            
+            [searchResults addObject:searchResult];
+        }
+    }
+    
+    if( ![locations isEqual:[NSNull null]] )
+    {
+        for( NSDictionary *location in locations )
+        {
+            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
+            
+            searchResult.name       = location[@"name"];
+            searchResult.resultID   = location[@"id"];
+            searchResult.resultType = eLocationSearchResult;
+            
+            [searchResults addObject:searchResult];
+        }
+    }
+    
+    return searchResults;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -258,20 +311,23 @@
         {
             case eHashtagSearchResult:
             {
-                cell.imageView.image = nil;
-                cell.textLabel.text  = searchResult.name;
+                cell.imageView.image      = nil;
+                cell.textLabel.text       = [NSString stringWithFormat:@"#%@", searchResult.name];
+                cell.detailTextLabel.text = @"";
             }
             break;
             case eUsernameSearchResult:
             {
-                cell.imageView.image = [UIImage imageNamed:@"explore_search_user"];
-                cell.textLabel.text  = [NSString stringWithFormat:@"@%@", searchResult.name];
+                cell.imageView.image      = [UIImage imageNamed:@"explore_search_user"];
+                cell.textLabel.text       = [NSString stringWithFormat:@"@%@", searchResult.name];
+                cell.detailTextLabel.text = @"";
             }
             break;
             case eLocationSearchResult:
             {
-                cell.imageView.image = [UIImage imageNamed:@"explore_search_place"];
-                cell.textLabel.text  = searchResult.name;
+                cell.imageView.image      = [UIImage imageNamed:@"explore_search_place"];
+                cell.textLabel.text       = searchResult.name;
+                cell.detailTextLabel.text = @"";
             }
             break;
             case eDishSearchResult:
@@ -310,7 +366,7 @@
         {
             case eHashtagSearchResult:
             {
-                
+                [self performSegueWithIdentifier:@"dishResults" sender:searchResult.name];
             }
             break;
             case eDishSearchResult:

@@ -86,7 +86,7 @@
  * Returns an array of locations given a search string.
  * Distances are given in miles.
  */
-- (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( NSArray *locations, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Posts a new dish review to the server.
@@ -95,39 +95,44 @@
 
 /*
  * Get content for main screen on explore tab incl.
- * hashtags and images. Completion handler return
- * array of DAHashtag objects and array of image URLs.
+ * hashtags and images.
  */
-- (void)getExploreTabContentWithCompletion:( void(^)( NSArray *hashtags, NSArray *imageURLs, NSError *error ) )completion;
+- (void)getExploreTabContentWithCompletion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Search task for usernames given a search string.
  * Completion returns array of usernames.
  */
-- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( NSArray *usernames, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Search task for dishes given a hashtag.
  * Completion returns array of dishes.
  */
-- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Search task for when it is unknown
  * when user is searching for dishes or locations.
  */
-- (NSURLSessionTask *)exploreDishAndLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSArray *locations, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreDishAndLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Get Editor's Picks dishes.
  * Completion returns array of dishes.
  */
-- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
+- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Get popular and trending dishes.
  * Completion returns array of dishes.
  */
-- (void)getPopularDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( NSArray *dishes, NSError *error ) )completion;
+- (void)getPopularDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
+
+/*
+ * Search task for getting hashtag suggestions when
+ * user is typing in a hashtag.
+ */
+- (NSURLSessionTask *)exploreHashtagSuggestionsSearchTaskWithQuery:(NSString *)query completion:( void(^)( id response, NSError *error ) )completion;
 
 @end
