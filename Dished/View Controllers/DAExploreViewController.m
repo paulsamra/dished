@@ -58,8 +58,11 @@
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:kNetworkReachableKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationUpdated) name:kLocationUpdateNotificationKey object:nil];
     
-    self.selectedRadius = 3;
+    self.selectedLocationName = @"Current Location";
+    
+    self.selectedRadius = 5;
 }
 
 - (void)dealloc
@@ -72,15 +75,28 @@
     NSArray *data = response[@"data"];
     NSMutableArray *hashtags = [NSMutableArray array];
     
-    for( NSDictionary *dataObject in data )
+    if( data && ![data isEqual:[NSNull null]] )
     {
-        DAHashtag *hashtag = [[DAHashtag alloc] init];
-        hashtag.name = dataObject[@"name"];
-        hashtag.hashtagID = dataObject[@"id"];
-        [hashtags addObject:hashtag];
+        for( NSDictionary *dataObject in data )
+        {
+            DAHashtag *hashtag = [[DAHashtag alloc] init];
+            hashtag.name = dataObject[@"name"];
+            hashtag.hashtagID = dataObject[@"id"];
+            [hashtags addObject:hashtag];
+        }
     }
     
     return [hashtags copy];
+}
+
+- (void)locationUpdated
+{
+    NSLog(@"LOCATION UPDATED");
+    if( [self.selectedLocationName isEqualToString:@"Current Location"] )
+    {
+        NSLog(@"USING CURRENT");
+        self.selectedLocation = [[DALocationManager sharedManager] currentLocation];
+    }
 }
 
 - (NSArray *)imageURLsFromResponse:(id)response
@@ -88,10 +104,13 @@
     NSArray *data = response[@"data"];
     NSMutableArray *imageURLs = [NSMutableArray array];
     
-    for( NSDictionary *dataObject in data )
+    if( data && ![data isEqual:[NSNull null]] )
     {
-        NSString *imageURL = dataObject[@"image_thumb"];
-        [imageURLs addObject:imageURL];
+        for( NSDictionary *dataObject in data )
+        {
+            NSString *imageURL = dataObject[@"image_thumb"];
+            [imageURLs addObject:imageURL];
+        }
     }
     
     return [imageURLs copy];
@@ -126,6 +145,8 @@
 
 - (void)locationViewControllerDidSelectLocationName:(NSString *)locationName atLocation:(CLLocationCoordinate2D)location radius:(double)radius
 {
+    NSLog(@"DID SELECT LOCATION");
+    
     self.selectedLocation     = location;
     self.selectedLocationName = locationName;
     self.selectedRadius       = radius;
@@ -244,7 +265,7 @@
     NSArray *locations = response[@"data"][@"locations"];
     NSMutableArray *searchResults = [NSMutableArray array];
     
-    if( ![dishes isEqual:[NSNull null]] )
+    if( dishes && ![dishes isEqual:[NSNull null]] )
     {
         for( NSDictionary *dish in dishes )
         {

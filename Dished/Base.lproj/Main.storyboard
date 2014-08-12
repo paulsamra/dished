@@ -976,6 +976,11 @@
                                 <action selector="cancelChangeLocation:" destination="ZQV-Y0-lXh" id="J37-ef-k2T"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Done" id="P8M-4y-LbN">
+                            <connections>
+                                <action selector="doneChoosingLocation:" destination="ZQV-Y0-lXh" id="tja-LI-b6n"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="Q1y-4E-9Cv" id="WvY-aa-K6E"/>

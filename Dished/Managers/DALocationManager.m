@@ -101,6 +101,8 @@
     {
         self.locationFound = NO;
     }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLocationUpdateNotificationKey object:nil];
 }
 
 @end

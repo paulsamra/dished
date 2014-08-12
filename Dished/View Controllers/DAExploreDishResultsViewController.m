@@ -99,23 +99,26 @@
     NSArray *dishes = response[@"data"][@"dishes"];
     NSMutableArray *results = [NSMutableArray array];
     
-    for( NSDictionary *dish in dishes )
+    if( dishes && ![dishes isEqual:[NSNull null]] )
     {
-        DAExploreDishSearchResult *result = [[DAExploreDishSearchResult alloc] init];
-        
-        result.dishID            = dish[@"id"];
-        result.name              = dish[@"name"];
-        result.price             = ![dish[@"price"] isEqual:[NSNull null]] ? dish[@"price"] : @"";
-        result.type              = dish[@"type"];
-        result.totalReviews      = [dish[@"num_reviews"] intValue];
-        result.friendReviews     = [dish[@"num_reviews_friends"] intValue];
-        result.influencerReviews = [dish[@"num_reviews_influencers"] intValue];
-        result.locationID        = dish[@"location"][@"id"];
-        result.locationName      = dish[@"location"][@"name"];
-        result.grade             = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"No Ratings";
-        result.imageURL          = ![dish[@"img"] isEqual:[NSNull null]] ? dish[@"img"] : nil;
-        
-        [results addObject:result];
+        for( NSDictionary *dish in dishes )
+        {
+            DAExploreDishSearchResult *result = [[DAExploreDishSearchResult alloc] init];
+            
+            result.dishID            = dish[@"id"];
+            result.name              = dish[@"name"];
+            result.price             = ![dish[@"price"] isEqual:[NSNull null]] ? dish[@"price"] : @"";
+            result.type              = dish[@"type"];
+            result.totalReviews      = [dish[@"num_reviews"] intValue];
+            result.friendReviews     = [dish[@"num_reviews_friends"] intValue];
+            result.influencerReviews = [dish[@"num_reviews_influencers"] intValue];
+            result.locationID        = dish[@"location"][@"id"];
+            result.locationName      = dish[@"location"][@"name"];
+            result.grade             = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"No Ratings";
+            result.imageURL          = ![dish[@"img"] isEqual:[NSNull null]] ? dish[@"img"] : nil;
+            
+            [results addObject:result];
+        }
     }
     
     return [results copy];
