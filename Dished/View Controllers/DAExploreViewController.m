@@ -91,10 +91,8 @@
 
 - (void)locationUpdated
 {
-    NSLog(@"LOCATION UPDATED");
     if( [self.selectedLocationName isEqualToString:@"Current Location"] )
     {
-        NSLog(@"USING CURRENT");
         self.selectedLocation = [[DALocationManager sharedManager] currentLocation];
     }
 }
@@ -145,8 +143,6 @@
 
 - (void)locationViewControllerDidSelectLocationName:(NSString *)locationName atLocation:(CLLocationCoordinate2D)location radius:(double)radius
 {
-    NSLog(@"DID SELECT LOCATION");
-    
     self.selectedLocation     = location;
     self.selectedLocationName = locationName;
     self.selectedRadius       = radius;
@@ -478,6 +474,7 @@
         dest.delegate             = self;
         dest.selectedLocationName = self.selectedLocationName;
         dest.selectedRadius       = self.selectedRadius;
+        dest.selectedLocation     = self.selectedLocation;
     }
 }
 

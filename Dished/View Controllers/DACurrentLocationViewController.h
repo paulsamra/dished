@@ -27,6 +27,7 @@
 
 @property (strong, nonatomic) NSString *selectedLocationName;
 
-@property (nonatomic) double selectedRadius;
+@property (nonatomic) double                 selectedRadius;
+@property (nonatomic) CLLocationCoordinate2D selectedLocation;
 
 @end

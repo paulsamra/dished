@@ -203,16 +203,19 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
     
     if( indexPath.section == 0 )
     {
+        self.shouldUpdateResults = NO;
+        
         if( indexPath.row == [self.searchResults count] )
         {
             if( [self.selectedLocationName isEqualToString:@"Current Location"] )
             {
                 self.selectedLocationName = @"Current Location";
+                self.selectedLocation     = [[DALocationManager sharedManager] currentLocation];
             }
             
             if( [self.delegate respondsToSelector:@selector(locationViewControllerDidSelectLocationName:atLocation:radius:)] )
             {
-                [self.delegate locationViewControllerDidSelectLocationName:self.selectedLocationName atLocation:[[DALocationManager sharedManager] currentLocation] radius:self.selectedRadius];
+                [self.delegate locationViewControllerDidSelectLocationName:self.selectedLocationName atLocation:self.selectedLocation radius:self.selectedRadius];
             }
             
             self.searchResults = [NSArray array];
@@ -221,10 +224,11 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
         else if( indexPath.row == [self.searchResults count] + 1 )
         {
             self.selectedLocationName = @"Current Location";
+            self.selectedLocation     = [[DALocationManager sharedManager] currentLocation];
             
             if( [self.delegate respondsToSelector:@selector(locationViewControllerDidSelectLocationName:atLocation:radius:)] )
             {
-                [self.delegate locationViewControllerDidSelectLocationName:@"Current Location" atLocation:[[DALocationManager sharedManager] currentLocation] radius:self.selectedRadius];
+                [self.delegate locationViewControllerDidSelectLocationName:@"Current Location" atLocation:self.selectedLocation radius:self.selectedRadius];
             }
             
             self.searchResults = [NSArray array];
@@ -241,9 +245,12 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
                 
                 [place resolveToPlacemark:^( CLPlacemark *placemark, NSString *addressString, NSError *error )
                 {
-                    CLLocationCoordinate2D selectedLocation = placemark.location.coordinate;
-                     
-                    [delegate locationViewControllerDidSelectLocationName:place.name atLocation:selectedLocation radius:self.selectedRadius];
+                    self.selectedLocation = placemark.location.coordinate;
+                    
+                    if( [self.delegate respondsToSelector:@selector(locationViewControllerDidSelectLocationName:atLocation:radius:)] )
+                    {
+                        [delegate locationViewControllerDidSelectLocationName:place.name atLocation:self.selectedLocation radius:self.selectedRadius];
+                    }
                 }];
             }
             
@@ -261,6 +268,12 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
         else
         {
             self.selectedRadius = [[self.radiusArray objectAtIndex:indexPath.row - 1] doubleValue];
+            
+            if( [self.delegate respondsToSelector:@selector(locationViewControllerDidSelectLocationName:atLocation:radius:)] )
+            {
+                [self.delegate locationViewControllerDidSelectLocationName:self.selectedLocationName atLocation:self.selectedLocation radius:self.selectedRadius];
+            }
+            
             [tableView reloadData];
         }
     }
@@ -285,7 +298,7 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
 {
     if( !_radiusArray )
     {
-        _radiusArray = @[ @(1), @(2), @(5), @(10), @(15), @"No Radius" ];
+        _radiusArray = @[ @(1), @(2), @(5), @(10), @(15), @(25), @(50), @"No Radius" ];
     }
     
     return _radiusArray;
