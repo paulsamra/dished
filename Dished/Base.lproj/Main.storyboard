@@ -547,7 +547,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <searchBar contentMode="redraw" placeholder="Search by Dish, Place, Username or #" translatesAutoresizingMaskIntoConstraints="NO" id="ZUZ-7D-6Aa">
+                            <searchBar contentMode="redraw" placeholder="Search by Dish, Place, Username or #" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZUZ-7D-6Aa">
                                 <rect key="frame" x="0.0" y="64" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="tnC-GL-hZS"/>
@@ -1450,13 +1450,13 @@
                                             <constraints>
                                                 <constraint firstItem="LMd-zy-5yV" firstAttribute="centerY" secondItem="iFU-Wg-dlY" secondAttribute="centerY" constant="0.5" id="857-xm-4K9"/>
                                                 <constraint firstItem="XoP-Dl-Pkt" firstAttribute="leading" secondItem="iFU-Wg-dlY" secondAttribute="trailing" constant="-2" id="92D-fw-ttk"/>
-                                                <constraint firstItem="dU3-qC-G7c" firstAttribute="top" secondItem="BRw-U1-mS4" secondAttribute="top" constant="17" id="EdM-4m-0Qa"/>
                                                 <constraint firstItem="iFU-Wg-dlY" firstAttribute="top" secondItem="BRw-U1-mS4" secondAttribute="top" id="GMb-Gy-nea"/>
                                                 <constraint firstItem="6bf-Oi-YnX" firstAttribute="leading" secondItem="q5Q-tC-1k4" secondAttribute="trailing" constant="8" id="HHi-wv-HYS"/>
                                                 <constraint firstAttribute="trailing" secondItem="6bf-Oi-YnX" secondAttribute="trailing" constant="23" id="Ifn-6g-Dq8"/>
                                                 <constraint firstItem="dU3-qC-G7c" firstAttribute="leading" secondItem="iFU-Wg-dlY" secondAttribute="trailing" constant="20" id="KYs-D6-5EW"/>
                                                 <constraint firstAttribute="bottom" secondItem="XoP-Dl-Pkt" secondAttribute="bottom" id="ORK-fU-Yvw"/>
                                                 <constraint firstAttribute="bottom" secondItem="iFU-Wg-dlY" secondAttribute="bottom" constant="1" id="cFW-Pg-w93"/>
+                                                <constraint firstAttribute="centerY" secondItem="dU3-qC-G7c" secondAttribute="centerY" id="fDi-8K-VFC"/>
                                                 <constraint firstAttribute="centerY" secondItem="q5Q-tC-1k4" secondAttribute="centerY" constant="0.5" id="g0Z-5A-rU3"/>
                                                 <constraint firstAttribute="centerY" secondItem="6bf-Oi-YnX" secondAttribute="centerY" constant="0.5" id="hZb-4g-fEG"/>
                                                 <constraint firstItem="iFU-Wg-dlY" firstAttribute="leading" secondItem="BRw-U1-mS4" secondAttribute="leading" id="hbA-bA-nP1"/>

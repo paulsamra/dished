@@ -815,11 +815,11 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }];
 }
 
-- (NSURLSessionTask *)exploreDishAndLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
+- (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query,
                                   @"longitude" : @(longitude), @"latitude" : @(latitude),
-                                  @"radius" : @(radius) };
+                                  @"radius" : @(radius), @"auto_complete" : @(1) };
     
     return [self GET:@"explore/dishes_locations" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
@@ -845,7 +845,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }];
 }
 
-- (NSURLSessionTask *)exploreHashtagSuggestionsSearchTaskWithQuery:(NSString *)query completion:( void(^)( id response, NSError *error ) )completion
+- (NSURLSessionTask *)exploreHashtagSuggestionsTaskWithQuery:(NSString *)query completion:( void(^)( id response, NSError *error ) )completion
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"name" : query };
     
@@ -869,6 +869,30 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             NSLog(@"Error searching dishes and locations: %@", error.localizedDescription);
             completion( nil, error );
         }
+    }];
+}
+
+- (void)exploreDishesWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
+{
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query, @"longitude" : @(longitude),
+                                  @"latitude" : @(latitude), @"radius" : @(radius), @"auto_complete" : @(0) };
+    
+    [self GET:@"explore/dishes" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        if( [responseObject[@"status"] isEqualToString:@"success"] )
+        {
+            completion( responseObject, nil );
+        }
+        else
+        {
+            completion( nil, nil );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"Error searching dishes: %@", error.localizedDescription);
+        completion( nil, error );
     }];
 }
 

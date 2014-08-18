@@ -22,15 +22,16 @@
 
 @interface DAReviewFormViewController() <UIAlertViewDelegate>
 
-@property (strong, nonatomic) UIView          *dimView;
-@property (strong, nonatomic) DANewReview     *selectedReview;
-@property (strong, nonatomic) UIAlertView     *postFailAlert;
-@property (strong, nonatomic) UIAlertView     *twitterLoginFailAlert;
-@property (strong, nonatomic) UIAlertView     *googleLoginFailAlert;
-@property (strong, nonatomic) NSMutableString *dishPrice;
+@property (strong, nonatomic) UIView                           *dimView;
+@property (strong, nonatomic) DANewReview                      *selectedReview;
+@property (strong, nonatomic) UIAlertView                      *postFailAlert;
+@property (strong, nonatomic) UIAlertView                      *twitterLoginFailAlert;
+@property (strong, nonatomic) UIAlertView                      *googleLoginFailAlert;
+@property (strong, nonatomic) NSMutableString                  *dishPrice;
 @property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
 
-@property (nonatomic) BOOL addressFound;
+@property (nonatomic) BOOL   addressFound;
+@property (nonatomic) CGRect keyboardFrame;
 
 @end
 
@@ -47,6 +48,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressReady:) name:kAddressReadyNotificationKey object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissSocialView) name:kDoneSelecting object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
 
     [self setupSuggestionTable];
     [self setupShareView];
@@ -99,6 +101,17 @@
     
     self.socialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"social"];
     self.socialViewController.view.frame = CGRectMake( 0, 600, self.view.bounds.size.width, self.view.bounds.size.height );
+}
+
+- (void)keyboardOnScreen:(NSNotification *)notification
+{
+    NSDictionary *info  = notification.userInfo;
+    NSValue      *value = info[UIKeyboardFrameEndUserInfoKey];
+    
+    CGRect rawFrame      = [value CGRectValue];
+    CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
+    
+    self.keyboardFrame = keyboardFrame;
 }
 
 - (void)dismissSocialView
@@ -476,9 +489,10 @@
 
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
     {
+        CGFloat keyboardY = self.view.window.frame.size.height - self.keyboardFrame.size.height;
+        CGFloat socialViewHeight = self.socialViewController.collectionViewLayout.collectionViewContentSize.height;
         CGRect socialViewFrame = self.socialViewController.view.frame;
-        socialViewFrame.origin = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]].frame.origin;
-        socialViewFrame.origin.y += self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
+        socialViewFrame.origin.y = keyboardY - socialViewHeight;
         self.socialViewController.view.frame = socialViewFrame;
     }
     completion:nil];

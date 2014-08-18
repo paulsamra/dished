@@ -39,6 +39,7 @@
     [super viewDidLoad];
     
     self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
+    self.collectionView.alwaysBounceVertical = YES;
     
     UINib *searchCellNib = [UINib nibWithNibName:@"DAExploreSearchTableViewCell" bundle:nil];
     [self.searchDisplayController.searchResultsTableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
@@ -70,6 +71,14 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
+- (void)locationUpdated
+{
+    if( [self.selectedLocationName isEqualToString:@"Current Location"] )
+    {
+        self.selectedLocation = [[DALocationManager sharedManager] currentLocation];
+    }
+}
+
 - (NSArray *)hashtagsFromResponse:(id)response
 {
     NSArray *data = response[@"data"];
@@ -87,14 +96,6 @@
     }
     
     return [hashtags copy];
-}
-
-- (void)locationUpdated
-{
-    if( [self.selectedLocationName isEqualToString:@"Current Location"] )
-    {
-        self.selectedLocation = [[DALocationManager sharedManager] currentLocation];
-    }
 }
 
 - (NSArray *)imageURLsFromResponse:(id)response
@@ -161,7 +162,7 @@
         {
             NSString *query = [searchText substringFromIndex:1];
             
-            self.liveSearchTask = [[DAAPIManager sharedManager] exploreHashtagSuggestionsSearchTaskWithQuery:query
+            self.liveSearchTask = [[DAAPIManager sharedManager] exploreHashtagSuggestionsTaskWithQuery:query
             completion:^(id response, NSError *error)
             {
                 if( response && ![response isEqual:[NSNull null]] )
@@ -191,7 +192,7 @@
         {
             NSString *query = searchText;
             
-            self.liveSearchTask = [[DAAPIManager sharedManager] exploreDishAndLocationSearchTaskWithQuery:query
+            self.liveSearchTask = [[DAAPIManager sharedManager] exploreDishAndLocationSuggestionsTaskWithQuery:query
             longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:15
             completion:^( id response, NSError *error )
             {
@@ -268,8 +269,7 @@
             DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
             
             searchResult.name       = dish[@"name"];
-            searchResult.resultID   = dish[@"id"];
-            searchResult.rating     = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"";
+            searchResult.dishType   = dish[@"type"];
             searchResult.resultType = eDishSearchResult;
             
             [searchResults addObject:searchResult];
@@ -321,37 +321,45 @@
     {
         DAExploreLiveSearchResult *searchResult = [self.liveSearchResults objectAtIndex:indexPath.row];
         
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"searchResultCell"];
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"searchResultCell"];
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
         
         switch( searchResult.resultType )
         {
             case eHashtagSearchResult:
             {
-                cell.imageView.image      = nil;
-                cell.textLabel.text       = [NSString stringWithFormat:@"#%@", searchResult.name];
-                cell.detailTextLabel.text = @"";
+                cell.imageView.image = nil;
+                cell.textLabel.text  = [NSString stringWithFormat:@"#%@", searchResult.name];
             }
             break;
             case eUsernameSearchResult:
             {
-                cell.imageView.image      = [UIImage imageNamed:@"explore_search_user"];
-                cell.textLabel.text       = [NSString stringWithFormat:@"@%@", searchResult.name];
-                cell.detailTextLabel.text = @"";
+                cell.imageView.image = [UIImage imageNamed:@"explore_search_user"];
+                cell.textLabel.text  = [NSString stringWithFormat:@"@%@", searchResult.name];
             }
             break;
             case eLocationSearchResult:
             {
-                cell.imageView.image      = [UIImage imageNamed:@"explore_search_place"];
-                cell.textLabel.text       = searchResult.name;
-                cell.detailTextLabel.text = @"";
+                cell.imageView.image = [UIImage imageNamed:@"explore_search_place"];
+                cell.textLabel.text  = searchResult.name;
             }
             break;
             case eDishSearchResult:
             {
-                cell.imageView.image      = [UIImage imageNamed:@"explore_search_food"];
-                cell.textLabel.text       = searchResult.name;
-                cell.detailTextLabel.text = searchResult.rating;
+                cell.textLabel.text = searchResult.name;
+                
+                if( [searchResult.dishType isEqualToString:kFood] )
+                {
+                    cell.imageView.image = [UIImage imageNamed:@"explore_search_food"];
+                }
+                else if( [searchResult.dishType isEqualToString:kCocktail] )
+                {
+                    cell.imageView.image = [UIImage imageNamed:@"explore_search_cocktail"];
+                }
+                else if( [searchResult.dishType isEqualToString:kWine] )
+                {
+                    cell.imageView.image = [UIImage imageNamed:@"explore_search_wine"];
+                }
             }
             break;
         }
@@ -388,7 +396,7 @@
             break;
             case eDishSearchResult:
             {
-                
+                [self performSegueWithIdentifier:@"dishResults" sender:searchResult.name];
             }
             break;
             case eLocationSearchResult:

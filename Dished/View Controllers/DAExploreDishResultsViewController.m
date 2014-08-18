@@ -73,13 +73,30 @@
                 [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
             }];
         }
-        else
+        else if( [self.searchTerm characterAtIndex:0] == '#' )
         {
             self.title = [NSString stringWithFormat:@"#%@", self.searchTerm];
             
             [[DAAPIManager sharedManager] exploreDishesWithHashtagSearchTaskWithQuery:self.searchTerm
             longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:self.selectedRadius
             completion:^( id response, NSError *error )
+            {
+                self.isLoading = NO;
+                
+                if( response && ![response isEqual:[NSNull null]] )
+                {
+                    self.searchResults = [self dishesFromResponse:response];
+                }
+                
+                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }];
+        }
+        else
+        {
+            self.title = self.searchTerm;
+            
+            [[DAAPIManager sharedManager] exploreDishesWithQuery:self.searchTerm longitude:self.selectedLocation.longitude
+            latitude:self.selectedLocation.latitude radius:self.selectedRadius completion:^( id response, NSError *error )
             {
                 self.isLoading = NO;
                 
@@ -170,14 +187,16 @@
     
     DAExploreDishSearchResult *result = [self.searchResults objectAtIndex:indexPath.row];
     
-    cell.dishName.text     = result.name;
-    cell.grade.text        = result.grade;
-    cell.locationName.text = result.locationName;
+    cell.dishNameLabel.text          = result.name;
+    cell.gradeLabel.text             = result.grade;
+    cell.locationNameLabel.text      = result.locationName;
+    cell.reviewsNumberLabel.text     = [NSString stringWithFormat:@"%d", result.totalReviews];
+    cell.friendsNumberLabel.text     = [NSString stringWithFormat:@"%d", result.friendReviews];
+    cell.influencersNumberLabel.text = [NSString stringWithFormat:@"%d", result.influencerReviews];
     
     if( result.imageURL )
     {
         NSURL *url = [NSURL URLWithString:result.imageURL];
-        
         [cell.mainImageView setImageWithURL:url usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }
     

@@ -115,7 +115,7 @@
  * Search task for when it is unknown
  * when user is searching for dishes or locations.
  */
-- (NSURLSessionTask *)exploreDishAndLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Get Editor's Picks dishes.
@@ -133,6 +133,11 @@
  * Search task for getting hashtag suggestions when
  * user is typing in a hashtag.
  */
-- (NSURLSessionTask *)exploreHashtagSuggestionsSearchTaskWithQuery:(NSString *)query completion:( void(^)( id response, NSError *error ) )completion;
+- (NSURLSessionTask *)exploreHashtagSuggestionsTaskWithQuery:(NSString *)query completion:( void(^)( id response, NSError *error ) )completion;
+
+/*
+ * Search for dishes given a search term.
+ */
+- (void)exploreDishesWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
 
 @end
