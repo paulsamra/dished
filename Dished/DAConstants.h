@@ -10,6 +10,7 @@
 
 #define nilOrJSONObjectForKey(JSON_, KEY_) [[JSON_ objectForKey:KEY_] isKindOfClass:[NSNull class]] ? nil : [JSON_ objectForKey:KEY_]
 
+extern NSString *const kProjectName;
 
 extern NSString *const kFood;
 extern NSString *const kWine;

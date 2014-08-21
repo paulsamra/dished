@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DAFeedViewController : UIViewController
+@interface DAFeedViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @end

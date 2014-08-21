@@ -24,6 +24,7 @@
 @property (strong, nonatomic) NSArray          *hashtags;
 @property (strong, nonatomic) NSArray          *liveSearchResults;
 @property (strong, nonatomic) NSString         *selectedLocationName;
+@property (strong, nonatomic) NSMutableArray   *images;
 @property (strong, nonatomic) NSURLSessionTask *liveSearchTask;
 
 @property (nonatomic) double                 selectedRadius;
@@ -435,25 +436,37 @@
         
         return cell;
     }
-    
-    NSURL *url = [NSURL URLWithString:self.imageURLs[indexPath.row]];
-    
-    [cell.imageView sd_setImageWithURL:url
-    completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
+
+    if( [[self.images objectAtIndex:indexPath.row] isEqual:[NSNull null]] )
     {
-        [cell.activityIndicatorView stopAnimating];
-        cell.activityIndicatorView.hidden = YES;
+        NSURL *url = [NSURL URLWithString:self.imageURLs[indexPath.row]];
+        
+        [cell.imageView sd_setImageWithURL:url
+        completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
+        {
+            self.images[indexPath.row] = image;
+            
+            [cell.activityIndicatorView stopAnimating];
+            cell.activityIndicatorView.hidden = YES;
+            
+            DAHashtag *hashtag = [self.hashtags objectAtIndex:indexPath.row];
+            cell.hashtagLabel.text = [NSString stringWithFormat:@"#%@", hashtag.name];
+            
+            [UIView transitionWithView:cell.imageView duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve
+            animations:^
+            {
+                [cell.imageView setImage:image];
+            }
+            completion:nil];
+        }];
+    }
+    else
+    {
+        [cell.imageView setImage:self.images[indexPath.row]];
         
         DAHashtag *hashtag = [self.hashtags objectAtIndex:indexPath.row];
         cell.hashtagLabel.text = [NSString stringWithFormat:@"#%@", hashtag.name];
-        
-        [UIView transitionWithView:cell.imageView duration:0.5 options:UIViewAnimationOptionTransitionCrossDissolve
-        animations:^
-        {
-            [cell.imageView setImage:image];
-        }
-        completion:nil];
-    }];
+    }
     
     return cell;
 }
@@ -501,6 +514,23 @@
     }
     
     return _imageURLs;
+}
+
+- (NSMutableArray *)images
+{
+    if( !_images )
+    {
+        NSMutableArray *nullArray = [NSMutableArray array];
+        
+        for( int i = 0; i < 12; i++ )
+        {
+            [nullArray addObject:[NSNull null]];
+        }
+        
+        _images = nullArray;
+    }
+    
+    return _images;
 }
 
 - (NSArray *)rowTitles

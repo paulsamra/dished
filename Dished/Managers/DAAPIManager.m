@@ -791,28 +791,31 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)getPopularDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
 {
-    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"longitude" : @(longitude),
-                                  @"latitude" : @(latitude), @"radius" : @(radius) };
-    
-    [self GET:@"explore/dishes/popular" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    dispatch_async( self.queue, ^
     {
-        NSDictionary *response = (NSDictionary *)responseObject;
-         
-        if( [response[@"status"] isEqualToString:@"success"] )
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"longitude" : @(longitude),
+                                      @"latitude" : @(latitude), @"radius" : @(radius) };
+        
+        [self GET:@"explore/dishes/popular" parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            completion( responseObject, nil );
+            NSDictionary *response = (NSDictionary *)responseObject;
+             
+            if( [response[@"status"] isEqualToString:@"success"] )
+            {
+                completion( responseObject, nil );
+            }
+            else
+            {
+                completion( nil, nil );
+            }
         }
-        else
+        failure:^(NSURLSessionDataTask *task, NSError *error)
         {
-            completion( nil, nil );
-        }
-    }
-    failure:^(NSURLSessionDataTask *task, NSError *error)
-    {
-        NSLog(@"Editors Picks error: %@", error.localizedDescription);
-        completion( nil, error );
-    }];
+            NSLog(@"Editors Picks error: %@", error.localizedDescription);
+            completion( nil, error );
+        }];
+    });
 }
 
 - (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
@@ -874,26 +877,56 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)exploreDishesWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
 {
-    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query, @"longitude" : @(longitude),
-                                  @"latitude" : @(latitude), @"radius" : @(radius), @"auto_complete" : @(0) };
-    
-    [self GET:@"explore/dishes" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    dispatch_async( self.queue, ^
     {
-        if( [responseObject[@"status"] isEqualToString:@"success"] )
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query, @"longitude" : @(longitude),
+                                      @"latitude" : @(latitude), @"radius" : @(radius), @"auto_complete" : @(0) };
+        
+        [self GET:@"explore/dishes" parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            completion( responseObject, nil );
+            if( [responseObject[@"status"] isEqualToString:@"success"] )
+            {
+                completion( responseObject, nil );
+            }
+            else
+            {
+                completion( nil, nil );
+            }
         }
-        else
+        failure:^( NSURLSessionDataTask *task, NSError *error )
         {
-            completion( nil, nil );
-        }
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+            NSLog(@"Error searching dishes: %@", error.localizedDescription);
+            completion( nil, error );
+        }];
+    });
+}
+
+- (void)getFeedActivityWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius offset:(NSInteger)offset limit:(NSInteger)limit completion:( void(^)( id response, NSError *error ) )completion
+{
+    dispatch_async( self.queue, ^
     {
-        NSLog(@"Error searching dishes: %@", error.localizedDescription);
-        completion( nil, error );
-    }];
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"longitude" : @(longitude),
+                                      @"latitude" : @(latitude), @"radius" : @(radius), @"row_limit" : @(limit),
+                                      @"row_offset" : @(offset) };
+        
+        [self GET:@"feed" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            if( [responseObject[@"status"] isEqualToString:@"success"] )
+            {
+                completion( responseObject, nil );
+            }
+            else
+            {
+                completion( nil, nil );
+            }
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Error getting feed: %@", error.localizedDescription);
+            completion( nil, error );
+        }];
+    });
 }
 
 - (BOOL)isLoggedIn
