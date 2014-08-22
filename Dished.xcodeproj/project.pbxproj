@@ -182,6 +182,10 @@
 		945F959319A6646900241D0D /* DACoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F959219A6646900241D0D /* DACoreDataManager.m */; };
 		945F959719A6738100241D0D /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F959619A6738100241D0D /* DAFeedItem.m */; };
 		945F959A19A677F900241D0D /* DAFeedItem+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F959919A677F900241D0D /* DAFeedItem+Utility.m */; };
+		945F95A619A7290600241D0D /* UIColor+Dished.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F95A319A7290600241D0D /* UIColor+Dished.m */; };
+		945F95A719A7290600241D0D /* UILabel+Dished.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F95A519A7290600241D0D /* UILabel+Dished.m */; };
+		945F95AA19A72A2A00241D0D /* feed_location.png in Resources */ = {isa = PBXBuildFile; fileRef = 945F95A819A72A2A00241D0D /* feed_location.png */; };
+		945F95AB19A72A2A00241D0D /* feed_location@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 945F95A919A72A2A00241D0D /* feed_location@2x.png */; };
 		946BAE1D195FF56900EF86C0 /* add_review.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE13195FF56900EF86C0 /* add_review.png */; };
 		946BAE1E195FF56900EF86C0 /* add_review@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE14195FF56900EF86C0 /* add_review@2x.png */; };
 		946BAE1F195FF56900EF86C0 /* explore.png in Resources */ = {isa = PBXBuildFile; fileRef = 946BAE15195FF56900EF86C0 /* explore.png */; };
@@ -284,7 +288,6 @@
 		D17487C2196DE8A200D83993 /* SZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C1196DE8A200D83993 /* SZTextView.m */; };
 		D17487C9196DE8BC00D83993 /* DAReviewFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C4196DE8BC00D83993 /* DAReviewFormViewController.m */; };
 		D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C8196DE8BC00D83993 /* DAReviewLocationViewController.m */; };
-		D1B05D5619703D8700E16C53 /* UIColor+DADishColor.m in Sources */ = {isa = PBXBuildFile; fileRef = D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */; };
 		D1C1F6EF1979A2F600A2D652 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C1F6EE1979A2F600A2D652 /* Social.framework */; };
 		D1F17704198844BE006BC6BA /* DACurrentLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1F17703198844BE006BC6BA /* DACurrentLocationViewController.m */; };
 /* End PBXBuildFile section */
@@ -513,6 +516,12 @@
 		945F959619A6738100241D0D /* DAFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedItem.m; sourceTree = "<group>"; };
 		945F959819A677F900241D0D /* DAFeedItem+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DAFeedItem+Utility.h"; sourceTree = "<group>"; };
 		945F959919A677F900241D0D /* DAFeedItem+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DAFeedItem+Utility.m"; sourceTree = "<group>"; };
+		945F95A219A7290600241D0D /* UIColor+Dished.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Dished.h"; sourceTree = "<group>"; };
+		945F95A319A7290600241D0D /* UIColor+Dished.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Dished.m"; sourceTree = "<group>"; };
+		945F95A419A7290600241D0D /* UILabel+Dished.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+Dished.h"; sourceTree = "<group>"; };
+		945F95A519A7290600241D0D /* UILabel+Dished.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Dished.m"; sourceTree = "<group>"; };
+		945F95A819A72A2A00241D0D /* feed_location.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feed_location.png; sourceTree = "<group>"; };
+		945F95A919A72A2A00241D0D /* feed_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "feed_location@2x.png"; sourceTree = "<group>"; };
 		946BAE13195FF56900EF86C0 /* add_review.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = add_review.png; sourceTree = "<group>"; };
 		946BAE14195FF56900EF86C0 /* add_review@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "add_review@2x.png"; sourceTree = "<group>"; };
 		946BAE15195FF56900EF86C0 /* explore.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = explore.png; sourceTree = "<group>"; };
@@ -688,8 +697,6 @@
 		D17487C4196DE8BC00D83993 /* DAReviewFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewFormViewController.m; sourceTree = "<group>"; };
 		D17487C7196DE8BC00D83993 /* DAReviewLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewLocationViewController.h; sourceTree = "<group>"; };
 		D17487C8196DE8BC00D83993 /* DAReviewLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewLocationViewController.m; sourceTree = "<group>"; };
-		D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+DADishColor.h"; path = "../View Controllers/UIColor+DADishColor.h"; sourceTree = "<group>"; };
-		D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+DADishColor.m"; path = "../View Controllers/UIColor+DADishColor.m"; sourceTree = "<group>"; };
 		D1B05D5719703F9900E16C53 /* Dished-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dished-Prefix.pch"; sourceTree = "<group>"; };
 		D1C1F6EE1979A2F600A2D652 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		D1F17702198844BE006BC6BA /* DACurrentLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACurrentLocationViewController.h; sourceTree = "<group>"; };
@@ -742,6 +749,7 @@
 			children = (
 				941538CF193F270A008B3B79 /* Main.storyboard */,
 				94FE15E119411F3000FE00EA /* Layout */,
+				945F95A119A7289C00241D0D /* Categories */,
 				948B7F3E1941B05F005494AA /* External */,
 				949B2BFE19668D5700FE1E9D /* Model */,
 				94E5EF4B194347DA0021A711 /* Managers */,
@@ -1099,6 +1107,8 @@
 		945A3B4619A5276F000D76E3 /* a */ = {
 			isa = PBXGroup;
 			children = (
+				945F95A819A72A2A00241D0D /* feed_location.png */,
+				945F95A919A72A2A00241D0D /* feed_location@2x.png */,
 				945A3B4719A5276F000D76E3 /* feed_comment.png */,
 				945A3B4819A5276F000D76E3 /* feed_comment@2x.png */,
 				945A3B4919A5276F000D76E3 /* feed_comment_background.png */,
@@ -1124,6 +1134,17 @@
 				945F959919A677F900241D0D /* DAFeedItem+Utility.m */,
 			);
 			name = "Core Data";
+			sourceTree = "<group>";
+		};
+		945F95A119A7289C00241D0D /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				945F95A219A7290600241D0D /* UIColor+Dished.h */,
+				945F95A319A7290600241D0D /* UIColor+Dished.m */,
+				945F95A419A7290600241D0D /* UILabel+Dished.h */,
+				945F95A519A7290600241D0D /* UILabel+Dished.m */,
+			);
+			path = Categories;
 			sourceTree = "<group>";
 		};
 		946BAE10195FF34B00EF86C0 /* 2 */ = {
@@ -1515,8 +1536,6 @@
 				D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */,
 				945A3B5F19A52B4A000D76E3 /* DAFeedCollectionViewCell.h */,
 				945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */,
-				D1B05D5419703D8700E16C53 /* UIColor+DADishColor.h */,
-				D1B05D5519703D8700E16C53 /* UIColor+DADishColor.m */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -1633,7 +1652,9 @@
 				94449F061949A4B8008B8881 /* logo_alpha.png in Resources */,
 				944689E41960196700FAE288 /* add_dish_wine_white@2x.png in Resources */,
 				9415390419404314008B3B79 /* splash_facebook_connect@2x.png in Resources */,
+				945F95AB19A72A2A00241D0D /* feed_location@2x.png in Resources */,
 				94449EF81949A3B2008B8881 /* Icon-76@2x.png in Resources */,
+				945F95AA19A72A2A00241D0D /* feed_location.png in Resources */,
 				944689D91960196700FAE288 /* add_dish_food.png in Resources */,
 				94B58B4F198AE483002547B1 /* explore_result_dishes_plate@2x.png in Resources */,
 				944689E51960196700FAE288 /* add_dish_location.png in Resources */,
@@ -1843,13 +1864,14 @@
 				94E5EF751943F5530021A711 /* MRProgressOverlayView.m in Sources */,
 				D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */,
 				D1F17704198844BE006BC6BA /* DACurrentLocationViewController.m in Sources */,
+				945F95A619A7290600241D0D /* UIColor+Dished.m in Sources */,
+				945F95A719A7290600241D0D /* UILabel+Dished.m in Sources */,
 				94E5EF2D19432AE00021A711 /* UIViewController+TAPKeyboardPop.m in Sources */,
 				9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */,
 				941F3215196FCC04000042AE /* DANewReview.m in Sources */,
 				94F2AD9A198C539200450C6F /* MKAnnotationView+WebCache.m in Sources */,
 				94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */,
 				94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */,
-				D1B05D5619703D8700E16C53 /* UIColor+DADishColor.m in Sources */,
 				94F2ADA5198C539200450C6F /* UIImage+MultiFormat.m in Sources */,
 				94F2ADA7198C539200450C6F /* UIImageView+HighlightedWebCache.m in Sources */,
 				94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */,

@@ -11,14 +11,16 @@
 #import "DAFeedItem+Utility.h"
 #import "DAAPIManager.h"
 #import "DACoreDataManager.h"
+#import "UILabel+Dished.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate>
 
+@property (strong, nonatomic) NSArray                    *items;
+@property (strong, nonatomic) NSMutableArray             *changes;
+@property (strong, nonatomic) UIRefreshControl           *refreshControl;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-
-@property (strong, nonatomic) NSArray *items;
 
 @property (nonatomic) NSInteger currentOffset;
 
@@ -35,7 +37,12 @@
     
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_black_nav"]];
     
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(refreshFeed) forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
+    
     self.collectionView.hidden = YES;
+    
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = self.view.center;
     [self.view addSubview:spinner];
@@ -45,6 +52,7 @@
 //    NSArray *sortDescriptors = @[ dateSortDescriptor ];
 //    
 //    self.fetchedResultsController = [[DACoreDataManager sharedManager] fetchEntitiesWithClassName:NSStringFromClass([DAFeedItem class]) sortDescriptors:sortDescriptors sectionNameKeyPath:nil predicate:nil];
+//    self.fetchedResultsController.delegate = self;
     
     [[DAAPIManager sharedManager] getFeedActivityWithLongitude:0 latitude:0 radius:0 offset:self.currentOffset limit:0
     completion:^( id response, NSError *error )
@@ -66,6 +74,24 @@
     }];
 }
 
+- (void)refreshFeed
+{
+    [[DAAPIManager sharedManager] getFeedActivityWithLongitude:0 latitude:0 radius:0 offset:self.currentOffset limit:0
+    completion:^( id response, NSError *error )
+    {
+        [self.refreshControl endRefreshing];
+        
+        if( error || !response )
+        {
+             
+        }
+        else
+        {
+            
+        }
+    }];
+}
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
 //    id<NSFetchedResultsSectionInfo> resultsSection = self.fetchedResultsController.sections[section];
@@ -78,16 +104,112 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     DAFeedCollectionViewCell *feedCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
-    
+        
     NSString *usernameString = [NSString stringWithFormat:@"@%@", self.items[indexPath.row][@"creator_username"]];
     
     [feedCell.creatorButton  setTitle:usernameString                         forState:UIControlStateNormal];
     [feedCell.titleButton    setTitle:self.items[indexPath.row][@"name"]     forState:UIControlStateNormal];
-    [feedCell.locationButton setTitle:self.items[indexPath.row][@"loc_name"] forState:UIControlStateNormal];
     
-    [feedCell.dishImageView setImageWithURL:self.items[indexPath.row][@"img"] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+    UIImage *locationIcon = [[UIImage imageNamed:@"feed_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [feedCell.locationButton setTitle:self.items[indexPath.row][@"loc_name"] forState:UIControlStateNormal];
+    [feedCell.locationButton setImage:locationIcon forState:UIControlStateNormal];
+    [feedCell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
+    
+    [feedCell.dishImageView setImageWithURL:self.items[indexPath.row][@"img"] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    NSTimeInterval interval = [self.items[indexPath.row][@"created"] doubleValue];
+    [feedCell.timeLabel setAttributedTextForFeedItemDate:[NSDate dateWithTimeIntervalSince1970:interval]];
+    
+    feedCell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    NSString *commentString = [NSString stringWithFormat:@"%d comments", [self.items[indexPath.row][@"num_comments"] intValue]];
+    [feedCell.commentsButton setTitle:commentString forState:UIControlStateNormal];
     
     return feedCell;
+}
+
+- (void)configureCell:(DAFeedCollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    DAFeedItem *item = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    NSString *usernameString = [NSString stringWithFormat:@"@%@", item.creator_username];
+    
+    [cell.creatorButton  setTitle:usernameString forState:UIControlStateNormal];
+    [cell.titleButton    setTitle:item.name      forState:UIControlStateNormal];
+    [cell.locationButton setTitle:item.loc_name  forState:UIControlStateNormal];
+    
+    NSURL *dishImageURL = [NSURL URLWithString:item.img];
+    [cell.dishImageView setImageWithURL:dishImageURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    cell.gradeLabel.text = [item.grade uppercaseString];
+    [cell.timeLabel setAttributedTextForFeedItemDate:item.created];
+}
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    self.changes = [NSMutableArray array];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    NSMutableDictionary *change = [NSMutableDictionary dictionary];
+    
+    switch( type )
+    {
+        case NSFetchedResultsChangeInsert:
+            change[@(type)] = newIndexPath;
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            change[@(type)] = indexPath;
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            change[@(type)] = indexPath;
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            change[@(type)] = @[indexPath, newIndexPath];
+            break;
+    }
+    
+    [self.changes addObject:change];
+}
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
+{
+    [self.collectionView performBatchUpdates:^
+    {
+        for( NSDictionary *change in self.changes )
+        {
+            [change enumerateKeysAndObjectsUsingBlock:^( id key, id obj, BOOL *stop )
+            {
+                NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                
+                switch( type )
+                {
+                    case NSFetchedResultsChangeInsert:
+                        [self.collectionView insertItemsAtIndexPaths:@[obj]];
+                        break;
+                        
+                    case NSFetchedResultsChangeDelete:
+                        [self.collectionView deleteItemsAtIndexPaths:@[obj]];
+                        break;
+                        
+                    case NSFetchedResultsChangeUpdate:
+                        [self.collectionView reloadItemsAtIndexPaths:@[obj]];
+                        break;
+                        
+                    case NSFetchedResultsChangeMove:
+                        [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+                        break;
+                }
+            }];
+        }
+    }
+    completion:^( BOOL finished )
+    {
+        self.changes = nil;
+    }];
 }
 
 @end
