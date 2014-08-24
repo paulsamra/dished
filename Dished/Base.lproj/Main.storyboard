@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RzW-un-BhE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="14A329f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="RzW-un-BhE">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
@@ -1299,10 +1299,10 @@
             </objects>
             <point key="canvasLocation" x="4" y="4892"/>
         </scene>
-        <!--View Controller-->
+        <!--Sample Graph View Controller-->
         <scene sceneID="Cd6-ct-l1O">
             <objects>
-                <viewController id="O30-Hw-31S" sceneMemberID="viewController">
+                <viewController id="O30-Hw-31S" customClass="DASampleGraphViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qu4-iy-bcp"/>
                         <viewControllerLayoutGuide type="bottom" id="4n9-MO-r0B"/>
@@ -1310,9 +1310,29 @@
                     <view key="view" contentMode="scaleToFill" id="bRJ-Ud-qxa">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <view appearanceType="aqua" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yfq-lj-RIG" customClass="DAGraphControl">
+                                <rect key="frame" x="12" y="164" width="287" height="209"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="209" id="GfT-MO-1pc"/>
+                                    <constraint firstAttribute="width" constant="287" id="nAb-HS-e4K"/>
+                                </constraints>
+                                <connections>
+                                    <action selector="touchedArrow:" destination="O30-Hw-31S" eventType="touchUpInside" id="BFP-nj-OU2"/>
+                                </connections>
+                            </view>
+                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="yfq-lj-RIG" firstAttribute="top" secondItem="qu4-iy-bcp" secondAttribute="bottom" constant="100" id="zDY-qL-EdE"/>
+                            <constraint firstItem="yfq-lj-RIG" firstAttribute="leading" secondItem="bRJ-Ud-qxa" secondAttribute="leading" constant="12" id="zev-Ge-INa"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="GCQ-aw-erm"/>
+                    <connections>
+                        <outlet property="control" destination="yfq-lj-RIG" id="P3f-kW-phh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ire-9D-Bve" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
