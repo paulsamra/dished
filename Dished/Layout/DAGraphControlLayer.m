@@ -47,6 +47,16 @@
     }
 }
 
+- (void)createLabelsWithFrame:(CGRect)textRect title:(NSString *)title withColor:(UIColor *) color withFont:(UIFont *) font
+{
+    NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
+    textStyle.alignment = NSTextAlignmentCenter;
+    
+    NSDictionary* textFontAttributes = @{NSFontAttributeName: font, NSForegroundColorAttributeName: color, NSParagraphStyleAttributeName: textStyle};
+    
+    [title drawInRect: textRect withAttributes: textFontAttributes];
+}
+
 -(void)drawInContext:(CGContextRef)ctx
 {
     [super drawInContext:ctx];
@@ -55,6 +65,7 @@
     
     //change this to set the grades totals
     NSArray *arrayOfGradeAmounts = @[@9 ,@23, @12, @33];
+    NSArray *arrayOfGrades = @[@"A", @"B", @"C", @"D/F"];
     
     float max = [[arrayOfGradeAmounts valueForKeyPath:@"@max.floatValue"] floatValue];
     
@@ -102,13 +113,18 @@
         [bezierPath fill];
         [bezierPath stroke];
         
-        CGRect textRect = CGRectMake(length-33, y+2, 30, 16);
-        NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
-        textStyle.alignment = NSTextAlignmentCenter;
         
-        NSDictionary* textFontAttributes = @{NSFontAttributeName: [UIFont fontWithName: @"HelveticaNeue-Light" size: 12], NSForegroundColorAttributeName: UIColor.whiteColor, NSParagraphStyleAttributeName: textStyle};
+        [self createLabelsWithFrame:CGRectMake(length-33, y+2, 30, 16)
+                              title:[NSString stringWithFormat:@"%@", [arrayOfGradeAmounts objectAtIndex:i]]
+                          withColor:[UIColor whiteColor]
+                           withFont:[UIFont fontWithName: @"HelveticaNeue-Light" size: 12]];
         
-        [[NSString stringWithFormat:@"%@", [arrayOfGradeAmounts objectAtIndex:i]] drawInRect: textRect withAttributes: textFontAttributes];
+\
+        [self createLabelsWithFrame:CGRectMake(10, y+2, 30, 16)
+                              title:[NSString stringWithFormat:@"%@", [arrayOfGrades objectAtIndex:i]]
+                          withColor:[UIColor grayColor]
+                           withFont:[UIFont fontWithName: @"HelveticaNeue-Medium" size: 16]];
+
         
     }
     
