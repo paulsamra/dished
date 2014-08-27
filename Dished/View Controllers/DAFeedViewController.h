@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DAFeedViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface DAFeedViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIScrollViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 

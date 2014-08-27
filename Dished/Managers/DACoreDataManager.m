@@ -85,53 +85,59 @@
     savedBlock( [self.managedObjectContext save:&saveError], saveError );
 }
 
-- (NSFetchedResultsController *)fetchEntitiesWithClassName:(NSString *)className
-                                           sortDescriptors:(NSArray *)sortDescriptors
-                                        sectionNameKeyPath:(NSString *)sectionNameKeypath
-                                                 predicate:(NSPredicate *)predicate
-
+- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate
 {
-    NSFetchedResultsController *fetchedResultsController;
+    return [self fetchedResultsControllerWithEntityName:name sortDescriptors:sortDescriptors predicate:predicate fetchLimit:0];
+}
+
+- (NSArray *)fetchEntitiesWithName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate
+{
+    NSFetchRequest *fetchRequest = [self fetchRequestWithName:name sortDescriptors:sortDescriptors predicate:predicate fetchLimit:0];
+    
+    NSError *error  = nil;
+    NSArray *results = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    return error ? nil : results;
+}
+
+- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate fetchLimit:(NSUInteger)limit
+{
+    NSFetchRequest *fetchRequest = [self fetchRequestWithName:name sortDescriptors:sortDescriptors predicate:predicate fetchLimit:limit];
+    
+    NSFetchedResultsController *resultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    
+    NSError *error = nil;
+    BOOL success = [resultsController performFetch:&error];
+    
+    return success ? resultsController : nil;
+}
+
+- (NSFetchRequest *)fetchRequestWithName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate fetchLimit:(NSUInteger)limit
+{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:className
-                                              inManagedObjectContext:self.managedObjectContext];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:name inManagedObjectContext:self.managedObjectContext];
+    
     fetchRequest.entity = entity;
     fetchRequest.sortDescriptors = sortDescriptors;
     fetchRequest.predicate = predicate;
+    fetchRequest.fetchLimit = limit;
     
-    fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest
-                                                                   managedObjectContext:self.managedObjectContext
-                                                                     sectionNameKeyPath:sectionNameKeypath
-                                                                              cacheName:nil];
-    
-    NSError *error = nil;
-    BOOL success = [fetchedResultsController performFetch:&error];
-    
-    if( !success )
-    {
-        NSLog(@"fetchManagedObjectsWithClassName ERROR: %@", error.description);
-    }
-    
-    return fetchedResultsController;
+    return fetchRequest;
 }
 
-- (id)createEntityWithClassName:(NSString *)className
-           attributesDictionary:(NSDictionary *)attributesDictionary
+- (NSManagedObject *)createEntityWithClassName:(NSString *)className
 {
-    NSManagedObject *entity = [NSEntityDescription insertNewObjectForEntityForName:className
-                                                            inManagedObjectContext:self.managedObjectContext];
-    
-    [attributesDictionary enumerateKeysAndObjectsUsingBlock:^(NSString *key, id obj, BOOL *stop)
-    {
-        [entity setValue:obj forKey:key];
-    }];
-    
-    return entity;
+    return [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:self.managedObjectContext];
 }
 
 - (void)deleteEntity:(NSManagedObject *)entity
 {
     [self.managedObjectContext deleteObject:entity];
+}
+
+- (void)resetStore
+{
+    
 }
 
 @end

@@ -300,23 +300,32 @@
     
     __block BOOL success = YES;
     
-    dispatch_group_enter( group );
-    
-    [self shareReviewOnFacebook:review imageURL:imageURL completion:^( BOOL successful )
+    if( [self.selectedSharing objectForKey:self.cellLabels[0]] )
     {
-        success = successful;
+        dispatch_group_enter( group );
         
-        dispatch_group_leave( group );
-    }];
+        [self shareReviewOnFacebook:review imageURL:imageURL completion:^( BOOL successful )
+        {
+            success = successful;
+            
+            dispatch_group_leave( group );
+        }];
+    }
+    
+    if( [self.selectedSharing objectForKey:self.cellLabels[1]] )
+    {
+        dispatch_group_enter( group );
+        
+        [self postReviewToTwitter:review imageURL:imageURL completion:^( BOOL successful )
+        {
+            success = successful;
+            
+            dispatch_group_leave( group );
+        }];
+    }
     
     dispatch_group_enter( group );
-    
-    [self postReviewToTwitter:review imageURL:imageURL completion:^( BOOL successful )
-    {
-        success = successful;
-        
-        dispatch_group_leave( group );
-    }];
+    dispatch_group_leave( group );
     
     dispatch_group_notify( group, dispatch_get_main_queue(), ^
     {

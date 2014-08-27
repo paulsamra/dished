@@ -33,6 +33,8 @@
 {
     [super viewDidLoad];
     
+    self.selectedIndex = 0;
+    self.filteredImages = [NSMutableDictionary dictionary];
     self.pictureImageView.backgroundColor = [UIColor blackColor];
     
     DAImagePickerController *parentVC = [self.navigationController.viewControllers objectAtIndex:0];
@@ -40,7 +42,6 @@
     if( parentVC.pictureTaken )
     {
         UIImage *pictureTaken = parentVC.pictureTaken;
-        
         self.pictureTaken = pictureTaken;
         self.pictureImageView.image = self.pictureTaken;
     }
@@ -114,55 +115,26 @@
     }
     else
     {
-        if( indexPath.row == 0 )
+        [spinner startAnimating];
+        
+        if( self.pictureTaken )
         {
-            if( !self.pictureTaken )
+            NSBlockOperation *filterOperation = [NSBlockOperation blockOperationWithBlock:^
             {
-                [spinner startAnimating];
-            }
-            else
-            {
-                self.filteredImages[self.filterNames[indexPath.row]] = self.pictureTaken;
-                imageView.image = self.pictureTaken;
+                NSString *filterName = indexPath.row > 0 ? self.filterNames[indexPath.row] : nil;
                 
-                [spinner stopAnimating];
-            }
-        }
-        else
-        {
-            [spinner startAnimating];
-            
-            if( self.pictureTaken )
-            {
-                NSBlockOperation *filterOperation = [NSBlockOperation blockOperationWithBlock:^
+                UIImage *newImg = [self filterImage:self.pictureTaken withFilterName:filterName];
+                
+                dispatch_async( dispatch_get_main_queue(), ^
                 {
-                    CIImage *beginImage = [CIImage imageWithCGImage:[self.pictureTaken CGImage]];
-                    
-                    CIFilter *scaleFilter = [CIFilter filterWithName:@"CILanczosScaleTransform"];
-                    [scaleFilter setValue:beginImage forKeyPath:@"inputImage"];
-                    [scaleFilter setValue:@(0.4f) forKeyPath:@"inputScale"];
-                    [scaleFilter setValue:@(1.0f) forKeyPath:@"inputAspectRatio"];
-                    
-                    CIFilter *filter = [CIFilter filterWithName:self.filterNames[indexPath.row]];
-                    [filter setValue:scaleFilter.outputImage forKeyPath:kCIInputImageKey];
-                    
-                    CIImage *outputImage = [filter outputImage];
-                    
-                    CGImageRef imageRef = [[CIContext contextWithOptions:nil] createCGImage:outputImage fromRect:outputImage.extent];
-                    UIImage *newImg = [UIImage imageWithCGImage:imageRef];
-                    CGImageRelease(imageRef);
-                    
-                    dispatch_async( dispatch_get_main_queue(), ^
-                    {
-                        self.filteredImages[self.filterNames[indexPath.row]] = newImg;
-                        [imageView setImage:newImg];
-                       
-                        [spinner stopAnimating];
-                    });
-                }];
-                
-                [self.imageFilterQueue addOperation:filterOperation];
-            }
+                    self.filteredImages[self.filterNames[indexPath.row]] = newImg;
+                    [imageView setImage:newImg];
+                   
+                    [spinner stopAnimating];
+                });
+            }];
+            
+            [self.imageFilterQueue addOperation:filterOperation];
         }
     }
     
@@ -172,12 +144,36 @@
     return cell;
 }
 
+- (UIImage *)filterImage:(UIImage *)image withFilterName:(NSString *)filterName
+{
+    CIImage *beginImage = [CIImage imageWithCGImage:[image CGImage]];
+    
+    CIFilter *scaleFilter = [CIFilter filterWithName:@"CILanczosScaleTransform"];
+    [scaleFilter setValue:beginImage forKeyPath:@"inputImage"];
+    [scaleFilter setValue:@(0.4f) forKeyPath:@"inputScale"];
+    [scaleFilter setValue:@(1.0f) forKeyPath:@"inputAspectRatio"];
+    
+    CIFilter *filter = scaleFilter;
+    
+    if( filterName )
+    {
+        filter = [CIFilter filterWithName:filterName];
+        [filter setValue:scaleFilter.outputImage forKeyPath:kCIInputImageKey];
+    }
+    
+    CIImage *outputImage = [filter outputImage];
+    
+    CGImageRef imageRef = [[CIContext contextWithOptions:nil] createCGImage:outputImage fromRect:outputImage.extent];
+    UIImage *newImg = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    
+    return newImg;
+}
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     self.selectedIndex = (int)indexPath.row;
-    
     self.pictureImageView.image = self.filteredImages[self.filterNames[indexPath.row]];
-    
     [self.collectionView reloadData];
 }
 
@@ -191,7 +187,7 @@
     if( [[segue identifier] isEqualToString:@"form"] )
     {
         DAReviewFormViewController *dest = [segue destinationViewController];
-        dest.reviewImage = self.pictureImageView.image;
+        dest.reviewImage = self.filteredImages[self.filterNames[self.selectedIndex]];
         
         dest.foodReview     = self.foodReview;
         dest.wineReview     = self.wineReview;
@@ -217,16 +213,6 @@
     }
     
     return _filterNames;
-}
-
-- (NSMutableDictionary *)filteredImages
-{
-    if( !_filteredImages )
-    {
-        _filteredImages = [NSMutableDictionary dictionary];
-    }
-    
-    return _filteredImages;
 }
 
 @end

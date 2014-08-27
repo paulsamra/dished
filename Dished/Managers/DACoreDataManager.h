@@ -17,12 +17,12 @@
 
 - (void)saveDataInManagedContextUsingBlock:( void (^)( BOOL saved, NSError *error ) )savedBlock;
 
-- (NSFetchedResultsController *)fetchEntitiesWithClassName:(NSString *)className
-                                           sortDescriptors:(NSArray *)sortDescriptors
-                                        sectionNameKeyPath:(NSString *)sectionNameKeypath
-                                                 predicate:(NSPredicate *)predicate;
+- (NSArray *)fetchEntitiesWithName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate;
+- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate;
+- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate fetchLimit:(NSUInteger)limit;
 
-- (id)createEntityWithClassName:(NSString *)className attributesDictionary:(NSDictionary *)attributesDictionary;
+- (NSManagedObject *)createEntityWithClassName:(NSString *)className;
 - (void)deleteEntity:(NSManagedObject *)entity;
+- (void)resetStore;
 
 @end

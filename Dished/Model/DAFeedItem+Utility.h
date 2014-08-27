@@ -12,5 +12,6 @@
 @interface DAFeedItem(Utility)
 
 - (void)configureWithDictionary:(NSDictionary *)dictionary;
++ (NSString *)entityName;
 
 @end

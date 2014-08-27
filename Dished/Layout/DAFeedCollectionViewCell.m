@@ -18,6 +18,8 @@
     self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
     self.userImageView.layer.masksToBounds = YES;
     self.userImageView.clipsToBounds = YES;
+    
+    self.titleButton.titleLabel.adjustsFontSizeToFitWidth = YES;
 }
 
 @end

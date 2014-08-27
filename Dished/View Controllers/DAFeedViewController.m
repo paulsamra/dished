@@ -12,6 +12,8 @@
 #import "DAAPIManager.h"
 #import "DACoreDataManager.h"
 #import "UILabel+Dished.h"
+#import "DAFeedImportManager.h"
+#import "DARefreshControl.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 
@@ -19,10 +21,13 @@
 
 @property (strong, nonatomic) NSArray                    *items;
 @property (strong, nonatomic) NSMutableArray             *changes;
-@property (strong, nonatomic) UIRefreshControl           *refreshControl;
+@property (strong, nonatomic) DARefreshControl           *refreshControl;
+@property (strong, nonatomic) DAFeedImportManager        *importer;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
-@property (nonatomic) NSInteger currentOffset;
+@property (nonatomic) BOOL      hasMoreData;
+@property (nonatomic) BOOL      isLoadingMore;
+@property (nonatomic) CGFloat   previousScrollViewYOffset;
 
 @end
 
@@ -33,14 +38,9 @@
 {
     [super viewDidLoad];
     
-    self.currentOffset = 0;
-    
+    self.hasMoreData   = YES;
+    self.isLoadingMore = NO;
     self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_black_nav"]];
-    
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(refreshFeed) forControlEvents:UIControlEventValueChanged];
-    [self.collectionView addSubview:self.refreshControl];
-    
     self.collectionView.hidden = YES;
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -48,81 +48,90 @@
     [self.view addSubview:spinner];
     [spinner startAnimating];
     
-//    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
-//    NSArray *sortDescriptors = @[ dateSortDescriptor ];
-//    
-//    self.fetchedResultsController = [[DACoreDataManager sharedManager] fetchEntitiesWithClassName:NSStringFromClass([DAFeedItem class]) sortDescriptors:sortDescriptors sectionNameKeyPath:nil predicate:nil];
-//    self.fetchedResultsController.delegate = self;
+    self.importer = [[DAFeedImportManager alloc] init];
+    self.fetchedResultsController = [self.importer fetchFeedItemsWithLimit:10];
+    self.fetchedResultsController.delegate = self;
     
-    [[DAAPIManager sharedManager] getFeedActivityWithLongitude:0 latitude:0 radius:0 offset:self.currentOffset limit:0
-    completion:^( id response, NSError *error )
+    if( self.fetchedResultsController.fetchedObjects.count > 0 )
     {
         [spinner stopAnimating];
-        [spinner removeFromSuperview];
         self.collectionView.hidden = NO;
+    }
+    
+    [self.importer importFeedItemsWithLimit:10 offset:0 completion:^( BOOL success, BOOL hasMoreData )
+    {
+        self.hasMoreData = hasMoreData;
         
-        if( error || !response )
+        if( success )
         {
-            
-        }
-        else
-        {
-            self.items = response[@"data"];
-            self.currentOffset += self.items.count;
-            [self.collectionView reloadData];
+            self.collectionView.hidden = NO;
+            [spinner stopAnimating];
         }
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
+    
+    CGFloat refreshControlHeight = 40.0f;
+    CGFloat refreshControlWidth  = self.collectionView.bounds.size.width;
+    CGRect refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
+    self.refreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
+    [self.refreshControl addTarget:self action:@selector(refreshFeed) forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    self.isLoadingMore = NO;
 }
 
 - (void)refreshFeed
 {
-    [[DAAPIManager sharedManager] getFeedActivityWithLongitude:0 latitude:0 radius:0 offset:self.currentOffset limit:0
-    completion:^( id response, NSError *error )
+    NSInteger limit = self.fetchedResultsController.fetchRequest.fetchLimit;
+    
+    [self.importer importFeedItemsWithLimit:limit offset:0 completion:^( BOOL success, BOOL hasMoreData )
     {
         [self.refreshControl endRefreshing];
         
-        if( error || !response )
+        self.hasMoreData = hasMoreData;
+        [self.collectionView reloadData];
+    }];
+}
+
+- (void)loadMore
+{
+    self.isLoadingMore = YES;
+    
+    NSInteger offset = self.fetchedResultsController.fetchRequest.fetchLimit;
+    
+    [self.importer importFeedItemsWithLimit:10 offset:offset completion:^( BOOL success, BOOL hasMoreData )
+    {
+        self.hasMoreData = hasMoreData;
+        
+        if( success )
         {
-             
-        }
-        else
-        {
+            self.isLoadingMore = NO;
             
+            self.fetchedResultsController.fetchRequest.fetchLimit += 10;
+            [self.fetchedResultsController performFetch:nil];
+            self.fetchedResultsController.delegate = self;
         }
+        
     }];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-//    id<NSFetchedResultsSectionInfo> resultsSection = self.fetchedResultsController.sections[section];
-//    
-//    return resultsSection.numberOfObjects;
-    
-    return self.items.count;
+    id<NSFetchedResultsSectionInfo> resultsSection = self.fetchedResultsController.sections[section];
+    return resultsSection.numberOfObjects;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     DAFeedCollectionViewCell *feedCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
-        
-    NSString *usernameString = [NSString stringWithFormat:@"@%@", self.items[indexPath.row][@"creator_username"]];
     
-    [feedCell.creatorButton  setTitle:usernameString                         forState:UIControlStateNormal];
-    [feedCell.titleButton    setTitle:self.items[indexPath.row][@"name"]     forState:UIControlStateNormal];
-    
-    UIImage *locationIcon = [[UIImage imageNamed:@"feed_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-    [feedCell.locationButton setTitle:self.items[indexPath.row][@"loc_name"] forState:UIControlStateNormal];
-    [feedCell.locationButton setImage:locationIcon forState:UIControlStateNormal];
-    [feedCell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
-    
-    [feedCell.dishImageView setImageWithURL:self.items[indexPath.row][@"img"] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
-    NSTimeInterval interval = [self.items[indexPath.row][@"created"] doubleValue];
-    [feedCell.timeLabel setAttributedTextForFeedItemDate:[NSDate dateWithTimeIntervalSince1970:interval]];
-    
-    feedCell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    NSString *commentString = [NSString stringWithFormat:@"%d comments", [self.items[indexPath.row][@"num_comments"] intValue]];
-    [feedCell.commentsButton setTitle:commentString forState:UIControlStateNormal];
+    [self configureCell:feedCell atIndexPath:indexPath];
     
     return feedCell;
 }
@@ -132,16 +141,43 @@
     DAFeedItem *item = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     NSString *usernameString = [NSString stringWithFormat:@"@%@", item.creator_username];
-    
     [cell.creatorButton  setTitle:usernameString forState:UIControlStateNormal];
     [cell.titleButton    setTitle:item.name      forState:UIControlStateNormal];
-    [cell.locationButton setTitle:item.loc_name  forState:UIControlStateNormal];
+    
+    UIImage *locationIcon = [[UIImage imageNamed:@"feed_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    [cell.locationButton setTitle:item.loc_name forState:UIControlStateNormal];
+    [cell.locationButton setImage:locationIcon  forState:UIControlStateNormal];
+    [cell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
     
     NSURL *dishImageURL = [NSURL URLWithString:item.img];
     [cell.dishImageView setImageWithURL:dishImageURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
     cell.gradeLabel.text = [item.grade uppercaseString];
+    
     [cell.timeLabel setAttributedTextForFeedItemDate:item.created];
+    
+    cell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    NSString *commentString = [NSString stringWithFormat:@"%d comments", [item.num_comments intValue]];
+    [cell.commentsButton setTitle:commentString forState:UIControlStateNormal];
+    
+    cell.userImageView.image = [UIImage imageNamed:@"avatar"];
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    return [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"loadingFooter" forIndexPath:indexPath];
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+{
+    if( !self.hasMoreData )
+    {
+        return CGSizeZero;
+    }
+    else
+    {
+        return CGSizeMake( self.collectionView.frame.size.width, 50 );
+    }
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
@@ -210,6 +246,110 @@
     {
         self.changes = nil;
     }];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.refreshControl containingScrollViewDidScroll:scrollView];
+    
+    CGRect frame = self.navigationController.navigationBar.frame;
+    CGFloat size = frame.size.height - 21;
+    CGFloat framePercentageHidden = ( ( 20 - frame.origin.y ) / ( frame.size.height - 1 ) );
+    CGFloat scrollOffset = scrollView.contentOffset.y;
+    CGFloat scrollDiff = scrollOffset - self.previousScrollViewYOffset;
+    CGFloat scrollHeight = scrollView.frame.size.height;
+    CGFloat scrollContentSizeHeight = scrollView.contentSize.height + scrollView.contentInset.bottom;
+    
+    if( scrollOffset <= -scrollView.contentInset.top )
+    {
+        frame.origin.y = 20;
+    }
+    else if( ( scrollOffset + scrollHeight ) >= scrollContentSizeHeight )
+    {
+        frame.origin.y = -size;
+    }
+    else
+    {
+        frame.origin.y = MIN( 20, MAX( -size, frame.origin.y - scrollDiff ) );
+    }
+    
+    [self.navigationController.navigationBar setFrame:frame];
+    [self updateBarButtonItems:(1 - framePercentageHidden)];
+    self.previousScrollViewYOffset = scrollOffset;
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.refreshControl containingScrollViewDidEndDragging:scrollView];
+    
+    if( !decelerate )
+    {
+        [self stoppedScrolling];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    CGFloat bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
+    
+    if( self.hasMoreData && !self.isLoadingMore && bottomEdge >= scrollView.contentSize.height )
+    {
+        [self loadMore];
+    }
+    
+    [self stoppedScrolling];
+}
+
+- (void)stoppedScrolling
+{
+    CGRect frame = self.navigationController.navigationBar.frame;
+    if( frame.origin.y < 20 )
+    {
+        [self animateNavBarTo:-( frame.size.height - 21 )];
+    }
+}
+
+- (void)updateBarButtonItems:(CGFloat)alpha
+{
+    [self.navigationItem.leftBarButtonItems enumerateObjectsUsingBlock:^( UIBarButtonItem* item, NSUInteger i, BOOL *stop )
+    {
+        item.customView.alpha = alpha;
+    }];
+    
+    [self.navigationItem.rightBarButtonItems enumerateObjectsUsingBlock:^( UIBarButtonItem* item, NSUInteger i, BOOL *stop )
+    {
+        item.customView.alpha = alpha;
+    }];
+    
+    self.navigationItem.titleView.alpha = alpha;
+    self.navigationController.navigationBar.tintColor = [self.navigationController.navigationBar.tintColor colorWithAlphaComponent:alpha];
+}
+
+- (void)animateNavBarTo:(CGFloat)y
+{
+    [UIView animateWithDuration:0.2 animations:^
+    {
+        CGRect frame = self.navigationController.navigationBar.frame;
+        CGFloat alpha = (frame.origin.y >= y ? 0 : 1);
+        frame.origin.y = y;
+        [self.navigationController.navigationBar setFrame:frame];
+        [self updateBarButtonItems:alpha];
+    }];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self resetNavigationBar];
+    
+    [super viewWillDisappear:animated];
+}
+
+- (void)resetNavigationBar
+{
+    CGRect frame = self.navigationController.navigationBar.frame;
+    frame.origin.y = 20;
+    [self.navigationController.navigationBar setFrame:frame];
+    [self updateBarButtonItems:1.0f];
 }
 
 @end

@@ -1,0 +1,125 @@
+//
+//  DAImportManager.m
+//  Dished
+//
+//  Created by Ryan Khalili on 8/22/14.
+//  Copyright (c) 2014 Dished. All rights reserved.
+//
+
+#import "DAFeedImportManager.h"
+#import "DAAPIManager.h"
+
+
+@interface DAFeedImportManager()
+
+@end
+
+
+@implementation DAFeedImportManager
+
+- (void)importFeedItemsWithLimit:(NSUInteger)limit offset:(NSUInteger)offset completion:(void (^)( BOOL success, BOOL hasMoreData ) )completion
+{
+    [[DAAPIManager sharedManager] getFeedActivityWithLongitude:0 latitude:0 radius:0 offset:offset limit:limit
+    completion:^( id response, NSError *error )
+    {
+        if( error )
+        {
+            id errorResponse = error.userInfo[[[DAAPIManager sharedManager] errorResponseKey]];
+            
+            if( [errorResponse[@"error"] isEqualToString:@"data_nonexists"] )
+            {
+                completion( YES, NO );
+            }
+            else
+            {
+                completion( NO, YES );
+            }
+        }
+        else if( response )
+        {
+            NSMutableArray *itemIDs = [NSMutableArray array];
+            
+            for( NSDictionary *item in response[@"data"] )
+            {
+                NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+                [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+                NSNumber *itemID = [formatter numberFromString:item[@"id"]];
+                
+                [itemIDs addObject:itemID];
+            }
+            
+            NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
+            NSArray *sortDescriptors = @[ dateSortDescriptor ];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(item_id IN %@)", itemIDs];
+            
+            NSString *entityName = NSStringFromClass( [DAFeedItem class] );
+            NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:sortDescriptors predicate:predicate];
+            
+            NSUInteger entityIndex = 0;
+            
+            for( NSNumber *itemID in itemIDs )
+            {
+                NSUInteger newItemIndex = [itemIDs indexOfObject:itemID];
+                
+                if( entityIndex < matchingItems.count)
+                {
+                    DAFeedItem *managedItem = matchingItems[entityIndex];
+                    
+                    if( ![itemID isEqualToNumber:managedItem.item_id] )
+                    {
+                        DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
+                        [newManagedItem configureWithDictionary:response[@"data"][newItemIndex]];
+                    }
+                    else
+                    {
+                        managedItem = matchingItems[entityIndex];
+                        [managedItem configureWithDictionary:response[@"data"][newItemIndex]];
+                        
+                        entityIndex++;
+                    }
+                }
+                else
+                {
+                    DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
+                    [newManagedItem configureWithDictionary:response[@"data"][newItemIndex]];
+                }
+            }
+            
+            [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:^( BOOL saved, NSError *error )
+            {
+                if( !saved || error )
+                {
+                    completion( NO, YES );
+                }
+                else
+                {
+                    completion( YES, YES );
+                }
+            }];
+        }
+        else
+        {
+            completion( NO, YES );
+        }
+    }];
+}
+
+- (NSFetchedResultsController *)fetchFeedItemsWithLimit:(NSUInteger)limit
+{
+    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
+    NSArray *sortDescriptors = @[ dateSortDescriptor ];
+    NSFetchedResultsController *fetchedResultsController = [[DACoreDataManager sharedManager] fetchedResultsControllerWithEntityName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil fetchLimit:limit];
+    
+    return fetchedResultsController;
+}
+
+- (NSFetchedResultsController *)fetchFeedItems;
+{
+    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
+    NSArray *sortDescriptors = @[ dateSortDescriptor ];
+    NSFetchedResultsController *fetchedResultsController = [[DACoreDataManager sharedManager] fetchedResultsControllerWithEntityName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil];
+    
+    return fetchedResultsController;
+}
+
+@end
