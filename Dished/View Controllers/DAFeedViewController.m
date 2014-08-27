@@ -13,7 +13,7 @@
 #import "DACoreDataManager.h"
 #import "UILabel+Dished.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-
+#import "DAReviewDetailsViewController.h"
 
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate>
 
@@ -30,7 +30,7 @@
 @implementation DAFeedViewController
 
 - (void)viewDidLoad
-{
+{	
     [super viewDidLoad];
     
     self.currentOffset = 0;
@@ -109,7 +109,8 @@
     
     [feedCell.creatorButton  setTitle:usernameString                         forState:UIControlStateNormal];
     [feedCell.titleButton    setTitle:self.items[indexPath.row][@"name"]     forState:UIControlStateNormal];
-    
+    [feedCell.titleButton    setTag:indexPath.row];
+
     UIImage *locationIcon = [[UIImage imageNamed:@"feed_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [feedCell.locationButton setTitle:self.items[indexPath.row][@"loc_name"] forState:UIControlStateNormal];
     [feedCell.locationButton setImage:locationIcon forState:UIControlStateNormal];
@@ -210,6 +211,15 @@
     {
         self.changes = nil;
     }];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    
+//    NSArray *indexPaths = [self.collectionView indexPathsForSelectedItems];
+//    NSIndexPath *index = [indexPaths objectAtIndex:0];
+    DAReviewDetailsViewController *vc = [segue destinationViewController];
+	vc.reviewDetailsDictionary = [self.items objectAtIndex:((UIButton *)sender).tag];
+    
 }
 
 @end
