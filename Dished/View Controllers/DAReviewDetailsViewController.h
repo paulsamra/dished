@@ -2,7 +2,7 @@
 //  DAReviewDetailsViewController.h
 //  Dished
 //
-//  Created by POST on 8/27/14.
+//  Created by Daryl Stimm on 8/27/14.
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
