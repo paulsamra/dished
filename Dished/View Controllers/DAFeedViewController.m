@@ -21,7 +21,6 @@
 @property (strong, nonatomic) NSMutableArray             *changes;
 @property (strong, nonatomic) UIRefreshControl           *refreshControl;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSCache					 *mainImageCache;
 
 @property (nonatomic) NSInteger currentOffset;
 
@@ -33,12 +32,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    if (!self.mainImageCache)
-    {
-        self.mainImageCache = [[NSCache alloc] init];
-        [self.mainImageCache setName:@"maincache"];
-    }
     
     self.currentOffset = 0;
     
@@ -122,31 +115,7 @@
     [feedCell.locationButton setImage:locationIcon forState:UIControlStateNormal];
     [feedCell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
     
-    
-    UIImage *image = [self.mainImageCache objectForKey:self.items[indexPath.row][@"img"]];
-    if (image)
-    {
-        feedCell.dishImageView.image = image;
-        NSLog(@"pulled from cache");
-    }
-    else
-    {
-        [feedCell.dishImageView setImageWithURL:self.items[indexPath.row][@"img"] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        NSString *urlstring = self.items[indexPath.row][@"img"];
-        if (![urlstring isKindOfClass:[NSNull class]])
-        {
-            NSURL *url = [NSURL URLWithString:urlstring];
-            NSData *data = [NSData dataWithContentsOfURL:url];
-            UIImage *image = [UIImage imageWithData:data];
-            [self.mainImageCache setObject:image forKey:self.items[indexPath.row][@"img"]];
-            NSLog(@"pulled from feed");
-
-        }
-
-
-    }
-    
-
+    [feedCell.dishImageView setImageWithURL:self.items[indexPath.row][@"img"] usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
     NSTimeInterval interval = [self.items[indexPath.row][@"created"] doubleValue];
     [feedCell.timeLabel setAttributedTextForFeedItemDate:[NSDate dateWithTimeIntervalSince1970:interval]];
