@@ -15,7 +15,7 @@
 #import "DAFeedImportManager.h"
 #import "DARefreshControl.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-
+#import "DAReviewDetailsViewController.h"
 
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate>
 
@@ -23,7 +23,6 @@
 @property (strong, nonatomic) DARefreshControl           *refreshControl;
 @property (strong, nonatomic) DAFeedImportManager        *importer;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSCache					 *mainImageCache;
 
 @property (nonatomic) BOOL    hasMoreData;
 @property (nonatomic) BOOL    isLoadingMore;
@@ -35,7 +34,7 @@
 @implementation DAFeedViewController
 
 - (void)viewDidLoad
-{
+{	
     [super viewDidLoad];
     
     self.hasMoreData   = YES;
