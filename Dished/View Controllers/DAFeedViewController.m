@@ -19,16 +19,15 @@
 
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate>
 
-@property (strong, nonatomic) NSArray                    *items;
 @property (strong, nonatomic) NSMutableArray             *changes;
 @property (strong, nonatomic) DARefreshControl           *refreshControl;
 @property (strong, nonatomic) DAFeedImportManager        *importer;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (strong, nonatomic) NSCache					 *mainImageCache;
 
-@property (nonatomic) BOOL      hasMoreData;
-@property (nonatomic) BOOL      isLoadingMore;
-@property (nonatomic) CGFloat   previousScrollViewYOffset;
+@property (nonatomic) BOOL    hasMoreData;
+@property (nonatomic) BOOL    isLoadingMore;
+@property (nonatomic) CGFloat previousScrollViewYOffset;
 
 @end
 
@@ -150,8 +149,21 @@
     [cell.locationButton setImage:locationIcon  forState:UIControlStateNormal];
     [cell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
     
-    NSURL *dishImageURL = [NSURL URLWithString:item.img];
-    [cell.dishImageView setImageWithURL:dishImageURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    UIImage *image = [self.mainImageCache objectForKey:item.img];
+    if( image )
+    {
+        cell.dishImageView.image = image;
+    }
+    else
+    {
+        NSURL *dishImageURL = [NSURL URLWithString:item.img];
+        [cell.dishImageView setImageWithURL:dishImageURL
+        completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
+        {
+            [self.mainImageCache setObject:image forKey:item.img];
+        }
+        usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    }
     
     cell.gradeLabel.text = [item.grade uppercaseString];
     
@@ -171,14 +183,7 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
-    if( !self.hasMoreData )
-    {
-        return CGSizeZero;
-    }
-    else
-    {
-        return CGSizeMake( self.collectionView.frame.size.width, 50 );
-    }
+    return !self.hasMoreData ? CGSizeZero : CGSizeMake( self.collectionView.frame.size.width, 50 );
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
@@ -351,6 +356,17 @@
     frame.origin.y = 20;
     [self.navigationController.navigationBar setFrame:frame];
     [self updateBarButtonItems:1.0f];
+}
+
+- (NSCache *)mainImageCache
+{
+    if( !_mainImageCache )
+    {
+        _mainImageCache = [[NSCache alloc] init];
+        [_mainImageCache setName:@"maincache"];
+    }
+    
+    return _mainImageCache;
 }
 
 @end
