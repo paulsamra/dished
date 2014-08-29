@@ -8,6 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class DAFeedCollectionViewCell;
+
+
+@protocol DAFeedCollectionViewCellDelegate <NSObject>
+
+- (void)commentButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
+
+@end
+
 
 @interface DAFeedCollectionViewCell : UICollectionViewCell
 
@@ -20,5 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIButton    *yumButton;
 @property (weak, nonatomic) IBOutlet UIImageView *dishImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
+
+@property (weak, nonatomic) id<DAFeedCollectionViewCellDelegate> delegate;
 
 @end

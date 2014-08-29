@@ -8,24 +8,17 @@
 
 #import "DAGraphControlLayer.h"
 
+
 @implementation DAGraphControlLayer
 
 @dynamic percentage;
 
-+(BOOL)needsDisplayForKey:(NSString*) key
++ (BOOL)needsDisplayForKey:(NSString*) key
 {
-    
-    if ([key isEqualToString:@"percentage"])
-    {
-        return YES;
-    }
-    else
-    {
-        return [super needsDisplayForKey:key];
-    }
+    return [key isEqualToString:@"percentage"] ? YES : [super needsDisplayForKey:key];
 }
 
--(CABasicAnimation *)makeAnimationForKey:(NSString *) key
+- (CABasicAnimation *)makeAnimationForKey:(NSString *)key
 {
 	CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:key];
 	anim.fromValue = [[self presentationLayer] valueForKey:key];
@@ -35,9 +28,9 @@
 	return anim;
 }
 
--(id <CAAction> )actionForKey:(NSString *) event
+- (id<CAAction>)actionForKey:(NSString *) event
 {
-	if ([event isEqualToString:@"percentage"])
+	if( [event isEqualToString:@"percentage"] )
     {
 		return [self makeAnimationForKey:event];
 	}
@@ -88,8 +81,7 @@
     bezier3Path.lineWidth = 0.5;
     [bezier3Path stroke];
     
-    
-    for (int i = 0; i < 4; i++)
+    for( int i = 0; i < 4; i++ )
     {
         float y = (height + offset)*i + 50;
         
@@ -100,6 +92,7 @@
         {
             length = min;
         }
+        
         UIBezierPath* bezierPath = UIBezierPath.bezierPath;
         [bezierPath moveToPoint: CGPointMake(x, y)];
         [bezierPath addLineToPoint: CGPointMake(length, y)];
@@ -113,25 +106,18 @@
         [bezierPath fill];
         [bezierPath stroke];
         
-        
         [self createLabelsWithFrame:CGRectMake(length-33, y+2, 30, 16)
                               title:[NSString stringWithFormat:@"%@", [arrayOfGradeAmounts objectAtIndex:i]]
                           withColor:[UIColor whiteColor]
                            withFont:[UIFont fontWithName: @"HelveticaNeue-Light" size: 12]];
         
-\
         [self createLabelsWithFrame:CGRectMake(10, y+2, 30, 16)
                               title:[NSString stringWithFormat:@"%@", [arrayOfGrades objectAtIndex:i]]
                           withColor:[UIColor grayColor]
                            withFont:[UIFont fontWithName: @"HelveticaNeue-Medium" size: 16]];
-
-        
     }
-    
-    
     
     UIGraphicsPopContext();
 }
-
 
 @end

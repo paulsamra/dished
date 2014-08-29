@@ -16,9 +16,12 @@
 #import "DARefreshControl.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAReviewDetailsViewController.h"
+#import "DACommentsViewController.h"
 
-@interface DAFeedViewController() <NSFetchedResultsControllerDelegate>
 
+@interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate>
+
+@property (strong, nonatomic) NSCache                    *mainImageCache;
 @property (strong, nonatomic) NSMutableArray             *changes;
 @property (strong, nonatomic) DARefreshControl           *refreshControl;
 @property (strong, nonatomic) DAFeedImportManager        *importer;
@@ -131,6 +134,7 @@
     DAFeedCollectionViewCell *feedCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
     
     [self configureCell:feedCell atIndexPath:indexPath];
+    feedCell.delegate = self;
     
     return feedCell;
 }
@@ -183,6 +187,14 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
     return !self.hasMoreData ? CGSizeZero : CGSizeMake( self.collectionView.frame.size.width, 50 );
+}
+
+- (void)commentButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    [self performSegueWithIdentifier:@"commentsSegue" sender:feedItem];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
@@ -253,6 +265,24 @@
     }];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"commentsSegue"] )
+    {
+        DAFeedItem *feedItem = sender;
+        
+        DACommentsViewController *dest = segue.destinationViewController;
+        dest.reviewID = [feedItem.item_id integerValue];
+        
+        return;
+    }
+    
+    DAReviewDetailsViewController *vc = [segue destinationViewController];
+    
+    DAFeedItem *item = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+	vc.feedItem = item;
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     [self.refreshControl containingScrollViewDidScroll:scrollView];
@@ -279,7 +309,7 @@
     }
     
     [self.navigationController.navigationBar setFrame:frame];
-    [self updateBarButtonItems:(1 - framePercentageHidden)];
+    [self updateNavigationBarToAlpha:(1 - framePercentageHidden)];
     self.previousScrollViewYOffset = scrollOffset;
 }
 
@@ -314,32 +344,29 @@
     }
 }
 
-- (void)updateBarButtonItems:(CGFloat)alpha
+- (void)updateNavigationBarToAlpha:(CGFloat)alpha
 {
-    [self.navigationItem.leftBarButtonItems enumerateObjectsUsingBlock:^( UIBarButtonItem* item, NSUInteger i, BOOL *stop )
-    {
-        item.customView.alpha = alpha;
-    }];
-    
-    [self.navigationItem.rightBarButtonItems enumerateObjectsUsingBlock:^( UIBarButtonItem* item, NSUInteger i, BOOL *stop )
-    {
-        item.customView.alpha = alpha;
-    }];
-    
     self.navigationItem.titleView.alpha = alpha;
     self.navigationController.navigationBar.tintColor = [self.navigationController.navigationBar.tintColor colorWithAlphaComponent:alpha];
 }
 
 - (void)animateNavBarTo:(CGFloat)y
-{
+{    
     [UIView animateWithDuration:0.2 animations:^
     {
         CGRect frame = self.navigationController.navigationBar.frame;
         CGFloat alpha = (frame.origin.y >= y ? 0 : 1);
         frame.origin.y = y;
         [self.navigationController.navigationBar setFrame:frame];
-        [self updateBarButtonItems:alpha];
+        [self updateNavigationBarToAlpha:alpha];
     }];
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [self resetNavigationBar];
+    
+    [super viewDidDisappear:animated];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -354,7 +381,7 @@
     CGRect frame = self.navigationController.navigationBar.frame;
     frame.origin.y = 20;
     [self.navigationController.navigationBar setFrame:frame];
-    [self updateBarButtonItems:1.0f];
+    [self updateNavigationBarToAlpha:1.0f];
 }
 
 - (NSCache *)mainImageCache

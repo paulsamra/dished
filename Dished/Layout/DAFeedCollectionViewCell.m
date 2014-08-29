@@ -20,6 +20,17 @@
     self.userImageView.clipsToBounds = YES;
     
     self.titleButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    
+    [self.commentsButton addTarget:self action:@selector(commentButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)commentButtonClicked
+{
+    if( [self.delegate respondsToSelector:@selector(commentButtonTappedOnFeedCollectionViewCell:)] )
+    {
+        [self.delegate commentButtonTappedOnFeedCollectionViewCell:self];
+    }
 }
 
 @end

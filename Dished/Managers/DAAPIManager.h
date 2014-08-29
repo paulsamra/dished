@@ -7,7 +7,6 @@
 //
 
 #import "AFHTTPSessionManager.h"
-#import "DAHashtag.h"
 #import "DANewReview.h"
 
 #define kNetworkUnreachableKey @"network_unreachable"
@@ -144,5 +143,10 @@
  * Retrieve data for user's feed view.
  */
 - (void)getFeedActivityWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius offset:(NSInteger)offset limit:(NSInteger)limit completion:( void(^)( id response, NSError *error ) )completion;
+
+/*
+ * Get list of comments left on a review.
+ */
+- (void)getCommentsForReviewID:(NSInteger)reviewID completion:( void(^)( id response, NSError *error ) )completion;
 
 @end

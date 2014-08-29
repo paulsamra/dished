@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DAFeedItem+Utility.h"
+
 
 @interface DAReviewDetailsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (strong, nonatomic) NSDictionary *reviewDetailsDictionary;
+@property (strong, nonatomic) DAFeedItem *feedItem;
+
 @end

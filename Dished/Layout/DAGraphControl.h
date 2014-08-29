@@ -9,9 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "DAGraphControlLayer.h"
 
+
 @interface DAGraphControl : UIControl
 
 @property (nonatomic) CGFloat percentage;
-
 
 @end

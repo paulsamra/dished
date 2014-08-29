@@ -10,26 +10,25 @@
 
 @implementation DAGraphControl
 
-+(Class)layerClass
++ (Class)layerClass
 {
     return [DAGraphControlLayer class];
 }
 
--(void)setPercentage:(CGFloat)percentage
+- (void)setPercentage:(CGFloat)percentage
 {
-    
     _percentage = percentage;
     ((DAGraphControlLayer *)self.layer).percentage = percentage;
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
-    
-    if(self = [super initWithCoder:aDecoder])
+    if( self = [super initWithCoder:aDecoder] )
     {
         self.layer.needsDisplayOnBoundsChange = YES;
         self.layer.contentsScale = [UIScreen mainScreen].scale;
     }
+    
     return self;
 }
 

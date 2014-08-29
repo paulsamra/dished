@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
+#import "DAHashtag.h"
 #import "DAAPIManager.h"
 #import "DALocationManager.h"
 #import "DAExploreViewController.h"

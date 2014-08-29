@@ -11,4 +11,6 @@
 
 @interface DACommentsViewController : UITableViewController
 
+@property (nonatomic) NSInteger reviewID;
+
 @end

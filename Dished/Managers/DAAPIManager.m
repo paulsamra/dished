@@ -9,6 +9,7 @@
 #import "DAAPIManager.h"
 #import "JSONResponseSerializerWithData.h"
 #import "DALocationManager.h"
+#import "DAHashtag.h"
 #import "SSKeychain.h"
 
 #define kClientIDKey     @"client_id"
@@ -924,6 +925,31 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {
             NSLog(@"Error getting feed: %@", error.localizedDescription);
+            completion( nil, error );
+        }];
+    });
+}
+
+- (void)getCommentsForReviewID:(NSInteger)reviewID completion:( void(^)( id response, NSError *error ) )completion
+{
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID) };
+        
+        [self GET:@"comments" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            if( [responseObject[@"status"] isEqualToString:@"success"] )
+            {
+                completion( responseObject, nil );
+            }
+            else
+            {
+                completion( nil, nil );
+            }
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Error getting comments: %@", error.localizedDescription);
             completion( nil, error );
         }];
     });
