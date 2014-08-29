@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SWTableViewCell.h"
 
 
-@interface DACommentTableViewCell : UITableViewCell
+@interface DACommentTableViewCell : SWTableViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *commentLabel;
+@property (weak, nonatomic) IBOutlet UITextView *commentTextView;
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
 
 @end

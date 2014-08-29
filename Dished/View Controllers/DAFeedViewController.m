@@ -42,7 +42,7 @@
     
     self.hasMoreData   = YES;
     self.isLoadingMore = NO;
-    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_black_nav"]];
+    self.navigationItem.titleView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"logo_nav"]];
     self.collectionView.hidden = YES;
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -79,6 +79,7 @@
     self.refreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
     [self.refreshControl addTarget:self action:@selector(refreshFeed) forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
+    self.refreshControl.hidden = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -147,7 +148,7 @@
     [cell.creatorButton  setTitle:usernameString forState:UIControlStateNormal];
     [cell.titleButton    setTitle:item.name      forState:UIControlStateNormal];
     
-    UIImage *locationIcon = [[UIImage imageNamed:@"feed_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIImage *locationIcon = [[UIImage imageNamed:@"dish_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [cell.locationButton setTitle:item.loc_name forState:UIControlStateNormal];
     [cell.locationButton setImage:locationIcon  forState:UIControlStateNormal];
     [cell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
@@ -176,7 +177,8 @@
     NSString *commentString = [NSString stringWithFormat:@"%d comments", [item.num_comments intValue]];
     [cell.commentsButton setTitle:commentString forState:UIControlStateNormal];
     
-    cell.userImageView.image = [UIImage imageNamed:@"avatar"];
+    NSURL *userImageURL = [NSURL URLWithString:item.creator_img_thumb];
+    [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -285,6 +287,9 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
+    CGFloat scrollPosition = scrollView.contentOffset.y + scrollView.contentInset.top;
+    self.refreshControl.hidden = scrollPosition > 0 ? YES : NO;
+    
     [self.refreshControl containingScrollViewDidScroll:scrollView];
     
     CGRect frame = self.navigationController.navigationBar.frame;

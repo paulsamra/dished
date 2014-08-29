@@ -65,7 +65,7 @@
 {
     self.blackDishLayer = [CALayer layer];
     self.blackDishLayer.masksToBounds = YES;
-    UIImage *dishImage = [UIImage imageNamed:@"refresh_logo_black"];
+    UIImage *dishImage = [UIImage imageNamed:@"refresh_black"];
     CGFloat x = ( self.frame.size.width  / 2 ) - ( dishImage.size.width  / 2 );
     CGFloat y = ( self.frame.size.height / 2 ) - ( dishImage.size.height / 2 );
     self.blackDishLayer.frame = CGRectMake( x, y, dishImage.size.width, dishImage.size.height );
@@ -76,7 +76,7 @@
     self.blueDishLayer = [CALayer layer];
     self.blueDishLayer.frame = self.blackDishLayer.frame;
     self.blueDishLayer.backgroundColor = [UIColor clearColor].CGColor;
-    self.blueDishLayer.contents = (id)[UIImage imageNamed:@"refresh_logo_blue"].CGImage;
+    self.blueDishLayer.contents = (id)[UIImage imageNamed:@"refresh_blue"].CGImage;
     [self.layer addSublayer:self.blueDishLayer];
     
     self.maskLayer = [CALayer layer];

@@ -50,7 +50,7 @@ Truffle Tartlets</string>
                             <constraint firstAttribute="width" secondItem="u1c-pF-dRm" secondAttribute="height" multiplier="115:86" id="B7v-zr-FDb"/>
                         </constraints>
                     </imageView>
-                    <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="explore_search_place.png" translatesAutoresizingMaskIntoConstraints="NO" id="kVr-4C-VgQ">
+                    <imageView appearanceType="aqua" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dish_location" translatesAutoresizingMaskIntoConstraints="NO" id="kVr-4C-VgQ">
                         <rect key="frame" x="130" y="49" width="11" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
@@ -127,7 +127,7 @@ Truffle Tartlets</string>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="explore_search_place.png" width="11" height="15"/>
+        <image name="dish_location" width="10" height="15"/>
         <image name="food.jpg" width="400" height="320"/>
     </resources>
 </document>

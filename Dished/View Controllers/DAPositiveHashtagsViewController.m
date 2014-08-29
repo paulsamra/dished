@@ -134,11 +134,11 @@
         
         if( [self.hashtagDict objectForKey:@(indexPath.row)] )
         {
-            imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"add_dish_hashtag_checked"]];
+            imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hashtag_checked"]];
         }
         else
         {
-            imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"add_dish_hashtag_unchecked"]];
+            imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"hashtag_unchecked"]];
         }
         
         cell.accessoryView = imageView;
@@ -171,11 +171,11 @@
         
         if( selected )
         {
-            imageView.image = [UIImage imageNamed:@"add_dish_hashtag_checked"];
+            imageView.image = [UIImage imageNamed:@"hashtag_checked"];
         }
         else
         {
-            imageView.image = [UIImage imageNamed:@"add_dish_hashtag_unchecked"];
+            imageView.image = [UIImage imageNamed:@"hashtag_unchecked"];
         }
     }
 }

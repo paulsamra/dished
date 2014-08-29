@@ -16,7 +16,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="splash_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="3TF-8t-2Jn">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_background" translatesAutoresizingMaskIntoConstraints="NO" id="3TF-8t-2Jn">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PO9-DV-aoo">
@@ -25,7 +25,7 @@
                                     <constraint firstAttribute="height" constant="53" id="8gI-44-dOu"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="23"/>
-                                <state key="normal" title="Facebook Connect" backgroundImage="splash_facebook_connect.png">
+                                <state key="normal" title="Facebook Connect" backgroundImage="facebook_connect">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -36,7 +36,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ec-r9-XoO">
                                 <rect key="frame" x="0.0" y="349" width="320" height="53"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="23"/>
-                                <state key="normal" title="Sign In" backgroundImage="splash_sign_in.png">
+                                <state key="normal" title="Sign In" backgroundImage="sign_in">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -50,7 +50,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="otU-oq-MRg">
                                 <rect key="frame" x="0.0" y="466" width="320" height="53"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="23"/>
-                                <state key="normal" title="Register" backgroundImage="splash_register.png">
+                                <state key="normal" title="Register" backgroundImage="register">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -67,7 +67,7 @@
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_white.png" translatesAutoresizingMaskIntoConstraints="NO" id="vK5-Vo-cdC">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo_white" translatesAutoresizingMaskIntoConstraints="NO" id="vK5-Vo-cdC">
                                 <rect key="frame" x="20" y="145" width="280" height="63"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="63" id="W9c-ls-k0b"/>
@@ -123,10 +123,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_username.png" translatesAutoresizingMaskIntoConstraints="NO" id="AL5-Rd-uRI">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="username" translatesAutoresizingMaskIntoConstraints="NO" id="AL5-Rd-uRI">
                                 <rect key="frame" x="0.0" y="240" width="320" height="44"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="login_password.png" translatesAutoresizingMaskIntoConstraints="NO" id="hET-Pb-Yd0">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="password" translatesAutoresizingMaskIntoConstraints="NO" id="hET-Pb-Yd0">
                                 <rect key="frame" x="0.0" y="284" width="320" height="44"/>
                             </imageView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ca0-3h-dku">
@@ -138,7 +138,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8eC-Cy-RcM">
                                 <rect key="frame" x="0.0" y="328" width="320" height="54"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="22"/>
-                                <state key="normal" title="Login" backgroundImage="login_login.png">
+                                <state key="normal" title="Login" backgroundImage="login">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -152,7 +152,7 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="na0-Zk-BCM">
                                 <rect key="frame" x="0.0" y="430" width="320" height="53"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="23"/>
-                                <state key="normal" title="Facebook Connect" backgroundImage="login_facebook_connect.png">
+                                <state key="normal" title="Facebook Connect" backgroundImage="facebook_connect">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -316,7 +316,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AgN-aI-MNo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1121" y="178"/>
+            <point key="canvasLocation" x="1085" y="178"/>
         </scene>
         <!--Forgot Password View Controller - Forgot Password-->
         <scene sceneID="sgp-K9-cdL">
@@ -330,13 +330,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="password_phone.png" translatesAutoresizingMaskIntoConstraints="NO" id="teY-pB-9hY">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="phone_number" translatesAutoresizingMaskIntoConstraints="NO" id="teY-pB-9hY">
                                 <rect key="frame" x="0.0" y="262" width="320" height="44"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JyA-Sd-K7n">
                                 <rect key="frame" x="0.0" y="306" width="320" height="54"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="22"/>
-                                <state key="normal" title="Submit" backgroundImage="password_phone_submit.png">
+                                <state key="normal" title="Submit" backgroundImage="phone_submit">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -390,19 +390,19 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reset_code.png" translatesAutoresizingMaskIntoConstraints="NO" id="MYt-73-vzK">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reset_code" translatesAutoresizingMaskIntoConstraints="NO" id="MYt-73-vzK">
                                 <rect key="frame" x="0.0" y="136" width="320" height="44"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reset_password.png" translatesAutoresizingMaskIntoConstraints="NO" id="iOU-OW-UuF">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reset_password" translatesAutoresizingMaskIntoConstraints="NO" id="iOU-OW-UuF">
                                 <rect key="frame" x="0.0" y="240" width="320" height="44"/>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reset_confirm.png" translatesAutoresizingMaskIntoConstraints="NO" id="EyG-PF-9cv">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="reset_password_confirm" translatesAutoresizingMaskIntoConstraints="NO" id="EyG-PF-9cv">
                                 <rect key="frame" x="0.0" y="284" width="320" height="44"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8Qg-Im-I4A">
                                 <rect key="frame" x="0.0" y="328" width="320" height="54"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="22"/>
-                                <state key="normal" title="Submit" backgroundImage="reset_submit.png">
+                                <state key="normal" title="Submit" backgroundImage="reset_submit">
                                     <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -459,7 +459,7 @@
                             <constraint firstAttribute="trailing" secondItem="EyG-PF-9cv" secondAttribute="trailing" id="eeX-zA-4hN"/>
                             <constraint firstItem="iOU-OW-UuF" firstAttribute="top" secondItem="8oZ-V4-DRb" secondAttribute="top" constant="-7" id="gIB-O9-nkg"/>
                             <constraint firstItem="EyG-PF-9cv" firstAttribute="top" secondItem="iOU-OW-UuF" secondAttribute="bottom" id="hK6-By-MD2"/>
-                            <constraint firstItem="MYt-73-vzK" firstAttribute="top" secondItem="moW-LQ-1Qi" secondAttribute="bottom" constant="116" id="hL3-gu-kpt"/>
+                            <constraint firstItem="MYt-73-vzK" firstAttribute="top" secondItem="moW-LQ-1Qi" secondAttribute="bottom" constant="72" id="hL3-gu-kpt"/>
                             <constraint firstItem="MYt-73-vzK" firstAttribute="leading" secondItem="j39-rS-TcJ" secondAttribute="leading" id="hdB-xJ-7l2"/>
                             <constraint firstItem="EyG-PF-9cv" firstAttribute="bottom" secondItem="P7O-DU-qqV" secondAttribute="bottom" constant="7" id="lcS-xc-Kce"/>
                             <constraint firstItem="iOU-OW-UuF" firstAttribute="leading" secondItem="j39-rS-TcJ" secondAttribute="leading" id="muX-m8-9f8"/>
@@ -504,7 +504,7 @@
         <scene sceneID="O4w-oo-Kf2">
             <objects>
                 <navigationController definesPresentationContext="YES" id="GFN-IE-Zz4" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Feed" image="feed.png" id="RLr-og-Gef"/>
+                    <tabBarItem key="tabBarItem" title="Feed" image="feed_tab" id="RLr-og-Gef"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="D9i-GO-WAN">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -532,7 +532,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="20" minimumInteritemSpacing="0.0" id="yI2-8g-oJF">
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="30" minimumInteritemSpacing="0.0" id="yI2-8g-oJF">
                                     <size key="itemSize" width="320" height="425"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="320" height="50"/>
@@ -546,7 +546,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="425"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EuI-Dv-0kb">
+                                                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EuI-Dv-0kb">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="backgroundColor" red="0.79607843137254897" green="0.79607843137254897" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
@@ -613,7 +613,7 @@
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                     <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="5" maxY="0.0"/>
                                                     <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="7 Comments" image="feed_comment.png" backgroundImage="feed_comment_background.png">
+                                                    <state key="normal" title="7 Comments" image="comments_button_icon" backgroundImage="comments_button_background">
                                                         <color key="titleColor" red="0.39215686274509803" green="0.40784313725490196" blue="0.46274509803921571" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -624,7 +624,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <inset key="contentEdgeInsets" minX="-2" minY="0.0" maxX="0.0" maxY="0.0"/>
                                                     <inset key="titleEdgeInsets" minX="7" minY="2" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="YUM" image="feed_yum.png" backgroundImage="feed_yum_background.png">
+                                                    <state key="normal" title="YUM" image="yum_button_icon" backgroundImage="yum_button_background">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
@@ -701,21 +701,33 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="chC-rJ-pdQ">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="chC-rJ-pdQ">
                                             <rect key="frame" x="8" y="10" width="23" height="23"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="23" id="ihV-sx-Hc5"/>
+                                                <constraint firstAttribute="height" constant="23" id="uMp-RA-fdV"/>
+                                            </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="261" translatesAutoresizingMaskIntoConstraints="NO" id="6vN-5S-0Yl">
+                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Comment" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UvR-Mb-ilq">
                                             <rect key="frame" x="39" y="10" width="261" height="23"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
+                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                        </textView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstItem="UvR-Mb-ilq" firstAttribute="top" secondItem="zyW-Lu-Y2D" secondAttribute="top" constant="10" id="4O1-IJ-fAR"/>
+                                        <constraint firstItem="chC-rJ-pdQ" firstAttribute="top" secondItem="zyW-Lu-Y2D" secondAttribute="top" constant="10" id="8WU-I5-wJU"/>
+                                        <constraint firstAttribute="bottom" secondItem="UvR-Mb-ilq" secondAttribute="bottom" constant="10" id="BC2-3A-SBg"/>
+                                        <constraint firstItem="chC-rJ-pdQ" firstAttribute="leading" secondItem="zyW-Lu-Y2D" secondAttribute="leading" constant="8" id="UgZ-Wt-QQx"/>
+                                        <constraint firstAttribute="trailing" secondItem="UvR-Mb-ilq" secondAttribute="trailing" constant="20" id="hKh-TJ-DT9"/>
+                                        <constraint firstItem="UvR-Mb-ilq" firstAttribute="leading" secondItem="chC-rJ-pdQ" secondAttribute="trailing" constant="8" id="taS-kf-Amy"/>
+                                    </constraints>
                                 </tableViewCellContentView>
                                 <connections>
-                                    <outlet property="commentLabel" destination="6vN-5S-0Yl" id="mUo-wP-zf4"/>
+                                    <outlet property="commentTextView" destination="UvR-Mb-ilq" id="dfU-oy-uGb"/>
                                     <outlet property="userImageView" destination="chC-rJ-pdQ" id="ZZh-aC-3sL"/>
                                 </connections>
                             </tableViewCell>
@@ -729,7 +741,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="g79-hC-JMK" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1084" y="1718"/>
+            <point key="canvasLocation" x="1085" y="938"/>
         </scene>
         <!--Explore View Controller - Explore-->
         <scene sceneID="BnE-eH-SrY">
@@ -852,7 +864,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Explore" id="PDS-U3-7m0">
                         <barButtonItem key="backBarButtonItem" title="Back" id="G7x-Ia-pTM"/>
-                        <barButtonItem key="rightBarButtonItem" image="explore_change_location.png" id="EgZ-r7-5Sr">
+                        <barButtonItem key="rightBarButtonItem" image="change_location" id="EgZ-r7-5Sr">
                             <connections>
                                 <action selector="showCurrentLocationView" destination="97x-wT-dc3" id="7Fe-hB-net"/>
                             </connections>
@@ -903,7 +915,7 @@
         <scene sceneID="go0-5R-7dS">
             <objects>
                 <navigationController definesPresentationContext="YES" id="elz-ig-mDC" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Explore" image="explore.png" id="OFF-Yl-hHs"/>
+                    <tabBarItem key="tabBarItem" title="Explore" image="explore_tab" id="OFF-Yl-hHs"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vZz-Ya-SQW">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -919,7 +931,7 @@
         <scene sceneID="z1O-Kw-hKm">
             <objects>
                 <navigationController definesPresentationContext="YES" id="onT-HZ-anN" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="News" image="news.png" id="ijs-HW-z8a"/>
+                    <tabBarItem key="tabBarItem" title="News" image="news_tab" id="ijs-HW-z8a"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="SCX-LX-rFP">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -967,13 +979,13 @@
                                     <outletCollection property="gestureRecognizers" destination="3dI-96-yqN" appends="YES" id="92s-tm-bUs"/>
                                 </connections>
                             </view>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_utility_background.png" translatesAutoresizingMaskIntoConstraints="NO" id="m1X-Kp-RiQ" userLabel="Utility Background">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_controls_background" translatesAutoresizingMaskIntoConstraints="NO" id="m1X-Kp-RiQ" userLabel="Utility Background">
                                 <rect key="frame" x="0.0" y="404" width="320" height="74"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="74" id="F8S-1O-Mmi"/>
                                 </constraints>
                             </imageView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_dock.png" translatesAutoresizingMaskIntoConstraints="NO" id="QKw-vI-Q12" userLabel="Camera Dock">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_dock" translatesAutoresizingMaskIntoConstraints="NO" id="QKw-vI-Q12" userLabel="Camera Dock">
                                 <rect key="frame" x="0.0" y="478" width="320" height="90"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="90" id="dPQ-zs-p2M"/>
@@ -981,7 +993,7 @@
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="891-m0-y9C" userLabel="Shutter Button">
                                 <rect key="frame" x="123" y="485" width="75" height="75"/>
-                                <state key="normal" backgroundImage="camera_take_photo.png">
+                                <state key="normal" image="camera_shutter">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -993,7 +1005,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="fTJ-va-tSz"/>
                                 </constraints>
-                                <state key="normal" title=" Off" image="camera_flash.png">
+                                <state key="normal" title=" Off" image="camera_flash">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -1005,7 +1017,7 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="44" id="vzg-rD-jqa"/>
                                 </constraints>
-                                <state key="normal" backgroundImage="camera_source.png">
+                                <state key="normal" image="camera_source">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -1036,7 +1048,7 @@
                                     <action selector="chooseFromCameraRoll" destination="Rsi-kn-aX0" eventType="touchUpInside" id="gsg-oU-ug6"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_grid.png" translatesAutoresizingMaskIntoConstraints="NO" id="DaX-8E-wYK" userLabel="Camera Grid">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera_grid" translatesAutoresizingMaskIntoConstraints="NO" id="DaX-8E-wYK" userLabel="Camera Grid">
                                 <rect key="frame" x="0.0" y="64" width="320" height="340"/>
                             </imageView>
                         </subviews>
@@ -1145,7 +1157,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="explore_current_location.png" id="Zd4-0t-n6u">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="current_location" id="Zd4-0t-n6u">
                                             <rect key="frame" x="15" y="14" width="15" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -1309,17 +1321,10 @@
                                     <action selector="logout" destination="175-7S-oLh" eventType="touchUpInside" id="hmW-5s-B43"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="refresh_logo_black.png" translatesAutoresizingMaskIntoConstraints="NO" id="u8U-fx-EXW">
-                                <rect key="frame" x="120" y="154" width="70" height="14"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" id="Tbi-qX-aTq"/>
-                    <connections>
-                        <outlet property="dishImage" destination="u8U-fx-EXW" id="XTm-dr-JWO"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMR-xe-hfj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1338,7 +1343,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Add Review" image="add_review.png" id="mlt-0l-svV">
+                    <tabBarItem key="tabBarItem" title="Add Review" image="add_review_tab" id="mlt-0l-svV">
                         <inset key="imageInsets" minX="0.0" minY="5" maxX="0.0" maxY="-6"/>
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="V83-N9-tkG"/>
@@ -1369,7 +1374,7 @@
         <scene sceneID="U33-yI-2GU">
             <objects>
                 <navigationController definesPresentationContext="YES" id="ZSS-nD-wQN" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Menu" image="menu.png" id="Svc-0J-VN4"/>
+                    <tabBarItem key="tabBarItem" title="Menu" image="menu_tab" id="Svc-0J-VN4"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Qvs-WV-xD5">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -1472,7 +1477,7 @@
                                                         <action selector="goToHashtags" destination="bLN-bd-eSr" eventType="touchUpInside" id="CoW-5k-5dF"/>
                                                     </connections>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_dish_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="CbB-LQ-9qZ">
+                                                <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="disclosure_indicator" translatesAutoresizingMaskIntoConstraints="NO" id="CbB-LQ-9qZ">
                                                     <rect key="frame" x="292" y="12" width="20" height="20"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="20" id="Xcy-ww-a8l"/>
@@ -1573,7 +1578,7 @@
                                                         <action selector="goToPlaces" destination="bLN-bd-eSr" eventType="touchUpInside" id="Y5i-A7-mig"/>
                                                     </connections>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_dish_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="aoO-8v-itd" userLabel="Arrow">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="disclosure_indicator" translatesAutoresizingMaskIntoConstraints="NO" id="aoO-8v-itd" userLabel="Arrow">
                                                     <rect key="frame" x="175" y="17" width="8" height="12"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="8" id="1cC-QH-G0Z"/>
@@ -1628,14 +1633,14 @@
                                                         <action selector="goToRating" destination="bLN-bd-eSr" eventType="touchUpInside" id="3uO-AT-5o0"/>
                                                     </connections>
                                                 </button>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_dish_arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="LMd-zy-5yV">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="disclosure_indicator" translatesAutoresizingMaskIntoConstraints="NO" id="LMd-zy-5yV">
                                                     <rect key="frame" x="175" y="22" width="8" height="12"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="8" id="7Xv-TB-bfo"/>
                                                         <constraint firstAttribute="height" constant="12" id="lVa-gU-aiH"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_dish_facebook.png" translatesAutoresizingMaskIntoConstraints="NO" id="dU3-qC-G7c" userLabel="Facebook">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="facebook" translatesAutoresizingMaskIntoConstraints="NO" id="dU3-qC-G7c" userLabel="Facebook">
                                                     <rect key="frame" x="218" y="17" width="21" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
@@ -1643,7 +1648,7 @@
                                                         <constraint firstAttribute="height" constant="21" id="zkG-j3-Y9k"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_dish_twitter.png" translatesAutoresizingMaskIntoConstraints="NO" id="q5Q-tC-1k4" userLabel="Twitter">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="twitter" translatesAutoresizingMaskIntoConstraints="NO" id="q5Q-tC-1k4" userLabel="Twitter">
                                                     <rect key="frame" x="247" y="17" width="21" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
@@ -1651,7 +1656,7 @@
                                                         <constraint firstAttribute="height" constant="21" id="jhu-Df-vkk"/>
                                                     </constraints>
                                                 </imageView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_dish_email.png" translatesAutoresizingMaskIntoConstraints="NO" id="6bf-Oi-YnX" userLabel="Email">
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="email" translatesAutoresizingMaskIntoConstraints="NO" id="6bf-Oi-YnX" userLabel="Email">
                                                     <rect key="frame" x="276" y="17" width="21" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <constraints>
@@ -1706,9 +1711,9 @@
                             <rect key="frame" x="73" y="7" width="175" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="" image="add_dish_food.png"/>
-                                <segment title="" image="add_dish_drink.png"/>
-                                <segment title="" image="add_dish_wine.png"/>
+                                <segment title="" image="food_dish_blue"/>
+                                <segment title="" image="cocktail_dish_blue"/>
+                                <segment title="" image="wine_dish_blue"/>
                             </segments>
                             <color key="tintColor" red="0.0" green="0.61176470588235299" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
@@ -1753,7 +1758,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="isF-uG-jrV">
-                            <rect key="frame" x="0.0" y="571" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="635" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Already Signed Up?" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Yt-SU-IaH">
@@ -1779,7 +1784,7 @@
                             <tableViewSection id="XQj-mY-Unk">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="1RO-oe-aum">
-                                        <rect key="frame" x="0.0" y="35" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="99" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="1RO-oe-aum" id="C7r-N9-RzI">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1798,7 +1803,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="kJH-OL-8G1">
-                                        <rect key="frame" x="0.0" y="79" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="143" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="kJH-OL-8G1" id="MFu-Vy-jYP">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1821,7 +1826,7 @@
                             <tableViewSection id="Jyc-8h-zlz">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="sJV-Bk-6Dh">
-                                        <rect key="frame" x="0.0" y="143" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="207" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sJV-Bk-6Dh" id="CIg-Lw-4jn">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1844,7 +1849,7 @@
                             <tableViewSection id="3z5-sA-guI">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="h8m-k6-MXE">
-                                        <rect key="frame" x="0.0" y="207" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="271" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="h8m-k6-MXE" id="aOa-lW-9ig">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1867,7 +1872,7 @@
                             <tableViewSection id="quY-Xb-yRc">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="sWv-zK-Ujb">
-                                        <rect key="frame" x="0.0" y="271" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="335" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sWv-zK-Ujb" id="tfJ-Jr-Bx8">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1890,7 +1895,7 @@
                             <tableViewSection id="s3p-xS-IaI">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="smd-1k-Z5h">
-                                        <rect key="frame" x="0.0" y="335" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="399" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="smd-1k-Z5h" id="4KY-WU-cdQ">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1909,7 +1914,7 @@
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="Fij-oq-qKa">
-                                        <rect key="frame" x="0.0" y="379" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="443" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Fij-oq-qKa" id="I1z-gN-wKo">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1932,7 +1937,7 @@
                             <tableViewSection id="Cyg-NE-ttH">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="7DZ-uQ-RxQ" detailTextLabel="odg-wF-6dL" style="IBUITableViewCellStyleValue1" id="WJZ-FR-CAl">
-                                        <rect key="frame" x="0.0" y="443" width="320" height="44"/>
+                                        <rect key="frame" x="0.0" y="507" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WJZ-FR-CAl" id="CTe-16-Frc">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
@@ -1960,7 +1965,7 @@
                             <tableViewSection id="aAn-NM-Av3">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="g8V-34-Qsl" rowHeight="54" style="IBUITableViewCellStyleDefault" id="5pr-ND-hj2">
-                                        <rect key="frame" x="0.0" y="507" width="320" height="54"/>
+                                        <rect key="frame" x="0.0" y="571" width="320" height="54"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="5pr-ND-hj2" id="b01-G4-lbt">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="53"/>
@@ -2048,7 +2053,7 @@
                                             <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="add_dish_location.png" id="JUb-JC-QeJ">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="dish_location" id="JUb-JC-QeJ">
                                             <rect key="frame" x="15" y="14" width="10" height="15"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -2069,7 +2074,7 @@
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="add_dish_add_place.png" id="urt-xI-mnE">
+                                        <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" image="add_place" id="urt-xI-mnE">
                                             <rect key="frame" x="15" y="15" width="13" height="13"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                         </imageView>
@@ -2572,7 +2577,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="5" maxY="0.0"/>
                                                     <inset key="titleEdgeInsets" minX="5" minY="1" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="7 Comments" image="feed_comment.png" backgroundImage="feed_comment_background.png">
+                                                    <state key="normal" title="7 Comments" image="comments_button_icon" backgroundImage="comments_button_background">
                                                         <color key="titleColor" red="0.3921568627" green="0.40784313729999999" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
@@ -2583,7 +2588,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <inset key="contentEdgeInsets" minX="-2" minY="1" maxX="0.0" maxY="0.0"/>
                                                     <inset key="titleEdgeInsets" minX="6" minY="2" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="YUM" image="feed_yum.png" backgroundImage="feed_yum_background.png">
+                                                    <state key="normal" title="YUM" image="yum_button_icon" backgroundImage="yum_button_background">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
@@ -2602,58 +2607,57 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Review Details" id="8uP-KF-CaQ"/>
+                    <size key="freeformSize" width="320" height="800"/>
                     <connections>
                         <outlet property="collectionView" destination="Pj1-MA-v2t" id="A9A-W0-Hyj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="37q-1z-Sdc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1023" y="1726"/>
+            <point key="canvasLocation" x="1085" y="1720"/>
         </scene>
     </scenes>
     <resources>
-        <image name="add_dish_add_place.png" width="13" height="13"/>
-        <image name="add_dish_arrow.png" width="8" height="12"/>
-        <image name="add_dish_drink.png" width="16" height="16"/>
-        <image name="add_dish_email.png" width="21" height="22"/>
-        <image name="add_dish_facebook.png" width="21" height="22"/>
-        <image name="add_dish_food.png" width="17" height="18"/>
-        <image name="add_dish_location.png" width="10" height="15"/>
-        <image name="add_dish_twitter.png" width="22" height="22"/>
-        <image name="add_dish_wine.png" width="11" height="18"/>
-        <image name="add_review.png" width="70" height="49"/>
-        <image name="camera_dock.png" width="320" height="90"/>
-        <image name="camera_flash.png" width="14" height="19"/>
-        <image name="camera_grid.png" width="320" height="432"/>
-        <image name="camera_source.png" width="44" height="22"/>
-        <image name="camera_take_photo.png" width="75" height="75"/>
-        <image name="camera_utility_background.png" width="320" height="75"/>
-        <image name="explore.png" width="26" height="25"/>
-        <image name="explore_change_location.png" width="14" height="14"/>
-        <image name="explore_current_location.png" width="15" height="15"/>
-        <image name="feed.png" width="30" height="24"/>
-        <image name="feed_comment.png" width="15" height="11"/>
-        <image name="feed_comment_background.png" width="107" height="26"/>
-        <image name="feed_yum.png" width="14" height="13"/>
-        <image name="feed_yum_background.png" width="61" height="26"/>
-        <image name="login_facebook_connect.png" width="320" height="53"/>
-        <image name="login_login.png" width="320" height="54"/>
-        <image name="login_password.png" width="320" height="44"/>
-        <image name="login_username.png" width="320" height="44"/>
-        <image name="logo_white.png" width="695" height="150"/>
-        <image name="menu.png" width="31" height="9"/>
-        <image name="news.png" width="29" height="26"/>
-        <image name="password_phone.png" width="320" height="44"/>
-        <image name="password_phone_submit.png" width="320" height="54"/>
-        <image name="refresh_logo_black.png" width="70" height="13"/>
-        <image name="reset_code.png" width="320" height="44"/>
-        <image name="reset_confirm.png" width="320" height="44"/>
-        <image name="reset_password.png" width="320" height="44"/>
-        <image name="reset_submit.png" width="320" height="54"/>
-        <image name="splash_background.png" width="320" height="568"/>
-        <image name="splash_facebook_connect.png" width="320" height="53"/>
-        <image name="splash_register.png" width="320" height="53"/>
-        <image name="splash_sign_in.png" width="320" height="53"/>
+        <image name="add_place" width="13" height="13"/>
+        <image name="add_review_tab" width="70" height="49"/>
+        <image name="camera_controls_background" width="320" height="75"/>
+        <image name="camera_dock" width="320" height="90"/>
+        <image name="camera_flash" width="14" height="19"/>
+        <image name="camera_grid" width="320" height="432"/>
+        <image name="camera_shutter" width="75" height="75"/>
+        <image name="camera_source" width="44" height="22"/>
+        <image name="change_location" width="14" height="14"/>
+        <image name="cocktail_dish_blue" width="16" height="16"/>
+        <image name="comments_button_background" width="107" height="26"/>
+        <image name="comments_button_icon" width="15" height="11"/>
+        <image name="current_location" width="15" height="15"/>
+        <image name="disclosure_indicator" width="8" height="12"/>
+        <image name="dish_location" width="10" height="15"/>
+        <image name="email" width="21" height="22"/>
+        <image name="explore_tab" width="26" height="25"/>
+        <image name="facebook" width="21" height="22"/>
+        <image name="facebook_connect" width="320" height="53"/>
+        <image name="feed_tab" width="30" height="24"/>
+        <image name="food_dish_blue" width="17" height="18"/>
+        <image name="login" width="320" height="54"/>
+        <image name="login_background" width="320" height="568"/>
+        <image name="logo_white" width="695" height="150"/>
+        <image name="menu_tab" width="31" height="9"/>
+        <image name="news_tab" width="29" height="26"/>
+        <image name="password" width="320" height="44"/>
+        <image name="phone_number" width="320" height="44"/>
+        <image name="phone_submit" width="320" height="54"/>
+        <image name="register" width="320" height="53"/>
+        <image name="reset_code" width="320" height="44"/>
+        <image name="reset_password" width="320" height="44"/>
+        <image name="reset_password_confirm" width="320" height="44"/>
+        <image name="reset_submit" width="320" height="54"/>
+        <image name="sign_in" width="320" height="53"/>
+        <image name="twitter" width="22" height="22"/>
+        <image name="username" width="320" height="44"/>
+        <image name="wine_dish_blue" width="11" height="18"/>
+        <image name="yum_button_background" width="61" height="26"/>
+        <image name="yum_button_icon" width="14" height="13"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -2661,8 +2665,8 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
+        <segue reference="uu3-ER-XS1"/>
+        <segue reference="e1c-XP-t2f"/>
         <segue reference="DWl-1Z-W5u"/>
-        <segue reference="wCN-0l-elF"/>
-        <segue reference="52f-zN-P3a"/>
     </inferredMetricsTieBreakers>
 </document>

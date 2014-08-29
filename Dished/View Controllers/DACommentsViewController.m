@@ -25,11 +25,19 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-        
+    
     self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = self.view.center;
+    [self.view addSubview:spinner];
+    [spinner startAnimating];
     
     [[DAAPIManager sharedManager] getCommentsForReviewID:self.reviewID completion:^( id response, NSError *error )
     {
+        [spinner stopAnimating];
+        [spinner removeFromSuperview];
+        
         if( error || !response )
         {
             
@@ -91,32 +99,63 @@
     DACommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentCell" forIndexPath:indexPath];
     
     DAComment *comment = [self.comments objectAtIndex:indexPath.row];
-    
-    cell.commentLabel.text = comment.comment;
-    [cell.commentLabel sizeToFit];
+
+    cell.commentTextView.attributedText = [self commentStringForComment:comment];
     
     NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
-    [cell.userImageView setImageWithURL:userImageURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [cell.userImageView sd_setImageWithURL:userImageURL];
+    
+    cell.rightUtilityButtons = [self utilityButtonsAtIndexPath:indexPath];
         
     return cell;
 }
 
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
+- (NSArray *)utilityButtonsAtIndexPath:(NSIndexPath *)indexPath
 {
-    return YES;
+    NSMutableArray *buttons = [NSMutableArray array];
+    
+    UIImage *deleteImage = [UIImage imageNamed:@"comment_delete"];
+    UIImage *flagImage   = [UIImage imageNamed:@"comment_flag"];
+    
+    [buttons sw_addUtilityButtonWithColor:[UIColor redColor] icon:deleteImage];
+    [buttons sw_addUtilityButtonWithColor:[UIColor redColor] icon:flagImage];
+    
+    return buttons;
 }
 
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
+    DAComment *comment = [self.comments objectAtIndex:indexPath.row];
+    NSAttributedString *commentString = [self commentStringForComment:comment];
+    
+    CGRect commentRect = [commentString boundingRectWithSize:CGSizeMake(self.view.frame.size.width - 60, CGFLOAT_MAX)
+                                 options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
+                                 context:nil];
+    
+    CGFloat minimumCellHeight = ceilf( commentRect.size.height ) + 20;
+    
+    CGFloat ret = minimumCellHeight < tableView.rowHeight ? tableView.rowHeight : minimumCellHeight;
+    return ret;
 }
-*/
+
+- (NSAttributedString *)commentStringForComment:(DAComment *)comment
+{
+    NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
+    NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0f] }];
+    NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
+    
+    if( [comment.creator_type isEqualToString:@"influencer"] )
+    {
+        NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
+        influencerIcon.image = [UIImage imageNamed:@"influencer"];
+        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
+        [labelString appendAttributedString:influencerIconString];
+    }
+    
+    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0f] }]];
+    
+    return labelString;
+}
 
 @end

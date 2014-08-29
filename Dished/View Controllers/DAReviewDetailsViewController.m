@@ -38,7 +38,7 @@
         [cell.creatorButton  setTitle:usernameString     forState:UIControlStateNormal];
         [cell.titleButton    setTitle:self.feedItem.name forState:UIControlStateNormal];
         
-        UIImage *locationIcon = [[UIImage imageNamed:@"feed_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        UIImage *locationIcon = [[UIImage imageNamed:@"dish_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         [cell.locationButton setTitle:self.feedItem.loc_name forState:UIControlStateNormal];
         [cell.locationButton setImage:locationIcon  forState:UIControlStateNormal];
         [cell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];

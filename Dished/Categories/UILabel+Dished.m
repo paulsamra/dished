@@ -17,7 +17,7 @@
     [timeString insertAttributedString:[[NSAttributedString alloc] initWithString:@" "] atIndex:0];
     
     NSTextAttachment *clockAttachment = [[NSTextAttachment alloc] init];
-    clockAttachment.image = [UIImage imageNamed:@"feed_time"];
+    clockAttachment.image = [UIImage imageNamed:@"clock"];
     NSMutableAttributedString *clockString = [[NSAttributedString attributedStringWithAttachment:clockAttachment] mutableCopy];
     
     [clockString appendAttributedString:timeString];

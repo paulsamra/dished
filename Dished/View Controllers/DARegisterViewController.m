@@ -931,7 +931,7 @@
 {
     if( !_errorIconImage )
     {
-        _errorIconImage = [UIImage imageNamed:@"error_icon"];
+        _errorIconImage = [UIImage imageNamed:@"invalid_input"];
     }
     
     return _errorIconImage;
@@ -941,7 +941,7 @@
 {
     if( !_validIconImage )
     {
-        _validIconImage = [UIImage imageNamed:@"valid_icon"];
+        _validIconImage = [UIImage imageNamed:@"valid_input"];
     }
     
     return _validIconImage;

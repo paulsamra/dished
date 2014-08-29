@@ -20,7 +20,7 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="add_dish_location.png" translatesAutoresizingMaskIntoConstraints="NO" id="DAr-le-VpM">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dish_location" translatesAutoresizingMaskIntoConstraints="NO" id="DAr-le-VpM">
                         <rect key="frame" x="210" y="14" width="10" height="15"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <constraints>
@@ -56,6 +56,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="add_dish_location.png" width="10" height="15"/>
+        <image name="dish_location" width="10" height="15"/>
     </resources>
 </document>

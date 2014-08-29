@@ -336,13 +336,13 @@
             break;
             case eUsernameSearchResult:
             {
-                cell.imageView.image = [UIImage imageNamed:@"explore_search_user"];
+                cell.imageView.image = [UIImage imageNamed:@"user_search_result"];
                 cell.textLabel.text  = [NSString stringWithFormat:@"@%@", searchResult.name];
             }
             break;
             case eLocationSearchResult:
             {
-                cell.imageView.image = [UIImage imageNamed:@"explore_search_place"];
+                cell.imageView.image = [UIImage imageNamed:@"dish_location"];
                 cell.textLabel.text  = searchResult.name;
             }
             break;
@@ -352,15 +352,15 @@
                 
                 if( [searchResult.dishType isEqualToString:kFood] )
                 {
-                    cell.imageView.image = [UIImage imageNamed:@"explore_search_food"];
+                    cell.imageView.image = [UIImage imageNamed:@"food_dish_outline"];
                 }
                 else if( [searchResult.dishType isEqualToString:kCocktail] )
                 {
-                    cell.imageView.image = [UIImage imageNamed:@"explore_search_cocktail"];
+                    cell.imageView.image = [UIImage imageNamed:@"cocktail_dish_outline"];
                 }
                 else if( [searchResult.dishType isEqualToString:kWine] )
                 {
-                    cell.imageView.image = [UIImage imageNamed:@"explore_search_wine"];
+                    cell.imageView.image = [UIImage imageNamed:@"wine_dish_outline"];
                 }
             }
             break;
