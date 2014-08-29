@@ -955,6 +955,36 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
+- (void)deleteCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion
+{
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(commentID) };
+    
+    [self POST:@"comments/delete" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"Failed to delete comment: %@", error.localizedDescription);
+        completion( NO );
+    }];
+}
+
+- (void)flagCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion
+{
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(commentID) };
+    
+    [self POST:@"comments/report" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"Failed to flag comment: %@", error.localizedDescription);
+        completion( NO );
+    }];
+}
+
 - (BOOL)isLoggedIn
 {
     if( [self accessToken] )

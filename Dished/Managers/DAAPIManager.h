@@ -149,4 +149,14 @@
  */
 - (void)getCommentsForReviewID:(NSInteger)reviewID completion:( void(^)( id response, NSError *error ) )completion;
 
+/*
+ * Delete a review comment.
+ */
+- (void)deleteCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion;
+
+/*
+ * Flag a review comment.
+ */
+- (void)flagCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion;
+
 @end

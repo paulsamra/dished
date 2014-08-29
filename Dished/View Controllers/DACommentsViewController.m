@@ -13,7 +13,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 
-@interface DACommentsViewController()
+@interface DACommentsViewController() <SWTableViewCellDelegate>
 
 @property (strong, nonatomic) NSArray *comments;
 
@@ -82,6 +82,22 @@
     return [comments copy];
 }
 
+- (void)refreshComments
+{
+    [[DAAPIManager sharedManager] getCommentsForReviewID:self.reviewID completion:^( id response, NSError *error )
+    {
+        if( error || !response )
+        {
+            
+        }
+        else
+        {
+            self.comments = [self commentsFromResponse:response];
+            [self.tableView reloadData];
+        }
+    }];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -106,6 +122,8 @@
     [cell.userImageView sd_setImageWithURL:userImageURL];
     
     cell.rightUtilityButtons = [self utilityButtonsAtIndexPath:indexPath];
+    
+    cell.delegate = self;
         
     return cell;
 }
@@ -114,11 +132,11 @@
 {
     NSMutableArray *buttons = [NSMutableArray array];
     
-    UIImage *deleteImage = [UIImage imageNamed:@"comment_delete"];
-    UIImage *flagImage   = [UIImage imageNamed:@"comment_flag"];
+    UIImage *deleteImage = [UIImage imageNamed:@"delete_comment"];
+    UIImage *flagImage   = [UIImage imageNamed:@"flag_comment"];
     
-    [buttons sw_addUtilityButtonWithColor:[UIColor redColor] icon:deleteImage];
-    [buttons sw_addUtilityButtonWithColor:[UIColor redColor] icon:flagImage];
+    [buttons sw_addUtilityButtonWithColor:[UIColor colorWithRed:0.95 green:0 blue:0 alpha:1] icon:flagImage];
+    [buttons sw_addUtilityButtonWithColor:[UIColor colorWithRed:0.95 green:0 blue:0 alpha:1] icon:deleteImage];
     
     return buttons;
 }
@@ -132,7 +150,7 @@
                                  options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
                                  context:nil];
     
-    CGFloat minimumCellHeight = ceilf( commentRect.size.height ) + 20;
+    CGFloat minimumCellHeight = ceilf( commentRect.size.height ) + 25;
     
     CGFloat ret = minimumCellHeight < tableView.rowHeight ? tableView.rowHeight : minimumCellHeight;
     return ret;
@@ -144,8 +162,9 @@
     NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0f] }];
     NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
     
-    if( [comment.creator_type isEqualToString:@"influencer"] )
+    if( [comment.creator_type isEqualToString:@"basic"] )
     {
+        [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
         NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
         influencerIcon.image = [UIImage imageNamed:@"influencer"];
         NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
@@ -156,6 +175,44 @@
     [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:12.0f] }]];
     
     return labelString;
+}
+
+- (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    DAComment *comment = [self.comments objectAtIndex:indexPath.row];
+    
+    if( index == 0 )
+    {
+        [self flagComment:comment];
+        [cell hideUtilityButtonsAnimated:YES];
+    }
+    else
+    {
+        [self deleteComment:comment];
+        
+        NSMutableArray *mutableComments = [self.comments mutableCopy];
+        [mutableComments removeObjectAtIndex:indexPath.row];
+        self.comments = [mutableComments copy];
+        
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    }
+}
+
+- (void)deleteComment:(DAComment *)comment
+{
+    [[DAAPIManager sharedManager] deleteCommentWithID:comment.comment_id completion:^( BOOL success )
+    {
+        [self refreshComments];
+    }];
+}
+
+- (void)flagComment:(DAComment *)comment
+{
+    [[DAAPIManager sharedManager] flagCommentWithID:comment.comment_id completion:^( BOOL success )
+    {
+        [self refreshComments];
+    }];
 }
 
 @end
