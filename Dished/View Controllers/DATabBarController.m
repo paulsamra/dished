@@ -26,7 +26,7 @@
     
     UITabBarItem *addReviewTabItem = [self.tabBar.items objectAtIndex:2];
     
-    UIImage *image = [UIImage imageNamed:@"add_review"];
+    UIImage *image = [UIImage imageNamed:@"add_review_tab"];
     addReviewTabItem.image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
     [addReviewTabItem setTitleTextAttributes:@{ NSForegroundColorAttributeName : [UIColor whiteColor] } forState:UIControlStateNormal];
