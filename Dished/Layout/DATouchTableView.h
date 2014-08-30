@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DATouchUITableView : UITableView
+@interface DATouchTableView : UITableView
 
 @end

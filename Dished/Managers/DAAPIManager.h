@@ -159,4 +159,9 @@
  */
 - (void)flagCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion;
 
+/*
+ * Create comment on a review.
+ */
+- (void)createComment:(NSString *)comment forReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion;
+
 @end

@@ -985,6 +985,21 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }];
 }
 
+- (void)createComment:(NSString *)comment forReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion
+{
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID), @"comment" : comment };
+    
+    [self POST:@"comments" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        NSLog(@"Failed to create comment: %@", error.localizedDescription);
+        completion( NO );
+    }];
+}
+
 - (BOOL)isLoggedIn
 {
     if( [self accessToken] )

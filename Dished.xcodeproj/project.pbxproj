@@ -110,6 +110,16 @@
 		94CB03CF19B0EA94009010F6 /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03C819B0EA94009010F6 /* SWUtilityButtonTapGestureRecognizer.m */; };
 		94CB03D019B0EA94009010F6 /* SWUtilityButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03CA19B0EA94009010F6 /* SWUtilityButtonView.m */; };
 		94CB03D219B0EECA009010F6 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94CB03D119B0EECA009010F6 /* Images.xcassets */; };
+		94CB03FC19B146AF009010F6 /* JSQMessagesComposerTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03EC19B146AF009010F6 /* JSQMessagesComposerTextView.m */; };
+		94CB03FD19B146AF009010F6 /* JSQMessagesInputToolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03EE19B146AF009010F6 /* JSQMessagesInputToolbar.m */; };
+		94CB03FE19B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03F019B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m */; };
+		94CB03FF19B146AF009010F6 /* JSQMessagesToolbarContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03F219B146AF009010F6 /* JSQMessagesToolbarContentView.m */; };
+		94CB040019B146AF009010F6 /* JSQMessagesToolbarContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94CB03F319B146AF009010F6 /* JSQMessagesToolbarContentView.xib */; };
+		94CB040119B146AF009010F6 /* NSString+JSQMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03F519B146AF009010F6 /* NSString+JSQMessages.m */; };
+		94CB040219B146AF009010F6 /* UIColor+JSQMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03F719B146AF009010F6 /* UIColor+JSQMessages.m */; };
+		94CB040319B146AF009010F6 /* UIImage+JSQMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03F919B146AF009010F6 /* UIImage+JSQMessages.m */; };
+		94CB040419B146AF009010F6 /* UIView+JSQMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03FB19B146AF009010F6 /* UIView+JSQMessages.m */; };
+		94CB040719B15FB9009010F6 /* JSQMessagesKeyboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB040619B15FB9009010F6 /* JSQMessagesKeyboardController.m */; };
 		94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9A71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m */; };
 		94DCE9B81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9A91980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m */; };
 		94DCE9B91980ABB100396C0A /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9AB1980ABB100396C0A /* UIAlertView+AFNetworking.m */; };
@@ -160,7 +170,7 @@
 		94F2ADA7198C539200450C6F /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD95198C539200450C6F /* UIImageView+HighlightedWebCache.m */; };
 		94F2ADA8198C539200450C6F /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD97198C539200450C6F /* UIImageView+WebCache.m */; };
 		94F2ADA9198C539200450C6F /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD99198C539200450C6F /* UIView+WebCacheOperation.m */; };
-		94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E81941239100FE00EA /* DATouchUITableView.m */; };
+		94FE15E91941239100FE00EA /* DATouchTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E81941239100FE00EA /* DATouchTableView.m */; };
 		94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FF526A197347F200B97A61 /* DARegisterViewController.m */; };
 		D1100DB719AA3DA200C73AC8 /* DAGraphControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DB619AA3DA200C73AC8 /* DAGraphControl.m */; };
 		D1100DBA19AA3DDB00C73AC8 /* DAGraphControlLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */; };
@@ -352,6 +362,25 @@
 		94CB03C919B0EA94009010F6 /* SWUtilityButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWUtilityButtonView.h; sourceTree = "<group>"; };
 		94CB03CA19B0EA94009010F6 /* SWUtilityButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWUtilityButtonView.m; sourceTree = "<group>"; };
 		94CB03D119B0EECA009010F6 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		94CB03EB19B146AF009010F6 /* JSQMessagesComposerTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesComposerTextView.h; sourceTree = "<group>"; };
+		94CB03EC19B146AF009010F6 /* JSQMessagesComposerTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQMessagesComposerTextView.m; sourceTree = "<group>"; };
+		94CB03ED19B146AF009010F6 /* JSQMessagesInputToolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesInputToolbar.h; sourceTree = "<group>"; };
+		94CB03EE19B146AF009010F6 /* JSQMessagesInputToolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQMessagesInputToolbar.m; sourceTree = "<group>"; };
+		94CB03EF19B146AF009010F6 /* JSQMessagesToolbarButtonFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesToolbarButtonFactory.h; sourceTree = "<group>"; };
+		94CB03F019B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQMessagesToolbarButtonFactory.m; sourceTree = "<group>"; };
+		94CB03F119B146AF009010F6 /* JSQMessagesToolbarContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesToolbarContentView.h; sourceTree = "<group>"; };
+		94CB03F219B146AF009010F6 /* JSQMessagesToolbarContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQMessagesToolbarContentView.m; sourceTree = "<group>"; };
+		94CB03F319B146AF009010F6 /* JSQMessagesToolbarContentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JSQMessagesToolbarContentView.xib; sourceTree = "<group>"; };
+		94CB03F419B146AF009010F6 /* NSString+JSQMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+JSQMessages.h"; sourceTree = "<group>"; };
+		94CB03F519B146AF009010F6 /* NSString+JSQMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSQMessages.m"; sourceTree = "<group>"; };
+		94CB03F619B146AF009010F6 /* UIColor+JSQMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+JSQMessages.h"; sourceTree = "<group>"; };
+		94CB03F719B146AF009010F6 /* UIColor+JSQMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+JSQMessages.m"; sourceTree = "<group>"; };
+		94CB03F819B146AF009010F6 /* UIImage+JSQMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+JSQMessages.h"; sourceTree = "<group>"; };
+		94CB03F919B146AF009010F6 /* UIImage+JSQMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JSQMessages.m"; sourceTree = "<group>"; };
+		94CB03FA19B146AF009010F6 /* UIView+JSQMessages.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+JSQMessages.h"; sourceTree = "<group>"; };
+		94CB03FB19B146AF009010F6 /* UIView+JSQMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+JSQMessages.m"; sourceTree = "<group>"; };
+		94CB040519B15FB9009010F6 /* JSQMessagesKeyboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesKeyboardController.h; sourceTree = "<group>"; };
+		94CB040619B15FB9009010F6 /* JSQMessagesKeyboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQMessagesKeyboardController.m; sourceTree = "<group>"; };
 		94DCE9A61980ABB100396C0A /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
 		94DCE9A71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
 		94DCE9A81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityIndicatorView+AFNetworking.h"; sourceTree = "<group>"; };
@@ -457,8 +486,8 @@
 		94F2AD97198C539200450C6F /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		94F2AD98198C539200450C6F /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		94F2AD99198C539200450C6F /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
-		94FE15E71941239100FE00EA /* DATouchUITableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATouchUITableView.h; sourceTree = "<group>"; };
-		94FE15E81941239100FE00EA /* DATouchUITableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATouchUITableView.m; sourceTree = "<group>"; };
+		94FE15E71941239100FE00EA /* DATouchTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATouchTableView.h; sourceTree = "<group>"; };
+		94FE15E81941239100FE00EA /* DATouchTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATouchTableView.m; sourceTree = "<group>"; };
 		94FF5269197347F200B97A61 /* DARegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARegisterViewController.h; sourceTree = "<group>"; };
 		94FF526A197347F200B97A61 /* DARegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARegisterViewController.m; sourceTree = "<group>"; };
 		D1100DB519AA3DA200C73AC8 /* DAGraphControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGraphControl.h; sourceTree = "<group>"; };
@@ -727,6 +756,7 @@
 		948B7F3E1941B05F005494AA /* External */ = {
 			isa = PBXGroup;
 			children = (
+				94CB03EA19B146AF009010F6 /* JSQMessagesInputToolbar */,
 				94CB03BE19B0EA94009010F6 /* SWTableViewCell */,
 				9445C1AB199927B800F3A4F8 /* SPGooglePlacesAutocomplete */,
 				94F2AD78198C539200450C6F /* SDWebImage */,
@@ -787,6 +817,32 @@
 				94CB03CA19B0EA94009010F6 /* SWUtilityButtonView.m */,
 			);
 			path = SWTableViewCell;
+			sourceTree = "<group>";
+		};
+		94CB03EA19B146AF009010F6 /* JSQMessagesInputToolbar */ = {
+			isa = PBXGroup;
+			children = (
+				94CB040519B15FB9009010F6 /* JSQMessagesKeyboardController.h */,
+				94CB040619B15FB9009010F6 /* JSQMessagesKeyboardController.m */,
+				94CB03EB19B146AF009010F6 /* JSQMessagesComposerTextView.h */,
+				94CB03EC19B146AF009010F6 /* JSQMessagesComposerTextView.m */,
+				94CB03ED19B146AF009010F6 /* JSQMessagesInputToolbar.h */,
+				94CB03EE19B146AF009010F6 /* JSQMessagesInputToolbar.m */,
+				94CB03EF19B146AF009010F6 /* JSQMessagesToolbarButtonFactory.h */,
+				94CB03F019B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m */,
+				94CB03F119B146AF009010F6 /* JSQMessagesToolbarContentView.h */,
+				94CB03F219B146AF009010F6 /* JSQMessagesToolbarContentView.m */,
+				94CB03F319B146AF009010F6 /* JSQMessagesToolbarContentView.xib */,
+				94CB03F419B146AF009010F6 /* NSString+JSQMessages.h */,
+				94CB03F519B146AF009010F6 /* NSString+JSQMessages.m */,
+				94CB03F619B146AF009010F6 /* UIColor+JSQMessages.h */,
+				94CB03F719B146AF009010F6 /* UIColor+JSQMessages.m */,
+				94CB03F819B146AF009010F6 /* UIImage+JSQMessages.h */,
+				94CB03F919B146AF009010F6 /* UIImage+JSQMessages.m */,
+				94CB03FA19B146AF009010F6 /* UIView+JSQMessages.h */,
+				94CB03FB19B146AF009010F6 /* UIView+JSQMessages.m */,
+			);
+			path = JSQMessagesInputToolbar;
 			sourceTree = "<group>";
 		};
 		94DCE9A51980ABB100396C0A /* UIKit+AFNetworking */ = {
@@ -1032,8 +1088,8 @@
 				D1100DB619AA3DA200C73AC8 /* DAGraphControl.m */,
 				D1100DB819AA3DDB00C73AC8 /* DAGraphControlLayer.h */,
 				D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */,
-				94FE15E71941239100FE00EA /* DATouchUITableView.h */,
-				94FE15E81941239100FE00EA /* DATouchUITableView.m */,
+				94FE15E71941239100FE00EA /* DATouchTableView.h */,
+				94FE15E81941239100FE00EA /* DATouchTableView.m */,
 				948B7F631941B8AF005494AA /* DADatePickerTableViewCell.h */,
 				948B7F641941B8AF005494AA /* DADatePickerTableViewCell.m */,
 				943093F61942633D00B1F61F /* DAErrorView.h */,
@@ -1143,6 +1199,7 @@
 				94449EF31949A3B2008B8881 /* Icon-60.png in Resources */,
 				948F35B819ABE0C100F57BEB /* avatar@2x.png in Resources */,
 				94449EFD1949A3B2008B8881 /* Icon.png in Resources */,
+				94CB040019B146AF009010F6 /* JSQMessagesToolbarContentView.xib in Resources */,
 				94449EF51949A3B2008B8881 /* Icon-72.png in Resources */,
 				94CB03D219B0EECA009010F6 /* Images.xcassets in Resources */,
 				941538D1193F270A008B3B79 /* Main.storyboard in Resources */,
@@ -1189,13 +1246,15 @@
 				94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */,
 				94237E5E194A2CF6004DFAB6 /* DAForgotPasswordViewController.m in Sources */,
 				94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */,
-				94FE15E91941239100FE00EA /* DATouchUITableView.m in Sources */,
+				94FE15E91941239100FE00EA /* DATouchTableView.m in Sources */,
 				94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */,
+				94CB040719B15FB9009010F6 /* JSQMessagesKeyboardController.m in Sources */,
 				D1100DB719AA3DA200C73AC8 /* DAGraphControl.m in Sources */,
 				94F2AD9C198C539200450C6F /* SDImageCache.m in Sources */,
 				94DCE9B81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				D13DB8F51988B221008C86BB /* DAExploreDishTableViewCell.m in Sources */,
 				94DCE9BD1980ABB100396C0A /* UIRefreshControl+AFNetworking.m in Sources */,
+				94CB03FD19B146AF009010F6 /* JSQMessagesInputToolbar.m in Sources */,
 				94F2ADA6198C539200450C6F /* UIImage+WebP.m in Sources */,
 				94E5EF721943F5530021A711 /* MRCircularProgressView.m in Sources */,
 				94F2ADA3198C539200450C6F /* UIButton+WebCache.m in Sources */,
@@ -1265,6 +1324,7 @@
 				94E5EF2D19432AE00021A711 /* UIViewController+TAPKeyboardPop.m in Sources */,
 				9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */,
 				941F3215196FCC04000042AE /* DANewReview.m in Sources */,
+				94CB040119B146AF009010F6 /* NSString+JSQMessages.m in Sources */,
 				94F2AD9A198C539200450C6F /* MKAnnotationView+WebCache.m in Sources */,
 				94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */,
 				94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */,
@@ -1281,15 +1341,20 @@
 				94E5EF6F1943F5530021A711 /* MRBlurView.m in Sources */,
 				94DCE9B91980ABB100396C0A /* UIAlertView+AFNetworking.m in Sources */,
 				945F95B119A7B90400241D0D /* DAFeedImportManager.m in Sources */,
+				94CB03FF19B146AF009010F6 /* JSQMessagesToolbarContentView.m in Sources */,
+				94CB040419B146AF009010F6 /* UIView+JSQMessages.m in Sources */,
 				94F2ADA2198C539200450C6F /* SDWebImagePrefetcher.m in Sources */,
 				943E625E1987362100DF2135 /* STTwitterHTML.m in Sources */,
+				94CB040319B146AF009010F6 /* UIImage+JSQMessages.m in Sources */,
 				941810131970EB7700C83034 /* DAConstants.m in Sources */,
+				94CB03FE19B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m in Sources */,
 				943E62611987362100DF2135 /* STTwitterOSRequest.m in Sources */,
 				94F2ADA8198C539200450C6F /* UIImageView+WebCache.m in Sources */,
 				94EA2D5719AA820B00ABE3B7 /* DARefreshControl.m in Sources */,
 				94942A1F1990AB0800095A70 /* DAExploreLiveSearchResult.m in Sources */,
 				94E5EF701943F5530021A711 /* UIImage+MRImageEffects.m in Sources */,
 				943320071995ED57000A8E2B /* DAFeedViewController.m in Sources */,
+				94CB03FC19B146AF009010F6 /* JSQMessagesComposerTextView.m in Sources */,
 				94CB03B319AFF57F009010F6 /* DACommentTableViewCell.m in Sources */,
 				943E62591987362100DF2135 /* NSError+STTwitter.m in Sources */,
 				94E5EF4E194348380021A711 /* DAAPIManager.m in Sources */,
@@ -1304,6 +1369,7 @@
 				94331FFF1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */,
 				945F959719A6738100241D0D /* DAFeedItem.m in Sources */,
+				94CB040219B146AF009010F6 /* UIColor+JSQMessages.m in Sources */,
 				94F2ADA0198C539200450C6F /* SDWebImageDownloaderOperation.m in Sources */,
 				943E62621987362100DF2135 /* BAVPlistNode.m in Sources */,
 				94DCE9BB1980ABB100396C0A /* UIImageView+AFNetworking.m in Sources */,

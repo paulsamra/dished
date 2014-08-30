@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Ryan Khalili. All rights reserved.
 //
 
-#import "DATouchUITableView.h"
+#import "DATouchTableView.h"
 
 
-@implementation DATouchUITableView
+@implementation DATouchTableView
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
