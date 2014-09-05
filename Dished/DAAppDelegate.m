@@ -12,6 +12,7 @@
 #import "DATwitterManager.h"
 #import "DAAPIManager.h"
 #import "DAErrorView.h"
+#import <Crashlytics/Crashlytics.h>
 
 
 @interface DAAppDelegate() <DAErrorViewDelegate>
@@ -52,6 +53,8 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachable) name:kNetworkReachableKey object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkUnreachable) name:kNetworkUnreachableKey object:nil];
+    
+    [Crashlytics startWithAPIKey:@"8553c9eeaaf67ce6f513e36c6cd30df3176d0664"];
     
     return YES;
 }

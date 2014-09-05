@@ -252,7 +252,7 @@
 
 - (void)keyboardDidChangeFrame:(CGRect)keyboardFrame
 {
-    CGFloat heightFromBottom = CGRectGetHeight( self.tableView.frame ) - CGRectGetMinY( keyboardFrame );
+    CGFloat heightFromBottom = CGRectGetHeight( self.tableView.frame ) - CGRectGetMinY( keyboardFrame ) - self.tabBarController.tabBar.frame.size.height;
     self.toolbarBottomConstraint.constant = heightFromBottom;
     [self.view setNeedsUpdateConstraints];
     [self.view layoutIfNeeded];

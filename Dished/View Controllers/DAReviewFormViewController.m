@@ -442,11 +442,11 @@
         {
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }
-        else if( review.title.length > 0 && review.locationID.length > 0 && review.price.length > 0 )
+        else if( review.title.length > 0 && review.locationID.length > 0 )
         {
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }
-        else if( review.title.length > 0 && review.locationName.length > 0 && review.price.length > 0 )
+        else if( review.title.length > 0 && review.locationName.length > 0 )
         {
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }

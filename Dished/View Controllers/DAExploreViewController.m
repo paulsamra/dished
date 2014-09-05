@@ -8,6 +8,7 @@
 
 #import "DAHashtag.h"
 #import "DAAPIManager.h"
+#import "DARefreshControl.h"
 #import "DALocationManager.h"
 #import "DAExploreViewController.h"
 #import "DAExploreLiveSearchResult.h"
@@ -18,7 +19,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 
-@interface DAExploreViewController() <DACurrentLocationViewControllerDelegate>
+@interface DAExploreViewController() <DACurrentLocationViewControllerDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSArray          *rowTitles;
 @property (strong, nonatomic) NSArray          *imageURLs;
@@ -26,6 +27,7 @@
 @property (strong, nonatomic) NSArray          *liveSearchResults;
 @property (strong, nonatomic) NSString         *selectedLocationName;
 @property (strong, nonatomic) NSMutableArray   *images;
+@property (strong, nonatomic) DARefreshControl *refreshControl;
 @property (strong, nonatomic) NSURLSessionTask *liveSearchTask;
 
 @property (nonatomic) double                 selectedRadius;
@@ -48,24 +50,38 @@
     
     [[DALocationManager sharedManager] startUpdatingLocation];
     
-    [[DAAPIManager sharedManager] getExploreTabContentWithCompletion:
-    ^( id response, NSError *error )
-    {
-        if( !error )
-        {
-            self.imageURLs = [self imageURLsFromResponse:response];
-            self.hashtags  = [self hashtagsFromResponse:response];
-            
-            [self.collectionView reloadData];
-        }
-    }];
+    [self loadExploreContent];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshData) name:kNetworkReachableKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadExploreContent) name:kNetworkReachableKey object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationUpdated) name:kLocationUpdateNotificationKey object:nil];
     
     self.selectedLocationName = @"Current Location";
     
     self.selectedRadius = 5;
+    
+    CGFloat refreshControlHeight = 40.0f;
+    CGFloat refreshControlWidth  = self.collectionView.bounds.size.width;
+    CGRect refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
+    self.refreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
+    [self.refreshControl addTarget:self action:@selector(loadExploreContent) forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
+    self.refreshControl.hidden = YES;
+}
+
+- (void)loadExploreContent
+{
+    [[DAAPIManager sharedManager] getExploreTabContentWithCompletion:^( id response, NSError *error )
+    {
+        if( !error )
+        {
+            [self.refreshControl endRefreshing];
+            
+            self.imageURLs = [self imageURLsFromResponse:response];
+            self.hashtags  = [self hashtagsFromResponse:response];
+             
+            [self.collectionView reloadData];
+        }
+    }];
 }
 
 - (void)dealloc
@@ -122,21 +138,6 @@
     [super viewWillAppear:animated];
     
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
-}
-
-- (void)refreshData
-{
-    [[DAAPIManager sharedManager] getExploreTabContentWithCompletion:
-    ^( id response, NSError *error )
-    {
-        if( !error )
-        {
-            self.imageURLs = [self imageURLsFromResponse:response];
-            self.hashtags  = [self hashtagsFromResponse:response];
-             
-            [self.collectionView reloadData];
-        }
-    }];
 }
 
 - (IBAction)showCurrentLocationView
@@ -477,6 +478,19 @@
     DAHashtag *selectedHashtag = self.hashtags[indexPath.row];
     
     [self performSegueWithIdentifier:@"dishResults" sender:selectedHashtag.name];
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat scrollPosition = scrollView.contentOffset.y + scrollView.contentInset.top;
+    self.refreshControl.hidden = scrollPosition > 0 ? YES : NO;
+    
+    [self.refreshControl containingScrollViewDidScroll:scrollView];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    [self.refreshControl containingScrollViewDidEndDragging:scrollView];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

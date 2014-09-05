@@ -598,15 +598,20 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             hashtagString = [hashtagString stringByAppendingFormat:@"%@,", hashtag.hashtagID];
         }
         
-        if( [review.price characterAtIndex:0] == '$' )
-        {
-            review.price = [review.price substringFromIndex:1];
-        }
-        
         NSDictionary *baseParams = @{ kAccessTokenKey : self.accessToken, @"comment" : review.comment,
-                                      @"price" : review.price, @"grade" : review.rating };
+                                      @"grade" : review.rating };
         
         NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:baseParams];
+        
+        if( review.price.length > 0 )
+        {
+            if( [review.price characterAtIndex:0] == '$' )
+            {
+                review.price = [review.price substringFromIndex:1];
+            }
+            
+            [parameters setObject:review.price forKey:@"price"];
+        }
         
         if( hashtagString.length > 0 )
         {

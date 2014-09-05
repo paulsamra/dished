@@ -86,6 +86,7 @@
 		945F95A619A7290600241D0D /* UIColor+Dished.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F95A319A7290600241D0D /* UIColor+Dished.m */; };
 		945F95A719A7290600241D0D /* UILabel+Dished.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F95A519A7290600241D0D /* UILabel+Dished.m */; };
 		945F95B119A7B90400241D0D /* DAFeedImportManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F95B019A7B90400241D0D /* DAFeedImportManager.m */; };
+		946B4FB719BA24040045EB82 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 946B4FB619BA24040045EB82 /* Crashlytics.framework */; };
 		947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13411975AC62000553EF /* DADishSuggestionsTableView.m */; };
 		947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */; };
 		947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */; };
@@ -318,6 +319,7 @@
 		945F95A519A7290600241D0D /* UILabel+Dished.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+Dished.m"; sourceTree = "<group>"; };
 		945F95AF19A7B90400241D0D /* DAFeedImportManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedImportManager.h; sourceTree = "<group>"; };
 		945F95B019A7B90400241D0D /* DAFeedImportManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedImportManager.m; sourceTree = "<group>"; };
+		946B4FB619BA24040045EB82 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		947A13401975AC62000553EF /* DADishSuggestionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishSuggestionsTableView.h; sourceTree = "<group>"; };
 		947A13411975AC62000553EF /* DADishSuggestionsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishSuggestionsTableView.m; sourceTree = "<group>"; };
 		947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DADishSuggestionTableViewCell.xib; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 				943E62201983A23A00DF2135 /* MediaPlayer.framework in Frameworks */,
 				943E621E1983A23200DF2135 /* CoreText.framework in Frameworks */,
 				943E621C1983A22D00DF2135 /* CoreGraphics.framework in Frameworks */,
+				946B4FB719BA24040045EB82 /* Crashlytics.framework in Frameworks */,
 				943E621A1983A22700DF2135 /* CoreMotion.framework in Frameworks */,
 				943E62181983A22100DF2135 /* CoreLocation.framework in Frameworks */,
 				943E62161983A21A00DF2135 /* Foundation.framework in Frameworks */,
@@ -675,6 +678,7 @@
 		94449ED71946564B008B8881 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				946B4FB619BA24040045EB82 /* Crashlytics.framework */,
 				943E62251983A24A00DF2135 /* UIKit.framework */,
 				943E62231983A24500DF2135 /* SystemConfiguration.framework */,
 				943E62211983A23E00DF2135 /* Security.framework */,
@@ -1231,7 +1235,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"";
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\n./Crashlytics.framework/run 8553c9eeaaf67ce6f513e36c6cd30df3176d0664 3854bddc03a85c28f5e9d608ed423b56de4e4762b5300b20fa22a085eb2467ca";
 		};
 /* End PBXShellScriptBuildPhase section */
 

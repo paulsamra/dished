@@ -347,9 +347,9 @@
 {
     if( !_cellImages )
     {
-        UIImage *facebookImage = [UIImage imageNamed:@"add_dish_facebook.png"];
-        UIImage *twitterImage = [UIImage imageNamed:@"add_dish_twitter.png"];
-        UIImage *emailImage = [UIImage imageNamed:@"add_dish_email.png"];
+        UIImage *facebookImage = [UIImage imageNamed:@"facebook"];
+        UIImage *twitterImage = [UIImage imageNamed:@"twitter"];
+        UIImage *emailImage = [UIImage imageNamed:@"email"];
         
         _cellImages = @[ facebookImage, twitterImage, emailImage ];
     }
