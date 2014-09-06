@@ -164,7 +164,10 @@
         [cell.dishImageView setImageWithURL:dishImageURL
         completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
         {
-            [self.mainImageCache setObject:image forKey:item.img];
+            if( image )
+            {
+                [self.mainImageCache setObject:image forKey:item.img];
+            }
         }
         usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }

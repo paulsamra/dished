@@ -14,9 +14,7 @@
 
 @interface DAImageFilterViewController()
 
-@property (strong, nonatomic) DANewReview           *foodReview;
-@property (strong, nonatomic) DANewReview           *cocktailReview;
-@property (strong, nonatomic) DANewReview           *wineReview;
+@property (strong, nonatomic) DANewReview           *review;
 @property (strong, nonatomic) NSArray               *filterTitles;
 @property (strong, nonatomic) NSArray               *filterNames;
 @property (strong, nonatomic) NSMutableDictionary   *filteredImages;
@@ -42,17 +40,12 @@
     if( parentVC.pictureTaken )
     {
         UIImage *pictureTaken = parentVC.pictureTaken;
+        
         self.pictureTaken = pictureTaken;
         self.pictureImageView.image = self.pictureTaken;
     }
     
-    self.foodReview     = [[DANewReview alloc] init];
-    self.cocktailReview = [[DANewReview alloc] init];
-    self.wineReview     = [[DANewReview alloc] init];
-    
-    self.foodReview.type     = kFood;
-    self.cocktailReview.type = kCocktail;
-    self.wineReview.type     = kWine;
+    self.review = [[DANewReview alloc] init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageReady:) name:kImageReadyNotificationKey object:nil];
     
@@ -144,6 +137,24 @@
     return cell;
 }
 
+- (UIImage *)scaleDownImage:(UIImage *)image
+{
+    CIImage *beginImage = [CIImage imageWithCGImage:image.CGImage];
+    
+    CIFilter *scaleFilter = [CIFilter filterWithName:@"CILanczosScaleTransform"];
+    [scaleFilter setValue:beginImage forKey:@"inputImage"];
+    [scaleFilter setValue:@(0.5f) forKey:@"inputScale"];
+    [scaleFilter setValue:@(1.0f) forKey:@"inputAspectRatio"];
+    
+    CIImage *outputImage = [scaleFilter outputImage];
+    
+    CGImageRef imageRef = [[CIContext contextWithOptions:nil] createCGImage:outputImage fromRect:outputImage.extent];
+    UIImage *newImg = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    
+    return newImg;
+}
+
 - (UIImage *)filterImage:(UIImage *)image withFilterName:(NSString *)filterName
 {
     CIImage *beginImage = [CIImage imageWithCGImage:[image CGImage]];
@@ -188,10 +199,7 @@
     {
         DAReviewFormViewController *dest = [segue destinationViewController];
         dest.reviewImage = self.filteredImages[self.filterNames[self.selectedIndex]];
-        
-        dest.foodReview     = self.foodReview;
-        dest.wineReview     = self.wineReview;
-        dest.cocktailReview = self.cocktailReview;
+        dest.review = self.review;
     }
 }
 

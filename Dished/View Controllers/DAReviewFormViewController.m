@@ -23,7 +23,6 @@
 @interface DAReviewFormViewController() <UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIView                           *dimView;
-@property (strong, nonatomic) DANewReview                      *selectedReview;
 @property (strong, nonatomic) UIAlertView                      *postFailAlert;
 @property (strong, nonatomic) UIAlertView                      *twitterLoginFailAlert;
 @property (strong, nonatomic) UIAlertView                      *googleLoginFailAlert;
@@ -53,9 +52,9 @@
     [self setupSuggestionTable];
     [self setupShareView];
     
-    self.addressFound   = NO;
-    self.dishPrice      = [[NSMutableString alloc] init];
-    self.selectedReview = self.foodReview;
+    self.addressFound = NO;
+    self.dishPrice    = [[NSMutableString alloc] init];
+    self.review.type  = kFood;
 
     self.titleTextField.delegate  = self;
     self.priceTextField.delegate  = self;
@@ -246,7 +245,7 @@
 {
     if( textView == self.commentTextView )
     {
-        self.selectedReview.comment = textView.text;
+        self.review.comment = textView.text;
         [self updateFields];
     }
 }
@@ -283,7 +282,7 @@
             price = [price substringFromIndex:1];
         }
         
-        self.selectedReview.price = price;
+        self.review.price = price;
         [self updateFields];
         
         return NO;
@@ -297,7 +296,7 @@
     if( textField == self.titleTextField )
     {
         self.dishSuggestionsTable.hidden = YES;
-        self.selectedReview.title = textField.text;
+        self.review.title = textField.text;
     }
 }
 
@@ -305,7 +304,7 @@
 {
     if( textView == self.commentTextView )
     {
-        self.selectedReview.comment = textView.text;
+        self.review.comment = textView.text;
     }
 }
 
@@ -331,17 +330,17 @@
     }
     else
     {
-        [self.dishSuggestionsTable updateSuggestionsWithQuery:self.titleTextField.text dishType:self.selectedReview.type];
+        [self.dishSuggestionsTable updateSuggestionsWithQuery:self.titleTextField.text dishType:self.review.type];
     }
     
-    self.selectedReview.title = self.titleTextField.text;
+    self.review.title = self.titleTextField.text;
     
-    if( self.selectedReview.dishID.length != 0 )
+    if( self.review.dishID.length != 0 )
     {
-        self.selectedReview.dishID = @"";
-        self.selectedReview.price = @"";
-        self.selectedReview.locationName = @"";
-        self.selectedReview.locationID = @"";
+        self.review.dishID = @"";
+        self.review.price = @"";
+        self.review.locationName = @"";
+        self.review.locationID = @"";
         self.dishPrice = [[NSMutableString alloc] init];
     }
     
@@ -350,12 +349,12 @@
 
 - (void)selectedSuggestionWithDishName:(NSString *)dishName dishID:(NSString *)dishID dishPrice:dishPrice locationName:(NSString *)locationName locationID:(NSString *)locationID
 {
-    self.selectedReview.dishID = dishID;
-    self.selectedReview.title = dishName;
-    self.selectedReview.locationName = locationName;
-    self.selectedReview.locationID = locationID;
+    self.review.dishID = dishID;
+    self.review.title = dishName;
+    self.review.locationName = locationName;
+    self.review.locationID = locationID;
     self.dishPrice = [[NSMutableString alloc] init];
-    self.selectedReview.price = [NSString stringWithFormat:@"$%@", dishPrice];
+    self.review.price = [NSString stringWithFormat:@"$%@", dishPrice];
     
     [self updateFields];
 }
@@ -364,9 +363,9 @@
 {
     switch (self.dishTypeSegmentedControl.selectedSegmentIndex)
     {
-        case 0: self.selectedReview = self.foodReview;      break;
-        case 1: self.selectedReview = self.cocktailReview;  break;
-        case 2: self.selectedReview = self.wineReview;      break;
+        case 0: self.review.type = kFood;      break;
+        case 1: self.review.type = kCocktail;  break;
+        case 2: self.review.type = kWine;      break;
     }
     
     self.dishSuggestionsTable.hidden = YES;
@@ -375,13 +374,13 @@
 
 - (void)updateFields
 {
-    self.titleTextField.text  = self.selectedReview.title;
-    self.commentTextView.text = self.selectedReview.comment;
-    self.priceTextField.text  = self.selectedReview.price;
+    self.titleTextField.text  = self.review.title;
+    self.commentTextView.text = self.review.comment;
+    self.priceTextField.text  = self.review.price;
     
-    if( self.selectedReview.locationName.length > 0 )
+    if( self.review.locationName.length > 0 )
     {
-        [self.imAtButton setTitle:self.selectedReview.locationName forState:UIControlStateNormal];
+        [self.imAtButton setTitle:self.review.locationName forState:UIControlStateNormal];
         [self.imAtButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     else
@@ -390,7 +389,7 @@
         [self.imAtButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     }
     
-    if( [self.selectedReview.hashtags count] > 0 )
+    if( [self.review.hashtags count] > 0 )
     {
         self.tagsImageView.image = [UIImage imageNamed:@"valid_icon"];
     }
@@ -399,9 +398,9 @@
         self.tagsImageView.image = [UIImage imageNamed:@"add_dish_arrow"];
     }
     
-    if( self.selectedReview.rating.length > 0 )
+    if( self.review.rating.length > 0 )
     {
-        [self.ratingButton setTitle:self.selectedReview.rating forState:UIControlStateNormal];
+        [self.ratingButton setTitle:self.review.rating forState:UIControlStateNormal];
         [self.ratingButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     }
     else
@@ -410,7 +409,7 @@
         [self.ratingButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     }
     
-    if( self.selectedReview.dishID.length != 0 )
+    if( self.review.dishID.length != 0 )
     {
         self.imAtButton.enabled = NO;
         self.priceTextField.enabled = NO;
@@ -423,7 +422,7 @@
         self.priceTextField.enabled = YES;
         self.priceTextField.textColor = [UIColor blackColor];
 
-        if( self.selectedReview.locationName.length != 0 )
+        if( self.review.locationName.length != 0 )
         {
             [self.imAtButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
         }
@@ -434,7 +433,7 @@
 
 - (void)setPostButtonStatus
 {
-    DANewReview *review = self.selectedReview;
+    DANewReview *review = self.review;
     
     if( review.comment.length > 0 && review.rating.length > 0 )
     {
@@ -503,19 +502,19 @@
     if( [segue.identifier isEqualToString:@"posHashtags"] )
     {
         DAPositiveHashtagsViewController *dest = segue.destinationViewController;
-        dest.review = self.selectedReview;
+        dest.review = self.review;
     }
     
     if( [segue.identifier isEqualToString:@"rating"] )
     {
         DARatingViewController *dest = segue.destinationViewController;
-        dest.review = self.selectedReview;
+        dest.review = self.review;
     }
     
     if( [segue.identifier isEqualToString:@"imAt"] )
     {
         DAReviewLocationViewController *dest = segue.destinationViewController;
-        dest.review = self.selectedReview;
+        dest.review = self.review;
     }
 }
 
@@ -524,11 +523,11 @@
     NSDictionary *addressDictionary = notification.object;
     NSLog(@"%@", addressDictionary);
     
-    self.selectedReview.locationStreetNum  = addressDictionary[@"SubThoroughfare"];
-    self.selectedReview.locationStreetName = addressDictionary[@"Thoroughfare"];
-    self.selectedReview.locationCity       = addressDictionary[(NSString *)kABPersonAddressCityKey];
-    self.selectedReview.locationState      = addressDictionary[(NSString *)kABPersonAddressStateKey];
-    self.selectedReview.locationZip        = addressDictionary[(NSString *)kABPersonAddressZIPKey];
+    self.review.locationStreetNum  = addressDictionary[@"SubThoroughfare"];
+    self.review.locationStreetName = addressDictionary[@"Thoroughfare"];
+    self.review.locationCity       = addressDictionary[(NSString *)kABPersonAddressCityKey];
+    self.review.locationState      = addressDictionary[(NSString *)kABPersonAddressStateKey];
+    self.review.locationZip        = addressDictionary[(NSString *)kABPersonAddressZIPKey];
     
     self.addressFound = YES;
 }
@@ -545,7 +544,7 @@
     
     dispatch_group_enter( group );
 
-    [[DAAPIManager sharedManager] postNewReview:self.selectedReview withImage:self.reviewImage completion:^( BOOL success, NSString *imageURL )
+    [[DAAPIManager sharedManager] postNewReview:self.review withImage:self.reviewImage completion:^( BOOL success, NSString *imageURL )
     {
         if( success )
         {
@@ -553,7 +552,7 @@
             
             dispatch_group_enter( group );
             
-            [self.socialViewController shareReview:self.selectedReview imageURL:imageURL completion:^( BOOL success )
+            [self.socialViewController shareReview:self.review imageURL:imageURL completion:^( BOOL success )
             {
                 dispatch_group_leave( group );
             }];
@@ -583,7 +582,7 @@
                 {
                     if( data )
                     {
-                        NSDictionary *info = @{ @"review" : self.selectedReview, @"imageData" : data };
+                        NSDictionary *info = @{ @"review" : self.review, @"imageData" : data };
                         [[NSNotificationCenter defaultCenter] postNotificationName:@"presentEmail" object:info];
                     }
                 }];
