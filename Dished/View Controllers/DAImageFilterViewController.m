@@ -40,6 +40,7 @@
     if( parentVC.pictureTaken )
     {
         UIImage *pictureTaken = parentVC.pictureTaken;
+        pictureTaken = [self scaleDownImage:pictureTaken];
         
         self.pictureTaken = pictureTaken;
         self.pictureImageView.image = self.pictureTaken;
@@ -65,6 +66,7 @@
 - (void)imageReady:(NSNotification *)notification;
 {
     UIImage *pictureTaken = notification.object;
+    pictureTaken = [self scaleDownImage:pictureTaken];
     
     self.pictureTaken = pictureTaken;
     self.pictureImageView.image = self.pictureTaken;
@@ -114,9 +116,18 @@
         {
             NSBlockOperation *filterOperation = [NSBlockOperation blockOperationWithBlock:^
             {
-                NSString *filterName = indexPath.row > 0 ? self.filterNames[indexPath.row] : nil;
+                NSString *filterName = self.filterNames[indexPath.row];
                 
-                UIImage *newImg = [self filterImage:self.pictureTaken withFilterName:filterName];
+                UIImage *newImg = nil;
+                
+                if( indexPath.row == 0 )
+                {
+                    newImg = self.pictureTaken;
+                }
+                else
+                {
+                    newImg = [self filterImage:self.pictureTaken withFilterName:filterName];
+                }
                 
                 dispatch_async( dispatch_get_main_queue(), ^
                 {
@@ -142,9 +153,9 @@
     CIImage *beginImage = [CIImage imageWithCGImage:image.CGImage];
     
     CIFilter *scaleFilter = [CIFilter filterWithName:@"CILanczosScaleTransform"];
-    [scaleFilter setValue:beginImage forKey:@"inputImage"];
-    [scaleFilter setValue:@(0.5f) forKey:@"inputScale"];
-    [scaleFilter setValue:@(1.0f) forKey:@"inputAspectRatio"];
+    [scaleFilter setValue:beginImage forKey:kCIInputImageKey];
+    [scaleFilter setValue:@(0.5f) forKey:kCIInputScaleKey];
+    [scaleFilter setValue:@(1.0f) forKey:kCIInputAspectRatioKey];
     
     CIImage *outputImage = [scaleFilter outputImage];
     
@@ -159,18 +170,8 @@
 {
     CIImage *beginImage = [CIImage imageWithCGImage:[image CGImage]];
     
-    CIFilter *scaleFilter = [CIFilter filterWithName:@"CILanczosScaleTransform"];
-    [scaleFilter setValue:beginImage forKeyPath:@"inputImage"];
-    [scaleFilter setValue:@(0.4f) forKeyPath:@"inputScale"];
-    [scaleFilter setValue:@(1.0f) forKeyPath:@"inputAspectRatio"];
-    
-    CIFilter *filter = scaleFilter;
-    
-    if( filterName )
-    {
-        filter = [CIFilter filterWithName:filterName];
-        [filter setValue:scaleFilter.outputImage forKeyPath:kCIInputImageKey];
-    }
+    CIFilter *filter = filter = [CIFilter filterWithName:filterName];
+    [filter setValue:beginImage forKeyPath:kCIInputImageKey];
     
     CIImage *outputImage = [filter outputImage];
     
@@ -200,6 +201,8 @@
         DAReviewFormViewController *dest = [segue destinationViewController];
         dest.reviewImage = self.filteredImages[self.filterNames[self.selectedIndex]];
         dest.review = self.review;
+        
+        NSLog(@"%d", (int)UIImagePNGRepresentation( dest.reviewImage ).length );
     }
 }
 
