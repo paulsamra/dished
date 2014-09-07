@@ -23,6 +23,7 @@
 @property (weak, nonatomic) id<DADishSuggestionsTableDelegate> suggestionDelegate;
 
 - (void)updateSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType;
+- (void)cancelSearchQuery;
 - (void)resetTable;
 
 @end

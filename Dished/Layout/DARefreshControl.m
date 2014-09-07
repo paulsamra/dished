@@ -65,7 +65,7 @@
 {
     self.blackDishLayer = [CALayer layer];
     self.blackDishLayer.masksToBounds = YES;
-    UIImage *dishImage = [UIImage imageNamed:@"refresh_black"];
+    UIImage *dishImage = [UIImage imageNamed:@"refresh_gray"];
     CGFloat x = ( self.frame.size.width  / 2 ) - ( dishImage.size.width  / 2 );
     CGFloat y = ( self.frame.size.height / 2 ) - ( dishImage.size.height / 2 );
     self.blackDishLayer.frame = CGRectMake( x, y, dishImage.size.width, dishImage.size.height );

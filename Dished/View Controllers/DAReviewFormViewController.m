@@ -297,6 +297,7 @@
     {
         self.dishSuggestionsTable.hidden = YES;
         self.review.title = textField.text;
+        [self.dishSuggestionsTable cancelSearchQuery];
     }
 }
 

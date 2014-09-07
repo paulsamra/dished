@@ -40,7 +40,7 @@
     {
         const char *splitRating = [self.review.rating UTF8String];
         NSString *letterGrade = [NSString stringWithFormat:@"%c", splitRating[0]];
-        NSString *plusOrMinus = nil;
+        NSString *plusOrMinus = @"";
         
         if( self.review.rating.length > 1 )
         {

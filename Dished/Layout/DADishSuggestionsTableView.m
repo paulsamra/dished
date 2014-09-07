@@ -80,6 +80,14 @@ static NSString *kLocationIDKey   = @"loc_id";
     }];
 }
 
+- (void)cancelSearchQuery
+{
+    if( self.searchTask )
+    {
+        [self.searchTask cancel];
+    }
+}
+
 - (NSArray *)dishesWithResponse:(id)response
 {
     NSArray *dishes = response[@"data"];

@@ -28,19 +28,12 @@
 	return anim;
 }
 
-- (id<CAAction>)actionForKey:(NSString *) event
+- (id<CAAction>)actionForKey:(NSString *)event
 {
-	if( [event isEqualToString:@"percentage"] )
-    {
-		return [self makeAnimationForKey:event];
-	}
-    else
-    {
-        return [super actionForKey:event];
-    }
+    return [event isEqualToString:@"percentage"] ? [self makeAnimationForKey:event] : [super actionForKey:event];
 }
 
-- (void)createLabelsWithFrame:(CGRect)textRect title:(NSString *)title withColor:(UIColor *) color withFont:(UIFont *) font
+- (void)createLabelsWithFrame:(CGRect)textRect title:(NSString *)title withColor:(UIColor *)color withFont:(UIFont *)font
 {
     NSMutableParagraphStyle* textStyle = NSMutableParagraphStyle.defaultParagraphStyle.mutableCopy;
     textStyle.alignment = NSTextAlignmentCenter;

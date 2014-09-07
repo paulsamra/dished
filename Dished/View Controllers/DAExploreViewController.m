@@ -52,7 +52,6 @@
     
     [self loadExploreContent];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadExploreContent) name:kNetworkReachableKey object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationUpdated) name:kLocationUpdateNotificationKey object:nil];
     
     self.selectedLocationName = @"Current Location";
@@ -66,6 +65,9 @@
     [self.refreshControl addTarget:self action:@selector(loadExploreContent) forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
     self.refreshControl.hidden = YES;
+    
+    self.searchBar.layer.borderWidth = 1;
+    self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;
 }
 
 - (void)loadExploreContent
@@ -138,6 +140,8 @@
     [super viewWillAppear:animated];
     
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadExploreContent) name:kNetworkReachableKey object:nil];
 }
 
 - (IBAction)showCurrentLocationView

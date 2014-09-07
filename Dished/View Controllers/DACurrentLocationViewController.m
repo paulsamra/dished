@@ -41,6 +41,9 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
     {
         self.selectedLocationName = @"Current Location";
     }
+    
+    self.searchBar.layer.borderWidth = 1;
+    self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;
 }
 
 - (IBAction)cancelChangeLocation:(id)sender

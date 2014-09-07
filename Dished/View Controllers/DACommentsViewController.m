@@ -15,8 +15,9 @@
 
 @interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate>
 
+@property (strong, nonatomic) NSArray                       *comments;
+@property (strong, nonatomic) UIActivityIndicatorView       *spinner;
 @property (strong, nonatomic) JSQMessagesKeyboardController *keyboardController;
-@property (strong, nonatomic) NSArray *comments;
 
 @end
 
@@ -29,10 +30,10 @@
     
     self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
     
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = self.view.center;
-    [self.view addSubview:spinner];
-    [spinner startAnimating];
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.spinner.center = self.view.center;
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
     
     self.inputToolbar.delegate = self;
     self.inputToolbar.contentView.leftBarButtonItem = nil;
@@ -40,24 +41,32 @@
     self.inputToolbar.contentView.textView.backgroundColor = [UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1.0];
     self.inputToolbar.contentView.textView.placeHolder = @"Add Comment";
     self.inputToolbar.contentView.textView.delegate = self;
+    self.inputToolbar.contentView.textView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
     
     self.keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView contextView:self.view panGestureRecognizer:self.tableView.panGestureRecognizer delegate:self];
     
     [[DAAPIManager sharedManager] getCommentsForReviewID:self.reviewID completion:^( id response, NSError *error )
     {
-        [spinner stopAnimating];
-        [spinner removeFromSuperview];
-        
         if( error || !response )
         {
             
         }
         else
         {
+            [self.spinner stopAnimating];
+            [self.spinner removeFromSuperview];
+            
             self.comments = [self commentsFromResponse:response];
             [self.tableView reloadData];
         }
     }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshComments) name:kNetworkReachableKey object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -127,6 +136,9 @@
         }
         else
         {
+            [self.spinner stopAnimating];
+            [self.spinner removeFromSuperview];
+            
             self.comments = [self commentsFromResponse:response];
             [self.tableView reloadData];
         }
@@ -253,6 +265,12 @@
 - (void)keyboardDidChangeFrame:(CGRect)keyboardFrame
 {
     CGFloat heightFromBottom = CGRectGetHeight( self.tableView.frame ) - CGRectGetMinY( keyboardFrame ) - self.tabBarController.tabBar.frame.size.height;
+    
+    if( heightFromBottom < 0 )
+    {
+        heightFromBottom = 0;
+    }
+    
     self.toolbarBottomConstraint.constant = heightFromBottom;
     [self.view setNeedsUpdateConstraints];
     [self.view layoutIfNeeded];

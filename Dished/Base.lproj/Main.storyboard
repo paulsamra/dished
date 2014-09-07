@@ -503,7 +503,7 @@
         <!--Navigation Controller - Feed-->
         <scene sceneID="O4w-oo-Kf2">
             <objects>
-                <navigationController definesPresentationContext="YES" id="GFN-IE-Zz4" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="GFN-IE-Zz4" customClass="DANavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Feed" image="feed_tab" id="RLr-og-Gef"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="D9i-GO-WAN">
                         <autoresizingMask key="autoresizingMask"/>
@@ -545,7 +545,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="425"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EuI-Dv-0kb">
+                                                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EuI-Dv-0kb">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
                                                     <color key="backgroundColor" red="0.79607843137254897" green="0.79607843137254897" blue="0.80000000000000004" alpha="1" colorSpace="calibratedRGB"/>
                                                 </view>
@@ -928,7 +928,7 @@
         <!--Navigation Controller - Explore-->
         <scene sceneID="go0-5R-7dS">
             <objects>
-                <navigationController definesPresentationContext="YES" id="elz-ig-mDC" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="elz-ig-mDC" customClass="DANavigationController" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Explore" image="explore_tab" id="OFF-Yl-hHs"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="vZz-Ya-SQW">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1215,7 +1215,7 @@
         <!--Navigation Controller-->
         <scene sceneID="VFV-5T-MgT">
             <objects>
-                <navigationController definesPresentationContext="YES" id="gcr-dc-GVi" sceneMemberID="viewController">
+                <navigationController definesPresentationContext="YES" id="gcr-dc-GVi" customClass="DANavigationController" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="BvG-sR-Wqd"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="eKa-a1-0w8">
                         <autoresizingMask key="autoresizingMask"/>

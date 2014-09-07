@@ -48,8 +48,6 @@
     CGFloat cornerRadius = 6.0f;
     
     self.backgroundColor = [UIColor whiteColor];
-    self.layer.borderWidth = 0.5f;
-    self.layer.borderColor = [UIColor lightGrayColor].CGColor;
     self.layer.cornerRadius = cornerRadius;
     
     self.scrollIndicatorInsets = UIEdgeInsetsMake(cornerRadius, 0.0f, cornerRadius, 0.0f);
@@ -74,7 +72,7 @@
     self.text = nil;
     
     _placeHolder = nil;
-    _placeHolderTextColor = [UIColor lightGrayColor];
+    _placeHolderTextColor = [UIColor grayColor];
     
     [self jsq_addTextViewNotificationObservers];
 }
