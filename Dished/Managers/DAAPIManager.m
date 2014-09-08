@@ -62,8 +62,8 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         self.responseSerializer = [JSONResponseSerializerWithData serializer];
         self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"application/json", nil];
         
-        _sem      = dispatch_semaphore_create( 0 );
-        _queue    = dispatch_queue_create( "com.dishedapp.Dished.api", 0 );
+        _sem   = dispatch_semaphore_create( 0 );
+        _queue = dispatch_queue_create( "com.dishedapp.Dished.api", 0 );
         
         if( ![[NSUserDefaults standardUserDefaults] objectForKey:@"firstRun"] )
         {
@@ -962,17 +962,20 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)deleteCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion
 {
-    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(commentID) };
-    
-    [self POST:@"comments/delete" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+    dispatch_async( self.queue, ^
     {
-        [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        NSLog(@"Failed to delete comment: %@", error.localizedDescription);
-        completion( NO );
-    }];
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(commentID) };
+        
+        [self POST:@"comments/delete" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Failed to delete comment: %@", error.localizedDescription);
+            completion( NO );
+        }];
+    });
 }
 
 - (void)flagCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion
@@ -1003,6 +1006,59 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         NSLog(@"Failed to create comment: %@", error.localizedDescription);
         completion( NO );
     }];
+}
+
+- (void)yumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion
+{
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID) };
+        
+        [self POST:@"reviews/yum" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Failed to yum review: %@", error.localizedDescription);
+            completion( NO );
+        }];
+    });
+}
+
+- (void)unyumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion
+{
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID) };
+        
+        [self POST:@"reviews/unyum" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Failed to yum review: %@", error.localizedDescription);
+            completion( NO );
+        }];
+    });
+}
+
+- (void)getProfileForReviewID:(NSInteger)reviewID completion:( void(^)( id response, NSError *error ) )completion
+{
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID) };
+        
+        [self GET:@"reviews/profile" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            
+        }];
+    });
 }
 
 - (BOOL)isLoggedIn

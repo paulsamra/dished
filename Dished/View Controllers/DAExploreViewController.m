@@ -334,25 +334,21 @@
         switch( searchResult.resultType )
         {
             case eHashtagSearchResult:
-            {
                 cell.imageView.image = nil;
                 cell.textLabel.text  = [NSString stringWithFormat:@"#%@", searchResult.name];
-            }
-            break;
+                break;
+                
             case eUsernameSearchResult:
-            {
                 cell.imageView.image = [UIImage imageNamed:@"user_search_result"];
                 cell.textLabel.text  = [NSString stringWithFormat:@"@%@", searchResult.name];
-            }
-            break;
+                break;
+                
             case eLocationSearchResult:
-            {
                 cell.imageView.image = [UIImage imageNamed:@"dish_location"];
                 cell.textLabel.text  = searchResult.name;
-            }
-            break;
+                break;
+                
             case eDishSearchResult:
-            {
                 cell.textLabel.text = searchResult.name;
                 
                 if( [searchResult.dishType isEqualToString:kFood] )
@@ -367,8 +363,7 @@
                 {
                     cell.imageView.image = [UIImage imageNamed:@"wine_dish_outline"];
                 }
-            }
-            break;
+                break;
         }
     }
     else
@@ -397,25 +392,18 @@
         switch( searchResult.resultType )
         {
             case eHashtagSearchResult:
-            {
                 [self performSegueWithIdentifier:@"dishResults" sender:searchResult.name];
-            }
-            break;
+                break;
+                
             case eDishSearchResult:
-            {
                 [self performSegueWithIdentifier:@"dishResults" sender:searchResult.name];
-            }
-            break;
+                break;
+                
             case eLocationSearchResult:
-            {
+                break;
                 
-            }
-            break;
             case eUsernameSearchResult:
-            {
-                
-            }
-            break;
+                break;
         }
     }
 }

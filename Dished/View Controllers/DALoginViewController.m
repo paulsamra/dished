@@ -15,11 +15,6 @@
 
 @interface DALoginViewController()
 
-@property (strong, nonatomic) UIAlertView *successAlert;
-@property (strong, nonatomic) UIAlertView *wrongUserAlert;
-@property (strong, nonatomic) UIAlertView *wrongPassAlert;
-@property (strong, nonatomic) UIAlertView *loginFailAlert;
-
 @end
 
 
@@ -83,21 +78,23 @@
         {
             if( success )
             {
-                //[self.successAlert show];
                 DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
                 [delegate setRootView];
             }
             else if( wrongUser )
             {
-                [self.wrongUserAlert show];
+                [self showAlertViewWithTitle:@"Incorrect Username or Email"
+                                     message:@"The email or username you entered does not belong to an account."];
             }
             else if( wrongPass )
             {
-                [self.wrongPassAlert show];
+                [self showAlertViewWithTitle:@"Incorrect Password"
+                                     message:@"The password you entered is incorrect. Please try again."];
             }
             else
             {
-                [self.loginFailAlert show];
+                [self showAlertViewWithTitle:@"Failed to Login"
+                                     message:@"There was a problem logging you in. Please try again."];
             }
         }];
     }];
@@ -170,44 +167,11 @@
     [UIView commitAnimations];
 }
 
-- (UIAlertView *)successAlert
+- (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message
 {
-    if( !_successAlert )
-    {
-        _successAlert = [[UIAlertView alloc] initWithTitle:@"Login Successful" message:@"You have been successfully logged in." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    }
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     
-    return _successAlert;
-}
-
-- (UIAlertView *)wrongUserAlert
-{
-    if( !_wrongUserAlert )
-    {
-        _wrongUserAlert = [[UIAlertView alloc] initWithTitle:@"Incorrect Username or Email" message:@"The email or username you entered does not belong to an account." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    }
-    
-    return _wrongUserAlert;
-}
-
-- (UIAlertView *)wrongPassAlert
-{
-    if( !_wrongPassAlert )
-    {
-        _wrongPassAlert = [[UIAlertView alloc] initWithTitle:@"Incorrect Password" message:@"The password you entered is incorrect. Please try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    }
-    
-    return _wrongPassAlert;
-}
-
-- (UIAlertView *)loginFailAlert
-{
-    if( !_loginFailAlert )
-    {
-        _loginFailAlert = [[UIAlertView alloc] initWithTitle:@"Failed to Login" message:@"There was a problem logging you in. Please try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    }
-    
-    return _loginFailAlert;
+    [alertView show];
 }
 
 @end

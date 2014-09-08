@@ -164,4 +164,19 @@
  */
 - (void)createComment:(NSString *)comment forReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion;
 
+/*
+ * Yum a review.
+ */
+- (void)yumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion;
+
+/*
+ * Unyum a review.
+ */
+- (void)unyumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion;
+
+/*
+ * Get review details.
+ */
+- (void)getProfileForReviewID:(NSInteger)reviewID completion:( void(^)( id response, NSError *error ) )completion;
+
 @end

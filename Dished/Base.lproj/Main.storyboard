@@ -2599,6 +2599,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Review Details" id="8uP-KF-CaQ"/>
+                    <size key="freeformSize" width="320" height="568"/>
                     <connections>
                         <outlet property="collectionView" destination="Pj1-MA-v2t" id="A9A-W0-Hyj"/>
                     </connections>
