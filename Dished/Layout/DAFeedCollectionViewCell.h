@@ -14,6 +14,10 @@
 @protocol DAFeedCollectionViewCellDelegate <NSObject>
 
 - (void)commentButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
+- (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
+- (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
+- (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
+- (void)imageTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 
 @end
 

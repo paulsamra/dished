@@ -13,6 +13,7 @@
 @interface DAReviewDetailsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-@property (strong, nonatomic) DAFeedItem *feedItem;
+
+@property (nonatomic) NSInteger reviewID;
 
 @end

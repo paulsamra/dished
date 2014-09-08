@@ -202,6 +202,29 @@
     [self performSegueWithIdentifier:@"commentsSegue" sender:feedItem];
 }
 
+- (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
+}
+
+- (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    
+}
+
+- (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    
+}
+
+- (void)imageTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    
+}
+
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
     self.changes = [NSMutableArray array];
@@ -281,11 +304,13 @@
         
         return;
     }
-    
-    DAReviewDetailsViewController *vc = [segue destinationViewController];
-    
-    DAFeedItem *item = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
-	vc.feedItem = item;
+    else if( [segue.identifier isEqualToString:@"reviewDetails"] )
+    {
+        DAFeedItem *feedItem = sender;
+        
+        DAReviewDetailsViewController *dest = segue.destinationViewController;
+        dest.reviewID = [feedItem.item_id integerValue];
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

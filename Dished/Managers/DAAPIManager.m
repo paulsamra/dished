@@ -1052,11 +1052,12 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         
         [self GET:@"reviews/profile" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( responseObject, nil ) : completion( nil, nil );
         }
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {
-            
+            NSLog(@"Failed to review profile: %@", error.localizedDescription);
+            completion( nil, error );
         }];
     });
 }

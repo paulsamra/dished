@@ -8,10 +8,14 @@
 
 #import "DAReviewDetailsViewController.h"
 #import "DAFeedCollectionViewCell.h"
+#import "DAAPIManager.h"
+#import "DAReview.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 
 @interface DAReviewDetailsViewController()
+
+@property (strong, nonatomic) DAReview *review;
 
 @end
 
@@ -21,6 +25,29 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.collectionView.hidden = YES;
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = self.view.center;
+    [spinner startAnimating];
+    [self.view addSubview:spinner];
+    
+    [[DAAPIManager sharedManager] getProfileForReviewID:self.reviewID completion:^( id response, NSError *error )
+    {
+        if( !response || error )
+        {
+            
+        }
+        else
+        {
+            self.review = [DAReview reviewWithData:response[@"data"]];
+            [spinner stopAnimating];
+            [spinner removeFromSuperview];
+            [self.collectionView reloadData];
+            self.collectionView.hidden = NO;
+        }
+    }];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -34,20 +61,20 @@
     {
         DAFeedCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
         
-        NSString *usernameString = [NSString stringWithFormat:@"@%@", self.feedItem.creator_username];
+        NSString *usernameString = [NSString stringWithFormat:@"@%@", self.review.creator_username];
         [cell.creatorButton  setTitle:usernameString     forState:UIControlStateNormal];
-        [cell.titleButton    setTitle:self.feedItem.name forState:UIControlStateNormal];
+        [cell.titleButton    setTitle:self.review.name forState:UIControlStateNormal];
         
         UIImage *locationIcon = [[UIImage imageNamed:@"dish_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-        [cell.locationButton setTitle:self.feedItem.loc_name forState:UIControlStateNormal];
+        [cell.locationButton setTitle:self.review.loc_name forState:UIControlStateNormal];
         [cell.locationButton setImage:locationIcon  forState:UIControlStateNormal];
         [cell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
         
-        NSURL *dishImageURL = [NSURL URLWithString:self.feedItem.img];
+        NSURL *dishImageURL = [NSURL URLWithString:self.review.img];
         [cell.dishImageView setImageWithURL:dishImageURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 
         cell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-        NSString *commentString = [NSString stringWithFormat:@"%d comments", [self.feedItem.num_comments intValue]];
+        NSString *commentString = [NSString stringWithFormat:@"%d comments", (int)self.review.num_comments];
         [cell.commentsButton setTitle:commentString forState:UIControlStateNormal];
         
         return cell;

@@ -108,18 +108,7 @@
     {
         for( NSDictionary *dataObject in [data reverseObjectEnumerator] )
         {
-            DAComment *comment = [[DAComment alloc] init];
-            
-            NSTimeInterval timeInterval = [dataObject[@"created"] doubleValue];
-            comment.created          = [NSDate dateWithTimeIntervalSince1970:timeInterval];
-            comment.comment_id       = [dataObject[@"id"] integerValue];
-            comment.creator_id       = [dataObject[@"creator_id"] integerValue];
-            comment.comment          = dataObject[@"comment"];
-            comment.img_thumb        = nilOrJSONObjectForKey( dataObject, @"img_thumb" );
-            comment.creator_type     = dataObject[@"creator_type"];
-            comment.creator_username = dataObject[@"creator_username"];
-            
-            [comments addObject:comment];
+            [comments addObject:[DAComment commentWithData:dataObject]];
         }
     }
     

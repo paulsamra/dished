@@ -20,4 +20,6 @@
 @property (nonatomic) NSInteger creator_id;
 @property (nonatomic) NSInteger comment_id;
 
++ (DAComment *)commentWithData:(id)data;
+
 @end
