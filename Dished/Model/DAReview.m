@@ -32,7 +32,7 @@
     if( yums )
     {
         NSMutableArray *newYums = [NSMutableArray array];
-        
+#warning yums are not working crashes in usernameWithData
         for( NSDictionary *yum in yums )
         {
             [newYums addObject:[DAUsername usernameWithData:yum]];

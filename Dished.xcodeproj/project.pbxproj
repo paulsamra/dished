@@ -180,6 +180,9 @@
 		D1100DB719AA3DA200C73AC8 /* DAGraphControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DB619AA3DA200C73AC8 /* DAGraphControl.m */; };
 		D1100DBA19AA3DDB00C73AC8 /* DAGraphControlLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */; };
 		D1100DBD19AA3FCF00C73AC8 /* DASampleGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DBC19AA3FCF00C73AC8 /* DASampleGraphViewController.m */; };
+		D112F41519BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D112F41419BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m */; };
+		D112F41719BE22F60059300F /* avatar-small.png in Resources */ = {isa = PBXBuildFile; fileRef = D112F41619BE22F60059300F /* avatar-small.png */; };
+		D112F41919BE24790059300F /* avatar-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D112F41819BE24780059300F /* avatar-small@2x.png */; };
 		D1236B9619AE7B4B00727447 /* DAReviewDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1236B9519AE7B4B00727447 /* DAReviewDetailsViewController.m */; };
 		D13605B91986F5B60085DC7D /* food.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D13605B81986F5B60085DC7D /* food.jpg */; };
 		D13DB8F51988B221008C86BB /* DAExploreDishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D13DB8F41988B221008C86BB /* DAExploreDishTableViewCell.m */; };
@@ -510,6 +513,10 @@
 		D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGraphControlLayer.m; sourceTree = "<group>"; };
 		D1100DBB19AA3FCF00C73AC8 /* DASampleGraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DASampleGraphViewController.h; sourceTree = "<group>"; };
 		D1100DBC19AA3FCF00C73AC8 /* DASampleGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DASampleGraphViewController.m; sourceTree = "<group>"; };
+		D112F41319BE00550059300F /* DAReviewDetailCommentCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewDetailCommentCollectionViewCell.h; sourceTree = "<group>"; };
+		D112F41419BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewDetailCommentCollectionViewCell.m; sourceTree = "<group>"; };
+		D112F41619BE22F60059300F /* avatar-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-small.png"; sourceTree = "<group>"; };
+		D112F41819BE24780059300F /* avatar-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-small@2x.png"; sourceTree = "<group>"; };
 		D1236B9419AE7B4B00727447 /* DAReviewDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewDetailsViewController.h; sourceTree = "<group>"; };
 		D1236B9519AE7B4B00727447 /* DAReviewDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewDetailsViewController.m; sourceTree = "<group>"; };
 		D13605B81986F5B60085DC7D /* food.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = food.jpg; sourceTree = "<group>"; };
@@ -609,6 +616,8 @@
 		941538EE193F2A00008B3B79 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D112F41619BE22F60059300F /* avatar-small.png */,
+				D112F41819BE24780059300F /* avatar-small@2x.png */,
 				948F35B519ABE0C100F57BEB /* avatar.png */,
 				948F35B619ABE0C100F57BEB /* avatar@2x.png */,
 				D13605B81986F5B60085DC7D /* food.jpg */,
@@ -1141,6 +1150,8 @@
 				94EA2D5619AA820B00ABE3B7 /* DARefreshControl.m */,
 				94CB03B119AFF57F009010F6 /* DACommentTableViewCell.h */,
 				94CB03B219AFF57F009010F6 /* DACommentTableViewCell.m */,
+				D112F41319BE00550059300F /* DAReviewDetailCommentCollectionViewCell.h */,
+				D112F41419BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -1229,6 +1240,7 @@
 				941538D1193F270A008B3B79 /* Main.storyboard in Resources */,
 				94449EF71949A3B2008B8881 /* Icon-76.png in Resources */,
 				D13605B91986F5B60085DC7D /* food.jpg in Resources */,
+				D112F41719BE22F60059300F /* avatar-small.png in Resources */,
 				94449EF91949A3B2008B8881 /* Icon-Small-50.png in Resources */,
 				94449EF61949A3B2008B8881 /* Icon-72@2x.png in Resources */,
 				941538D3193F270A008B3B79 /* App.xcassets in Resources */,
@@ -1236,6 +1248,7 @@
 				943093FC1942638200B1F61F /* DAErrorView.xib in Resources */,
 				94449F001949A3B2008B8881 /* iTunesArtwork@2x.png in Resources */,
 				94449EF11949A3B2008B8881 /* Icon-40.png in Resources */,
+				D112F41919BE24790059300F /* avatar-small@2x.png in Resources */,
 				94449EFE1949A3B2008B8881 /* Icon@2x.png in Resources */,
 				948F35B719ABE0C100F57BEB /* avatar.png in Resources */,
 			);
@@ -1272,6 +1285,7 @@
 				94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */,
 				94FE15E91941239100FE00EA /* DATouchTableView.m in Sources */,
 				94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */,
+				D112F41519BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m in Sources */,
 				94CB040719B15FB9009010F6 /* JSQMessagesKeyboardController.m in Sources */,
 				D1100DB719AA3DA200C73AC8 /* DAGraphControl.m in Sources */,
 				94F2AD9C198C539200450C6F /* SDImageCache.m in Sources */,
