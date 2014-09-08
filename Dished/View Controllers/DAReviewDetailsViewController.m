@@ -128,7 +128,7 @@
         
         return cell;
     }
-    else if( indexPath.row == [self.comments count] + 1 + [self.review.yums count] + [self.review.hashtags count] )
+    else if( indexPath.row == [self.comments count] + 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0) )
     {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"footer" forIndexPath:indexPath];
         
@@ -164,8 +164,8 @@
     else
     {
         DAReviewDetailCommentCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"comment" forIndexPath:indexPath];
-        if (self.comments && self.review) {
-            DAComment *comment = [self.comments objectAtIndex:indexPath.row - 1 + [self.review.yums count] + [self.review.hashtags count]];
+        if (self.comments > 0 && self.review) {
+            DAComment *comment = [self.comments objectAtIndex:indexPath.row - 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0)];
             
             cell.commentLabel.attributedText = [self commentStringForComment:comment];
             
@@ -223,13 +223,13 @@
     {
         return CGSizeMake(self.collectionView.frame.size.width, 44.0);
     }
-    else if (indexPath.row == [self.comments count] + 1 + [self.review.yums count] + [self.review.hashtags count])
+    else if (indexPath.row == [self.comments count] + 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0))
     {
         return CGSizeMake(self.collectionView.frame.size.width, 44.0);
     } else {
         if ([self.comments count] > 0)
         {
-            DAComment *comment = [self.comments objectAtIndex:indexPath.row - 1 + [self.review.yums count] + [self.review.hashtags count]];
+            DAComment *comment = [self.comments objectAtIndex:indexPath.row - 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0)];
             
             NSAttributedString *commentString = [self commentStringForComment:comment];
             
