@@ -29,16 +29,20 @@
     review.loc_name          = data[@"loc_name"];
     
     NSArray *yums = nilOrJSONObjectForKey( data, @"yums" );
-    if( yums )
+    if( yums && [yums isKindOfClass:[NSArray class]] )
     {
         NSMutableArray *newYums = [NSMutableArray array];
-#warning yums are not working crashes in usernameWithData
+        
         for( NSDictionary *yum in yums )
         {
             [newYums addObject:[DAUsername usernameWithData:yum]];
         }
         
         review.yums = [newYums copy];
+    }
+    else if( yums && [yums isKindOfClass:[NSDictionary class]] )
+    {
+        review.yums = [NSArray arrayWithObjects:[DAUsername usernameWithData:yums], nil];
     }
     
     NSArray *comments = nilOrJSONObjectForKey( data, @"comments" );

@@ -8,6 +8,14 @@
 
 #import "DAReviewDetailCommentCollectionViewCell.h"
 
+
 @implementation DAReviewDetailCommentCollectionViewCell
+
+- (void)layoutSubviews
+{
+    [super layoutSubviews];
+    
+    self.commentLabel.textContainerInset = UIEdgeInsetsZero;
+}
 
 @end

@@ -182,14 +182,13 @@
     DAComment *comment = [self.comments objectAtIndex:indexPath.row];
     NSAttributedString *commentString = [self commentStringForComment:comment];
     
-    CGRect commentRect = [commentString boundingRectWithSize:CGSizeMake(self.view.frame.size.width - 60, CGFLOAT_MAX)
+    CGRect commentRect = [commentString boundingRectWithSize:CGSizeMake( self.view.frame.size.width - 60, CGFLOAT_MAX )
                                  options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
                                  context:nil];
     
-    CGFloat minimumCellHeight = ceilf( commentRect.size.height ) + 25;
+    CGFloat minimumCellHeight = ceilf( commentRect.size.height ) + 20;
     
-    CGFloat ret = minimumCellHeight < tableView.rowHeight ? tableView.rowHeight : minimumCellHeight;
-    return ret;
+    return minimumCellHeight < tableView.rowHeight ? tableView.rowHeight : minimumCellHeight;
 }
 
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment
