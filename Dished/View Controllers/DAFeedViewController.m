@@ -182,6 +182,11 @@
     
     NSURL *userImageURL = [NSURL URLWithString:item.creator_img_thumb];
     [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
+    
+    cell.commentsButton.layer.cornerRadius = 5;
+    cell.yumButton.layer.cornerRadius = 5;
+    cell.commentsButton.layer.masksToBounds = YES;
+    cell.yumButton.layer.masksToBounds = YES;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -204,15 +209,15 @@
 
 - (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
-//    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-//    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-//    
-//    [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
-    
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    [self performSegueWithIdentifier:@"dishGlobal" sender:feedItem];
+    [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
+    
+//    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+//    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+//    
+//    [self performSegueWithIdentifier:@"dishGlobal" sender:feedItem];
 
 }
 

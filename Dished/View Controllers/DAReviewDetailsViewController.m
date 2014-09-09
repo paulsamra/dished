@@ -62,7 +62,7 @@ ReviewDetailsItem;
             [self.collectionView reloadData];
             self.collectionView.hidden = NO;
         }
-    }];
+    }];    
 }
 
 - (ReviewDetailsItem)itemTypeForIndexPath:(NSIndexPath *)indexPath
