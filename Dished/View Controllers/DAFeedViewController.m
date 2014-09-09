@@ -209,15 +209,15 @@
 
 - (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
-    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
-    [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
-    
 //    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
 //    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
 //    
-//    [self performSegueWithIdentifier:@"dishGlobal" sender:feedItem];
+//    [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
+    
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    [self performSegueWithIdentifier:@"dishGlobal" sender:feedItem];
 
 }
 
