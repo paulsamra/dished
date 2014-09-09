@@ -74,7 +74,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
     
     CGFloat refreshControlHeight = 40.0f;
-    CGFloat refreshControlWidth  = self.collectionView.bounds.size.width;
+    CGFloat refreshControlWidth  = self.view.bounds.size.width;
     CGRect refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
     self.refreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
     [self.refreshControl addTarget:self action:@selector(refreshFeed) forControlEvents:UIControlEventValueChanged];

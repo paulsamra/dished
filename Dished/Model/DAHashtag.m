@@ -35,4 +35,14 @@
     return [self.hashtagID hash] ^ [self.name hash];
 }
 
++ (DAHashtag *)hashtagWithData:(id)data
+{
+    DAHashtag *hashtag = [[DAHashtag alloc] init];
+    
+    hashtag.name      = data[@"name"];
+    hashtag.hashtagID = data[@"id"];
+    
+    return hashtag;
+}
+
 @end

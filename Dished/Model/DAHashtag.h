@@ -14,4 +14,6 @@
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic) NSString *hashtagID;
 
++ (DAHashtag *)hashtagWithData:(id)data;
+
 @end

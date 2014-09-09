@@ -18,4 +18,10 @@
     self.commentLabel.textContainerInset = UIEdgeInsetsZero;
 }
 
++ (NSDictionary *)textAttributes
+{
+    return @{ NSForegroundColorAttributeName : [UIColor dishedColor],
+              NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f] };
+}
+
 @end

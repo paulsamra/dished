@@ -186,7 +186,7 @@
                                  options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
                                  context:nil];
     
-    CGFloat minimumCellHeight = ceilf( commentRect.size.height ) + 20;
+    CGFloat minimumCellHeight = ceilf( commentRect.size.height ) + 25;
     
     return minimumCellHeight < tableView.rowHeight ? tableView.rowHeight : minimumCellHeight;
 }

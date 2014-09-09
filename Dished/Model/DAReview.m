@@ -58,6 +58,22 @@
         review.comments = [newComments copy];
     }
     
+    NSArray *hashtags = nilOrJSONObjectForKey( data, @"hashtags" );
+    if( hashtags )
+    {
+        NSMutableArray *newHashtags = [NSMutableArray array];
+        
+        for( NSString *hashtag in hashtags )
+        {
+            DAHashtag *newHashtag = [[DAHashtag alloc] init];
+            newHashtag.name = hashtag;
+            
+            [newHashtags addObject:newHashtag];
+        }
+        
+        review.hashtags = [newHashtags copy];
+    }
+    
     return review;
 }
 

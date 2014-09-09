@@ -26,9 +26,16 @@
         {
             id errorResponse = error.userInfo[[[DAAPIManager sharedManager] errorResponseKey]];
             
-            if( [errorResponse[@"error"] isEqualToString:@"data_nonexists"] )
+            if( [errorResponse isKindOfClass:[NSDictionary class]] )
             {
-                completion( YES, NO );
+                if( [errorResponse[@"error"] isEqualToString:@"data_nonexists"] )
+                {
+                    completion( YES, NO );
+                }
+                else
+                {
+                    completion( NO, YES );
+                }
             }
             else
             {

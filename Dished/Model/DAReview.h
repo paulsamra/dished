@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "DAComment.h"
+#import "DAHashtag.h"
+#import "DAUsername.h"
 
 
 @interface DAReview : NSObject

@@ -191,7 +191,6 @@
 		D17487C2196DE8A200D83993 /* SZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C1196DE8A200D83993 /* SZTextView.m */; };
 		D17487C9196DE8BC00D83993 /* DAReviewFormViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C4196DE8BC00D83993 /* DAReviewFormViewController.m */; };
 		D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C8196DE8BC00D83993 /* DAReviewLocationViewController.m */; };
-		D1AE32A219BEA05B00C5B956 /* ImageManipulator.m in Sources */ = {isa = PBXBuildFile; fileRef = D1AE32A119BEA05B00C5B956 /* ImageManipulator.m */; };
 		D1C1F6EF1979A2F600A2D652 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C1F6EE1979A2F600A2D652 /* Social.framework */; };
 		D1F17704198844BE006BC6BA /* DACurrentLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1F17703198844BE006BC6BA /* DACurrentLocationViewController.m */; };
 /* End PBXBuildFile section */
@@ -533,8 +532,6 @@
 		D17487C4196DE8BC00D83993 /* DAReviewFormViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewFormViewController.m; sourceTree = "<group>"; };
 		D17487C7196DE8BC00D83993 /* DAReviewLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewLocationViewController.h; sourceTree = "<group>"; };
 		D17487C8196DE8BC00D83993 /* DAReviewLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewLocationViewController.m; sourceTree = "<group>"; };
-		D1AE32A019BEA05B00C5B956 /* ImageManipulator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageManipulator.h; sourceTree = "<group>"; };
-		D1AE32A119BEA05B00C5B956 /* ImageManipulator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageManipulator.m; sourceTree = "<group>"; };
 		D1B05D5719703F9900E16C53 /* Dished-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dished-Prefix.pch"; sourceTree = "<group>"; };
 		D1C1F6EE1979A2F600A2D652 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		D1F17702198844BE006BC6BA /* DACurrentLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACurrentLocationViewController.h; sourceTree = "<group>"; };
@@ -788,8 +785,6 @@
 		948B7F3E1941B05F005494AA /* External */ = {
 			isa = PBXGroup;
 			children = (
-				D1AE32A019BEA05B00C5B956 /* ImageManipulator.h */,
-				D1AE32A119BEA05B00C5B956 /* ImageManipulator.m */,
 				94CB03EA19B146AF009010F6 /* JSQMessagesInputToolbar */,
 				94CB03BE19B0EA94009010F6 /* SWTableViewCell */,
 				9445C1AB199927B800F3A4F8 /* SPGooglePlacesAutocomplete */,
@@ -1368,7 +1363,6 @@
 				945F95A619A7290600241D0D /* UIColor+Dished.m in Sources */,
 				945F95A719A7290600241D0D /* UILabel+Dished.m in Sources */,
 				94CB03CC19B0EA94009010F6 /* SWCellScrollView.m in Sources */,
-				D1AE32A219BEA05B00C5B956 /* ImageManipulator.m in Sources */,
 				94E5EF2D19432AE00021A711 /* UIViewController+TAPKeyboardPop.m in Sources */,
 				9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */,
 				941F3215196FCC04000042AE /* DANewReview.m in Sources */,

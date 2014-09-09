@@ -14,4 +14,6 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextView  *commentLabel;
 
++ (NSDictionary *)textAttributes;
+
 @end
