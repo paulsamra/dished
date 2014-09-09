@@ -13,6 +13,7 @@
 
 @protocol DAFeedCollectionViewCellDelegate <NSObject>
 
+@optional
 - (void)commentButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 - (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
@@ -33,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UIButton    *yumButton;
 @property (weak, nonatomic) IBOutlet UIImageView *dishImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
+@property (weak, nonatomic) IBOutlet UIButton    *priceLabel;
 
 @property (weak, nonatomic) id<DAFeedCollectionViewCellDelegate> delegate;
 
