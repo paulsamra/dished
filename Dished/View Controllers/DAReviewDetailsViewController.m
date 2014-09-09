@@ -18,7 +18,6 @@
 @interface DAReviewDetailsViewController()
 
 @property (strong, nonatomic) DAReview 						*review;
-@property (strong, nonatomic) NSArray                       *comments;
 @property (strong, nonatomic) UIActivityIndicatorView       *spinner;
 
 @end
@@ -52,57 +51,16 @@
             self.collectionView.hidden = NO;
         }
     }];
-    
-    [[DAAPIManager sharedManager] getCommentsForReviewID:self.reviewID completion:^( id response, NSError *error )
-     {
-         if( error || !response )
-         {
-             
-         }
-         else
-         {
-             [self.spinner stopAnimating];
-             [self.spinner removeFromSuperview];
-             
-             self.comments = [self commentsFromResponse:response];
-             [self.collectionView reloadData];
-         }
-     }];
-
-    
-    
 }
-
-- (NSArray *)commentsFromResponse:(id)response
-{
-    NSArray *data = response[@"data"];
-    NSMutableArray *comments = [NSMutableArray array];
-    
-    if( ![data isKindOfClass:[NSArray class]] )
-    {
-        return [NSArray array];
-    }
-    
-    if( data && ![data isEqual:[NSNull null]] )
-    {
-        for( NSDictionary *dataObject in [data reverseObjectEnumerator] )
-        {
-            [comments addObject:[DAComment commentWithData:dataObject]];
-        }
-    }
-    
-    return [comments copy];
-}
-
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 2 + [self.review.yums count] + [self.review.hashtags count] + [self.comments count];
+    return 2 + [self.review.yums count] + [self.review.hashtags count] + [self.review.comments count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.row == 0 && self.review)
+    if( indexPath.row == 0 )
     {
         DAFeedCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
         
@@ -130,34 +88,31 @@
         
         return cell;
     }
-    else if( indexPath.row == [self.comments count] + 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0) )
+    else if( indexPath.row == [self.review.comments count] + 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0) )
     {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"footer" forIndexPath:indexPath];
         
         return cell;
     }
-    else if (indexPath.row == 1 && [self.review.yums count] > 0)
+    else if( indexPath.row == 1 && [self.review.yums count] > 0 )
     {
-        
-#warning yums are breaking.
         DAReviewDetailCommentCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"yums" forIndexPath:indexPath];
-        if (self.review) {
+        
+        if( self.review )
+        {
             NSMutableString *usernames = [[NSMutableString alloc] init];
-            [self.review.yums enumerateObjectsUsingBlock:^(DAUsername *obj, NSUInteger idx, BOOL *stop) {
-                
-                
+            
+            [self.review.yums enumerateObjectsUsingBlock:^(DAUsername *obj, NSUInteger idx, BOOL *stop)
+            {
                 [usernames appendString:[NSString stringWithFormat:@" %@", obj.username]];
-                
-                
             }];
             
             cell.commentLabel.text = usernames;
-
         }
         
         return cell;
     }
-    else if (indexPath.row == 2 && [self.review.hashtags count] > 0)
+    else if( indexPath.row == 2 && [self.review.hashtags count] > 0 )
     {
         DAReviewDetailCommentCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"tags" forIndexPath:indexPath];
         
@@ -166,18 +121,21 @@
     else
     {
         DAReviewDetailCommentCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"comment" forIndexPath:indexPath];
-        if (self.comments > 0 && self.review) {
-            DAComment *comment = [self.comments objectAtIndex:indexPath.row - 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0)];
+        
+        if( self.review.comments > 0 && self.review )
+        {
+            DAComment *comment = [self.review.comments objectAtIndex:indexPath.row - 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0)];
             
             cell.commentLabel.attributedText = [self commentStringForComment:comment];
             
-            if (indexPath.row != 1 + [self.review.yums count] + [self.review.hashtags count]) {
+            if( indexPath.row != [self.review.yums count] + [self.review.hashtags count] + 1 )
+            {
                 [cell.imageView setHidden:YES];
-            } else {
-                [cell.imageView setHidden:NO];
-                
             }
-
+            else
+            {
+                [cell.imageView setHidden:NO];
+            }
         }
         
         return cell;
@@ -185,7 +143,7 @@
 }
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment
 {
-    NSString *usernameString = [NSString stringWithFormat:@" @%@", comment.creator_username];
+    NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
     NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f] }];
     NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
     
@@ -200,7 +158,6 @@
         NSAttributedString *avatarIconString = [NSAttributedString attributedStringWithAttachment:avatarIcon];
 
         [labelString appendAttributedString:influencerIconString];
-        
         [labelString insertAttributedString:avatarIconString atIndex:0];
     }
     
@@ -213,11 +170,12 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0)
+    if( indexPath.row == 0 )
     {
-        return CGSizeMake(self.collectionView.frame.size.width, 375.0-44);
+        UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
+        return flowLayout.itemSize;
     }
-    else if (indexPath.row == 1 && [self.review.yums count] > 0)
+    else if( indexPath.row == 1 && [self.review.yums count] > 0 )
     {
         return CGSizeMake(self.collectionView.frame.size.width, 44.0);
     }
@@ -225,37 +183,32 @@
     {
         return CGSizeMake(self.collectionView.frame.size.width, 44.0);
     }
-    else if (indexPath.row == [self.comments count] + 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0))
+    else if (indexPath.row == [self.review.comments count] + 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0))
     {
         return CGSizeMake(self.collectionView.frame.size.width, 44.0);
-    } else {
-        if ([self.comments count] > 0)
+    }
+    else
+    {
+        if( [self.review.comments count] > 0 )
         {
-            DAComment *comment = [self.comments objectAtIndex:indexPath.row - 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0)];
+            DAComment *comment = [self.review.comments objectAtIndex:indexPath.row - 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0)];
             
             NSAttributedString *commentString = [self commentStringForComment:comment];
             
-            CGRect commentRect = [commentString boundingRectWithSize:CGSizeMake(self.view.frame.size.width - 60, CGFLOAT_MAX)
-                                                             options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                                             context:nil];
+            CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 60, CGFLOAT_MAX );
+            CGRect commentRect = [commentString boundingRectWithSize:boundingSize
+                                        options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
+                                        context:nil];
             
-            CGFloat minimumCellHeight = ceilf( commentRect.size.height);
-            
-            
+            CGFloat minimumCellHeight = ceilf( commentRect.size.height + 1 );
             CGFloat ret = minimumCellHeight < 33 ? 33 : minimumCellHeight;
             
-            NSLog(@"%f %f", minimumCellHeight, ret);
-            
-            return CGSizeMake(self.collectionView.frame.size.width, ret);
-            
-            
+            return CGSizeMake( collectionView.frame.size.width, ret );
         }
         else
         {
-            return CGSizeMake(self.collectionView.frame.size.width, 44.0);
-            
+            return CGSizeZero;
         }
-
     }
 }
 
