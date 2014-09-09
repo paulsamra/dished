@@ -668,6 +668,7 @@
                         <outlet property="collectionView" destination="ZsI-AF-9cR" id="umg-Yf-vCs"/>
                         <segue destination="P8x-Vf-lZp" kind="show" identifier="commentsSegue" id="bNY-2x-UqY"/>
                         <segue destination="gSo-WE-Bx1" kind="show" identifier="reviewDetails" id="Pvw-SR-10w"/>
+                        <segue destination="vVU-kX-jzI" kind="show" identifier="dishGlobal" id="v7H-VZ-scS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rf5-pm-q8l" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2447,7 +2448,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Pj1-MA-v2t">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="651"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="1IC-VF-owM">
                                     <size key="itemSize" width="320" height="335"/>
@@ -2704,50 +2705,174 @@
             </objects>
             <point key="canvasLocation" x="2034" y="1816"/>
         </scene>
-        <!--View Controller-->
+        <!--Dish Details-->
         <scene sceneID="4GJ-Uq-fYG">
             <objects>
-                <viewController id="vVU-kX-jzI" sceneMemberID="viewController">
+                <viewController title="Dish Details" id="vVU-kX-jzI" customClass="DAGlobalDishDetailViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Gum-I4-SpU"/>
                         <viewControllerLayoutGuide type="bottom" id="Omx-6H-Su5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="zEc-BR-A7J">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aEb-gd-8H7">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3xB-Ol-YTp">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="896"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="5rW-gv-zLA">
-                                    <size key="itemSize" width="428" height="207"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Og0-j7-hbS">
+                                    <size key="itemSize" width="320" height="335"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="9Wf-UX-LrK">
-                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="feedCell" id="ur3-8b-Irq" customClass="DAFeedCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="64" width="320" height="375"/>
+                                        <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="428" height="207"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="514"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="s29-fl-ZWd">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="32"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <inset key="contentEdgeInsets" minX="10" minY="1" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" title="No-Bake Blueberry Truffle Tartlets">
+                                                        <color key="titleColor" red="0.37254901959999998" green="0.3921568627" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q0S-Cq-eyv">
+                                                    <rect key="frame" x="0.0" y="34" width="320" height="250"/>
+                                                </imageView>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tb2-it-TYK">
+                                                    <rect key="frame" x="0.0" y="284" width="320" height="93"/>
+                                                    <subviews>
+                                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A+" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="53u-wt-DBR">
+                                                            <rect key="frame" x="270" y="0.0" width="42" height="20"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="17"/>
+                                                            <color key="textColor" red="0.3921568627" green="0.40784313729999999" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7vB-Wo-Jz5">
+                                                            <rect key="frame" x="8" y="0.0" width="200" height="20"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                                            <state key="normal" title="Button">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                        </button>
+                                                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KUE-TS-1tG">
+                                                            <rect key="frame" x="8" y="92" width="320" height="1"/>
+                                                            <color key="backgroundColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                        </view>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                                </view>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VcZ-m9-Zc8">
+                                                    <rect key="frame" x="246" y="0.0" width="66" height="32"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <inset key="contentEdgeInsets" minX="10" minY="1" maxX="0.0" maxY="0.0"/>
+                                                    <state key="normal" title="$6.99">
+                                                        <color key="titleColor" red="0.37254901959999998" green="0.3921568627" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0X-3X-yUz">
+                                                    <rect key="frame" x="0.0" y="411" width="320" height="56"/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                                                    <state key="normal" title="Add Review">
+                                                        <color key="titleColor" red="0.41253750362592778" green="0.63350022876816847" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KqY-fW-F4v">
+                                                    <rect key="frame" x="0.0" y="410" width="320" height="1"/>
+                                                    <color key="backgroundColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wOZ-l1-G9R">
+                                                    <rect key="frame" x="0.0" y="467" width="320" height="1"/>
+                                                    <color key="backgroundColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                            </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <size key="customSize" width="320" height="514"/>
+                                        <connections>
+                                            <outlet property="dishImageView" destination="Q0S-Cq-eyv" id="cYt-af-G4d"/>
+                                            <outlet property="gradeLabel" destination="53u-wt-DBR" id="jZB-M6-iOS"/>
+                                            <outlet property="locationButton" destination="7vB-Wo-Jz5" id="bbE-Qt-K1J"/>
+                                            <outlet property="priceLabel" destination="VcZ-m9-Zc8" id="NcU-GP-Blb"/>
+                                            <outlet property="titleButton" destination="s29-fl-ZWd" id="Kt8-QD-ftf"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="gradeGraph" id="Qeu-PH-8nI" customClass="DAGradeGraphCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="449" width="320" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="209"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2qs-aO-esX">
+                                                    <rect key="frame" x="0.0" y="104" width="320" height="1"/>
+                                                    <color key="backgroundColor" red="0.85490196080000003" green="0.85490196080000003" blue="0.85882352939999995" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kuy-Wh-egv" customClass="DAGraphControl">
+                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="209"/>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <connections>
+                                                        <action selector="touchedArrow:" destination="Qeu-PH-8nI" eventType="touchUpInside" id="ds6-To-RHu"/>
+                                                    </connections>
+                                                </view>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <size key="customSize" width="320" height="209"/>
+                                        <connections>
+                                            <outlet property="control" destination="kuy-Wh-egv" id="HMO-Sm-9ut"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="comment" id="IwI-kt-7Jv" customClass="DAReviewDetailCommentCollectionViewCell">
+                                        <rect key="frame" x="0.0" y="533" width="320" height="32"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" editable="NO" text="Comment" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rKK-Hg-c0V">
+                                                    <rect key="frame" x="27" y="0.0" width="285" height="50"/>
+                                                    <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.82745098039999998" alpha="0.0" colorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                                </textView>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <size key="customSize" width="320" height="50"/>
+                                        <connections>
+                                            <outlet property="commentLabel" destination="rKK-Hg-c0V" id="8lQ-Zw-UHH"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="gSo-WE-Bx1" id="60x-nI-5yw"/>
-                                    <outlet property="delegate" destination="gSo-WE-Bx1" id="czh-dH-iCJ"/>
+                                    <outlet property="dataSource" destination="vVU-kX-jzI" id="VZH-u0-PLQ"/>
+                                    <outlet property="delegate" destination="vVU-kX-jzI" id="eqH-i0-Lge"/>
                                 </connections>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
+                    <connections>
+                        <outlet property="collectionView" destination="3xB-Ol-YTp" id="6E0-8U-DYG"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gAC-Ui-zj5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2738" y="1764"/>
+            <point key="canvasLocation" x="2743" y="1877"/>
         </scene>
     </scenes>
     <resources>
@@ -2797,8 +2922,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="kjR-iR-qGO"/>
-        <segue reference="e1c-XP-t2f"/>
-        <segue reference="wCN-0l-elF"/>
         <segue reference="aNd-9F-Yna"/>
+        <segue reference="wCN-0l-elF"/>
+        <segue reference="e1c-XP-t2f"/>
     </inferredMetricsTieBreakers>
 </document>

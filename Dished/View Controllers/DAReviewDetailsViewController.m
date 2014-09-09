@@ -20,7 +20,7 @@
 
 @interface DAReviewDetailsViewController() <DAFeedCollectionViewCellDelegate>
 
-@property (strong, nonatomic) DAReview 						*review;
+@property (strong, nonatomic) DAReview 				 		*review;
 @property (strong, nonatomic) UIActivityIndicatorView       *spinner;
 
 @end

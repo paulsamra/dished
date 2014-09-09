@@ -17,7 +17,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAReviewDetailsViewController.h"
 #import "DACommentsViewController.h"
-
+#import "DAGlobalDishDetailViewController.h"
 
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate>
 
@@ -204,15 +204,25 @@
 
 - (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
+//    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+//    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+//    
+//    [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
+    
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
+    [self performSegueWithIdentifier:@"dishGlobal" sender:feedItem];
+
 }
 
-- (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
-{
+- (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell {
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
+    [self performSegueWithIdentifier:@"dishGlobal" sender:feedItem];
+    
+
 }
 
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
@@ -310,6 +320,16 @@
         
         DAReviewDetailsViewController *dest = segue.destinationViewController;
         dest.reviewID = [feedItem.item_id integerValue];
+    }
+    
+    else if( [segue.identifier isEqualToString:@"dishGlobal"] )
+    {
+        DAFeedItem *feedItem = sender;
+        
+        DAGlobalDishDetailViewController *dest = segue.destinationViewController;
+        dest.reviewID = [feedItem.item_id integerValue];
+        
+        return;
     }
 }
 
