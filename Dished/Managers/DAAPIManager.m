@@ -1056,7 +1056,25 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         }
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {
-            NSLog(@"Failed to review profile: %@", error.localizedDescription);
+            NSLog(@"Failed to get review profile: %@", error.localizedDescription);
+            completion( nil, error );
+        }];
+    });
+}
+
+- (void)getGlobalDishInfoForDishID:(NSInteger)dishID completion:( void(^)( id response, NSError *error ) )completion
+{
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(dishID) };
+        
+        [self GET:@"dishes/profile" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( responseObject, nil ) : completion( nil, nil );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Failed to get global dish profile: %@", error.localizedDescription);
             completion( nil, error );
         }];
     });

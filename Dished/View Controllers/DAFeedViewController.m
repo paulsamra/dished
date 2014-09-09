@@ -309,19 +309,12 @@
         
         return;
     }
-    else if( [segue.identifier isEqualToString:@"reviewDetails"] )
+    
+    if( [segue.identifier isEqualToString:@"reviewDetails"] )
     {
         DAFeedItem *feedItem = sender;
         
         DAReviewDetailsViewController *dest = segue.destinationViewController;
-        dest.reviewID = [feedItem.item_id integerValue];
-    }
-    
-    else if( [segue.identifier isEqualToString:@"dishGlobal"] )
-    {
-        DAFeedItem *feedItem = sender;
-        
-        DAGlobalDishDetailViewController *dest = segue.destinationViewController;
         dest.reviewID = [feedItem.item_id integerValue];
     }
 }

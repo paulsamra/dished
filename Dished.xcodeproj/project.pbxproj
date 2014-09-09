@@ -105,6 +105,8 @@
 		94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */; };
 		94A027A4196F25B5004D5CD7 /* DARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A3196F25B5004D5CD7 /* DARatingViewController.m */; };
 		94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */; };
+		94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */; };
+		94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6319BFBE75005071D5 /* DADishProfile.m */; };
 		94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
 		94CB03B019AFD334009010F6 /* DAComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AF19AFD334009010F6 /* DAComment.m */; };
 		94CB03B319AFF57F009010F6 /* DACommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03B219AFF57F009010F6 /* DACommentTableViewCell.m */; };
@@ -362,6 +364,10 @@
 		94A027A3196F25B5004D5CD7 /* DARatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARatingViewController.m; sourceTree = "<group>"; };
 		94A027A5196F264A004D5CD7 /* DARatingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARatingTableViewCell.h; sourceTree = "<group>"; };
 		94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARatingTableViewCell.m; sourceTree = "<group>"; };
+		94B92C5F19BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGlobalReviewCollectionViewCell.h; sourceTree = "<group>"; };
+		94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGlobalReviewCollectionViewCell.m; sourceTree = "<group>"; };
+		94B92C6219BFBE75005071D5 /* DADishProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishProfile.h; sourceTree = "<group>"; };
+		94B92C6319BFBE75005071D5 /* DADishProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishProfile.m; sourceTree = "<group>"; };
 		94CB03AB19AFA734009010F6 /* DACommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACommentsViewController.h; sourceTree = "<group>"; };
 		94CB03AC19AFA734009010F6 /* DACommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACommentsViewController.m; sourceTree = "<group>"; };
 		94CB03AE19AFD334009010F6 /* DAComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAComment.h; sourceTree = "<group>"; };
@@ -837,6 +843,8 @@
 				942CC23719BDB21700BDBB75 /* DAReview.m */,
 				942CC23919BDBCCF00BDBB75 /* DAUsername.h */,
 				942CC23A19BDBCCF00BDBB75 /* DAUsername.m */,
+				94B92C6219BFBE75005071D5 /* DADishProfile.h */,
+				94B92C6319BFBE75005071D5 /* DADishProfile.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1162,6 +1170,8 @@
 				D112F41419BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m */,
 				D187E07019BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.m */,
 				D187E07119BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.h */,
+				94B92C5F19BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.h */,
+				94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -1401,6 +1411,7 @@
 				943E625E1987362100DF2135 /* STTwitterHTML.m in Sources */,
 				94CB040319B146AF009010F6 /* UIImage+JSQMessages.m in Sources */,
 				941810131970EB7700C83034 /* DAConstants.m in Sources */,
+				94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */,
 				94CB03FE19B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m in Sources */,
 				943E62611987362100DF2135 /* STTwitterOSRequest.m in Sources */,
 				94F2ADA8198C539200450C6F /* UIImageView+WebCache.m in Sources */,
@@ -1422,6 +1433,7 @@
 				94E5EF511943B9A30021A711 /* DAReplaceSegue.m in Sources */,
 				94331FFF1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */,
+				94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */,
 				945F959719A6738100241D0D /* DAFeedItem.m in Sources */,
 				94CB040219B146AF009010F6 /* UIColor+JSQMessages.m in Sources */,
 				94F2ADA0198C539200450C6F /* SDWebImageDownloaderOperation.m in Sources */,

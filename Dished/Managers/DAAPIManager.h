@@ -179,4 +179,9 @@
  */
 - (void)getProfileForReviewID:(NSInteger)reviewID completion:( void(^)( id response, NSError *error ) )completion;
 
+/*
+ * Get global dish info.
+ */
+- (void)getGlobalDishInfoForDishID:(NSInteger)dishID completion:( void(^)( id response, NSError *error ) )completion;
+
 @end

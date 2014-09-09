@@ -2834,25 +2834,66 @@
                                             <outlet property="control" destination="kuy-Wh-egv" id="HMO-Sm-9ut"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="comment" id="IwI-kt-7Jv" customClass="DAReviewDetailCommentCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="review" id="IwI-kt-7Jv" customClass="DAGlobalReviewCollectionViewCell">
                                         <rect key="frame" x="0.0" y="533" width="320" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" editable="NO" text="Comment" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rKK-Hg-c0V">
-                                                    <rect key="frame" x="27" y="0.0" width="285" height="50"/>
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" scrollEnabled="NO" editable="NO" text="Comment" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rKK-Hg-c0V" userLabel="comment">
+                                                    <rect key="frame" x="57" y="48" width="237" height="102"/>
                                                     <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.82745098039999998" alpha="0.0" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="w3d-MD-eST" userLabel="grade">
+                                                    <rect key="frame" x="10" y="52" width="42" height="42"/>
+                                                    <subviews>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="A+" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="v1c-Ik-6VO">
+                                                            <rect key="frame" x="11" y="12" width="20" height="18"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
+                                                    </subviews>
+                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                </view>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yRu-PY-xEa" userLabel="userImage">
+                                                    <rect key="frame" x="10" y="20" width="42" height="42"/>
+                                                </imageView>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="@Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4sg-8w-gBV">
+                                                    <rect key="frame" x="57" y="20" width="180" height="20"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <color key="textColor" red="0.0" green="0.61568627450000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4eX-KK-NXS">
+                                                    <rect key="frame" x="240" y="20" width="50" height="20"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9xU-10-dkz" userLabel="leftLine">
+                                                    <rect key="frame" x="52" y="42" width="252" height="1"/>
+                                                    <color key="backgroundColor" red="0.83137254901960778" green="0.82352941176470584" blue="0.86274509803921573" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
+                                                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hU5-Te-4RS" userLabel="centerLine">
+                                                    <rect key="frame" x="302" y="0.0" width="2" height="100"/>
+                                                    <color key="backgroundColor" red="0.83137254900000002" green="0.82352941180000006" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                                                </view>
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
-                                        <size key="customSize" width="320" height="50"/>
+                                        <size key="customSize" width="320" height="150"/>
                                         <connections>
                                             <outlet property="commentLabel" destination="rKK-Hg-c0V" id="8lQ-Zw-UHH"/>
+                                            <outlet property="commentTextView" destination="rKK-Hg-c0V" id="vnv-sW-GB7"/>
+                                            <outlet property="gradeLabel" destination="v1c-Ik-6VO" id="AUa-cu-2jq"/>
+                                            <outlet property="gradeView" destination="w3d-MD-eST" id="EQc-UO-7xM"/>
+                                            <outlet property="timeLabel" destination="4eX-KK-NXS" id="iiC-4S-IEg"/>
+                                            <outlet property="userImageView" destination="yRu-PY-xEa" id="oAp-pc-vIS"/>
+                                            <outlet property="usernameLabel" destination="4sg-8w-gBV" id="le0-av-iYa"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

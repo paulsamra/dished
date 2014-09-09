@@ -14,6 +14,7 @@
 #import "DAReviewDetailCommentCollectionViewCell.h"
 #import "DAFeedCollectionViewCell.h"
 #import "DACommentsViewController.h"
+#import "DAGlobalDishDetailViewController.h"
 
 
 typedef enum
@@ -390,8 +391,8 @@ ReviewDetailsItem;
     
     if( [segue.identifier isEqualToString:@"globalReview"] )
     {
-        DAReviewDetailsViewController *dest = segue.destinationViewController;
-        dest.reviewID = self.reviewID;
+        DAGlobalDishDetailViewController *dest = segue.destinationViewController;
+        dest.dishID = 85;
     }
 }
 
