@@ -67,8 +67,9 @@
         NSString *usernameString = [NSString stringWithFormat:@"@%@", self.review.creator_username];
         [cell.creatorButton  setTitle:usernameString     forState:UIControlStateNormal];
         [cell.titleButton    setTitle:self.review.name forState:UIControlStateNormal];
-        [cell.priceLabel    setTitle:[NSString stringWithFormat:@"$%f", [self.review.price floatValue] / 100] forState:UIControlStateNormal];
-
+        if (![self.review.price isKindOfClass:[NSNull class]]) {
+            [cell.priceLabel    setTitle:[NSString stringWithFormat:@"$%f", [self.review.price floatValue] / 100] forState:UIControlStateNormal];
+        }
         UIImage *locationIcon = [[UIImage imageNamed:@"dish_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         [cell.locationButton setTitle:self.review.loc_name forState:UIControlStateNormal];
         [cell.locationButton setImage:locationIcon  forState:UIControlStateNormal];
