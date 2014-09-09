@@ -653,14 +653,14 @@
 		943320041995ED04000A8E2B /* Feed */ = {
 			isa = PBXGroup;
 			children = (
-				D187E06D19BFA1A400D8C85C /* DAGlobalDishDetailViewController.m */,
-				D187E06E19BFA1A400D8C85C /* DAGlobalDishDetailViewController.h */,
 				943320051995ED57000A8E2B /* DAFeedViewController.h */,
 				943320061995ED57000A8E2B /* DAFeedViewController.m */,
 				D1236B9419AE7B4B00727447 /* DAReviewDetailsViewController.h */,
 				D1236B9519AE7B4B00727447 /* DAReviewDetailsViewController.m */,
 				94CB03AB19AFA734009010F6 /* DACommentsViewController.h */,
 				94CB03AC19AFA734009010F6 /* DACommentsViewController.m */,
+				D187E06E19BFA1A400D8C85C /* DAGlobalDishDetailViewController.h */,
+				D187E06D19BFA1A400D8C85C /* DAGlobalDishDetailViewController.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";

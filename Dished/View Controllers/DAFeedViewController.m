@@ -209,24 +209,14 @@
 
 - (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
-//    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-//    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-//    
-//    [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
-    
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    [self performSegueWithIdentifier:@"dishGlobal" sender:feedItem];
-
+    [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
 }
 
-- (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell {
-    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
-    [self performSegueWithIdentifier:@"dishGlobal" sender:feedItem];
-    
+- (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
 
 }
 
@@ -333,8 +323,6 @@
         
         DAGlobalDishDetailViewController *dest = segue.destinationViewController;
         dest.reviewID = [feedItem.item_id integerValue];
-        
-        return;
     }
 }
 

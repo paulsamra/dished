@@ -119,6 +119,8 @@ ReviewDetailsItem;
     {
         DAFeedCollectionViewCell *dishCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
         
+        dishCell.delegate = self;
+        
         NSString *usernameString = [NSString stringWithFormat:@"@%@", self.review.creator_username];
         [dishCell.creatorButton  setTitle:usernameString    forState:UIControlStateNormal];
         [dishCell.titleButton    setTitle:self.review.name forState:UIControlStateNormal];
@@ -146,6 +148,8 @@ ReviewDetailsItem;
     else if( itemType == ReviewDetailsItemFooter )
     {
         DAFeedCollectionViewCell *footerCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"footer" forIndexPath:indexPath];
+        
+        footerCell.delegate = self;
         
         footerCell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
         NSString *commentFormat = self.review.num_comments == 1 ? @"%d comment" : @"%d comments";
@@ -361,6 +365,11 @@ ReviewDetailsItem;
     return itemSize;
 }
 
+- (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    [self performSegueWithIdentifier:@"globalReview" sender:nil];
+}
+
 - (void)commentButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     [self performSegueWithIdentifier:@"commentsSegue" sender:self.review];
@@ -377,6 +386,12 @@ ReviewDetailsItem;
     {
         DACommentsViewController *dest = segue.destinationViewController;
         dest.reviewID = self.reviewID ;
+    }
+    
+    if( [segue.identifier isEqualToString:@"globalReview"] )
+    {
+        DAReviewDetailsViewController *dest = segue.destinationViewController;
+        dest.reviewID = self.reviewID;
     }
 }
 

@@ -17,6 +17,7 @@
 #import "DAFeedCollectionViewCell.h"
 #import "DAGradeGraphCollectionViewCell.h"
 
+
 @interface DAGlobalDishDetailViewController ()
 
 @property (strong, nonatomic) DAReview 				 		*review;
@@ -24,11 +25,13 @@
 
 @end
 
+
 @implementation DAGlobalDishDetailViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    
     self.collectionView.hidden = YES;
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -37,28 +40,21 @@
     [self.view addSubview:spinner];
     
     [[DAAPIManager sharedManager] getProfileForReviewID:self.reviewID completion:^( id response, NSError *error )
-     {
-         if( !response || error )
-         {
+    {
+        if( !response || error )
+        {
              
-         }
-         else
-         {
-             self.review = [DAReview reviewWithData:response[@"data"]];
-             [spinner stopAnimating];
-             [spinner removeFromSuperview];
-             [self.collectionView reloadData];
-             self.collectionView.hidden = NO;
-         }
-     }];
+        }
+        else
+        {
+            self.review = [DAReview reviewWithData:response[@"data"]];
+            [spinner stopAnimating];
+            [spinner removeFromSuperview];
+            [self.collectionView reloadData];
+            self.collectionView.hidden = NO;
+        }
+    }];
 
-}
-
-
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -91,15 +87,15 @@
         NSURL *userImageURL = [NSURL URLWithString:self.review.creator_img_thumb];
         [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
         
-        
-        
         return cell;
     }
-    else if (indexPath.row == 1)
+    else if( indexPath.row == 1 )
     {
         
         DAGradeGraphCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"gradeGraph" forIndexPath:indexPath];
+        
         [cell.control sendActionsForControlEvents:UIControlEventTouchUpInside];
+        
         return cell;
     }
     else
@@ -107,7 +103,6 @@
         DAReviewDetailCommentCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"comment" forIndexPath:indexPath];
         
         return cell;
-
     }
 }
 
@@ -116,28 +111,15 @@
     if( indexPath.row == 0 )
     {
         return CGSizeMake(self.collectionView.frame.size.width, 500.0);
-
     }
     if( indexPath.row == 1 )
     {
         return CGSizeMake(self.collectionView.frame.size.width, 209.0);
-
     }
     else
     {
         return CGSizeMake(self.collectionView.frame.size.width, 88.0);
-
     }
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

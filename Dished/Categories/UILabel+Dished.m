@@ -58,7 +58,7 @@
     else
     {
         format = @"%ldw";
-        value = conversionInfo.week;
+        value = conversionInfo.weekOfMonth;
     }
     
     return [NSString stringWithFormat:format, value];

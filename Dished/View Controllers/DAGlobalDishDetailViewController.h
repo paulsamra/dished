@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+
 @interface DAGlobalDishDetailViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
 @property (nonatomic) NSInteger reviewID;
-
 
 @end
