@@ -684,7 +684,7 @@
                         <viewControllerLayoutGuide type="bottom" id="t3g-ex-ZCh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dTJ-4l-buB">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="700"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="wwz-ft-tqt" customClass="DATouchTableView">
@@ -734,7 +734,7 @@
                                 </connections>
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5U0-dG-Wex" customClass="JSQMessagesInputToolbar">
-                                <rect key="frame" x="0.0" y="507" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="607" width="320" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="bK9-by-cF1"/>
                                 </constraints>
@@ -758,7 +758,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PIf-4y-xjT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1085" y="987"/>
+            <point key="canvasLocation" x="1525" y="1035"/>
         </scene>
         <!--Explore-->
         <scene sceneID="BnE-eH-SrY">
@@ -2023,7 +2023,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Md-CX-quU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1025.625" y="990.84507042253517"/>
+            <point key="canvasLocation" x="693" y="1035"/>
         </scene>
         <!--Select Place-->
         <scene sceneID="A5Y-Nb-tlN">
@@ -2517,7 +2517,7 @@
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                                 </view>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIE-nP-zCP">
-                                                    <rect key="frame" x="259" y="0.0" width="53" height="32"/>
+                                                    <rect key="frame" x="246" y="0.0" width="66" height="32"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                                     <inset key="contentEdgeInsets" minX="10" minY="1" maxX="0.0" maxY="0.0"/>
@@ -2647,7 +2647,7 @@
                                             <outlet property="imageView" destination="uEl-9g-pUn" id="aqt-5W-SG6"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="footer" id="DcN-JX-ot2">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="footer" id="DcN-JX-ot2" customClass="DAFeedCollectionViewCell">
                                         <rect key="frame" x="0.0" y="575" width="320" height="45"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -2656,13 +2656,16 @@
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bff-v9-HC2">
                                                     <rect key="frame" x="9" y="10" width="107" height="26"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                     <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="5" maxY="0.0"/>
                                                     <inset key="titleEdgeInsets" minX="5" minY="1" maxX="0.0" maxY="0.0"/>
                                                     <state key="normal" title="7 Comments" image="comments_button_icon" backgroundImage="comments_button_background">
                                                         <color key="titleColor" red="0.3921568627" green="0.40784313729999999" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
+                                                    <connections>
+                                                        <segue destination="P8x-Vf-lZp" kind="push" identifier="commentsSegue" id="kjR-iR-qGO"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MEk-pr-4xo">
                                                     <rect key="frame" x="121" y="10" width="61" height="26"/>
@@ -2677,6 +2680,10 @@
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
                                         <size key="customSize" width="320" height="45"/>
+                                        <connections>
+                                            <outlet property="commentsButton" destination="Bff-v9-HC2" id="gBr-ll-tYx"/>
+                                            <outlet property="yumButton" destination="MEk-pr-4xo" id="5A4-Fg-urm"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -2745,6 +2752,7 @@
         <image name="yum_icon" width="12" height="11"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="kjR-iR-qGO"/>
         <segue reference="e1c-XP-t2f"/>
         <segue reference="wCN-0l-elF"/>
         <segue reference="aNd-9F-Yna"/>

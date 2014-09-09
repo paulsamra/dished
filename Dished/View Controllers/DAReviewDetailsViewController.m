@@ -14,8 +14,10 @@
 #import "DAComment.h"
 #import "DAReviewDetailCommentCollectionViewCell.h"
 #import "DAUsername.h"
+#import "DAFeedCollectionViewCell.h"
+#import "DACommentsViewController.h"
 
-@interface DAReviewDetailsViewController()
+@interface DAReviewDetailsViewController() <DAFeedCollectionViewCellDelegate>
 
 @property (strong, nonatomic) DAReview 						*review;
 @property (strong, nonatomic) UIActivityIndicatorView       *spinner;
@@ -55,7 +57,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 2 + [self.review.yums count] + [self.review.hashtags count] + [self.review.comments count];
+    return 2 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0) + [self.review.comments count];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -78,9 +80,9 @@
         NSURL *dishImageURL = [NSURL URLWithString:self.review.img];
         [cell.dishImageView setImageWithURL:dishImageURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
 
-        cell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-        NSString *commentString = [NSString stringWithFormat:@"%d comments", (int)self.review.num_comments];
-        [cell.commentsButton setTitle:commentString forState:UIControlStateNormal];
+//        cell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+//        NSString *commentString = [NSString stringWithFormat:@"%d comments", (int)self.review.num_comments];
+//        [cell.commentsButton setTitle:commentString forState:UIControlStateNormal];
         
         NSURL *userImageURL = [NSURL URLWithString:self.review.creator_img_thumb];
         [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
@@ -91,7 +93,24 @@
     }
     else if( indexPath.row == [self.review.comments count] + 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0) )
     {
-        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"footer" forIndexPath:indexPath];
+        DAFeedCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"footer" forIndexPath:indexPath];
+        
+        cell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+        NSString *commentString;
+        
+        if ((int)self.review.num_comments == 1)
+        {
+            commentString = [NSString stringWithFormat:@"%lu comment", (unsigned long)[self.review.comments count]];
+
+        }
+        else
+        {
+            commentString = [NSString stringWithFormat:@"%lu comments", (unsigned long)[self.review.comments count]];
+
+        }
+        [cell.commentsButton setTitle:commentString forState:UIControlStateNormal];
+
+
         
         return cell;
     }
@@ -105,10 +124,20 @@
             
             [self.review.yums enumerateObjectsUsingBlock:^(DAUsername *obj, NSUInteger idx, BOOL *stop)
             {
-                [usernames appendString:[NSString stringWithFormat:@" %@", obj.username]];
+                if (idx == 0)
+                {
+                	[usernames appendString:[NSString stringWithFormat:@"@%@", obj.username]];
+
+                }
+                else
+                {
+                    [usernames appendString:[NSString stringWithFormat:@", @%@", obj.username]];
+
+                }
             }];
             
             cell.commentLabel.text = usernames;
+            cell.commentLabel.textColor = [UIColor dishedColor];
         }
         
         return cell;
@@ -212,5 +241,29 @@
         }
     }
 }
+
+- (void)commentButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    
+    [self performSegueWithIdentifier:@"commentsSegue" sender:self.review];
+}
+
+- (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"commentsSegue"] )
+    {
+        
+        DACommentsViewController *dest = segue.destinationViewController;
+        dest.reviewID = self.reviewID ;
+        
+        return;
+    }
+}
+
 
 @end
