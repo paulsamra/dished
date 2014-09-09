@@ -197,7 +197,7 @@
                                         options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
                                         context:nil];
             
-            CGFloat minimumCellHeight = ceilf( commentRect.size.height );
+            CGFloat minimumCellHeight = ceilf( commentRect.size.height + 1 );
             CGFloat ret = minimumCellHeight < 33 ? 33 : minimumCellHeight;
             
             return CGSizeMake( collectionView.frame.size.width, ret );
