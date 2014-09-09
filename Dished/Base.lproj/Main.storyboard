@@ -665,6 +665,7 @@
                         <outlet property="collectionView" destination="ZsI-AF-9cR" id="umg-Yf-vCs"/>
                         <segue destination="P8x-Vf-lZp" kind="show" identifier="commentsSegue" id="bNY-2x-UqY"/>
                         <segue destination="gSo-WE-Bx1" kind="show" identifier="reviewDetails" id="Pvw-SR-10w"/>
+                        <segue destination="vVU-kX-jzI" kind="show" identifier="dishGlobal" id="v7H-VZ-scS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rf5-pm-q8l" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2442,7 +2443,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Pj1-MA-v2t">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="651"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="1IC-VF-owM">
                                     <size key="itemSize" width="320" height="335"/>
@@ -2749,8 +2750,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="kjR-iR-qGO"/>
-        <segue reference="e1c-XP-t2f"/>
-        <segue reference="wCN-0l-elF"/>
         <segue reference="aNd-9F-Yna"/>
+        <segue reference="wCN-0l-elF"/>
+        <segue reference="e1c-XP-t2f"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -653,6 +653,8 @@
 				D1236B9519AE7B4B00727447 /* DAReviewDetailsViewController.m */,
 				94CB03AB19AFA734009010F6 /* DACommentsViewController.h */,
 				94CB03AC19AFA734009010F6 /* DACommentsViewController.m */,
+				D1AE32A319BEAF4400C5B956 /* DAGlobalDishDetailViewController.h */,
+				D1AE32A419BEAF4400C5B956 /* DAGlobalDishDetailViewController.m */,
 			);
 			name = Feed;
 			sourceTree = "<group>";
@@ -1152,6 +1154,8 @@
 				94CB03B219AFF57F009010F6 /* DACommentTableViewCell.m */,
 				D112F41319BE00550059300F /* DAReviewDetailCommentCollectionViewCell.h */,
 				D112F41419BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m */,
+				D1AE32A619BEB2C100C5B956 /* DAGradeGraphCollectionViewCell.h */,
+				D1AE32A719BEB2C100C5B956 /* DAGradeGraphCollectionViewCell.m */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -1305,6 +1309,7 @@
 				94942A221990AB5900095A70 /* DAExploreDishSearchResult.m in Sources */,
 				947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */,
 				944689A61960130E00FAE288 /* DAImagePickerController.m in Sources */,
+				D1AE32A819BEB2C100C5B956 /* DAGradeGraphCollectionViewCell.m in Sources */,
 				945A3B6119A52B4A000D76E3 /* DAFeedCollectionViewCell.m in Sources */,
 				9430FDFA196CABDD00C7E997 /* DANegativeHashtagsViewController.m in Sources */,
 				943E62671987705B00DF2135 /* DATwitterManager.m in Sources */,
@@ -1344,6 +1349,7 @@
 				94E5EF781943F5530021A711 /* MRWeakProxy.m in Sources */,
 				94DCE9BC1980ABB100396C0A /* UIProgressView+AFNetworking.m in Sources */,
 				94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */,
+				D1AE32A519BEAF4400C5B956 /* DAGlobalDishDetailViewController.m in Sources */,
 				94F2AD9D198C539200450C6F /* SDWebImageCompat.m in Sources */,
 				944689A0195FFA6500FAE288 /* DAExploreViewController.m in Sources */,
 				942CC23B19BDBCCF00BDBB75 /* DAUsername.m in Sources */,
