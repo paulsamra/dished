@@ -85,7 +85,7 @@
 
         return cell;
     }
-    else if( indexPath.row == self.review.comments.count + self.review.yums.count + self.review.hashtags.count + 1 )
+    else if( indexPath.row == [self.review.comments count] + 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0) )
     {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"footer" forIndexPath:indexPath];
         
@@ -119,9 +119,9 @@
     {
         DAReviewDetailCommentCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"comment" forIndexPath:indexPath];
         
-        if( self.review.comments && self.review )
+        if( self.review.comments > 0 && self.review )
         {
-            DAComment *comment = [self.review.comments objectAtIndex:indexPath.row - 1 + [self.review.yums count] + [self.review.hashtags count]];
+            DAComment *comment = [self.review.comments objectAtIndex:indexPath.row - 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0)];
             
             cell.commentLabel.attributedText = [self commentStringForComment:comment];
             
@@ -180,7 +180,7 @@
     {
         return CGSizeMake(self.collectionView.frame.size.width, 44.0);
     }
-    else if (indexPath.row == [self.review.comments count] + 1 + [self.review.yums count] + [self.review.hashtags count])
+    else if (indexPath.row == [self.review.comments count] + 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0))
     {
         return CGSizeMake(self.collectionView.frame.size.width, 44.0);
     }
@@ -188,7 +188,7 @@
     {
         if( [self.review.comments count] > 0 )
         {
-            DAComment *comment = [self.review.comments objectAtIndex:indexPath.row - 1 + [self.review.yums count] + [self.review.hashtags count]];
+            DAComment *comment = [self.review.comments objectAtIndex:indexPath.row - 1 + ([self.review.yums count] > 0 ? 1 : 0) + ([self.review.hashtags count] > 0 ? 1 : 0)];
             
             NSAttributedString *commentString = [self commentStringForComment:comment];
             
