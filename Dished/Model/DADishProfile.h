@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "DAReview.h"
+#import "DAGlobalReview.h"
 
 
 @interface DADishProfile : NSObject

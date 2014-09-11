@@ -13,5 +13,8 @@
 
 + (UIColor *)dishedColor;
 + (UIColor *)commentButtonTextColor;
++ (UIColor *)greenGradeColor;
++ (UIColor *)yellowGradeColor;
++ (UIColor *)redGradeColor;
 
 @end

@@ -12,10 +12,11 @@
 #import "DADishProfile.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAComment.h"
-#import "DAReviewDetailCommentCollectionViewCell.h"
+#import "DAReviewDetailCollectionViewCell.h"
 #import "DAUsername.h"
 #import "DAFeedCollectionViewCell.h"
 #import "DAGradeGraphCollectionViewCell.h"
+#import "DAGlobalReviewCollectionViewCell.h"
 
 
 @interface DAGlobalDishDetailViewController ()
@@ -47,10 +48,11 @@
         }
         else
         {
-            NSLog(@"%@", response);
             self.dishProfile = [DADishProfile profileWithData:response[@"data"]];
+            
             [spinner stopAnimating];
             [spinner removeFromSuperview];
+            
             [self.collectionView reloadData];
             self.collectionView.hidden = NO;
         }
@@ -60,50 +62,66 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 3;
+    return 2 + self.dishProfile.reviews.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    UICollectionViewCell *cell = nil;
+    
     if( indexPath.row == 0 )
     {
-        DAFeedCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
+        DAFeedCollectionViewCell *mainCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
         
-//        NSString *usernameString = [NSString stringWithFormat:@"@%@", self.review.creator_username];
-//        [cell.creatorButton  setTitle:usernameString     forState:UIControlStateNormal];
-//        [cell.titleButton    setTitle:self.review.name forState:UIControlStateNormal];
-//        if (![self.review.price isKindOfClass:[NSNull class]]) {
-//            [cell.priceLabel    setTitle:[NSString stringWithFormat:@"$%d", [self.review.price intValue]] forState:UIControlStateNormal];
-//        }
-//        UIImage *locationIcon = [[UIImage imageNamed:@"dish_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
-//        [cell.locationButton setTitle:self.review.loc_name forState:UIControlStateNormal];
-//        [cell.locationButton setImage:locationIcon  forState:UIControlStateNormal];
-//        [cell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
-//        
-//        NSURL *dishImageURL = [NSURL URLWithString:self.review.img];
-//        [cell.dishImageView setImageWithURL:dishImageURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-//        
-//        cell.gradeLabel.text = [self.review.grade uppercaseString];
-//        
-//        NSURL *userImageURL = [NSURL URLWithString:self.review.creator_img_thumb];
-//        [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
-        
-        return cell;
+        cell = mainCell;
     }
     else if( indexPath.row == 1 )
     {
+        DAGradeGraphCollectionViewCell *graphCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"gradeGraph" forIndexPath:indexPath];
         
-        DAGradeGraphCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"gradeGraph" forIndexPath:indexPath];
+        [graphCell.control sendActionsForControlEvents:UIControlEventTouchUpInside];
         
-        [cell.control sendActionsForControlEvents:UIControlEventTouchUpInside];
+        cell = graphCell;
+    }
+    else if( indexPath.row > 1 )
+    {
+        DAGlobalReviewCollectionViewCell *reviewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"review" forIndexPath:indexPath];
+        DAGlobalReview *review = [self.dishProfile.reviews objectAtIndex:indexPath.row - 2];
         
-        return cell;
+        reviewCell.usernameLabel.text = [NSString stringWithFormat:@"@%@", review.creator_username];
+        reviewCell.userImageView.image = [UIImage imageNamed:@"avatar"];
+        
+        NSString *grade = [review.grade substringToIndex:1];
+        UIColor *gradeColor = [self colorWithGrade:grade];
+        reviewCell.gradeView.layer.borderColor = gradeColor.CGColor;
+        reviewCell.gradeView.layer.borderWidth = 1;
+        
+        reviewCell.gradeLabel.text = review.grade;
+        reviewCell.gradeLabel.textColor = gradeColor;
+        
+        reviewCell.commentTextView.text = review.comment;
+        
+        cell = reviewCell;
+    }
+    
+    return cell;
+}
+
+- (UIColor *)colorWithGrade:(NSString *)grade
+{
+    grade = [grade lowercaseString];
+    
+    if( [grade isEqualToString:@"a"] )
+    {
+        return [UIColor greenGradeColor];
+    }
+    else if( [grade isEqualToString:@"b"] || [grade isEqualToString:@"c"] )
+    {
+        return [UIColor yellowGradeColor];
     }
     else
     {
-        DAReviewDetailCommentCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"comment" forIndexPath:indexPath];
-        
-        return cell;
+        return [UIColor redGradeColor];
     }
 }
 
@@ -119,7 +137,7 @@
     }
     else
     {
-        return CGSizeMake(self.collectionView.frame.size.width, 88.0);
+        return CGSizeMake(self.collectionView.frame.size.width, 100.0);
     }
 }
 

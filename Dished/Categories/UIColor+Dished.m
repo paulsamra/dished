@@ -18,7 +18,22 @@
 
 + (UIColor *)commentButtonTextColor
 {
-    return [UIColor colorWithRed:100/255 green:104/255 blue:118/255 alpha:1];
+    return [UIColor colorWithRed:0.4 green:0.41 blue:0.47 alpha:1];
+}
+
++ (UIColor *)greenGradeColor
+{
+    return [UIColor colorWithRed:0 green:0.83 blue:0.14 alpha:1];
+}
+
++ (UIColor *)yellowGradeColor
+{
+    return [UIColor colorWithRed:0.96 green:0.78 blue:0 alpha:1];
+}
+
++ (UIColor *)redGradeColor
+{
+    return [UIColor colorWithRed:0.92 green:0 blue:0 alpha:1];
 }
 
 @end

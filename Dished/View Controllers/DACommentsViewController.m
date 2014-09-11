@@ -47,15 +47,15 @@
     
     [[DAAPIManager sharedManager] getCommentsForReviewID:self.reviewID completion:^( id response, NSError *error )
     {
+        [self.spinner stopAnimating];
+        [self.spinner removeFromSuperview];
+        
         if( error || !response )
         {
             
         }
         else
         {
-            [self.spinner stopAnimating];
-            [self.spinner removeFromSuperview];
-            
             self.comments = [self commentsFromResponse:response];
             [self.tableView reloadData];
         }

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9402317219C148F8003B3017 /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9402317119C148F8003B3017 /* DAFeedItem.m */; };
+		9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 9402317419C18B6E003B3017 /* DAGlobalReview.m */; };
 		941538C5193F270A008B3B79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C4193F270A008B3B79 /* main.m */; };
 		941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C7193F270A008B3B79 /* DAAppDelegate.m */; };
 		941538CB193F270A008B3B79 /* Dished.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 941538C9193F270A008B3B79 /* Dished.xcdatamodeld */; };
@@ -182,7 +183,7 @@
 		D1100DB719AA3DA200C73AC8 /* DAGraphControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DB619AA3DA200C73AC8 /* DAGraphControl.m */; };
 		D1100DBA19AA3DDB00C73AC8 /* DAGraphControlLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */; };
 		D1100DBD19AA3FCF00C73AC8 /* DASampleGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DBC19AA3FCF00C73AC8 /* DASampleGraphViewController.m */; };
-		D112F41519BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D112F41419BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m */; };
+		D112F41519BE00550059300F /* DAReviewDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */; };
 		D112F41719BE22F60059300F /* avatar-small.png in Resources */ = {isa = PBXBuildFile; fileRef = D112F41619BE22F60059300F /* avatar-small.png */; };
 		D112F41919BE24790059300F /* avatar-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D112F41819BE24780059300F /* avatar-small@2x.png */; };
 		D1236B9619AE7B4B00727447 /* DAReviewDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1236B9519AE7B4B00727447 /* DAReviewDetailsViewController.m */; };
@@ -202,6 +203,8 @@
 /* Begin PBXFileReference section */
 		9402317019C148F8003B3017 /* DAFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedItem.h; sourceTree = "<group>"; };
 		9402317119C148F8003B3017 /* DAFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedItem.m; sourceTree = "<group>"; };
+		9402317319C18B6E003B3017 /* DAGlobalReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGlobalReview.h; sourceTree = "<group>"; };
+		9402317419C18B6E003B3017 /* DAGlobalReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGlobalReview.m; sourceTree = "<group>"; };
 		941538BF193F270A008B3B79 /* Dished.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dished.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		941538C3193F270A008B3B79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		941538C4193F270A008B3B79 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -521,8 +524,8 @@
 		D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGraphControlLayer.m; sourceTree = "<group>"; };
 		D1100DBB19AA3FCF00C73AC8 /* DASampleGraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DASampleGraphViewController.h; sourceTree = "<group>"; };
 		D1100DBC19AA3FCF00C73AC8 /* DASampleGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DASampleGraphViewController.m; sourceTree = "<group>"; };
-		D112F41319BE00550059300F /* DAReviewDetailCommentCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewDetailCommentCollectionViewCell.h; sourceTree = "<group>"; };
-		D112F41419BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewDetailCommentCollectionViewCell.m; sourceTree = "<group>"; };
+		D112F41319BE00550059300F /* DAReviewDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewDetailCollectionViewCell.h; sourceTree = "<group>"; };
+		D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewDetailCollectionViewCell.m; sourceTree = "<group>"; };
 		D112F41619BE22F60059300F /* avatar-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-small.png"; sourceTree = "<group>"; };
 		D112F41819BE24780059300F /* avatar-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-small@2x.png"; sourceTree = "<group>"; };
 		D1236B9419AE7B4B00727447 /* DAReviewDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewDetailsViewController.h; sourceTree = "<group>"; };
@@ -841,6 +844,8 @@
 				94CB03AF19AFD334009010F6 /* DAComment.m */,
 				942CC23619BDB21700BDBB75 /* DAReview.h */,
 				942CC23719BDB21700BDBB75 /* DAReview.m */,
+				9402317319C18B6E003B3017 /* DAGlobalReview.h */,
+				9402317419C18B6E003B3017 /* DAGlobalReview.m */,
 				942CC23919BDBCCF00BDBB75 /* DAUsername.h */,
 				942CC23A19BDBCCF00BDBB75 /* DAUsername.m */,
 				94B92C6219BFBE75005071D5 /* DADishProfile.h */,
@@ -1166,10 +1171,10 @@
 				94EA2D5619AA820B00ABE3B7 /* DARefreshControl.m */,
 				94CB03B119AFF57F009010F6 /* DACommentTableViewCell.h */,
 				94CB03B219AFF57F009010F6 /* DACommentTableViewCell.m */,
-				D112F41319BE00550059300F /* DAReviewDetailCommentCollectionViewCell.h */,
-				D112F41419BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m */,
-				D187E07019BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.m */,
+				D112F41319BE00550059300F /* DAReviewDetailCollectionViewCell.h */,
+				D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */,
 				D187E07119BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.h */,
+				D187E07019BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.m */,
 				94B92C5F19BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.h */,
 				94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */,
 			);
@@ -1305,7 +1310,7 @@
 				94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */,
 				94FE15E91941239100FE00EA /* DATouchTableView.m in Sources */,
 				94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */,
-				D112F41519BE00550059300F /* DAReviewDetailCommentCollectionViewCell.m in Sources */,
+				D112F41519BE00550059300F /* DAReviewDetailCollectionViewCell.m in Sources */,
 				94CB040719B15FB9009010F6 /* JSQMessagesKeyboardController.m in Sources */,
 				D1100DB719AA3DA200C73AC8 /* DAGraphControl.m in Sources */,
 				94F2AD9C198C539200450C6F /* SDImageCache.m in Sources */,
@@ -1378,6 +1383,7 @@
 				94F2AD9E198C539200450C6F /* SDWebImageDecoder.m in Sources */,
 				94E5EF731943F5530021A711 /* MRIconView.m in Sources */,
 				94DCE9BA1980ABB100396C0A /* UIButton+AFNetworking.m in Sources */,
+				9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */,
 				D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */,
 				94E5EF751943F5530021A711 /* MRProgressOverlayView.m in Sources */,
 				D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */,

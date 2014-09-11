@@ -9,9 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "DAGraphControl.h"
 
+
 @interface DAGradeGraphCollectionViewCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet DAGraphControl 		*control;
+@property (weak, nonatomic) IBOutlet DAGraphControl *control;
+
 - (IBAction)touchedArrow:(DAGraphControl *)sender;
 
 @end

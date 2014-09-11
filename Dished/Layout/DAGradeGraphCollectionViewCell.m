@@ -8,22 +8,21 @@
 
 #import "DAGradeGraphCollectionViewCell.h"
 
+
 @implementation DAGradeGraphCollectionViewCell
+
 - (IBAction)touchedArrow:(DAGraphControl *)sender
 {
-    
     [CATransaction setAnimationDuration:1.0];
     
-    if (sender.percentage == 1.0)
+    if( sender.percentage == 1.0 )
     {
         sender.percentage = 0.0;
     }
     else
     {
         sender.percentage = 1.0;
-        
     }
-    
 }
 
 @end

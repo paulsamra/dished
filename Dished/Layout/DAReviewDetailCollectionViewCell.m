@@ -6,16 +6,16 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DAReviewDetailCommentCollectionViewCell.h"
+#import "DAReviewDetailCollectionViewCell.h"
 
 
-@implementation DAReviewDetailCommentCollectionViewCell
+@implementation DAReviewDetailCollectionViewCell
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     
-    self.commentLabel.textContainerInset = UIEdgeInsetsZero;
+    self.detailTextView.textContainerInset = UIEdgeInsetsZero;
 }
 
 + (NSDictionary *)textAttributes

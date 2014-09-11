@@ -11,7 +11,7 @@
 #import "DAAPIManager.h"
 #import "DAReview.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-#import "DAReviewDetailCommentCollectionViewCell.h"
+#import "DAReviewDetailCollectionViewCell.h"
 #import "DAFeedCollectionViewCell.h"
 #import "DACommentsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
@@ -161,29 +161,29 @@ ReviewDetailsItem;
     }
     else if( itemType == ReviewDetailsItemYums )
     {
-        DAReviewDetailCommentCollectionViewCell *yumsCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"yums" forIndexPath:indexPath];
+        DAReviewDetailCollectionViewCell *yumsCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"yums" forIndexPath:indexPath];
         
-        yumsCell.commentLabel.attributedText = [self yumStringWithUsernames:self.review.yums];
+        yumsCell.detailTextView.attributedText = [self yumStringWithUsernames:self.review.yums];
         
         cell = yumsCell;
     }
     else if( itemType == ReviewDetailsItemHashtags )
     {
-        DAReviewDetailCommentCollectionViewCell *tagsCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"tags" forIndexPath:indexPath];
+        DAReviewDetailCollectionViewCell *tagsCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"tags" forIndexPath:indexPath];
         
-        tagsCell.commentLabel.attributedText = [self hashtagStringWithHashtags:self.review.hashtags];
+        tagsCell.detailTextView.attributedText = [self hashtagStringWithHashtags:self.review.hashtags];
         
         cell = tagsCell;
     }
     else if( itemType == ReviewDetailsItemComment )
     {
-        DAReviewDetailCommentCollectionViewCell *commentCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"comment" forIndexPath:indexPath];
+        DAReviewDetailCollectionViewCell *commentCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"comment" forIndexPath:indexPath];
         
         if( self.review.comments > 0 && self.review )
         {
             DAComment *comment = [self.review.comments objectAtIndex:[self commentIndexForIndexPath:indexPath]];
             
-            commentCell.commentLabel.attributedText = [self commentStringForComment:comment];
+            commentCell.detailTextView.attributedText = [self commentStringForComment:comment];
             
             if( [self commentIndexForIndexPath:indexPath] == 0 )
             {
@@ -200,10 +200,23 @@ ReviewDetailsItem;
     
     return cell;
 }
+
+- (void)yumCell:(DAFeedCollectionViewCell *)cell
+{
+    [cell.yumButton setBackgroundImage:[UIImage imageNamed:@"yum_button_background"] forState:UIControlStateNormal];
+    [cell.yumButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+}
+
+- (void)unyumCell:(DAFeedCollectionViewCell *)cell
+{
+    [cell.yumButton setBackgroundImage:[UIImage imageNamed:@"unyum_button_background"] forState:UIControlStateNormal];
+    [cell.yumButton setTitleColor:[UIColor commentButtonTextColor] forState:UIControlStateNormal];
+}
+
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment
 {
     NSString *usernameString = [NSString stringWithFormat:@" @%@", comment.creator_username];
-    NSDictionary *attributes = [DAReviewDetailCommentCollectionViewCell textAttributes];
+    NSDictionary *attributes = [DAReviewDetailCollectionViewCell textAttributes];
     
     NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
     NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
@@ -271,7 +284,7 @@ ReviewDetailsItem;
         }
     }];
     
-    NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:[string copy] attributes:[DAReviewDetailCommentCollectionViewCell textAttributes]];
+    NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:[string copy] attributes:[DAReviewDetailCollectionViewCell textAttributes]];
     
     return yumString;
 }
@@ -292,7 +305,7 @@ ReviewDetailsItem;
         }
     }];
     
-    NSAttributedString *hashtagString = [[NSAttributedString alloc] initWithString:[string copy] attributes:[DAReviewDetailCommentCollectionViewCell textAttributes]];
+    NSAttributedString *hashtagString = [[NSAttributedString alloc] initWithString:[string copy] attributes:[DAReviewDetailCollectionViewCell textAttributes]];
     
     return hashtagString;
 }
@@ -378,6 +391,11 @@ ReviewDetailsItem;
 
 - (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
+    [self changeYumStatusForCell:cell];
+}
+
+- (void)changeYumStatusForCell:(DAFeedCollectionViewCell *)cell
+{
     
 }
 
@@ -392,7 +410,7 @@ ReviewDetailsItem;
     if( [segue.identifier isEqualToString:@"globalReview"] )
     {
         DAGlobalDishDetailViewController *dest = segue.destinationViewController;
-        dest.dishID = 85;
+        dest.dishID = self.review.dish_id;
     }
 }
 

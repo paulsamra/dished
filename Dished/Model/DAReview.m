@@ -14,67 +14,70 @@
 
 + (DAReview *)reviewWithData:(id)data
 {
-    DAReview *review = [[DAReview alloc] init];
-    
-    review.name              = data[@"name"];
-    review.creator_id        = [data[@"creator_id"] integerValue];
-    review.creator_username  = data[@"creator_username"];
-    review.creator_img_thumb = data[@"creator_img_thumb"];
-    review.creator_type      = data[@"creator_type"];
-    review.grade             = data[@"grade"];
-    review.comment           = data[@"comment"];
-    review.price             = data[@"price"];
-    review.img               = data[@"img"];
-    review.loc_id            = [data[@"loc_id"] integerValue];
-    review.loc_name          = data[@"loc_name"];
-    
-    NSArray *yums = nilOrJSONObjectForKey( data, @"yums" );
-    if( yums && [yums isKindOfClass:[NSArray class]] )
+    return [[DAReview alloc] initWithData:data];
+}
+
+- (id)initWithData:(id)data
+{
+    if( self = [super init] )
     {
-        NSMutableArray *newYums = [NSMutableArray array];
+        _name              = data[@"name"];
+        _creator_id        = [data[@"creator_id"] integerValue];
+        _creator_username  = data[@"creator_username"];
+        _creator_img_thumb = data[@"creator_img_thumb"];
+        _creator_type      = data[@"creator_type"];
+        _grade             = data[@"grade"];
+        _comment           = data[@"comment"];
+        _price             = data[@"price"];
+        _img               = data[@"img"];
+        _loc_id            = [data[@"loc_id"] integerValue];
+        _loc_name          = data[@"loc_name"];
+        _dish_id           = [data[@"dish_id"] integerValue];
         
-        for( NSDictionary *yum in yums )
+        NSArray *yums = nilOrJSONObjectForKey( data, @"yums" );
+        if( yums )
         {
-            [newYums addObject:[DAUsername usernameWithData:yum]];
-        }
-        
-        review.yums = [newYums copy];
-    }
-    else if( yums && [yums isKindOfClass:[NSDictionary class]] )
-    {
-        review.yums = [NSArray arrayWithObjects:[DAUsername usernameWithData:yums], nil];
-    }
-    
-    NSArray *comments = nilOrJSONObjectForKey( data, @"comments" );
-    if( comments )
-    {
-        NSMutableArray *newComments = [NSMutableArray array];
-        
-        for( NSDictionary *comment in comments )
-        {
-            [newComments addObject:[DAComment commentWithData:comment]];
-        }
-        
-        review.comments = [newComments copy];
-    }
-    
-    NSArray *hashtags = nilOrJSONObjectForKey( data, @"hashtags" );
-    if( hashtags )
-    {
-        NSMutableArray *newHashtags = [NSMutableArray array];
-        
-        for( NSString *hashtag in hashtags )
-        {
-            DAHashtag *newHashtag = [[DAHashtag alloc] init];
-            newHashtag.name = hashtag;
+            NSMutableArray *newYums = [NSMutableArray array];
             
-            [newHashtags addObject:newHashtag];
+            for( NSDictionary *yum in yums )
+            {
+                [newYums addObject:[DAUsername usernameWithData:yum]];
+            }
+            
+            _yums = [newYums copy];
         }
         
-        review.hashtags = [newHashtags copy];
+        NSArray *comments = nilOrJSONObjectForKey( data, @"comments" );
+        if( comments )
+        {
+            NSMutableArray *newComments = [NSMutableArray array];
+            
+            for( NSDictionary *comment in comments )
+            {
+                [newComments addObject:[DAComment commentWithData:comment]];
+            }
+            
+            _comments = [newComments copy];
+        }
+        
+        NSArray *hashtags = nilOrJSONObjectForKey( data, @"hashtags" );
+        if( hashtags )
+        {
+            NSMutableArray *newHashtags = [NSMutableArray array];
+            
+            for( NSString *hashtag in hashtags )
+            {
+                DAHashtag *newHashtag = [[DAHashtag alloc] init];
+                newHashtag.name = hashtag;
+                
+                [newHashtags addObject:newHashtag];
+            }
+            
+            _hashtags = [newHashtags copy];
+        }
     }
     
-    return review;
+    return self;
 }
 
 @end

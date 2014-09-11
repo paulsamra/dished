@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DAReviewDetailCommentCollectionViewCell : UICollectionViewCell
+@interface DAReviewDetailCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UITextView  *commentLabel;
+@property (weak, nonatomic) IBOutlet UITextView  *detailTextView;
 
 + (NSDictionary *)textAttributes;
 

@@ -25,6 +25,7 @@
     profile.grade           = nilOrJSONObjectForKey( data, @"grade" );
     profile.num_images      = [data[@"num_images"] integerValue];
     profile.images          = nilOrJSONObjectForKey( data, @"images" );
+    profile.dish_id         = [data[@"dish_id"] integerValue];
     
     NSArray *reviews = nilOrJSONObjectForKey( data, @"reviews" );
     if( reviews )
@@ -33,7 +34,7 @@
         
         for( NSDictionary *review in reviews )
         {
-            [newReviews addObject:[DAReview reviewWithData:review]];
+            [newReviews addObject:[[DAGlobalReview alloc] initWithData:review]];
         }
         
         profile.reviews = newReviews;
