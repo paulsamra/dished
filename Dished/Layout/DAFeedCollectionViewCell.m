@@ -25,6 +25,24 @@
     [self.commentsButton addTarget:self action:@selector(commentButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.titleButton    addTarget:self action:@selector(titleButtonTapped)   forControlEvents:UIControlEventTouchUpInside];
     [self.yumButton      addTarget:self action:@selector(yumButtonTapped)     forControlEvents:UIControlEventTouchUpInside];
+    
+    self.commentsButton.layer.cornerRadius = 5;
+    self.yumButton.layer.cornerRadius = 5;
+    self.commentsButton.layer.masksToBounds = YES;
+    self.yumButton.layer.masksToBounds = YES;
+    
+    self.dishImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dishImageDoubleTapped)];
+    doubleTapGesture.numberOfTapsRequired = 2;
+    [self.dishImageView addGestureRecognizer:doubleTapGesture];
+}
+
+- (void)dishImageDoubleTapped
+{
+    if( [self.delegate respondsToSelector:@selector(imageDoubleTappedOnFeedCollectionViewCell:)] )
+    {
+        [self.delegate imageDoubleTappedOnFeedCollectionViewCell:self];
+    }
 }
 
 - (void)commentButtonTapped

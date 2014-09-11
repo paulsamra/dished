@@ -29,11 +29,12 @@
     self.loc_name          = nilOrJSONObjectForKey( dictionary, @"loc_name" );
     self.name              = nilOrJSONObjectForKey( dictionary, @"name" );
     self.source            = nilOrJSONObjectForKey( dictionary, @"source" );
+    self.caller_yumd       = nilOrJSONObjectForKey( dictionary, @"caller_yumd" );
     self.img_public        = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"img_public" )];
     self.creator_id        = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"creator_id"  )];
     self.num_comments      = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"num_comments" )];
     self.item_id           = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"id" )];
-    self.loc_id            = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"loc_id" )];
+    self.loc_id            = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"loc_id" )];    
 }
 
 + (NSString *)entityName

@@ -183,10 +183,26 @@
     NSURL *userImageURL = [NSURL URLWithString:item.creator_img_thumb];
     [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
     
-    cell.commentsButton.layer.cornerRadius = 5;
-    cell.yumButton.layer.cornerRadius = 5;
-    cell.commentsButton.layer.masksToBounds = YES;
-    cell.yumButton.layer.masksToBounds = YES;
+    if( [item.caller_yumd boolValue] )
+    {
+        [self yumCell:cell];
+    }
+    else
+    {
+        [self unyumCell:cell];
+    }
+}
+
+- (void)yumCell:(DAFeedCollectionViewCell *)cell
+{
+    [cell.yumButton setBackgroundImage:[UIImage imageNamed:@"yum_button_background"] forState:UIControlStateNormal];
+    [cell.yumButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+}
+
+- (void)unyumCell:(DAFeedCollectionViewCell *)cell
+{
+    [cell.yumButton setBackgroundImage:[UIImage imageNamed:@"unyum_button_background"] forState:UIControlStateNormal];
+    [cell.yumButton setTitleColor:[UIColor commentButtonTextColor] forState:UIControlStateNormal];
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -217,17 +233,33 @@
 
 - (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
-
+    [self changeYumStatusForCell:cell];
 }
 
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
-    
+    [self changeYumStatusForCell:cell];
 }
 
-- (void)imageTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+- (void)changeYumStatusForCell:(DAFeedCollectionViewCell *)cell
 {
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
+    if( [feedItem.caller_yumd boolValue] )
+    {
+        [self unyumCell:cell];
+        feedItem.caller_yumd = @(NO);
+        
+        [[DAAPIManager sharedManager] unyumReviewID:[feedItem.item_id integerValue] completion:nil];
+    }
+    else
+    {
+        [self yumCell:cell];
+        feedItem.caller_yumd = @(YES);
+        
+        [[DAAPIManager sharedManager] yumReviewID:[feedItem.item_id integerValue] completion:nil];
+    }
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller

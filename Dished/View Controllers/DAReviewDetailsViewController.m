@@ -123,8 +123,8 @@ ReviewDetailsItem;
         dishCell.delegate = self;
         
         NSString *usernameString = [NSString stringWithFormat:@"@%@", self.review.creator_username];
-        [dishCell.creatorButton  setTitle:usernameString    forState:UIControlStateNormal];
-        [dishCell.titleButton    setTitle:self.review.name forState:UIControlStateNormal];
+        [dishCell.creatorButton setTitle:usernameString   forState:UIControlStateNormal];
+        [dishCell.titleButton   setTitle:self.review.name forState:UIControlStateNormal];
         
         if( ![self.review.price isKindOfClass:[NSNull class]] )
         {

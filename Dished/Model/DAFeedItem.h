@@ -2,7 +2,7 @@
 //  DAFeedItem.h
 //  Dished
 //
-//  Created by Ryan Khalili on 8/22/14.
+//  Created by Ryan Khalili on 9/10/14.
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
@@ -12,6 +12,7 @@
 
 @interface DAFeedItem : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * caller_yumd;
 @property (nonatomic, retain) NSDate   * created;
 @property (nonatomic, retain) NSNumber * creator_id;
 @property (nonatomic, retain) NSString * creator_img;
@@ -28,7 +29,5 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * num_comments;
 @property (nonatomic, retain) NSString * source;
-@property (nonatomic, retain) NSData   * img_data;
-@property (nonatomic, retain) NSData   * creator_img_thumb_data;
 
 @end

@@ -1016,12 +1016,18 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         
         [self POST:@"reviews/yum" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+            if( completion )
+            {
+                [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+            }
         }
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {
-            NSLog(@"Failed to yum review: %@", error.localizedDescription);
-            completion( NO );
+            if( completion )
+            {
+                NSLog(@"Failed to yum review: %@", error.localizedDescription);
+                completion( NO );
+            }
         }];
     });
 }
@@ -1034,12 +1040,18 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         
         [self POST:@"reviews/unyum" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+            if( completion )
+            {
+                [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+            }
         }
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {
-            NSLog(@"Failed to yum review: %@", error.localizedDescription);
-            completion( NO );
+            if( completion )
+            {
+                NSLog(@"Failed to unyum review: %@", error.localizedDescription);
+                completion( NO );
+            }
         }];
     });
 }

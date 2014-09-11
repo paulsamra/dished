@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9402317219C148F8003B3017 /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9402317119C148F8003B3017 /* DAFeedItem.m */; };
 		941538C5193F270A008B3B79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C4193F270A008B3B79 /* main.m */; };
 		941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C7193F270A008B3B79 /* DAAppDelegate.m */; };
 		941538CB193F270A008B3B79 /* Dished.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 941538C9193F270A008B3B79 /* Dished.xcdatamodeld */; };
@@ -83,7 +84,6 @@
 		94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */; };
 		945A3B6119A52B4A000D76E3 /* DAFeedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */; };
 		945F959319A6646900241D0D /* DACoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F959219A6646900241D0D /* DACoreDataManager.m */; };
-		945F959719A6738100241D0D /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F959619A6738100241D0D /* DAFeedItem.m */; };
 		945F959A19A677F900241D0D /* DAFeedItem+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F959919A677F900241D0D /* DAFeedItem+Utility.m */; };
 		945F95A619A7290600241D0D /* UIColor+Dished.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F95A319A7290600241D0D /* UIColor+Dished.m */; };
 		945F95A719A7290600241D0D /* UILabel+Dished.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F95A519A7290600241D0D /* UILabel+Dished.m */; };
@@ -200,6 +200,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9402317019C148F8003B3017 /* DAFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedItem.h; sourceTree = "<group>"; };
+		9402317119C148F8003B3017 /* DAFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedItem.m; sourceTree = "<group>"; };
 		941538BF193F270A008B3B79 /* Dished.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dished.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		941538C3193F270A008B3B79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		941538C4193F270A008B3B79 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -324,8 +326,6 @@
 		945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedCollectionViewCell.m; sourceTree = "<group>"; };
 		945F959119A6646900241D0D /* DACoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACoreDataManager.h; sourceTree = "<group>"; };
 		945F959219A6646900241D0D /* DACoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACoreDataManager.m; sourceTree = "<group>"; };
-		945F959519A6738100241D0D /* DAFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedItem.h; sourceTree = "<group>"; };
-		945F959619A6738100241D0D /* DAFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedItem.m; sourceTree = "<group>"; };
 		945F959819A677F900241D0D /* DAFeedItem+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DAFeedItem+Utility.h"; sourceTree = "<group>"; };
 		945F959919A677F900241D0D /* DAFeedItem+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DAFeedItem+Utility.m"; sourceTree = "<group>"; };
 		945F95A219A7290600241D0D /* UIColor+Dished.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Dished.h"; sourceTree = "<group>"; };
@@ -777,8 +777,8 @@
 		945F959419A6736400241D0D /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				945F959519A6738100241D0D /* DAFeedItem.h */,
-				945F959619A6738100241D0D /* DAFeedItem.m */,
+				9402317019C148F8003B3017 /* DAFeedItem.h */,
+				9402317119C148F8003B3017 /* DAFeedItem.m */,
 				945F959819A677F900241D0D /* DAFeedItem+Utility.h */,
 				945F959919A677F900241D0D /* DAFeedItem+Utility.m */,
 			);
@@ -1392,6 +1392,7 @@
 				94F2AD9A198C539200450C6F /* MKAnnotationView+WebCache.m in Sources */,
 				94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */,
 				94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */,
+				9402317219C148F8003B3017 /* DAFeedItem.m in Sources */,
 				94F2ADA5198C539200450C6F /* UIImage+MultiFormat.m in Sources */,
 				94F2ADA7198C539200450C6F /* UIImageView+HighlightedWebCache.m in Sources */,
 				94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */,
@@ -1434,7 +1435,6 @@
 				94331FFF1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */,
 				94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */,
-				945F959719A6738100241D0D /* DAFeedItem.m in Sources */,
 				94CB040219B146AF009010F6 /* UIColor+JSQMessages.m in Sources */,
 				94F2ADA0198C539200450C6F /* SDWebImageDownloaderOperation.m in Sources */,
 				943E62621987362100DF2135 /* BAVPlistNode.m in Sources */,

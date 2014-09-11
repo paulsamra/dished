@@ -12,5 +12,6 @@
 @interface UIColor(Dished)
 
 + (UIColor *)dishedColor;
++ (UIColor *)commentButtonTextColor;
 
 @end

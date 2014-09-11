@@ -16,4 +16,9 @@
     return [UIColor colorWithRed:0 green:0.55 blue:0.9 alpha:1];
 }
 
++ (UIColor *)commentButtonTextColor
+{
+    return [UIColor colorWithRed:100/255 green:104/255 blue:118/255 alpha:1];
+}
+
 @end

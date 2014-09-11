@@ -76,6 +76,8 @@
     [self.keyboardController beginListeningForKeyboard];
     
     [self.inputToolbar.contentView.textView addObserver:self forKeyPath:NSStringFromSelector(@selector(contentSize))options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
+    
+    [self.inputToolbar.contentView.textView becomeFirstResponder];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
