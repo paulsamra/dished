@@ -61,6 +61,13 @@ ReviewDetailsItem;
             [spinner stopAnimating];
             [spinner removeFromSuperview];
             [self.collectionView reloadData];
+            
+            [UIView transitionWithView:self.collectionView
+                              duration:0.4
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:nil
+                            completion:nil];
+            
             self.collectionView.hidden = NO;
         }
     }];    

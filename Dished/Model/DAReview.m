@@ -27,9 +27,9 @@
         _creator_img_thumb = data[@"creator_img_thumb"];
         _creator_type      = data[@"creator_type"];
         _grade             = data[@"grade"];
-        _comment           = data[@"comment"];
-        _price             = data[@"price"];
-        _img               = data[@"img"];
+        _comment           = nilOrJSONObjectForKey( data, @"comment" );
+        _price             = nilOrJSONObjectForKey( data, @"price" );
+        _img               = nilOrJSONObjectForKey( data, @"img" );
         _loc_id            = [data[@"loc_id"] integerValue];
         _loc_name          = data[@"loc_name"];
         _dish_id           = [data[@"dish_id"] integerValue];

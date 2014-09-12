@@ -9,6 +9,7 @@
 #import "DANewsViewController.h"
 #import "DAAppDelegate.h"
 #import "DAAPIManager.h"
+#import "UIImageView+DishProgress.h"
 
 
 @interface DANewsViewController()

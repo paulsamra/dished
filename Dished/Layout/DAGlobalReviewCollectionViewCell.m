@@ -17,6 +17,7 @@
     
     self.gradeView.layer.cornerRadius = self.gradeView.frame.size.width / 2;
     self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
+    self.userImageView.layer.masksToBounds = YES;
     
     self.commentTextView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
     self.commentTextView.textContainerInset = UIEdgeInsetsZero;

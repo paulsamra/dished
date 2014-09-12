@@ -14,10 +14,10 @@
 #import "UILabel+Dished.h"
 #import "DAFeedImportManager.h"
 #import "DARefreshControl.h"
-#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAReviewDetailsViewController.h"
 #import "DACommentsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
+#import "UIImageView+DishProgress.h"
 
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate>
 
@@ -120,7 +120,6 @@
             [self.fetchedResultsController performFetch:nil];
             self.fetchedResultsController.delegate = self;
         }
-        
     }];
 }
 
@@ -161,15 +160,14 @@
     else
     {
         NSURL *dishImageURL = [NSURL URLWithString:item.img];
-        [cell.dishImageView setImageWithURL:dishImageURL
-        completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
+        [cell.dishImageView setImageUsingProgressViewWithURL:dishImageURL placeholderImage:nil
+        completion:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
         {
             if( image )
             {
                 [self.mainImageCache setObject:image forKey:item.img];
             }
-        }
-        usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        }];
     }
     
     cell.gradeLabel.text = [item.grade uppercaseString];

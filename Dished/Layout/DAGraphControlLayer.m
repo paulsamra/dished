@@ -13,7 +13,7 @@
 
 @dynamic percentage;
 
-+ (BOOL)needsDisplayForKey:(NSString*) key
++ (BOOL)needsDisplayForKey:(NSString *)key
 {
     return [key isEqualToString:@"percentage"] ? YES : [super needsDisplayForKey:key];
 }
@@ -43,7 +43,7 @@
     [title drawInRect: textRect withAttributes: textFontAttributes];
 }
 
--(void)drawInContext:(CGContextRef)ctx
+- (void)drawInContext:(CGContextRef)ctx
 {
     [super drawInContext:ctx];
     

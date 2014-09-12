@@ -15,7 +15,7 @@
 
 @property (strong, nonatomic) CALayer      *maskLayer;
 @property (strong, nonatomic) CALayer      *blueDishLayer;
-@property (strong, nonatomic) CALayer      *blackDishLayer;
+@property (strong, nonatomic) CALayer      *grayDishLayer;
 @property (weak,   nonatomic) UIScrollView *scrollView;
 
 @property (nonatomic) BOOL isRefreshing;
@@ -63,18 +63,18 @@
 
 - (void)setupImageLayer
 {
-    self.blackDishLayer = [CALayer layer];
-    self.blackDishLayer.masksToBounds = YES;
+    self.grayDishLayer = [CALayer layer];
+    self.grayDishLayer.masksToBounds = YES;
     UIImage *dishImage = [UIImage imageNamed:@"refresh_gray"];
     CGFloat x = ( self.frame.size.width  / 2 ) - ( dishImage.size.width  / 2 );
     CGFloat y = ( self.frame.size.height / 2 ) - ( dishImage.size.height / 2 );
-    self.blackDishLayer.frame = CGRectMake( x, y, dishImage.size.width, dishImage.size.height );
-    self.blackDishLayer.backgroundColor = [UIColor clearColor].CGColor;
-    self.blackDishLayer.contents = (id)dishImage.CGImage;
-    [self.layer addSublayer:self.blackDishLayer];
+    self.grayDishLayer.frame = CGRectMake( x, y, dishImage.size.width, dishImage.size.height );
+    self.grayDishLayer.backgroundColor = [UIColor clearColor].CGColor;
+    self.grayDishLayer.contents = (id)dishImage.CGImage;
+    [self.layer addSublayer:self.grayDishLayer];
     
     self.blueDishLayer = [CALayer layer];
-    self.blueDishLayer.frame = self.blackDishLayer.frame;
+    self.blueDishLayer.frame = self.grayDishLayer.frame;
     self.blueDishLayer.backgroundColor = [UIColor clearColor].CGColor;
     self.blueDishLayer.contents = (id)[UIImage imageNamed:@"refresh_blue"].CGImage;
     [self.layer addSublayer:self.blueDishLayer];

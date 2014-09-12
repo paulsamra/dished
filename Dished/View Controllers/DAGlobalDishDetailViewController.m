@@ -7,14 +7,13 @@
 //
 
 #import "DAGlobalDishDetailViewController.h"
-#import "DAFeedCollectionViewCell.h"
 #import "DAAPIManager.h"
 #import "DADishProfile.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAComment.h"
 #import "DAReviewDetailCollectionViewCell.h"
 #import "DAUsername.h"
-#import "DAFeedCollectionViewCell.h"
+#import "DAGlobalDishCollectionViewCell.h"
 #import "DAGradeGraphCollectionViewCell.h"
 #import "DAGlobalReviewCollectionViewCell.h"
 
@@ -54,6 +53,13 @@
             [spinner removeFromSuperview];
             
             [self.collectionView reloadData];
+            
+            [UIView transitionWithView:self.collectionView
+                              duration:0.3
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:nil
+                            completion:nil];
+            
             self.collectionView.hidden = NO;
         }
     }];
@@ -71,7 +77,25 @@
     
     if( indexPath.row == 0 )
     {
-        DAFeedCollectionViewCell *mainCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
+        DAGlobalDishCollectionViewCell *mainCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
+        
+        mainCell.titleLabel.text = self.dishProfile.name;
+        
+        if( [self.dishProfile.price integerValue] != 0 )
+        {
+            mainCell.priceLabel.text = [NSString stringWithFormat:@"$%@", self.dishProfile.price];
+        }
+        
+        [mainCell setPagedImages:self.dishProfile.images];
+        
+        UIImage *locationIcon = [[UIImage imageNamed:@"dish_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        [mainCell.locationButton setTitle:self.dishProfile.loc_name forState:UIControlStateNormal];
+        [mainCell.locationButton setImage:locationIcon  forState:UIControlStateNormal];
+        [mainCell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
+        
+        mainCell.gradeLabel.text = self.dishProfile.grade;
+        
+        mainCell.descriptionTextView.text = self.dishProfile.desc;
         
         cell = mainCell;
     }
@@ -89,7 +113,9 @@
         DAGlobalReview *review = [self.dishProfile.reviews objectAtIndex:indexPath.row - 2];
         
         reviewCell.usernameLabel.text = [NSString stringWithFormat:@"@%@", review.creator_username];
-        reviewCell.userImageView.image = [UIImage imageNamed:@"avatar"];
+        
+        NSURL *userImageURL = [NSURL URLWithString:review.creator_img_thumb];
+        [reviewCell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
         
         NSString *grade = [review.grade substringToIndex:1];
         UIColor *gradeColor = [self colorWithGrade:grade];
@@ -129,7 +155,9 @@
 {
     if( indexPath.row == 0 )
     {
-        return CGSizeMake(self.collectionView.frame.size.width, 500.0);
+        UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
+        
+        return flowLayout.itemSize;
     }
     if( indexPath.row == 1 )
     {

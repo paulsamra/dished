@@ -22,6 +22,10 @@
 		941F3215196FCC04000042AE /* DANewReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F3214196FCC04000042AE /* DANewReview.m */; };
 		94237E5E194A2CF6004DFAB6 /* DAForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E5D194A2CF6004DFAB6 /* DAForgotPasswordViewController.m */; };
 		94237E72194A318C004DFAB6 /* DAResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */; };
+		942AA00E19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */; };
+		942AA01419C23F3100D0D77C /* DADishLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01319C23F3100D0D77C /* DADishLayer.m */; };
+		942AA01719C23F8D00D0D77C /* DAProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01619C23F8D00D0D77C /* DAProgressView.m */; };
+		942AA01A19C2655A00D0D77C /* UIImageView+DishProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */; };
 		942CC23819BDB21700BDBB75 /* DAReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23719BDB21700BDBB75 /* DAReview.m */; };
 		942CC23B19BDBCCF00BDBB75 /* DAUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23A19BDBCCF00BDBB75 /* DAUsername.m */; };
 		943093F81942633D00B1F61F /* DAErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 943093F71942633D00B1F61F /* DAErrorView.m */; };
@@ -229,6 +233,14 @@
 		94237E5D194A2CF6004DFAB6 /* DAForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAForgotPasswordViewController.m; sourceTree = "<group>"; };
 		94237E70194A318C004DFAB6 /* DAResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAResetPasswordViewController.h; sourceTree = "<group>"; };
 		94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAResetPasswordViewController.m; sourceTree = "<group>"; };
+		942AA00C19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGlobalDishCollectionViewCell.h; sourceTree = "<group>"; };
+		942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGlobalDishCollectionViewCell.m; sourceTree = "<group>"; };
+		942AA01219C23F3100D0D77C /* DADishLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishLayer.h; sourceTree = "<group>"; };
+		942AA01319C23F3100D0D77C /* DADishLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishLayer.m; sourceTree = "<group>"; };
+		942AA01519C23F8D00D0D77C /* DAProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAProgressView.h; sourceTree = "<group>"; };
+		942AA01619C23F8D00D0D77C /* DAProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAProgressView.m; sourceTree = "<group>"; };
+		942AA01819C2655A00D0D77C /* UIImageView+DishProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+DishProgress.h"; sourceTree = "<group>"; };
+		942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+DishProgress.m"; sourceTree = "<group>"; };
 		942CC23619BDB21700BDBB75 /* DAReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReview.h; sourceTree = "<group>"; };
 		942CC23719BDB21700BDBB75 /* DAReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReview.m; sourceTree = "<group>"; };
 		942CC23919BDBCCF00BDBB75 /* DAUsername.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUsername.h; sourceTree = "<group>"; };
@@ -795,6 +807,8 @@
 				945F95A319A7290600241D0D /* UIColor+Dished.m */,
 				945F95A419A7290600241D0D /* UILabel+Dished.h */,
 				945F95A519A7290600241D0D /* UILabel+Dished.m */,
+				942AA01819C2655A00D0D77C /* UIImageView+DishProgress.h */,
+				942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1167,12 +1181,18 @@
 				D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */,
 				945A3B5F19A52B4A000D76E3 /* DAFeedCollectionViewCell.h */,
 				945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */,
+				942AA01219C23F3100D0D77C /* DADishLayer.h */,
+				942AA01319C23F3100D0D77C /* DADishLayer.m */,
 				94EA2D5519AA820B00ABE3B7 /* DARefreshControl.h */,
 				94EA2D5619AA820B00ABE3B7 /* DARefreshControl.m */,
+				942AA01519C23F8D00D0D77C /* DAProgressView.h */,
+				942AA01619C23F8D00D0D77C /* DAProgressView.m */,
 				94CB03B119AFF57F009010F6 /* DACommentTableViewCell.h */,
 				94CB03B219AFF57F009010F6 /* DACommentTableViewCell.m */,
 				D112F41319BE00550059300F /* DAReviewDetailCollectionViewCell.h */,
 				D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */,
+				942AA00C19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.h */,
+				942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */,
 				D187E07119BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.h */,
 				D187E07019BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.m */,
 				94B92C5F19BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.h */,
@@ -1306,6 +1326,7 @@
 				94E5EF761943F5530021A711 /* MRStopButton.m in Sources */,
 				949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */,
 				94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */,
+				942AA00E19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m in Sources */,
 				94237E5E194A2CF6004DFAB6 /* DAForgotPasswordViewController.m in Sources */,
 				94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */,
 				94FE15E91941239100FE00EA /* DATouchTableView.m in Sources */,
@@ -1373,6 +1394,7 @@
 				94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */,
 				94F2AD9D198C539200450C6F /* SDWebImageCompat.m in Sources */,
 				944689A0195FFA6500FAE288 /* DAExploreViewController.m in Sources */,
+				942AA01719C23F8D00D0D77C /* DAProgressView.m in Sources */,
 				942CC23B19BDBCCF00BDBB75 /* DAUsername.m in Sources */,
 				94A027A4196F25B5004D5CD7 /* DARatingViewController.m in Sources */,
 				94E5EF471943472D0021A711 /* AFURLConnectionOperation.m in Sources */,
@@ -1399,6 +1421,7 @@
 				94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */,
 				94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */,
 				9402317219C148F8003B3017 /* DAFeedItem.m in Sources */,
+				942AA01419C23F3100D0D77C /* DADishLayer.m in Sources */,
 				94F2ADA5198C539200450C6F /* UIImage+MultiFormat.m in Sources */,
 				94F2ADA7198C539200450C6F /* UIImageView+HighlightedWebCache.m in Sources */,
 				94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */,
@@ -1410,6 +1433,7 @@
 				943E625C1987362100DF2135 /* STTwitterAPI.m in Sources */,
 				943E625A1987362100DF2135 /* NSString+STTwitter.m in Sources */,
 				94E5EF6F1943F5530021A711 /* MRBlurView.m in Sources */,
+				942AA01A19C2655A00D0D77C /* UIImageView+DishProgress.m in Sources */,
 				94DCE9B91980ABB100396C0A /* UIAlertView+AFNetworking.m in Sources */,
 				945F95B119A7B90400241D0D /* DAFeedImportManager.m in Sources */,
 				94CB03FF19B146AF009010F6 /* JSQMessagesToolbarContentView.m in Sources */,
