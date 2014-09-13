@@ -18,4 +18,7 @@
 @property (weak, nonatomic) IBOutlet UITextView  *commentTextView;
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
 
++ (NSDictionary *)commentTextAttributes;
++ (NSAttributedString *)attributedTimeStringWithDate:(NSDate *)date;
+
 @end

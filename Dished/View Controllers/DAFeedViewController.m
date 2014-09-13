@@ -18,6 +18,7 @@
 #import "DAGlobalDishDetailViewController.h"
 #import "UIImageView+DishProgress.h"
 
+
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate>
 
 @property (strong, nonatomic) NSCache                    *mainImageCache;
@@ -307,7 +308,7 @@
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
+{    
     [self.collectionView performBatchUpdates:^
     {
         for( NSDictionary *change in self.changes )
@@ -361,6 +362,7 @@
         
         DAReviewDetailsViewController *dest = segue.destinationViewController;
         dest.reviewID = [feedItem.item_id integerValue];
+        dest.feedItem = feedItem;
     }
 }
 

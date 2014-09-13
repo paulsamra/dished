@@ -62,6 +62,7 @@
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.layer.masksToBounds = YES;
+        imageView.clipsToBounds = YES;
         [imageView setImageUsingProgressViewWithURL:self.images[i]];
         [self.pagedImageView addSubview:imageView];
         [self.scrollViewImageViews addObject:imageView];

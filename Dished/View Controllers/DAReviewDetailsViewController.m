@@ -15,6 +15,7 @@
 #import "DAFeedCollectionViewCell.h"
 #import "DACommentsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
+#import "DACoreDataManager.h"
 
 
 typedef enum
@@ -416,8 +417,41 @@ ReviewDetailsItem;
 }
 
 - (void)changeYumStatusForCell:(DAFeedCollectionViewCell *)cell
-{
-    
+{    
+    if( [self.feedItem.caller_yumd boolValue] )
+    {
+        [self unyumCell:cell];
+        self.feedItem.caller_yumd = @(NO);
+        
+        [[DAAPIManager sharedManager] unyumReviewID:[self.feedItem.item_id integerValue] completion:^( BOOL success )
+        {
+            if( success )
+            {
+                [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
+            }
+            else
+            {
+                [self.collectionView reloadData];
+            }
+        }];
+    }
+    else
+    {
+        [self yumCell:cell];
+        self.feedItem.caller_yumd = @(YES);
+        
+        [[DAAPIManager sharedManager] yumReviewID:[self.feedItem.item_id integerValue] completion:^( BOOL success )
+        {
+            if( success )
+            {
+                [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
+            }
+            else
+            {
+                [self.collectionView reloadData];
+            }
+        }];
+    }
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

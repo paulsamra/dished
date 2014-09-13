@@ -71,10 +71,10 @@
 
 + (NSAttributedString *)attributedTimeStringWithDate:(NSDate *)date
 {
-    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:date];
-    unsigned int unitFlags = NSSecondCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSWeekOfYearCalendarUnit;
+    NSDate *currentDate = [NSDate date];
+    NSCalendar *currentCalendar = [NSCalendar currentCalendar];
     
-    NSDateComponents *conversionInfo = [[NSCalendar currentCalendar] components:unitFlags fromDate:date  toDate:[NSDate date]  options:0];
+    NSTimeInterval timeInterval = [currentDate timeIntervalSinceDate:date];
     
     NSString *format = nil;
     NSInteger value  = 0;
@@ -82,27 +82,33 @@
     if( timeInterval < 60 )
     {
         format = @"%lds";
-        value = conversionInfo.second;
+        value = timeInterval;
     }
     else if( timeInterval < 3600 )
     {
         format = @"%ldm";
-        value = conversionInfo.minute;
+        value = timeInterval / 60;
     }
     else if( timeInterval < 86400 )
     {
+        value = timeInterval / 3600;
         format = @"%ldh";
-        value = conversionInfo.hour;
-    }
-    else if( timeInterval < 604800 )
-    {
-        format = @"%ldd";
-        value = conversionInfo.day;
     }
     else
     {
-        format = @"%ldw";
-        value = conversionInfo.weekOfYear;
+        NSInteger start = [currentCalendar ordinalityOfUnit:NSDayCalendarUnit inUnit:NSEraCalendarUnit forDate:date];
+        NSInteger end = [currentCalendar ordinalityOfUnit:NSDayCalendarUnit inUnit:NSEraCalendarUnit forDate:currentDate];
+        
+        if( timeInterval < 604800 )
+        {
+            value = end - start;
+            format = @"%ldd";
+        }
+        else
+        {
+            value = ( end - start ) / 7;
+            format = @"%ldw";
+        }
     }
     
     NSString *timeString = [NSString stringWithFormat:format, value];

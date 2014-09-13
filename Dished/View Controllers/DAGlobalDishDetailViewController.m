@@ -67,6 +67,7 @@
     }];
 
     self.referenceDishCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"dishCell" forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    self.referenceReviewCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"reviewCell" forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -122,7 +123,7 @@
     }
     else if( indexPath.row > 1 )
     {
-        DAGlobalReviewCollectionViewCell *reviewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"review" forIndexPath:indexPath];
+        DAGlobalReviewCollectionViewCell *reviewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reviewCell" forIndexPath:indexPath];
         DAGlobalReview *review = [self.dishProfile.reviews objectAtIndex:indexPath.row - 2];
         
         reviewCell.usernameLabel.text = [NSString stringWithFormat:@"@%@", review.creator_username];
@@ -147,6 +148,8 @@
         
         reviewCell.commentTextView.text = review.comment;
         reviewCell.commentTextView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+        
+        reviewCell.timeLabel.attributedText = [DAGlobalReviewCollectionViewCell attributedTimeStringWithDate:review.created];
         
         cell = reviewCell;
     }
@@ -210,14 +213,35 @@
     }
     else
     {
-        return CGSizeMake(self.collectionView.frame.size.width, 100.0);
+        DAGlobalReview *review = [self.dishProfile.reviews objectAtIndex:indexPath.row - 2];
+        
+        CGSize cellSize = self.referenceReviewCell.frame.size;
+        CGRect textViewRect = self.referenceReviewCell.commentTextView.frame;
+        cellSize.width = collectionView.frame.size.width;
+        cellSize.height = textViewRect.origin.y + textViewRect.size.height;
+        CGSize referenceSize = cellSize;
+        
+        if( !review.comment )
+        {
+            return cellSize;
+        }
+        
+        cellSize.height -= textViewRect.size.height;
+        
+        NSAttributedString *commentString = [[NSAttributedString alloc] initWithString:review.comment attributes:[DAGlobalReviewCollectionViewCell commentTextAttributes]];
+        
+        CGSize boundingSize = CGSizeMake( textViewRect.size.width, CGFLOAT_MAX );
+        CGRect stringRect   = [commentString boundingRectWithSize:boundingSize
+                                                          options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
+                                                          context:nil];
+        
+        CGFloat textViewHeight = ceilf( stringRect.size.height );
+        cellSize.height += textViewHeight;
+        
+        cellSize.height = cellSize.height < referenceSize.height ? referenceSize.height : cellSize.height;
+        
+        return cellSize;
     }
-}
-
-- (void)calculateCellSizeForIndexPath:(NSIndexPath *)indexPath
-{
-    
-
 }
 
 @end
