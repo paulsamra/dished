@@ -924,6 +924,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="MmX-MT-nrB"/>
+                    <connections>
+                        <segue destination="vVU-kX-jzI" kind="show" identifier="dishDetails" id="h3Z-0T-q76"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LYX-lK-bhd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3083,6 +3086,7 @@
                             <constraint firstItem="3xB-Ol-YTp" firstAttribute="top" secondItem="zEc-BR-A7J" secondAttribute="top" id="pvE-uG-QZw"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Dish Details" id="wXC-g7-s8i"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="3xB-Ol-YTp" id="6E0-8U-DYG"/>
@@ -3142,10 +3146,10 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hdo-Ap-R3q"/>
-        <segue reference="Ybk-es-BQ9"/>
-        <segue reference="wCN-0l-elF"/>
-        <segue reference="e1c-XP-t2f"/>
         <segue reference="DWl-1Z-W5u"/>
+        <segue reference="e1c-XP-t2f"/>
+        <segue reference="wCN-0l-elF"/>
+        <segue reference="h3Z-0T-q76"/>
+        <segue reference="hdo-Ap-R3q"/>
     </inferredMetricsTieBreakers>
 </document>

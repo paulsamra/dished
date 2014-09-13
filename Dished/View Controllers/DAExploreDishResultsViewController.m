@@ -12,6 +12,7 @@
 #import "DALocationManager.h"
 #import "DAExploreDishSearchResult.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+#import "DAGlobalDishDetailViewController.h"
 
 
 @interface DAExploreDishResultsViewController()
@@ -111,6 +112,13 @@
     }
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
 - (NSArray *)dishesFromResponse:(id)response
 {
     NSArray *dishes = response[@"data"][@"dishes"];
@@ -201,6 +209,23 @@
     }
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DAExploreDishSearchResult *result = [self.searchResults objectAtIndex:indexPath.row];
+    
+    [self performSegueWithIdentifier:@"dishDetails" sender:result];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"dishDetails"] )
+    {
+        DAExploreDishSearchResult *result = sender;
+        DAGlobalDishDetailViewController *dest = segue.destinationViewController;
+        dest.dishID = [result.dishID integerValue];
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

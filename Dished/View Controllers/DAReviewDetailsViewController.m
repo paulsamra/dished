@@ -49,7 +49,8 @@ ReviewDetailsItem;
     [spinner startAnimating];
     [self.view addSubview:spinner];
     
-    [[DAAPIManager sharedManager] getProfileForReviewID:self.reviewID completion:^( id response, NSError *error )
+    NSInteger reviewID = [self.feedItem.item_id integerValue];
+    [[DAAPIManager sharedManager] getProfileForReviewID:reviewID completion:^( id response, NSError *error )
     {
         if( !response || error )
         {
@@ -76,7 +77,8 @@ ReviewDetailsItem;
 
 - (void)refreshReviewData
 {
-    [[DAAPIManager sharedManager] getProfileForReviewID:self.reviewID completion:^( id response, NSError *error )
+    NSInteger reviewID = [self.feedItem.item_id integerValue];
+    [[DAAPIManager sharedManager] getProfileForReviewID:reviewID completion:^( id response, NSError *error )
     {
         if( !response || error )
         {
@@ -477,7 +479,7 @@ ReviewDetailsItem;
     if( [segue.identifier isEqualToString:@"commentsSegue"] )
     {
         DACommentsViewController *dest = segue.destinationViewController;
-        dest.reviewID = self.reviewID ;
+        dest.reviewID = [self.feedItem.item_id integerValue];
     }
     
     if( [segue.identifier isEqualToString:@"globalReview"] )

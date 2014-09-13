@@ -361,7 +361,6 @@
         DAFeedItem *feedItem = sender;
         
         DAReviewDetailsViewController *dest = segue.destinationViewController;
-        dest.reviewID = [feedItem.item_id integerValue];
         dest.feedItem = feedItem;
     }
 }
