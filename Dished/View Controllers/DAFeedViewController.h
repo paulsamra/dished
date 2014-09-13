@@ -13,4 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
+- (void)scrollFeedToTop;
+
 @end

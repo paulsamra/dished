@@ -11,6 +11,7 @@
 #import <MessageUI/MessageUI.h>
 #import "DANewReview.h"
 #import "MRProgressOverlayView.h"
+#import "DAFeedViewController.h"
 
 
 @interface DATabBarController() <UITabBarControllerDelegate, MFMailComposeViewControllerDelegate>
@@ -49,6 +50,24 @@
     }
     
     return YES;
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+    if( viewController == self.selectedViewController )
+    {
+        if( [viewController isKindOfClass:[UINavigationController class]] )
+        {
+            UINavigationController *navigationController = (UINavigationController *)viewController;
+            UIViewController *rootViewController = navigationController.viewControllers[0];
+            
+            if( [rootViewController isMemberOfClass:[DAFeedViewController class]] )
+            {
+                DAFeedViewController *feedViewController = (DAFeedViewController *)rootViewController;
+                [feedViewController scrollFeedToTop];
+            }
+        }
+    }
 }
 
 - (void)presentEmailView:(NSNotification *)notification

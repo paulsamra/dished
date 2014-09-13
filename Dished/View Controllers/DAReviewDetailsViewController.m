@@ -74,6 +74,22 @@ ReviewDetailsItem;
     }];
 }
 
+- (void)refreshReviewData
+{
+    [[DAAPIManager sharedManager] getProfileForReviewID:self.reviewID completion:^( id response, NSError *error )
+    {
+        if( !response || error )
+        {
+            
+        }
+        else
+        {
+            self.review = [DAReview reviewWithData:response[@"data"]];
+            [self.collectionView reloadData];
+        }
+    }];
+}
+
 - (ReviewDetailsItem)itemTypeForIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger yumsRows = self.review.yums.count > 0 ? 1 : 0;
@@ -134,7 +150,7 @@ ReviewDetailsItem;
         [dishCell.creatorButton setTitle:usernameString   forState:UIControlStateNormal];
         [dishCell.titleButton   setTitle:self.review.name forState:UIControlStateNormal];
         
-        if( ![self.review.price isKindOfClass:[NSNull class]] )
+        if( self.review.price )
         {
             [dishCell.priceLabel setTitle:[NSString stringWithFormat:@"$%d", [self.review.price intValue]] forState:UIControlStateNormal];
         }
@@ -428,6 +444,7 @@ ReviewDetailsItem;
             if( success )
             {
                 [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
+                [self refreshReviewData];
             }
             else
             {
@@ -445,6 +462,7 @@ ReviewDetailsItem;
             if( success )
             {
                 [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
+                [self refreshReviewData];
             }
             else
             {

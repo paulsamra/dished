@@ -2458,7 +2458,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="1IC-VF-owM">
-                                    <size key="itemSize" width="320" height="385"/>
+                                    <size key="itemSize" width="320" height="383"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
@@ -2468,7 +2468,7 @@
                                         <rect key="frame" x="0.0" y="64" width="320" height="375"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="385"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="383"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LeM-ON-DE6">
@@ -2482,10 +2482,10 @@
                                                     </state>
                                                 </button>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="g2M-rQ-08J">
-                                                    <rect key="frame" x="0.0" y="33" width="320" height="300"/>
+                                                    <rect key="frame" x="0.0" y="32" width="320" height="300"/>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vPo-MJ-Zv5">
-                                                    <rect key="frame" x="0.0" y="334" width="320" height="50"/>
+                                                    <rect key="frame" x="0.0" y="332" width="320" height="50"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JiP-yq-sbD">
                                                             <rect key="frame" x="6" y="5" width="40" height="40"/>
@@ -2786,6 +2786,14 @@
                                                         <constraint firstAttribute="height" constant="300" id="DgI-SG-sIW"/>
                                                     </constraints>
                                                 </scrollView>
+                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sGd-yz-YSc">
+                                                    <rect key="frame" x="245" y="304" width="67" height="20"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="11"/>
+                                                    <state key="normal" title="14" image="photos">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                    </state>
+                                                </button>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Tb2-it-TYK" userLabel="Middle Background">
                                                     <rect key="frame" x="0.0" y="332" width="320" height="93"/>
                                                     <subviews>
@@ -2909,6 +2917,7 @@
                                             <outlet property="gradeLabel" destination="53u-wt-DBR" id="Uzo-Ri-Jnl"/>
                                             <outlet property="locationButton" destination="7vB-Wo-Jz5" id="Uvl-xJ-5fD"/>
                                             <outlet property="pagedImageView" destination="QOY-qY-PAG" id="YsA-5Y-axy"/>
+                                            <outlet property="photosNumberButton" destination="sGd-yz-YSc" id="9pk-Jl-MYO"/>
                                             <outlet property="priceLabel" destination="1QG-Go-JYV" id="6zX-gn-JAE"/>
                                             <outlet property="titleLabel" destination="8FG-br-QC6" id="S4d-n4-KNg"/>
                                             <outlet property="yumsNumberButton" destination="Pfp-D6-FHb" id="5JP-dS-PxO"/>
@@ -3117,6 +3126,7 @@
         <image name="password" width="320" height="44"/>
         <image name="phone_number" width="320" height="44"/>
         <image name="phone_submit" width="320" height="54"/>
+        <image name="photos" width="20" height="20"/>
         <image name="register" width="320" height="53"/>
         <image name="reset_code" width="320" height="44"/>
         <image name="reset_password" width="320" height="44"/>

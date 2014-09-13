@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIButton     *locationButton;
 @property (weak, nonatomic) IBOutlet UITextView   *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UIScrollView *pagedImageView;
+@property (weak, nonatomic) IBOutlet UIButton *photosNumberButton;
 
 + (NSDictionary *)descriptionTextAttributes;
 

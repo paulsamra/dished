@@ -366,6 +366,11 @@
     }
 }
 
+- (void)scrollFeedToTop
+{
+    [self.collectionView setContentOffset:CGPointMake( 0, -self.collectionView.contentInset.top ) animated:YES];
+}
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat scrollPosition = scrollView.contentOffset.y + scrollView.contentInset.top;

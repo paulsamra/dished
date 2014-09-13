@@ -9,13 +9,10 @@
 #import "DAGlobalDishDetailViewController.h"
 #import "DAAPIManager.h"
 #import "DADishProfile.h"
-#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-#import "DAComment.h"
-#import "DAReviewDetailCollectionViewCell.h"
-#import "DAUsername.h"
 #import "DAGlobalDishCollectionViewCell.h"
 #import "DAGradeGraphCollectionViewCell.h"
 #import "DAGlobalReviewCollectionViewCell.h"
+#import "UIImageView+WebCache.h"
 
 
 @interface DAGlobalDishDetailViewController ()
@@ -101,6 +98,9 @@
         [mainCell.locationButton setImage:locationIcon  forState:UIControlStateNormal];
         [mainCell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
         
+        NSString *photosNumberString = [NSString stringWithFormat:@"%d", (int)self.dishProfile.num_images];
+        [mainCell.photosNumberButton setTitle:photosNumberString forState:UIControlStateNormal];
+        
         mainCell.gradeLabel.text = self.dishProfile.grade;
         
         if( self.dishProfile.desc )
@@ -182,10 +182,15 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
+    
+    if( !self.dishProfile )
+    {
+        return flowLayout.itemSize;
+    }
+    
     if( indexPath.row == 0 )
     {
-        UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
-        
         CGSize cellSize = flowLayout.itemSize;
         cellSize.width = collectionView.frame.size.width;
         cellSize.height -= self.referenceDishCell.descriptionTextView.frame.size.height;
