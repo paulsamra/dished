@@ -25,6 +25,10 @@
     [super layoutSubviews];
     
     self.pagedImageView.delegate = self;
+    
+    self.descriptionTextView.textContainerInset = UIEdgeInsetsZero;
+    
+    self.autoresizesSubviews = YES;
 }
 
 - (void)setPagedImages:(NSArray *)images
@@ -56,6 +60,8 @@
         frame.size = self.pagedImageView.frame.size;
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
+        imageView.contentMode = UIViewContentModeScaleAspectFill;
+        imageView.layer.masksToBounds = YES;
         [imageView setImageUsingProgressViewWithURL:self.images[i]];
         [self.pagedImageView addSubview:imageView];
         [self.scrollViewImageViews addObject:imageView];
@@ -67,6 +73,21 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     NSLog(@"%f", scrollView.contentOffset.x );
+}
+
+- (void)setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    
+    self.contentView.frame = bounds;
+}
+
++ (NSDictionary *)descriptionTextAttributes
+{
+    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    UIColor *color = [UIColor colorWithRed:0.4 green:0.43 blue:0.47 alpha:1];
+    
+    return @{ NSFontAttributeName : font, NSForegroundColorAttributeName : color };
 }
 
 @end

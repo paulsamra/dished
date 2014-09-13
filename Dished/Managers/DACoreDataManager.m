@@ -82,7 +82,12 @@
 - (void)saveDataInManagedContextUsingBlock:( void (^)( BOOL saved, NSError *error ) )savedBlock
 {
     NSError *saveError = nil;
-    savedBlock( [self.managedObjectContext save:&saveError], saveError );
+    BOOL saveSuccess = [self.managedObjectContext save:&saveError];
+    
+    if( savedBlock )
+    {
+        savedBlock( saveSuccess, saveError );
+    }
 }
 
 - (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate

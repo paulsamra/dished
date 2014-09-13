@@ -11,7 +11,6 @@
 #import "DAFeedItem+Utility.h"
 #import "DAAPIManager.h"
 #import "DACoreDataManager.h"
-#import "UILabel+Dished.h"
 #import "DAFeedImportManager.h"
 #import "DARefreshControl.h"
 #import "DAReviewDetailsViewController.h"
@@ -155,6 +154,7 @@
     UIImage *image = [self.mainImageCache objectForKey:item.img];
     if( image )
     {
+        [cell.dishImageView removeProgressView];
         cell.dishImageView.image = image;
     }
     else
@@ -172,7 +172,10 @@
     
     cell.gradeLabel.text = [item.grade uppercaseString];
     
-    [cell.timeLabel setAttributedTextForFeedItemDate:item.created];
+    if( item.created )
+    {
+        cell.timeLabel.attributedText = [DAFeedCollectionViewCell attributedTimeStringWithDate:item.created];
+    }
     
     cell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     NSString *commentString = [NSString stringWithFormat:@"%d comments", [item.num_comments intValue]];
@@ -249,14 +252,26 @@
         [self unyumCell:cell];
         feedItem.caller_yumd = @(NO);
         
-        [[DAAPIManager sharedManager] unyumReviewID:[feedItem.item_id integerValue] completion:nil];
+        [[DAAPIManager sharedManager] unyumReviewID:[feedItem.item_id integerValue] completion:^( BOOL success )
+        {
+            if( success )
+            {
+                [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
+            }
+        }];
     }
     else
     {
         [self yumCell:cell];
         feedItem.caller_yumd = @(YES);
         
-        [[DAAPIManager sharedManager] yumReviewID:[feedItem.item_id integerValue] completion:nil];
+        [[DAAPIManager sharedManager] yumReviewID:[feedItem.item_id integerValue] completion:^( BOOL success )
+        {
+            if( success )
+            {
+                [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
+            }
+        }];
     }
 }
 

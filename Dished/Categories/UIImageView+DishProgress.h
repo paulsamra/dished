@@ -20,4 +20,6 @@
 - (void)setImageUsingProgressViewWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder;
 - (void)setImageUsingProgressViewWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder completion:(SDWebImageCompletionBlock)completion;
 
+- (void)removeProgressView;
+
 @end

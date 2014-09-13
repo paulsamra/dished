@@ -14,6 +14,7 @@
 
 @interface DAReview : NSObject
 
+@property (copy,   nonatomic) NSDate   *created;
 @property (copy,   nonatomic) NSString *name;
 @property (copy,   nonatomic) NSString *creator_username;
 @property (copy,   nonatomic) NSString *creator_img_thumb;
@@ -27,6 +28,7 @@
 @property (strong, nonatomic) NSArray  *hashtags;
 @property (strong, nonatomic) NSArray  *comments;
 
+@property (nonatomic) BOOL      caller_yumd;
 @property (nonatomic) NSInteger dish_id;
 @property (nonatomic) NSInteger creator_id;
 @property (nonatomic) NSInteger loc_id;

@@ -14,9 +14,12 @@
 @property (weak, nonatomic) IBOutlet UILabel      *gradeLabel;
 @property (weak, nonatomic) IBOutlet UILabel      *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel      *priceLabel;
+@property (weak, nonatomic) IBOutlet UIButton     *yumsNumberButton;
 @property (weak, nonatomic) IBOutlet UIButton     *locationButton;
 @property (weak, nonatomic) IBOutlet UITextView   *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UIScrollView *pagedImageView;
+
++ (NSDictionary *)descriptionTextAttributes;
 
 - (void)setPagedImages:(NSArray *)images;
 

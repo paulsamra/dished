@@ -20,8 +20,10 @@
 
 @interface DAGlobalDishDetailViewController ()
 
-@property (strong, nonatomic) DADishProfile 		  *dishProfile;
-@property (strong, nonatomic) UIActivityIndicatorView *spinner;
+@property (strong, nonatomic) DADishProfile                    *dishProfile;
+@property (strong, nonatomic) UIActivityIndicatorView          *spinner;
+@property (strong, nonatomic) DAGlobalDishCollectionViewCell   *referenceDishCell;
+@property (strong, nonatomic) DAGlobalReviewCollectionViewCell *referenceReviewCell;
 
 @end
 
@@ -64,6 +66,7 @@
         }
     }];
 
+    self.referenceDishCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"dishCell" forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -77,13 +80,17 @@
     
     if( indexPath.row == 0 )
     {
-        DAGlobalDishCollectionViewCell *mainCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
+        DAGlobalDishCollectionViewCell *mainCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"dishCell" forIndexPath:indexPath];
         
         mainCell.titleLabel.text = self.dishProfile.name;
         
-        if( [self.dishProfile.price integerValue] != 0 )
+        if( self.dishProfile.price )
         {
             mainCell.priceLabel.text = [NSString stringWithFormat:@"$%@", self.dishProfile.price];
+        }
+        else
+        {
+            mainCell.priceLabel.text = @"";
         }
         
         [mainCell setPagedImages:self.dishProfile.images];
@@ -95,7 +102,13 @@
         
         mainCell.gradeLabel.text = self.dishProfile.grade;
         
-        mainCell.descriptionTextView.text = self.dishProfile.desc;
+        if( self.dishProfile.desc )
+        {
+            mainCell.descriptionTextView.attributedText = [self attributedDishDescriptionTextWithDescription:self.dishProfile.desc];
+        }
+        
+        NSString *yumsNumberString = [NSString stringWithFormat:@"%d", (int)self.dishProfile.num_yums];
+        [mainCell.yumsNumberButton setTitle:yumsNumberString forState:UIControlStateNormal];
         
         cell = mainCell;
     }
@@ -114,8 +127,15 @@
         
         reviewCell.usernameLabel.text = [NSString stringWithFormat:@"@%@", review.creator_username];
         
-        NSURL *userImageURL = [NSURL URLWithString:review.creator_img_thumb];
-        [reviewCell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
+        if( review.creator_img_thumb )
+        {
+            NSURL *userImageURL = [NSURL URLWithString:review.creator_img_thumb];
+            [reviewCell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
+        }
+        else
+        {
+            reviewCell.userImageView.image = [UIImage imageNamed:@"avatar"];
+        }
         
         NSString *grade = [review.grade substringToIndex:1];
         UIColor *gradeColor = [self colorWithGrade:grade];
@@ -126,11 +146,17 @@
         reviewCell.gradeLabel.textColor = gradeColor;
         
         reviewCell.commentTextView.text = review.comment;
+        reviewCell.commentTextView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
         
         cell = reviewCell;
     }
     
     return cell;
+}
+
+- (NSAttributedString *)attributedDishDescriptionTextWithDescription:(NSString *)description
+{
+    return [[NSAttributedString alloc] initWithString:description attributes:[DAGlobalDishCollectionViewCell descriptionTextAttributes]];
 }
 
 - (UIColor *)colorWithGrade:(NSString *)grade
@@ -157,7 +183,26 @@
     {
         UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
         
-        return flowLayout.itemSize;
+        CGSize cellSize = flowLayout.itemSize;
+        cellSize.width = collectionView.frame.size.width;
+        cellSize.height -= self.referenceDishCell.descriptionTextView.frame.size.height;
+        
+        if( !self.dishProfile.desc )
+        {
+            return cellSize;
+        }
+        
+        NSAttributedString *descriptionString = [self attributedDishDescriptionTextWithDescription:self.dishProfile.desc];
+        
+        CGSize boundingSize = CGSizeMake( self.referenceDishCell.descriptionTextView.frame.size.width, CGFLOAT_MAX );
+        CGRect stringRect   = [descriptionString boundingRectWithSize:boundingSize
+                                                      options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
+                                                      context:nil];
+        
+        CGFloat textViewHeight = ceilf( stringRect.size.height );
+        cellSize.height += textViewHeight;
+        
+        return cellSize;
     }
     if( indexPath.row == 1 )
     {
@@ -167,6 +212,12 @@
     {
         return CGSizeMake(self.collectionView.frame.size.width, 100.0);
     }
+}
+
+- (void)calculateCellSizeForIndexPath:(NSIndexPath *)indexPath
+{
+    
+
 }
 
 @end

@@ -18,6 +18,13 @@
     self.detailTextView.textContainerInset = UIEdgeInsetsZero;
 }
 
+- (void)setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    
+    self.contentView.frame = bounds;
+}
+
 + (NSDictionary *)textAttributes
 {
     return @{ NSForegroundColorAttributeName : [UIColor dishedColor],

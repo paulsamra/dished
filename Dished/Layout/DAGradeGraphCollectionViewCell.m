@@ -25,4 +25,12 @@
     }
 }
 
+- (void)setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    
+    self.contentView.frame = bounds;
+}
+
+
 @end

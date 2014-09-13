@@ -19,8 +19,14 @@
     self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
     self.userImageView.layer.masksToBounds = YES;
     
-    self.commentTextView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
     self.commentTextView.textContainerInset = UIEdgeInsetsZero;
+}
+
+- (void)setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    
+    self.contentView.frame = bounds;
 }
 
 @end

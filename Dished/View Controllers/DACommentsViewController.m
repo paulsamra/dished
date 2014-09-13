@@ -163,7 +163,7 @@
     cell.rightUtilityButtons = [self utilityButtonsAtIndexPath:indexPath];
     
     cell.delegate = self;
-        
+    
     return cell;
 }
 

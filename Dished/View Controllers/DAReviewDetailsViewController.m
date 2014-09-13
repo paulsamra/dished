@@ -30,8 +30,7 @@ ReviewDetailsItem;
 
 @interface DAReviewDetailsViewController() <DAFeedCollectionViewCellDelegate>
 
-@property (strong, nonatomic) DAReview                *review;
-@property (strong, nonatomic) UIActivityIndicatorView *spinner;
+@property (strong, nonatomic) DAReview *review;
 
 @end
 
@@ -58,9 +57,10 @@ ReviewDetailsItem;
         else
         {
             self.review = [DAReview reviewWithData:response[@"data"]];
+            [self.collectionView reloadData];
+            
             [spinner stopAnimating];
             [spinner removeFromSuperview];
-            [self.collectionView reloadData];
             
             [UIView transitionWithView:self.collectionView
                               duration:0.4
@@ -70,7 +70,7 @@ ReviewDetailsItem;
             
             self.collectionView.hidden = NO;
         }
-    }];    
+    }];
 }
 
 - (ReviewDetailsItem)itemTypeForIndexPath:(NSIndexPath *)indexPath
@@ -150,6 +150,11 @@ ReviewDetailsItem;
         
         NSURL *userImageURL = [NSURL URLWithString:self.review.creator_img_thumb];
         [dishCell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
+        
+        if( self.review.created )
+        {
+            dishCell.timeLabel.attributedText = [DAFeedCollectionViewCell attributedTimeStringWithDate:self.review.created];
+        }
 
         cell = dishCell;
     }
@@ -164,6 +169,15 @@ ReviewDetailsItem;
         NSString *commentString = [NSString stringWithFormat:commentFormat, (int)self.review.num_comments];
         [footerCell.commentsButton setTitle:commentString forState:UIControlStateNormal];
         
+        if( self.review.caller_yumd )
+        {
+            [self yumCell:footerCell];
+        }
+        else
+        {
+            [self unyumCell:footerCell];
+        }
+        
         cell = footerCell;
     }
     else if( itemType == ReviewDetailsItemYums )
@@ -177,7 +191,7 @@ ReviewDetailsItem;
     else if( itemType == ReviewDetailsItemHashtags )
     {
         DAReviewDetailCollectionViewCell *tagsCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"tags" forIndexPath:indexPath];
-        
+
         tagsCell.detailTextView.attributedText = [self hashtagStringWithHashtags:self.review.hashtags];
         
         cell = tagsCell;
@@ -201,7 +215,7 @@ ReviewDetailsItem;
                 [commentCell.imageView setHidden:YES];
             }
         }
-        
+                
         cell = commentCell;
     }
     
@@ -344,7 +358,7 @@ ReviewDetailsItem;
     {
         NSAttributedString *yumString = [self yumStringWithUsernames:self.review.yums];
         
-        CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 60, CGFLOAT_MAX );
+        CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 38, CGFLOAT_MAX );
         CGRect stringRect   = [yumString boundingRectWithSize:boundingSize
                                     options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
                                     context:nil];
@@ -356,12 +370,12 @@ ReviewDetailsItem;
     {
         NSAttributedString *hashtagString = [self hashtagStringWithHashtags:self.review.hashtags];
         
-        CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 60, CGFLOAT_MAX );
+        CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 38, CGFLOAT_MAX );
         CGRect stringRect   = [hashtagString boundingRectWithSize:boundingSize
                                     options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
                                     context:nil];
         
-        CGFloat minimumCellHeight = ceilf( stringRect.size.height + 1 );
+        CGFloat minimumCellHeight = ceilf( stringRect.size.height ) + 1;
         itemSize = CGSizeMake( collectionView.frame.size.width, minimumCellHeight );
     }
     else if( itemType == ReviewDetailsItemFooter )
@@ -374,12 +388,12 @@ ReviewDetailsItem;
         
         NSAttributedString *commentString = [self commentStringForComment:comment];
         
-        CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 60, CGFLOAT_MAX );
+        CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 38, CGFLOAT_MAX );
         CGRect commentRect = [commentString boundingRectWithSize:boundingSize
                                     options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
                                     context:nil];
         
-        CGFloat minimumCellHeight = ceilf( commentRect.size.height + 1 );
+        CGFloat minimumCellHeight = ceilf( commentRect.size.height ) + 1;
         itemSize = CGSizeMake( collectionView.frame.size.width, minimumCellHeight );
     }
     

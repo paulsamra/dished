@@ -15,9 +15,6 @@
 {
     if( self = [super initWithData:data] )
     {
-        NSTimeInterval createdTimestamp = [data[@"created"] doubleValue];
-        _created = [NSDate dateWithTimeIntervalSince1970:createdTimestamp];
-        
         _review_id = [data[@"id"] integerValue];
         _source = nilOrJSONObjectForKey( data, @"source" );
     }

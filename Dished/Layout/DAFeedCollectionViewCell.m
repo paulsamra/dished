@@ -69,4 +69,55 @@
     }
 }
 
++ (NSAttributedString *)attributedTimeStringWithDate:(NSDate *)date
+{
+    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSinceDate:date];
+    unsigned int unitFlags = NSSecondCalendarUnit | NSHourCalendarUnit | NSMinuteCalendarUnit | NSDayCalendarUnit | NSMonthCalendarUnit | NSWeekOfYearCalendarUnit;
+    
+    NSDateComponents *conversionInfo = [[NSCalendar currentCalendar] components:unitFlags fromDate:date  toDate:[NSDate date]  options:0];
+    
+    NSString *format = nil;
+    NSInteger value  = 0;
+    
+    if( timeInterval < 60 )
+    {
+        format = @"%lds";
+        value = conversionInfo.second;
+    }
+    else if( timeInterval < 3600 )
+    {
+        format = @"%ldm";
+        value = conversionInfo.minute;
+    }
+    else if( timeInterval < 86400 )
+    {
+        format = @"%ldh";
+        value = conversionInfo.hour;
+    }
+    else if( timeInterval < 604800 )
+    {
+        format = @"%ldd";
+        value = conversionInfo.day;
+    }
+    else
+    {
+        format = @"%ldw";
+        value = conversionInfo.weekOfYear;
+    }
+    
+    NSString *timeString = [NSString stringWithFormat:format, value];
+    
+    NSMutableAttributedString *attributedTimeString = [[NSMutableAttributedString alloc] initWithString:timeString];
+    
+    [attributedTimeString insertAttributedString:[[NSAttributedString alloc] initWithString:@" "] atIndex:0];
+    
+    NSTextAttachment *clockAttachment = [[NSTextAttachment alloc] init];
+    clockAttachment.image = [UIImage imageNamed:@"clock"];
+    NSMutableAttributedString *clockString = [[NSAttributedString attributedStringWithAttachment:clockAttachment] mutableCopy];
+    
+    [clockString appendAttributedString:attributedTimeString];
+    
+    return clockString;
+}
+
 @end

@@ -13,7 +13,6 @@
 @interface DAGlobalReview : DAReview
 
 @property (copy,   nonatomic) NSString *source;
-@property (strong, nonatomic) NSDate *created;
 
 @property (nonatomic) NSInteger review_id;
 
