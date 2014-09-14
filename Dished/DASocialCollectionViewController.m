@@ -12,9 +12,9 @@
 #import <MessageUI/MessageUI.h>
 #import "DAAppDelegate.h"
 #import "DATwitterManager.h"
+#import <Social/Social.h>
 
-
-@interface DASocialCollectionViewController() <UIAlertViewDelegate>
+@interface DASocialCollectionViewController() <UIAlertViewDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
 
 @end
 
@@ -40,9 +40,18 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.row == 3 )
+    
+    if( indexPath.row == (self.isReview ? 3 : 4) )
     {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"doneCell" forIndexPath:indexPath];
+       
+        if (!self.isReview)
+        {
+            cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, self.view.frame.size.width, cell.frame.size.height);
+            if (cell.tag == 12) {
+                
+            }
+        }
         
         return cell;
     }
@@ -52,15 +61,25 @@
     cell.socialLabel.text = [self.cellLabels objectAtIndex:indexPath.row];
     cell.socialImageView.image = [self.cellImages objectAtIndex:indexPath.row];
     
-    if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]] )
+    if (self.isReview)
     {
-        cell.socialImageView.alpha = 1.0;
-        cell.socialLabel.alpha = 1.0;
+        if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]])
+        {
+            cell.socialImageView.alpha = 1.0;
+            cell.socialLabel.alpha = 1.0;
+        }
+        else
+        {
+            cell.socialImageView.alpha = 0.3;
+            cell.socialLabel.alpha = 0.3;
+        }
     }
     else
     {
-        cell.socialImageView.alpha = 0.3;
-        cell.socialLabel.alpha = 0.3;
+        
+        cell.socialImageView.alpha = 1.0;
+        cell.socialLabel.alpha = 1.0;
+
     }
 
 	return cell;
@@ -108,39 +127,78 @@
             }
             else
             {
-                [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
-                [self.collectionView reloadData];
-                
-                if( FBSession.activeSession.state == FBSessionStateOpen ||
-                    FBSession.activeSession.state == FBSessionStateOpenTokenExtended )
+                if (self.isReview)
                 {
-                    [self requestFacebookPermissions];
+                    [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
+                    [self.collectionView reloadData];
+                    
+                    if( FBSession.activeSession.state == FBSessionStateOpen ||
+                       FBSession.activeSession.state == FBSessionStateOpenTokenExtended )
+                    {
+                        [self requestFacebookPermissions];
+                    }
+                    else
+                    {
+                        [self.facebookLoginAlert show];
+                    }
+
                 }
                 else
                 {
-                    [self.facebookLoginAlert show];
+                    if( [SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook] )
+                    {
+                        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
+                        
+                        //[controller setInitialText:@"Post your favorite dish!"];
+                       // [controller addImage:self.reviewImage];
+                        
+                        [self presentViewController:controller animated:YES completion:nil];
+                    }
+
                 }
+                
+
+                
             }
         }
         break;
             
         case 1:
         {
-            if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]] )
+            
+            if (self.isReview)
             {
-                [self.selectedSharing removeObjectForKey:self.cellLabels[indexPath.row]];
-                [self.collectionView reloadData];
+                if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]] )
+                {
+                    [self.selectedSharing removeObjectForKey:self.cellLabels[indexPath.row]];
+                    [self.collectionView reloadData];
+                }
+                else
+                {
+                    [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
+                    [self.collectionView reloadData];
+                    
+                    if( ![[DATwitterManager sharedManager] isLoggedIn] )
+                    {
+                        [self.twitterLoginAlert show];
+                    }
+                }
+
             }
             else
             {
-                [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
-                [self.collectionView reloadData];
-                
-                if( ![[DATwitterManager sharedManager] isLoggedIn] )
+                if( [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] )
                 {
-                    [self.twitterLoginAlert show];
+                    SLComposeViewController *tweetSheet = [SLComposeViewController
+                                                           composeViewControllerForServiceType:SLServiceTypeTwitter];
+                    //[tweetSheet setInitialText:@"Tweet your favorite dish!"];
+                    //[tweetSheet addImage:self.reviewImage];
+                    
+                    [self presentViewController:tweetSheet animated:YES completion:nil];
                 }
+   
             }
+            
         }
         break;
             
@@ -156,15 +214,45 @@
                 [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
                 [self.collectionView reloadData];
                 
-                if( ![MFMailComposeViewController canSendMail] )
+                if( [MFMailComposeViewController canSendMail] )
+                {
+                    if (!self.isReview) {
+                        if( [MFMailComposeViewController canSendMail] )
+                        {
+                            MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+                            [composeViewController setMailComposeDelegate:self];
+                            [composeViewController setSubject:@"Wow this Dish is awesome!"];
+                            //                        NSData *imageData = UIImagePNGRepresentation(self.reviewImage);
+                            //                        [composeViewController addAttachmentData:imageData mimeType:nil fileName:@"image.png"];
+                            [self.view.window.rootViewController presentViewController:composeViewController animated:YES completion:nil];
+                        }
+
+                    }
+                    
+                }
+                else
                 {
                     [self.emailFailAlert show];
+
                 }
             }
         }
         break;
-            
         case 3:
+        {
+            if (self.isReview)
+            {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kDoneSelecting object:nil];
+            }
+            else
+            {
+              	//do flag stuff here.
+            }
+
+        }
+            break;
+
+        case 4:
         {
             [[NSNotificationCenter defaultCenter] postNotificationName:kDoneSelecting object:nil];
         }
@@ -172,6 +260,19 @@
     }
 }
 
+- (void)mailComposeController:(MFMailComposeViewController*)controller
+          didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
+    
+    if (result == MessageComposeResultCancelled)
+        NSLog(@"Message cancelled");
+    else if (result == MessageComposeResultSent)
+        NSLog(@"Message sent");
+    else
+        NSLog(@"Message failed");
+
+}
 - (void)openFacebookSession
 {
     [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:YES
@@ -337,7 +438,16 @@
 {
     if( !_cellLabels )
     {
-        _cellLabels = @[ @"Facebook", @"Twitter", @"Email", @"Done" ];
+        if (self.isReview)
+        {
+            _cellLabels = @[ @"Facebook", @"Twitter", @"Email", @"Done" ];
+
+        }
+        else
+        {
+            _cellLabels = @[ @"Facebook", @"Twitter", @"Email", @"Report", @"Done" ];
+
+        }
     }
     
     return _cellLabels;
@@ -350,8 +460,23 @@
         UIImage *facebookImage = [UIImage imageNamed:@"facebook"];
         UIImage *twitterImage = [UIImage imageNamed:@"twitter"];
         UIImage *emailImage = [UIImage imageNamed:@"email"];
+        UIImage *flagImage = [UIImage imageNamed:@"flag"];
+
+        _cellImages = @[ facebookImage, twitterImage, emailImage, flagImage];
         
-        _cellImages = @[ facebookImage, twitterImage, emailImage ];
+        
+        if (self.isReview)
+        {
+            _cellImages = @[ facebookImage, twitterImage, emailImage];
+            
+        }
+        else
+        {
+            _cellImages = @[ facebookImage, twitterImage, emailImage, flagImage];
+            
+        }
+        
+        
     }
     
     return _cellImages;

@@ -20,6 +20,7 @@
 @property (strong, nonatomic) UIAlertView         *twitterLoginAlert;
 @property (strong, nonatomic) UIAlertView         *emailFailAlert;
 @property (strong, nonatomic) NSMutableDictionary *selectedSharing;
+@property BOOL isReview;
 
 - (void)shareReview:(DANewReview *)review imageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion;
 

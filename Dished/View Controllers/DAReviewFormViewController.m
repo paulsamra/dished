@@ -99,6 +99,8 @@
     self.dimView.backgroundColor = [UIColor clearColor];
     
     self.socialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"social"];
+    self.socialViewController.isReview = YES;
+
     self.socialViewController.view.frame = CGRectMake( 0, 600, self.view.bounds.size.width, self.view.bounds.size.height );
 }
 
