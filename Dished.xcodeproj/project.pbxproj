@@ -101,6 +101,7 @@
 		948EE6A61996FA2E004EC600 /* DANewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948EE6A51996FA2E004EC600 /* DANewsViewController.m */; };
 		948F35B719ABE0C100F57BEB /* avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 948F35B519ABE0C100F57BEB /* avatar.png */; };
 		948F35B819ABE0C100F57BEB /* avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 948F35B619ABE0C100F57BEB /* avatar@2x.png */; };
+		949382C919C63C5D003A416C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
 		94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */; };
 		94942A1F1990AB0800095A70 /* DAExploreLiveSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1E1990AB0800095A70 /* DAExploreLiveSearchResult.m */; };
 		94942A221990AB5900095A70 /* DAExploreDishSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A211990AB5900095A70 /* DAExploreDishSearchResult.m */; };
@@ -362,6 +363,7 @@
 		948EE6A51996FA2E004EC600 /* DANewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANewsViewController.m; sourceTree = "<group>"; };
 		948F35B519ABE0C100F57BEB /* avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar.png; sourceTree = "<group>"; };
 		948F35B619ABE0C100F57BEB /* avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar@2x.png"; sourceTree = "<group>"; };
+		949382C819C63C5D003A416C /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		94942A1519902D1E00095A70 /* DAExploreLiveSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreLiveSearchResult.h; sourceTree = "<group>"; };
 		94942A1B1990A6C700095A70 /* DAExploreDishResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreDishResultsViewController.h; sourceTree = "<group>"; };
 		94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreDishResultsViewController.m; sourceTree = "<group>"; };
@@ -584,6 +586,7 @@
 				943E62141983A21300DF2135 /* AssetsLibrary.framework in Frameworks */,
 				943E62121983A20F00DF2135 /* AddressBook.framework in Frameworks */,
 				D1C1F6EF1979A2F600A2D652 /* Social.framework in Frameworks */,
+				949382C919C63C5D003A416C /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -732,6 +735,7 @@
 		94449ED71946564B008B8881 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				949382C819C63C5D003A416C /* FacebookSDK.framework */,
 				946B4FB619BA24040045EB82 /* Crashlytics.framework */,
 				943E62251983A24A00DF2135 /* UIKit.framework */,
 				943E62231983A24500DF2135 /* SystemConfiguration.framework */,
