@@ -157,6 +157,11 @@
     return cell;
 }
 
+//- (NSAttributedString *)usernameStringForReview:(DAGlobalReview *)review
+//{
+//    
+//}
+
 - (NSAttributedString *)attributedDishDescriptionTextWithDescription:(NSString *)description
 {
     return [[NSAttributedString alloc] initWithString:description attributes:[DAGlobalDishCollectionViewCell descriptionTextAttributes]];
