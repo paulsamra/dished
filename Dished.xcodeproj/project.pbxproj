@@ -61,7 +61,6 @@
 		943E62641987362100DF2135 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E62571987362100DF2135 /* STHTTPRequest.m */; };
 		943E62671987705B00DF2135 /* DATwitterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E62661987705B00DF2135 /* DATwitterManager.m */; };
 		943E6274198984FE00DF2135 /* DAExploreCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */; };
-		94449ED91946565C008B8881 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94449ED81946565C008B8881 /* FacebookSDK.framework */; };
 		94449EDF19481A54008B8881 /* DAFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */; };
 		94449EF11949A3B2008B8881 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 94449EE11949A3B2008B8881 /* Icon-40.png */; };
 		94449EF21949A3B2008B8881 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94449EE21949A3B2008B8881 /* Icon-40@2x.png */; };
@@ -113,6 +112,7 @@
 		94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6319BFBE75005071D5 /* DADishProfile.m */; };
 		94BC4F1919C4242200EAF3B0 /* DACollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1819C4242200EAF3B0 /* DACollectionViewFlowLayout.m */; };
 		94BC4F1C19C51CE000EAF3B0 /* DANewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1B19C51CE000EAF3B0 /* DANewsTableViewCell.m */; };
+		94BC4F2019C6353C00EAF3B0 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94BC4F1F19C6353C00EAF3B0 /* FacebookSDK.framework */; };
 		94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
 		94CB03B019AFD334009010F6 /* DAComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AF19AFD334009010F6 /* DAComment.m */; };
 		94CB03B319AFF57F009010F6 /* DACommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03B219AFF57F009010F6 /* DACommentTableViewCell.m */; };
@@ -302,7 +302,6 @@
 		943E62661987705B00DF2135 /* DATwitterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATwitterManager.m; sourceTree = "<group>"; };
 		943E6272198984FE00DF2135 /* DAExploreCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreCollectionViewCell.h; sourceTree = "<group>"; };
 		943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreCollectionViewCell.m; sourceTree = "<group>"; };
-		94449ED81946565C008B8881 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		94449EDD19481A54008B8881 /* DAFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFacebookLoginViewController.h; sourceTree = "<group>"; };
 		94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFacebookLoginViewController.m; sourceTree = "<group>"; };
 		94449EE11949A3B2008B8881 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
@@ -386,6 +385,7 @@
 		94BC4F1819C4242200EAF3B0 /* DACollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		94BC4F1A19C51CE000EAF3B0 /* DANewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANewsTableViewCell.h; sourceTree = "<group>"; };
 		94BC4F1B19C51CE000EAF3B0 /* DANewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANewsTableViewCell.m; sourceTree = "<group>"; };
+		94BC4F1F19C6353C00EAF3B0 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = ../../FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		94CB03AB19AFA734009010F6 /* DACommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACommentsViewController.h; sourceTree = "<group>"; };
 		94CB03AC19AFA734009010F6 /* DACommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACommentsViewController.m; sourceTree = "<group>"; };
 		94CB03AE19AFD334009010F6 /* DAComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAComment.h; sourceTree = "<group>"; };
@@ -586,7 +586,7 @@
 				943E62141983A21300DF2135 /* AssetsLibrary.framework in Frameworks */,
 				943E62121983A20F00DF2135 /* AddressBook.framework in Frameworks */,
 				D1C1F6EF1979A2F600A2D652 /* Social.framework in Frameworks */,
-				94449ED91946565C008B8881 /* FacebookSDK.framework in Frameworks */,
+				94BC4F2019C6353C00EAF3B0 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -735,6 +735,7 @@
 		94449ED71946564B008B8881 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				94BC4F1F19C6353C00EAF3B0 /* FacebookSDK.framework */,
 				946B4FB619BA24040045EB82 /* Crashlytics.framework */,
 				943E62251983A24A00DF2135 /* UIKit.framework */,
 				943E62231983A24500DF2135 /* SystemConfiguration.framework */,
@@ -748,7 +749,6 @@
 				943E62131983A21300DF2135 /* AssetsLibrary.framework */,
 				943E62111983A20F00DF2135 /* AddressBook.framework */,
 				D1C1F6EE1979A2F600A2D652 /* Social.framework */,
-				94449ED81946565C008B8881 /* FacebookSDK.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1586,6 +1586,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/Ryan/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = Dished/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1610,6 +1611,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					/Users/Ryan/Documents/FacebookSDK,
 				);
 				INFOPLIST_FILE = Dished/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
