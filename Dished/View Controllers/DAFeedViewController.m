@@ -17,6 +17,7 @@
 #import "DACommentsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
 #import "UIImageView+DishProgress.h"
+#import "DACollectionViewFlowLayout.h"
 
 
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate>
@@ -39,6 +40,9 @@
 - (void)viewDidLoad
 {	
     [super viewDidLoad];
+    
+//    DACollectionViewFlowLayout *flowLayout = (DACollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+//    flowLayout.navigationBar = self.navigationController.navigationBar;
     
     self.hasMoreData   = YES;
     self.isLoadingMore = NO;
@@ -160,6 +164,7 @@
     }
     else
     {
+        cell.dishImageView.image = nil;
         NSURL *dishImageURL = [NSURL URLWithString:item.img];
         [cell.dishImageView setImageUsingProgressViewWithURL:dishImageURL placeholderImage:nil
         completion:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
@@ -209,7 +214,20 @@
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    return [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"loadingFooter" forIndexPath:indexPath];
+//    UICollectionReusableView *reusableView = nil;
+//    
+////    if( kind == UICollectionElementKindSectionHeader )
+////    {
+////        reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"titleHeader" forIndexPath:indexPath];
+////    }
+//    
+//    if( kind == UICollectionElementKindSectionFooter )
+//    {
+        //reusableView =
+        return [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"loadingFooter" forIndexPath:indexPath];
+//    }
+//    
+//    return reusableView;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
@@ -240,7 +258,52 @@
 
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
-    [self changeYumStatusForCell:cell];
+    UIImage *yumTapImage = [UIImage imageNamed:@"yum_tap"];
+    
+    UIImageView *heartImageView = [[UIImageView alloc] initWithImage:yumTapImage];
+    
+    CGFloat x = ( cell.dishImageView.frame.size.width  / 2 ) - ( yumTapImage.size.width  / 2 );
+    CGFloat y = ( cell.dishImageView.frame.size.height / 2 ) - ( yumTapImage.size.height / 2 );
+    CGFloat width  = yumTapImage.size.width;
+    CGFloat height = yumTapImage.size.height;
+    
+    heartImageView.frame = CGRectMake( x, y, width, height );
+    
+    [cell.dishImageView addSubview:heartImageView];
+    
+    heartImageView.transform = CGAffineTransformMakeScale( 0, 0 );
+    
+    [UIView animateWithDuration:0.3 animations:^
+    {
+        heartImageView.transform = CGAffineTransformMakeScale( 1, 1 );
+    }
+    completion:^( BOOL finished )
+    {
+        if( finished )
+        {
+            [UIView animateWithDuration:0.5 animations:^
+            {
+                heartImageView.alpha = 0;
+            }
+            completion:^( BOOL finished )
+            {
+                if( finished )
+                {
+                    [heartImageView removeFromSuperview];
+                }
+            }];
+        }
+    }];
+    
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    if( ![feedItem.caller_yumd boolValue] )
+    {
+        [self yumCell:cell];
+        feedItem.caller_yumd = @(YES);
+        [self yumFeedItemWithReviewID:[feedItem.item_id integerValue]];
+    }
 }
 
 - (void)changeYumStatusForCell:(DAFeedCollectionViewCell *)cell
@@ -253,27 +316,37 @@
         [self unyumCell:cell];
         feedItem.caller_yumd = @(NO);
         
-        [[DAAPIManager sharedManager] unyumReviewID:[feedItem.item_id integerValue] completion:^( BOOL success )
-        {
-            if( success )
-            {
-                [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
-            }
-        }];
+        [self unyumFeedItemWithReviewID:[feedItem.item_id integerValue]];
     }
     else
     {
         [self yumCell:cell];
         feedItem.caller_yumd = @(YES);
         
-        [[DAAPIManager sharedManager] yumReviewID:[feedItem.item_id integerValue] completion:^( BOOL success )
-        {
-            if( success )
-            {
-                [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
-            }
-        }];
+        [self yumFeedItemWithReviewID:[feedItem.item_id integerValue]];
     }
+}
+
+- (void)yumFeedItemWithReviewID:(NSInteger)reviewID
+{
+    [[DAAPIManager sharedManager] yumReviewID:reviewID completion:^( BOOL success )
+    {
+        if( success )
+        {
+            [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
+        }
+    }];
+}
+
+- (void)unyumFeedItemWithReviewID:(NSInteger)reviewID
+{
+    [[DAAPIManager sharedManager] unyumReviewID:reviewID completion:^( BOOL success )
+    {
+        if( success )
+        {
+            [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
+        }
+    }];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
@@ -406,11 +479,6 @@
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     [self.refreshControl containingScrollViewDidEndDragging:scrollView];
-    
-    if( !decelerate )
-    {
-        [self stoppedScrolling];
-    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
@@ -420,17 +488,6 @@
     if( self.hasMoreData && !self.isLoadingMore && bottomEdge >= scrollView.contentSize.height )
     {
         [self loadMore];
-    }
-    
-    [self stoppedScrolling];
-}
-
-- (void)stoppedScrolling
-{
-    CGRect frame = self.navigationController.navigationBar.frame;
-    if( frame.origin.y < 20 )
-    {
-        [self animateNavBarTo:-( frame.size.height - 21 )];
     }
 }
 

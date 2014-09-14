@@ -9,6 +9,13 @@
 #import "DAFeedCollectionViewCell.h"
 
 
+@interface DAFeedCollectionViewCell()
+
+@property (strong, nonatomic) UIImageView *heartImageView;
+
+@end
+
+
 @implementation DAFeedCollectionViewCell
 
 - (void)layoutSubviews

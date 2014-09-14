@@ -82,7 +82,7 @@
         
         mainCell.titleLabel.text = self.dishProfile.name;
         
-        if( self.dishProfile.price )
+        if( self.dishProfile.price && [self.dishProfile.price integerValue] > 0 )
         {
             mainCell.priceLabel.text = [NSString stringWithFormat:@"$%@", self.dishProfile.price];
         }

@@ -11,4 +11,6 @@
 
 @interface DACollectionViewFlowLayout : UICollectionViewFlowLayout
 
+@property (weak, nonatomic) UINavigationBar *navigationBar;
+
 @end

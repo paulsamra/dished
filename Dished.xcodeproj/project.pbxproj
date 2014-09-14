@@ -112,6 +112,7 @@
 		94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */; };
 		94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6319BFBE75005071D5 /* DADishProfile.m */; };
 		94BC4F1919C4242200EAF3B0 /* DACollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1819C4242200EAF3B0 /* DACollectionViewFlowLayout.m */; };
+		94BC4F1C19C51CE000EAF3B0 /* DANewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1B19C51CE000EAF3B0 /* DANewsTableViewCell.m */; };
 		94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
 		94CB03B019AFD334009010F6 /* DAComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AF19AFD334009010F6 /* DAComment.m */; };
 		94CB03B319AFF57F009010F6 /* DACommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03B219AFF57F009010F6 /* DACommentTableViewCell.m */; };
@@ -383,6 +384,8 @@
 		94B92C6319BFBE75005071D5 /* DADishProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishProfile.m; sourceTree = "<group>"; };
 		94BC4F1719C4242200EAF3B0 /* DACollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		94BC4F1819C4242200EAF3B0 /* DACollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		94BC4F1A19C51CE000EAF3B0 /* DANewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANewsTableViewCell.h; sourceTree = "<group>"; };
+		94BC4F1B19C51CE000EAF3B0 /* DANewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANewsTableViewCell.m; sourceTree = "<group>"; };
 		94CB03AB19AFA734009010F6 /* DACommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACommentsViewController.h; sourceTree = "<group>"; };
 		94CB03AC19AFA734009010F6 /* DACommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACommentsViewController.m; sourceTree = "<group>"; };
 		94CB03AE19AFD334009010F6 /* DAComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAComment.h; sourceTree = "<group>"; };
@@ -1197,6 +1200,8 @@
 				94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */,
 				94BC4F1719C4242200EAF3B0 /* DACollectionViewFlowLayout.h */,
 				94BC4F1819C4242200EAF3B0 /* DACollectionViewFlowLayout.m */,
+				94BC4F1A19C51CE000EAF3B0 /* DANewsTableViewCell.h */,
+				94BC4F1B19C51CE000EAF3B0 /* DANewsTableViewCell.m */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -1469,6 +1474,7 @@
 				94F2ADA0198C539200450C6F /* SDWebImageDownloaderOperation.m in Sources */,
 				943E62621987362100DF2135 /* BAVPlistNode.m in Sources */,
 				94DCE9BB1980ABB100396C0A /* UIImageView+AFNetworking.m in Sources */,
+				94BC4F1C19C51CE000EAF3B0 /* DANewsTableViewCell.m in Sources */,
 				9445C1B7199927B800F3A4F8 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
 				941F3209196FA838000042AE /* DALocationManager.m in Sources */,
 				94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */,

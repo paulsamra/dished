@@ -154,7 +154,8 @@ ReviewDetailsItem;
         
         if( self.review.price )
         {
-            [dishCell.priceLabel setTitle:[NSString stringWithFormat:@"$%d", [self.review.price intValue]] forState:UIControlStateNormal];
+            NSString *priceString = [NSString stringWithFormat:@"$%@", self.review.price];
+            [dishCell.priceLabel setTitle:priceString forState:UIControlStateNormal];
         }
         
         UIImage *locationIcon = [[UIImage imageNamed:@"dish_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];

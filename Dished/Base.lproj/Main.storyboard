@@ -640,10 +640,14 @@
                                     <rect key="frame" x="0.0" y="489" width="600" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="xIJ-LA-uf8">
-                                            <rect key="frame" x="150" y="15" width="20" height="20"/>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="xIJ-LA-uf8">
+                                            <rect key="frame" x="290" y="15" width="20" height="20"/>
                                         </activityIndicatorView>
                                     </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerY" secondItem="xIJ-LA-uf8" secondAttribute="centerY" id="krh-Fi-Hic"/>
+                                        <constraint firstAttribute="centerX" secondItem="xIJ-LA-uf8" secondAttribute="centerX" id="zkk-en-8Yz"/>
+                                    </constraints>
                                 </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="uxo-HI-eIb" id="CSu-fX-hYq"/>
@@ -671,7 +675,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rf5-pm-q8l" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1025.625" y="1816.9014084507041"/>
+            <point key="canvasLocation" x="1025" y="1816"/>
         </scene>
         <!--Comments-->
         <scene sceneID="yVA-c6-YZG">
@@ -1344,7 +1348,18 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" id="Tbi-qX-aTq"/>
+                    <navigationItem key="navigationItem" id="Tbi-qX-aTq">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="mnO-Le-cz2">
+                            <rect key="frame" x="180" y="7" width="240" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="News"/>
+                                <segment title="Following"/>
+                            </segments>
+                            <color key="tintColor" red="0.0" green="0.6588235294117647" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        </segmentedControl>
+                    </navigationItem>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMR-xe-hfj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -3146,10 +3161,10 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DWl-1Z-W5u"/>
-        <segue reference="e1c-XP-t2f"/>
+        <segue reference="v7H-VZ-scS"/>
+        <segue reference="bNY-2x-UqY"/>
         <segue reference="wCN-0l-elF"/>
-        <segue reference="h3Z-0T-q76"/>
-        <segue reference="hdo-Ap-R3q"/>
+        <segue reference="e1c-XP-t2f"/>
+        <segue reference="DWl-1Z-W5u"/>
     </inferredMetricsTieBreakers>
 </document>
