@@ -453,37 +453,47 @@ ReviewDetailsItem;
         [self unyumCell:cell];
         self.feedItem.caller_yumd = @(NO);
         
-        [[DAAPIManager sharedManager] unyumReviewID:[self.feedItem.item_id integerValue] completion:^( BOOL success )
-        {
-            if( success )
-            {
-                [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
-                [self refreshReviewData];
-            }
-            else
-            {
-                [self.collectionView reloadData];
-            }
-        }];
+        [self unyumFeedItemWithReviewID:[self.feedItem.item_id integerValue]];
     }
     else
     {
         [self yumCell:cell];
         self.feedItem.caller_yumd = @(YES);
         
-        [[DAAPIManager sharedManager] yumReviewID:[self.feedItem.item_id integerValue] completion:^( BOOL success )
-        {
-            if( success )
-            {
-                [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
-                [self refreshReviewData];
-            }
-            else
-            {
-                [self.collectionView reloadData];
-            }
-        }];
+        [self yumFeedItemWithReviewID:[self.feedItem.item_id integerValue]];
     }
+}
+
+- (void)yumFeedItemWithReviewID:(NSInteger)reviewID
+{
+    [[DAAPIManager sharedManager] yumReviewID:reviewID completion:^( BOOL success )
+    {
+        if( success )
+        {
+            [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
+            [self refreshReviewData];
+        }
+        else
+        {
+            [self.collectionView reloadData];
+        }
+    }];
+}
+
+- (void)unyumFeedItemWithReviewID:(NSInteger)reviewID
+{
+    [[DAAPIManager sharedManager] unyumReviewID:reviewID completion:^( BOOL success )
+    {
+        if( success )
+        {
+            [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
+            [self refreshReviewData];
+        }
+        else
+        {
+            [self.collectionView reloadData];
+        }
+    }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

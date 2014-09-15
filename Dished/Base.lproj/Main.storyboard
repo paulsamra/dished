@@ -2892,12 +2892,9 @@
                                                     </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
                                                     <state key="normal" title="Add Review">
-                                                        <color key="titleColor" red="0.41253750362592778" green="0.63350022876816847" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                        <color key="titleColor" red="0.0" green="0.6588235294" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
-                                                    <connections>
-                                                        <action selector="share:" destination="vVU-kX-jzI" eventType="touchUpInside" id="qka-9e-7Ty"/>
-                                                    </connections>
                                                 </button>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KqY-fW-F4v">
                                                     <rect key="frame" x="0.0" y="458" width="320" height="1"/>
@@ -2938,6 +2935,7 @@
                                             <constraint firstAttribute="trailing" secondItem="Tb2-it-TYK" secondAttribute="trailing" id="z28-oY-yqd"/>
                                         </constraints>
                                         <connections>
+                                            <outlet property="addReviewButton" destination="p0X-3X-yUz" id="KqN-pm-5MN"/>
                                             <outlet property="descriptionTextView" destination="5j0-1X-JmP" id="5mF-7Q-0eI"/>
                                             <outlet property="gradeLabel" destination="53u-wt-DBR" id="Uzo-Ri-Jnl"/>
                                             <outlet property="locationButton" destination="7vB-Wo-Jz5" id="Uvl-xJ-5fD"/>
@@ -2957,6 +2955,14 @@
                                             <subviews>
                                                 <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kuy-Wh-egv" customClass="DAGraphControl">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="209"/>
+                                                    <subviews>
+                                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zek-IS-ZXk">
+                                                            <rect key="frame" x="272" y="8" width="40" height="40"/>
+                                                            <state key="normal" image="blue_dots">
+                                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                                            </state>
+                                                        </button>
+                                                    </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <connections>
                                                         <action selector="touchedArrow:" destination="Qeu-PH-8nI" eventType="touchUpInside" id="ds6-To-RHu"/>
@@ -3110,7 +3116,13 @@
                             <constraint firstItem="3xB-Ol-YTp" firstAttribute="top" secondItem="zEc-BR-A7J" secondAttribute="top" id="pvE-uG-QZw"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Dish Details" id="wXC-g7-s8i"/>
+                    <navigationItem key="navigationItem" title="Dish Details" id="wXC-g7-s8i">
+                        <barButtonItem key="rightBarButtonItem" image="share" id="4tf-Ig-dmZ">
+                            <connections>
+                                <action selector="shareBarButtonTapped:" destination="vVU-kX-jzI" id="bsE-pQ-MxK"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="3xB-Ol-YTp" id="6E0-8U-DYG"/>
@@ -3124,6 +3136,7 @@
     <resources>
         <image name="add_place" width="13" height="13"/>
         <image name="add_review_tab" width="70" height="49"/>
+        <image name="blue_dots" width="40" height="40"/>
         <image name="camera_controls_background" width="320" height="75"/>
         <image name="camera_dock" width="320" height="90"/>
         <image name="camera_flash" width="14" height="19"/>
@@ -3160,6 +3173,7 @@
         <image name="reset_password" width="320" height="44"/>
         <image name="reset_password_confirm" width="320" height="44"/>
         <image name="reset_submit" width="320" height="54"/>
+        <image name="share" width="19" height="26"/>
         <image name="sign_in" width="320" height="53"/>
         <image name="twitter" width="22" height="22"/>
         <image name="username" width="320" height="44"/>

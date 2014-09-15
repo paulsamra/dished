@@ -16,7 +16,8 @@
 #import "DASocialCollectionViewController.h"
 #import "NSAttributedString+Dished.h"
 
-@interface DAGlobalDishDetailViewController ()
+
+@interface DAGlobalDishDetailViewController() <DAGlobalDishCollectionViewCellDelegate>
 
 @property (strong, nonatomic) DADishProfile                    *dishProfile;
 @property (strong, nonatomic) UIActivityIndicatorView          *spinner;
@@ -86,6 +87,8 @@
     if( indexPath.row == 0 )
     {
         DAGlobalDishCollectionViewCell *mainCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"dishCell" forIndexPath:indexPath];
+        
+        mainCell.delegate = self;
         
         mainCell.titleLabel.text = self.dishProfile.name;
         
@@ -262,7 +265,22 @@
     }
 }
 
-- (IBAction)share:(UIButton *)sender
+- (void)locationButtonTappedOnGlobalDishCollectionViewCell:(DAGlobalDishCollectionViewCell *)cell
+{
+    
+}
+
+- (void)addReviewButtonTappedOnGlobalDishCollectionViewCell:(DAGlobalDishCollectionViewCell *)cell
+{
+    
+}
+
+- (IBAction)shareBarButtonTapped:(UIBarButtonItem *)sender
+{
+    [self showShareView];
+}
+
+- (void)showShareView
 {
 //    [self.navigationController.view addSubview:self.dimView];
     [self.view addSubview:self.socialViewController.view];

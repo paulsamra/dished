@@ -24,6 +24,7 @@
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate>
 
 @property (strong, nonatomic) NSCache                    *mainImageCache;
+@property (strong, nonatomic) UIImageView                *yumTapImageView;
 @property (strong, nonatomic) NSMutableArray             *changes;
 @property (strong, nonatomic) DARefreshControl           *refreshControl;
 @property (strong, nonatomic) DAFeedImportManager        *importer;
@@ -78,13 +79,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
     
-    CGFloat refreshControlHeight = 40.0f;
-    CGFloat refreshControlWidth  = self.view.bounds.size.width;
-    CGRect refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
-    self.refreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
-    [self.refreshControl addTarget:self action:@selector(refreshFeed) forControlEvents:UIControlEventValueChanged];
-    [self.collectionView addSubview:self.refreshControl];
-    self.refreshControl.hidden = YES;
+    [self setupRefreshControl];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -92,6 +87,17 @@
     [super viewDidAppear:animated];
     
     self.isLoadingMore = NO;
+}
+
+- (void)setupRefreshControl
+{
+    CGFloat refreshControlHeight = 40;
+    CGFloat refreshControlWidth  = self.view.bounds.size.width;
+    CGRect refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
+    self.refreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
+    [self.refreshControl addTarget:self action:@selector(refreshFeed) forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
+    self.refreshControl.hidden = YES;
 }
 
 - (void)refreshFeed
@@ -221,20 +227,7 @@
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-//    UICollectionReusableView *reusableView = nil;
-//    
-////    if( kind == UICollectionElementKindSectionHeader )
-////    {
-////        reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"titleHeader" forIndexPath:indexPath];
-////    }
-//    
-//    if( kind == UICollectionElementKindSectionFooter )
-//    {
-        //reusableView =
-        return [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"loadingFooter" forIndexPath:indexPath];
-//    }
-//    
-//    return reusableView;
+    return [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"loadingFooter" forIndexPath:indexPath];
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
@@ -265,38 +258,41 @@
 
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
-    UIImage *yumTapImage = [UIImage imageNamed:@"yum_tap"];
+    if( !self.yumTapImageView )
+    {
+        UIImage *image = [UIImage imageNamed:@"yum_tap"];
+        self.yumTapImageView = [[UIImageView alloc] initWithImage:image];
+    }
     
-    UIImageView *heartImageView = [[UIImageView alloc] initWithImage:yumTapImage];
+    CGSize imageSize = self.yumTapImageView.image.size;
+    CGFloat x = ( self.view.frame.size.width  / 2 ) - ( imageSize.width  / 2 );
+    CGFloat y = ( cell.dishImageView.frame.size.height / 2 ) - ( imageSize.height / 2 );
+    CGFloat width  = imageSize.width;
+    CGFloat height = imageSize.height;
+    self.yumTapImageView.frame = CGRectMake( x, y, width, height );
     
-    CGFloat x = ( cell.dishImageView.frame.size.width  / 2 ) - ( yumTapImage.size.width  / 2 );
-    CGFloat y = ( cell.dishImageView.frame.size.height / 2 ) - ( yumTapImage.size.height / 2 );
-    CGFloat width  = yumTapImage.size.width;
-    CGFloat height = yumTapImage.size.height;
+    [cell.dishImageView addSubview:self.yumTapImageView];
     
-    heartImageView.frame = CGRectMake( x, y, width, height );
-    
-    [cell.dishImageView addSubview:heartImageView];
-    
-    heartImageView.transform = CGAffineTransformMakeScale( 0, 0 );
+    self.yumTapImageView.transform = CGAffineTransformMakeScale( 0, 0 );
     
     [UIView animateWithDuration:0.3 animations:^
     {
-        heartImageView.transform = CGAffineTransformMakeScale( 1, 1 );
+        self.yumTapImageView.transform = CGAffineTransformMakeScale( 1, 1 );
     }
     completion:^( BOOL finished )
     {
         if( finished )
         {
-            [UIView animateWithDuration:0.5 animations:^
+            [UIView animateWithDuration:0.3 animations:^
             {
-                heartImageView.alpha = 0;
+                self.yumTapImageView.alpha = 0;
             }
             completion:^( BOOL finished )
             {
                 if( finished )
                 {
-                    [heartImageView removeFromSuperview];
+                    [self.yumTapImageView removeFromSuperview];
+                    self.yumTapImageView.alpha = 1;
                 }
             }];
         }

@@ -29,9 +29,10 @@
     self.titleButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     
-    [self.commentsButton addTarget:self action:@selector(commentButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    [self.titleButton    addTarget:self action:@selector(titleButtonTapped)   forControlEvents:UIControlEventTouchUpInside];
-    [self.yumButton      addTarget:self action:@selector(yumButtonTapped)     forControlEvents:UIControlEventTouchUpInside];
+    [self.commentsButton addTarget:self action:@selector(commentButtonTapped)  forControlEvents:UIControlEventTouchUpInside];
+    [self.titleButton    addTarget:self action:@selector(titleButtonTapped)    forControlEvents:UIControlEventTouchUpInside];
+    [self.yumButton      addTarget:self action:@selector(yumButtonTapped)      forControlEvents:UIControlEventTouchUpInside];
+    [self.locationButton addTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     
     self.commentsButton.layer.cornerRadius = 5;
     self.yumButton.layer.cornerRadius = 5;
@@ -75,6 +76,14 @@
     if( [self.delegate respondsToSelector:@selector(yumButtonTappedOnFeedCollectionViewCell:)] )
     {
         [self.delegate yumButtonTappedOnFeedCollectionViewCell:self];
+    }
+}
+
+- (void)locationButtonTapped
+{
+    if( [self.delegate respondsToSelector:@selector(locationButtonTappedOnFeedCollectionViewCell:)] )
+    {
+        [self.delegate locationButtonTappedOnFeedCollectionViewCell:self];
     }
 }
 

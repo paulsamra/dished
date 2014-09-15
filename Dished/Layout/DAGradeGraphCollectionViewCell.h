@@ -9,6 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "DAGraphControl.h"
 
+@class DAGradeGraphCollectionViewCell;
+
+
+@protocol DAGradeGraphCollectionViewCellDelegate <NSObject>
+
+@optional
+- (void)utilityButtonTappedOnGradeGraphCollectionViewCell:(DAGradeGraphCollectionViewCell *)cell;
+
+@end
+
 
 @interface DAGradeGraphCollectionViewCell : UICollectionViewCell
 

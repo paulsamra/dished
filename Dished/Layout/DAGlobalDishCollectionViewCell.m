@@ -10,7 +10,7 @@
 #import "UIImageView+DishProgress.h"
 
 
-@interface DAGlobalDishCollectionViewCell() <UIScrollViewDelegate>
+@interface DAGlobalDishCollectionViewCell()
 
 @property (strong, nonatomic) NSArray        *images;
 @property (strong, nonatomic) NSMutableArray *scrollViewImageViews;
@@ -20,15 +20,19 @@
 
 @implementation DAGlobalDishCollectionViewCell
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    [self.locationButton addTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.addReviewButton addTarget:self action:@selector(addReviewTapped) forControlEvents:UIControlEventTouchUpInside];
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     
-    self.pagedImageView.delegate = self;
-    
     self.descriptionTextView.textContainerInset = UIEdgeInsetsZero;
-    
-    self.autoresizesSubviews = YES;
 }
 
 - (void)setPagedImages:(NSArray *)images
@@ -71,11 +75,6 @@
     self.pagedImageView.contentSize = CGSizeMake( self.pagedImageView.frame.size.width * self.images.count, self.pagedImageView.frame.size.height );
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    NSLog(@"%f", scrollView.contentOffset.x );
-}
-
 - (void)setBounds:(CGRect)bounds
 {
     [super setBounds:bounds];
@@ -89,6 +88,22 @@
     UIColor *color = [UIColor colorWithRed:0.4 green:0.43 blue:0.47 alpha:1];
     
     return @{ NSFontAttributeName : font, NSForegroundColorAttributeName : color };
+}
+
+- (void)locationButtonTapped
+{
+    if( [self.delegate respondsToSelector:@selector(locationButtonTappedOnGlobalDishCollectionViewCell:)] )
+    {
+        [self.delegate locationButtonTappedOnGlobalDishCollectionViewCell:self];
+    }
+}
+
+- (void)addReviewTapped
+{
+    if( [self.delegate respondsToSelector:@selector(addReviewButtonTappedOnGlobalDishCollectionViewCell:)] )
+    {
+        [self.delegate addReviewButtonTappedOnGlobalDishCollectionViewCell:self];
+    }
 }
 
 @end

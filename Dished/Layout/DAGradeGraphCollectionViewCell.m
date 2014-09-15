@@ -32,5 +32,4 @@
     self.contentView.frame = bounds;
 }
 
-
 @end

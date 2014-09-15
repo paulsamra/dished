@@ -18,6 +18,7 @@
 - (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 - (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
+- (void)locationButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 
 @end
 
