@@ -18,6 +18,7 @@
 #import "DAGlobalDishDetailViewController.h"
 #import "UIImageView+DishProgress.h"
 #import "DACollectionViewFlowLayout.h"
+#import "NSAttributedString+Dished.h"
 
 
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate>
@@ -148,6 +149,12 @@
     DAFeedItem *item = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     NSString *usernameString = [NSString stringWithFormat:@"@%@", item.creator_username];
+    if( [item.creator_type isEqualToString:@"influencer"] )
+    {
+        usernameString = [NSString stringWithFormat:@" %@", usernameString];
+        [cell.creatorButton setImage:[UIImage imageNamed:@"influencer"] forState:UIControlStateNormal];
+    }
+    
     [cell.creatorButton  setTitle:usernameString forState:UIControlStateNormal];
     [cell.titleButton    setTitle:item.name      forState:UIControlStateNormal];
     
@@ -180,7 +187,7 @@
     
     if( item.created )
     {
-        cell.timeLabel.attributedText = [DAFeedCollectionViewCell attributedTimeStringWithDate:item.created];
+        cell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:item.created];
     }
     
     cell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;

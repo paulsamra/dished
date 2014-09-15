@@ -12,13 +12,12 @@
 @interface DAGlobalReviewCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UIView      *gradeView;
-@property (weak, nonatomic) IBOutlet UILabel     *usernameLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *gradeLabel;
+@property (weak, nonatomic) IBOutlet UIButton    *usernameButton;
 @property (weak, nonatomic) IBOutlet UITextView  *commentTextView;
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
 
 + (NSDictionary *)commentTextAttributes;
-+ (NSAttributedString *)attributedTimeStringWithDate:(NSDate *)date;
 
 @end

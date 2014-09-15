@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 
+@property (nonatomic) NSInteger presentingReviewID;
 @property (nonatomic) NSInteger dishID;
 
 @end

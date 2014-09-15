@@ -200,9 +200,7 @@
     {
         DAReviewFormViewController *dest = [segue destinationViewController];
         dest.reviewImage = self.filteredImages[self.filterNames[self.selectedIndex]];
-        dest.review = self.review;
-        
-        NSLog(@"%d", (int)UIImagePNGRepresentation( dest.reviewImage ).length );
+        dest.review = self.review;        
     }
 }
 

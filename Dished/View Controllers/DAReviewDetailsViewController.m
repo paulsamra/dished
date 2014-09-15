@@ -16,7 +16,7 @@
 #import "DACommentsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
 #import "DACoreDataManager.h"
-
+#import "NSAttributedString+Dished.h"
 
 typedef enum
 {
@@ -149,6 +149,12 @@ ReviewDetailsItem;
         dishCell.delegate = self;
         
         NSString *usernameString = [NSString stringWithFormat:@"@%@", self.review.creator_username];
+        if( [self.review.creator_type isEqualToString:@"influencer"] )
+        {
+            usernameString = [NSString stringWithFormat:@" %@", usernameString];
+            [dishCell.creatorButton setImage:[UIImage imageNamed:@"influencer"] forState:UIControlStateNormal];
+        }
+        
         [dishCell.creatorButton setTitle:usernameString   forState:UIControlStateNormal];
         [dishCell.titleButton   setTitle:self.review.name forState:UIControlStateNormal];
         
@@ -173,7 +179,7 @@ ReviewDetailsItem;
         
         if( self.review.created )
         {
-            dishCell.timeLabel.attributedText = [DAFeedCollectionViewCell attributedTimeStringWithDate:self.review.created];
+            dishCell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:self.review.created];
         }
 
         cell = dishCell;
@@ -256,45 +262,50 @@ ReviewDetailsItem;
 
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment
 {
-    NSString *usernameString = [NSString stringWithFormat:@" @%@", comment.creator_username];
+    NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
     NSDictionary *attributes = [DAReviewDetailCollectionViewCell textAttributes];
-    
     NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
     NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
-    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     
-    NSTextAttachment *avatarIcon = [[NSTextAttachment alloc] init];
-    CGRect userImageRect = CGRectMake( 0, 0, 15, 15 );
-    CGFloat cornerRadius = userImageRect.size.width / 2;
-    
-    UIImage *userImage = [[[SDWebImageManager sharedManager] imageCache] imageFromDiskCacheForKey:comment.img_thumb];
-    
-    if( userImage )
+    if( comment.img_thumb && comment.img_thumb.length > 0 )
     {
-        avatarIcon.image = [self scaleImage:userImage toFrame:userImageRect withCornerRadius:cornerRadius];
-    }
-    else
-    {
-        NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
+        [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
         
-        [[SDWebImageManager sharedManager] downloadImageWithURL:userImageURL options:SDWebImageHighPriority progress:nil
-        completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
+        NSTextAttachment *avatarIcon = [[NSTextAttachment alloc] init];
+        CGRect userImageRect = CGRectMake( 0, 0, 15, 15 );
+        CGFloat cornerRadius = userImageRect.size.width / 2;
+        
+        UIImage *userImage = [[[SDWebImageManager sharedManager] imageCache] imageFromDiskCacheForKey:comment.img_thumb];
+        
+        if( userImage )
         {
-            dispatch_async( dispatch_get_main_queue(), ^
+            avatarIcon.image = [self scaleImage:userImage toFrame:userImageRect withCornerRadius:cornerRadius];
+        }
+        else
+        {
+            NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
+            
+            [[SDWebImageManager sharedManager] downloadImageWithURL:userImageURL options:SDWebImageHighPriority progress:nil
+            completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
             {
-                comment.creator_img = image;
-                [self.collectionView reloadData];
-            });
-        }];
+                dispatch_async( dispatch_get_main_queue(), ^
+                {
+                    comment.creator_img = image;
+                    [self.collectionView reloadData];
+                });
+            }];
+            
+            avatarIcon.image = [self scaleImage:[[UIImage alloc] init] toFrame:userImageRect withCornerRadius:cornerRadius];
+        }
         
-        avatarIcon.image = [self scaleImage:[[UIImage alloc] init] toFrame:userImageRect withCornerRadius:cornerRadius];
+        NSAttributedString *avatarIconString = [NSAttributedString attributedStringWithAttachment:avatarIcon];
+        [labelString insertAttributedString:avatarIconString atIndex:0];
     }
-    
-    NSAttributedString *avatarIconString = [NSAttributedString attributedStringWithAttachment:avatarIcon];
-    [labelString insertAttributedString:avatarIconString atIndex:0];
 
     if( [comment.creator_type isEqualToString:@"influencer"] )
     {
+        [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+        
         NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
         influencerIcon.image = [UIImage imageNamed:@"influencer"];
         
@@ -390,7 +401,7 @@ ReviewDetailsItem;
     {
         NSAttributedString *hashtagString = [self hashtagStringWithHashtags:self.review.hashtags];
         
-        CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 38, CGFLOAT_MAX );
+        CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 50, CGFLOAT_MAX );
         CGRect stringRect   = [hashtagString boundingRectWithSize:boundingSize
                                     options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
                                     context:nil];

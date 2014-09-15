@@ -394,11 +394,11 @@
     
     if( [self.review.hashtags count] > 0 )
     {
-        self.tagsImageView.image = [UIImage imageNamed:@"valid_icon"];
+        self.tagsImageView.image = [UIImage imageNamed:@"valid_input"];
     }
     else
     {
-        self.tagsImageView.image = [UIImage imageNamed:@"add_dish_arrow"];
+        self.tagsImageView.image = [UIImage imageNamed:@"disclosure_indicator"];
     }
     
     if( self.review.rating.length > 0 )

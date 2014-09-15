@@ -14,6 +14,7 @@
 #import "DAGlobalReviewCollectionViewCell.h"
 #import "UIImageView+WebCache.h"
 #import "DASocialCollectionViewController.h"
+#import "NSAttributedString+Dished.h"
 
 @interface DAGlobalDishDetailViewController ()
 
@@ -132,7 +133,13 @@
         DAGlobalReviewCollectionViewCell *reviewCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"reviewCell" forIndexPath:indexPath];
         DAGlobalReview *review = [self.dishProfile.reviews objectAtIndex:indexPath.row - 2];
         
-        reviewCell.usernameLabel.text = [NSString stringWithFormat:@"@%@", review.creator_username];
+        NSString *usernameString = [NSString stringWithFormat:@"@%@", review.creator_username];
+        if( [review.creator_type isEqualToString:@"influencer"] )
+        {
+            usernameString = [NSString stringWithFormat:@" %@", usernameString];
+            [reviewCell.usernameButton setImage:[UIImage imageNamed:@"influencer"] forState:UIControlStateNormal];
+        }
+        [reviewCell.usernameButton setTitle:usernameString forState:UIControlStateNormal];
         
         if( review.creator_img_thumb )
         {
@@ -155,18 +162,13 @@
         reviewCell.commentTextView.text = review.comment;
         reviewCell.commentTextView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
         
-        reviewCell.timeLabel.attributedText = [DAGlobalReviewCollectionViewCell attributedTimeStringWithDate:review.created];
+        reviewCell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:review.created];
         
         cell = reviewCell;
     }
     
     return cell;
 }
-
-//- (NSAttributedString *)usernameStringForReview:(DAGlobalReview *)review
-//{
-//    
-//}
 
 - (NSAttributedString *)attributedDishDescriptionTextWithDescription:(NSString *)description
 {

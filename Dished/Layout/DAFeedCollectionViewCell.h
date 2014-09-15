@@ -37,6 +37,4 @@
 
 @property (weak, nonatomic) id<DAFeedCollectionViewCellDelegate> delegate;
 
-+ (NSAttributedString *)attributedTimeStringWithDate:(NSDate *)date;
-
 @end

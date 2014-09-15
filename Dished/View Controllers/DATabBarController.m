@@ -49,11 +49,6 @@
         return NO;
     }
     
-    return YES;
-}
-
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
-{
     if( viewController == self.selectedViewController )
     {
         if( [viewController isKindOfClass:[UINavigationController class]] )
@@ -68,6 +63,8 @@
             }
         }
     }
+    
+    return YES;
 }
 
 - (void)presentEmailView:(NSNotification *)notification
