@@ -13,5 +13,6 @@
 @interface DAGraphControl : UIControl
 
 @property (nonatomic) CGFloat percentage;
+@property (strong, nonatomic) NSDictionary *gradeValues;
 
 @end

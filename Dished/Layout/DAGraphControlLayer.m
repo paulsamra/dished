@@ -12,6 +12,7 @@
 @implementation DAGraphControlLayer
 
 @dynamic percentage;
+@dynamic gradeValues;
 
 + (BOOL)needsDisplayForKey:(NSString *)key
 {
@@ -50,7 +51,7 @@
     UIGraphicsPushContext(ctx);
     
     //change this to set the grades totals
-    NSArray *arrayOfGradeAmounts = @[@9 ,@23, @12, @33];
+    NSArray *arrayOfGradeAmounts = [self.gradeValues allValues];
     NSArray *arrayOfGrades = @[@"A", @"B", @"C", @"D/F"];
     
     float max = [[arrayOfGradeAmounts valueForKeyPath:@"@max.floatValue"] floatValue];
@@ -74,11 +75,12 @@
     bezier3Path.lineWidth = 0.5;
     [bezier3Path stroke];
     
-    for( int i = 0; i < 4; i++ )
-    {
-        float y = (height + offset)*i + 50;
+    [arrayOfGrades enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         
-        float length = ([[arrayOfGradeAmounts objectAtIndex:i] floatValue]*250)/max;
+        float y = (height + offset)*idx + 50;
+        
+        float length = ([[self.gradeValues objectForKey:obj] floatValue]*250)/max;
+        
         length = length*self.percentage;
         
         if (length < min)
@@ -100,15 +102,16 @@
         [bezierPath stroke];
         
         [self createLabelsWithFrame:CGRectMake(length-33, y+2, 30, 16)
-                              title:[NSString stringWithFormat:@"%@", [arrayOfGradeAmounts objectAtIndex:i]]
+                              title:[NSString stringWithFormat:@"%@", [self.gradeValues objectForKey:obj]]
                           withColor:[UIColor whiteColor]
                            withFont:[UIFont fontWithName: @"HelveticaNeue-Light" size: 12]];
         
         [self createLabelsWithFrame:CGRectMake(10, y+2, 30, 16)
-                              title:[NSString stringWithFormat:@"%@", [arrayOfGrades objectAtIndex:i]]
+                              title:[NSString stringWithFormat:@"%@", obj]
                           withColor:[UIColor grayColor]
                            withFont:[UIFont fontWithName: @"HelveticaNeue-Medium" size: 16]];
-    }
+    }];
+    
     
     UIGraphicsPopContext();
 }
