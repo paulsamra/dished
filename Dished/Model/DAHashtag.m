@@ -27,20 +27,20 @@
 
 - (BOOL)isEqualToHashtag:(DAHashtag *)object
 {
-    return [self.hashtagID isEqualToString:object.hashtagID];
+    return self.hashtag_id == object.hashtag_id && [self.name isEqualToString:object.name];
 }
 
 - (NSUInteger)hash
 {
-    return [self.hashtagID hash] ^ [self.name hash];
+    return self.hashtag_id ^ [self.name hash];
 }
 
 + (DAHashtag *)hashtagWithData:(id)data
 {
     DAHashtag *hashtag = [[DAHashtag alloc] init];
     
-    hashtag.name      = data[@"name"];
-    hashtag.hashtagID = data[@"id"];
+    hashtag.name       = data[@"name"];
+    hashtag.hashtag_id = [data[@"id"] integerValue];
     
     return hashtag;
 }

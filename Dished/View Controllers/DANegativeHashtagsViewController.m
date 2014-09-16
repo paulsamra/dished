@@ -69,14 +69,13 @@
     NSArray *hashtags = response[@"data"];
     NSMutableArray *newHashtags = [NSMutableArray array];
     
-    for( NSDictionary *hashtag in hashtags )
+    if( hashtags && ![hashtags isEqual:[NSNull null]] )
     {
-        DAHashtag *newHashtag = [[DAHashtag alloc] init];
-        
-        newHashtag.name      = hashtag[@"name"];
-        newHashtag.hashtagID = hashtag[@"id"];
-        
-        [newHashtags addObject:newHashtag];
+        for( NSDictionary *hashtag in hashtags )
+        {
+            DAHashtag *newHashtag = [DAHashtag hashtagWithData:hashtag];
+            [newHashtags addObject:newHashtag];
+        }
     }
     
     return [newHashtags copy];
@@ -103,12 +102,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"hashtagCell"];
-    
-    if( !cell )
-    {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"hashtagCell"];
-    }
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"hashtagCell"];
     
     if( [self.hashtagArray count] == 0 )
     {

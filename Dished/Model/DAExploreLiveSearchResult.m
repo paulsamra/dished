@@ -11,4 +11,20 @@
 
 @implementation DAExploreLiveSearchResult
 
++ (DAExploreLiveSearchResult *)liveSearchResultWithData:(id)data type:(eExploreSearchResultType)type
+{
+    DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
+    
+    searchResult.name       = type == eUsernameSearchResult ? data[@"username"] : data[@"name"];
+    searchResult.resultID   = [data[@"id"] integerValue];
+    searchResult.resultType = type;
+    
+    if( type == eDishSearchResult )
+    {
+        searchResult.dishType = data[@"type"];
+    }
+    
+    return searchResult;
+}
+
 @end

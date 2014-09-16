@@ -108,9 +108,7 @@
     {
         for( NSDictionary *dataObject in data )
         {
-            DAHashtag *hashtag = [[DAHashtag alloc] init];
-            hashtag.name = dataObject[@"name"];
-            hashtag.hashtagID = dataObject[@"id"];
+            DAHashtag *hashtag = [DAHashtag hashtagWithData:dataObject];
             [hashtags addObject:hashtag];
         }
     }
@@ -174,7 +172,7 @@
             {
                 if( response && ![response isEqual:[NSNull null]] )
                 {
-                    self.liveSearchResults = [self hashtagResultsFromResponse:response];
+                    self.liveSearchResults = [self resultsFromResponse:response withType:eHashtagSearchResult];
                 }
                 
                 [self.searchDisplayController.searchResultsTableView reloadData];
@@ -189,7 +187,7 @@
             {
                 if( response && ![response isEqual:[NSNull null]] )
                 {
-                    self.liveSearchResults = [self usernameResultsFromResponse:response];
+                    self.liveSearchResults = [self resultsFromResponse:response withType:eUsernameSearchResult];
                 }
                 
                 [self.searchDisplayController.searchResultsTableView reloadData];
@@ -205,7 +203,9 @@
             {
                 if( response && ![response isEqual:[NSNull null]] )
                 {
-                    self.liveSearchResults = [self dishAndLocationResultsFromResponse:response];
+                    NSArray *dishes    = [self resultsFromResponse:response withType:eDishSearchResult];
+                    NSArray *locations = [self resultsFromResponse:response withType:eLocationSearchResult];
+                    self.liveSearchResults = [dishes arrayByAddingObjectsFromArray:locations];
                 }
                 
                 [self.searchDisplayController.searchResultsTableView reloadData];
@@ -219,81 +219,36 @@
     }
 }
 
-- (NSArray *)usernameResultsFromResponse:(id)response
+- (NSArray *)resultsFromResponse:(id)response withType:(eExploreSearchResultType)type
 {
-    NSArray *usernames = response[@"data"];
+    NSArray *results = nil;
     NSMutableArray *searchResults = [NSMutableArray array];
     
-    if( usernames && ![usernames isEqual:[NSNull null]] )
+    switch( type )
     {
-        for( NSDictionary *username in usernames )
-        {
-            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
+        case eUsernameSearchResult:
+        case eHashtagSearchResult:
+            results = response[@"data"];
+            break;
             
-            searchResult.name = username[@"username"];
-            searchResult.resultID = username[@"id"];
-            searchResult.resultType = eUsernameSearchResult;
+        case eDishSearchResult:
+            results = response[@"data"][@"dishes"];
+            break;
             
-            [searchResults addObject:searchResult];
-        }
+        case eLocationSearchResult:
+            results = response[@"data"][@"locations"];
+            break;
+            
+        default:
+            results = response[@"data"];
+            break;
     }
     
-    return [searchResults copy];
-}
-
-- (NSArray *)hashtagResultsFromResponse:(id)response
-{
-    NSArray *hashtags = response[@"data"];
-    NSMutableArray *searchResults = [NSMutableArray array];
-    
-    if( hashtags && ![hashtags isEqual:[NSNull null]] )
+    if( results && ![results isEqual:[NSNull null]] )
     {
-        for( NSDictionary *hashtag in hashtags )
+        for( NSDictionary *result in results )
         {
-            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
-            
-            searchResult.name = hashtag[@"name"];
-            searchResult.resultID = hashtag[@"id"];
-            searchResult.resultType = eHashtagSearchResult;
-            
-            [searchResults addObject:searchResult];
-        }
-    }
-    
-    return searchResults;
-}
-
-- (NSArray *)dishAndLocationResultsFromResponse:(id)response
-{
-    NSArray *dishes = response[@"data"][@"dishes"];
-    NSArray *locations = response[@"data"][@"locations"];
-    NSMutableArray *searchResults = [NSMutableArray array];
-    
-    if( dishes && ![dishes isEqual:[NSNull null]] )
-    {
-        for( NSDictionary *dish in dishes )
-        {
-            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
-            
-            searchResult.name       = dish[@"name"];
-            searchResult.dishType   = dish[@"type"];
-            searchResult.resultType = eDishSearchResult;
-            
-            [searchResults addObject:searchResult];
-        }
-    }
-    
-    if( ![locations isEqual:[NSNull null]] )
-    {
-        for( NSDictionary *location in locations )
-        {
-            DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
-            
-            searchResult.name       = location[@"name"];
-            searchResult.resultID   = location[@"id"];
-            searchResult.resultType = eLocationSearchResult;
-            
-            [searchResults addObject:searchResult];
+            [searchResults addObject:[DAExploreLiveSearchResult liveSearchResultWithData:result type:type]];
         }
     }
     

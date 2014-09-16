@@ -595,7 +595,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         NSString *hashtagString = @"";
         for( DAHashtag *hashtag in review.hashtags )
         {
-            hashtagString = [hashtagString stringByAppendingFormat:@"%@,", hashtag.hashtagID];
+            hashtagString = [hashtagString stringByAppendingFormat:@"%d,", (int)hashtag.hashtag_id];
         }
         
         NSDictionary *baseParams = @{ kAccessTokenKey : self.accessToken, @"comment" : review.comment,

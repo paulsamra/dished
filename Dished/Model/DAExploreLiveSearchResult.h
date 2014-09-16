@@ -19,11 +19,14 @@ typedef enum eExploreSearchResultType
 
 @interface DAExploreLiveSearchResult : NSObject
 
-@property (copy, nonatomic) NSString *resultID;
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic) NSString *rating;
 @property (copy, nonatomic) NSString *dishType;
 
+@property (nonatomic) NSInteger                resultID;
 @property (nonatomic) eExploreSearchResultType resultType;
+
+
++ (DAExploreLiveSearchResult *)liveSearchResultWithData:(id)data type:(eExploreSearchResultType)type;
 
 @end

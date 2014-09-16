@@ -102,11 +102,6 @@
     NSArray *data = response[@"data"];
     NSMutableArray *comments = [NSMutableArray array];
     
-    if( ![data isKindOfClass:[NSArray class]] )
-    {
-        return [NSArray array];
-    }
-    
     if( data && ![data isEqual:[NSNull null]] )
     {
         for( NSDictionary *dataObject in [data reverseObjectEnumerator] )

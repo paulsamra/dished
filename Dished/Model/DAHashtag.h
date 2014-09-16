@@ -12,7 +12,9 @@
 @interface DAHashtag : NSObject
 
 @property (copy, nonatomic) NSString *name;
-@property (copy, nonatomic) NSString *hashtagID;
+
+@property (nonatomic) NSInteger hashtag_id;
+
 
 + (DAHashtag *)hashtagWithData:(id)data;
 
