@@ -20,6 +20,12 @@
     self.userImageView.layer.masksToBounds = YES;
     
     self.commentTextView.textContainerInset = UIEdgeInsetsZero;
+    
+    [self.usernameButton addTarget:self action:@selector(usernameButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    
+    UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(commentTapped)];
+    doubleTapGesture.numberOfTapsRequired = 1;
+    [self.commentTextView addGestureRecognizer:doubleTapGesture];
 }
 
 - (void)setBounds:(CGRect)bounds
@@ -27,6 +33,22 @@
     [super setBounds:bounds];
     
     self.contentView.frame = bounds;
+}
+
+- (void)usernameButtonTapped
+{
+    if( [self.delegate respondsToSelector:@selector(usernameButtonTappedOnGlobalReviewCollectionViewCell:)] )
+    {
+        [self.delegate usernameButtonTappedOnGlobalReviewCollectionViewCell:self];
+    }
+}
+
+- (void)commentTapped
+{
+    if( [self.delegate respondsToSelector:@selector(commentTappedOnGlobalReviewCollectionViewCell:)] )
+    {
+        [self.delegate commentTappedOnGlobalReviewCollectionViewCell:self];
+    }
 }
 
 + (NSDictionary *)commentTextAttributes

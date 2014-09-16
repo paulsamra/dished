@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="RzW-un-BhE">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
@@ -694,7 +693,6 @@
                         <outlet property="collectionView" destination="ZsI-AF-9cR" id="umg-Yf-vCs"/>
                         <segue destination="P8x-Vf-lZp" kind="show" identifier="commentsSegue" id="bNY-2x-UqY"/>
                         <segue destination="gSo-WE-Bx1" kind="show" identifier="reviewDetails" id="Pvw-SR-10w"/>
-                        <segue destination="vVU-kX-jzI" kind="show" identifier="dishGlobal" id="v7H-VZ-scS"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rf5-pm-q8l" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -773,7 +771,7 @@
                             <constraint firstItem="wwz-ft-tqt" firstAttribute="top" secondItem="dTJ-4l-buB" secondAttribute="top" id="HDn-OW-FGx"/>
                             <constraint firstAttribute="trailing" secondItem="wwz-ft-tqt" secondAttribute="trailing" id="Iz6-wl-leY"/>
                             <constraint firstItem="5U0-dG-Wex" firstAttribute="leading" secondItem="dTJ-4l-buB" secondAttribute="leading" id="WhM-9C-Jpr"/>
-                            <constraint firstItem="t3g-ex-ZCh" firstAttribute="top" secondItem="5U0-dG-Wex" secondAttribute="bottom" id="X25-eF-hED"/>
+                            <constraint firstItem="t3g-ex-ZCh" firstAttribute="top" secondItem="5U0-dG-Wex" secondAttribute="bottom" constant="49" id="X25-eF-hED"/>
                             <constraint firstAttribute="bottom" secondItem="wwz-ft-tqt" secondAttribute="bottom" id="bFl-u6-LYu"/>
                             <constraint firstItem="wwz-ft-tqt" firstAttribute="leading" secondItem="dTJ-4l-buB" secondAttribute="leading" id="la4-CX-3Ic"/>
                         </constraints>
@@ -3158,11 +3156,12 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="collectionView" destination="3xB-Ol-YTp" id="6E0-8U-DYG"/>
+                        <segue destination="gSo-WE-Bx1" kind="show" identifier="reviewDetails" id="qwH-GH-rMo"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gAC-Ui-zj5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2489" y="1816"/>
+            <point key="canvasLocation" x="2468" y="1816"/>
         </scene>
     </scenes>
     <resources>
@@ -3216,10 +3215,11 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="bNY-2x-UqY"/>
-        <segue reference="v7H-VZ-scS"/>
+        <segue reference="Ybk-es-BQ9"/>
+        <segue reference="qwH-GH-rMo"/>
+        <segue reference="hdo-Ap-R3q"/>
+        <segue reference="wCN-0l-elF"/>
         <segue reference="e1c-XP-t2f"/>
         <segue reference="DWl-1Z-W5u"/>
-        <segue reference="wCN-0l-elF"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -15,4 +15,6 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) DAFeedItem *feedItem;
 
+@property (nonatomic) NSInteger reviewID;
+
 @end

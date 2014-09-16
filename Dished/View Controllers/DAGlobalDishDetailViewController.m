@@ -15,9 +15,10 @@
 #import "UIImageView+WebCache.h"
 #import "DASocialCollectionViewController.h"
 #import "NSAttributedString+Dished.h"
+#import "DAReviewDetailsViewController.h"
 
 
-@interface DAGlobalDishDetailViewController() <DAGlobalDishCollectionViewCellDelegate>
+@interface DAGlobalDishDetailViewController() <DAGlobalDishCollectionViewCellDelegate, DAGlobalReviewCollectionViewCellDelegate>
 
 @property (strong, nonatomic) DADishProfile                    *dishProfile;
 @property (strong, nonatomic) UIActivityIndicatorView          *spinner;
@@ -171,6 +172,8 @@
         
         reviewCell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:review.created];
         
+        reviewCell.delegate = self;
+        
         cell = reviewCell;
     }
     
@@ -307,6 +310,37 @@
 - (void)addReviewButtonTappedOnGlobalDishCollectionViewCell:(DAGlobalDishCollectionViewCell *)cell
 {
     
+}
+
+- (void)usernameButtonTappedOnGlobalReviewCollectionViewCell:(DAGlobalReviewCollectionViewCell *)cell
+{
+    
+}
+
+- (void)commentTappedOnGlobalReviewCollectionViewCell:(DAGlobalReviewCollectionViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAGlobalReview *review = [self.dishProfile.reviews objectAtIndex:indexPath.row - 2];
+    
+    if( review.review_id == self.presentingReviewID )
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else
+    {
+        [self performSegueWithIdentifier:@"reviewDetails" sender:review];
+    }
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"reviewDetails"] )
+    {
+        DAGlobalReview *review = sender;
+        DAReviewDetailsViewController *dest = segue.destinationViewController;
+        
+        dest.reviewID = review.review_id;
+    }
 }
 
 - (IBAction)shareBarButtonTapped:(UIBarButtonItem *)sender
