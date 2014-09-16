@@ -13,5 +13,6 @@
 @interface DAGraphControlLayer : CALayer
 
 @property (nonatomic) CGFloat percentage;
+@property (strong, nonatomic) NSDictionary *gradeValues;
 
 @end

@@ -22,6 +22,12 @@
     ((DAGraphControlLayer *)self.layer).percentage = percentage;
 }
 
+- (void)setGradeValues:(NSDictionary *)gradeValues
+{
+    _gradeValues = gradeValues;
+    ((DAGraphControlLayer *)self.layer).gradeValues = gradeValues;
+}
+
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if( self = [super initWithCoder:aDecoder] )

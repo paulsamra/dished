@@ -19,7 +19,12 @@
 
 - (void) viewDidAppear:(BOOL)animated
 {
+    NSDictionary *dictKeysObjectsNew = @{@"A" : @44,
+                                       	 @"B" : @22,
+                                       	 @"C" : @6,
+                                         @"D/F" : @24};
     
+    [self.control setGradeValues:dictKeysObjectsNew];
     [self.control sendActionsForControlEvents:UIControlEventTouchUpInside];
     
 }
@@ -28,8 +33,9 @@
 - (IBAction)touchedArrow:(DAGraphControl *)sender
 {
     
-    [CATransaction setAnimationDuration:1.0];
     
+    
+    [CATransaction setAnimationDuration:1.0];
 	if (sender.percentage == 1.0)
     {
         sender.percentage = 0.0;
