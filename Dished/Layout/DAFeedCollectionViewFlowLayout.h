@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DACollectionViewFlowLayout : UICollectionViewFlowLayout
+@interface DAFeedCollectionViewFlowLayout : UICollectionViewFlowLayout
 
 @property (weak, nonatomic) UINavigationBar *navigationBar;
 

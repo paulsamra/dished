@@ -88,6 +88,7 @@
 		94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */; };
 		945A3B6119A52B4A000D76E3 /* DAFeedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */; };
 		945E312019C669CC00C8AA52 /* NSAttributedString+Dished.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E311F19C669CC00C8AA52 /* NSAttributedString+Dished.m */; };
+		945E312319C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E312219C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m */; };
 		945F959319A6646900241D0D /* DACoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F959219A6646900241D0D /* DACoreDataManager.m */; };
 		945F959A19A677F900241D0D /* DAFeedItem+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F959919A677F900241D0D /* DAFeedItem+Utility.m */; };
 		945F95A619A7290600241D0D /* UIColor+Dished.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F95A319A7290600241D0D /* UIColor+Dished.m */; };
@@ -112,7 +113,7 @@
 		94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */; };
 		94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */; };
 		94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6319BFBE75005071D5 /* DADishProfile.m */; };
-		94BC4F1919C4242200EAF3B0 /* DACollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1819C4242200EAF3B0 /* DACollectionViewFlowLayout.m */; };
+		94BC4F1919C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1819C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m */; };
 		94BC4F1C19C51CE000EAF3B0 /* DANewsTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1B19C51CE000EAF3B0 /* DANewsTableViewCell.m */; };
 		94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
 		94CB03B019AFD334009010F6 /* DAComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AF19AFD334009010F6 /* DAComment.m */; };
@@ -342,6 +343,8 @@
 		945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedCollectionViewCell.m; sourceTree = "<group>"; };
 		945E311E19C669CC00C8AA52 /* NSAttributedString+Dished.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Dished.h"; sourceTree = "<group>"; };
 		945E311F19C669CC00C8AA52 /* NSAttributedString+Dished.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Dished.m"; sourceTree = "<group>"; };
+		945E312119C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedHeaderCollectionReusableView.h; sourceTree = "<group>"; };
+		945E312219C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedHeaderCollectionReusableView.m; sourceTree = "<group>"; };
 		945F959119A6646900241D0D /* DACoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACoreDataManager.h; sourceTree = "<group>"; };
 		945F959219A6646900241D0D /* DACoreDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACoreDataManager.m; sourceTree = "<group>"; };
 		945F959819A677F900241D0D /* DAFeedItem+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DAFeedItem+Utility.h"; sourceTree = "<group>"; };
@@ -385,8 +388,8 @@
 		94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGlobalReviewCollectionViewCell.m; sourceTree = "<group>"; };
 		94B92C6219BFBE75005071D5 /* DADishProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishProfile.h; sourceTree = "<group>"; };
 		94B92C6319BFBE75005071D5 /* DADishProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishProfile.m; sourceTree = "<group>"; };
-		94BC4F1719C4242200EAF3B0 /* DACollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACollectionViewFlowLayout.h; sourceTree = "<group>"; };
-		94BC4F1819C4242200EAF3B0 /* DACollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		94BC4F1719C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedCollectionViewFlowLayout.h; sourceTree = "<group>"; };
+		94BC4F1819C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		94BC4F1A19C51CE000EAF3B0 /* DANewsTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANewsTableViewCell.h; sourceTree = "<group>"; };
 		94BC4F1B19C51CE000EAF3B0 /* DANewsTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANewsTableViewCell.m; sourceTree = "<group>"; };
 		94CB03AB19AFA734009010F6 /* DACommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACommentsViewController.h; sourceTree = "<group>"; };
@@ -795,6 +798,17 @@
 			path = SPGooglePlacesAutocomplete;
 			sourceTree = "<group>";
 		};
+		945E312419C7CE5E00C8AA52 /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				94BC4F1719C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.h */,
+				94BC4F1819C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m */,
+				945E312119C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.h */,
+				945E312219C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m */,
+			);
+			name = Feed;
+			sourceTree = "<group>";
+		};
 		945F959419A6736400241D0D /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -1156,6 +1170,7 @@
 		94FE15E119411F3000FE00EA /* Layout */ = {
 			isa = PBXGroup;
 			children = (
+				945E312419C7CE5E00C8AA52 /* Feed */,
 				D1100DBB19AA3FCF00C73AC8 /* DASampleGraphViewController.h */,
 				D1100DBC19AA3FCF00C73AC8 /* DASampleGraphViewController.m */,
 				D1100DB519AA3DA200C73AC8 /* DAGraphControl.h */,
@@ -1203,8 +1218,6 @@
 				D187E07019BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.m */,
 				94B92C5F19BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.h */,
 				94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */,
-				94BC4F1719C4242200EAF3B0 /* DACollectionViewFlowLayout.h */,
-				94BC4F1819C4242200EAF3B0 /* DACollectionViewFlowLayout.m */,
 				94BC4F1A19C51CE000EAF3B0 /* DANewsTableViewCell.h */,
 				94BC4F1B19C51CE000EAF3B0 /* DANewsTableViewCell.m */,
 			);
@@ -1447,6 +1460,7 @@
 				94DCE9B91980ABB100396C0A /* UIAlertView+AFNetworking.m in Sources */,
 				945F95B119A7B90400241D0D /* DAFeedImportManager.m in Sources */,
 				94CB03FF19B146AF009010F6 /* JSQMessagesToolbarContentView.m in Sources */,
+				945E312319C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m in Sources */,
 				94CB040419B146AF009010F6 /* UIView+JSQMessages.m in Sources */,
 				94F2ADA2198C539200450C6F /* SDWebImagePrefetcher.m in Sources */,
 				943E625E1987362100DF2135 /* STTwitterHTML.m in Sources */,
@@ -1467,7 +1481,7 @@
 				94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */,
 				948EE6A61996FA2E004EC600 /* DANewsViewController.m in Sources */,
 				94E5EF461943472D0021A711 /* AFSecurityPolicy.m in Sources */,
-				94BC4F1919C4242200EAF3B0 /* DACollectionViewFlowLayout.m in Sources */,
+				94BC4F1919C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m in Sources */,
 				941538F819401A14008B3B79 /* DASplashViewController.m in Sources */,
 				943E6274198984FE00DF2135 /* DAExploreCollectionViewCell.m in Sources */,
 				D1100DBD19AA3FCF00C73AC8 /* DASampleGraphViewController.m in Sources */,

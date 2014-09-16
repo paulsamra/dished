@@ -90,9 +90,9 @@
     }
 }
 
-- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate
+- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate sectionName:(NSString *)sectionName
 {
-    return [self fetchedResultsControllerWithEntityName:name sortDescriptors:sortDescriptors predicate:predicate fetchLimit:0];
+    return [self fetchedResultsControllerWithEntityName:name sortDescriptors:sortDescriptors predicate:predicate sectionName:sectionName fetchLimit:0];
 }
 
 - (NSArray *)fetchEntitiesWithName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate
@@ -105,11 +105,11 @@
     return error ? nil : results;
 }
 
-- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate fetchLimit:(NSUInteger)limit
+- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate sectionName:(NSString *)sectionName fetchLimit:(NSUInteger)limit
 {
     NSFetchRequest *fetchRequest = [self fetchRequestWithName:name sortDescriptors:sortDescriptors predicate:predicate fetchLimit:limit];
     
-    NSFetchedResultsController *resultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
+    NSFetchedResultsController *resultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:sectionName cacheName:nil];
     
     NSError *error = nil;
     BOOL success = [resultsController performFetch:&error];

@@ -6,10 +6,10 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DACollectionViewFlowLayout.h"
+#import "DAFeedCollectionViewFlowLayout.h"
 
 
-@implementation DACollectionViewFlowLayout
+@implementation DAFeedCollectionViewFlowLayout
 
 - (NSArray *)layoutAttributesForElementsInRect:(CGRect)rect {
     
@@ -84,7 +84,7 @@
                            (CGRectGetMaxY(lastObjectAttrs.frame) - bottomHeaderHeight)
                            );
             
-            layoutAttributes.zIndex = 1024;
+            layoutAttributes.zIndex = NSIntegerMax;
             layoutAttributes.frame = (CGRect){
                 .origin = origin,
                 .size = layoutAttributes.frame.size

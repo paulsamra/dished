@@ -17,15 +17,17 @@
 #import "DACommentsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
 #import "UIImageView+DishProgress.h"
-#import "DACollectionViewFlowLayout.h"
+#import "DAFeedCollectionViewFlowLayout.h"
 #import "NSAttributedString+Dished.h"
+#import "DAFeedHeaderCollectionReusableView.h"
 
 
-@interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate>
+@interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate>
 
 @property (strong, nonatomic) NSCache                    *mainImageCache;
 @property (strong, nonatomic) UIImageView                *yumTapImageView;
-@property (strong, nonatomic) NSMutableArray             *changes;
+@property (strong, nonatomic) NSMutableArray             *sectionChanges;
+@property (strong, nonatomic) NSMutableArray             *itemChanges;
 @property (strong, nonatomic) DARefreshControl           *refreshControl;
 @property (strong, nonatomic) DAFeedImportManager        *importer;
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -43,8 +45,8 @@
 {	
     [super viewDidLoad];
     
-//    DACollectionViewFlowLayout *flowLayout = (DACollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-//    flowLayout.navigationBar = self.navigationController.navigationBar;
+    DAFeedCollectionViewFlowLayout *flowLayout = (DAFeedCollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    flowLayout.navigationBar = self.navigationController.navigationBar;
     
     self.hasMoreData   = YES;
     self.isLoadingMore = NO;
@@ -77,8 +79,6 @@
         }
     }];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
-    
     [self setupRefreshControl];
 }
 
@@ -87,6 +87,8 @@
     [super viewDidAppear:animated];
     
     self.isLoadingMore = NO;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
 }
 
 - (void)setupRefreshControl
@@ -109,7 +111,6 @@
         [self.refreshControl endRefreshing];
         
         self.hasMoreData = hasMoreData;
-        [self.collectionView reloadData];
     }];
 }
 
@@ -132,6 +133,11 @@
             self.fetchedResultsController.delegate = self;
         }
     }];
+}
+
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
+{
+    return self.fetchedResultsController.sections.count;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -227,12 +233,49 @@
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
 {
-    return [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"loadingFooter" forIndexPath:indexPath];
+    UICollectionReusableView *reusableView = nil;
+    
+    if( kind == UICollectionElementKindSectionHeader )
+    {
+        DAFeedHeaderCollectionReusableView *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"titleHeader" forIndexPath:indexPath];
+        DAFeedItem *item = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        
+        [header.titleButton setTitle:item.name forState:UIControlStateNormal];
+        
+        if( item.created )
+        {
+            header.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:item.created];
+        }
+        
+        header.indexPath = indexPath;
+        header.delegate = self;
+        
+        reusableView = header;
+    }
+    else
+    {
+        reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"loadingFooter" forIndexPath:indexPath];
+    }
+    
+    return reusableView;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
+    if( section != self.fetchedResultsController.sections.count - 1 )
+    {
+        return CGSizeZero;
+    }
+    
     return !self.hasMoreData ? CGSizeZero : CGSizeMake( self.collectionView.frame.size.width, 50 );
+}
+
+- (void)titleButtonTappedOnFeedHeaderCollectionReusableView:(DAFeedHeaderCollectionReusableView *)header
+{
+    NSIndexPath *indexPath = header.indexPath;
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
 }
 
 - (void)commentButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
@@ -243,14 +286,6 @@
     [self performSegueWithIdentifier:@"commentsSegue" sender:feedItem];
 }
 
-- (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
-{
-    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
-    [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
-}
-
 - (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     [self changeYumStatusForCell:cell];
@@ -258,6 +293,9 @@
 
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
     if( !self.yumTapImageView )
     {
         UIImage *image = [UIImage imageNamed:@"yum_tap"];
@@ -270,6 +308,7 @@
     CGFloat width  = imageSize.width;
     CGFloat height = imageSize.height;
     self.yumTapImageView.frame = CGRectMake( x, y, width, height );
+    self.yumTapImageView.alpha = 1;
     
     [cell.dishImageView addSubview:self.yumTapImageView];
     
@@ -289,22 +328,19 @@
             }
             completion:^( BOOL finished )
             {
+                feedItem.caller_yumd = @(YES);
+                
                 if( finished )
                 {
                     [self.yumTapImageView removeFromSuperview];
-                    self.yumTapImageView.alpha = 1;
                 }
             }];
         }
     }];
     
-    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
     if( ![feedItem.caller_yumd boolValue] )
     {
         [self yumCell:cell];
-        feedItem.caller_yumd = @(YES);
         [self yumFeedItemWithReviewID:[feedItem.item_id integerValue]];
     }
 }
@@ -338,6 +374,10 @@
         {
             [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
         }
+        else
+        {
+            [self.collectionView reloadData];
+        }
     }];
 }
 
@@ -349,12 +389,24 @@
         {
             [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
         }
+        else
+        {
+            [self.collectionView reloadData];
+        }
     }];
 }
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
-    self.changes = [NSMutableArray array];
+    self.itemChanges    = [NSMutableArray array];
+    self.sectionChanges = [NSMutableArray array];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
+    change[@(type)] = @(sectionIndex);
+    [self.sectionChanges addObject:change];
 }
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
@@ -380,44 +432,114 @@
             break;
     }
     
-    [self.changes addObject:change];
+    [self.itemChanges addObject:change];
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{    
-    [self.collectionView performBatchUpdates:^
+{
+    if( [self.sectionChanges count] > 0 )
     {
-        for( NSDictionary *change in self.changes )
+        [self.collectionView performBatchUpdates:^
         {
-            [change enumerateKeysAndObjectsUsingBlock:^( id key, id obj, BOOL *stop )
+            for( NSDictionary *change in self.sectionChanges )
             {
-                NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                
-                switch( type )
+                [change enumerateKeysAndObjectsUsingBlock:^( NSNumber *key, id obj, BOOL *stop )
                 {
-                    case NSFetchedResultsChangeInsert:
-                        [self.collectionView insertItemsAtIndexPaths:@[obj]];
-                        break;
+                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                    
+                    switch( type )
+                    {
+                        case NSFetchedResultsChangeInsert:
+                            [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
+                            
+                        case NSFetchedResultsChangeDelete:
+                            [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
+                            
+                        case NSFetchedResultsChangeUpdate:
+                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
                         
-                    case NSFetchedResultsChangeDelete:
-                        [self.collectionView deleteItemsAtIndexPaths:@[obj]];
-                        break;
+                        case NSFetchedResultsChangeMove:
+                            break;
+                    }
+                }];
+            }
+        } completion:nil];
+    }
+    
+    if( [self.itemChanges count] > 0 && [self.sectionChanges count] == 0 )
+    {
+        if( [self shouldReloadCollectionViewToPreventKnownIssue] || self.collectionView.window == nil )
+        {
+            [self.collectionView reloadData];
+        }
+        else
+        {
+            [self.collectionView performBatchUpdates:^
+            {
+                for( NSDictionary *change in self.itemChanges )
+                {
+                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
                         
-                    case NSFetchedResultsChangeUpdate:
-                        [self.collectionView reloadItemsAtIndexPaths:@[obj]];
-                        break;
-                        
-                    case NSFetchedResultsChangeMove:
-                        [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
-                        break;
+                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                        switch (type)
+                        {
+                            case NSFetchedResultsChangeInsert:
+                                [self.collectionView insertItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeDelete:
+                                [self.collectionView deleteItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeUpdate:
+                                [self.collectionView reloadItemsAtIndexPaths:@[obj]];
+                                break;
+                            case NSFetchedResultsChangeMove:
+                                [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+                                break;
+                        }
+                    }];
                 }
-            }];
+            } completion:nil];
         }
     }
-    completion:^( BOOL finished )
+}
+
+- (BOOL)shouldReloadCollectionViewToPreventKnownIssue
+{
+    __block BOOL shouldReload = NO;
+    
+    for( NSDictionary *change in self.itemChanges )
     {
-        self.changes = nil;
-    }];
+        [change enumerateKeysAndObjectsUsingBlock:^( id key, id obj, BOOL *stop )
+        {
+            NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+            
+            NSIndexPath *indexPath = obj;
+            
+            switch( type )
+            {
+                case NSFetchedResultsChangeInsert:
+                    shouldReload = [self.collectionView numberOfItemsInSection:indexPath.section] == 0 ? YES : NO;
+                    break;
+                    
+                case NSFetchedResultsChangeDelete:
+                    shouldReload = [self.collectionView numberOfItemsInSection:indexPath.section] == 1 ? YES : NO;
+                    break;
+                    
+                case NSFetchedResultsChangeUpdate:
+                    shouldReload = NO;
+                    break;
+                    
+                case NSFetchedResultsChangeMove:
+                    shouldReload = NO;
+                    break;
+            }
+        }];
+    }
+    
+    return shouldReload;
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
