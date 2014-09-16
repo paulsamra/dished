@@ -52,7 +52,7 @@
     
     //change this to set the grades totals
     NSArray *arrayOfGradeAmounts = [self.gradeValues allValues];
-    NSArray *arrayOfGrades = @[@"A", @"B", @"C", @"D/F"];
+    NSArray *arrayOfGrades = @[@"A", @"B", @"C", @"DF"];
     
     float max = [[arrayOfGradeAmounts valueForKeyPath:@"@max.floatValue"] floatValue];
     

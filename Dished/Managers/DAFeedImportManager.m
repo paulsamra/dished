@@ -25,13 +25,19 @@
         if( error )
         {
             id errorResponse = error.userInfo[[[DAAPIManager sharedManager] errorResponseKey]];
-            NSLog(@"ERROR RESPONSE: %@", errorResponse);
             
             if( [errorResponse isKindOfClass:[NSDictionary class]] )
             {
-                if( [errorResponse[@"error"] isEqualToString:@"data_nonexists"] )
+                if( [errorResponse[@"error"] isKindOfClass:[NSString class]] )
                 {
-                    completion( YES, NO );
+                    if( [errorResponse[@"error"] isEqualToString:@"data_nonexists"] )
+                    {
+                        completion( YES, NO );
+                    }
+                    else
+                    {
+                        completion( NO, YES );
+                    }
                 }
                 else
                 {
@@ -77,12 +83,14 @@
                     {
                         DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
                         [newManagedItem configureWithDictionary:response[@"data"][newItemIndex]];
+                        [self updateFeedItem:newManagedItem withCommentsData:response[@"data"][newItemIndex][@"comments"]];
                     }
                     else
                     {
                         managedItem = matchingItems[entityIndex];
                         [managedItem configureWithDictionary:response[@"data"][newItemIndex]];
-                        
+                        [self updateFeedItem:managedItem withCommentsData:response[@"data"][newItemIndex][@"comments"]];
+
                         entityIndex++;
                     }
                 }
@@ -90,6 +98,7 @@
                 {
                     DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
                     [newManagedItem configureWithDictionary:response[@"data"][newItemIndex]];
+                    [self updateFeedItem:newManagedItem withCommentsData:response[@"data"][newItemIndex][@"comments"]];
                 }
             }
             
@@ -110,6 +119,23 @@
             completion( NO, YES );
         }
     }];
+}
+
+- (void)updateFeedItem:(DAFeedItem *)feedItem withCommentsData:(id)data
+{
+    NSArray *comments = (NSArray *)data;
+    NSMutableSet *commentItems = [NSMutableSet set];
+    
+    for( NSDictionary *comment in comments )
+    {
+        DAFeedComment *feedComment = (DAFeedComment *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedComment entityName]];
+        [feedComment configureWithDictionary:comment];
+        feedComment.feedItem = feedItem;
+        
+        [commentItems addObject:feedComment];
+    }
+    
+    [feedItem setComments:commentItems];
 }
 
 - (NSFetchedResultsController *)fetchFeedItemsWithLimit:(NSUInteger)limit

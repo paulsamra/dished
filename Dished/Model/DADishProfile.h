@@ -12,13 +12,14 @@
 
 @interface DADishProfile : NSObject
 
-@property (copy,   nonatomic) NSString *name;
-@property (copy,   nonatomic) NSString *desc;
-@property (copy,   nonatomic) NSString *price;
-@property (copy,   nonatomic) NSString *loc_name;
-@property (copy,   nonatomic) NSString *grade;
-@property (strong, nonatomic) NSArray  *images;
-@property (strong, nonatomic) NSArray  *reviews;
+@property (copy,   nonatomic) NSString     *name;
+@property (copy,   nonatomic) NSString     *desc;
+@property (copy,   nonatomic) NSString     *price;
+@property (copy,   nonatomic) NSString     *loc_name;
+@property (copy,   nonatomic) NSString     *grade;
+@property (strong, nonatomic) NSArray      *images;
+@property (strong, nonatomic) NSArray      *reviews;
+@property (strong, nonatomic) NSDictionary *num_grades;
 
 @property (nonatomic) BOOL      additional_info;
 @property (nonatomic) NSInteger dish_id;

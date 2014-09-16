@@ -24,6 +24,8 @@
 @property (strong, nonatomic) DAGlobalDishCollectionViewCell   *referenceDishCell;
 @property (strong, nonatomic) DAGlobalReviewCollectionViewCell *referenceReviewCell;
 @property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
+
+@property (nonatomic) BOOL   graphAnimated;
 @property (nonatomic) CGRect keyboardFrame;
 
 @end
@@ -34,6 +36,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.graphAnimated = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissSocialView) name:kDoneSelecting object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
@@ -127,7 +131,7 @@
     {
         DAGradeGraphCollectionViewCell *graphCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"gradeGraph" forIndexPath:indexPath];
         
-        [graphCell.control sendActionsForControlEvents:UIControlEventTouchUpInside];
+        graphCell.control.gradeValues = self.dishProfile.num_grades;
         
         cell = graphCell;
     }
@@ -265,6 +269,36 @@
     }
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    if( indexPath.row == 1 && !self.graphAnimated )
+    {
+        DAGradeGraphCollectionViewCell *graphCell = (DAGradeGraphCollectionViewCell *)cell;
+        
+        graphCell.control.gradeValues = self.dishProfile.num_grades;
+        [graphCell.control sendActionsForControlEvents:UIControlEventTouchUpInside];
+    }
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if( !self.graphAnimated )
+    {
+        CGFloat navigtionBarHeight = self.navigationController.navigationBar.frame.size.height;
+        CGFloat staturBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+        CGFloat scrollOffset = scrollView.contentOffset.y + navigtionBarHeight + staturBarHeight;
+        
+        if( scrollOffset > self.view.frame.size.height / 2 )
+        {
+            NSIndexPath *graphIndexPath = [NSIndexPath indexPathForItem:1 inSection:0];
+            DAGradeGraphCollectionViewCell *graphCell = (DAGradeGraphCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:graphIndexPath];
+            [graphCell.control sendActionsForControlEvents:UIControlEventTouchUpInside];
+            
+            self.graphAnimated = YES;
+        }
+    }
+}
+
 - (void)locationButtonTappedOnGlobalDishCollectionViewCell:(DAGlobalDishCollectionViewCell *)cell
 {
     
@@ -344,6 +378,11 @@
     self.socialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"social"];
     self.socialViewController.isReview = NO;
     self.socialViewController.view.frame = CGRectMake( 0, 600, self.view.bounds.size.width, self.view.bounds.size.height );
+}
+
+- (void)dealloc
+{
+    self.collectionView.delegate = nil;
 }
 
 @end

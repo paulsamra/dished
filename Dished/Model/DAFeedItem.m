@@ -2,11 +2,12 @@
 //  DAFeedItem.m
 //  Dished
 //
-//  Created by Ryan Khalili on 9/10/14.
+//  Created by Ryan Khalili on 9/16/14.
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
 #import "DAFeedItem.h"
+#import "DAFeedComment.h"
 
 
 @implementation DAFeedItem
@@ -28,5 +29,6 @@
 @dynamic name;
 @dynamic num_comments;
 @dynamic source;
+@dynamic comments;
 
 @end

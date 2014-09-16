@@ -910,6 +910,8 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)getFeedActivityWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius offset:(NSInteger)offset limit:(NSInteger)limit completion:( void(^)( id response, NSError *error ) )completion
 {
+    [self authenticate];
+    
     dispatch_async( self.queue, ^
     {
         NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"longitude" : @(longitude),

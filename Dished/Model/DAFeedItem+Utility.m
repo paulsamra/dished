@@ -32,7 +32,7 @@
     self.caller_yumd       = nilOrJSONObjectForKey( dictionary, @"caller_yumd" );
     self.num_comments      = nilOrJSONObjectForKey( dictionary, @"num_comments" );
     self.img_public        = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"img_public" )];
-    self.creator_id        = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"creator_id"  )];
+    self.creator_id        = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"creator_id" )];
     self.item_id           = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"id" )];
     self.loc_id            = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"loc_id" )];    
 }

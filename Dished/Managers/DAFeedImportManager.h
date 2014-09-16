@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "DACoreDataManager.h"
 #import "DAFeedItem+Utility.h"
+#import "DAFeedComment+Utility.h"
 
 
 @interface DAFeedImportManager : NSObject

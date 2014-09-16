@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		9402317219C148F8003B3017 /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9402317119C148F8003B3017 /* DAFeedItem.m */; };
 		9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 9402317419C18B6E003B3017 /* DAGlobalReview.m */; };
 		941538C5193F270A008B3B79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C4193F270A008B3B79 /* main.m */; };
 		941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C7193F270A008B3B79 /* DAAppDelegate.m */; };
@@ -185,6 +184,9 @@
 		94F2ADA7198C539200450C6F /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD95198C539200450C6F /* UIImageView+HighlightedWebCache.m */; };
 		94F2ADA8198C539200450C6F /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD97198C539200450C6F /* UIImageView+WebCache.m */; };
 		94F2ADA9198C539200450C6F /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD99198C539200450C6F /* UIView+WebCacheOperation.m */; };
+		94FD7B4C19C836EE008D60CA /* DAFeedComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FD7B4B19C836EE008D60CA /* DAFeedComment.m */; };
+		94FD7B4F19C8376A008D60CA /* DAFeedComment+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FD7B4E19C8376A008D60CA /* DAFeedComment+Utility.m */; };
+		94FD7B5219C8390C008D60CA /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FD7B5119C8390C008D60CA /* DAFeedItem.m */; };
 		94FE15E91941239100FE00EA /* DATouchTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FE15E81941239100FE00EA /* DATouchTableView.m */; };
 		94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FF526A197347F200B97A61 /* DARegisterViewController.m */; };
 		D1100DB719AA3DA200C73AC8 /* DAGraphControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DB619AA3DA200C73AC8 /* DAGraphControl.m */; };
@@ -208,8 +210,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9402317019C148F8003B3017 /* DAFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedItem.h; sourceTree = "<group>"; };
-		9402317119C148F8003B3017 /* DAFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedItem.m; sourceTree = "<group>"; };
 		9402317319C18B6E003B3017 /* DAGlobalReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGlobalReview.h; sourceTree = "<group>"; };
 		9402317419C18B6E003B3017 /* DAGlobalReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGlobalReview.m; sourceTree = "<group>"; };
 		941538BF193F270A008B3B79 /* Dished.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dished.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -535,6 +535,12 @@
 		94F2AD97198C539200450C6F /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		94F2AD98198C539200450C6F /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		94F2AD99198C539200450C6F /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		94FD7B4A19C836EE008D60CA /* DAFeedComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedComment.h; sourceTree = "<group>"; };
+		94FD7B4B19C836EE008D60CA /* DAFeedComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedComment.m; sourceTree = "<group>"; };
+		94FD7B4D19C8376A008D60CA /* DAFeedComment+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DAFeedComment+Utility.h"; sourceTree = "<group>"; };
+		94FD7B4E19C8376A008D60CA /* DAFeedComment+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DAFeedComment+Utility.m"; sourceTree = "<group>"; };
+		94FD7B5019C8390C008D60CA /* DAFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedItem.h; sourceTree = "<group>"; };
+		94FD7B5119C8390C008D60CA /* DAFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedItem.m; sourceTree = "<group>"; };
 		94FE15E71941239100FE00EA /* DATouchTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATouchTableView.h; sourceTree = "<group>"; };
 		94FE15E81941239100FE00EA /* DATouchTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATouchTableView.m; sourceTree = "<group>"; };
 		94FF5269197347F200B97A61 /* DARegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARegisterViewController.h; sourceTree = "<group>"; };
@@ -812,10 +818,14 @@
 		945F959419A6736400241D0D /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				9402317019C148F8003B3017 /* DAFeedItem.h */,
-				9402317119C148F8003B3017 /* DAFeedItem.m */,
+				94FD7B5019C8390C008D60CA /* DAFeedItem.h */,
+				94FD7B5119C8390C008D60CA /* DAFeedItem.m */,
 				945F959819A677F900241D0D /* DAFeedItem+Utility.h */,
 				945F959919A677F900241D0D /* DAFeedItem+Utility.m */,
+				94FD7B4A19C836EE008D60CA /* DAFeedComment.h */,
+				94FD7B4B19C836EE008D60CA /* DAFeedComment.m */,
+				94FD7B4D19C8376A008D60CA /* DAFeedComment+Utility.h */,
+				94FD7B4E19C8376A008D60CA /* DAFeedComment+Utility.m */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -1395,6 +1405,7 @@
 				943E625B1987362100DF2135 /* STHTTPRequest+STTwitter.m in Sources */,
 				D1236B9619AE7B4B00727447 /* DAReviewDetailsViewController.m in Sources */,
 				9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */,
+				94FD7B4C19C836EE008D60CA /* DAFeedComment.m in Sources */,
 				9445C1B5199927B800F3A4F8 /* SPGooglePlacesAutocompletePlace.m in Sources */,
 				94E5EF741943F5530021A711 /* MRNavigationBarProgressView.m in Sources */,
 				9418100D1970DF7900C83034 /* DAHashtag.m in Sources */,
@@ -1407,6 +1418,7 @@
 				943E62581987362100DF2135 /* NSDateFormatter+STTwitter.m in Sources */,
 				942CC23819BDB21700BDBB75 /* DAReview.m in Sources */,
 				D17487C9196DE8BC00D83993 /* DAReviewFormViewController.m in Sources */,
+				94FD7B5219C8390C008D60CA /* DAFeedItem.m in Sources */,
 				94F2ADA1198C539200450C6F /* SDWebImageManager.m in Sources */,
 				94CB03D019B0EA94009010F6 /* SWUtilityButtonView.m in Sources */,
 				D187E06F19BFA1A500D8C85C /* DAGlobalDishDetailViewController.m in Sources */,
@@ -1451,7 +1463,6 @@
 				94F2AD9A198C539200450C6F /* MKAnnotationView+WebCache.m in Sources */,
 				94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */,
 				94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */,
-				9402317219C148F8003B3017 /* DAFeedItem.m in Sources */,
 				942AA01419C23F3100D0D77C /* DADishLayer.m in Sources */,
 				94F2ADA5198C539200450C6F /* UIImage+MultiFormat.m in Sources */,
 				94F2ADA7198C539200450C6F /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -1475,6 +1486,7 @@
 				94CB040319B146AF009010F6 /* UIImage+JSQMessages.m in Sources */,
 				941810131970EB7700C83034 /* DAConstants.m in Sources */,
 				94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */,
+				94FD7B4F19C8376A008D60CA /* DAFeedComment+Utility.m in Sources */,
 				94CB03FE19B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m in Sources */,
 				943E62611987362100DF2135 /* STTwitterOSRequest.m in Sources */,
 				94F2ADA8198C539200450C6F /* UIImageView+WebCache.m in Sources */,

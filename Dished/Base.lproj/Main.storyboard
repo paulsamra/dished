@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="14A329f" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="RzW-un-BhE">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="RzW-un-BhE">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
@@ -613,7 +613,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="titleHeader" id="vzk-gu-ZJW" customClass="DAFeedHeaderCollectionReusableView">
-                                    <rect key="frame" x="0.0" y="64" width="600" height="50"/>
+                                    <rect key="frame" x="0.0" y="64" width="600" height="40"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="xJg-Es-uup">
@@ -2980,11 +2980,17 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="209"/>
                                                     <subviews>
                                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zek-IS-ZXk">
-                                                            <rect key="frame" x="272" y="8" width="40" height="40"/>
+                                                            <rect key="frame" x="284" y="8" width="28" height="22"/>
                                                             <state key="normal" image="blue_dots">
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                             </state>
                                                         </button>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="GLOBAL SCORE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W5y-K1-VfI">
+                                                            <rect key="frame" x="15" y="9" width="130" height="20"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="15"/>
+                                                            <color key="textColor" red="0.40000000000000002" green="0.43137254901960786" blue="0.46666666666666667" alpha="1" colorSpace="calibratedRGB"/>
+                                                            <nil key="highlightedColor"/>
+                                                        </label>
                                                     </subviews>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <connections>
@@ -3159,7 +3165,7 @@
     <resources>
         <image name="add_place" width="13" height="13"/>
         <image name="add_review_tab" width="70" height="49"/>
-        <image name="blue_dots" width="40" height="40"/>
+        <image name="blue_dots" width="28" height="6"/>
         <image name="camera_controls_background" width="320" height="75"/>
         <image name="camera_dock" width="320" height="90"/>
         <image name="camera_flash" width="14" height="19"/>

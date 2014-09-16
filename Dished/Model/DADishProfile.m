@@ -14,19 +14,22 @@
 {
     DADishProfile *profile = [[DADishProfile alloc] init];
     
-    profile.dish_id         = [data[@"id"] integerValue];
-    profile.name            = data[@"name"];
+    profile.name            = nilOrJSONObjectForKey( data, @"name" );
     profile.desc            = nilOrJSONObjectForKey( data, @"desc" );
     profile.price           = nilOrJSONObjectForKey( data, @"price" );
-    profile.loc_id          = [data[@"loc_id"] integerValue];
     profile.loc_name        = nilOrJSONObjectForKey( data, @"loc_name" );
-    profile.additional_info = [data[@"additional_info"] boolValue];
-    profile.num_yums        = [data[@"num_yums"] integerValue];
     profile.grade           = nilOrJSONObjectForKey( data, @"grade" );
-    profile.num_images      = [data[@"num_images"] integerValue];
     profile.images          = nilOrJSONObjectForKey( data, @"images" );
-    profile.dish_id         = [data[@"dish_id"] integerValue];
+    profile.num_grades      = nilOrJSONObjectForKey( data, @"num_grades" );
     
+    profile.dish_id         = [data[@"id"]         integerValue];
+    profile.loc_id          = [data[@"loc_id"]     integerValue];
+    profile.dish_id         = [data[@"dish_id"]    integerValue];
+    profile.num_yums        = [data[@"num_yums"]   integerValue];
+    profile.num_images      = [data[@"num_images"] integerValue];
+    
+    profile.additional_info = [data[@"additional_info"] boolValue];
+        
     NSArray *reviews = nilOrJSONObjectForKey( data, @"reviews" );
     if( reviews )
     {

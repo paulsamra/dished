@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6244" systemVersion="13E28" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="DAFeedComment" representedClassName="DAFeedComment" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="comment_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="created" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="creator_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="creator_type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creator_username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="img_thumb" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feedItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DAFeedItem" inverseName="comments" inverseEntity="DAFeedItem" syncable="YES"/>
+    </entity>
     <entity name="DAFeedItem" representedClassName="DAFeedItem" syncable="YES">
         <attribute name="caller_yumd" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="created" optional="YES" attributeType="Date" syncable="YES"/>
@@ -18,8 +29,10 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="num_comments" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DAFeedComment" inverseName="feedItem" inverseEntity="DAFeedComment" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DAFeedItem" positionX="-54" positionY="90" width="128" height="300"/>
+        <element name="DAFeedItem" positionX="-54" positionY="90" width="128" height="313"/>
+        <element name="DAFeedComment" positionX="-54" positionY="216" width="128" height="178"/>
     </elements>
 </model>
