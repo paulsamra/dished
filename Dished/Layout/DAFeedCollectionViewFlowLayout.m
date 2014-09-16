@@ -73,12 +73,24 @@
             
             CGPoint origin = frameWithEdgeInsets.origin;
             
-            CGRect navigationBarFrame = self.navigationBar.frame;
-            CGFloat navigationBarOffset = navigationBarFrame.origin.y + navigationBarFrame.size.height;
+            CGFloat navigationBarOffset  = 0;
+            CGFloat refreshControlOffset = 0;
+            
+            if( self.navigationBar )
+            {
+                CGRect navigationBarFrame = self.navigationBar.frame;
+                navigationBarOffset = navigationBarFrame.origin.y + navigationBarFrame.size.height;
+            }
+            
+            if( self.refreshControl && [self.refreshControl isRefreshing] )
+            {
+                CGRect refreshControlFrame = self.refreshControl.frame;
+                refreshControlOffset = refreshControlFrame.size.height;
+            }
             
             origin.y = MIN(
                            MAX(
-                               contentOffset.y + navigationBarOffset, //cv.contentInset.top,
+                               contentOffset.y + navigationBarOffset - refreshControlOffset, //cv.contentInset.top,
                                (CGRectGetMinY(firstObjectAttrs.frame) - topHeaderHeight)
                                ),
                            (CGRectGetMaxY(lastObjectAttrs.frame) - bottomHeaderHeight)

@@ -190,6 +190,11 @@
     }
 }
 
+- (BOOL)isRefreshing
+{
+    return _isRefreshing;
+}
+
 - (void)setLoadingScrollViewInsets:(UIScrollView *)scrollView
 {
     UIEdgeInsets loadingInset = scrollView.contentInset;
@@ -200,7 +205,6 @@
     [UIView animateWithDuration:0.2 delay:0 options:options animations:^
     {
         scrollView.contentInset  = loadingInset;
-        scrollView.contentOffset = CGPointZero;
     }
     completion:nil];
 }

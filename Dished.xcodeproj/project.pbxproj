@@ -1167,10 +1167,23 @@
 			path = SDWebImage;
 			sourceTree = "<group>";
 		};
+		94FD7B4619C818CF008D60CA /* Explore */ = {
+			isa = PBXGroup;
+			children = (
+				D13DB8F31988B221008C86BB /* DAExploreDishTableViewCell.h */,
+				D13DB8F41988B221008C86BB /* DAExploreDishTableViewCell.m */,
+				94F2AD76198C454600450C6F /* DAExploreDishTableViewCell.xib */,
+				943E6272198984FE00DF2135 /* DAExploreCollectionViewCell.h */,
+				943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */,
+			);
+			name = Explore;
+			sourceTree = "<group>";
+		};
 		94FE15E119411F3000FE00EA /* Layout */ = {
 			isa = PBXGroup;
 			children = (
 				945E312419C7CE5E00C8AA52 /* Feed */,
+				94FD7B4619C818CF008D60CA /* Explore */,
 				D1100DBB19AA3FCF00C73AC8 /* DASampleGraphViewController.h */,
 				D1100DBC19AA3FCF00C73AC8 /* DASampleGraphViewController.m */,
 				D1100DB519AA3DA200C73AC8 /* DAGraphControl.h */,
@@ -1193,11 +1206,6 @@
 				947A13451975D06D000553EF /* DADishSuggestionTableViewCell.h */,
 				947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */,
 				947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */,
-				D13DB8F31988B221008C86BB /* DAExploreDishTableViewCell.h */,
-				D13DB8F41988B221008C86BB /* DAExploreDishTableViewCell.m */,
-				94F2AD76198C454600450C6F /* DAExploreDishTableViewCell.xib */,
-				943E6272198984FE00DF2135 /* DAExploreCollectionViewCell.h */,
-				943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */,
 				D170CA6819931D3F006D9DCB /* DASocialCollectionViewCell.h */,
 				D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */,
 				945A3B5F19A52B4A000D76E3 /* DAFeedCollectionViewCell.h */,

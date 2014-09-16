@@ -45,8 +45,11 @@
 {	
     [super viewDidLoad];
     
+    [self setupRefreshControl];
+    
     DAFeedCollectionViewFlowLayout *flowLayout = (DAFeedCollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
-    flowLayout.navigationBar = self.navigationController.navigationBar;
+    flowLayout.navigationBar  = self.navigationController.navigationBar;
+    flowLayout.refreshControl = self.refreshControl;
     
     self.hasMoreData   = YES;
     self.isLoadingMore = NO;
@@ -78,8 +81,6 @@
             [spinner stopAnimating];
         }
     }];
-    
-    [self setupRefreshControl];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -575,9 +576,10 @@
     
     [self.refreshControl containingScrollViewDidScroll:scrollView];
     
+    CGFloat statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
     CGRect frame = self.navigationController.navigationBar.frame;
-    CGFloat size = frame.size.height - 21;
-    CGFloat framePercentageHidden = ( ( 20 - frame.origin.y ) / ( frame.size.height - 1 ) );
+    CGFloat size = frame.size.height - statusBarHeight - 1;
+    CGFloat framePercentageHidden = ( ( statusBarHeight - frame.origin.y ) / ( frame.size.height - 1 ) );
     CGFloat scrollOffset = scrollView.contentOffset.y;
     CGFloat scrollDiff = scrollOffset - self.previousScrollViewYOffset;
     CGFloat scrollHeight = scrollView.frame.size.height;
@@ -594,6 +596,11 @@
     else
     {
         frame.origin.y = MIN( 20, MAX( -size, frame.origin.y - scrollDiff ) );
+    }
+    
+    if( ![self.refreshControl isRefreshing] )
+    {
+        
     }
     
     [self.navigationController.navigationBar setFrame:frame];

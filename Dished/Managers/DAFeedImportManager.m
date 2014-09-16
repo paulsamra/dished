@@ -25,6 +25,7 @@
         if( error )
         {
             id errorResponse = error.userInfo[[[DAAPIManager sharedManager] errorResponseKey]];
+            NSLog(@"ERROR RESPONSE: %@", errorResponse);
             
             if( [errorResponse isKindOfClass:[NSDictionary class]] )
             {

@@ -7,10 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DARefreshControl.h"
 
 
 @interface DAFeedCollectionViewFlowLayout : UICollectionViewFlowLayout
 
-@property (weak, nonatomic) UINavigationBar *navigationBar;
+@property (weak, nonatomic) UINavigationBar  *navigationBar;
+@property (weak, nonatomic) DARefreshControl *refreshControl;
 
 @end
