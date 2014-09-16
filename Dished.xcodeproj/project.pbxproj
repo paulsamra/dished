@@ -1189,17 +1189,46 @@
 			name = Explore;
 			sourceTree = "<group>";
 		};
-		94FE15E119411F3000FE00EA /* Layout */ = {
+		94FD7B5319C83C93008D60CA /* Global Dish Details */ = {
 			isa = PBXGroup;
 			children = (
-				945E312419C7CE5E00C8AA52 /* Feed */,
-				94FD7B4619C818CF008D60CA /* Explore */,
-				D1100DBB19AA3FCF00C73AC8 /* DASampleGraphViewController.h */,
-				D1100DBC19AA3FCF00C73AC8 /* DASampleGraphViewController.m */,
+				942AA00C19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.h */,
+				942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */,
+				D187E07119BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.h */,
+				D187E07019BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.m */,
+				94B92C5F19BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.h */,
+				94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */,
 				D1100DB519AA3DA200C73AC8 /* DAGraphControl.h */,
 				D1100DB619AA3DA200C73AC8 /* DAGraphControl.m */,
 				D1100DB819AA3DDB00C73AC8 /* DAGraphControlLayer.h */,
 				D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */,
+			);
+			name = "Global Dish Details";
+			sourceTree = "<group>";
+		};
+		94FD7B5419C83CCE008D60CA /* Add Review */ = {
+			isa = PBXGroup;
+			children = (
+				94A027A5196F264A004D5CD7 /* DARatingTableViewCell.h */,
+				94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */,
+				947A13401975AC62000553EF /* DADishSuggestionsTableView.h */,
+				947A13411975AC62000553EF /* DADishSuggestionsTableView.m */,
+				947A13451975D06D000553EF /* DADishSuggestionTableViewCell.h */,
+				947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */,
+				947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */,
+			);
+			name = "Add Review";
+			sourceTree = "<group>";
+		};
+		94FE15E119411F3000FE00EA /* Layout */ = {
+			isa = PBXGroup;
+			children = (
+				94FD7B5419C83CCE008D60CA /* Add Review */,
+				94FD7B5319C83C93008D60CA /* Global Dish Details */,
+				945E312419C7CE5E00C8AA52 /* Feed */,
+				94FD7B4619C818CF008D60CA /* Explore */,
+				D1100DBB19AA3FCF00C73AC8 /* DASampleGraphViewController.h */,
+				D1100DBC19AA3FCF00C73AC8 /* DASampleGraphViewController.m */,
 				94FE15E71941239100FE00EA /* DATouchTableView.h */,
 				94FE15E81941239100FE00EA /* DATouchTableView.m */,
 				948B7F631941B8AF005494AA /* DADatePickerTableViewCell.h */,
@@ -1209,13 +1238,6 @@
 				943093FB1942638200B1F61F /* DAErrorView.xib */,
 				94E5EF4F1943B9A30021A711 /* DAReplaceSegue.h */,
 				94E5EF501943B9A30021A711 /* DAReplaceSegue.m */,
-				94A027A5196F264A004D5CD7 /* DARatingTableViewCell.h */,
-				94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */,
-				947A13401975AC62000553EF /* DADishSuggestionsTableView.h */,
-				947A13411975AC62000553EF /* DADishSuggestionsTableView.m */,
-				947A13451975D06D000553EF /* DADishSuggestionTableViewCell.h */,
-				947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */,
-				947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */,
 				D170CA6819931D3F006D9DCB /* DASocialCollectionViewCell.h */,
 				D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */,
 				945A3B5F19A52B4A000D76E3 /* DAFeedCollectionViewCell.h */,
@@ -1230,12 +1252,6 @@
 				94CB03B219AFF57F009010F6 /* DACommentTableViewCell.m */,
 				D112F41319BE00550059300F /* DAReviewDetailCollectionViewCell.h */,
 				D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */,
-				942AA00C19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.h */,
-				942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */,
-				D187E07119BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.h */,
-				D187E07019BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.m */,
-				94B92C5F19BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.h */,
-				94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */,
 				94BC4F1A19C51CE000EAF3B0 /* DANewsTableViewCell.h */,
 				94BC4F1B19C51CE000EAF3B0 /* DANewsTableViewCell.m */,
 			);

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="RzW-un-BhE">
     <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
     </dependencies>
     <scenes>
@@ -2750,7 +2751,9 @@
                             <constraint firstAttribute="trailing" secondItem="Pj1-MA-v2t" secondAttribute="trailing" id="oZh-Xi-1QJ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Review Details" id="8uP-KF-CaQ"/>
+                    <navigationItem key="navigationItem" title="Review Details" id="8uP-KF-CaQ">
+                        <barButtonItem key="rightBarButtonItem" image="share" id="Pj7-3T-qBj"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Pj1-MA-v2t" id="A9A-W0-Hyj"/>
                         <segue destination="vVU-kX-jzI" kind="show" identifier="globalReview" id="Ybk-es-BQ9"/>
@@ -3213,10 +3216,10 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="v7H-VZ-scS"/>
         <segue reference="bNY-2x-UqY"/>
-        <segue reference="DWl-1Z-W5u"/>
+        <segue reference="v7H-VZ-scS"/>
         <segue reference="e1c-XP-t2f"/>
+        <segue reference="DWl-1Z-W5u"/>
         <segue reference="wCN-0l-elF"/>
     </inferredMetricsTieBreakers>
 </document>

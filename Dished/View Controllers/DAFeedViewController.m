@@ -167,6 +167,10 @@
         usernameString = [NSString stringWithFormat:@" %@", usernameString];
         [cell.creatorButton setImage:[UIImage imageNamed:@"influencer"] forState:UIControlStateNormal];
     }
+    else
+    {
+        [cell.creatorButton setImage:nil forState:UIControlStateNormal];
+    }
     
     [cell.creatorButton  setTitle:usernameString forState:UIControlStateNormal];
     [cell.titleButton    setTitle:item.name      forState:UIControlStateNormal];
