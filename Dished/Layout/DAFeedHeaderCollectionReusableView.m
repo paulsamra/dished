@@ -18,6 +18,8 @@
     self.titleButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     
     [self.titleButton addTarget:self action:@selector(titleButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    
+    self.opaque = YES;
 }
 
 - (void)titleButtonTapped

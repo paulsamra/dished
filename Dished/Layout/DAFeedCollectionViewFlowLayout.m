@@ -90,7 +90,7 @@
             
             origin.y = MIN(
                            MAX(
-                               contentOffset.y + navigationBarOffset - refreshControlOffset, //cv.contentInset.top,
+                               contentOffset.y + navigationBarOffset - refreshControlOffset,
                                (CGRectGetMinY(firstObjectAttrs.frame) - topHeaderHeight)
                                ),
                            (CGRectGetMaxY(lastObjectAttrs.frame) - bottomHeaderHeight)
