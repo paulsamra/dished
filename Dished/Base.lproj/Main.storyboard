@@ -771,7 +771,7 @@
                             <constraint firstItem="wwz-ft-tqt" firstAttribute="top" secondItem="dTJ-4l-buB" secondAttribute="top" id="HDn-OW-FGx"/>
                             <constraint firstAttribute="trailing" secondItem="wwz-ft-tqt" secondAttribute="trailing" id="Iz6-wl-leY"/>
                             <constraint firstItem="5U0-dG-Wex" firstAttribute="leading" secondItem="dTJ-4l-buB" secondAttribute="leading" id="WhM-9C-Jpr"/>
-                            <constraint firstItem="t3g-ex-ZCh" firstAttribute="top" secondItem="5U0-dG-Wex" secondAttribute="bottom" constant="49" id="X25-eF-hED"/>
+                            <constraint firstItem="t3g-ex-ZCh" firstAttribute="top" secondItem="5U0-dG-Wex" secondAttribute="bottom" id="X25-eF-hED"/>
                             <constraint firstAttribute="bottom" secondItem="wwz-ft-tqt" secondAttribute="bottom" id="bFl-u6-LYu"/>
                             <constraint firstItem="wwz-ft-tqt" firstAttribute="leading" secondItem="dTJ-4l-buB" secondAttribute="leading" id="la4-CX-3Ic"/>
                         </constraints>
@@ -2495,11 +2495,11 @@
                         <viewControllerLayoutGuide type="bottom" id="ZBC-qF-Iq8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eSz-qH-xDY">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Pj1-MA-v2t">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="1IC-VF-owM">
                                     <size key="itemSize" width="320" height="383"/>
@@ -3215,11 +3215,11 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Ybk-es-BQ9"/>
-        <segue reference="qwH-GH-rMo"/>
-        <segue reference="hdo-Ap-R3q"/>
-        <segue reference="wCN-0l-elF"/>
+        <segue reference="bNY-2x-UqY"/>
         <segue reference="e1c-XP-t2f"/>
         <segue reference="DWl-1Z-W5u"/>
+        <segue reference="wCN-0l-elF"/>
+        <segue reference="qwH-GH-rMo"/>
+        <segue reference="Ybk-es-BQ9"/>
     </inferredMetricsTieBreakers>
 </document>
