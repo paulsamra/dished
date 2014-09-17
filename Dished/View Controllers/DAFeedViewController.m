@@ -20,17 +20,18 @@
 #import "DAFeedCollectionViewFlowLayout.h"
 #import "NSAttributedString+Dished.h"
 #import "DAFeedHeaderCollectionReusableView.h"
+#import "DAReviewDetailCollectionViewCell.h"
 
 
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate>
 
-@property (strong, nonatomic) NSCache                    *mainImageCache;
-@property (strong, nonatomic) UIImageView                *yumTapImageView;
-@property (strong, nonatomic) NSMutableArray             *sectionChanges;
-@property (strong, nonatomic) NSMutableArray             *itemChanges;
-@property (strong, nonatomic) DARefreshControl           *refreshControl;
-@property (strong, nonatomic) DAFeedImportManager        *importer;
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSCache                          *mainImageCache;
+@property (strong, nonatomic) UIImageView                      *yumTapImageView;
+@property (strong, nonatomic) NSMutableArray                   *sectionChanges;
+@property (strong, nonatomic) NSMutableArray                   *itemChanges;
+@property (strong, nonatomic) DARefreshControl                 *refreshControl;
+@property (strong, nonatomic) DAFeedImportManager              *importer;
+@property (strong, nonatomic) NSFetchedResultsController       *fetchedResultsController;
 
 @property (nonatomic) BOOL    hasMoreData;
 @property (nonatomic) BOOL    isLoadingMore;
@@ -136,6 +137,17 @@
     }];
 }
 
+- (NSInteger)numberOfItemsInSection:(NSInteger)section
+{
+    id<NSFetchedResultsSectionInfo> resultsSection = self.fetchedResultsController.sections[section];
+    NSInteger numberOfObjects = resultsSection.numberOfObjects;
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    return numberOfObjects + [feedItem.comments count] + 1;
+}
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return self.fetchedResultsController.sections.count;
@@ -143,18 +155,64 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    id<NSFetchedResultsSectionInfo> resultsSection = self.fetchedResultsController.sections[section];
-    return resultsSection.numberOfObjects;
+    return [self numberOfItemsInSection:section];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAFeedCollectionViewCell *feedCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
+    UICollectionViewCell *cell = nil;
+    NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
     
-    [self configureCell:feedCell atIndexPath:indexPath];
-    feedCell.delegate = self;
+    if( indexPath.row == 0 )
+    {
+        DAFeedCollectionViewCell *feedCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
+        
+        [self configureCell:feedCell atIndexPath:indexPath];
+        feedCell.delegate = self;
+        
+        cell = feedCell;
+    }
+    else if( indexPath.row > 0 && indexPath.row < sectionItems - 1 )
+    {
+        DAReviewDetailCollectionViewCell *commentCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"commentCell" forIndexPath:indexPath];
+        
+        NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+        DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+        
+        NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
+        DAFeedComment *comment = comments[indexPath.row - 1];
+        
+        commentCell.imageView.hidden = indexPath.row - 1 == 0 ? NO : YES;
+        commentCell.detailTextView.attributedText = [self commentStringForComment:comment];
+        
+        cell = commentCell;
+    }
+    else if( indexPath.row == sectionItems - 1 )
+    {
+        DAFeedCollectionViewCell *buttonCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"buttonCell" forIndexPath:indexPath];
+        
+        NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+        DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+        
+        NSString *commentString = [NSString stringWithFormat:@"%d comments", [feedItem.num_comments intValue]];
+        [buttonCell.commentsButton setTitle:commentString forState:UIControlStateNormal];
+        
+        [feedItem.caller_yumd boolValue] ? [self yumCell:buttonCell] : [self unyumCell:buttonCell];
+        
+        buttonCell.delegate = self;
+        
+        cell = buttonCell;
+    }
     
-    return feedCell;
+    return cell;
+}
+
+- (NSArray *)dateSortedArrayWithFeedComments:(NSSet *)comments
+{
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:YES];
+    NSArray *sortDescriptors = @[ sortDescriptor ];
+    
+    return [comments sortedArrayUsingDescriptors:sortDescriptors];
 }
 
 - (void)configureCell:(DAFeedCollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
@@ -207,21 +265,33 @@
         cell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:item.created];
     }
     
-    cell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    NSString *commentString = [NSString stringWithFormat:@"%d comments", [item.num_comments intValue]];
-    [cell.commentsButton setTitle:commentString forState:UIControlStateNormal];
-    
     NSURL *userImageURL = [NSURL URLWithString:item.creator_img_thumb];
     [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
+}
+
+- (NSAttributedString *)commentStringForComment:(DAFeedComment *)comment
+{
+    NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
+    NSDictionary *attributes = [DAReviewDetailCollectionViewCell linkedTextAttributes];
+    NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
+    NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
     
-    if( [item.caller_yumd boolValue] )
+    if( [comment.creator_type isEqualToString:@"influencer"] )
     {
-        [self yumCell:cell];
+        [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+        
+        NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
+        influencerIcon.image = [UIImage imageNamed:@"influencer"];
+        
+        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
+        
+        [labelString appendAttributedString:influencerIconString];
     }
-    else
-    {
-        [self unyumCell:cell];
-    }
+    
+    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:comment.comment attributes:[DAReviewDetailCollectionViewCell textAttributes]]];
+    
+    return labelString;
 }
 
 - (void)yumCell:(DAFeedCollectionViewCell *)cell
@@ -275,6 +345,49 @@
     return !self.hasMoreData ? CGSizeZero : CGSizeMake( self.collectionView.frame.size.width, 50 );
 }
 
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    CGSize itemSize = CGSizeZero;
+    NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
+    
+    if( indexPath.row == 0 )
+    {
+        UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
+        
+        itemSize = CGSizeMake( collectionView.frame.size.width, flowLayout.itemSize.height );
+    }
+    else if( indexPath.row > 0 && indexPath.row < sectionItems - 1 )
+    {
+        NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+        
+        DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+        NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
+        DAFeedComment *comment = comments[indexPath.row - 1];
+        
+        CGSize cellSize = CGSizeZero;
+        CGFloat textViewWidth = collectionView.frame.size.width - 38;
+        cellSize.width = collectionView.frame.size.width;
+        
+        NSAttributedString *commentString = [self commentStringForComment:comment];
+        
+        CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
+        CGRect stringRect   = [commentString boundingRectWithSize:boundingSize
+                                                          options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
+                                                          context:nil];
+        
+        CGFloat textViewHeight = ceilf( stringRect.size.height ) + 1;
+        cellSize.height += textViewHeight;
+        
+        itemSize = cellSize;
+    }
+    else if( indexPath.row == sectionItems - 1 )
+    {
+        itemSize = CGSizeMake( collectionView.frame.size.width, 65 );
+    }
+    
+    return itemSize;
+}
+
 - (void)titleButtonTappedOnFeedHeaderCollectionReusableView:(DAFeedHeaderCollectionReusableView *)header
 {
     NSIndexPath *indexPath = header.indexPath;
@@ -286,7 +399,8 @@
 - (void)commentButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
     
     [self performSegueWithIdentifier:@"commentsSegue" sender:feedItem];
 }
@@ -345,7 +459,10 @@
     
     if( ![feedItem.caller_yumd boolValue] )
     {
-        [self yumCell:cell];
+        NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
+        NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForItem:sectionItems - 1 inSection:indexPath.section];
+        DAFeedCollectionViewCell *buttonCell = (DAFeedCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:buttonIndexPath];
+        [self yumCell:buttonCell];
         [self yumFeedItemWithReviewID:[feedItem.item_id integerValue]];
     }
 }
@@ -353,7 +470,8 @@
 - (void)changeYumStatusForCell:(DAFeedCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
     
     if( [feedItem.caller_yumd boolValue] )
     {
@@ -401,150 +519,9 @@
     }];
 }
 
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
-    self.itemChanges    = [NSMutableArray array];
-    self.sectionChanges = [NSMutableArray array];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id<NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
-{
-    NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
-    change[@(type)] = @(sectionIndex);
-    [self.sectionChanges addObject:change];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
-{
-    NSMutableDictionary *change = [NSMutableDictionary dictionary];
-    
-    switch( type )
-    {
-        case NSFetchedResultsChangeInsert:
-            change[@(type)] = newIndexPath;
-            break;
-            
-        case NSFetchedResultsChangeDelete:
-            change[@(type)] = indexPath;
-            break;
-            
-        case NSFetchedResultsChangeUpdate:
-            change[@(type)] = indexPath;
-            break;
-            
-        case NSFetchedResultsChangeMove:
-            change[@(type)] = @[indexPath, newIndexPath];
-            break;
-    }
-    
-    [self.itemChanges addObject:change];
-}
-
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    if( [self.sectionChanges count] > 0 )
-    {
-        [self.collectionView performBatchUpdates:^
-        {
-            for( NSDictionary *change in self.sectionChanges )
-            {
-                [change enumerateKeysAndObjectsUsingBlock:^( NSNumber *key, id obj, BOOL *stop )
-                {
-                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                    
-                    switch( type )
-                    {
-                        case NSFetchedResultsChangeInsert:
-                            [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                            break;
-                            
-                        case NSFetchedResultsChangeDelete:
-                            [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                            break;
-                            
-                        case NSFetchedResultsChangeUpdate:
-                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                            break;
-                        
-                        case NSFetchedResultsChangeMove:
-                            break;
-                    }
-                }];
-            }
-        } completion:nil];
-    }
-    
-    if( [self.itemChanges count] > 0 && [self.sectionChanges count] == 0 )
-    {
-        if( [self shouldReloadCollectionViewToPreventKnownIssue] || self.collectionView.window == nil )
-        {
-            [self.collectionView reloadData];
-        }
-        else
-        {
-            [self.collectionView performBatchUpdates:^
-            {
-                for( NSDictionary *change in self.itemChanges )
-                {
-                    [change enumerateKeysAndObjectsUsingBlock:^(NSNumber *key, id obj, BOOL *stop) {
-                        
-                        NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                        switch (type)
-                        {
-                            case NSFetchedResultsChangeInsert:
-                                [self.collectionView insertItemsAtIndexPaths:@[obj]];
-                                break;
-                            case NSFetchedResultsChangeDelete:
-                                [self.collectionView deleteItemsAtIndexPaths:@[obj]];
-                                break;
-                            case NSFetchedResultsChangeUpdate:
-                                [self.collectionView reloadItemsAtIndexPaths:@[obj]];
-                                break;
-                            case NSFetchedResultsChangeMove:
-                                [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
-                                break;
-                        }
-                    }];
-                }
-            } completion:nil];
-        }
-    }
-}
-
-- (BOOL)shouldReloadCollectionViewToPreventKnownIssue
-{
-    __block BOOL shouldReload = NO;
-    
-    for( NSDictionary *change in self.itemChanges )
-    {
-        [change enumerateKeysAndObjectsUsingBlock:^( id key, id obj, BOOL *stop )
-        {
-            NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-            
-            NSIndexPath *indexPath = obj;
-            
-            switch( type )
-            {
-                case NSFetchedResultsChangeInsert:
-                    shouldReload = [self.collectionView numberOfItemsInSection:indexPath.section] == 0 ? YES : NO;
-                    break;
-                    
-                case NSFetchedResultsChangeDelete:
-                    shouldReload = [self.collectionView numberOfItemsInSection:indexPath.section] == 1 ? YES : NO;
-                    break;
-                    
-                case NSFetchedResultsChangeUpdate:
-                    shouldReload = NO;
-                    break;
-                    
-                case NSFetchedResultsChangeMove:
-                    shouldReload = NO;
-                    break;
-            }
-        }];
-    }
-    
-    return shouldReload;
+    [self.collectionView reloadData];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

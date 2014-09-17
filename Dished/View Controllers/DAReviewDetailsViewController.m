@@ -263,7 +263,7 @@ ReviewDetailsItem;
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment
 {
     NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
-    NSDictionary *attributes = [DAReviewDetailCollectionViewCell textAttributes];
+    NSDictionary *attributes = [DAReviewDetailCollectionViewCell linkedTextAttributes];
     NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
     NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
     
@@ -315,7 +315,7 @@ ReviewDetailsItem;
     }
     
     [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f] }]];
+    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:comment.comment attributes:[DAReviewDetailCollectionViewCell textAttributes]]];
     
     return labelString;
 }
@@ -336,7 +336,7 @@ ReviewDetailsItem;
         }
     }];
     
-    NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:[string copy] attributes:[DAReviewDetailCollectionViewCell textAttributes]];
+    NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:[string copy] attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
     
     return yumString;
 }
@@ -357,7 +357,7 @@ ReviewDetailsItem;
         }
     }];
     
-    NSAttributedString *hashtagString = [[NSAttributedString alloc] initWithString:[string copy] attributes:[DAReviewDetailCollectionViewCell textAttributes]];
+    NSAttributedString *hashtagString = [[NSAttributedString alloc] initWithString:[string copy] attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
     
     return hashtagString;
 }

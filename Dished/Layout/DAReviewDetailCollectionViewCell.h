@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UITextView  *detailTextView;
 
++ (NSDictionary *)linkedTextAttributes;
 + (NSDictionary *)textAttributes;
 
 @end

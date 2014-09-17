@@ -18,6 +18,13 @@
 
 @implementation DAFeedCollectionViewCell
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    
+    self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+}
+
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -34,8 +41,8 @@
     [self.yumButton      addTarget:self action:@selector(yumButtonTapped)      forControlEvents:UIControlEventTouchUpInside];
     [self.locationButton addTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     
-    self.commentsButton.layer.cornerRadius = 5;
-    self.yumButton.layer.cornerRadius = 5;
+    self.commentsButton.layer.cornerRadius = 3;
+    self.yumButton.layer.cornerRadius = 3;
     self.commentsButton.layer.masksToBounds = YES;
     self.yumButton.layer.masksToBounds = YES;
     

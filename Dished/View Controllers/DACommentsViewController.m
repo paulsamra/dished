@@ -104,7 +104,7 @@
     
     if( data && ![data isEqual:[NSNull null]] )
     {
-        for( NSDictionary *dataObject in [data reverseObjectEnumerator] )
+        for( NSDictionary *dataObject in data )
         {
             [comments addObject:[DAComment commentWithData:dataObject]];
         }
