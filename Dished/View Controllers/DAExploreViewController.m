@@ -58,14 +58,6 @@
     
     self.selectedRadius = 5;
     
-    CGFloat refreshControlHeight = 40.0f;
-    CGFloat refreshControlWidth  = self.collectionView.bounds.size.width;
-    CGRect refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
-    self.refreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
-    [self.refreshControl addTarget:self action:@selector(loadExploreContent) forControlEvents:UIControlEventValueChanged];
-    [self.collectionView addSubview:self.refreshControl];
-    self.refreshControl.hidden = YES;
-    
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;
 }
@@ -140,6 +132,19 @@
     [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadExploreContent) name:kNetworkReachableKey object:nil];
+    
+    [self setupRefreshControl];
+}
+
+- (void)setupRefreshControl
+{
+    CGFloat refreshControlHeight = 40.0f;
+    CGFloat refreshControlWidth  = self.view.frame.size.width;
+    CGRect refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
+    self.refreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
+    [self.refreshControl addTarget:self action:@selector(loadExploreContent) forControlEvents:UIControlEventValueChanged];
+    [self.collectionView addSubview:self.refreshControl];
+    self.refreshControl.hidden = YES;
 }
 
 - (IBAction)showCurrentLocationView

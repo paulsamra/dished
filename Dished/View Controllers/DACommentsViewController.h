@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DAFeedItem+Utility.h"
 #import "JSQMessagesInputToolbar.h"
 #import "JSQMessagesToolbarContentView.h"
 #import "JSQMessagesComposerTextView.h"
@@ -19,7 +20,6 @@
 @property (weak, nonatomic) IBOutlet JSQMessagesInputToolbar *inputToolbar;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarBottomConstraint;
-
-@property (nonatomic) NSInteger reviewID;
+@property (weak, nonatomic) DAFeedItem *feedItem;
 
 @end

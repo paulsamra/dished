@@ -21,20 +21,21 @@
 {
     if( self = [super init] )
     {
-        _name              = data[@"name"];
-        _creator_id        = [data[@"creator_id"] integerValue];
-        _creator_username  = data[@"creator_username"];
-        _creator_img_thumb = nilOrJSONObjectForKey( data, @"creator_img_thumb" );
-        _creator_type      = data[@"creator_type"];
-        _grade             = nilOrJSONObjectForKey( data, @"grade" );
-        _comment           = nilOrJSONObjectForKey( data, @"comment" );
-        _price             = nilOrJSONObjectForKey( data, @"price" );
         _img               = nilOrJSONObjectForKey( data, @"img" );
-        _loc_id            = [data[@"loc_id"] integerValue];
-        _loc_name          = data[@"loc_name"];
-        _dish_id           = [data[@"dish_id"] integerValue];
+        _name              = nilOrJSONObjectForKey( data, @"name" );
+        _grade             = nilOrJSONObjectForKey( data, @"grade" );
+        _price             = nilOrJSONObjectForKey( data, @"price" );
+        _comment           = nilOrJSONObjectForKey( data, @"comment" );
+        _loc_name          = nilOrJSONObjectForKey( data, @"loc_name" );
+        _creator_type      = nilOrJSONObjectForKey( data, @"creator_type" );
+        _creator_username  = nilOrJSONObjectForKey( data, @"creator_username" );
+        _creator_img_thumb = nilOrJSONObjectForKey( data, @"creator_img_thumb" );
+
+        _caller_yumd       = [data[@"caller_yumd"]  boolValue];
+        _creator_id        = [data[@"creator_id"]   integerValue];
+        _loc_id            = [data[@"loc_id"]       integerValue];
+        _dish_id           = [data[@"dish_id"]      integerValue];
         _num_comments      = [data[@"num_comments"] integerValue];
-        _caller_yumd       = [data[@"caller_yumd"] boolValue];
         
         NSTimeInterval timeInterval = [data[@"created"] doubleValue];
         _created = [NSDate dateWithTimeIntervalSince1970:timeInterval];

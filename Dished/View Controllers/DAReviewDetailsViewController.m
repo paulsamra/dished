@@ -394,8 +394,8 @@ ReviewDetailsItem;
                                     options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
                                     context:nil];
         
-        CGFloat minimumCellHeight = ceilf( stringRect.size.height + 1 );
-        itemSize = CGSizeMake( collectionView.frame.size.width, minimumCellHeight );
+        CGFloat textHeight = ceilf( stringRect.size.height ) + 1;
+        itemSize = CGSizeMake( collectionView.frame.size.width, textHeight );
     }
     else if( itemType == ReviewDetailsItemHashtags )
     {
@@ -501,7 +501,7 @@ ReviewDetailsItem;
     if( [segue.identifier isEqualToString:@"commentsSegue"] )
     {
         DACommentsViewController *dest = segue.destinationViewController;
-        dest.reviewID = [self.feedItem.item_id integerValue];
+        dest.feedItem = self.feedItem;
     }
     
     if( [segue.identifier isEqualToString:@"globalReview"] )

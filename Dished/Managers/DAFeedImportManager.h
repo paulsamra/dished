@@ -15,7 +15,6 @@
 @interface DAFeedImportManager : NSObject
 
 - (void)importFeedItemsWithLimit:(NSUInteger)limit offset:(NSUInteger)offset completion:( void(^)( BOOL success, BOOL hasMoreData ) )completion;
-- (NSFetchedResultsController *)fetchFeedItems;
 - (NSFetchedResultsController *)fetchFeedItemsWithLimit:(NSUInteger)limit;
 
 @end

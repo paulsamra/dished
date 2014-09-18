@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DANewsViewController : UIViewController
+@interface DANewsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 @end

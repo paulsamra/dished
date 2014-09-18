@@ -96,6 +96,8 @@
 		947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13411975AC62000553EF /* DADishSuggestionsTableView.m */; };
 		947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */; };
 		947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */; };
+		9489F65119CA295600BEF540 /* DAMoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9489F65019CA295600BEF540 /* DAMoreViewController.m */; };
+		9489F65419CA568400BEF540 /* DANewsItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 9489F65319CA568400BEF540 /* DANewsItem.m */; };
 		948B7F651941B8AF005494AA /* DADatePickerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B7F641941B8AF005494AA /* DADatePickerTableViewCell.m */; };
 		948B9A7B19BB3125008BBFCF /* DANavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B9A7A19BB3125008BBFCF /* DANavigationController.m */; };
 		948B9A7E19BD0063008BBFCF /* DAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B9A7D19BD0063008BBFCF /* DAViewController.m */; };
@@ -191,7 +193,6 @@
 		94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FF526A197347F200B97A61 /* DARegisterViewController.m */; };
 		D1100DB719AA3DA200C73AC8 /* DAGraphControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DB619AA3DA200C73AC8 /* DAGraphControl.m */; };
 		D1100DBA19AA3DDB00C73AC8 /* DAGraphControlLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */; };
-		D1100DBD19AA3FCF00C73AC8 /* DASampleGraphViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DBC19AA3FCF00C73AC8 /* DASampleGraphViewController.m */; };
 		D112F41519BE00550059300F /* DAReviewDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */; };
 		D112F41719BE22F60059300F /* avatar-small.png in Resources */ = {isa = PBXBuildFile; fileRef = D112F41619BE22F60059300F /* avatar-small.png */; };
 		D112F41919BE24790059300F /* avatar-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D112F41819BE24780059300F /* avatar-small@2x.png */; };
@@ -359,6 +360,10 @@
 		947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DADishSuggestionTableViewCell.xib; sourceTree = "<group>"; };
 		947A13451975D06D000553EF /* DADishSuggestionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishSuggestionTableViewCell.h; sourceTree = "<group>"; };
 		947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishSuggestionTableViewCell.m; sourceTree = "<group>"; };
+		9489F64F19CA295600BEF540 /* DAMoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAMoreViewController.h; sourceTree = "<group>"; };
+		9489F65019CA295600BEF540 /* DAMoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAMoreViewController.m; sourceTree = "<group>"; };
+		9489F65219CA568400BEF540 /* DANewsItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANewsItem.h; sourceTree = "<group>"; };
+		9489F65319CA568400BEF540 /* DANewsItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANewsItem.m; sourceTree = "<group>"; };
 		948B7F631941B8AF005494AA /* DADatePickerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADatePickerTableViewCell.h; sourceTree = "<group>"; };
 		948B7F641941B8AF005494AA /* DADatePickerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADatePickerTableViewCell.m; sourceTree = "<group>"; };
 		948B9A7919BB3125008BBFCF /* DANavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANavigationController.h; sourceTree = "<group>"; };
@@ -549,8 +554,6 @@
 		D1100DB619AA3DA200C73AC8 /* DAGraphControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGraphControl.m; sourceTree = "<group>"; };
 		D1100DB819AA3DDB00C73AC8 /* DAGraphControlLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGraphControlLayer.h; sourceTree = "<group>"; };
 		D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGraphControlLayer.m; sourceTree = "<group>"; };
-		D1100DBB19AA3FCF00C73AC8 /* DASampleGraphViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DASampleGraphViewController.h; sourceTree = "<group>"; };
-		D1100DBC19AA3FCF00C73AC8 /* DASampleGraphViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DASampleGraphViewController.m; sourceTree = "<group>"; };
 		D112F41319BE00550059300F /* DAReviewDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewDetailCollectionViewCell.h; sourceTree = "<group>"; };
 		D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewDetailCollectionViewCell.m; sourceTree = "<group>"; };
 		D112F41619BE22F60059300F /* avatar-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-small.png"; sourceTree = "<group>"; };
@@ -682,6 +685,7 @@
 				94F2AD6B198B2D6E00450C6F /* Explore */,
 				94F2AD6A198B2D6400450C6F /* Add Review */,
 				948EE6A31996FA1C004EC600 /* News */,
+				9489F64E19CA293800BEF540 /* More */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -843,6 +847,15 @@
 			path = Categories;
 			sourceTree = "<group>";
 		};
+		9489F64E19CA293800BEF540 /* More */ = {
+			isa = PBXGroup;
+			children = (
+				9489F64F19CA295600BEF540 /* DAMoreViewController.h */,
+				9489F65019CA295600BEF540 /* DAMoreViewController.m */,
+			);
+			name = More;
+			sourceTree = "<group>";
+		};
 		948B7F3E1941B05F005494AA /* External */ = {
 			isa = PBXGroup;
 			children = (
@@ -894,6 +907,8 @@
 				942CC23A19BDBCCF00BDBB75 /* DAUsername.m */,
 				94B92C6219BFBE75005071D5 /* DADishProfile.h */,
 				94B92C6319BFBE75005071D5 /* DADishProfile.m */,
+				9489F65219CA568400BEF540 /* DANewsItem.h */,
+				9489F65319CA568400BEF540 /* DANewsItem.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1227,8 +1242,6 @@
 				94FD7B5319C83C93008D60CA /* Global Dish Details */,
 				945E312419C7CE5E00C8AA52 /* Feed */,
 				94FD7B4619C818CF008D60CA /* Explore */,
-				D1100DBB19AA3FCF00C73AC8 /* DASampleGraphViewController.h */,
-				D1100DBC19AA3FCF00C73AC8 /* DASampleGraphViewController.m */,
 				94FE15E71941239100FE00EA /* DATouchTableView.h */,
 				94FE15E81941239100FE00EA /* DATouchTableView.m */,
 				948B7F631941B8AF005494AA /* DADatePickerTableViewCell.h */,
@@ -1461,6 +1474,7 @@
 				94CB03B019AFD334009010F6 /* DAComment.m in Sources */,
 				94DCE9BE1980ABB100396C0A /* UIWebView+AFNetworking.m in Sources */,
 				94E5EF431943472D0021A711 /* AFHTTPRequestOperationManager.m in Sources */,
+				9489F65119CA295600BEF540 /* DAMoreViewController.m in Sources */,
 				947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */,
 				94F2AD9E198C539200450C6F /* SDWebImageDecoder.m in Sources */,
 				94E5EF731943F5530021A711 /* MRIconView.m in Sources */,
@@ -1520,8 +1534,8 @@
 				94BC4F1919C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m in Sources */,
 				941538F819401A14008B3B79 /* DASplashViewController.m in Sources */,
 				943E6274198984FE00DF2135 /* DAExploreCollectionViewCell.m in Sources */,
-				D1100DBD19AA3FCF00C73AC8 /* DASampleGraphViewController.m in Sources */,
 				941538C5193F270A008B3B79 /* main.m in Sources */,
+				9489F65419CA568400BEF540 /* DANewsItem.m in Sources */,
 				94E5EF511943B9A30021A711 /* DAReplaceSegue.m in Sources */,
 				94331FFF1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */,

@@ -51,23 +51,8 @@
         }
         else if( response )
         {
-            NSMutableArray *itemIDs = [NSMutableArray array];
-            
-            for( NSDictionary *item in response[@"data"] )
-            {
-                NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
-                [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-                NSNumber *itemID = [formatter numberFromString:item[@"id"]];
-                
-                [itemIDs addObject:itemID];
-            }
-            
-            NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
-            NSArray *sortDescriptors = @[ dateSortDescriptor ];
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(item_id IN %@)", itemIDs];
-            
-            NSString *entityName = NSStringFromClass( [DAFeedItem class] );
-            NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:sortDescriptors predicate:predicate];
+            NSArray *itemIDs = [self itemIDsForData:response[@"data"]];
+            NSArray *matchingItems = [self feedItemsMatchingIDs:itemIDs];
             
             NSUInteger entityIndex = 0;
             
@@ -126,6 +111,13 @@
     NSArray *comments = (NSArray *)data;
     NSMutableSet *commentItems = [NSMutableSet set];
     
+    NSSet *existingComments = feedItem.comments;
+    
+    for( DAFeedComment *comment in existingComments )
+    {
+        [[DACoreDataManager sharedManager] deleteEntity:comment];
+    }
+    
     for( NSDictionary *comment in comments )
     {
         DAFeedComment *feedComment = (DAFeedComment *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedComment entityName]];
@@ -138,20 +130,39 @@
     [feedItem setComments:commentItems];
 }
 
+- (NSArray *)feedItemsMatchingIDs:(NSArray *)itemIDs
+{
+    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
+    NSArray *sortDescriptors = @[ dateSortDescriptor ];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(item_id IN %@)", itemIDs];
+    
+    NSString *entityName = [DAFeedItem entityName];
+    NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:sortDescriptors predicate:predicate];
+    
+    return matchingItems;
+}
+
+- (NSArray *)itemIDsForData:(id)data
+{
+    NSMutableArray *itemIDs = [NSMutableArray array];
+    
+    for( NSDictionary *item in data )
+    {
+        NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
+        [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
+        NSNumber *itemID = [formatter numberFromString:item[@"id"]];
+        
+        [itemIDs addObject:itemID];
+    }
+    
+    return itemIDs;
+}
+
 - (NSFetchedResultsController *)fetchFeedItemsWithLimit:(NSUInteger)limit
 {
     NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
     NSArray *sortDescriptors = @[ dateSortDescriptor ];
     NSFetchedResultsController *fetchedResultsController = [[DACoreDataManager sharedManager] fetchedResultsControllerWithEntityName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil sectionName:@"created" fetchLimit:limit];
-    
-    return fetchedResultsController;
-}
-
-- (NSFetchedResultsController *)fetchFeedItems;
-{
-    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
-    NSArray *sortDescriptors = @[ dateSortDescriptor ];
-    NSFetchedResultsController *fetchedResultsController = [[DACoreDataManager sharedManager] fetchedResultsControllerWithEntityName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil sectionName:@"created"];
     
     return fetchedResultsController;
 }

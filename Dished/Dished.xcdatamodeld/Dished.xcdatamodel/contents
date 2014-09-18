@@ -32,7 +32,7 @@
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DAFeedComment" inverseName="feedItem" inverseEntity="DAFeedComment" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DAFeedItem" positionX="-54" positionY="90" width="128" height="313"/>
         <element name="DAFeedComment" positionX="-54" positionY="216" width="128" height="178"/>
+        <element name="DAFeedItem" positionX="-54" positionY="90" width="128" height="313"/>
     </elements>
 </model>

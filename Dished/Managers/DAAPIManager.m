@@ -1094,6 +1094,24 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
+- (void)getUserNewsWithCompletion:( void(^)( id response, NSError *error ) )completion
+{
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken };
+        
+        [self GET:@"users/news" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( responseObject, nil ) : completion( nil, nil );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Failed to get news feed: %@", error.localizedDescription);
+            completion( nil, error );
+        }];
+    });
+}
+
 - (BOOL)isLoggedIn
 {
     if( [self accessToken] )

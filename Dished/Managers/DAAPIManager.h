@@ -184,4 +184,9 @@
  */
 - (void)getGlobalDishInfoForDishID:(NSInteger)dishID completion:( void(^)( id response, NSError *error ) )completion;
 
+/*
+ * Get a user's news feed.
+ */
+- (void)getUserNewsWithCompletion:( void(^)( id response, NSError *error ) )completion;
+
 @end

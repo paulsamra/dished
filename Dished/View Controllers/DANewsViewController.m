@@ -24,12 +24,19 @@
     [super viewDidLoad];
 }
 
-- (IBAction)logout
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    [[DAAPIManager sharedManager] logout];
-    
-    DAAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
-    [appDelegate setLoginView];
+    return 0;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return [tableView dequeueReusableCellWithIdentifier:@"newsCell"];
 }
 
 @end

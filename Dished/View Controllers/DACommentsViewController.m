@@ -45,7 +45,8 @@
     
     self.keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView contextView:self.view panGestureRecognizer:self.tableView.panGestureRecognizer delegate:self];
     
-    [[DAAPIManager sharedManager] getCommentsForReviewID:self.reviewID completion:^( id response, NSError *error )
+    NSInteger reviewID = [self.feedItem.item_id integerValue];
+    [[DAAPIManager sharedManager] getCommentsForReviewID:reviewID completion:^( id response, NSError *error )
     {
         [self.spinner stopAnimating];
         [self.spinner removeFromSuperview];
@@ -115,7 +116,11 @@
 
 - (void)refreshComments
 {
-    [[DAAPIManager sharedManager] getCommentsForReviewID:self.reviewID completion:^( id response, NSError *error )
+    [self.spinner stopAnimating];
+    [self.spinner removeFromSuperview];
+    
+    NSInteger reviewID = [self.feedItem.item_id integerValue];
+    [[DAAPIManager sharedManager] getCommentsForReviewID:reviewID completion:^( id response, NSError *error )
     {
         if( error || !response )
         {
@@ -123,9 +128,6 @@
         }
         else
         {
-            [self.spinner stopAnimating];
-            [self.spinner removeFromSuperview];
-            
             self.comments = [self commentsFromResponse:response];
             [self.tableView reloadData];
         }
@@ -391,15 +393,16 @@
     
     self.inputToolbar.contentView.textView.text = nil;
     [self.inputToolbar toggleSendButtonEnabled];
-    
-    [self.view endEditing:YES];
 }
 
 - (void)sendCommentWithText:(NSString *)text
 {
-    [[DAAPIManager sharedManager] createComment:text forReviewID:self.reviewID completion:^( BOOL success )
+    NSInteger reviewID = [self.feedItem.item_id integerValue];
+    [[DAAPIManager sharedManager] createComment:text forReviewID:reviewID completion:^( BOOL success )
     {
         [self refreshComments];
+        
+        self.feedItem.num_comments =@( [self.feedItem.num_comments integerValue] + 1 );
     }];
 }
 

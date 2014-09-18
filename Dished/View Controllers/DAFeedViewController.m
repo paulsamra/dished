@@ -531,7 +531,7 @@
         DAFeedItem *feedItem = sender;
         
         DACommentsViewController *dest = segue.destinationViewController;
-        dest.reviewID = [feedItem.item_id integerValue];
+        dest.feedItem = feedItem;
         
         return;
     }
