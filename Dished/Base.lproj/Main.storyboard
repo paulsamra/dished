@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6245" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="RzW-un-BhE">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
     </dependencies>
@@ -1542,44 +1541,44 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="150"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="66e-fw-4mJ" userLabel="NumDishesButton">
-                                        <rect key="frame" x="150" y="0.0" width="149" height="75"/>
+                                        <rect key="frame" x="151" y="0.0" width="149" height="75"/>
                                         <state key="normal" title="Dishes">
                                             <color key="titleColor" red="0.58823529409999997" green="0.59215686270000001" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lgs-if-r8f" userLabel="NumFollowingButton">
-                                        <rect key="frame" x="300" y="0.0" width="149" height="75"/>
+                                        <rect key="frame" x="301" y="0.0" width="149" height="75"/>
                                         <state key="normal" title="Following">
                                             <color key="titleColor" red="0.58823529409999997" green="0.59215686270000001" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m7Z-n0-oCT" userLabel="NumFollowersButton">
-                                        <rect key="frame" x="450" y="0.0" width="150" height="75"/>
+                                        <rect key="frame" x="451" y="0.0" width="149" height="75"/>
                                         <state key="normal" title="Followers">
                                             <color key="titleColor" red="0.58823529409999997" green="0.59215686270000001" blue="0.63137254899999995" alpha="1" colorSpace="calibratedRGB"/>
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                     </button>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iPr-gL-dGa" userLabel="UnderImageSeperator">
-                                        <rect key="frame" x="0.0" y="149" width="149" height="1"/>
+                                        <rect key="frame" x="0.0" y="149" width="150" height="1"/>
                                         <color key="backgroundColor" red="0.73725490196078436" green="0.73725490196078436" blue="0.73725490196078436" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9jH-CY-AfZ" userLabel="FirstButtonSeperator">
-                                        <rect key="frame" x="149" y="0.0" width="1" height="75"/>
+                                        <rect key="frame" x="150" y="0.0" width="1" height="75"/>
                                         <color key="backgroundColor" red="0.73725490199999999" green="0.73725490199999999" blue="0.73725490199999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qRx-MU-JKf" userLabel="SecondButtonSeperator">
-                                        <rect key="frame" x="299" y="0.0" width="1" height="75"/>
+                                        <rect key="frame" x="300" y="0.0" width="1" height="75"/>
                                         <color key="backgroundColor" red="0.73725490199999999" green="0.73725490199999999" blue="0.73725490199999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fmo-IQ-mHB" userLabel="ThirdButtonSeperator">
-                                        <rect key="frame" x="449" y="0.0" width="1" height="75"/>
+                                        <rect key="frame" x="450" y="0.0" width="1" height="75"/>
                                         <color key="backgroundColor" red="0.73725490199999999" green="0.73725490199999999" blue="0.73725490199999999" alpha="1" colorSpace="calibratedRGB"/>
                                     </view>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZtF-4C-Xb9">
-                                        <rect key="frame" x="149" y="75" width="451" height="75"/>
+                                        <rect key="frame" x="150" y="75" width="450" height="75"/>
                                         <color key="backgroundColor" red="0.23137254901960785" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="26"/>
                                         <state key="normal" title="Follow">
@@ -1588,7 +1587,7 @@
                                         </state>
                                     </button>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="okB-ka-ksm">
-                                        <rect key="frame" x="14" y="15" width="120" height="120"/>
+                                        <rect key="frame" x="15" y="15" width="120" height="120"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
