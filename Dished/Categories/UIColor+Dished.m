@@ -36,4 +36,9 @@
     return [UIColor colorWithRed:0.92 green:0 blue:0 alpha:1];
 }
 
++ (UIColor *)unviewedNewsColor
+{
+    return [UIColor colorWithRed:1 green:0.93 blue:0.84 alpha:1];
+}
+
 @end

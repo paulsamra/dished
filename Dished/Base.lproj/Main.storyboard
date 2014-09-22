@@ -813,46 +813,9 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="wwz-ft-tqt" customClass="DATouchTableView">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="wwz-ft-tqt" customClass="DATouchTableView" customModule="Dished" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="commentCell" id="JXs-TN-fBn" customClass="DACommentTableViewCell">
-                                        <rect key="frame" x="0.0" y="119" width="320" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="JXs-TN-fBn" id="rxA-le-U4d">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="UQW-vP-kFl">
-                                                    <rect key="frame" x="8" y="11" width="23" height="23"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="23" id="FWz-zD-Orf"/>
-                                                        <constraint firstAttribute="height" constant="23" id="FvZ-r5-ZYa"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Comment" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6pA-UN-aIp">
-                                                    <rect key="frame" x="39" y="11" width="553" height="23"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="6pA-UN-aIp" firstAttribute="top" secondItem="rxA-le-U4d" secondAttribute="top" constant="11" id="0pM-1e-D44"/>
-                                                <constraint firstItem="UQW-vP-kFl" firstAttribute="top" secondItem="rxA-le-U4d" secondAttribute="top" constant="11" id="9tv-LG-xJ1"/>
-                                                <constraint firstAttribute="trailing" secondItem="6pA-UN-aIp" secondAttribute="trailing" constant="8" id="Ewo-Ad-9Z9"/>
-                                                <constraint firstItem="6pA-UN-aIp" firstAttribute="leading" secondItem="rxA-le-U4d" secondAttribute="leading" constant="39" id="TfS-eH-FnI"/>
-                                                <constraint firstAttribute="bottom" secondItem="6pA-UN-aIp" secondAttribute="bottom" constant="9" id="Vbp-5b-clB"/>
-                                                <constraint firstItem="UQW-vP-kFl" firstAttribute="leading" secondItem="rxA-le-U4d" secondAttribute="leading" constant="8" id="YmS-g1-JEm"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="commentTextView" destination="6pA-UN-aIp" id="SaU-g3-xsG"/>
-                                            <outlet property="userImageView" destination="UQW-vP-kFl" id="6pI-nj-Vc9"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
                                 <sections/>
                                 <connections>
                                     <outlet property="dataSource" destination="P8x-Vf-lZp" id="kUR-Kd-DUJ"/>
@@ -1490,6 +1453,7 @@
                             </segments>
                             <color key="tintColor" red="0.0" green="0.6588235294117647" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         </segmentedControl>
+                        <barButtonItem key="rightBarButtonItem" image="settings" id="GsF-Yr-XTe"/>
                     </navigationItem>
                     <connections>
                         <outlet property="segmentedControl" destination="mnO-Le-cz2" id="kxS-Nh-jTN"/>
@@ -3430,6 +3394,7 @@
         <image name="reset_password" width="320" height="44"/>
         <image name="reset_password_confirm" width="320" height="44"/>
         <image name="reset_submit" width="320" height="54"/>
+        <image name="settings" width="22" height="22"/>
         <image name="share" width="19" height="26"/>
         <image name="sign_in" width="320" height="53"/>
         <image name="twitter" width="22" height="22"/>

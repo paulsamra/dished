@@ -14,14 +14,14 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iLE-LK-MMO">
-                        <rect key="frame" x="16" y="8" width="23" height="23"/>
+                        <rect key="frame" x="16" y="9" width="23" height="23"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="23" id="2D3-og-JYz"/>
                             <constraint firstAttribute="width" constant="23" id="QIR-Aq-QOF"/>
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="227" translatesAutoresizingMaskIntoConstraints="NO" id="TQA-X3-0c5">
-                        <rect key="frame" x="44" y="8" width="227" height="26"/>
+                        <rect key="frame" x="44" y="8" width="227" height="16"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -39,10 +39,10 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="TQA-X3-0c5" firstAttribute="leading" secondItem="iLE-LK-MMO" secondAttribute="trailing" constant="5" id="5IR-p0-bok"/>
-                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="iLE-LK-MMO" secondAttribute="bottom" constant="12" id="BRi-bP-0eQ"/>
-                    <constraint firstItem="iLE-LK-MMO" firstAttribute="top" secondItem="ewl-kn-I3N" secondAttribute="top" constant="8" id="Kic-KJ-xAW"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="iLE-LK-MMO" secondAttribute="bottom" constant="11" id="BRi-bP-0eQ"/>
+                    <constraint firstItem="iLE-LK-MMO" firstAttribute="top" secondItem="ewl-kn-I3N" secondAttribute="top" constant="9" id="Kic-KJ-xAW"/>
                     <constraint firstAttribute="trailing" secondItem="6Ve-RR-t1V" secondAttribute="trailing" constant="8" id="LED-ty-5Ra"/>
-                    <constraint firstAttribute="bottom" secondItem="TQA-X3-0c5" secondAttribute="bottom" constant="9" id="WGS-mm-cs4"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TQA-X3-0c5" secondAttribute="bottom" constant="9" id="WGS-mm-cs4"/>
                     <constraint firstItem="iLE-LK-MMO" firstAttribute="leading" secondItem="ewl-kn-I3N" secondAttribute="leading" constant="16" id="i23-MV-aPf"/>
                     <constraint firstItem="TQA-X3-0c5" firstAttribute="top" secondItem="ewl-kn-I3N" secondAttribute="top" constant="8" id="iAc-sZ-Sma"/>
                     <constraint firstItem="6Ve-RR-t1V" firstAttribute="top" secondItem="ewl-kn-I3N" secondAttribute="top" constant="8" id="oEV-ZT-ryF"/>

@@ -8,7 +8,6 @@
 
 #import "DACommentsViewController.h"
 #import "DAComment.h"
-#import "DACommentTableViewCell.h"
 #import "DAAPIManager.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
@@ -62,6 +61,11 @@
             [self scrollTableViewToBottom];
         }
     }];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"DACommentTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"commentCell"];
+    
+    self.tableView.estimatedRowHeight = 44.0;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -175,20 +179,6 @@
     [buttons sw_addUtilityButtonWithColor:[UIColor colorWithRed:0.95 green:0 blue:0 alpha:1] icon:deleteImage];
     
     return buttons;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    DAComment *comment = [self.comments objectAtIndex:indexPath.row];
-    NSAttributedString *commentString = [self commentStringForComment:comment];
-    
-    CGRect commentRect = [commentString boundingRectWithSize:CGSizeMake( self.view.frame.size.width - 60, CGFLOAT_MAX )
-                                 options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                 context:nil];
-    
-    CGFloat minimumCellHeight = ceilf( commentRect.size.height ) + 25;
-    
-    return minimumCellHeight < tableView.rowHeight ? tableView.rowHeight : minimumCellHeight;
 }
 
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment

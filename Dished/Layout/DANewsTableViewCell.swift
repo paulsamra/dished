@@ -19,7 +19,7 @@ class DANewsTableViewCell: UITableViewCell
         super.awakeFromNib()
         
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
-        userImageView.layer.masksToBounds = true
+        userImageView.layer.masksToBounds = true        
     }
     
     class func newsLabelAttributes() -> NSDictionary

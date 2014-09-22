@@ -89,12 +89,23 @@
     DANewsTableViewCell *newsCell = (DANewsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newsCell"];
     DAUserNews *news = [self.newsData objectAtIndex:indexPath.row];
     
-    newsCell.userImageView.image = [UIImage imageNamed:@"avatar"];
+    if( news.user_img_thumb )
+    {
+        NSURL *url = [NSURL URLWithString:news.user_img_thumb];
+        [newsCell.userImageView sd_setImageWithURL:url];
+    }
+    else
+    {
+        newsCell.userImageView.image = [UIImage imageNamed:@"avatar"];
+    }
     
     newsCell.newsLabel.text = [news formattedString];
+    [newsCell.newsLabel sizeToFit];
     
     newsCell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:news.created attributes:[DANewsTableViewCell timeLabelAttributes]];
     
+    newsCell.backgroundColor = !news.viewed ? [UIColor unviewedNewsColor] : [UIColor whiteColor];
+
     return newsCell;
 }
 

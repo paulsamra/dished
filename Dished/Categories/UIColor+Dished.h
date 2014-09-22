@@ -16,5 +16,6 @@
 + (UIColor *)greenGradeColor;
 + (UIColor *)yellowGradeColor;
 + (UIColor *)redGradeColor;
++ (UIColor *)unviewedNewsColor;
 
 @end
