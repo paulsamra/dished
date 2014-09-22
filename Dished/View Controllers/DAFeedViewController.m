@@ -579,11 +579,6 @@
         frame.origin.y = MIN( 20, MAX( -size, frame.origin.y - scrollDiff ) );
     }
     
-    if( ![self.refreshControl isRefreshing] )
-    {
-        
-    }
-    
     [self.navigationController.navigationBar setFrame:frame];
     [self updateNavigationBarToAlpha:(1 - framePercentageHidden)];
     self.previousScrollViewYOffset = scrollOffset;

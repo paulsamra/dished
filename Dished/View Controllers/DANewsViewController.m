@@ -10,9 +10,14 @@
 #import "DAAppDelegate.h"
 #import "DAAPIManager.h"
 #import "UIImageView+DishProgress.h"
+#import "DAUserNews.h"
+#import "NSAttributedString+Dished.h"
 
 
 @interface DANewsViewController()
+
+@property (strong, nonatomic) NSArray *newsData;
+@property (strong, nonatomic) NSArray *followingData;
 
 @end
 
@@ -22,21 +27,75 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = self.view.center;
+    [spinner startAnimating];
+    [self.view addSubview:spinner];
+    
+    self.tableView.estimatedRowHeight = 44.0;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    
+    self.tableView.hidden = YES;
+    
+    [[DAAPIManager sharedManager] getUserNewsWithCompletion:^( id response, NSError *error )
+    {
+        [spinner stopAnimating];
+        [spinner removeFromSuperview];
+        self.tableView.hidden = NO;
+        
+        if( !response || error )
+        {
+            
+        }
+        else
+        {
+            self.newsData = [self newsDataWithData:response];
+            [self.tableView reloadData];
+        }
+    }];
+    
+    [self.tableView registerNib:[UINib nibWithNibName:@"DANewsTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"newsCell"];
+}
+
+- (NSArray *)newsDataWithData:(id)data
+{
+    NSArray *response = data[@"data"][@"activity_user"];
+    NSMutableArray *news = [NSMutableArray array];
+    
+    if( response && ![response isEqual:[NSNull null]] )
+    {
+        for( NSDictionary *dataObject in response )
+        {
+            [news addObject:[DAUserNews userNewsWithData:dataObject]];
+        }
+    }
+    
+    return news;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 0;
+    return self.newsData.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [tableView dequeueReusableCellWithIdentifier:@"newsCell"];
+    DANewsTableViewCell *newsCell = (DANewsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newsCell"];
+    DAUserNews *news = [self.newsData objectAtIndex:indexPath.row];
+    
+    newsCell.userImageView.image = [UIImage imageNamed:@"avatar"];
+    
+    newsCell.newsLabel.text = [news formattedString];
+    
+    newsCell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:news.created attributes:[DANewsTableViewCell timeLabelAttributes]];
+    
+    return newsCell;
 }
 
 @end

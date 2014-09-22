@@ -200,13 +200,7 @@
     UIEdgeInsets loadingInset = scrollView.contentInset;
     loadingInset.top += self.frame.size.height;
     
-    UIViewAnimationOptions options = UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState;
-    
-    [UIView animateWithDuration:0.2 delay:0 options:options animations:^
-    {
-        scrollView.contentInset  = loadingInset;
-    }
-    completion:nil];
+    scrollView.contentInset  = loadingInset;
 }
 
 - (void)resetScrollViewInsets:(UIScrollView *)scrollView

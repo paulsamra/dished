@@ -11,7 +11,7 @@
 
 @implementation NSAttributedString (Dished)
 
-+ (NSAttributedString *)attributedTimeStringWithDate:(NSDate *)date
++ (NSAttributedString *)attributedTimeStringWithDate:(NSDate *)date attributes:(NSDictionary *)attributes
 {
     NSDate *currentDate = [NSDate date];
     NSCalendar *currentCalendar = [NSCalendar currentCalendar];
@@ -55,7 +55,7 @@
     
     NSString *timeString = [NSString stringWithFormat:format, value];
     
-    NSMutableAttributedString *attributedTimeString = [[NSMutableAttributedString alloc] initWithString:timeString];
+    NSMutableAttributedString *attributedTimeString = [[NSMutableAttributedString alloc] initWithString:timeString attributes:attributes];
     
     [attributedTimeString insertAttributedString:[[NSAttributedString alloc] initWithString:@" "] atIndex:0];
     
@@ -66,6 +66,11 @@
     [clockString appendAttributedString:attributedTimeString];
     
     return clockString;
+}
+
++ (NSAttributedString *)attributedTimeStringWithDate:(NSDate *)date
+{
+    return [NSAttributedString attributedTimeStringWithDate:date attributes:nil];
 }
 
 @end

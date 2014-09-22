@@ -179,12 +179,14 @@
             cell.textLabel.text = @"Loading...";
             
             cell.accessoryView = self.spinner;
+            cell.userInteractionEnabled = NO;
             [self.spinner startAnimating];
         }
         else
         {
             cell.textLabel.text = @"No Dishes Found";
             
+            cell.userInteractionEnabled = NO;
             [self.spinner removeFromSuperview];
         }
         

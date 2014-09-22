@@ -12,5 +12,6 @@
 @interface NSAttributedString (Dished)
 
 + (NSAttributedString *)attributedTimeStringWithDate:(NSDate *)date;
++ (NSAttributedString *)attributedTimeStringWithDate:(NSDate *)date attributes:(NSDictionary *)attributes;
 
 @end

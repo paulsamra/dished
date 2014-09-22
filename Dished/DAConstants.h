@@ -15,3 +15,12 @@ extern NSString *const kProjectName;
 extern NSString *const kFood;
 extern NSString *const kWine;
 extern NSString *const kCocktail;
+
+extern NSString *const kUserNewsFollowNotification;
+extern NSString *const kUserNewsReviewYumNotification;
+extern NSString *const kUserNewsReviewCommentNotification;
+extern NSString *const kUserNewsReviewCommentMentionNotification;
+
+extern NSString *const kFollowingReviewCreateNotification;
+extern NSString *const kFollowingUserFollowNotification;
+extern NSString *const kFollowingReviewYumNotification;
