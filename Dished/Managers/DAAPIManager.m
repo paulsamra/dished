@@ -1094,11 +1094,11 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
-- (void)getUserNewsWithCompletion:( void(^)( id response, NSError *error ) )completion
+- (void)getNewsNotificationsWithCompletion:( void(^)( id response, NSError *error ) )completion
 {
     dispatch_async( self.queue, ^
     {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken };
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"type" : @"user" };
         
         [self GET:@"users/news" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
         {
@@ -1106,7 +1106,25 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         }
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {
-            NSLog(@"Failed to get news feed: %@", error.localizedDescription);
+            NSLog(@"Failed to get news notifications: %@", error.localizedDescription);
+            completion( nil, error );
+        }];
+    });
+}
+
+- (void)getFollowingNotificationsWithCompletion:( void(^)( id response, NSError *error ) )completion
+{
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"type" : @"following" };
+        
+        [self GET:@"users/news" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( responseObject, nil ) : completion( nil, nil );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Failed to get following notifications: %@", error.localizedDescription);
             completion( nil, error );
         }];
     });

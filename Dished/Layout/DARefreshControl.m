@@ -118,6 +118,15 @@
     }
 }
 
+- (void)shouldRestartAnimation
+{
+    if( self.isRefreshing )
+    {
+        [self.maskLayer removeAllAnimations];
+        [self startAnimation];
+    }
+}
+
 - (void)startAnimation
 {
     self.maskLayer.frame = CGRectMake( 0, 0, self.blueDishLayer.frame.size.width, self.blueDishLayer.frame.size.height );

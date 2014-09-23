@@ -810,11 +810,11 @@
                         <viewControllerLayoutGuide type="bottom" id="t3g-ex-ZCh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dTJ-4l-buB">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="wwz-ft-tqt" customClass="DATouchTableView" customModule="Dished" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <sections/>
                                 <connections>
@@ -823,7 +823,7 @@
                                 </connections>
                             </tableView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5U0-dG-Wex" customClass="JSQMessagesInputToolbar">
-                                <rect key="frame" x="0.0" y="443" width="600" height="44"/>
+                                <rect key="frame" x="0.0" y="507" width="600" height="44"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="44" id="bK9-by-cF1"/>
                                 </constraints>
@@ -1416,7 +1416,7 @@
         <!--News View Controller-->
         <scene sceneID="RQM-Ub-OjT">
             <objects>
-                <viewController id="175-7S-oLh" customClass="DANewsViewController" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="175-7S-oLh" customClass="DANewsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Rfx-L1-uDu"/>
                         <viewControllerLayoutGuide type="bottom" id="bxC-BW-gHD"/>
@@ -1425,21 +1425,33 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="TK4-fx-gNg">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="hgc-W7-HBJ">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
-                                    <outlet property="dataSource" destination="175-7S-oLh" id="6bS-so-9E5"/>
-                                    <outlet property="delegate" destination="175-7S-oLh" id="AXD-8q-CwV"/>
+                                    <outlet property="dataSource" destination="175-7S-oLh" id="Tf7-Ep-Lt9"/>
+                                    <outlet property="delegate" destination="175-7S-oLh" id="p2Z-wn-mwL"/>
+                                </connections>
+                            </tableView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="6V5-A3-dDj">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="175-7S-oLh" id="7Md-SW-0Se"/>
+                                    <outlet property="delegate" destination="175-7S-oLh" id="NNP-7e-bbQ"/>
                                 </connections>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="TK4-fx-gNg" secondAttribute="trailing" id="YS9-ut-sDQ"/>
-                            <constraint firstAttribute="bottom" secondItem="TK4-fx-gNg" secondAttribute="bottom" id="aaw-jW-VSm"/>
-                            <constraint firstItem="TK4-fx-gNg" firstAttribute="top" secondItem="0pq-32-Wdi" secondAttribute="top" id="edH-no-VGP"/>
-                            <constraint firstItem="TK4-fx-gNg" firstAttribute="leading" secondItem="0pq-32-Wdi" secondAttribute="leading" id="xgR-uE-won"/>
+                            <constraint firstItem="hgc-W7-HBJ" firstAttribute="leading" secondItem="0pq-32-Wdi" secondAttribute="leading" id="BLO-UO-VTc"/>
+                            <constraint firstAttribute="trailing" secondItem="6V5-A3-dDj" secondAttribute="trailing" id="H0U-gY-pGC"/>
+                            <constraint firstItem="hgc-W7-HBJ" firstAttribute="top" secondItem="Rfx-L1-uDu" secondAttribute="bottom" id="J9I-vl-JZX"/>
+                            <constraint firstItem="6V5-A3-dDj" firstAttribute="top" secondItem="Rfx-L1-uDu" secondAttribute="bottom" id="PuB-wo-85I"/>
+                            <constraint firstItem="bxC-BW-gHD" firstAttribute="top" secondItem="hgc-W7-HBJ" secondAttribute="bottom" id="WsP-1a-al0"/>
+                            <constraint firstItem="6V5-A3-dDj" firstAttribute="leading" secondItem="0pq-32-Wdi" secondAttribute="leading" id="ZP7-nI-HY2"/>
+                            <constraint firstItem="bxC-BW-gHD" firstAttribute="top" secondItem="6V5-A3-dDj" secondAttribute="bottom" id="elX-vY-ax6"/>
+                            <constraint firstAttribute="trailing" secondItem="hgc-W7-HBJ" secondAttribute="trailing" id="zcQ-fl-d3e"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Tbi-qX-aTq">
@@ -1452,12 +1464,16 @@
                                 <segment title="Following"/>
                             </segments>
                             <color key="tintColor" red="0.0" green="0.6588235294117647" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="selectedNewsType" destination="175-7S-oLh" eventType="valueChanged" id="9oD-Dp-s2l"/>
+                            </connections>
                         </segmentedControl>
                         <barButtonItem key="rightBarButtonItem" image="settings" id="GsF-Yr-XTe"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="followingTableView" destination="6V5-A3-dDj" id="NeT-cu-CQ0"/>
+                        <outlet property="newsTableView" destination="hgc-W7-HBJ" id="Qf7-JM-TLh"/>
                         <outlet property="segmentedControl" destination="mnO-Le-cz2" id="kxS-Nh-jTN"/>
-                        <outlet property="tableView" destination="TK4-fx-gNg" id="POz-ia-ETX"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aMR-xe-hfj" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2684,11 +2700,11 @@
                         <viewControllerLayoutGuide type="bottom" id="ZBC-qF-Iq8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eSz-qH-xDY">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Pj1-MA-v2t">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="1IC-VF-owM">
                                     <size key="itemSize" width="320" height="383"/>
@@ -3406,11 +3422,11 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="h3Z-0T-q76"/>
-        <segue reference="qwH-GH-rMo"/>
-        <segue reference="hdo-Ap-R3q"/>
-        <segue reference="DWl-1Z-W5u"/>
-        <segue reference="e1c-XP-t2f"/>
         <segue reference="wCN-0l-elF"/>
+        <segue reference="e1c-XP-t2f"/>
+        <segue reference="DWl-1Z-W5u"/>
+        <segue reference="bNY-2x-UqY"/>
+        <segue reference="Pvw-SR-10w"/>
+        <segue reference="h3Z-0T-q76"/>
     </inferredMetricsTieBreakers>
 </document>

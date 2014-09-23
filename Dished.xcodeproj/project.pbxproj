@@ -67,6 +67,8 @@
 		9443DF0019D0236200F134BA /* DADatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFF19D0236200F134BA /* DADatePickerTableViewCell.swift */; };
 		9443DF0219D026DE00F134BA /* DACommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */; };
 		9443DF0419D0295E00F134BA /* DACommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DF0319D0295E00F134BA /* DACommentTableViewCell.swift */; };
+		9443DF0719D0EF9D00F134BA /* DAFollowingNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443DF0619D0EF9D00F134BA /* DAFollowingNews.m */; };
+		9443DF0A19D0EFBC00F134BA /* DANews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443DF0919D0EFBC00F134BA /* DANews.m */; };
 		94449EDF19481A54008B8881 /* DAFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */; };
 		94449EF11949A3B2008B8881 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 94449EE11949A3B2008B8881 /* Icon-40.png */; };
 		94449EF21949A3B2008B8881 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94449EE21949A3B2008B8881 /* Icon-40@2x.png */; };
@@ -315,6 +317,10 @@
 		9443DEFF19D0236200F134BA /* DADatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADatePickerTableViewCell.swift; sourceTree = "<group>"; };
 		9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DACommentTableViewCell.xib; sourceTree = "<group>"; };
 		9443DF0319D0295E00F134BA /* DACommentTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DACommentTableViewCell.swift; sourceTree = "<group>"; };
+		9443DF0519D0EF9D00F134BA /* DAFollowingNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFollowingNews.h; sourceTree = "<group>"; };
+		9443DF0619D0EF9D00F134BA /* DAFollowingNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFollowingNews.m; sourceTree = "<group>"; };
+		9443DF0819D0EFBC00F134BA /* DANews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANews.h; sourceTree = "<group>"; };
+		9443DF0919D0EFBC00F134BA /* DANews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANews.m; sourceTree = "<group>"; };
 		94449EDD19481A54008B8881 /* DAFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFacebookLoginViewController.h; sourceTree = "<group>"; };
 		94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFacebookLoginViewController.m; sourceTree = "<group>"; };
 		94449EE11949A3B2008B8881 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
@@ -758,6 +764,19 @@
 			name = News;
 			sourceTree = "<group>";
 		};
+		9443DF0B19D0F08800F134BA /* News */ = {
+			isa = PBXGroup;
+			children = (
+				9443DF0819D0EFBC00F134BA /* DANews.h */,
+				9443DF0919D0EFBC00F134BA /* DANews.m */,
+				9489F65219CA568400BEF540 /* DAUserNews.h */,
+				9489F65319CA568400BEF540 /* DAUserNews.m */,
+				9443DF0519D0EF9D00F134BA /* DAFollowingNews.h */,
+				9443DF0619D0EF9D00F134BA /* DAFollowingNews.m */,
+			);
+			name = News;
+			sourceTree = "<group>";
+		};
 		94449ED71946564B008B8881 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -899,6 +918,7 @@
 			isa = PBXGroup;
 			children = (
 				945F959419A6736400241D0D /* Core Data */,
+				9443DF0B19D0F08800F134BA /* News */,
 				9418100B1970DF7900C83034 /* DAHashtag.h */,
 				9418100C1970DF7900C83034 /* DAHashtag.m */,
 				941F3213196FCC04000042AE /* DANewReview.h */,
@@ -917,8 +937,6 @@
 				942CC23A19BDBCCF00BDBB75 /* DAUsername.m */,
 				94B92C6219BFBE75005071D5 /* DADishProfile.h */,
 				94B92C6319BFBE75005071D5 /* DADishProfile.m */,
-				9489F65219CA568400BEF540 /* DAUserNews.h */,
-				9489F65319CA568400BEF540 /* DAUserNews.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1488,6 +1506,7 @@
 				94F2AD9E198C539200450C6F /* SDWebImageDecoder.m in Sources */,
 				94E5EF731943F5530021A711 /* MRIconView.m in Sources */,
 				94DCE9BA1980ABB100396C0A /* UIButton+AFNetworking.m in Sources */,
+				9443DF0A19D0EFBC00F134BA /* DANews.m in Sources */,
 				9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */,
 				D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */,
 				94E5EF751943F5530021A711 /* MRProgressOverlayView.m in Sources */,
@@ -1527,6 +1546,7 @@
 				9443DEFC19D020F500F134BA /* DATouchTableView.swift in Sources */,
 				94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */,
 				94FD7B4F19C8376A008D60CA /* DAFeedComment+Utility.m in Sources */,
+				9443DF0719D0EF9D00F134BA /* DAFollowingNews.m in Sources */,
 				94CB03FE19B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m in Sources */,
 				943E62611987362100DF2135 /* STTwitterOSRequest.m in Sources */,
 				94F2ADA8198C539200450C6F /* UIImageView+WebCache.m in Sources */,

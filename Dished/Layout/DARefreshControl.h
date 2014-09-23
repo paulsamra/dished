@@ -17,5 +17,6 @@
 - (void)containingScrollViewDidEndDragging:(UIScrollView *)scrollView;
 - (void)endRefreshing;
 - (BOOL)isRefreshing;
+- (void)shouldRestartAnimation;
 
 @end

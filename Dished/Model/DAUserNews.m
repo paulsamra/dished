@@ -8,6 +8,22 @@
 
 #import "DAUserNews.h"
 
+typedef enum
+{
+    eUserNewsNotificationTypeFollow,
+    eUserNewsNotificationTypeYum,
+    eUserNewsNotificationTypeComment,
+    eUserNewsNotificationTypeCommentMention,
+    eUserNewsNotificationTypeUnknown
+} eUserNewsNotificationType;
+
+
+@interface DAUserNews()
+
+@property (nonatomic) eUserNewsNotificationType notificationType;
+
+@end
+
 
 @implementation DAUserNews
 
@@ -18,42 +34,67 @@
 
 - (id)initWithData:(id)data
 {
-    if( self = [super init] )
+    if( self = [super initWithData:data] )
     {
-        NSTimeInterval timeInterval = [data[@"created"] doubleValue];
-        _created  = [NSDate dateWithTimeIntervalSince1970:timeInterval];
-        
-        _type     = nilOrJSONObjectForKey( data, @"type" );
         _comment  = nilOrJSONObjectForKey( data, @"comment" );
         _username = nilOrJSONObjectForKey( data, @"username" );
         
-        _viewed    = [data[@"viewed"]    boolValue];
-        _item_id   = [data[@"id"]        integerValue];
         _review_id = [data[@"review_id"] integerValue];
+        
+        _notificationType = [self notificationTypeForTypeString:nilOrJSONObjectForKey( data, @"type" )];
     }
     
     return self;
 }
 
+- (eUserNewsNotificationType)notificationTypeForTypeString:(NSString *)string
+{
+    eUserNewsNotificationType type = eUserNewsNotificationTypeUnknown;
+    
+    if( [string isEqualToString:kUserNewsFollowNotification] )
+    {
+        type = eUserNewsNotificationTypeFollow;
+    }
+    else if( [string isEqualToString:kUserNewsReviewYumNotification] )
+    {
+        type = eUserNewsNotificationTypeYum;
+    }
+    else if( [string isEqualToString:kUserNewsReviewCommentNotification] )
+    {
+        type = eUserNewsNotificationTypeComment;
+    }
+    else if( [string isEqualToString:kUserNewsReviewCommentMentionNotification] )
+    {
+        type = eUserNewsNotificationTypeCommentMention;
+    }
+    
+    return type;
+}
+
 - (NSString *)formattedString
 {
-    NSString *string = @"";
+    NSString *string = [super formattedString];
     
-    if( [self.type isEqualToString:kUserNewsFollowNotification] )
+    switch( self.notificationType )
     {
-        string = [NSString stringWithFormat:@"%@ just started following you!", self.username];
-    }
-    else if( [self.type isEqualToString:kUserNewsReviewYumNotification] )
-    {
-        string = [NSString stringWithFormat:@"%@ YUMMED your review.", self.username];
-    }
-    else if( [self.type isEqualToString:kUserNewsReviewCommentNotification] )
-    {
-        string = [NSString stringWithFormat:@"%@ left a comment on your review: %@", self.username, self.comment];
-    }
-    else if( [self.type isEqualToString:kUserNewsReviewCommentMentionNotification] )
-    {
-        string = [NSString stringWithFormat:@"%@ mentioned you in a review: %@", self.username, self.comment];
+        case eUserNewsNotificationTypeFollow:
+            string = [NSString stringWithFormat:@"@%@ just started following you!", self.username];
+            break;
+            
+        case eUserNewsNotificationTypeYum:
+            string = [NSString stringWithFormat:@"@%@ YUMMED your review.", self.username];
+            break;
+            
+        case eUserNewsNotificationTypeComment:
+            string = [NSString stringWithFormat:@"@%@ left a comment on your review: %@", self.username, self.comment];
+            break;
+            
+        case eUserNewsNotificationTypeCommentMention:
+            string = [NSString stringWithFormat:@"@%@ mentioned you in a review: %@", self.username, self.comment];
+            break;
+            
+        case eUserNewsNotificationTypeUnknown:
+            break;
     }
     
     return string;

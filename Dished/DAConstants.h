@@ -24,3 +24,7 @@ extern NSString *const kUserNewsReviewCommentMentionNotification;
 extern NSString *const kFollowingReviewCreateNotification;
 extern NSString *const kFollowingUserFollowNotification;
 extern NSString *const kFollowingReviewYumNotification;
+extern NSString *const kFollowingSubtypeSingleUserSingleYum;
+extern NSString *const kFollowingSubtypeSingleUserMultiYum;
+extern NSString *const kFollowingSubtypeMultiUserYum;
+extern NSString *const kFollowingSubtypeTwoUserYum;

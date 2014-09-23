@@ -20,3 +20,8 @@ NSString *const kUserNewsReviewCommentMentionNotification = @"review_comment_men
 NSString *const kFollowingReviewCreateNotification = @"review_create_followers";
 NSString *const kFollowingUserFollowNotification   = @"user_follow_followers";
 NSString *const kFollowingReviewYumNotification    = @"review_yum_followers";
+
+NSString *const kFollowingSubtypeSingleUserSingleYum       = @"suty";
+NSString *const kFollowingSubtypeSingleUserMultiYum = @"sumy";
+NSString *const kFollowingSubtypeMultiUserYum       = @"muty";
+NSString *const kFollowingSubtypeTwoUserYum         = @"tuty";
