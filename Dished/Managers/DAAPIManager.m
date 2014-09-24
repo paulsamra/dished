@@ -121,9 +121,12 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     {
         NSString *errorString = errorResponse[@"error"];
         
-        if( [errorString rangeOfString:@"data_nonexists"].location != NSNotFound )
+        if( [errorString isKindOfClass:[NSString class]] )
         {
-            isNonexistError = YES;
+            if( [errorString rangeOfString:@"data_nonexists"].location != NSNotFound )
+            {
+                isNonexistError = YES;
+            }
         }
     }
     

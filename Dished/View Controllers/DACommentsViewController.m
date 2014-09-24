@@ -88,11 +88,16 @@
 
 - (void)viewDidDisappear:(BOOL)animated
 {
+    [super viewDidDisappear:animated];
+    
     [self.keyboardController endListeningForKeyboard];
     
     [self.inputToolbar.contentView.textView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentSize)) context:nil];
-    
-    [super viewDidDisappear:animated];
+}
+
+- (void)dealloc
+{
+    [self.keyboardController endListeningForKeyboard];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -240,7 +245,7 @@
     }];
 }
 
-- (void)keyboardDidChangeFrame:(CGRect)keyboardFrame
+- (void)keyboardController:(JSQMessagesKeyboardController *)keyboardController keyboardDidChangeFrame:(CGRect)keyboardFrame
 {
     CGFloat heightFromBottom = CGRectGetHeight( self.tableView.frame ) - CGRectGetMinY( keyboardFrame ) - self.tabBarController.tabBar.frame.size.height;
     

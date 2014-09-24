@@ -95,7 +95,7 @@
         return;
     }
     
-    CGFloat percentWidth = fabs( scrollPosition ) / self.frame.size.height / 2.5;
+    CGFloat percentWidth = fabs( scrollPosition ) / self.frame.size.height / 2.2;
     
     CGRect maskFrame = self.maskLayer.frame;
     maskFrame.size.width = self.blueDishLayer.frame.size.width * percentWidth;
@@ -209,7 +209,13 @@
     UIEdgeInsets loadingInset = scrollView.contentInset;
     loadingInset.top += self.frame.size.height;
     
-    scrollView.contentInset  = loadingInset;
+    UIViewAnimationOptions options = UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState;
+    
+    [UIView animateWithDuration:0.2 delay:0 options:options animations:^
+    {
+        scrollView.contentInset = loadingInset;
+    }
+    completion:nil];
 }
 
 - (void)resetScrollViewInsets:(UIScrollView *)scrollView
@@ -219,7 +225,7 @@
 
     UIViewAnimationOptions options = UIViewAnimationOptionAllowUserInteraction | UIViewAnimationOptionBeginFromCurrentState;
     
-    [UIView animateWithDuration:0.1 delay:0 options:options animations:^
+    [UIView animateWithDuration:0.2 delay:0 options:options animations:^
     {
         scrollView.contentInset = loadingInset;
     }
