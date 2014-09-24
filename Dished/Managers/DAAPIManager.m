@@ -111,6 +111,25 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     return JSONResponseSerializerWithDataKey;
 }
 
++ (BOOL)isErrorDataNonexistError:(NSError *)error
+{
+    BOOL isNonexistError = NO;
+    
+    NSDictionary *errorResponse = error.userInfo[[[DAAPIManager sharedManager] errorResponseKey] ];
+    
+    if( errorResponse && [errorResponse isKindOfClass:[NSDictionary class]] )
+    {
+        NSString *errorString = errorResponse[@"error"];
+        
+        if( [errorString rangeOfString:@"data_nonexists"].location != NSNotFound )
+        {
+            isNonexistError = YES;
+        }
+    }
+    
+    return isNonexistError;
+}
+
 - (BOOL)authenticate
 {
     if( ![self isLoggedIn] || !self.refreshToken || !self.clientSecret || self.isAuthenticating )
@@ -1094,11 +1113,12 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
-- (void)getNewsNotificationsWithCompletion:( void(^)( id response, NSError *error ) )completion
+- (void)getNewsNotificationsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( id response, NSError *error ) )completion
 {
     dispatch_async( self.queue, ^
     {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"type" : @"user" };
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"type" : @"user",
+                                      @"row_limit" : @(limit), @"row_offset" : @(offset) };
         
         [self GET:@"users/news" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
         {
@@ -1112,11 +1132,12 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
-- (void)getFollowingNotificationsWithCompletion:( void(^)( id response, NSError *error ) )completion
+- (void)getFollowingNotificationsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( id response, NSError *error ) )completion
 {
     dispatch_async( self.queue, ^
     {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"type" : @"following" };
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"type" : @"following",
+                                      @"row_limit" : @(limit), @"row_offset" : @(offset) };
         
         [self GET:@"users/news" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
         {

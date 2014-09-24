@@ -12,9 +12,13 @@
 #import "DANewReview.h"
 #import "MRProgressOverlayView.h"
 #import "DAFeedViewController.h"
+#import "DANewsManager.h"
+#import "DANewsViewController.h"
 
 
 @interface DATabBarController() <UITabBarControllerDelegate, MFMailComposeViewControllerDelegate>
+
+@property (strong, nonatomic) UIButton *newsBadgeButton;
 
 @end
 
@@ -37,6 +41,89 @@
     [[UITabBar appearance] setTintColor:[UIColor colorWithRed:0.11 green:0.64 blue:0.99 alpha:1]];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presentEmailView:) name:@"presentEmail" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNewsBadge) name:kNewsUpdatedNotificationKey object:nil];
+    
+    [self updateNewsBadge];
+}
+
+- (void)updateNewsBadge
+{
+    if( [self.selectedViewController isKindOfClass:[UINavigationController class]] )
+    {
+        UINavigationController *navigationController = (UINavigationController *)self.selectedViewController;
+        UIViewController *rootViewController = navigationController.viewControllers[0];
+        
+        if( [rootViewController isMemberOfClass:[DANewsViewController class]] )
+        {
+            return;
+        }
+    }
+    
+    NSInteger yums    = [DANewsManager sharedManager].num_yums;
+    NSInteger reviews = [DANewsManager sharedManager].num_reviews;
+    
+    if( yums == 0 && reviews == 0 )
+    {
+        return;
+    }
+    
+    NSTextAttachment *yumAttachment = [[NSTextAttachment alloc] init];
+    yumAttachment.image = [UIImage imageNamed:@"badge_yum"];
+    NSAttributedString *yumAttachmentString = [NSAttributedString attributedStringWithAttachment:yumAttachment];
+    
+    NSTextAttachment *reviewAttachment = [[NSTextAttachment alloc] init];
+    reviewAttachment.image = [UIImage imageNamed:@"badge_review"];
+    NSAttributedString *reviewAttachmentString = [NSAttributedString attributedStringWithAttachment:reviewAttachment];
+    
+    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:16],
+                                  NSForegroundColorAttributeName : [UIColor whiteColor] };
+    
+    NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d ", (int)yums] attributes:attributes];
+    NSAttributedString *reviewString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)reviews] attributes:attributes];
+    
+    NSMutableAttributedString *badgeString = [[NSMutableAttributedString alloc] init];
+    [badgeString insertAttributedString:reviewString atIndex:0];
+    [badgeString insertAttributedString:reviewAttachmentString atIndex:0];
+    [badgeString insertAttributedString:yumString atIndex:0];
+    [badgeString insertAttributedString:yumAttachmentString atIndex:0];
+
+    UIImage *badgeImage = [UIImage imageNamed:@"badge_bubble"];
+    UIButton *badgeButton = [[UIButton alloc] init];
+    badgeButton.userInteractionEnabled = NO;
+    badgeButton.contentEdgeInsets = UIEdgeInsetsMake( 0, 7, 4, 5 );
+    [badgeButton setBackgroundImage:badgeImage forState:UIControlStateNormal];
+    [badgeButton setAttributedTitle:badgeString forState:UIControlStateNormal];
+    
+    CGSize boundingSize = CGSizeMake( CGFLOAT_MAX, badgeImage.size.height );
+    CGRect stringRect   = [badgeString boundingRectWithSize:boundingSize
+                                                    options:0
+                                                    context:nil];
+    
+    CGRect frame = CGRectZero;
+    frame.size.height = badgeImage.size.height;
+    frame.size.width = stringRect.size.width + 14;
+    
+    CGFloat itemWidth = self.tabBar.frame.size.width / 5;
+    CGFloat newsTabCenterX = ( itemWidth * 3 ) + ( itemWidth / 2 );
+    CGFloat newsTabY = self.tabBar.frame.origin.y;
+    frame.origin.x = newsTabCenterX - frame.size.width / 2;
+    frame.origin.y = newsTabY - frame.size.height;
+    
+    badgeButton.frame = frame;
+    
+    self.newsBadgeButton = badgeButton;
+    [self.view addSubview:badgeButton];
+}
+
+- (UIImage *)resizeImage:(UIImage*)image toSize:(CGSize)size
+{
+    CGFloat scale = [[UIScreen mainScreen]scale];
+    
+    UIGraphicsBeginImageContextWithOptions( size, NO, scale );
+    [image drawInRect:CGRectMake( 0, 0, size.width, size.height)];
+    UIImage* newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
 }
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
@@ -61,6 +148,18 @@
                 DAFeedViewController *feedViewController = (DAFeedViewController *)rootViewController;
                 [feedViewController scrollFeedToTop];
             }
+        }
+    }
+    
+    if( [viewController isKindOfClass:[UINavigationController class]] )
+    {
+        UINavigationController *navigationController = (UINavigationController *)viewController;
+        UIViewController *rootViewController = navigationController.viewControllers[0];
+        
+        if( [rootViewController isMemberOfClass:[DANewsViewController class]] )
+        {
+            [self.newsBadgeButton removeFromSuperview];
+            self.newsBadgeButton = nil;
         }
     }
     

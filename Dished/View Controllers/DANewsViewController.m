@@ -7,26 +7,20 @@
 //
 
 #import "DANewsViewController.h"
-#import "DAAppDelegate.h"
-#import "DAAPIManager.h"
-#import "UIImageView+DishProgress.h"
-#import "DAUserNews.h"
-#import "DAFollowingNews.h"
-#import "NSAttributedString+Dished.h"
 #import "DARefreshControl.h"
+#import "DANewsManager.h"
+#import "UIImageView+WebCache.h"
 
 
 @interface DANewsViewController()
 
-@property (strong, nonatomic) NSArray                 *newsData;
-@property (strong, nonatomic) NSArray                 *followingData;
 @property (weak,   nonatomic) UITableView             *selectedTableView;
 @property (strong, nonatomic) DARefreshControl        *newsRefreshControl;
 @property (strong, nonatomic) DARefreshControl        *followingRefreshControl;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
-@property (nonatomic) BOOL newsFinishedLoading;
-@property (nonatomic) BOOL followingFinishedLoading;
+@property (nonatomic) BOOL isLoadingMoreNews;
+@property (nonatomic) BOOL isLoadingMoreFollowing;
 
 @end
 
@@ -37,14 +31,15 @@
 {
     [super viewDidLoad];
     
-    self.newsFinishedLoading = NO;
-    self.followingFinishedLoading = NO;
+    self.isLoadingMoreNews = NO;
+    self.isLoadingMoreFollowing = NO;
     
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.spinner.center = self.view.center;
     self.spinner.hidesWhenStopped = YES;
-    [self.spinner startAnimating];
     [self.view addSubview:self.spinner];
+    
+    [DANewsManager sharedManager].newsFinishedLoading ? [self.spinner stopAnimating] : [self.spinner startAnimating];
     
     CGFloat estimatedCellHeight = 44.0;
     self.newsTableView.estimatedRowHeight = estimatedCellHeight;
@@ -52,56 +47,46 @@
     self.newsTableView.estimatedRowHeight = UITableViewAutomaticDimension;
     self.followingTableView.rowHeight = UITableViewAutomaticDimension;
     
-    self.newsTableView.hidden = YES;
-    self.followingTableView.hidden = YES;
-    
-    [[DAAPIManager sharedManager] getNewsNotificationsWithCompletion:^( id response, NSError *error )
-    {
-        if( !response || error )
-        {
-            
-        }
-        else
-        {
-            self.newsData = [self newsDataWithData:response];
-            [self.newsTableView reloadData];
-        }
-        
-        self.newsFinishedLoading = YES;
-        
-        if( self.segmentedControl.selectedSegmentIndex == 0 )
-        {
-            [self.spinner stopAnimating];
-            self.newsTableView.hidden = NO;
-            [self makeTableViewActive:self.newsTableView];
-        }
-    }];
-    
-    [[DAAPIManager sharedManager] getFollowingNotificationsWithCompletion:^( id response, NSError *error )
-    {
-        if( !response || error )
-        {
-            
-        }
-        else
-        {
-            self.followingData = [self followingDataWithData:response];
-            [self.followingTableView reloadData];
-        }
-        
-        self.followingFinishedLoading = YES;
-        
-        if( self.segmentedControl.selectedSegmentIndex == 1 )
-        {
-            [self.spinner stopAnimating];
-            self.followingTableView.hidden = NO;
-            [self makeTableViewActive:self.followingTableView];
-        }
-    }];
-    
     UINib *cellNib = [UINib nibWithNibName:@"DANewsTableViewCell" bundle:[NSBundle mainBundle]];
     [self.newsTableView registerNib:cellNib forCellReuseIdentifier:@"newsCell"];
     [self.followingTableView registerNib:cellNib forCellReuseIdentifier:@"newsCell"];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadNewsTable) name:kNewsUpdatedNotificationKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadFollowingTable) name:kFollowingUpdatedNotificationKey object:nil];
+    
+    ![DANewsManager sharedManager].newsFinishedLoading ? self.newsTableView.hidden = YES : [self setFooterForNewsTableView];
+    ![DANewsManager sharedManager].followingFinishedLoading ? self.followingTableView.hidden = YES : [self setFooterForFollowingTableView];
+}
+
+- (void)setFooterForNewsTableView
+{
+    if( [DANewsManager sharedManager].hasMoreNewsNotifications )
+    {
+        [self addActivityIndicatorFooterToTableView:self.newsTableView];
+    }
+    else
+    {
+        self.newsTableView.tableFooterView = [[UIView alloc] init];
+    }
+}
+
+- (void)setFooterForFollowingTableView
+{
+    if( [DANewsManager sharedManager].hasMoreFollowingNotifications )
+    {
+        [self addActivityIndicatorFooterToTableView:self.followingTableView];
+    }
+    else
+    {
+        self.followingTableView.tableFooterView = [[UIView alloc] init];
+    }
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    [self setupRefreshControls];
 }
 
 - (void)setupRefreshControls
@@ -110,23 +95,16 @@
     CGFloat refreshControlWidth  = self.newsTableView.frame.size.width;
     CGRect refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
     self.newsRefreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
-    [self.newsRefreshControl addTarget:self action:@selector(refreshNews) forControlEvents:UIControlEventValueChanged];
+    [self.newsRefreshControl addTarget:self action:@selector(refreshNewsData) forControlEvents:UIControlEventValueChanged];
     [self.newsTableView addSubview:self.newsRefreshControl];
     self.newsRefreshControl.hidden = YES;
     
     refreshControlWidth  = self.followingTableView.frame.size.width;
     refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
     self.followingRefreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
-    [self.followingRefreshControl addTarget:self action:@selector(refreshFollowing) forControlEvents:UIControlEventValueChanged];
+    [self.followingRefreshControl addTarget:self action:@selector(refreshFollowingData) forControlEvents:UIControlEventValueChanged];
     [self.followingTableView addSubview:self.followingRefreshControl];
     self.followingRefreshControl.hidden = YES;
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    
-    [self setupRefreshControls];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -137,72 +115,78 @@
     [self.followingRefreshControl shouldRestartAnimation];
 }
 
-- (void)refreshNews
+- (void)refreshNewsData
 {
-    [[DAAPIManager sharedManager] getNewsNotificationsWithCompletion:^( id response, NSError *error )
+    [[DANewsManager sharedManager] refreshNewsWithCompletion:^( BOOL success )
+     {
+         [self.newsRefreshControl endRefreshing];
+         [self reloadNewsTable];
+     }];
+}
+
+- (void)loadMoreNewsData
+{
+    self.isLoadingMoreNews = YES;
+    
+    [[DANewsManager sharedManager] loadMoreNewsWithCompletion:^( BOOL success )
     {
-        [self.newsRefreshControl endRefreshing];
-        
-        if( !response || error )
-        {
-            
-        }
-        else
-        {
-            self.newsData = [self newsDataWithData:response];
-            [self.newsTableView reloadData];
-        }
+        [self reloadNewsTable];
+        self.isLoadingMoreNews = NO;
     }];
 }
 
-- (void)refreshFollowing
+- (void)refreshFollowingData
 {
-    [[DAAPIManager sharedManager] getFollowingNotificationsWithCompletion:^( id response, NSError *error )
+    [[DANewsManager sharedManager] refreshFollowingWithCompletion:^( BOOL success )
     {
         [self.followingRefreshControl endRefreshing];
-        
-        if( !response || error )
-        {
-            
-        }
-        else
-        {
-            self.followingData = [self followingDataWithData:response];
-            [self.followingTableView reloadData];
-        }
+        [self reloadFollowingTable];
     }];
 }
 
-- (NSArray *)newsDataWithData:(id)data
+- (void)loadMoreFollowingData
 {
-    NSArray *response = data[@"data"][@"activity_user"];
-    NSMutableArray *news = [NSMutableArray array];
+    self.isLoadingMoreFollowing = YES;
     
-    if( response && ![response isEqual:[NSNull null]] )
+    [[DANewsManager sharedManager] loadMoreFollowingWithCompletion:^( BOOL success )
     {
-        for( NSDictionary *dataObject in response )
-        {
-            [news addObject:[DAUserNews userNewsWithData:dataObject]];
-        }
-    }
-    
-    return news;
+        [self reloadFollowingTable];
+        self.isLoadingMoreFollowing = NO;
+    }];
 }
 
-- (NSArray *)followingDataWithData:(id)data
+- (void)reloadNewsTable
 {
-    NSArray *response = data[@"data"][@"activity_following"];
-    NSMutableArray *following = [NSMutableArray array];
+    [self.spinner stopAnimating];
+    [self.newsTableView reloadData];
     
-    if( response && ![response isEqual:[NSNull null]] )
+    if( self.segmentedControl.selectedSegmentIndex == 0 )
     {
-        for( NSDictionary *dataObject in response )
-        {
-            [following addObject:[DAFollowingNews followingNewsWithData:dataObject]];
-        }
+        self.newsTableView.hidden = NO;
     }
     
-    return following;
+    [self setFooterForNewsTableView];
+}
+
+- (void)reloadFollowingTable
+{
+    [self.spinner stopAnimating];
+    [self.followingTableView reloadData];
+
+    if( self.segmentedControl.selectedSegmentIndex == 1 )
+    {
+        self.followingTableView.hidden = NO;
+    }
+    
+    [self setFooterForFollowingTableView];
+}
+
+- (void)addActivityIndicatorFooterToTableView:(UITableView *)tableView
+{
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [spinner startAnimating];
+    
+    tableView.tableFooterView = spinner;
 }
 
 - (IBAction)selectedNewsType
@@ -220,21 +204,19 @@
 {
     self.selectedTableView.hidden = YES;
     
+    [self.view addSubview:tableView];
+    self.selectedTableView = tableView;
+    
     if( tableView == self.newsTableView )
     {
-        self.newsFinishedLoading ? [self showTableView:self.newsTableView] : [self hideAllTableViews];
+        BOOL finishedLoading = [DANewsManager sharedManager].newsFinishedLoading;
+        finishedLoading ? self.newsTableView.hidden = NO : [self hideAllTableViews];
     }
     else if( tableView == self.followingTableView )
     {
-        self.followingFinishedLoading ? [self showTableView:self.followingTableView] : [self hideAllTableViews];
+        BOOL finishedLoading = [DANewsManager sharedManager].followingFinishedLoading;
+        finishedLoading ? self.followingTableView.hidden = NO : [self hideAllTableViews];
     }
-}
-
-- (void)showTableView:(UITableView *)tableView
-{
-    tableView.hidden = NO;
-    [self.view addSubview:tableView];
-    self.selectedTableView = tableView;
 }
 
 - (void)hideAllTableViews
@@ -255,11 +237,11 @@
     
     if( tableView == self.newsTableView )
     {
-        rows = self.newsData.count;
+        rows = [DANewsManager sharedManager].newsNotifications.count;
     }
     else if( tableView == self.followingTableView )
     {
-        rows = self.followingData.count;
+        rows = [DANewsManager sharedManager].followingNotifications.count;
     }
     
     return rows;
@@ -271,12 +253,12 @@
     
     if( tableView == self.newsTableView )
     {
-        DAUserNews *news = [self.newsData objectAtIndex:indexPath.row];
+        DAUserNews *news = [[DANewsManager sharedManager].newsNotifications objectAtIndex:indexPath.row];
         [self configureCell:newsCell withNews:news];
     }
     else if( tableView == self.followingTableView )
     {
-        DAFollowingNews *news = [self.followingData objectAtIndex:indexPath.row];
+        DAFollowingNews *news = [[DANewsManager sharedManager].followingNotifications objectAtIndex:indexPath.row];
         [self configureCell:newsCell withNews:news];
     }
 
@@ -329,6 +311,24 @@
     else if( scrollView == self.followingTableView )
     {
         [self.followingRefreshControl containingScrollViewDidEndDragging:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    CGFloat bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
+    
+    if( bottomEdge >= scrollView.contentSize.height )
+    {
+        if( scrollView == self.newsTableView && [DANewsManager sharedManager].hasMoreNewsNotifications && !self.isLoadingMoreNews )
+        {
+            [self loadMoreNewsData];
+        }
+        
+        if( scrollView == self.followingTableView && [DANewsManager sharedManager].hasMoreFollowingNotifications && !self.isLoadingMoreFollowing )
+        {
+            [self loadMoreFollowingData];
+        }
     }
 }
 

@@ -11,8 +11,8 @@
 
 @interface DANewsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
-@property (weak, nonatomic) IBOutlet UITableView *newsTableView;
-@property (weak, nonatomic) IBOutlet UITableView *followingTableView;
+@property (weak, nonatomic) IBOutlet UITableView        *newsTableView;
+@property (weak, nonatomic) IBOutlet UITableView        *followingTableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
 @end

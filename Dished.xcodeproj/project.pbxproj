@@ -69,6 +69,7 @@
 		9443DF0419D0295E00F134BA /* DACommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DF0319D0295E00F134BA /* DACommentTableViewCell.swift */; };
 		9443DF0719D0EF9D00F134BA /* DAFollowingNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443DF0619D0EF9D00F134BA /* DAFollowingNews.m */; };
 		9443DF0A19D0EFBC00F134BA /* DANews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443DF0919D0EFBC00F134BA /* DANews.m */; };
+		9443DF0E19D2AC1D00F134BA /* DANewsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443DF0D19D2AC1D00F134BA /* DANewsManager.m */; };
 		94449EDF19481A54008B8881 /* DAFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */; };
 		94449EF11949A3B2008B8881 /* Icon-40.png in Resources */ = {isa = PBXBuildFile; fileRef = 94449EE11949A3B2008B8881 /* Icon-40.png */; };
 		94449EF21949A3B2008B8881 /* Icon-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94449EE21949A3B2008B8881 /* Icon-40@2x.png */; };
@@ -321,6 +322,8 @@
 		9443DF0619D0EF9D00F134BA /* DAFollowingNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFollowingNews.m; sourceTree = "<group>"; };
 		9443DF0819D0EFBC00F134BA /* DANews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANews.h; sourceTree = "<group>"; };
 		9443DF0919D0EFBC00F134BA /* DANews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANews.m; sourceTree = "<group>"; };
+		9443DF0C19D2AC1D00F134BA /* DANewsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANewsManager.h; sourceTree = "<group>"; };
+		9443DF0D19D2AC1D00F134BA /* DANewsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANewsManager.m; sourceTree = "<group>"; };
 		94449EDD19481A54008B8881 /* DAFacebookLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFacebookLoginViewController.h; sourceTree = "<group>"; };
 		94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFacebookLoginViewController.m; sourceTree = "<group>"; };
 		94449EE11949A3B2008B8881 /* Icon-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-40.png"; sourceTree = "<group>"; };
@@ -1052,6 +1055,8 @@
 				945F959219A6646900241D0D /* DACoreDataManager.m */,
 				945F95AF19A7B90400241D0D /* DAFeedImportManager.h */,
 				945F95B019A7B90400241D0D /* DAFeedImportManager.m */,
+				9443DF0C19D2AC1D00F134BA /* DANewsManager.h */,
+				9443DF0D19D2AC1D00F134BA /* DANewsManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1567,6 +1572,7 @@
 				9489F65419CA568400BEF540 /* DAUserNews.m in Sources */,
 				9443DF0419D0295E00F134BA /* DACommentTableViewCell.swift in Sources */,
 				94331FFF1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
+				9443DF0E19D2AC1D00F134BA /* DANewsManager.m in Sources */,
 				94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */,
 				94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */,
 				94CB040219B146AF009010F6 /* UIColor+JSQMessages.m in Sources */,

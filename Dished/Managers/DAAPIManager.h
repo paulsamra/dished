@@ -16,6 +16,7 @@
 @interface DAAPIManager : AFHTTPSessionManager
 
 + (DAAPIManager *)sharedManager;
++ (BOOL)isErrorDataNonexistError:(NSError *)error;
 
 - (BOOL)isLoggedIn;
 - (NSString *)accessToken;
@@ -187,11 +188,11 @@
 /*
  * Get a user's news notifications.
  */
-- (void)getNewsNotificationsWithCompletion:( void(^)( id response, NSError *error ) )completion;
+- (void)getNewsNotificationsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Get a user's following notifications.
  */
-- (void)getFollowingNotificationsWithCompletion:( void(^)( id response, NSError *error ) )completion;
+- (void)getFollowingNotificationsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( id response, NSError *error ) )completion;
 
 @end
