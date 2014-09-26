@@ -89,13 +89,13 @@
         }
         
         UIBezierPath* bezierPath = UIBezierPath.bezierPath;
-        [bezierPath moveToPoint: CGPointMake(x, y)];
-        [bezierPath addLineToPoint: CGPointMake(length, y)];
-        [bezierPath addLineToPoint: CGPointMake(length-12, y+height)];
-        [bezierPath addLineToPoint: CGPointMake(x, y+height)];
-        [bezierPath addLineToPoint: CGPointMake(x, y)];
-        [[UIColor colorWithRed:24.0/255.0 green:171.0/255.0 blue:254.0/255.0 alpha:1.0] setStroke];
-        [[UIColor colorWithRed:24.0/255.0 green:171.0/255.0 blue:254.0/255.0 alpha:1.0] setFill];
+//        [bezierPath moveToPoint: CGPointMake(x, y)];
+//        [bezierPath addLineToPoint: CGPointMake(length, y)];
+//        [bezierPath addLineToPoint: CGPointMake(length-12, y+height)];
+//        [bezierPath addLineToPoint: CGPointMake(x, y+height)];
+//        [bezierPath addLineToPoint: CGPointMake(x, y)];
+//        [[UIColor colorWithRed:24.0/255.0 green:171.0/255.0 blue:254.0/255.0 alpha:1.0] setStroke];
+//        [[UIColor colorWithRed:24.0/255.0 green:171.0/255.0 blue:254.0/255.0 alpha:1.0] setFill];
         
         bezierPath.lineWidth = 1;
         [bezierPath fill];

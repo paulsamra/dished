@@ -33,6 +33,8 @@
     
     self.searchResults = [NSArray array];
     
+    self.tableView.tableFooterView = [[UIView alloc] init];
+    
     UINib *searchCellNib = [UINib nibWithNibName:@"DAExploreDishTableViewCell" bundle:nil];
     [self.tableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
     

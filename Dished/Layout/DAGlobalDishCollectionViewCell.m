@@ -59,9 +59,10 @@
     for( int i = 0; i < self.images.count; i++ )
     {
         CGRect frame = CGRectZero;
-        frame.origin.x = self.pagedImageView.frame.size.width * i;
+        frame.origin.x = self.frame.size.width * i;
         frame.origin.y = 0;
-        frame.size = self.pagedImageView.frame.size;
+        frame.size.height = self.pagedImageView.frame.size.height;
+        frame.size.width = self.frame.size.width;
         
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:frame];
         imageView.contentMode = UIViewContentModeScaleAspectFill;
@@ -72,7 +73,7 @@
         [self.scrollViewImageViews addObject:imageView];
     }
     
-    self.pagedImageView.contentSize = CGSizeMake( self.pagedImageView.frame.size.width * self.images.count, self.pagedImageView.frame.size.height );
+    self.pagedImageView.contentSize = CGSizeMake( self.frame.size.width * self.images.count, self.pagedImageView.frame.size.height );
 }
 
 - (void)setBounds:(CGRect)bounds

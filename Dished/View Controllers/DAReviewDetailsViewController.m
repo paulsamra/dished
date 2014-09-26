@@ -43,6 +43,7 @@ ReviewDetailsItem;
     [super viewDidLoad];
     
     self.collectionView.hidden = YES;
+    self.collectionView.alwaysBounceVertical = YES;
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = self.view.center;
@@ -384,6 +385,7 @@ ReviewDetailsItem;
         UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
         
         itemSize = flowLayout.itemSize;
+        itemSize.width = collectionView.frame.size.width;
     }
     else if( itemType == ReviewDetailsItemYums )
     {
