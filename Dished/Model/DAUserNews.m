@@ -8,22 +8,6 @@
 
 #import "DAUserNews.h"
 
-typedef enum
-{
-    eUserNewsNotificationTypeFollow,
-    eUserNewsNotificationTypeYum,
-    eUserNewsNotificationTypeComment,
-    eUserNewsNotificationTypeCommentMention,
-    eUserNewsNotificationTypeUnknown
-} eUserNewsNotificationType;
-
-
-@interface DAUserNews()
-
-@property (nonatomic) eUserNewsNotificationType notificationType;
-
-@end
-
 
 @implementation DAUserNews
 

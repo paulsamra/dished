@@ -9,6 +9,15 @@
 #import <Foundation/Foundation.h>
 #import "DANews.h"
 
+typedef enum
+{
+    eUserNewsNotificationTypeFollow,
+    eUserNewsNotificationTypeYum,
+    eUserNewsNotificationTypeComment,
+    eUserNewsNotificationTypeCommentMention,
+    eUserNewsNotificationTypeUnknown
+} eUserNewsNotificationType;
+
 
 @interface DAUserNews : DANews
 
@@ -16,6 +25,7 @@
 @property (copy, nonatomic) NSString *username;
 
 @property (nonatomic) NSInteger review_id;
+@property (nonatomic) eUserNewsNotificationType notificationType;
 
 
 + (DAUserNews *)userNewsWithData:(id)data;

@@ -905,6 +905,8 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)exploreDishesWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
 {
+    [self authenticate];
+    
     dispatch_async( self.queue, ^
     {
         NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query, @"longitude" : @(longitude),
@@ -961,6 +963,8 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)getCommentsForReviewID:(NSInteger)reviewID completion:( void(^)( id response, NSError *error ) )completion
 {
+    [self authenticate];
+    
     dispatch_async( self.queue, ^
     {
         NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID) };
@@ -986,6 +990,8 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)deleteCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion
 {
+    [self authenticate];
+    
     dispatch_async( self.queue, ^
     {
         NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(commentID) };
@@ -1034,6 +1040,8 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)yumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion
 {
+    [self authenticate];
+    
     dispatch_async( self.queue, ^
     {
         NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID) };
@@ -1058,6 +1066,8 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)unyumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion
 {
+    [self authenticate];
+    
     dispatch_async( self.queue, ^
     {
         NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID) };
@@ -1082,6 +1092,8 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)getProfileForReviewID:(NSInteger)reviewID completion:( void(^)( id response, NSError *error ) )completion
 {
+    [self authenticate];
+    
     dispatch_async( self.queue, ^
     {
         NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID) };
@@ -1100,6 +1112,8 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)getGlobalDishInfoForDishID:(NSInteger)dishID completion:( void(^)( id response, NSError *error ) )completion
 {
+    [self authenticate];
+    
     dispatch_async( self.queue, ^
     {
         NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(dishID) };
@@ -1118,6 +1132,8 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)getNewsNotificationsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( id response, NSError *error ) )completion
 {
+    [self authenticate];
+    
     dispatch_async( self.queue, ^
     {
         NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"type" : @"user",
@@ -1137,6 +1153,8 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)getFollowingNotificationsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( id response, NSError *error ) )completion
 {
+    [self authenticate];
+    
     dispatch_async( self.queue, ^
     {
         NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"type" : @"following",

@@ -267,21 +267,47 @@
 
 - (void)configureCell:(DANewsTableViewCell *)cell withNews:(DANews *)news
 {
-    if( news.img_thumb )
+    UIImage *avatarImage = [UIImage imageNamed:@"avatar"];
+    
+    if( news.img )
     {
-        NSURL *url = [NSURL URLWithString:news.img_thumb];
-        [cell.userImageView sd_setImageWithURL:url];
+        NSURL *url = [NSURL URLWithString:news.img];
+        [cell.userImageView sd_setImageWithURL:url placeholderImage:avatarImage];
     }
     else
     {
-        cell.userImageView.image = [UIImage imageNamed:@"avatar"];
+        cell.userImageView.image = avatarImage;
     }
     
-    cell.newsLabel.text = [news formattedString];
+    NSAttributedString *newsText = [[NSAttributedString alloc] initWithString:[news formattedString] attributes:[DANewsTableViewCell newsLabelAttributes]];
+    cell.newsTextView.attributedText = newsText;
     
     cell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:news.created attributes:[DANewsTableViewCell timeLabelAttributes]];
     
     cell.backgroundColor = !news.viewed ? [UIColor unviewedNewsColor] : [UIColor whiteColor];
+    
+    [cell layoutIfNeeded];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if( tableView == self.newsTableView )
+    {
+        DAUserNews *news = [[DANewsManager sharedManager].newsNotifications objectAtIndex:indexPath.row];
+        [self didSelectUserNews:news];
+    }
+}
+
+- (void)didSelectUserNews:(DAUserNews *)news
+{
+    switch( news.notificationType )
+    {
+        case eUserNewsNotificationTypeYum: break;
+        case eUserNewsNotificationTypeFollow: break;
+        case eUserNewsNotificationTypeComment: break;
+        case eUserNewsNotificationTypeCommentMention: break;
+        case eUserNewsNotificationTypeUnknown: break;
+    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

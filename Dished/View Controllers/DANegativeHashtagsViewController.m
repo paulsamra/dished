@@ -109,6 +109,7 @@
         cell.textLabel.text = @"Loading...";
         
         cell.accessoryView = self.spinner;
+        cell.userInteractionEnabled = NO;
         [self.spinner startAnimating];
     }
     else

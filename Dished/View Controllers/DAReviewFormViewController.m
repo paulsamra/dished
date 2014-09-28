@@ -113,6 +113,8 @@
     CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
     
     self.keyboardFrame = keyboardFrame;
+    [self.tableView beginUpdates];
+    [self.tableView endUpdates];
 }
 
 - (void)dismissSocialView
@@ -184,22 +186,23 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( !IS_IPHONE5 )
+    if( self.keyboardFrame.origin.y == 0 )
     {
-        if( indexPath.row == 1 )
-        {
-            return [super tableView:tableView heightForRowAtIndexPath:indexPath] - 68;
-        }
-        
-        if( indexPath.row == 3 )
-        {
-            return [super tableView:tableView heightForRowAtIndexPath:indexPath] - 12;
-        }
-        
-        return [super tableView:tableView heightForRowAtIndexPath:indexPath] - 4;
+        return [super tableView:tableView heightForRowAtIndexPath:indexPath];
     }
     
-    return [super tableView:tableView heightForRowAtIndexPath:indexPath];
+    CGFloat availableSpace = self.keyboardFrame.origin.y;
+    
+    if( indexPath.row == 1 )
+    {
+        return availableSpace * 0.5;
+    }
+    if( indexPath.row == 3 )
+    {
+        return availableSpace * 0.2;
+    }
+    
+    return availableSpace * 0.15;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField

@@ -17,6 +17,7 @@
 @property (strong, nonatomic) DAUsername *followed;
 
 @property (nonatomic) NSInteger yum_count;
+@property (nonatomic) NSInteger review_id;
 
 
 + (DAFollowingNews *)followingNewsWithData:(id)data;

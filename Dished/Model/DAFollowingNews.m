@@ -49,6 +49,7 @@ typedef enum
         _users    = nilOrJSONObjectForKey( data, @"users" );
         
         _yum_count = [data[@"yum_count"] integerValue];
+        _review_id = [data[@"review_id"] integerValue];
         
         id userData = nilOrJSONObjectForKey( data, @"followed" );
         if( userData )
@@ -143,17 +144,18 @@ typedef enum
     switch( subtype )
     {
         case eFollowingNewsYumNotificationSubtypeSingleUserSingleYum:
-            string = [NSString stringWithFormat:@"@%@ YUMMED @%@'s review", self.username, @"???"];
+            string = [NSString stringWithFormat:@"@%@ YUMMED @%@'s review.", self.username, @"???"];
             break;
             
         case eFollowingNewsYumNotificationSubtypeSingleUserMultiYum:
-            string = [NSString stringWithFormat:@"@%@ YUMMED %d reviews", [self.users objectAtIndex:0], (int)self.yum_count];
+            string = [NSString stringWithFormat:@"@%@ YUMMED %d reviews.", [self.users objectAtIndex:0], (int)self.yum_count];
             break;
             
         case eFollowingNewsYumNotificationSubtypeMultiUserYum:
             break;
             
         case eFollowingNewsYumNotificationSubtypeTwoUserYum:
+            string = [NSString stringWithFormat:@"@%@ and @%@ YUMMED @%@'s review.", self.users[0], self.users[1], self.username];
             break;
             
         case eFollowingNewsYumNotificationSubtypeUnknown:

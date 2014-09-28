@@ -11,7 +11,7 @@ import UIKit
 class DANewsTableViewCell: UITableViewCell
 {
     @IBOutlet weak var userImageView: UIImageView!
-    @IBOutlet weak var newsLabel: UILabel!
+    @IBOutlet weak var newsTextView: UITextView!
     @IBOutlet weak var timeLabel: UILabel!
     
     override func awakeFromNib()
@@ -19,14 +19,18 @@ class DANewsTableViewCell: UITableViewCell
         super.awakeFromNib()
         
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
-        userImageView.layer.masksToBounds = true        
+        userImageView.layer.masksToBounds = true
+        
+        newsTextView.textContainerInset = UIEdgeInsetsZero
+        newsTextView.userInteractionEnabled = false
     }
     
     class func newsLabelAttributes() -> NSDictionary
     {
-        let font = UIFont( name: "HelveticaNeue-Light", size: 13.0 )
+        let font = UIFont( name: "HelveticaNeue-Light", size: 14.0 )
+        let color = UIColor.blackColor()
         
-        return [ NSFontAttributeName : font ] as NSDictionary
+        return [ NSFontAttributeName : font, NSForegroundColorAttributeName : color ] as NSDictionary
     }
     
     class func timeLabelAttributes() -> NSDictionary

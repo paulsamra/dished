@@ -17,7 +17,7 @@
     {
         NSTimeInterval timeInterval = [data[@"created"] doubleValue];
         _created   = [NSDate dateWithTimeIntervalSince1970:timeInterval];
-        _img_thumb = nilOrJSONObjectForKey( data, @"img_thumb" );
+        _img = nilOrJSONObjectForKey( data, @"img" );
         
         _viewed    = [data[@"viewed"]    boolValue];
         _item_id   = [data[@"id"]        integerValue];

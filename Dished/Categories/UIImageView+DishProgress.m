@@ -31,7 +31,6 @@ static char TAG_ACTIVITY_INDICATOR;
     if( !self.progressView )
     {
         self.progressView = [[DAProgressView alloc] init];
-        self.progressView.autoresizingMask = UIViewAutoresizingNone;
         [self updateProgressViewFrame];
         self.progressView.backgroundColor = [UIColor clearColor];
     }

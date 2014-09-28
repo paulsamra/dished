@@ -13,21 +13,15 @@
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="nE3-ae-B27" id="ewl-kn-I3N">
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iLE-LK-MMO">
-                        <rect key="frame" x="16" y="9" width="23" height="23"/>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iLE-LK-MMO">
+                        <rect key="frame" x="16" y="10" width="23" height="23"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="23" id="2D3-og-JYz"/>
                             <constraint firstAttribute="width" constant="23" id="QIR-Aq-QOF"/>
                         </constraints>
                     </imageView>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="227" translatesAutoresizingMaskIntoConstraints="NO" id="TQA-X3-0c5">
-                        <rect key="frame" x="44" y="8" width="227" height="16"/>
-                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2000m" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Ve-RR-t1V">
-                        <rect key="frame" x="277" y="8" width="35" height="20"/>
+                        <rect key="frame" x="277" y="9" width="35" height="20"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="35" id="HnX-Cg-yod"/>
                             <constraint firstAttribute="height" constant="20" id="So8-Ak-h4l"/>
@@ -36,25 +30,31 @@
                         <color key="textColor" red="0.40000000000000002" green="0.43137254899999999" blue="0.46666666670000001" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="news" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9iU-i7-0OW">
+                        <rect key="frame" x="44" y="9" width="227" height="26"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="TQA-X3-0c5" firstAttribute="leading" secondItem="iLE-LK-MMO" secondAttribute="trailing" constant="5" id="5IR-p0-bok"/>
-                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="iLE-LK-MMO" secondAttribute="bottom" constant="11" id="BRi-bP-0eQ"/>
-                    <constraint firstItem="iLE-LK-MMO" firstAttribute="top" secondItem="ewl-kn-I3N" secondAttribute="top" constant="9" id="Kic-KJ-xAW"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="9iU-i7-0OW" secondAttribute="bottom" constant="8" id="Aa7-0D-kKl"/>
+                    <constraint firstItem="iLE-LK-MMO" firstAttribute="top" secondItem="ewl-kn-I3N" secondAttribute="top" constant="10" id="Kic-KJ-xAW"/>
                     <constraint firstAttribute="trailing" secondItem="6Ve-RR-t1V" secondAttribute="trailing" constant="8" id="LED-ty-5Ra"/>
-                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="TQA-X3-0c5" secondAttribute="bottom" constant="9" id="WGS-mm-cs4"/>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="iLE-LK-MMO" secondAttribute="bottom" constant="10" id="RGm-1i-yCd"/>
+                    <constraint firstItem="9iU-i7-0OW" firstAttribute="top" secondItem="ewl-kn-I3N" secondAttribute="top" constant="9" id="Vm2-cX-9mC"/>
                     <constraint firstItem="iLE-LK-MMO" firstAttribute="leading" secondItem="ewl-kn-I3N" secondAttribute="leading" constant="16" id="i23-MV-aPf"/>
-                    <constraint firstItem="TQA-X3-0c5" firstAttribute="top" secondItem="ewl-kn-I3N" secondAttribute="top" constant="8" id="iAc-sZ-Sma"/>
-                    <constraint firstItem="6Ve-RR-t1V" firstAttribute="top" secondItem="ewl-kn-I3N" secondAttribute="top" constant="8" id="oEV-ZT-ryF"/>
-                    <constraint firstItem="6Ve-RR-t1V" firstAttribute="leading" secondItem="TQA-X3-0c5" secondAttribute="trailing" constant="6" id="pRA-tt-M2u"/>
+                    <constraint firstItem="6Ve-RR-t1V" firstAttribute="leading" secondItem="9iU-i7-0OW" secondAttribute="trailing" constant="6" id="mcz-T9-a7A"/>
+                    <constraint firstItem="6Ve-RR-t1V" firstAttribute="top" secondItem="ewl-kn-I3N" secondAttribute="top" constant="9" id="oEV-ZT-ryF"/>
+                    <constraint firstItem="9iU-i7-0OW" firstAttribute="leading" secondItem="iLE-LK-MMO" secondAttribute="trailing" constant="5" id="q7V-Hu-IQJ"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="newsLabel" destination="TQA-X3-0c5" id="rN4-Ay-8UP"/>
+                <outlet property="newsTextView" destination="9iU-i7-0OW" id="Bfw-PC-LrU"/>
                 <outlet property="timeLabel" destination="6Ve-RR-t1V" id="Hso-O0-0bY"/>
                 <outlet property="userImageView" destination="iLE-LK-MMO" id="UNT-2R-7dn"/>
             </connections>
-            <point key="canvasLocation" x="68" y="306"/>
+            <point key="canvasLocation" x="65" y="372"/>
         </tableViewCell>
     </objects>
 </document>
