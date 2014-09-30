@@ -41,4 +41,9 @@
     return [UIColor colorWithRed:1 green:0.93 blue:0.84 alpha:1];
 }
 
++ (UIColor *)followButtonColor
+{
+    return [UIColor colorWithRed:0.23 green:0.8 blue:0 alpha:1];
+}
+
 @end

@@ -17,6 +17,7 @@
 #import "DAGlobalDishDetailViewController.h"
 #import "DACoreDataManager.h"
 #import "NSAttributedString+Dished.h"
+#import "DAUserProfileViewController.h"
 
 typedef enum
 {
@@ -441,6 +442,14 @@ ReviewDetailsItem;
 - (void)commentButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     [self performSegueWithIdentifier:@"commentsSegue" sender:self.review];
+}
+
+- (void)creatorButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    userProfileViewController.username = self.feedItem.creator_username;
+    userProfileViewController.user_id  = [self.feedItem.creator_id integerValue];
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
 - (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell

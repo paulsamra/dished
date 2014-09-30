@@ -13,6 +13,7 @@
 #import "DACoreDataManager.h"
 #import "DAFeedImportManager.h"
 #import "DARefreshControl.h"
+#import "DAUserProfileViewController.h"
 #import "DAReviewDetailsViewController.h"
 #import "DACommentsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
@@ -403,6 +404,17 @@
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
     
     [self performSegueWithIdentifier:@"commentsSegue" sender:feedItem];
+}
+
+- (void)creatorButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    userProfileViewController.username = feedItem.creator_username;
+    userProfileViewController.user_id  = [feedItem.creator_id integerValue];
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
 - (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell

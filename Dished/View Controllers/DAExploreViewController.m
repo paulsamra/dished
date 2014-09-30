@@ -14,6 +14,7 @@
 #import "DAExploreLiveSearchResult.h"
 #import "DAExploreDishTableViewCell.h"
 #import "DAExploreCollectionViewCell.h"
+#import "DAUserProfileViewController.h"
 #import "DACurrentLocationViewController.h"
 #import "DAExploreDishResultsViewController.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
@@ -351,6 +352,10 @@
         
         switch( searchResult.resultType )
         {
+            case eUsernameSearchResult:
+                [self goToUserProfileForSearchResult:searchResult];
+                break;
+                
             case eHashtagSearchResult:
                 [self performSegueWithIdentifier:@"dishResults" sender:searchResult.name];
                 break;
@@ -361,11 +366,16 @@
                 
             case eLocationSearchResult:
                 break;
-                
-            case eUsernameSearchResult:
-                break;
         }
     }
+}
+
+- (void)goToUserProfileForSearchResult:(DAExploreLiveSearchResult *)searchResult
+{
+    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    userProfileViewController.username = searchResult.name;
+    userProfileViewController.user_id  = searchResult.resultID;
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section

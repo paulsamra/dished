@@ -195,4 +195,9 @@
  */
 - (void)getFollowingNotificationsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( id response, NSError *error ) )completion;
 
+/*
+ * Get a user's profile info.
+ */
+- (void)getUserProfileWithUserID:(NSInteger)userID completion:( void(^)( id response, NSError *error ) )completion;
+
 @end

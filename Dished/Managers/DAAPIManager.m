@@ -1172,6 +1172,26 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
+- (void)getUserProfileWithUserID:(NSInteger)userID completion:( void(^)( id response, NSError *error ) )completion
+{
+    [self authenticate];
+    
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(userID) };
+        
+        [self GET:@"users/profile" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( responseObject, nil ) : completion( nil, nil );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Failed to get user profile info: %@", error.localizedDescription);
+            completion( nil, error );
+        }];
+    });
+}
+
 - (BOOL)isLoggedIn
 {
     if( [self accessToken] )

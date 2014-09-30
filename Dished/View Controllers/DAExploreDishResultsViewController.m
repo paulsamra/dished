@@ -130,19 +130,7 @@
     {
         for( NSDictionary *dish in dishes )
         {
-            DAExploreDishSearchResult *result = [[DAExploreDishSearchResult alloc] init];
-            
-            result.dishID            = dish[@"id"];
-            result.name              = dish[@"name"];
-            result.price             = ![dish[@"price"] isEqual:[NSNull null]] ? dish[@"price"] : @"";
-            result.type              = dish[@"type"];
-            result.totalReviews      = [dish[@"num_reviews"] intValue];
-            result.friendReviews     = [dish[@"num_reviews_friends"] intValue];
-            result.influencerReviews = [dish[@"num_reviews_influencers"] intValue];
-            result.locationID        = dish[@"location"][@"id"];
-            result.locationName      = dish[@"location"][@"name"];
-            result.grade             = ![dish[@"avg_grade"] isEqual:[NSNull null]] ? dish[@"avg_grade"] : @"No Ratings";
-            result.imageURL          = ![dish[@"img"] isEqual:[NSNull null]] ? dish[@"img"] : nil;
+            DAExploreDishSearchResult *result = [DAExploreDishSearchResult dishSearchResultWithData:dish];
             
             [results addObject:result];
         }
@@ -202,9 +190,9 @@
     cell.dishNameLabel.text          = result.name;
     cell.gradeLabel.text             = result.grade;
     cell.locationNameLabel.text      = result.locationName;
-    cell.reviewsNumberLabel.text     = [NSString stringWithFormat:@"%d", result.totalReviews];
-    cell.friendsNumberLabel.text     = [NSString stringWithFormat:@"%d", result.friendReviews];
-    cell.influencersNumberLabel.text = [NSString stringWithFormat:@"%d", result.influencerReviews];
+    cell.reviewsNumberLabel.text     = [NSString stringWithFormat:@"%d", (int)result.totalReviews];
+    cell.friendsNumberLabel.text     = [NSString stringWithFormat:@"%d", (int)result.friendReviews];
+    cell.influencersNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.influencerReviews];
     
     if( result.imageURL )
     {
@@ -228,7 +216,7 @@
     {
         DAExploreDishSearchResult *result = sender;
         DAGlobalDishDetailViewController *dest = segue.destinationViewController;
-        dest.dishID = [result.dishID integerValue];
+        dest.dishID = result.dishID;
     }
 }
 

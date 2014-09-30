@@ -17,5 +17,6 @@
 + (UIColor *)yellowGradeColor;
 + (UIColor *)redGradeColor;
 + (UIColor *)unviewedNewsColor;
++ (UIColor *)followButtonColor;
 
 @end

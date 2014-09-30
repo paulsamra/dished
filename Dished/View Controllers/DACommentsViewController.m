@@ -170,6 +170,8 @@
     
     cell.delegate = self;
     
+    [cell layoutIfNeeded];
+    
     return cell;
 }
 

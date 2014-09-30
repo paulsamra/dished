@@ -40,6 +40,7 @@
     [self.titleButton    addTarget:self action:@selector(titleButtonTapped)    forControlEvents:UIControlEventTouchUpInside];
     [self.yumButton      addTarget:self action:@selector(yumButtonTapped)      forControlEvents:UIControlEventTouchUpInside];
     [self.locationButton addTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+    [self.creatorButton  addTarget:self action:@selector(creatorButtonTapped)  forControlEvents:UIControlEventTouchUpInside];
     
     self.commentsButton.layer.cornerRadius = 3;
     self.yumButton.layer.cornerRadius = 3;
@@ -91,6 +92,14 @@
     if( [self.delegate respondsToSelector:@selector(locationButtonTappedOnFeedCollectionViewCell:)] )
     {
         [self.delegate locationButtonTappedOnFeedCollectionViewCell:self];
+    }
+}
+
+- (void)creatorButtonTapped
+{
+    if( [self.delegate respondsToSelector:@selector(creatorButtonTappedOnFeedCollectionViewCell:)] )
+    {
+        [self.delegate creatorButtonTappedOnFeedCollectionViewCell:self];
     }
 }
 

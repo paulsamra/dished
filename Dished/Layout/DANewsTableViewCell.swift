@@ -25,6 +25,17 @@ class DANewsTableViewCell: UITableViewCell
         newsTextView.userInteractionEnabled = false
     }
     
+    override func prepareForReuse()
+    {
+        super.prepareForReuse()
+        
+        userImageView.image = nil
+        newsTextView.attributedText = nil
+        newsTextView.text = nil
+        timeLabel.attributedText = nil
+        timeLabel.text = nil
+    }
+    
     class func newsLabelAttributes() -> NSDictionary
     {
         let font = UIFont( name: "HelveticaNeue-Light", size: 14.0 )
