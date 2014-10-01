@@ -96,6 +96,9 @@
 		944689A61960130E00FAE288 /* DAImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 944689A51960130E00FAE288 /* DAImagePickerController.m */; };
 		94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */; };
 		944D1E7319DA9868006F73BF /* DAUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 944D1E7219DA9868006F73BF /* DAUserProfileViewController.m */; };
+		944D1E7519DB8514006F73BF /* DAFollowListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944D1E7419DB8514006F73BF /* DAFollowListTableViewCell.swift */; };
+		944D1E7719DB853A006F73BF /* DAFollowListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 944D1E7619DB853A006F73BF /* DAFollowListTableViewCell.xib */; };
+		944D1E7A19DB8786006F73BF /* DAFollowListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 944D1E7919DB8786006F73BF /* DAFollowListViewController.m */; };
 		945A3B6119A52B4A000D76E3 /* DAFeedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */; };
 		945E312019C669CC00C8AA52 /* NSAttributedString+Dished.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E311F19C669CC00C8AA52 /* NSAttributedString+Dished.m */; };
 		945E312319C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E312219C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m */; };
@@ -176,7 +179,7 @@
 		94E5EF7E1943FD760021A711 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF7B1943FD760021A711 /* SSKeychain.m */; };
 		94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF7D1943FD760021A711 /* SSKeychainQuery.m */; };
 		94EA2D5719AA820B00ABE3B7 /* DARefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EA2D5619AA820B00ABE3B7 /* DARefreshControl.m */; };
-		94F2AD77198C454600450C6F /* DAExploreDishTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F2AD76198C454600450C6F /* DAExploreDishTableViewCell.xib */; };
+		94F2AD77198C454600450C6F /* DADishTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F2AD76198C454600450C6F /* DADishTableViewCell.xib */; };
 		94F2AD9A198C539200450C6F /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD7A198C539200450C6F /* MKAnnotationView+WebCache.m */; };
 		94F2AD9B198C539200450C6F /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD7C198C539200450C6F /* NSData+ImageContentType.m */; };
 		94F2AD9C198C539200450C6F /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD7E198C539200450C6F /* SDImageCache.m */; };
@@ -204,7 +207,7 @@
 		D112F41919BE24790059300F /* avatar-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D112F41819BE24780059300F /* avatar-small@2x.png */; };
 		D1236B9619AE7B4B00727447 /* DAReviewDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1236B9519AE7B4B00727447 /* DAReviewDetailsViewController.m */; };
 		D13605B91986F5B60085DC7D /* food.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D13605B81986F5B60085DC7D /* food.jpg */; };
-		D13DB8F51988B221008C86BB /* DAExploreDishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D13DB8F41988B221008C86BB /* DAExploreDishTableViewCell.m */; };
+		D13DB8F51988B221008C86BB /* DADishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D13DB8F41988B221008C86BB /* DADishTableViewCell.m */; };
 		D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D170CA661992B7C4006D9DCB /* DASocialCollectionViewController.m */; };
 		D170CA6A19931D3F006D9DCB /* DASocialCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */; };
 		D17487C2196DE8A200D83993 /* SZTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = D17487C1196DE8A200D83993 /* SZTextView.m */; };
@@ -362,6 +365,10 @@
 		94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONResponseSerializerWithData.m; sourceTree = "<group>"; };
 		944D1E7119DA9868006F73BF /* DAUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUserProfileViewController.h; sourceTree = "<group>"; };
 		944D1E7219DA9868006F73BF /* DAUserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserProfileViewController.m; sourceTree = "<group>"; };
+		944D1E7419DB8514006F73BF /* DAFollowListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFollowListTableViewCell.swift; sourceTree = "<group>"; };
+		944D1E7619DB853A006F73BF /* DAFollowListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAFollowListTableViewCell.xib; sourceTree = "<group>"; };
+		944D1E7819DB8786006F73BF /* DAFollowListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFollowListViewController.h; sourceTree = "<group>"; };
+		944D1E7919DB8786006F73BF /* DAFollowListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFollowListViewController.m; sourceTree = "<group>"; };
 		945A3B5F19A52B4A000D76E3 /* DAFeedCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedCollectionViewCell.h; sourceTree = "<group>"; };
 		945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedCollectionViewCell.m; sourceTree = "<group>"; };
 		945E311E19C669CC00C8AA52 /* NSAttributedString+Dished.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Dished.h"; sourceTree = "<group>"; };
@@ -520,7 +527,7 @@
 		94E5EF7D1943FD760021A711 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
 		94EA2D5519AA820B00ABE3B7 /* DARefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARefreshControl.h; sourceTree = "<group>"; };
 		94EA2D5619AA820B00ABE3B7 /* DARefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARefreshControl.m; sourceTree = "<group>"; };
-		94F2AD76198C454600450C6F /* DAExploreDishTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAExploreDishTableViewCell.xib; sourceTree = "<group>"; };
+		94F2AD76198C454600450C6F /* DADishTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DADishTableViewCell.xib; sourceTree = "<group>"; };
 		94F2AD79198C539200450C6F /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		94F2AD7A198C539200450C6F /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
 		94F2AD7B198C539200450C6F /* NSData+ImageContentType.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+ImageContentType.h"; sourceTree = "<group>"; };
@@ -573,8 +580,8 @@
 		D1236B9419AE7B4B00727447 /* DAReviewDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewDetailsViewController.h; sourceTree = "<group>"; };
 		D1236B9519AE7B4B00727447 /* DAReviewDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewDetailsViewController.m; sourceTree = "<group>"; };
 		D13605B81986F5B60085DC7D /* food.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = food.jpg; sourceTree = "<group>"; };
-		D13DB8F31988B221008C86BB /* DAExploreDishTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreDishTableViewCell.h; sourceTree = "<group>"; };
-		D13DB8F41988B221008C86BB /* DAExploreDishTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreDishTableViewCell.m; sourceTree = "<group>"; };
+		D13DB8F31988B221008C86BB /* DADishTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishTableViewCell.h; sourceTree = "<group>"; };
+		D13DB8F41988B221008C86BB /* DADishTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishTableViewCell.m; sourceTree = "<group>"; };
 		D170CA651992B7C4006D9DCB /* DASocialCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DASocialCollectionViewController.h; path = ../DASocialCollectionViewController.h; sourceTree = "<group>"; };
 		D170CA661992B7C4006D9DCB /* DASocialCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DASocialCollectionViewController.m; path = ../DASocialCollectionViewController.m; sourceTree = "<group>"; };
 		D170CA6819931D3F006D9DCB /* DASocialCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DASocialCollectionViewCell.h; sourceTree = "<group>"; };
@@ -695,6 +702,8 @@
 				948B9A7A19BB3125008BBFCF /* DANavigationController.m */,
 				944D1E7119DA9868006F73BF /* DAUserProfileViewController.h */,
 				944D1E7219DA9868006F73BF /* DAUserProfileViewController.m */,
+				944D1E7819DB8786006F73BF /* DAFollowListViewController.h */,
+				944D1E7919DB8786006F73BF /* DAFollowListViewController.m */,
 				94F2AD69198B2D5E00450C6F /* Login & Register */,
 				943320041995ED04000A8E2B /* Feed */,
 				94F2AD6B198B2D6E00450C6F /* Explore */,
@@ -1233,9 +1242,6 @@
 		94FD7B4619C818CF008D60CA /* Explore */ = {
 			isa = PBXGroup;
 			children = (
-				D13DB8F31988B221008C86BB /* DAExploreDishTableViewCell.h */,
-				D13DB8F41988B221008C86BB /* DAExploreDishTableViewCell.m */,
-				94F2AD76198C454600450C6F /* DAExploreDishTableViewCell.xib */,
 				943E6272198984FE00DF2135 /* DAExploreCollectionViewCell.h */,
 				943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */,
 			);
@@ -1289,6 +1295,9 @@
 				9443DEFD19D0224300F134BA /* DAReplaceSegue.swift */,
 				D170CA6819931D3F006D9DCB /* DASocialCollectionViewCell.h */,
 				D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */,
+				D13DB8F31988B221008C86BB /* DADishTableViewCell.h */,
+				D13DB8F41988B221008C86BB /* DADishTableViewCell.m */,
+				94F2AD76198C454600450C6F /* DADishTableViewCell.xib */,
 				945A3B5F19A52B4A000D76E3 /* DAFeedCollectionViewCell.h */,
 				945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */,
 				942AA01219C23F3100D0D77C /* DADishLayer.h */,
@@ -1301,6 +1310,8 @@
 				9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */,
 				D112F41319BE00550059300F /* DAReviewDetailCollectionViewCell.h */,
 				D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */,
+				944D1E7419DB8514006F73BF /* DAFollowListTableViewCell.swift */,
+				944D1E7619DB853A006F73BF /* DAFollowListTableViewCell.xib */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -1375,7 +1386,7 @@
 				947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */,
 				94449EFF1949A3B2008B8881 /* iTunesArtwork.png in Resources */,
 				9443DF0219D026DE00F134BA /* DACommentTableViewCell.xib in Resources */,
-				94F2AD77198C454600450C6F /* DAExploreDishTableViewCell.xib in Resources */,
+				94F2AD77198C454600450C6F /* DADishTableViewCell.xib in Resources */,
 				94449EF41949A3B2008B8881 /* Icon-60@2x.png in Resources */,
 				94449EFA1949A3B2008B8881 /* Icon-Small-50@2x.png in Resources */,
 				94449EF81949A3B2008B8881 /* Icon-76@2x.png in Resources */,
@@ -1386,6 +1397,7 @@
 				94449EFD1949A3B2008B8881 /* Icon.png in Resources */,
 				94CB040019B146AF009010F6 /* JSQMessagesToolbarContentView.xib in Resources */,
 				94449EF51949A3B2008B8881 /* Icon-72.png in Resources */,
+				944D1E7719DB853A006F73BF /* DAFollowListTableViewCell.xib in Resources */,
 				94CB03D219B0EECA009010F6 /* Images.xcassets in Resources */,
 				941538D1193F270A008B3B79 /* Main.storyboard in Resources */,
 				9443DEF519CFC7BE00F134BA /* DANewsTableViewCell.xib in Resources */,
@@ -1441,7 +1453,7 @@
 				D1100DB719AA3DA200C73AC8 /* DAGraphControl.m in Sources */,
 				94F2AD9C198C539200450C6F /* SDImageCache.m in Sources */,
 				94DCE9B81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
-				D13DB8F51988B221008C86BB /* DAExploreDishTableViewCell.m in Sources */,
+				D13DB8F51988B221008C86BB /* DADishTableViewCell.m in Sources */,
 				94DCE9BD1980ABB100396C0A /* UIRefreshControl+AFNetworking.m in Sources */,
 				94CB03FD19B146AF009010F6 /* JSQMessagesInputToolbar.m in Sources */,
 				94F2ADA6198C539200450C6F /* UIImage+WebP.m in Sources */,
@@ -1465,6 +1477,7 @@
 				94449EDF19481A54008B8881 /* DAFacebookLoginViewController.m in Sources */,
 				94E5EF4A1943472D0021A711 /* AFURLSessionManager.m in Sources */,
 				D187E07219BFA1CF00D8C85C /* DAGradeGraphCollectionViewCell.m in Sources */,
+				944D1E7519DB8514006F73BF /* DAFollowListTableViewCell.swift in Sources */,
 				944689A31960048500FAE288 /* DATabBarController.m in Sources */,
 				943E625B1987362100DF2135 /* STHTTPRequest+STTwitter.m in Sources */,
 				D1236B9619AE7B4B00727447 /* DAReviewDetailsViewController.m in Sources */,
@@ -1515,6 +1528,7 @@
 				947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */,
 				94F2AD9E198C539200450C6F /* SDWebImageDecoder.m in Sources */,
 				94E5EF731943F5530021A711 /* MRIconView.m in Sources */,
+				944D1E7A19DB8786006F73BF /* DAFollowListViewController.m in Sources */,
 				94DCE9BA1980ABB100396C0A /* UIButton+AFNetworking.m in Sources */,
 				9443DF0A19D0EFBC00F134BA /* DANews.m in Sources */,
 				9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */,

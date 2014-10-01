@@ -1192,6 +1192,86 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
+- (void)getUserFollowersWithUserID:(NSInteger)userID showRelations:(BOOL)showRelations completion:( void(^)( id response, NSError *error ) )completion
+{
+    [self authenticate];
+    
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(userID), @"relation" : @(showRelations) };
+        
+        [self POST:@"users/followers" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( responseObject, nil ) : completion( nil, nil );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Failed to get user followers: %@", error.localizedDescription);
+            completion( nil, error );
+        }];
+    });
+}
+
+- (void)getUserFollowingWithUserID:(NSInteger)userID showRelations:(BOOL)showRelations completion:( void(^)( id response, NSError *error ) )completion;
+{
+    [self authenticate];
+    
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(userID), @"relation" : @(showRelations) };
+        
+        [self POST:@"users/following" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( responseObject, nil ) : completion( nil, nil );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Failed to get user following: %@", error.localizedDescription);
+            completion( nil, error );
+        }];
+    });
+}
+
+- (void)followUserWithUserID:(NSInteger)userID completion:( void(^)( BOOL success ) )completion
+{
+    [self authenticate];
+    
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(userID) };
+        
+        [self POST:@"users/follow" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Failed to follow user: %@", error.localizedDescription);
+            completion( NO );
+        }];
+    });
+}
+
+- (void)unfollowUserWithUserID:(NSInteger)userID completion:( void(^)( BOOL success ) )completion
+{
+    [self authenticate];
+    
+    dispatch_async( self.queue, ^
+    {
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(userID) };
+        
+        [self POST:@"users/unfollow" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Failed to unfollow user: %@", error.localizedDescription);
+            completion( NO );
+        }];
+    });
+}
+
 - (BOOL)isLoggedIn
 {
     if( [self accessToken] )

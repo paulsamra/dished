@@ -11,14 +11,16 @@
 #define kDishSearchCellID @"dishCell"
 
 
-@interface DAExploreDishTableViewCell : UITableViewCell
+@interface DADishTableViewCell : UITableViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel     *dishNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *locationNameLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *gradeLabel;
+@property (weak, nonatomic) IBOutlet UILabel     *leftNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel     *middleNumberLabel;
+@property (weak, nonatomic) IBOutlet UILabel     *rightNumberLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *mainImageView;
-@property (weak, nonatomic) IBOutlet UILabel     *reviewsNumberLabel;
-@property (weak, nonatomic) IBOutlet UILabel     *friendsNumberLabel;
-@property (weak, nonatomic) IBOutlet UILabel     *influencersNumberLabel;
+
+@property (nonatomic) BOOL isExplore;
 
 @end

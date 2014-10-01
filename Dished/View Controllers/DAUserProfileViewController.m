@@ -10,7 +10,7 @@
 #import "DAAPIManager.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAExploreDishSearchResult.h"
-#import "DAExploreDishTableViewCell.h"
+#import "DADishTableViewCell.h"
 
 
 @interface DAUserProfileViewController ()
@@ -29,13 +29,16 @@
 {
     [super viewDidLoad];
     
-    UINib *searchCellNib = [UINib nibWithNibName:@"DAExploreDishTableViewCell" bundle:nil];
+    UINib *searchCellNib = [UINib nibWithNibName:@"DADishTableViewCell" bundle:nil];
     [self.dishesTableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
     
     self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
     self.userImageView.layer.masksToBounds = YES;
     
-    [self setMainViewsHidden:YES];
+    UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"more"] style:UIBarButtonItemStylePlain target:self action:@selector(showMoreActionSheet)];
+    self.navigationItem.rightBarButtonItem = moreButton;
+    
+    [self setMainViewsHidden:YES animated:NO];
     
     if( self.username )
     {
@@ -62,16 +65,54 @@
             [spinner stopAnimating];
             [spinner removeFromSuperview];
             
-            [self setMainViewsHidden:NO];
+            [self setMainViewsHidden:NO animated:YES];
         }
     }];
 }
 
-- (void)setMainViewsHidden:(BOOL)hidden
+- (void)setMainViewsHidden:(BOOL)hidden animated:(BOOL)animated
 {
-    self.topView.hidden = hidden;
-    self.middleView.hidden = hidden;
-    self.dishesTableView.hidden = hidden;
+    if( animated )
+    {
+        [UIView transitionWithView:self.topView
+                          duration:0.2
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:nil
+                        completion:nil];
+        
+        self.topView.hidden = hidden;
+        
+        [UIView transitionWithView:self.descriptionTextView
+                          duration:0.2
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:nil
+                        completion:nil];
+        
+        self.descriptionTextView.hidden = hidden;
+        
+        [UIView transitionWithView:self.middleView
+                          duration:0.2
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:nil
+                        completion:nil];
+        
+        self.middleView.hidden = hidden;
+        
+        [UIView transitionWithView:self.dishesTableView
+                          duration:0.2
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:nil
+                        completion:nil];
+        
+        self.dishesTableView.hidden = hidden;
+    }
+    else
+    {
+        self.topView.hidden = hidden;
+        self.descriptionTextView.hidden = hidden;
+        self.middleView.hidden = hidden;
+        self.dishesTableView.hidden = hidden;
+    }
 }
 
 - (void)populateUserDataWithResponse:(id)response
@@ -153,15 +194,29 @@
 - (void)setDescriptionTextWithName:(NSString *)name description:(NSString *)description
 {
     NSDictionary *nameAttributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue" size:14] };
-    NSDictionary *descriptionAttributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14] };
     
     NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name attributes:nameAttributes];
-    NSMutableAttributedString *descriptionString = [[NSMutableAttributedString alloc] initWithString:description attributes:descriptionAttributes];
     
-    [nameString appendAttributedString:[[NSAttributedString alloc] initWithString:@" - " attributes:descriptionAttributes]];
-    [nameString appendAttributedString:descriptionString];
+    if( description.length > 0 )
+    {
+        NSDictionary *descriptionAttributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14] };
+        
+        NSMutableAttributedString *descriptionString = [[NSMutableAttributedString alloc] initWithString:description attributes:descriptionAttributes];
+        
+        [nameString appendAttributedString:[[NSAttributedString alloc] initWithString:@" - " attributes:descriptionAttributes]];
+        [nameString appendAttributedString:descriptionString];
+    }
     
     self.descriptionTextView.attributedText = nameString;
+    
+    CGFloat textViewWidth = self.descriptionTextView.frame.size.width;
+    CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
+    CGRect stringRect = [nameString boundingRectWithSize:boundingSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
+    
+    UIEdgeInsets textViewInsets = self.descriptionTextView.textContainerInset;
+    CGFloat heightConstraint = stringRect.size.height + textViewInsets.top + textViewInsets.bottom;
+    
+    self.descriptionHeightConstraint.constant = heightConstraint;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -187,22 +242,18 @@
         return cell;
     }
     
-    DAExploreDishTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDishSearchCellID];
+    DADishTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDishSearchCellID];
     
     DAExploreDishSearchResult *result = [self.selectedDataSource objectAtIndex:indexPath.row];
     
     cell.dishNameLabel.text          = result.name;
     cell.gradeLabel.text             = result.grade;
     cell.locationNameLabel.text      = result.locationName;
-    cell.reviewsNumberLabel.text     = [NSString stringWithFormat:@"%d", (int)result.totalReviews];
-    cell.friendsNumberLabel.text     = [NSString stringWithFormat:@"%d", (int)result.friendReviews];
-    cell.influencersNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.influencerReviews];
-    
-    if( result.imageURL )
-    {
-        NSURL *url = [NSURL URLWithString:result.imageURL];
-        [cell.mainImageView setImageWithURL:url usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    }
+    cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.numComments];
+    cell.isExplore = NO;
+
+    NSURL *url = [NSURL URLWithString:result.imageURL];
+    [cell.mainImageView setImageWithURL:url usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
     return cell;
 }
@@ -237,6 +288,11 @@
     }
     
     [self.dishesTableView reloadData];
+}
+
+- (void)showMoreActionSheet
+{
+    
 }
 
 - (IBAction)goToDishesMap

@@ -22,12 +22,16 @@
         _name              = nilOrJSONObjectForKey( data, @"name" );
         _type              = nilOrJSONObjectForKey( data, @"type" );
         _price             = nilOrJSONObjectForKey( data, @"price" );
+        _avg_grade         = nilOrJSONObjectForKey( data, @"avg_grade" );
         _grade             = nilOrJSONObjectForKey( data, @"grade" );
-        _imageURL          = nilOrJSONObjectForKey(data, @"img" );
+        _imageURL          = nilOrJSONObjectForKey( data, @"img_thumb" );
         _locationName      = nilOrJSONObjectForKey( data[@"location"], @"name" );
         
         _dishID            = [data[@"id"] integerValue];
         _locationID        = [data[@"location"][@"id"] integerValue];
+        _longitude         = [data[@"location"][@"longitude"] doubleValue];
+        _latitude          = [data[@"location"][@"latitude"] doubleValue];
+        _numComments       = [data[@"num_comments"] integerValue];
         _totalReviews      = [data[@"num_reviews"] integerValue];
         _friendReviews     = [data[@"num_reviews_friends"] integerValue];
         _influencerReviews = [data[@"num_reviews_influencers"] integerValue];

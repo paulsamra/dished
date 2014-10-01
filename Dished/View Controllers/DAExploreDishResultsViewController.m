@@ -8,7 +8,7 @@
 
 #import "DAExploreDishResultsViewController.h"
 #import "DAAPIManager.h"
-#import "DAExploreDishTableViewCell.h"
+#import "DADishTableViewCell.h"
 #import "DALocationManager.h"
 #import "DAExploreDishSearchResult.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
@@ -35,7 +35,7 @@
     
     self.tableView.tableFooterView = [[UIView alloc] init];
     
-    UINib *searchCellNib = [UINib nibWithNibName:@"DAExploreDishTableViewCell" bundle:nil];
+    UINib *searchCellNib = [UINib nibWithNibName:@"DADishTableViewCell" bundle:nil];
     [self.tableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
     
     if( self.searchTerm )
@@ -183,16 +183,17 @@
         return cell;
     }
     
-    DAExploreDishTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDishSearchCellID];
+    DADishTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDishSearchCellID];
     
     DAExploreDishSearchResult *result = [self.searchResults objectAtIndex:indexPath.row];
     
     cell.dishNameLabel.text          = result.name;
-    cell.gradeLabel.text             = result.grade;
+    cell.gradeLabel.text             = result.avg_grade;
     cell.locationNameLabel.text      = result.locationName;
-    cell.reviewsNumberLabel.text     = [NSString stringWithFormat:@"%d", (int)result.totalReviews];
-    cell.friendsNumberLabel.text     = [NSString stringWithFormat:@"%d", (int)result.friendReviews];
-    cell.influencersNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.influencerReviews];
+    cell.leftNumberLabel.text     = [NSString stringWithFormat:@"%d", (int)result.totalReviews];
+    cell.middleNumberLabel.text     = [NSString stringWithFormat:@"%d", (int)result.friendReviews];
+    cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.influencerReviews];
+    cell.isExplore = YES;
     
     if( result.imageURL )
     {

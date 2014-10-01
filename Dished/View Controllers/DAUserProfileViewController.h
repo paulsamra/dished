@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UITextView         *descriptionTextView;
 @property (weak, nonatomic) IBOutlet UIImageView        *userImageView;
 @property (weak, nonatomic) IBOutlet UITableView        *dishesTableView;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *descriptionHeightConstraint;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *dishTypeChooser;
 
 @property (strong, nonatomic) NSString *username;

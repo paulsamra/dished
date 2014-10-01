@@ -12,7 +12,7 @@
 #import "DALocationManager.h"
 #import "DAExploreViewController.h"
 #import "DAExploreLiveSearchResult.h"
-#import "DAExploreDishTableViewCell.h"
+#import "DADishTableViewCell.h"
 #import "DAExploreCollectionViewCell.h"
 #import "DAUserProfileViewController.h"
 #import "DACurrentLocationViewController.h"
