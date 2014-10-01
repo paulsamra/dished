@@ -924,20 +924,28 @@
                                             <rect key="frame" x="0.0" y="0.0" width="100" height="75"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="qv1-V2-lv5">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="qv1-V2-lv5">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="75"/>
                                                 </imageView>
-                                                <view alpha="0.29999999999999999" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gVP-VG-GYR">
+                                                <view alpha="0.29999999999999999" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gVP-VG-GYR">
                                                     <rect key="frame" x="0.0" y="0.0" width="100" height="75"/>
                                                     <subviews>
-                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="1hi-S7-kHa">
+                                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="white" translatesAutoresizingMaskIntoConstraints="NO" id="1hi-S7-kHa">
                                                             <rect key="frame" x="40" y="28" width="20" height="20"/>
                                                         </activityIndicatorView>
                                                     </subviews>
                                                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="centerX" secondItem="1hi-S7-kHa" secondAttribute="centerX" id="8h3-gs-udN"/>
+                                                        <constraint firstAttribute="centerY" secondItem="1hi-S7-kHa" secondAttribute="centerY" constant="-0.5" id="yTr-Vj-8xQ"/>
+                                                    </constraints>
                                                 </view>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhX-OB-QtU">
+                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lhX-OB-QtU">
                                                     <rect key="frame" x="10" y="45" width="90" height="20"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="20" id="6Wl-eN-rKc"/>
+                                                        <constraint firstAttribute="width" constant="90" id="cjE-uD-Kux"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="16"/>
                                                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
@@ -945,6 +953,18 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstAttribute="trailing" secondItem="qv1-V2-lv5" secondAttribute="trailing" id="1JD-SV-Ng4"/>
+                                            <constraint firstItem="qv1-V2-lv5" firstAttribute="leading" secondItem="BPM-7a-Gpz" secondAttribute="leading" id="8t7-oT-uKM"/>
+                                            <constraint firstAttribute="trailing" secondItem="lhX-OB-QtU" secondAttribute="trailing" id="9pF-W1-F6o"/>
+                                            <constraint firstAttribute="bottom" secondItem="lhX-OB-QtU" secondAttribute="bottom" constant="10" id="AN7-2g-HB6"/>
+                                            <constraint firstItem="qv1-V2-lv5" firstAttribute="top" secondItem="BPM-7a-Gpz" secondAttribute="top" id="RqO-rk-z44"/>
+                                            <constraint firstAttribute="bottom" secondItem="gVP-VG-GYR" secondAttribute="bottom" id="Uyh-eO-Rab"/>
+                                            <constraint firstItem="gVP-VG-GYR" firstAttribute="leading" secondItem="BPM-7a-Gpz" secondAttribute="leading" id="ciQ-Hr-OkK"/>
+                                            <constraint firstAttribute="trailing" secondItem="gVP-VG-GYR" secondAttribute="trailing" id="el4-un-Y3K"/>
+                                            <constraint firstItem="gVP-VG-GYR" firstAttribute="top" secondItem="BPM-7a-Gpz" secondAttribute="top" id="uHI-5t-Npr"/>
+                                            <constraint firstAttribute="bottom" secondItem="qv1-V2-lv5" secondAttribute="bottom" id="v5A-da-3PC"/>
+                                        </constraints>
                                         <connections>
                                             <outlet property="activityIndicatorView" destination="1hi-S7-kHa" id="OXJ-OA-wWl"/>
                                             <outlet property="hashtagLabel" destination="lhX-OB-QtU" id="ulY-8x-icr"/>

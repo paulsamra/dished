@@ -10,7 +10,8 @@
 
 
 @interface DAExploreViewController : UIViewController <UICollectionViewDelegate, UICollectionViewDataSource,
-                                                       UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+                                                       UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate,
+                                                       UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UISearchBar      *searchBar;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;

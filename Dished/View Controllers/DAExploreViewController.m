@@ -111,10 +111,10 @@
 
 - (NSArray *)imageURLsFromResponse:(id)response
 {
-    NSArray *data = response[@"data"];
+    NSArray *data = nilOrJSONObjectForKey( response, @"data" );
     NSMutableArray *imageURLs = [NSMutableArray array];
     
-    if( data && ![data isEqual:[NSNull null]] )
+    if( data )
     {
         for( NSDictionary *dataObject in data )
         {
@@ -433,6 +433,23 @@
     }
     
     return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
+    
+    CGFloat width = collectionView.frame.size.width;
+    CGFloat sectionInsetSpacing = flowLayout.sectionInset.right + flowLayout.sectionInset.left;
+    CGFloat availableWidth = width - ( 2 * flowLayout.minimumInteritemSpacing ) - sectionInsetSpacing;
+    CGFloat itemWidth = availableWidth / 3;
+    
+    CGFloat widthPercentIncrease = itemWidth / flowLayout.itemSize.width;
+    CGFloat itemHeight = flowLayout.itemSize.height * widthPercentIncrease;
+    
+    CGSize itemSize = CGSizeMake( itemWidth, itemHeight );
+    
+    return itemSize;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
