@@ -93,16 +93,8 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if( [self.hashtagArray count] == 0 )
-    {
-        return 1;
-    }
-    else
-    {
-        return [self.hashtagArray count];
-    }
+    return self.hashtagArray.count == 0 ? 1 : self.hashtagArray.count;
 }
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

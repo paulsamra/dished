@@ -13,12 +13,21 @@
 
 + (DAUsername *)usernameWithData:(id)data
 {
-    DAUsername *username = [[DAUsername alloc] init];
+    return [[DAUsername alloc] initWithData:data];
+}
+
+- (id)initWithData:(id)data
+{
+    if( self = [super init] )
+    {
+        _username  = nilOrJSONObjectForKey( data, @"username" );
+        _img_thumb = nilOrJSONObjectForKey( data, @"img_thumb" );
+        
+        _isFollowed = [data[@"caller_follows"] boolValue];
+        _user_id    = [data[@"id"] integerValue];
+    }
     
-    username.username = data[@"username"];
-    username.user_id  = [data[@"id"] integerValue];
-    
-    return username;
+    return self;
 }
 
 @end

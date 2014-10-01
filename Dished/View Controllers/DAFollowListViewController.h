@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DAFollowListViewController : UIViewController
+@interface DAFollowListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (nonatomic) BOOL showFollowers;
+@property (nonatomic) NSInteger user_id;
 
 @end

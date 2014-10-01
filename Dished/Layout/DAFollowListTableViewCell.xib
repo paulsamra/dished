@@ -14,7 +14,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kzO-5g-59d">
-                        <rect key="frame" x="15" y="8" width="27" height="27"/>
+                        <rect key="frame" x="15" y="11" width="27" height="27"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="27" id="22J-Xb-3eB"/>
                             <constraint firstAttribute="height" constant="27" id="kwS-td-c1P"/>
@@ -26,8 +26,8 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R4g-bI-qER">
-                        <rect key="frame" x="249" y="8" width="64" height="27"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R4g-bI-qER">
+                        <rect key="frame" x="248" y="8" width="64" height="27"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="64" id="k5c-d5-hQt"/>
                         </constraints>
@@ -41,12 +41,12 @@
                 <constraints>
                     <constraint firstItem="kzO-5g-59d" firstAttribute="leading" secondItem="F7I-et-VTD" secondAttribute="leading" constant="15" id="4aO-j7-k3y"/>
                     <constraint firstAttribute="bottom" secondItem="aCf-wU-ZKO" secondAttribute="bottom" constant="11" id="7Uc-Q6-Brh"/>
-                    <constraint firstAttribute="trailing" secondItem="R4g-bI-qER" secondAttribute="trailing" constant="7" id="9L0-lM-8NN"/>
+                    <constraint firstAttribute="trailing" secondItem="R4g-bI-qER" secondAttribute="trailing" constant="8" id="9L0-lM-8NN"/>
                     <constraint firstItem="aCf-wU-ZKO" firstAttribute="top" secondItem="F7I-et-VTD" secondAttribute="top" constant="11" id="Ist-6h-xt2"/>
-                    <constraint firstItem="R4g-bI-qER" firstAttribute="leading" secondItem="aCf-wU-ZKO" secondAttribute="trailing" constant="8" id="MDx-hp-Bsa"/>
+                    <constraint firstItem="R4g-bI-qER" firstAttribute="leading" secondItem="aCf-wU-ZKO" secondAttribute="trailing" constant="7" id="MDx-hp-Bsa"/>
                     <constraint firstItem="aCf-wU-ZKO" firstAttribute="leading" secondItem="kzO-5g-59d" secondAttribute="trailing" constant="8" id="UEt-Yg-CKx"/>
                     <constraint firstItem="R4g-bI-qER" firstAttribute="top" secondItem="F7I-et-VTD" secondAttribute="top" constant="8" id="Wc5-xq-0Jl"/>
-                    <constraint firstItem="kzO-5g-59d" firstAttribute="top" secondItem="F7I-et-VTD" secondAttribute="top" constant="8" id="hL2-Zt-bIc"/>
+                    <constraint firstItem="kzO-5g-59d" firstAttribute="top" secondItem="F7I-et-VTD" secondAttribute="top" constant="11" id="hL2-Zt-bIc"/>
                     <constraint firstAttribute="bottom" secondItem="R4g-bI-qER" secondAttribute="bottom" constant="8" id="kiS-Lr-dm3"/>
                 </constraints>
             </tableViewCellContentView>

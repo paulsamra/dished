@@ -12,7 +12,9 @@
 @interface DAUsername : NSObject
 
 @property (copy, nonatomic) NSString *username;
+@property (copy, nonatomic) NSString *img_thumb;
 
+@property (nonatomic) BOOL      isFollowed;
 @property (nonatomic) NSInteger user_id;
 
 + (DAUsername *)usernameWithData:(id)data;

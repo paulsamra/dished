@@ -1242,12 +1242,19 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         
         [self POST:@"users/follow" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+            if( completion )
+            {
+                [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+            }
         }
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {
             NSLog(@"Failed to follow user: %@", error.localizedDescription);
-            completion( NO );
+            
+            if( completion )
+            {
+                completion( NO );
+            }
         }];
     });
 }
@@ -1262,12 +1269,19 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         
         [self POST:@"users/unfollow" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+            if( completion )
+            {
+                [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
+            }
         }
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {
             NSLog(@"Failed to unfollow user: %@", error.localizedDescription);
-            completion( NO );
+            
+            if( completion )
+            {
+                completion( NO );
+            }
         }];
     });
 }

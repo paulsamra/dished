@@ -11,6 +11,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAExploreDishSearchResult.h"
 #import "DADishTableViewCell.h"
+#import "DAFollowListViewController.h"
 
 
 @interface DAUserProfileViewController ()
@@ -20,6 +21,9 @@
 @property (strong, nonatomic) NSArray *cocktailReviews;
 @property (strong, nonatomic) NSArray *wineReviews;
 
+@property (nonatomic) BOOL isOwnProfile;
+@property (nonatomic) BOOL isFollowed;
+
 @end
 
 
@@ -28,6 +32,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    
     
     UINib *searchCellNib = [UINib nibWithNibName:@"DADishTableViewCell" bundle:nil];
     [self.dishesTableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
@@ -140,15 +146,10 @@
         self.wineReviews      = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"wine" )];
         self.cocktailReviews  = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"cocktail" )];
         
-        if( ![data[@"is_profile_owner"] boolValue] )
-        {
-            BOOL isFollowed = [data[@"caller_follows"] boolValue];
-            [self setFollowButtonState:isFollowed];
-        }
-        else
-        {
-            [self setFollowButtonToProfileOwner];
-        }
+        self.isOwnProfile = [data[@"is_profile_owner"] boolValue];
+        self.isFollowed   = [data[@"caller_follows"] boolValue];
+        
+        self.isOwnProfile ? [self setFollowButtonToProfileOwner] : [self setFollowButtonState:self.isFollowed];
     }
 }
 
@@ -302,22 +303,48 @@
 
 - (IBAction)followButtonPressed
 {
-    
-}
-
-- (IBAction)numDishesPressed
-{
-    
+    if( !self.isOwnProfile )
+    {
+        self.isFollowed ? [self unfollowUserID:self.user_id] : [self followUserID:self.user_id];
+        [self setFollowButtonState:!self.isFollowed];
+        self.isFollowed = !self.isFollowed;
+    }
 }
 
 - (IBAction)numFollowingPressed
 {
+    BOOL showFollowers = NO;
     
+    [self performSegueWithIdentifier:@"followList" sender:@(showFollowers)];
 }
 
 - (IBAction)numFollowersPressed
 {
+    BOOL showFollowers = YES;
     
+    [self performSegueWithIdentifier:@"followList" sender:@(showFollowers)];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"followList"] )
+    {
+        BOOL showFollowers = [sender boolValue];
+        
+        DAFollowListViewController *dest = segue.destinationViewController;
+        dest.showFollowers = showFollowers;
+        dest.user_id = self.user_id;
+    }
+}
+
+- (void)followUserID:(NSInteger)userID
+{
+    [[DAAPIManager sharedManager] followUserWithUserID:userID completion:nil];
+}
+
+- (void)unfollowUserID:(NSInteger)userID
+{
+    [[DAAPIManager sharedManager] unfollowUserWithUserID:userID completion:nil];
 }
 
 @end
