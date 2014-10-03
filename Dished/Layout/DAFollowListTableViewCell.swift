@@ -29,7 +29,7 @@ class DAFollowListTableViewCell: UITableViewCell
         
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2;
         userImageView.layer.masksToBounds = true;
-        
+                
         self.resetFields()
         
         followButton.addTarget( self, action: "followButtonTapped", forControlEvents: UIControlEvents.TouchUpInside )

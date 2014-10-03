@@ -35,6 +35,9 @@
     self.showFollowers ? [self loadFollowers] : [self loadFollowing];
     
     self.navigationItem.title = self.showFollowers ? @"Followers" : @"Following";
+    
+    self.tableView.rowHeight = 44.0;
+    self.tableView.estimatedRowHeight = 44.0;
 }
 
 - (void)viewWillAppear:(BOOL)animated

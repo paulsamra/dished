@@ -220,4 +220,9 @@
  */
 - (void)unfollowUserWithUserID:(NSInteger)userID completion:( void(^)( BOOL success ) )completion;
 
+/*
+ * Get a restaurant's profile info.
+ */
+- (void)getRestaurantProfileWithRestaurantID:(NSInteger)restaurantID completion:( void(^)( id response, NSError *error ) )completion;
+
 @end

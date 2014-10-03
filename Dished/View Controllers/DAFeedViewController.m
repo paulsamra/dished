@@ -414,6 +414,19 @@
     DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
     userProfileViewController.username = feedItem.creator_username;
     userProfileViewController.user_id  = [feedItem.creator_id integerValue];
+    userProfileViewController.isRestaurant = NO;
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
+}
+
+- (void)locationButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    userProfileViewController.username = feedItem.loc_name;
+    userProfileViewController.user_id  = [feedItem.loc_id integerValue];
+    userProfileViewController.isRestaurant = YES;
     [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 

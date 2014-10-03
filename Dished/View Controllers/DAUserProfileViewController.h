@@ -11,8 +11,15 @@
 
 @interface DAUserProfileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UIView             *firstButtonSeperator;
+@property (weak, nonatomic) IBOutlet UIView             *secondButtonSeperator;
+@property (weak, nonatomic) IBOutlet UIView             *thirdButtonSeperator;
+@property (weak, nonatomic) IBOutlet UIView             *centerButtonSeperator;
+@property (weak, nonatomic) IBOutlet UIView             *descriptionSeperator;
 @property (weak, nonatomic) IBOutlet UIView             *topView;
 @property (weak, nonatomic) IBOutlet UIView             *middleView;
+@property (weak, nonatomic) IBOutlet UIButton           *directionsButton;
+@property (weak, nonatomic) IBOutlet UIButton           *phoneNumberButton;
 @property (weak, nonatomic) IBOutlet UIButton           *dishesMapButton;
 @property (weak, nonatomic) IBOutlet UIButton           *numDishesButton;
 @property (weak, nonatomic) IBOutlet UIButton           *numFollowingButton;
@@ -26,6 +33,7 @@
 
 @property (strong, nonatomic) NSString *username;
 
+@property (nonatomic) BOOL      isRestaurant;
 @property (nonatomic) NSInteger user_id;
 
 @end

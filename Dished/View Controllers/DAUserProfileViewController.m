@@ -14,7 +14,7 @@
 #import "DAFollowListViewController.h"
 
 
-@interface DAUserProfileViewController ()
+@interface DAUserProfileViewController() <UIActionSheetDelegate>
 
 @property (weak,   nonatomic) NSArray *selectedDataSource;
 @property (strong, nonatomic) NSArray *foodReviews;
@@ -33,8 +33,6 @@
 {
     [super viewDidLoad];
     
-    
-    
     UINib *searchCellNib = [UINib nibWithNibName:@"DADishTableViewCell" bundle:nil];
     [self.dishesTableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
     
@@ -51,29 +49,7 @@
         self.navigationItem.title = [NSString stringWithFormat:@"@%@", self.username];
     }
     
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = self.view.center;
-    [spinner startAnimating];
-    [self.view addSubview:spinner];
-    
-    [[DAAPIManager sharedManager] getUserProfileWithUserID:self.user_id completion:^( id response, NSError *error )
-    {
-        if( !response || error )
-        {
-            
-        }
-        else
-        {
-            [self populateUserDataWithResponse:response];
-            self.selectedDataSource = self.foodReviews;
-            [self.dishesTableView reloadData];
-            
-            [spinner stopAnimating];
-            [spinner removeFromSuperview];
-            
-            [self setMainViewsHidden:NO animated:YES];
-        }
-    }];
+    [self loadData];
 }
 
 - (void)setMainViewsHidden:(BOOL)hidden animated:(BOOL)animated
@@ -121,35 +97,111 @@
     }
 }
 
-- (void)populateUserDataWithResponse:(id)response
+- (void)loadData
 {
-    NSDictionary *data = response[@"data"];
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = self.view.center;
+    [spinner startAnimating];
+    [self.view addSubview:spinner];
     
-    if( data && ![data isEqual:[NSNull null]] )
+    if( self.isRestaurant )
     {
-        [self setTitle:@"Dishes"    withValue:[data[@"num_reviews"]   integerValue] forButton:self.numDishesButton];
-        [self setTitle:@"Following" withValue:[data[@"num_following"] integerValue] forButton:self.numFollowingButton];
-        [self setTitle:@"Followers" withValue:[data[@"num_followers"] integerValue] forButton:self.numFollowersButton];
+        [[DAAPIManager sharedManager] getRestaurantProfileWithRestaurantID:self.user_id completion:^( id response, NSError *error )
+        {
+            if( !response || error )
+            {
+                
+            }
+            else
+            {
+                [self populateDataWithResponse:response];
+                self.selectedDataSource = self.foodReviews;
+                [self.dishesTableView reloadData];
+                
+                [spinner stopAnimating];
+                [spinner removeFromSuperview];
+                
+                [self setMainViewsHidden:NO animated:YES];
+            }
+        }];
+    }
+    else
+    {
+        [[DAAPIManager sharedManager] getUserProfileWithUserID:self.user_id completion:^( id response, NSError *error )
+        {
+            if( !response || error )
+            {
+                
+            }
+            else
+            {
+                [self populateDataWithResponse:response];
+                self.selectedDataSource = self.foodReviews;
+                [self.dishesTableView reloadData];
+                
+                [spinner stopAnimating];
+                [spinner removeFromSuperview];
+                 
+                [self setMainViewsHidden:NO animated:YES];
+            }
+        }];
+    }
+}
+
+- (void)populateDataWithResponse:(id)response
+{
+    NSDictionary *data = nilOrJSONObjectForKey( response, @"data" );
+    
+    if( data )
+    {
+        NSDictionary *user = nilOrJSONObjectForKey( data, ( self.isRestaurant ? @"restaurant" : @"user" ) );
         
-        NSDictionary *user = data[@"user"];
-        
-        NSString *name = [NSString stringWithFormat:@"%@ %@", user[@"fname"], user[@"lname"]];
-        [self setDescriptionTextWithName:name description:user[@"desc"]];
-        
-        self.navigationItem.title = [NSString stringWithFormat:@"@%@", user[@"username"]];
+        self.navigationItem.title = [NSString stringWithFormat:@"@%@", nilOrJSONObjectForKey( user, @"username" )];
         
         NSURL *url = [NSURL URLWithString:nilOrJSONObjectForKey( user, @"img_thumb" )];
         [self.userImageView sd_setImageWithURL:url];
         
-        NSDictionary *reviews = data[@"reviews"];
+        self.isFollowed   = [data[@"caller_follows"]   boolValue];
+        self.isOwnProfile = [data[@"is_profile_owner"] boolValue];
+        
+        self.isOwnProfile ? [self setFollowButtonToProfileOwner] : [self setFollowButtonState:self.isFollowed];
+        
+        NSDictionary *reviews = nilOrJSONObjectForKey( data, @"reviews" );
         self.foodReviews      = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"food" )];
         self.wineReviews      = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"wine" )];
         self.cocktailReviews  = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"cocktail" )];
         
-        self.isOwnProfile = [data[@"is_profile_owner"] boolValue];
-        self.isFollowed   = [data[@"caller_follows"] boolValue];
-        
-        self.isOwnProfile ? [self setFollowButtonToProfileOwner] : [self setFollowButtonState:self.isFollowed];
+        if( self.isRestaurant )
+        {
+            self.numDishesButton.hidden = YES;
+            self.numFollowersButton.hidden = YES;
+            self.numFollowingButton.hidden = YES;
+            self.secondButtonSeperator.hidden = YES;
+            self.thirdButtonSeperator.hidden = YES;
+            
+            self.descriptionHeightConstraint.constant = 0;
+            self.descriptionSeperator.hidden = YES;
+            
+            NSString *phoneNumber = nilOrJSONObjectForKey( user, @"phone" );
+            [self.phoneNumberButton setTitle:( [phoneNumber integerValue] == 0 ? @"No Phone Number" : phoneNumber ) forState:UIControlStateNormal];
+            
+            NSString *avgGrade = nilOrJSONObjectForKey( user, @"avg_grade" );
+            self.dishesMapButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+            [self.dishesMapButton setTitle:avgGrade forState:UIControlStateNormal];
+        }
+        else
+        {
+            self.directionsButton.hidden = YES;
+            self.phoneNumberButton.hidden = YES;
+            self.centerButtonSeperator.hidden = YES;
+            
+            [self setTitle:@"Dishes"    withValue:[data[@"num_reviews"]   integerValue] forButton:self.numDishesButton];
+            [self setTitle:@"Following" withValue:[data[@"num_following"] integerValue] forButton:self.numFollowingButton];
+            [self setTitle:@"Followers" withValue:[data[@"num_followers"] integerValue] forButton:self.numFollowersButton];
+            
+            NSString *name = [NSString stringWithFormat:@"%@ %@", user[@"fname"], user[@"lname"]];
+            [self setDescriptionTextWithName:name description:user[@"desc"]];
+        }
     }
 }
 
@@ -293,12 +345,19 @@
 
 - (void)showMoreActionSheet
 {
-    
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Block User" otherButtonTitles:@"Report for Spam", nil];
+    [actionSheet showInView:self.view];
 }
 
 - (IBAction)goToDishesMap
 {
     
+}
+
+- (IBAction)showGradeInfoAlert
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This grade is averaged from all\nthe dish reviews at this\nrestaurant." message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    [alertView show];
 }
 
 - (IBAction)followButtonPressed
