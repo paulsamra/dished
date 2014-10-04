@@ -40,6 +40,9 @@ static NSString *kLocationIDKey   = @"loc_id";
         
         UINib *broadcastCellNib = [UINib nibWithNibName:@"DADishSuggestionTableViewCell" bundle:nil];
         [self registerNib:broadcastCellNib forCellReuseIdentifier:@"suggestionCell"];
+        
+        self.rowHeight = 44.0;
+        self.estimatedRowHeight = 44.0;
     }
     
     return self;
@@ -146,7 +149,7 @@ static NSString *kLocationIDKey   = @"loc_id";
     
     if( [self.suggestionDelegate respondsToSelector:@selector(selectedSuggestionWithDishName:dishID:dishPrice:locationName:locationID:)] )
     {
-        [self.suggestionDelegate selectedSuggestionWithDishName:dishName dishID:dishID dishPrice:dishPrice locationName:locationName locationID:locationID];
+        [self.suggestionDelegate selectedSuggestionWithDishName:dishName dishID:[dishID integerValue] dishPrice:dishPrice locationName:locationName locationID:[locationID integerValue]];
     }
     
     self.hidden = YES;

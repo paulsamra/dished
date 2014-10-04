@@ -177,7 +177,7 @@ ReviewDetailsItem;
         dishCell.gradeLabel.text = [self.review.grade uppercaseString];
         
         NSURL *userImageURL = [NSURL URLWithString:self.review.creator_img_thumb];
-        [dishCell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
+        [dishCell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];
         
         if( self.review.created )
         {

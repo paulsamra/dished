@@ -95,16 +95,16 @@ static NSString *kLocationTypeKey     = @"type";
     if( indexPath.row < [self.locationData count] )
     {
         self.review.locationName = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationNameKey];
-        self.review.locationID = @"";
-        self.review.googleID   = @"";
+        self.review.locationID = 0;
+        self.review.googleID   = 0;
         
         if( [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationIDKey] )
         {
-            self.review.locationID   = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationIDKey];
+            self.review.locationID = [[[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationIDKey] integerValue];
         }
         else if( [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationGoogleIDKey] )
         {
-            self.review.googleID     = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationGoogleIDKey];
+            self.review.googleID = [[[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationGoogleIDKey] integerValue];
         }
         
         [self.navigationController popViewControllerAnimated:YES];

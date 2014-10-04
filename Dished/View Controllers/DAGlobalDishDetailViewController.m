@@ -17,6 +17,7 @@
 #import "NSAttributedString+Dished.h"
 #import "DAReviewDetailsViewController.h"
 #import "DAUserProfileViewController.h"
+#import "DATabBarController.h"
 
 
 @interface DAGlobalDishDetailViewController() <DAGlobalDishCollectionViewCellDelegate, DAGlobalReviewCollectionViewCellDelegate>
@@ -150,15 +151,10 @@
         }
         [reviewCell.usernameButton setTitle:usernameString forState:UIControlStateNormal];
         
-        if( review.creator_img_thumb )
-        {
-            NSURL *userImageURL = [NSURL URLWithString:review.creator_img_thumb];
-            [reviewCell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
-        }
-        else
-        {
-            reviewCell.userImageView.image = [UIImage imageNamed:@"avatar"];
-        }
+        UIImage *placeholderImage = [UIImage imageNamed:@"profile_image"];
+        NSURL *userImageURL = [NSURL URLWithString:review.creator_img_thumb];
+        [reviewCell.userImageView sd_setImageWithURL:userImageURL placeholderImage:placeholderImage];
+        reviewCell.userImageView.backgroundColor = self.collectionView.backgroundColor;
         
         NSString *grade = [review.grade substringToIndex:1];
         UIColor *gradeColor = [self colorWithGrade:grade];
@@ -314,7 +310,8 @@
 
 - (void)addReviewButtonTappedOnGlobalDishCollectionViewCell:(DAGlobalDishCollectionViewCell *)cell
 {
-    
+    DATabBarController *tabBarController = (DATabBarController *)self.tabBarController;
+    [tabBarController startAddReviewProcessWithDishProfile:self.dishProfile];
 }
 
 - (void)usernameButtonTappedOnGlobalReviewCollectionViewCell:(DAGlobalReviewCollectionViewCell *)cell

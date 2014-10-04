@@ -50,6 +50,11 @@
         self.navigationItem.title = self.isRestaurant ? self.username : [NSString stringWithFormat:@"@%@", self.username];
     }
     
+    for( NSLayoutConstraint *constraint in self.seperatorConstraints )
+    {
+        constraint.constant = 0.5;
+    }
+        
     [self loadData];
 }
 
@@ -167,7 +172,7 @@
         self.navigationItem.title = self.isRestaurant ? nilOrJSONObjectForKey( user, @"name" ) : [NSString stringWithFormat:@"@%@", nilOrJSONObjectForKey( user, @"username" )];
         
         NSURL *url = [NSURL URLWithString:nilOrJSONObjectForKey( user, @"img_thumb" )];
-        [self.userImageView sd_setImageWithURL:url];
+        [self.userImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"profile_image"]];
         
         self.isFollowed   = [data[@"caller_follows"]   boolValue];
         self.isOwnProfile = [data[@"is_profile_owner"] boolValue];
@@ -325,7 +330,7 @@
     if( self.isRestaurant )
     {
         cell.isExplore = YES;
-        cell.locationNameLabel.hidden = YES;
+        cell.locationButton.hidden = YES;
         
         cell.leftNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.totalReviews];
         cell.middleNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.friendReviews];
@@ -337,7 +342,7 @@
     {
         cell.isExplore = NO;
         cell.gradeLabel.text = result.grade;
-        cell.locationNameLabel.text = result.locationName;
+        [cell.locationButton setTitle:result.locationName forState:UIControlStateNormal];
         cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.influencerReviews];
     }
     

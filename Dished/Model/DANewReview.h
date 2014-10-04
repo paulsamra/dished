@@ -18,9 +18,6 @@
 @property (copy, nonatomic) NSString  *comment;
 @property (copy, nonatomic) NSString  *price;
 @property (copy, nonatomic) NSString  *rating;
-@property (copy, nonatomic) NSString  *dishID;
-@property (copy, nonatomic) NSString  *locationID;
-@property (copy, nonatomic) NSString  *googleID;
 @property (copy, nonatomic) NSString  *locationName;
 @property (copy, nonatomic) NSString  *locationStreetNum;
 @property (copy, nonatomic) NSString  *locationStreetName;
@@ -29,7 +26,10 @@
 @property (copy, nonatomic) NSString  *locationZip;
 @property (copy, nonatomic) NSString  *locationPhone;
 
-@property (nonatomic) double locationLongitude;
-@property (nonatomic) double locationLatitude;
+@property (nonatomic) double    locationLongitude;
+@property (nonatomic) double    locationLatitude;
+@property (nonatomic) NSInteger dishID;
+@property (nonatomic) NSInteger googleID;
+@property (nonatomic) NSInteger locationID;
 
 @end

@@ -166,6 +166,14 @@
     return YES;
 }
 
+- (void) startAddReviewProcessWithDishProfile:(DADishProfile *)dishProfile
+{
+    UINavigationController *addReviewNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"addReview"];
+    DAImagePickerController *imagePickerController = [addReviewNavigationController.viewControllers objectAtIndex:0];
+    imagePickerController.selectedDish = dishProfile;
+    [self presentViewController:addReviewNavigationController animated:YES completion:nil];
+}
+
 - (void)presentEmailView:(NSNotification *)notification
 {
     [MRProgressOverlayView showOverlayAddedTo:self.view title:@"Loading Email..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];

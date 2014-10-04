@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DADishProfile.h"
 
 #define kImageReadyNotificationKey @"image_ready"
 
@@ -25,6 +26,6 @@
 @property (strong, nonatomic) IBOutlet UITapGestureRecognizer   *tapGesture;
 
 @property (strong, nonatomic) UIImage *pictureTaken;
-@property (strong, nonatomic) UIImage *scaledPicture;
+@property (strong, nonatomic) DADishProfile *selectedDish;
 
 @end

@@ -59,8 +59,8 @@
     
     [self.nameTextField resignFirstResponder];
     
-    self.review.locationID = @"";
-    self.review.googleID   = @"";
+    self.review.locationID = 0;
+    self.review.googleID   = 0;
     
     [[DALocationManager sharedManager] getAddress];
     

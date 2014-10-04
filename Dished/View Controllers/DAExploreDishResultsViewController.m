@@ -189,10 +189,10 @@
     
     cell.dishNameLabel.text          = result.name;
     cell.gradeLabel.text             = result.avg_grade;
-    cell.locationNameLabel.text      = result.locationName;
-    cell.leftNumberLabel.text     = [NSString stringWithFormat:@"%d", (int)result.totalReviews];
-    cell.middleNumberLabel.text     = [NSString stringWithFormat:@"%d", (int)result.friendReviews];
-    cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.influencerReviews];
+    cell.leftNumberLabel.text        = [NSString stringWithFormat:@"%d", (int)result.totalReviews];
+    cell.middleNumberLabel.text      = [NSString stringWithFormat:@"%d", (int)result.friendReviews];
+    cell.rightNumberLabel.text       = [NSString stringWithFormat:@"%d", (int)result.influencerReviews];
+    [cell.locationButton setTitle:result.locationName forState:UIControlStateNormal];
     cell.isExplore = YES;
     
     if( result.imageURL )

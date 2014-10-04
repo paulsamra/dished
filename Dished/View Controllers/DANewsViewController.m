@@ -267,17 +267,9 @@
 
 - (void)configureCell:(DANewsTableViewCell *)cell withNews:(DANews *)news
 {
-    UIImage *avatarImage = [UIImage imageNamed:@"avatar"];
-    
-    if( news.img )
-    {
-        NSURL *url = [NSURL URLWithString:news.img];
-        [cell.userImageView sd_setImageWithURL:url placeholderImage:avatarImage];
-    }
-    else
-    {
-        cell.userImageView.image = avatarImage;
-    }
+    UIImage *profileImage = [UIImage imageNamed:@"profile_image"];
+    NSURL *url = [NSURL URLWithString:news.img];
+    [cell.userImageView sd_setImageWithURL:url placeholderImage:profileImage];
     
     NSAttributedString *newsText = [[NSAttributedString alloc] initWithString:[news formattedString] attributes:[DANewsTableViewCell newsLabelAttributes]];
     cell.newsTextView.attributedText = newsText;

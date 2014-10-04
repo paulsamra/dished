@@ -267,7 +267,7 @@
     }
     
     NSURL *userImageURL = [NSURL URLWithString:item.creator_img_thumb];
-    [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"avatar"]];
+    [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];
 }
 
 - (NSAttributedString *)commentStringForComment:(DAFeedComment *)comment

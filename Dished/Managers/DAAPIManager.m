@@ -641,19 +641,19 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             [parameters setObject:hashtagString forKey:@"hashtags"];
         }
         
-        if( review.dishID.length > 0 )
+        if( review.dishID != 0 )
         {
-            [parameters setObject:review.dishID forKey:@"dish_id"];
+            [parameters setObject:@(review.dishID) forKey:@"dish_id"];
         }
-        else if( review.locationID.length > 0 || review.googleID.length > 0 )
+        else if( review.locationID != 0 || review.googleID != 0 )
         {
-            if( review.locationID.length > 0 )
+            if( review.locationID != 0 )
             {
-                [parameters setObject:review.locationID forKey:@"loc_id"];
+                [parameters setObject:@(review.locationID) forKey:@"loc_id"];
             }
-            else if( review.googleID.length > 0 )
+            else if( review.googleID != 0 )
             {
-                [parameters setObject:review.googleID forKey:@"loc_google_id"];
+                [parameters setObject:@(review.googleID) forKey:@"loc_google_id"];
             }
             
             [parameters setObject:review.type forKey:@"type"];

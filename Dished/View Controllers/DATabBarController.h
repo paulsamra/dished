@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class DADishProfile;
+
 
 @interface DATabBarController : UITabBarController
+
+- (void) startAddReviewProcessWithDishProfile:(DADishProfile *)dishProfile;
 
 @end

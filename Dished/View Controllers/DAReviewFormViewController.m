@@ -19,6 +19,7 @@
 #import <MessageUI/MessageUI.h>
 #import "DATwitterManager.h"
 #import "DASocialCollectionViewController.h"
+#import "DAImagePickerController.h"
 
 @interface DAReviewFormViewController() <UIAlertViewDelegate>
 
@@ -69,6 +70,23 @@
     NSDictionary *attributes = @{ NSForegroundColorAttributeName : [UIColor lightGrayColor] };
     self.titleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Title" attributes:attributes];
     self.priceTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Price (Optional)" attributes:attributes];
+    
+    [self checkForSelectedDish];
+}
+
+- (void)checkForSelectedDish
+{
+    DAImagePickerController *imagePickerController = [self.navigationController.viewControllers objectAtIndex:0];
+    DADishProfile *selectedDish = imagePickerController.selectedDish;
+    
+    if( selectedDish )
+    {
+        self.review.title = selectedDish.name;
+        self.review.locationName = selectedDish.loc_name;
+        self.review.locationID = selectedDish.loc_id;
+        
+        [self updateFields];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -155,13 +173,6 @@
     {
         self.emailImage.alpha = 1.0;
     }
-}
-
-- (void)viewDidDisappear:(BOOL)animated
-{
-    [self.commentTextView resignFirstResponder];
-    
-    [super viewDidDisappear:animated];
 }
 
 - (void)showProgressView
@@ -341,19 +352,19 @@
     
     self.review.title = self.titleTextField.text;
     
-    if( self.review.dishID.length != 0 )
+    if( self.review.dishID != 0 )
     {
-        self.review.dishID = @"";
+        self.review.dishID = 0;
         self.review.price = @"";
         self.review.locationName = @"";
-        self.review.locationID = @"";
+        self.review.locationID = 0;
         self.dishPrice = [[NSMutableString alloc] init];
     }
     
     [self updateFields];
 }
 
-- (void)selectedSuggestionWithDishName:(NSString *)dishName dishID:(NSString *)dishID dishPrice:dishPrice locationName:(NSString *)locationName locationID:(NSString *)locationID
+- (void)selectedSuggestionWithDishName:(NSString *)dishName dishID:(NSInteger)dishID dishPrice:dishPrice locationName:(NSString *)locationName locationID:(NSInteger)locationID
 {
     self.review.dishID = dishID;
     self.review.title = dishName;
@@ -415,7 +426,7 @@
         [self.ratingButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
     }
     
-    if( self.review.dishID.length != 0 )
+    if( self.review.dishID != 0 )
     {
         self.imAtButton.enabled = NO;
         self.priceTextField.enabled = NO;
@@ -443,11 +454,11 @@
     
     if( review.comment.length > 0 && review.rating.length > 0 )
     {
-        if( review.dishID.length > 0 )
+        if( review.dishID != 0 )
         {
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }
-        else if( review.title.length > 0 && review.locationID.length > 0 )
+        else if( review.title.length > 0 && review.locationID != 0 )
         {
             self.navigationItem.rightBarButtonItem.enabled = YES;
         }

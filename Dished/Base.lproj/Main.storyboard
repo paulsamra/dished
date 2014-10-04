@@ -811,7 +811,7 @@
                         <viewControllerLayoutGuide type="bottom" id="t3g-ex-ZCh"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="dTJ-4l-buB">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="wwz-ft-tqt" customClass="DATouchTableView" customModule="Dished" customModuleProvider="target">
@@ -1818,6 +1818,15 @@
                         <outlet property="thirdButtonSeperator" destination="fmo-IQ-mHB" id="5PB-tu-Ta2"/>
                         <outlet property="topView" destination="rFf-8O-gvy" id="NgR-Ya-25E"/>
                         <outlet property="userImageView" destination="okB-ka-ksm" id="Mrk-jm-uTr"/>
+                        <outletCollection property="seperatorConstraints" destination="ezw-Di-Xm1" id="uia-Hy-IPC"/>
+                        <outletCollection property="seperatorConstraints" destination="WnJ-hd-wAQ" id="l8j-Kq-hMe"/>
+                        <outletCollection property="seperatorConstraints" destination="NwQ-Jx-c9M" id="iKg-XB-3gc"/>
+                        <outletCollection property="seperatorConstraints" destination="lBE-P1-Vlu" id="5WQ-xk-h76"/>
+                        <outletCollection property="seperatorConstraints" destination="AfB-py-25Q" id="hpx-fX-rMp"/>
+                        <outletCollection property="seperatorConstraints" destination="7yf-1D-8lv" id="cmn-qj-wby"/>
+                        <outletCollection property="seperatorConstraints" destination="eiX-0v-rSE" id="a4m-R5-UD7"/>
+                        <outletCollection property="seperatorConstraints" destination="Rrh-f4-Jea" id="EGY-eL-iza"/>
+                        <outletCollection property="seperatorConstraints" destination="2vf-pv-hQf" id="XKo-jX-Wh7"/>
                         <segue destination="kVw-2m-5wZ" kind="show" identifier="followList" id="5y2-hZ-hjV"/>
                     </connections>
                 </viewController>
@@ -2983,7 +2992,7 @@
                         <viewControllerLayoutGuide type="bottom" id="ZBC-qF-Iq8"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="eSz-qH-xDY">
-                        <rect key="frame" x="0.0" y="64" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Pj1-MA-v2t">
@@ -3249,7 +3258,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bff-v9-HC2">
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bff-v9-HC2">
                                                     <rect key="frame" x="72" y="10" width="107" height="26"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
                                                     <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="5" maxY="0.0"/>
@@ -3259,8 +3268,11 @@
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
                                                 </button>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MEk-pr-4xo">
-                                                    <rect key="frame" x="8" y="10" width="61" height="26"/>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MEk-pr-4xo">
+                                                    <rect key="frame" x="6" y="10" width="61" height="26"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="61" id="7Qu-07-Ijw"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <inset key="contentEdgeInsets" minX="-2" minY="1" maxX="0.0" maxY="0.0"/>
                                                     <inset key="titleEdgeInsets" minX="6" minY="2" maxX="0.0" maxY="0.0"/>
@@ -3271,6 +3283,13 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="MEk-pr-4xo" firstAttribute="top" secondItem="DcN-JX-ot2" secondAttribute="top" constant="10" id="407-yn-MGu"/>
+                                            <constraint firstItem="Bff-v9-HC2" firstAttribute="top" secondItem="DcN-JX-ot2" secondAttribute="top" constant="10" id="KaY-fs-NKc"/>
+                                            <constraint firstAttribute="bottom" secondItem="MEk-pr-4xo" secondAttribute="bottom" constant="9" id="Uf6-Sd-0Xt"/>
+                                            <constraint firstItem="MEk-pr-4xo" firstAttribute="leading" secondItem="DcN-JX-ot2" secondAttribute="leading" constant="6" id="fD2-Ya-Tiy"/>
+                                            <constraint firstItem="Bff-v9-HC2" firstAttribute="leading" secondItem="MEk-pr-4xo" secondAttribute="trailing" constant="5" id="qSx-4A-fP1"/>
+                                        </constraints>
                                         <size key="customSize" width="320" height="45"/>
                                         <connections>
                                             <outlet property="commentsButton" destination="Bff-v9-HC2" id="gBr-ll-tYx"/>

@@ -31,6 +31,9 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *descriptionHeightConstraint;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *dishTypeChooser;
 
+@property (strong, nonatomic) IBOutletCollection(NSLayoutConstraint) NSArray *seperatorConstraints;
+
+
 @property (strong, nonatomic) NSString *username;
 
 @property (nonatomic) BOOL      isRestaurant;

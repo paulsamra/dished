@@ -39,8 +39,9 @@
     
     self.dishNameLabel.text = @"";
     self.gradeLabel.text = @"";
-    self.locationNameLabel.text = @"";
     self.mainImageView.image = nil;
+    
+    [self.locationButton setTitle:@"" forState:UIControlStateNormal];
 }
 
 @end
