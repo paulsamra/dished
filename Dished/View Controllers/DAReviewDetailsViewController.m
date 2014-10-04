@@ -79,7 +79,7 @@ ReviewDetailsItem;
 
 - (void)refreshReviewData
 {
-    NSInteger reviewID = [self.feedItem.item_id integerValue];
+    NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
     [[DAAPIManager sharedManager] getProfileForReviewID:reviewID completion:^( id response, NSError *error )
     {
         if( !response || error )
@@ -447,8 +447,17 @@ ReviewDetailsItem;
 - (void)creatorButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.username = self.feedItem.creator_username;
-    userProfileViewController.user_id  = [self.feedItem.creator_id integerValue];
+    userProfileViewController.username = self.review.creator_username;
+    userProfileViewController.user_id  = self.review.creator_id;
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
+}
+
+- (void)locationButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    userProfileViewController.username = self.review.loc_name;
+    userProfileViewController.user_id  = self.review.loc_id;
+    userProfileViewController.isRestaurant = YES;
     [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 

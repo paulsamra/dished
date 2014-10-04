@@ -16,6 +16,7 @@
 #import "DASocialCollectionViewController.h"
 #import "NSAttributedString+Dished.h"
 #import "DAReviewDetailsViewController.h"
+#import "DAUserProfileViewController.h"
 
 
 @interface DAGlobalDishDetailViewController() <DAGlobalDishCollectionViewCellDelegate, DAGlobalReviewCollectionViewCellDelegate>
@@ -304,7 +305,11 @@
 
 - (void)locationButtonTappedOnGlobalDishCollectionViewCell:(DAGlobalDishCollectionViewCell *)cell
 {
-    
+    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    userProfileViewController.username = self.dishProfile.loc_name;
+    userProfileViewController.user_id  = self.dishProfile.loc_id;
+    userProfileViewController.isRestaurant = YES;
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
 - (void)addReviewButtonTappedOnGlobalDishCollectionViewCell:(DAGlobalDishCollectionViewCell *)cell
@@ -314,7 +319,13 @@
 
 - (void)usernameButtonTappedOnGlobalReviewCollectionViewCell:(DAGlobalReviewCollectionViewCell *)cell
 {
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAGlobalReview *review = [self.dishProfile.reviews objectAtIndex:indexPath.row - 2];
     
+    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    userProfileViewController.username = review.creator_username;
+    userProfileViewController.user_id  = review.creator_id;
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
 - (void)commentTappedOnGlobalReviewCollectionViewCell:(DAGlobalReviewCollectionViewCell *)cell

@@ -12,6 +12,8 @@
 #import "DAExploreDishSearchResult.h"
 #import "DADishTableViewCell.h"
 #import "DAFollowListViewController.h"
+#import "DAReviewDetailsViewController.h"
+#import "DAGlobalDishDetailViewController.h"
 
 
 @interface DAUserProfileViewController() <UIActionSheetDelegate>
@@ -36,7 +38,6 @@
     UINib *searchCellNib = [UINib nibWithNibName:@"DADishTableViewCell" bundle:nil];
     [self.dishesTableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
     
-    self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
     self.userImageView.layer.masksToBounds = YES;
     
     UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"more"] style:UIBarButtonItemStylePlain target:self action:@selector(showMoreActionSheet)];
@@ -46,7 +47,7 @@
     
     if( self.username )
     {
-        self.navigationItem.title = [NSString stringWithFormat:@"@%@", self.username];
+        self.navigationItem.title = self.isRestaurant ? self.username : [NSString stringWithFormat:@"@%@", self.username];
     }
     
     [self loadData];
@@ -95,6 +96,13 @@
         self.middleView.hidden = hidden;
         self.dishesTableView.hidden = hidden;
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.dishesTableView deselectRowAtIndexPath:[self.dishesTableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)loadData
@@ -156,7 +164,7 @@
     {
         NSDictionary *user = nilOrJSONObjectForKey( data, ( self.isRestaurant ? @"restaurant" : @"user" ) );
         
-        self.navigationItem.title = [NSString stringWithFormat:@"@%@", nilOrJSONObjectForKey( user, @"username" )];
+        self.navigationItem.title = self.isRestaurant ? nilOrJSONObjectForKey( user, @"name" ) : [NSString stringWithFormat:@"@%@", nilOrJSONObjectForKey( user, @"username" )];
         
         NSURL *url = [NSURL URLWithString:nilOrJSONObjectForKey( user, @"img_thumb" )];
         [self.userImageView sd_setImageWithURL:url];
@@ -166,7 +174,7 @@
         
         self.isOwnProfile ? [self setFollowButtonToProfileOwner] : [self setFollowButtonState:self.isFollowed];
         
-        NSDictionary *reviews = nilOrJSONObjectForKey( data, @"reviews" );
+        NSDictionary *reviews = nilOrJSONObjectForKey( data, self.isRestaurant ? @"dishes" : @"reviews" );
         self.foodReviews      = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"food" )];
         self.wineReviews      = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"wine" )];
         self.cocktailReviews  = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"cocktail" )];
@@ -179,13 +187,21 @@
             self.secondButtonSeperator.hidden = YES;
             self.thirdButtonSeperator.hidden = YES;
             
+            self.userImageView.layer.cornerRadius = 10;
+            
             self.descriptionHeightConstraint.constant = 0;
             self.descriptionSeperator.hidden = YES;
             
             NSString *phoneNumber = nilOrJSONObjectForKey( user, @"phone" );
-            [self.phoneNumberButton setTitle:( [phoneNumber integerValue] == 0 ? @"No Phone Number" : phoneNumber ) forState:UIControlStateNormal];
+            self.phoneNumberButton.titleLabel.numberOfLines = 0;
+            self.phoneNumberButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+            self.phoneNumberButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+            self.phoneNumberButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+            [self.phoneNumberButton setTitle:( [phoneNumber integerValue] == 0 ? @"No Phone\nNumber" : phoneNumber ) forState:UIControlStateNormal];
             
             NSString *avgGrade = nilOrJSONObjectForKey( user, @"avg_grade" );
+            [self.dishesMapButton setImage:nil forState:UIControlStateNormal];
+            self.dishesMapButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
             self.dishesMapButton.titleLabel.textAlignment = NSTextAlignmentCenter;
             [self.dishesMapButton setTitle:avgGrade forState:UIControlStateNormal];
         }
@@ -194,6 +210,8 @@
             self.directionsButton.hidden = YES;
             self.phoneNumberButton.hidden = YES;
             self.centerButtonSeperator.hidden = YES;
+            
+            self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
             
             [self setTitle:@"Dishes"    withValue:[data[@"num_reviews"]   integerValue] forButton:self.numDishesButton];
             [self setTitle:@"Following" withValue:[data[@"num_following"] integerValue] forButton:self.numFollowingButton];
@@ -289,7 +307,7 @@
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
-        cell.textLabel.text = @"No Reviews";
+        cell.textLabel.text = self.isRestaurant ? @"No Dishes" : @"No Reviews";
         cell.userInteractionEnabled = NO;
         
         return cell;
@@ -299,14 +317,29 @@
     
     DAExploreDishSearchResult *result = [self.selectedDataSource objectAtIndex:indexPath.row];
     
-    cell.dishNameLabel.text          = result.name;
-    cell.gradeLabel.text             = result.grade;
-    cell.locationNameLabel.text      = result.locationName;
-    cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.numComments];
-    cell.isExplore = NO;
-
+    cell.dishNameLabel.text = result.name;
+    
     NSURL *url = [NSURL URLWithString:result.imageURL];
     [cell.mainImageView setImageWithURL:url usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    
+    if( self.isRestaurant )
+    {
+        cell.isExplore = YES;
+        cell.locationNameLabel.hidden = YES;
+        
+        cell.leftNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.totalReviews];
+        cell.middleNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.friendReviews];
+        cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.influencerReviews];
+        
+        cell.gradeLabel.text = result.avg_grade;
+    }
+    else
+    {
+        cell.isExplore = NO;
+        cell.gradeLabel.text = result.grade;
+        cell.locationNameLabel.text = result.locationName;
+        cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.influencerReviews];
+    }
     
     return cell;
 }
@@ -329,6 +362,24 @@
     }
     
     return 97;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DAExploreDishSearchResult *result = [self.selectedDataSource objectAtIndex:indexPath.row];
+    
+    if( self.isRestaurant )
+    {
+        DAGlobalDishDetailViewController *globalDishViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"globalDish"];
+        globalDishViewController.dishID = result.dishID;
+        [self.navigationController pushViewController:globalDishViewController animated:YES];
+    }
+    else
+    {
+        DAReviewDetailsViewController *reviewDetailsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"reviewDetails"];
+        reviewDetailsViewController.reviewID = result.dishID;
+        [self.navigationController pushViewController:reviewDetailsViewController animated:YES];
+    }
 }
 
 - (IBAction)changeDishType

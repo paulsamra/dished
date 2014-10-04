@@ -1292,7 +1292,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     
     dispatch_async( self.queue, ^
     {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(restaurantID) };
+        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"loc_id" : @(restaurantID) };
         
         [self GET:@"restaurants/profile" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
         {
