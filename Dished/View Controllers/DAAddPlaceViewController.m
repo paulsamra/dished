@@ -9,9 +9,12 @@
 #import "DAAddPlaceViewController.h"
 #import "DAReviewFormViewController.h"
 #import "DALocationManager.h"
+#import <AddressBook/AddressBook.h>
 
 
 @interface DAAddPlaceViewController() <UITextFieldDelegate>
+
+@property (nonatomic) BOOL isCancelled;
 
 @end
 
@@ -26,6 +29,15 @@
     [self.nameTextField becomeFirstResponder];
     
     self.nameTextField.delegate = self;
+    
+    self.isCancelled = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    self.isCancelled = YES;
 }
 
 - (IBAction)textFieldChanged:(UITextField *)sender
@@ -55,6 +67,8 @@
 
 - (IBAction)save:(id)sender
 {
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    
     NSArray *navigationStack = self.navigationController.viewControllers;
     
     [self.nameTextField resignFirstResponder];
@@ -62,18 +76,33 @@
     self.review.locationID = 0;
     self.review.googleID   = 0;
     
-    [[DALocationManager sharedManager] getAddress];
-    
+    self.review.locationName      = self.nameTextField.text;
     self.review.locationLatitude  = [[DALocationManager sharedManager] currentLocation].latitude;
     self.review.locationLongitude = [[DALocationManager sharedManager] currentLocation].longitude;
     
-    for( UIViewController *parentController in navigationStack )
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = self.view.center;
+    [spinner startAnimating];
+    [self.view addSubview:spinner];
+    
+    [[DALocationManager sharedManager] getAddressWithCompletion:^( NSDictionary *addressDictionary )
     {
-        if( [parentController isKindOfClass:[DAReviewFormViewController class]] )
+        if( !self.isCancelled )
         {
-            self.review.locationName = self.nameTextField.text;
-            [self.navigationController popToViewController:parentController animated:YES];
+            self.review.locationStreetNum  = addressDictionary[@"SubThoroughfare"];
+            self.review.locationStreetName = addressDictionary[@"Thoroughfare"];
+            self.review.locationCity       = addressDictionary[(NSString *)kABPersonAddressCityKey];
+            self.review.locationState      = addressDictionary[(NSString *)kABPersonAddressStateKey];
+            self.review.locationZip        = addressDictionary[(NSString *)kABPersonAddressZIPKey];
+            
+            for( UIViewController *parentController in navigationStack )
+            {
+                if( [parentController isKindOfClass:[DAReviewFormViewController class]] )
+                {
+                    [self.navigationController popToViewController:parentController animated:YES];
+                }
+            }
         }
-    }
+    }];    
 }
 @end

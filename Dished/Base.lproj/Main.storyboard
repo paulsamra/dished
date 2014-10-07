@@ -2644,6 +2644,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="hur-US-ucr"/>
                     </navigationItem>
                     <connections>
+                        <outlet property="searchBar" destination="5Ap-I1-2fV" id="JN2-wB-R5S"/>
                         <outlet property="searchDisplayController" destination="sIX-WN-tYM" id="82Y-Mg-abw"/>
                         <segue destination="6yn-fV-DJE" kind="show" identifier="add" id="b3u-uq-vRp"/>
                     </connections>

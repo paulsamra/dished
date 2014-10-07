@@ -32,7 +32,6 @@
 {
     [super viewDidLoad];
     
-    [[DALocationManager sharedManager] startUpdatingLocation];
 #if TARGET_IPHONE_SIMULATOR
     NSLog(@"Running in the simulator");
     [self performSelectorOnMainThread:@selector(imageIsReady:) withObject:[UIImage imageNamed:@"logo_blue.png"] waitUntilDone:NO];

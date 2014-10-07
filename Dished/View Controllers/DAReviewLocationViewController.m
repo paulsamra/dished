@@ -37,6 +37,9 @@ static NSString *kLocationTypeKey     = @"type";
     self.tableView.backgroundColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1];
     
     self.locationData = [NSArray array];
+    
+    self.searchBar.layer.borderWidth = 1;
+    self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;
 }
 
 #pragma mark - Table view data source
@@ -112,7 +115,15 @@ static NSString *kLocationTypeKey     = @"type";
     else if( indexPath.row == [self.locationData count] )
     {
         [self.view endEditing:YES];
-        [self performSegueWithIdentifier:@"add" sender:nil];
+        
+        if( ![[DALocationManager sharedManager] locationServicesEnabled] )
+        {
+            [[[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"To be able to add a place, Dished needs your current location. Please enable location services for Dished in your settings." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+        }
+        else
+        {
+            [self performSegueWithIdentifier:@"add" sender:nil];
+        }
     }
 }
 

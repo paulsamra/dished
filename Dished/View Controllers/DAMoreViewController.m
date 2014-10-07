@@ -9,6 +9,7 @@
 #import "DAMoreViewController.h"
 #import "DAAPIManager.h"
 #import "DAAppDelegate.h"
+#import "DACoreDataManager.h"
 
 
 @implementation DAMoreViewController
@@ -21,6 +22,7 @@
 - (IBAction)logout
 {
     [[DAAPIManager sharedManager] logout];
+    [[DACoreDataManager sharedManager] resetStore];
     
     DAAppDelegate *appDelegate = [UIApplication sharedApplication].delegate;
     [appDelegate setLoginView];

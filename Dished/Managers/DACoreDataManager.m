@@ -11,8 +11,8 @@
 
 @interface DACoreDataManager()
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (strong, nonatomic) NSManagedObjectModel         *managedObjectModel;
+@property (strong, nonatomic) NSManagedObjectContext       *managedObjectContext;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @end
@@ -142,7 +142,17 @@
 
 - (void)resetStore
 {
+    NSPersistentStore *store = [self.persistentStoreCoordinator.persistentStores objectAtIndex:0];
+    NSError *error = nil;
+    NSURL *storeURL = store.URL;
+    NSPersistentStoreCoordinator *storeCoordinator = self.persistentStoreCoordinator;
+    [storeCoordinator removePersistentStore:store error:&error];
+    [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:&error];
     
+    if( !error )
+    {
+        [self setupManagedObjectContext];
+    }
 }
 
 @end

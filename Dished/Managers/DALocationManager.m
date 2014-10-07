@@ -51,7 +51,19 @@
 
 - (void)startUpdatingLocation
 {
-    [self.locationManager startUpdatingLocation];
+    if( [[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0 )
+    {
+        [self requestAuthorization];
+    }
+    else
+    {
+        [self.locationManager startUpdatingLocation];
+    }
+}
+
+- (void)requestAuthorization
+{
+    [self.locationManager requestWhenInUseAuthorization];
 }
 
 - (void)stopUpdatingLocation
@@ -59,12 +71,46 @@
     [self.locationManager stopUpdatingLocation];
 }
 
+- (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
+{
+    if( error.code == kCLErrorDenied )
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLocationServicesDeniedKey object:nil];
+    }
+}
+
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
+{
+    if( status == kCLAuthorizationStatusDenied || status == kCLAuthorizationStatusRestricted )
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLocationServicesDeniedKey object:nil];
+    }
+    else
+    {
+        [self.locationManager startUpdatingLocation];
+    }
+}
+
+- (BOOL)locationServicesEnabled
+{
+    CLAuthorizationStatus authStatus = [CLLocationManager authorizationStatus];
+    
+    if( authStatus != kCLAuthorizationStatusDenied && authStatus != kCLAuthorizationStatusRestricted )
+    {
+        return YES;
+    }
+    else
+    {
+        return NO;
+    }
+}
+
 - (BOOL)hasDeterminedLocation
 {
     return self.locationFound;
 }
 
-- (void)getAddress
+- (void)getAddressWithCompletion:( void(^)( NSDictionary *addressDictionary ) )completion
 {
     if( self.locationFound )
     {
@@ -82,7 +128,10 @@
             {
                 CLPlacemark *placemark = placemarks[0];
                 
-                [[NSNotificationCenter defaultCenter] postNotificationName:kAddressReadyNotificationKey object:placemark.addressDictionary];
+                if( completion )
+                {
+                    completion( placemark.addressDictionary );
+                }
             }
         }];
     }

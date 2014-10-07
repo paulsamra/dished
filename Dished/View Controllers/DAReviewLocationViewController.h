@@ -13,5 +13,6 @@
 @interface DAReviewLocationViewController : UITableViewController
 
 @property (weak, nonatomic) DANewReview *review;
+@property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
 
 @end

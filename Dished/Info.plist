@@ -48,13 +48,15 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>5446</string>
+	<string>5465</string>
 	<key>FacebookAppID</key>
 	<string>669520539808845</string>
 	<key>FacebookDisplayName</key>
 	<string>Dished</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Some features of Dished require your current location. To use these features, please allow location services.</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

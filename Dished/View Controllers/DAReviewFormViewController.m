@@ -9,7 +9,6 @@
 #import "DAReviewFormViewController.h"
 #import "DAPositiveHashtagsViewController.h"
 #import "DANewReview.h"
-#import <AddressBook/AddressBook.h>
 #import "DALocationManager.h"
 #import "DAReviewLocationViewController.h"
 #import "DARatingViewController.h"
@@ -30,7 +29,6 @@
 @property (strong, nonatomic) NSMutableString                  *dishPrice;
 @property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
 
-@property (nonatomic) BOOL   addressFound;
 @property (nonatomic) CGRect keyboardFrame;
 
 @end
@@ -46,14 +44,9 @@
     self.twitterImage.alpha  = 0.3;
     self.emailImage.alpha    = 0.3;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(addressReady:) name:kAddressReadyNotificationKey object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissSocialView) name:kDoneSelecting object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
-
-    [self setupSuggestionTable];
-    [self setupShareView];
     
-    self.addressFound = NO;
     self.dishPrice    = [[NSMutableString alloc] init];
     self.review.type  = kFood;
 
@@ -72,6 +65,23 @@
     self.priceTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Price (Optional)" attributes:attributes];
     
     [self checkForSelectedDish];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationServicesDenied) name:kLocationServicesDeniedKey object:nil];
+    
+    [[DALocationManager sharedManager] startUpdatingLocation];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    [self setupSuggestionTable];
+    [self setupShareView];
+}
+
+- (void)locationServicesDenied
+{
+    [[[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"Some features of Dished require your current location. To use these features, enable location services in your settings." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
 }
 
 - (void)checkForSelectedDish
@@ -111,6 +121,13 @@
     [self updateFields];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.socialViewController.view removeFromSuperview];
+}
+
 - (void)setupShareView
 {
     self.dimView = [[UIView alloc] initWithFrame:self.view.frame];
@@ -118,7 +135,8 @@
     
     self.socialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"social"];
     self.socialViewController.isReview = YES;
-
+    self.socialViewController.view.hidden = YES;
+    
     self.socialViewController.view.frame = CGRectMake( 0, 600, self.view.bounds.size.width, self.view.bounds.size.height );
 }
 
@@ -152,6 +170,7 @@
         CGRect hiddenRect = self.socialViewController.view.frame;
         hiddenRect.origin.y = 600;
         self.socialViewController.view.frame = hiddenRect;
+        self.socialViewController.view.hidden = NO;
     }
     completion:nil];
     
@@ -185,7 +204,8 @@
 - (void)setupSuggestionTable
 {
     CGFloat x = 0;
-    CGFloat y = self.tableView.rowHeight;
+    UITableViewCell *commentCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    CGFloat y = commentCell.frame.origin.y;
     CGFloat width = self.tableView.frame.size.width;
     CGFloat height = self.commentTextView.frame.size.height + self.imAtButton.frame.size.height;
     
@@ -510,6 +530,8 @@
         CGRect socialViewFrame = self.socialViewController.view.frame;
         socialViewFrame.origin.y = keyboardY - socialViewHeight;
         self.socialViewController.view.frame = socialViewFrame;
+        
+        self.socialViewController.view.hidden = NO;
     }
     completion:nil];
 }
@@ -533,20 +555,6 @@
         DAReviewLocationViewController *dest = segue.destinationViewController;
         dest.review = self.review;
     }
-}
-
-- (void)addressReady:(NSNotification *)notification;
-{
-    NSDictionary *addressDictionary = notification.object;
-    NSLog(@"%@", addressDictionary);
-    
-    self.review.locationStreetNum  = addressDictionary[@"SubThoroughfare"];
-    self.review.locationStreetName = addressDictionary[@"Thoroughfare"];
-    self.review.locationCity       = addressDictionary[(NSString *)kABPersonAddressCityKey];
-    self.review.locationState      = addressDictionary[(NSString *)kABPersonAddressStateKey];
-    self.review.locationZip        = addressDictionary[(NSString *)kABPersonAddressZIPKey];
-    
-    self.addressFound = YES;
 }
 
 - (IBAction)postDish:(UIBarButtonItem *)sender

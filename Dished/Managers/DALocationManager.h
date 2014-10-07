@@ -10,7 +10,7 @@
 #import <MapKit/MapKit.h>
 
 #define kLocationUpdateNotificationKey @"location_updated"
-#define kAddressReadyNotificationKey   @"address_ready"
+#define kLocationServicesDeniedKey     @"location_denied"
 
 
 @interface DALocationManager : NSObject
@@ -20,7 +20,8 @@
 
 + (DALocationManager *)sharedManager;
 
-- (void)getAddress;
+- (void)getAddressWithCompletion:( void(^)( NSDictionary *addressDictionary ) )completion;
+- (BOOL)locationServicesEnabled;
 - (BOOL)hasDeterminedLocation;
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;

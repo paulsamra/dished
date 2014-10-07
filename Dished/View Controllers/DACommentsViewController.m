@@ -164,7 +164,7 @@
     cell.commentTextView.attributedText = [self commentStringForComment:comment];
     
     NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
-    [cell.userImageView sd_setImageWithURL:userImageURL];
+    [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];
     
     cell.rightUtilityButtons = [self utilityButtonsAtIndexPath:indexPath];
     
