@@ -10,6 +10,7 @@
 #import "DARefreshControl.h"
 #import "DANewsManager.h"
 #import "UIImageView+WebCache.h"
+#import "DASettingsViewController.h"
 
 
 @interface DANewsViewController()
@@ -348,6 +349,12 @@
             [self loadMoreFollowingData];
         }
     }
+}
+
+- (IBAction)settingsButtonTapped:(id)sender
+{
+    DASettingsViewController *settingsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settings"];
+    [self.navigationController pushViewController:settingsViewController animated:YES];
 }
 
 @end

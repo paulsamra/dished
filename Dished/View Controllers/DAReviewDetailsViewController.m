@@ -461,14 +461,68 @@ ReviewDetailsItem;
     [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
+- (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    UIImage *image = [UIImage imageNamed:@"yum_tap"];
+    UIImageView *yumTapImageView = [[UIImageView alloc] initWithImage:image];
+    
+    CGSize imageSize = yumTapImageView.image.size;
+    CGFloat x = ( self.view.frame.size.width  / 2 ) - ( imageSize.width  / 2 );
+    CGFloat y = ( cell.dishImageView.frame.size.height / 2 ) - ( imageSize.height / 2 );
+    CGFloat width  = imageSize.width;
+    CGFloat height = imageSize.height;
+    yumTapImageView.frame = CGRectMake( x, y, width, height );
+    yumTapImageView.alpha = 1;
+    
+    [cell.dishImageView addSubview:yumTapImageView];
+    
+    yumTapImageView.transform = CGAffineTransformMakeScale( 0, 0 );
+    
+    [UIView animateWithDuration:0.3 animations:^
+    {
+        yumTapImageView.transform = CGAffineTransformMakeScale( 1, 1 );
+    }
+    completion:^( BOOL finished )
+    {
+        if( finished )
+        {
+            [UIView animateWithDuration:0.3 animations:^
+            {
+                yumTapImageView.alpha = 0;
+            }
+            completion:^( BOOL finished )
+            {
+                if( self.feedItem )
+                {
+                    self.feedItem.caller_yumd = @(YES);
+                }
+                  
+                if( finished )
+                {
+                    [yumTapImageView removeFromSuperview];
+                }
+            }];
+        }
+    }];
+    
+    if( ![self.feedItem.caller_yumd boolValue] || !self.review.caller_yumd )
+    {
+        NSInteger row = [self.collectionView numberOfItemsInSection:0] - 1;
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
+        DAFeedCollectionViewCell *buttonCell = (DAFeedCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
+        [self yumCell:buttonCell];
+        [self yumFeedItemWithReviewID:self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID];
+    }
+}
+
 - (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     [self changeYumStatusForCell:cell];
 }
 
 - (void)changeYumStatusForCell:(DAFeedCollectionViewCell *)cell
-{    
-    if( [self.feedItem.caller_yumd boolValue] )
+{
+    if( [self.feedItem.caller_yumd boolValue] || self.review.caller_yumd )
     {
         [self unyumCell:cell];
         self.feedItem.caller_yumd = @(NO);

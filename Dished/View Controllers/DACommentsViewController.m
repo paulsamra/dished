@@ -249,7 +249,7 @@
 
 - (void)keyboardController:(JSQMessagesKeyboardController *)keyboardController keyboardDidChangeFrame:(CGRect)keyboardFrame
 {
-    CGFloat heightFromBottom = CGRectGetHeight( self.tableView.frame ) - CGRectGetMinY( keyboardFrame ) - self.tabBarController.tabBar.frame.size.height;
+    CGFloat heightFromBottom = CGRectGetHeight( self.tableView.frame ) - CGRectGetMinY( keyboardFrame );
     
     if( heightFromBottom < 0 )
     {

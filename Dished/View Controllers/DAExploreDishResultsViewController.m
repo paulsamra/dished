@@ -10,7 +10,7 @@
 #import "DAAPIManager.h"
 #import "DADishTableViewCell.h"
 #import "DALocationManager.h"
-#import "DAExploreDishSearchResult.h"
+#import "DADish.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAGlobalDishDetailViewController.h"
 
@@ -130,7 +130,7 @@
     {
         for( NSDictionary *dish in dishes )
         {
-            DAExploreDishSearchResult *result = [DAExploreDishSearchResult dishSearchResultWithData:dish];
+            DADish *result = [DADish dishWithData:dish];
             
             [results addObject:result];
         }
@@ -185,7 +185,7 @@
     
     DADishTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDishSearchCellID];
     
-    DAExploreDishSearchResult *result = [self.searchResults objectAtIndex:indexPath.row];
+    DADish *result = [self.searchResults objectAtIndex:indexPath.row];
     
     cell.dishNameLabel.text          = result.name;
     cell.gradeLabel.text             = result.avg_grade;
@@ -206,7 +206,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAExploreDishSearchResult *result = [self.searchResults objectAtIndex:indexPath.row];
+    DADish *result = [self.searchResults objectAtIndex:indexPath.row];
     
     [self performSegueWithIdentifier:@"dishDetails" sender:result];
 }
@@ -215,7 +215,7 @@
 {
     if( [segue.identifier isEqualToString:@"dishDetails"] )
     {
-        DAExploreDishSearchResult *result = sender;
+        DADish *result = sender;
         DAGlobalDishDetailViewController *dest = segue.destinationViewController;
         dest.dishID = result.dishID;
     }

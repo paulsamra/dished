@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface DAExploreDishSearchResult : NSObject
+@interface DADish : NSObject
 
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic) NSString *price;
@@ -28,6 +28,6 @@
 @property (nonatomic) NSInteger friendReviews;
 @property (nonatomic) NSInteger influencerReviews;
 
-+ (DAExploreDishSearchResult *)dishSearchResultWithData:(id)data;
++ (DADish *)dishWithData:(id)data;
 
 @end

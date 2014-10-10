@@ -365,6 +365,7 @@
                 break;
                 
             case eLocationSearchResult:
+                [self goToUserProfileForSearchResult:searchResult];
                 break;
         }
     }
@@ -373,8 +374,19 @@
 - (void)goToUserProfileForSearchResult:(DAExploreLiveSearchResult *)searchResult
 {
     DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.username = searchResult.name;
-    userProfileViewController.user_id  = searchResult.resultID;
+    
+    if( searchResult.resultType == eUsernameSearchResult )
+    {
+        userProfileViewController.username = searchResult.name;
+        userProfileViewController.user_id  = searchResult.resultID;
+    }
+    else if( searchResult.resultType == eLocationSearchResult )
+    {
+        userProfileViewController.username = searchResult.name;
+        userProfileViewController.user_id  = searchResult.resultID;
+        userProfileViewController.isRestaurant = YES;
+    }
+
     [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 

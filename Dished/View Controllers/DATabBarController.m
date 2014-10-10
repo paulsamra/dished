@@ -78,8 +78,8 @@
     NSDictionary *attributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:16],
                                   NSForegroundColorAttributeName : [UIColor whiteColor] };
     
-    NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d ", (int)yums] attributes:attributes];
-    NSAttributedString *reviewString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)reviews] attributes:attributes];
+    NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d  ", (int)yums] attributes:attributes];
+    NSAttributedString *reviewString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d", (int)reviews] attributes:attributes];
     
     NSMutableAttributedString *badgeString = [[NSMutableAttributedString alloc] init];
     [badgeString insertAttributedString:reviewString atIndex:0];

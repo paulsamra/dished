@@ -9,22 +9,22 @@
 #import "DAUserProfileViewController.h"
 #import "DAAPIManager.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-#import "DAExploreDishSearchResult.h"
+#import "DADish.h"
 #import "DADishTableViewCell.h"
 #import "DAFollowListViewController.h"
 #import "DAReviewDetailsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
+#import <CoreLocation/CoreLocation.h>
+#import <MapKit/MapKit.h>
+#import "DAUserProfile.h"
+#import "DARestaurantProfile.h"
 
 
-@interface DAUserProfileViewController() <UIActionSheetDelegate>
+@interface DAUserProfileViewController() <UIActionSheetDelegate, UIAlertViewDelegate>
 
-@property (weak,   nonatomic) NSArray *selectedDataSource;
-@property (strong, nonatomic) NSArray *foodReviews;
-@property (strong, nonatomic) NSArray *cocktailReviews;
-@property (strong, nonatomic) NSArray *wineReviews;
-
-@property (nonatomic) BOOL isOwnProfile;
-@property (nonatomic) BOOL isFollowed;
+@property (weak,   nonatomic) NSArray             *selectedDataSource;
+@property (strong, nonatomic) DAUserProfile       *userProfile;
+@property (strong, nonatomic) DARestaurantProfile *restaurantProfile;
 
 @end
 
@@ -127,9 +127,8 @@
             }
             else
             {
-                [self populateDataWithResponse:response];
-                self.selectedDataSource = self.foodReviews;
-                [self.dishesTableView reloadData];
+                self.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( response, @"data" )];
+                [self configureForRestaurantProfile];
                 
                 [spinner stopAnimating];
                 [spinner removeFromSuperview];
@@ -148,9 +147,8 @@
             }
             else
             {
-                [self populateDataWithResponse:response];
-                self.selectedDataSource = self.foodReviews;
-                [self.dishesTableView reloadData];
+                self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( response, @"data" )];
+                [self configureForUserProfile];
                 
                 [spinner stopAnimating];
                 [spinner removeFromSuperview];
@@ -161,83 +159,66 @@
     }
 }
 
-- (void)populateDataWithResponse:(id)response
+- (void)configureForRestaurantProfile
 {
-    NSDictionary *data = nilOrJSONObjectForKey( response, @"data" );
+    self.navigationItem.title = self.restaurantProfile.name;
     
-    if( data )
-    {
-        NSDictionary *user = nilOrJSONObjectForKey( data, ( self.isRestaurant ? @"restaurant" : @"user" ) );
-        
-        self.navigationItem.title = self.isRestaurant ? nilOrJSONObjectForKey( user, @"name" ) : [NSString stringWithFormat:@"@%@", nilOrJSONObjectForKey( user, @"username" )];
-        
-        NSURL *url = [NSURL URLWithString:nilOrJSONObjectForKey( user, @"img_thumb" )];
-        [self.userImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"profile_image"]];
-        
-        self.isFollowed   = [data[@"caller_follows"]   boolValue];
-        self.isOwnProfile = [data[@"is_profile_owner"] boolValue];
-        
-        self.isOwnProfile ? [self setFollowButtonToProfileOwner] : [self setFollowButtonState:self.isFollowed];
-        
-        NSDictionary *reviews = nilOrJSONObjectForKey( data, self.isRestaurant ? @"dishes" : @"reviews" );
-        self.foodReviews      = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"food" )];
-        self.wineReviews      = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"wine" )];
-        self.cocktailReviews  = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"cocktail" )];
-        
-        if( self.isRestaurant )
-        {
-            self.numDishesButton.hidden = YES;
-            self.numFollowersButton.hidden = YES;
-            self.numFollowingButton.hidden = YES;
-            self.secondButtonSeperator.hidden = YES;
-            self.thirdButtonSeperator.hidden = YES;
-            
-            self.userImageView.layer.cornerRadius = 10;
-            
-            self.descriptionHeightConstraint.constant = 0;
-            self.descriptionSeperator.hidden = YES;
-            
-            NSString *phoneNumber = nilOrJSONObjectForKey( user, @"phone" );
-            self.phoneNumberButton.titleLabel.numberOfLines = 0;
-            self.phoneNumberButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-            self.phoneNumberButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
-            self.phoneNumberButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-            [self.phoneNumberButton setTitle:( [phoneNumber integerValue] == 0 ? @"No Phone\nNumber" : phoneNumber ) forState:UIControlStateNormal];
-            
-            NSString *avgGrade = nilOrJSONObjectForKey( user, @"avg_grade" );
-            [self.dishesMapButton setImage:nil forState:UIControlStateNormal];
-            self.dishesMapButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-            self.dishesMapButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-            [self.dishesMapButton setTitle:avgGrade forState:UIControlStateNormal];
-        }
-        else
-        {
-            self.directionsButton.hidden = YES;
-            self.phoneNumberButton.hidden = YES;
-            self.centerButtonSeperator.hidden = YES;
-            
-            self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
-            
-            [self setTitle:@"Dishes"    withValue:[data[@"num_reviews"]   integerValue] forButton:self.numDishesButton];
-            [self setTitle:@"Following" withValue:[data[@"num_following"] integerValue] forButton:self.numFollowingButton];
-            [self setTitle:@"Followers" withValue:[data[@"num_followers"] integerValue] forButton:self.numFollowersButton];
-            
-            NSString *name = [NSString stringWithFormat:@"%@ %@", user[@"fname"], user[@"lname"]];
-            [self setDescriptionTextWithName:name description:user[@"desc"]];
-        }
-    }
+    NSURL *url = [NSURL URLWithString:self.restaurantProfile.img_thumb];
+    [self.userImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"profile_image"]];
+    
+    self.restaurantProfile.is_profile_owner ? [self setFollowButtonToProfileOwner] : [self setFollowButtonState:self.restaurantProfile.caller_follows];
+    
+    self.selectedDataSource = self.restaurantProfile.foodDishes;
+    
+    self.numDishesButton.hidden       = YES;
+    self.numFollowersButton.hidden    = YES;
+    self.numFollowingButton.hidden    = YES;
+    self.descriptionSeperator.hidden  = YES;
+    self.thirdButtonSeperator.hidden  = YES;
+    self.secondButtonSeperator.hidden = YES;
+    
+    self.userImageView.layer.cornerRadius     = 10;
+    self.descriptionHeightConstraint.constant = 0;
+    
+    self.phoneNumberButton.titleLabel.numberOfLines = 0;
+    self.phoneNumberButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.phoneNumberButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    self.phoneNumberButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.phoneNumberButton setTitle: ( [self.restaurantProfile.phone integerValue] > 0 ? self.restaurantProfile.phone : @"No Phone\nNumber" ) forState:UIControlStateNormal];
+    
+    [self.dishesMapButton setImage:nil forState:UIControlStateNormal];
+    self.dishesMapButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+    self.dishesMapButton.titleLabel.textAlignment = NSTextAlignmentCenter;
+    [self.dishesMapButton setTitle:self.restaurantProfile.avg_grade forState:UIControlStateNormal];
+    
+    [self.dishesTableView reloadData];
 }
 
-- (NSArray *)reviewsWithData:(id)data
+- (void)configureForUserProfile
 {
-    NSMutableArray *reviews = [NSMutableArray array];
+    self.navigationItem.title = self.userProfile.username;
     
-    for( NSDictionary *review in data )
-    {
-        [reviews addObject:[DAExploreDishSearchResult dishSearchResultWithData:review]];
-    }
+    NSURL *url = [NSURL URLWithString:self.userProfile.img_thumb];
+    [self.userImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"profile_image"]];
     
-    return reviews;
+    self.userProfile.is_profile_owner ? [self setFollowButtonToProfileOwner] : [self setFollowButtonState:self.userProfile.caller_follows];
+    
+    self.selectedDataSource = self.userProfile.foodReviews;
+    
+    self.directionsButton.hidden      = YES;
+    self.phoneNumberButton.hidden     = YES;
+    self.centerButtonSeperator.hidden = YES;
+    
+    self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
+    
+    [self setTitle:@"Dishes"    withValue:self.userProfile.num_reviews   forButton:self.numDishesButton];
+    [self setTitle:@"Following" withValue:self.userProfile.num_following forButton:self.numFollowingButton];
+    [self setTitle:@"Followers" withValue:self.userProfile.num_followers forButton:self.numFollowersButton];
+    
+    NSString *name = [NSString stringWithFormat:@"%@ %@", self.userProfile.firstName, self.userProfile.lastName];
+    [self setDescriptionTextWithName:name description:self.userProfile.desc];
+    
+    [self.dishesTableView reloadData];
 }
 
 - (void)setTitle:(NSString *)title withValue:(NSInteger)value forButton:(UIButton *)button
@@ -320,7 +301,7 @@
     
     DADishTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDishSearchCellID];
     
-    DAExploreDishSearchResult *result = [self.selectedDataSource objectAtIndex:indexPath.row];
+    DADish *result = [self.selectedDataSource objectAtIndex:indexPath.row];
     
     cell.dishNameLabel.text = result.name;
     
@@ -371,7 +352,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAExploreDishSearchResult *result = [self.selectedDataSource objectAtIndex:indexPath.row];
+    DADish *result = [self.selectedDataSource objectAtIndex:indexPath.row];
     
     if( self.isRestaurant )
     {
@@ -391,9 +372,17 @@
 {
     switch( self.dishTypeChooser.selectedSegmentIndex )
     {
-        case 0: self.selectedDataSource = self.foodReviews;     break;
-        case 1: self.selectedDataSource = self.cocktailReviews; break;
-        case 2: self.selectedDataSource = self.wineReviews;     break;
+        case 0:
+            self.selectedDataSource = self.isRestaurant ? self.restaurantProfile.foodDishes : self.userProfile.foodReviews;
+            break;
+            
+        case 1:
+            self.selectedDataSource = self.isRestaurant ? self.restaurantProfile.cocktailDishes : self.userProfile.cocktailReviews;
+            break;
+            
+        case 2:
+            self.selectedDataSource = self.isRestaurant ? self.restaurantProfile.wineDishes : self.userProfile.wineReviews;
+            break;
     }
     
     [self.dishesTableView reloadData];
@@ -418,11 +407,13 @@
 
 - (IBAction)followButtonPressed
 {
-    if( !self.isOwnProfile )
+    BOOL isOwnProfile = self.isRestaurant ? self.restaurantProfile.is_profile_owner : self.userProfile.is_profile_owner;
+    BOOL isFollowed   = self.isRestaurant ? self.restaurantProfile.caller_follows : self.userProfile.caller_follows;
+    
+    if( !isOwnProfile )
     {
-        self.isFollowed ? [self unfollowUserID:self.user_id] : [self followUserID:self.user_id];
-        [self setFollowButtonState:!self.isFollowed];
-        self.isFollowed = !self.isFollowed;
+        isFollowed ? [self unfollowUserID:self.user_id] : [self followUserID:self.user_id];
+        [self setFollowButtonState:!isFollowed];
     }
 }
 
@@ -460,6 +451,30 @@
 - (void)unfollowUserID:(NSInteger)userID
 {
     [[DAAPIManager sharedManager] unfollowUserWithUserID:userID completion:nil];
+}
+
+- (IBAction)phoneNumberButtonTapped
+{
+    if( self.restaurantProfile.phone.length > 0 )
+    {
+        NSString *phoneNumber = [@"telprompt://" stringByAppendingString:self.phoneNumberButton.titleLabel.text];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
+    }
+}
+
+- (IBAction)directionsButtonTapped
+{
+    double longitude = self.restaurantProfile.longitude;
+    double latitude  = self.restaurantProfile.latitude;
+    
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake( longitude, latitude);
+    MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
+    MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
+    mapItem.name = self.restaurantProfile.name;
+    
+    NSDictionary *launchOptions = @{ MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving };
+    MKMapItem *currentLocationMapItem = [MKMapItem mapItemForCurrentLocation];
+    [MKMapItem openMapsWithItems:@[currentLocationMapItem, mapItem] launchOptions:launchOptions];
 }
 
 @end
