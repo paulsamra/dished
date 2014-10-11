@@ -18,8 +18,6 @@
 @property (strong, nonatomic) NSMutableDictionary     *hashtagDict;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
-@property (nonatomic) BOOL errorLoading;
-
 @end
 
 
@@ -31,35 +29,44 @@
     
     self.hashtagArray = [NSArray array];
     self.hashtagDict = [NSMutableDictionary dictionary];
-    self.errorLoading = NO;
     
-    [[DAAPIManager sharedManager] getNegativeHashtagsForDishType:self.review.type
-    completion:^( id response, NSError *error )
+    [self loadHashtags];
+}
+
+- (void)loadHashtags
+{
+    NSDictionary *parameters = @{ kDishTypeKey : self.review.type, kHashtagTypeKey : kPositiveHashtags };
+    NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] GET:kHashtagsURL parameters:authParameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        if( error || !response )
+        self.hashtagArray = [self hashtagsFromResponse:responseObject];
+        
+        for( DAHashtag *tag in self.selectedHashtags )
         {
-            self.errorLoading = YES;
+            NSUInteger index = [self.hashtagArray indexOfObject:tag];
+            
+            if( index != NSNotFound )
+            {
+                [self.hashtagDict setObject:@"selected" forKey:@(index)];
+            }
         }
-        else
+        
+        for( id key in self.hashtagDict )
         {
-            self.hashtagArray = [self hashtagsFromResponse:response];
+            [self.selectedHashtags removeObject:[self.hashtagArray objectAtIndex:[key intValue]]];
+        }
+        
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+        
+        if( errorType != eErrorTypeRequestCancelled )
+        {
             
-            for( DAHashtag *tag in self.selectedHashtags )
-            {
-                NSUInteger index = [self.hashtagArray indexOfObject:tag];
-                
-                if( index != NSNotFound )
-                {
-                    [self.hashtagDict setObject:@"selected" forKey:@(index)];
-                }
-            }
-            
-            for( id key in self.hashtagDict )
-            {
-                [self.selectedHashtags removeObject:[self.hashtagArray objectAtIndex:[key intValue]]];
-            }
-            
-            [self.tableView reloadData];
         }
     }];
 }

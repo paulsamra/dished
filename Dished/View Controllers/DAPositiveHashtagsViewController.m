@@ -19,8 +19,6 @@
 @property (strong, nonatomic) NSMutableDictionary     *hashtagDict;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
-@property (nonatomic) BOOL errorLoading;
-
 @end
 
 
@@ -32,47 +30,61 @@
     
     self.hashtagArray = [NSArray array];
     self.hashtagDict = [NSMutableDictionary dictionary];
-    self.errorLoading = NO;
     
-    [[DAAPIManager sharedManager] getPositiveHashtagsForDishType:self.review.type
-    completion:^( id response, NSError *error )
+    [self loadHashtags];
+}
+
+- (void)loadHashtags
+{
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    
+    NSDictionary *parameters = @{ kDishTypeKey : self.review.type, kHashtagTypeKey : kPositiveHashtags };
+    
+    __weak typeof( self ) weakSelf = self;
+    
+    [self addURLTaskWithURL:kHashtagsURL parameters:parameters
+    successBlock:^( NSURLSessionDataTask *task, id responseObject )
     {
-        if( error || !response )
+        weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+        weakSelf.hashtagArray = [weakSelf hashtagsFromResponse:responseObject];
+        weakSelf.selectedHashtags = [weakSelf.review.hashtags mutableCopy];
+        
+        for( DAHashtag *tag in weakSelf.selectedHashtags )
         {
-            self.errorLoading = YES;
+            NSUInteger index = [weakSelf.hashtagArray indexOfObject:tag];
+            
+            if( index != NSNotFound )
+            {
+                [weakSelf.hashtagDict setObject:@"selected" forKey:@(index)];
+            }
         }
-        else
+        
+        for( id key in weakSelf.hashtagDict )
         {
-            self.hashtagArray = [self hashtagsFromResponse:response];
+            [weakSelf.selectedHashtags removeObject:[weakSelf.hashtagArray objectAtIndex:[key intValue]]];
+        }
+        
+        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+    }
+    failureBlock:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+        
+        if( errorType != eErrorTypeRequestCancelled )
+        {
             
-            self.selectedHashtags = [self.review.hashtags mutableCopy];
-            
-            for( DAHashtag *tag in self.selectedHashtags )
-            {
-                NSUInteger index = [self.hashtagArray indexOfObject:tag];
-                
-                if( index != NSNotFound )
-                {
-                    [self.hashtagDict setObject:@"selected" forKey:@(index)];
-                }
-            }
-            
-            for( id key in self.hashtagDict )
-            {
-                [self.selectedHashtags removeObject:[self.hashtagArray objectAtIndex:[key intValue]]];
-            }
-            
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
     }];
 }
 
 - (NSArray *)hashtagsFromResponse:(id)response
 {
-    NSArray *hashtags = response[@"data"];
+    NSArray *hashtags = nilOrJSONObjectForKey( response, kDataKey );
     NSMutableArray *newHashtags = [NSMutableArray array];
 
-    if( hashtags && ![hashtags isEqual:[NSNull null]] )
+    if( hashtags )
     {
         for( NSDictionary *hashtag in hashtags )
         {
@@ -81,7 +93,7 @@
         }
     }
     
-    return [newHashtags copy];
+    return newHashtags;
 }
 
 #pragma mark - Table view data source

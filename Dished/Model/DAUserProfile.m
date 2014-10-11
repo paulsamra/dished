@@ -33,9 +33,9 @@
         _is_profile_owner = [nilOrJSONObjectForKey( data, @"is_profile_owner" ) boolValue];
         
         NSDictionary *reviews = nilOrJSONObjectForKey( data, @"reviews" );
-        _foodReviews     = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"food" )];
-        _wineReviews     = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"wine" )];
-        _cocktailReviews = [self reviewsWithData:nilOrJSONObjectForKey( reviews, @"cocktail" )];
+        _foodReviews     = [self reviewsWithData:nilOrJSONObjectForKey( reviews, kFood )];
+        _wineReviews     = [self reviewsWithData:nilOrJSONObjectForKey( reviews, kWine )];
+        _cocktailReviews = [self reviewsWithData:nilOrJSONObjectForKey( reviews, kCocktail )];
     }
     
     return self;

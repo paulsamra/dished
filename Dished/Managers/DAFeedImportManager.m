@@ -24,7 +24,7 @@
     {
         if( error )
         {
-            id errorResponse = error.userInfo[[[DAAPIManager sharedManager] errorResponseKey]];
+            id errorResponse = error.userInfo[[DAAPIManager errorResponseKey]];
             
             if( [errorResponse isKindOfClass:[NSDictionary class]] )
             {

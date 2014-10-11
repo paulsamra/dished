@@ -45,10 +45,8 @@
     
     if( [[DAAPIManager sharedManager] isLoggedIn] )
     {
-        if( [[DAAPIManager sharedManager] authenticate] )
-        {
-            [self setRootView];
-        }
+        [[DAAPIManager sharedManager] authenticateWithCompletion:nil];
+        [self setRootView];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachable) name:kNetworkReachableKey object:nil];
@@ -101,7 +99,7 @@
     
     if( [[DAAPIManager sharedManager] isLoggedIn] )
     {
-        [[DAAPIManager sharedManager] authenticate];
+        [[DAAPIManager sharedManager] authenticateWithCompletion:nil];
     }
 }
 

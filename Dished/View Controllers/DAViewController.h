@@ -11,6 +11,10 @@
 
 @interface DAViewController : UIViewController
 
+- (void)addURLTaskWithURL:(NSString *)url parameters:(NSDictionary *)parameters
+             successBlock:( void (^)( NSURLSessionDataTask *task, id responseObject ) )successBlock
+             failureBlock:( void (^)( NSURLSessionDataTask *task, NSError *error ) )failureBlock;
+
 - (void)showAlertViewWithTitle:(NSString *)title message:(NSString *)message;
 
 @end

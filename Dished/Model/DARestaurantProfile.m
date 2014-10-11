@@ -34,9 +34,9 @@
         _is_profile_owner = [nilOrJSONObjectForKey( data, @"is_profile_owner" ) boolValue];
         
         NSDictionary *dishes = nilOrJSONObjectForKey( data, @"dishes" );
-        _foodDishes     = [self dishesWithData:nilOrJSONObjectForKey( dishes, @"food" )];
-        _wineDishes     = [self dishesWithData:nilOrJSONObjectForKey( dishes, @"wine" )];
-        _cocktailDishes = [self dishesWithData:nilOrJSONObjectForKey( dishes, @"cocktail" )];
+        _foodDishes     = [self dishesWithData:nilOrJSONObjectForKey( dishes, kFood )];
+        _wineDishes     = [self dishesWithData:nilOrJSONObjectForKey( dishes, kWine )];
+        _cocktailDishes = [self dishesWithData:nilOrJSONObjectForKey( dishes, kCocktail )];
     }
     
     return self;

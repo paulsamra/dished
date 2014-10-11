@@ -106,47 +106,77 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }
 }
 
-- (NSString *)errorResponseKey
++ (NSString *)errorResponseKey
 {
     return JSONResponseSerializerWithDataKey;
 }
 
-+ (BOOL)isErrorDataNonexistError:(NSError *)error
++ (eErrorType)errorTypeForError:(NSError *)error
 {
-    BOOL isNonexistError = NO;
-    
-    NSDictionary *errorResponse = error.userInfo[[[DAAPIManager sharedManager] errorResponseKey] ];
-    
-    if( errorResponse && [errorResponse isKindOfClass:[NSDictionary class]] )
+    if( error.code == NSURLErrorCancelled )
     {
-        NSString *errorString = errorResponse[@"error"];
+        return eErrorTypeRequestCancelled;
+    }
+    
+    if( error.code == NSURLErrorTimedOut )
+    {
+        return eErrorTypeTimeout;
+    }
+    
+    eErrorType errorType = eErrorTypeUnknown;
+    
+    NSDictionary *errorResponse = [error.userInfo objectForKey:JSONResponseSerializerWithDataKey];
+    
+    if( [errorResponse isKindOfClass:[NSDictionary class]] )
+    {
+        NSString *errorString = errorResponse[kErrorKey];
         
-        if( [errorString isKindOfClass:[NSString class]] )
+        if( [errorString isEqualToString:kDataNonexistsError] )
         {
-            if( [errorString rangeOfString:@"data_nonexists"].location != NSNotFound )
-            {
-                isNonexistError = YES;
-            }
+            errorType = eErrorTypeDataNonexists;
+        }
+        else if( [errorString isEqualToString:kEmailExistsError] )
+        {
+            errorType = eErrorTypeEmailExists;
+        }
+        else if( [errorString isEqualToString:kPhoneExistsError] )
+        {
+            errorType = eErrorTypePhoneExists;
         }
     }
     
-    return isNonexistError;
+    return errorType;
 }
 
-- (BOOL)authenticate
+- (BOOL)isAuthenticated
 {
-    if( ![self isLoggedIn] || !self.refreshToken || !self.clientSecret || self.isAuthenticating )
+    NSDate *lastRefreshDate = [[NSUserDefaults standardUserDefaults] objectForKey:kLastRefreshKey];
+    
+    return !( [[NSDate date] timeIntervalSinceDate:lastRefreshDate] > 3600 );
+}
+
+- (void)authenticate
+{
+    [self authenticateWithCompletion:nil];
+}
+
+- (void)authenticateWithCompletion:( void (^)( BOOL success ) )completion
+{
+    if( ![self isLoggedIn] || !self.refreshToken || !self.clientSecret )
     {
-        return NO;
+        completion( NO );
+    }
+    
+    if( self.isAuthenticating )
+    {
+        completion( YES );
     }
     
     dispatch_async( self.queue, ^
     {
         dispatch_async( dispatch_get_main_queue(), ^
         {
-            NSDate *lastRefreshDate = [[NSUserDefaults standardUserDefaults] objectForKey:kLastRefreshKey];
-            
-            if( [[NSDate date] timeIntervalSinceDate:lastRefreshDate] > 3600 )
+            if( ![self isAuthenticated] )
             {
                 self.isAuthenticating = YES;
                 
@@ -168,6 +198,11 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
                      
                     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kLastRefreshKey];
                     [[NSUserDefaults standardUserDefaults] synchronize];
+                    
+                    if( completion )
+                    {
+                        completion( YES );
+                    }
                      
                     dispatch_semaphore_signal( self.sem );
                 }
@@ -177,67 +212,35 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
                     
                     NSLog(@"%@", error.localizedDescription);
                     
+                    if( completion )
+                    {
+                        completion( NO );
+                    }
+                    
                     dispatch_semaphore_signal( self.sem );
                 }];
             }
             else
             {
+                if( completion )
+                {
+                    completion( YES );
+                }
+                
                 dispatch_semaphore_signal( self.sem );
             }
         });
         
         dispatch_semaphore_wait( self.sem, DISPATCH_TIME_FOREVER );
     });
-    
-    return YES;
 }
 
-- (void)checkAvailabilityOfEmail:(NSString *)email completion:(void(^)( BOOL available, NSError *error ))completion
+- (NSDictionary *)authenticatedParametersWithParameters:(NSDictionary *)parameters
 {
-    NSDictionary *parameters = @{ @"email" : email };
+    NSMutableDictionary *authParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
+    authParameters[kAccessTokenKey] = self.accessToken;
     
-    [self GET:@"users/availability/email" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        completion( YES, nil );
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        NSDictionary *errorResponse = error.userInfo[JSONResponseSerializerWithDataKey];
-        
-        if( [errorResponse[@"error"] isEqualToString:@"email_exists"] )
-        {
-            completion( NO, nil );
-        }
-        else
-        {
-            completion( NO, error );
-        }
-    }];
-}
-
-- (void)checkAvailabilityOfPhoneNumber:(NSString *)phoneNumber completion:(void(^)( BOOL available, NSError *error ))completion
-{
-    NSDictionary *parameters = @{ @"phone" : phoneNumber };
-    
-    [self GET:@"users/availability/phone" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        completion( YES, nil );
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        NSDictionary *errorResponse = error.userInfo[JSONResponseSerializerWithDataKey];
-        
-        if( [errorResponse[@"error"] isEqualToString:@"phone_exists"] )
-        {
-            completion( NO, nil );
-        }
-        else
-        {
-            completion( NO, error );
-        }
-    }];
+    return authParameters;
 }
 
 - (void)registerUserWithUsername:(NSString *)username password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email phoneNumber:(NSString *)phoneNumber birthday:(NSDate *)birthday completion:(void(^)( BOOL registered, BOOL loggedIn ))completion
@@ -516,71 +519,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             completion( NO, NO );
         }
     });
-}
-
-- (void)getPositiveHashtagsForDishType:(NSString *)dishType completion:( void(^)( id response, NSError *error ) )completion
-{
-    [self getHashtagsWithType:@"rev_p" forDishType:dishType completion:completion];
-}
-
-- (void)getNegativeHashtagsForDishType:(NSString *)dishType completion:( void(^)( id response, NSError *error ) )completion
-{
-    [self getHashtagsWithType:@"rev_n" forDishType:dishType completion:completion];
-}
-
-- (void)getHashtagsWithType:(NSString *)type forDishType:(NSString *)dishType completion:( void(^)( id response, NSError *error ) )completion
-{    
-    dispatch_async( self.queue, ^
-    {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"dish_type" : dishType, @"tag_type" : type };
-        
-        [self GET:@"hashtags" parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            NSDictionary *response = (NSDictionary *)responseObject;
-             
-            if( [response[@"status"] isEqualToString:@"success"] )
-            {
-                completion( responseObject, nil );
-            }
-            else
-            {
-                completion( nil, nil );
-            }
-        }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            completion( nil, error );
-        }];
-    });
-}
-
-- (NSURLSessionTask *)getDishTitleSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( id response, NSError *error ) )completion
-{
-    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"name" : query, @"type" : dishType };
-    
-    return [self GET:@"dishes/search" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        NSDictionary *response = (NSDictionary *)responseObject;
-        
-        if( [response[@"status"] isEqualToString:@"success"] )
-        {
-            completion( responseObject, nil );
-        }
-        else
-        {
-            completion( nil, nil );
-        }
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        if( error.code != -999 )
-        {
-            NSLog(@"Error getting dish name suggestions: %@", error );
-            completion( nil, error );
-        }
-    }];
 }
 
 - (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id response, NSError *error ) )completion;

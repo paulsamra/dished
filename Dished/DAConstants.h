@@ -31,3 +31,32 @@ extern NSString *const kFollowingSubtypeSingleUserSingleYum;
 extern NSString *const kFollowingSubtypeSingleUserMultiYum;
 extern NSString *const kFollowingSubtypeMultiUserYum;
 extern NSString *const kFollowingSubtypeTwoUserYum;
+
+extern NSString *const kHashtagsURL;
+extern NSString *const kDishSearchURL;
+extern NSString *const kEmailAvailabilityURL;
+extern NSString *const kPhoneAvailabilityURL;
+
+extern NSString *const kIDKey;
+extern NSString *const kDataKey;
+extern NSString *const kTypeKey;
+extern NSString *const kNameKey;
+extern NSString *const kPriceKey;
+extern NSString *const kGradeKey;
+extern NSString *const kEmailKey;
+extern NSString *const kPhoneKey;
+extern NSString *const kDistanceKey;
+extern NSString *const kDishTypeKey;
+extern NSString *const kUsernameKey;
+extern NSString *const kGoogleIDKey;
+extern NSString *const kLocationIDKey;
+extern NSString *const kHashtagTypeKey;
+extern NSString *const kLocationNameKey;
+
+extern NSString *const kErrorKey;
+extern NSString *const kEmailExistsError;
+extern NSString *const kPhoneExistsError;
+extern NSString *const kDataNonexistsError;
+
+extern NSString *const kPositiveHashtags;
+extern NSString *const kNegativeHashtags;

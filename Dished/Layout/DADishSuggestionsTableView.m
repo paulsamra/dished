@@ -11,11 +11,7 @@
 #import "DAAPIManager.h"
 #import "DADishSuggestionTableViewCell.h"
 
-static NSString *kDishNameKey     = @"name";
-static NSString *kDishIDKey       = @"id";
-static NSString *kDishPriceKey    = @"price";
-static NSString *kLocationNameKey = @"loc_name";
-static NSString *kLocationIDKey   = @"loc_id";
+static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";
 
 
 @interface DADishSuggestionsTableView()
@@ -38,8 +34,8 @@ static NSString *kLocationIDKey   = @"loc_id";
         self.delegate = self;
         self.dataSource	= self;
         
-        UINib *broadcastCellNib = [UINib nibWithNibName:@"DADishSuggestionTableViewCell" bundle:nil];
-        [self registerNib:broadcastCellNib forCellReuseIdentifier:@"suggestionCell"];
+        UINib *broadcastCellNib = [UINib nibWithNibName:NSStringFromClass( [DADishSuggestionTableViewCell class] ) bundle:nil];
+        [self registerNib:broadcastCellNib forCellReuseIdentifier:kDishSuggestionCellIdentifier];
         
         self.rowHeight = 44.0;
         self.estimatedRowHeight = 44.0;
@@ -55,31 +51,21 @@ static NSString *kLocationIDKey   = @"loc_id";
         [self.searchTask cancel];
     }
     
-    self.searchTask = [[DAAPIManager sharedManager] getDishTitleSuggestionsWithQuery:query dishType:dishType
-    completion:^( id response, NSError *error )
+    NSDictionary *parameters = @{ kNameKey : query, kTypeKey : dishType };
+    NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    self.searchTask = [[DAAPIManager sharedManager] GET:kDishSearchURL parameters:authParameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        self.dishSearchResults = [NSArray array];
+        self.dishSearchResults = [self dishesWithResponse:responseObject];
         
-        if( error )
-        {
-            NSDictionary *errorResponse = [error.userInfo objectForKey:[[DAAPIManager sharedManager] errorResponseKey]];
-            
-            if( [errorResponse[@"status"] isEqualToString:@"error"] )
-            {
-                if( [errorResponse[@"error"] isEqualToString:@"data_nonexists"] )
-                {
-                    self.hidden = YES;
-                }
-            }
-        }
-        else if( response )
-        {
-            self.hidden = NO;
-            
-            self.dishSearchResults = [self dishesWithResponse:response];
-        }
+        self.hidden = NO;
         
         [self reloadData];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        self.hidden = YES;
     }];
 }
 
@@ -93,18 +79,18 @@ static NSString *kLocationIDKey   = @"loc_id";
 
 - (NSArray *)dishesWithResponse:(id)response
 {
-    NSArray *dishes = response[@"data"];
+    NSArray *dishes = response[kDataKey];
     NSMutableArray *newDishes = [NSMutableArray array];
     
     for( NSDictionary *dishInfo in dishes )
     {
         NSMutableDictionary *newDish = [NSMutableDictionary dictionary];
         
-        newDish[kDishNameKey]     = dishInfo[kDishNameKey];
-        newDish[kDishIDKey]       = dishInfo[kDishIDKey];
-        newDish[kDishPriceKey]    = dishInfo[kDishPriceKey];
-        newDish[kLocationNameKey] = dishInfo[kLocationNameKey];
+        newDish[kIDKey]           = dishInfo[kIDKey];
+        newDish[kNameKey]         = dishInfo[kNameKey];
+        newDish[kPriceKey]        = dishInfo[kPriceKey];
         newDish[kLocationIDKey]   = dishInfo[kLocationIDKey];
+        newDish[kLocationNameKey] = dishInfo[kLocationNameKey];
         
         [newDishes addObject:newDish];
     }
@@ -128,10 +114,10 @@ static NSString *kLocationIDKey   = @"loc_id";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DADishSuggestionTableViewCell *cell = (DADishSuggestionTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"suggestionCell"];
+    DADishSuggestionTableViewCell *cell = (DADishSuggestionTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kDishSuggestionCellIdentifier];
     
     cell.placeLabel.text = [[self.dishSearchResults objectAtIndex:indexPath.row] objectForKey:kLocationNameKey];
-    cell.nameLabel.text  = [[self.dishSearchResults objectAtIndex:indexPath.row] objectForKey:kDishNameKey];
+    cell.nameLabel.text  = [[self.dishSearchResults objectAtIndex:indexPath.row] objectForKey:kNameKey];
     
     return cell;
 }
@@ -141,15 +127,15 @@ static NSString *kLocationIDKey   = @"loc_id";
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     NSDictionary *selectedDishInfo = self.dishSearchResults[indexPath.row];
-    NSString *dishName     = selectedDishInfo[kDishNameKey];
-    NSString *dishID       = selectedDishInfo[kDishIDKey];
-    NSString *dishPrice    = selectedDishInfo[kDishPriceKey];
+    NSString *dishName     = selectedDishInfo[kNameKey];
+    NSString *dishID       = selectedDishInfo[kIDKey];
+    NSString *dishPrice    = selectedDishInfo[kPriceKey];
     NSString *locationName = selectedDishInfo[kLocationNameKey];
     NSString *locationID   = selectedDishInfo[kLocationIDKey];
     
-    if( [self.suggestionDelegate respondsToSelector:@selector(selectedSuggestionWithDishName:dishID:dishPrice:locationName:locationID:)] )
+    if( [self.suggestionDelegate respondsToSelector:@selector(didSelectSuggestionWithDishName:dishID:dishPrice:locationName:locationID:)] )
     {
-        [self.suggestionDelegate selectedSuggestionWithDishName:dishName dishID:[dishID integerValue] dishPrice:dishPrice locationName:locationName locationID:[locationID integerValue]];
+        [self.suggestionDelegate didSelectSuggestionWithDishName:dishName dishID:[dishID integerValue] dishPrice:dishPrice locationName:locationName locationID:[locationID integerValue]];
     }
     
     self.hidden = YES;

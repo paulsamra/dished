@@ -94,7 +94,9 @@
         
         if( !response || error )
         {
-            if( [DAAPIManager isErrorDataNonexistError:error] )
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType == eErrorTypeDataNonexists )
             {
                 self.hasMoreNewsNotifications = NO;
             }
@@ -122,7 +124,9 @@
         
         if( !response || error )
         {
-            if( [DAAPIManager isErrorDataNonexistError:error] )
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType == eErrorTypeDataNonexists )
             {
                 self.hasMoreFollowingNotifications = NO;
             }
@@ -158,7 +162,9 @@
     {
         if( !response || error )
         {
-            if( [DAAPIManager isErrorDataNonexistError:error] )
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType == eErrorTypeDataNonexists )
             {
                 self.hasMoreNewsNotifications = NO;
                 completion( YES );
@@ -188,7 +194,9 @@
     {
         if( !response || error )
         {
-            if( [DAAPIManager isErrorDataNonexistError:error] )
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType == eErrorTypeDataNonexists )
             {
                 self.hasMoreFollowingNotifications = NO;
                 completion( YES );
@@ -215,7 +223,9 @@
     {
         if( error )
         {
-            if( [DAAPIManager isErrorDataNonexistError:error] )
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType == eErrorTypeDataNonexists )
             {
                 self.hasMoreNewsNotifications = NO;
                 completion( YES );
@@ -245,7 +255,9 @@
     {
         if( !response || error )
         {
-            if( [DAAPIManager isErrorDataNonexistError:error] )
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType == eErrorTypeDataNonexists )
             {
                 self.hasMoreFollowingNotifications = NO;
                 completion( YES );

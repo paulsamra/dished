@@ -202,7 +202,7 @@
             {
                 if( error.code != -999 )
                 {
-                    NSDictionary *errorResponse = error.userInfo[[[DAAPIManager sharedManager] errorResponseKey]];
+                    NSDictionary *errorResponse = error.userInfo[[DAAPIManager errorResponseKey]];
               
                     if( [errorResponse[@"error"] isEqualToString:@"username_exists"] )
                     {
@@ -544,28 +544,29 @@
     
     dispatch_group_enter( group );
     
-    NSString *email = self.emailField.text;
-    
-    [[DAAPIManager sharedManager] checkAvailabilityOfEmail:email completion:^( BOOL available, NSError *error )
+    NSDictionary *emailParameters = @{ kEmailKey : self.emailField.text };
+
+    [[DAAPIManager sharedManager] GET:kEmailAvailabilityURL parameters:emailParameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        if( !error )
+        errorOccured &= NO;
+        
+        dispatch_group_leave( group );
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+        
+        if( errorType == eErrorTypeEmailExists )
         {
-            errorOccured = NO;
-            
-            if( available )
-            {
-                emailSuccess = YES;
-            }
-            else
-            {
-                emailSuccess = NO;
-            }
+            errorOccured &= NO;
+            emailSuccess = NO;
         }
         else
         {
-            errorOccured = YES;
+            errorOccured &= YES;
         }
-         
+        
         dispatch_group_leave( group );
     }];
     
@@ -576,26 +577,29 @@
     NSArray  *parts = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
     NSString *decimalStr = [[parts componentsJoinedByString:@""] mutableCopy];
     
-    [[DAAPIManager sharedManager] checkAvailabilityOfPhoneNumber:decimalStr completion:^( BOOL available, NSError *error )
+    NSDictionary *phoneParameters = @{ kPhoneKey : decimalStr };
+    
+    [[DAAPIManager sharedManager] GET:kPhoneAvailabilityURL parameters:phoneParameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        if( !error )
+        errorOccured &= NO;
+        
+        dispatch_group_leave( group );
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+        
+        if( errorType == eErrorTypePhoneExists )
         {
-            errorOccured = NO;
-             
-            if( available )
-            {
-                phoneSuccess = YES;
-            }
-            else
-            {
-                phoneSuccess = NO;
-            }
+            errorOccured &= NO;
+            phoneSuccess = NO;
         }
         else
         {
-            errorOccured = YES;
+            errorOccured &= YES;
         }
-         
+        
         dispatch_group_leave( group );
     }];
     

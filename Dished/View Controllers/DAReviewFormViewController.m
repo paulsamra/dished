@@ -384,7 +384,7 @@
     [self updateFields];
 }
 
-- (void)selectedSuggestionWithDishName:(NSString *)dishName dishID:(NSInteger)dishID dishPrice:dishPrice locationName:(NSString *)locationName locationID:(NSInteger)locationID
+- (void)didSelectSuggestionWithDishName:(NSString *)dishName dishID:(NSInteger)dishID dishPrice:dishPrice locationName:(NSString *)locationName locationID:(NSInteger)locationID
 {
     self.review.dishID = dishID;
     self.review.title = dishName;

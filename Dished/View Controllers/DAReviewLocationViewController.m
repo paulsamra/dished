@@ -12,12 +12,6 @@
 #import "DAAPIManager.h"
 #import "DALocationManager.h"
 
-static NSString *kLocationNameKey     = @"name";
-static NSString *kLocationIDKey       = @"id";
-static NSString *kLocationDistanceKey = @"distance";
-static NSString *kLocationGoogleIDKey = @"google_id";
-static NSString *kLocationTypeKey     = @"type";
-
 
 @interface DAReviewLocationViewController() <UISearchBarDelegate>
 
@@ -66,8 +60,8 @@ static NSString *kLocationTypeKey     = @"type";
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"locationCell"];
         
-        cell.textLabel.text       = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationNameKey];
-        cell.detailTextLabel.text = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationDistanceKey];
+        cell.textLabel.text       = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kNameKey];
+        cell.detailTextLabel.text = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kDistanceKey];
     }
     
     UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, 0.5)];
@@ -97,17 +91,17 @@ static NSString *kLocationTypeKey     = @"type";
 {
     if( indexPath.row < [self.locationData count] )
     {
-        self.review.locationName = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationNameKey];
+        self.review.locationName = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kNameKey];
         self.review.locationID = 0;
         self.review.googleID   = 0;
         
-        if( [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationIDKey] )
+        if( [[self.locationData objectAtIndex:indexPath.row] objectForKey:kIDKey] )
         {
-            self.review.locationID = [[[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationIDKey] integerValue];
+            self.review.locationID = [[[self.locationData objectAtIndex:indexPath.row] objectForKey:kIDKey] integerValue];
         }
-        else if( [[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationGoogleIDKey] )
+        else if( [[self.locationData objectAtIndex:indexPath.row] objectForKey:kGoogleIDKey] )
         {
-            self.review.googleID = [[[self.locationData objectAtIndex:indexPath.row] objectForKey:kLocationGoogleIDKey] integerValue];
+            self.review.googleID = [[[self.locationData objectAtIndex:indexPath.row] objectForKey:kGoogleIDKey] integerValue];
         }
         
         [self.navigationController popViewControllerAnimated:YES];
@@ -173,20 +167,20 @@ static NSString *kLocationTypeKey     = @"type";
         for( NSDictionary *locationInfo in locations )
         {
             NSMutableDictionary *location = [NSMutableDictionary dictionary];
-            location[kLocationNameKey] = locationInfo[kLocationNameKey];
+            location[kNameKey] = locationInfo[kNameKey];
             
-            if( [locationInfo[kLocationTypeKey] isEqualToString:@"system"] )
+            if( [locationInfo[kTypeKey] isEqualToString:@"system"] )
             {
-                location[kLocationIDKey] = locationInfo[kLocationIDKey];
+                location[kIDKey] = locationInfo[kIDKey];
             }
-            else if( [locationInfo[kLocationTypeKey] isEqualToString:@"google"] )
+            else if( [locationInfo[kTypeKey] isEqualToString:@"google"] )
             {
-                location[kLocationGoogleIDKey] = locationInfo[kLocationGoogleIDKey];
+                location[kGoogleIDKey] = locationInfo[kGoogleIDKey];
             }
             
-            if( locationInfo[kLocationDistanceKey] )
+            if( locationInfo[kDistanceKey] )
             {
-                location[kLocationDistanceKey] = locationInfo[kLocationDistanceKey];
+                location[kDistanceKey] = locationInfo[kDistanceKey];
             }
             
             [newLocations addObject:location];

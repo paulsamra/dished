@@ -2754,9 +2754,9 @@
                         <outlet property="tagsImageView" destination="vQA-Zh-QYw" id="2aL-em-izY"/>
                         <outlet property="titleTextField" destination="vl6-g3-7xj" id="gL1-4m-ztm"/>
                         <outlet property="twitterImage" destination="q5Q-tC-1k4" id="HpZ-GT-XBY"/>
-                        <segue destination="Mba-S1-obM" kind="show" identifier="posHashtags" id="Kxc-a0-QXl"/>
                         <segue destination="ZvA-N9-6Oj" kind="show" identifier="imAt" id="6ej-lN-n4u"/>
                         <segue destination="UcG-uD-D96" kind="show" identifier="rating" id="XdP-Pi-Qco"/>
+                        <segue destination="U6i-jw-5sV" kind="show" identifier="posHashtags" id="wUw-wF-4uq"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kgq-fw-nRF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2767,7 +2767,7 @@
         <scene sceneID="fJg-3P-Zty">
             <objects>
                 <tableViewController id="QD2-R5-VPv" customClass="DARegisterViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Wvz-FP-qNP" customClass="DATouchTableView">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="Wvz-FP-qNP" customClass="DATouchTableView" customModule="Dished" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
@@ -3136,55 +3136,7 @@
                     </connections>
                 </searchDisplayController>
             </objects>
-            <point key="canvasLocation" x="6073.125" y="2609.1549295774648"/>
-        </scene>
-        <!--#Tags-->
-        <scene sceneID="pQh-ZK-iL8">
-            <objects>
-                <tableViewController id="Mba-S1-obM" customClass="DAPositiveHashtagsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="DUK-65-wdL">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="hashtagCell" textLabel="7ik-jp-gUx" style="IBUITableViewCellStyleDefault" id="398-8h-dwJ">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="398-8h-dwJ" id="g0X-OB-H3J">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7ik-jp-gUx">
-                                            <rect key="frame" x="15" y="0.0" width="290" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="Mba-S1-obM" id="7Sp-8S-D5J"/>
-                            <outlet property="delegate" destination="Mba-S1-obM" id="ver-9n-bBK"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="#Tags" id="ORw-2L-WWU">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="foQ-eG-E9Z"/>
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="3PM-ai-G1z">
-                            <connections>
-                                <action selector="goToNegHashtags:" destination="Mba-S1-obM" id="GSJ-CH-PqT"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <segue destination="qmo-0a-LKf" kind="show" identifier="negHashtags" id="9mk-MV-5sK"/>
-                    </connections>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="Kma-YV-fEP" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="5086.875" y="3452.1126760563379"/>
+            <point key="canvasLocation" x="4892" y="2735"/>
         </scene>
         <!--#Tags-->
         <scene sceneID="Ib0-Px-gn1">
@@ -3228,7 +3180,68 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yN0-au-P5m" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="6155.625" y="3452.1126760563379"/>
+            <point key="canvasLocation" x="5703" y="3452"/>
+        </scene>
+        <!--#Tags-->
+        <scene sceneID="G2v-NO-sCR">
+            <objects>
+                <viewController id="U6i-jw-5sV" customClass="DAPositiveHashtagsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="vcP-f0-Qe3"/>
+                        <viewControllerLayoutGuide type="bottom" id="mSv-c8-uTN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PK1-xM-avB">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fXs-7c-fCo">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <prototypes>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="hashtagCell" textLabel="r2R-0X-zaX" style="IBUITableViewCellStyleDefault" id="h6P-S3-GQW">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="h6P-S3-GQW" id="pHA-O1-hiN">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="r2R-0X-zaX">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="U6i-jw-5sV" id="Ca7-1b-7Nr"/>
+                                    <outlet property="delegate" destination="U6i-jw-5sV" id="xl7-cz-zba"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fXs-7c-fCo" firstAttribute="top" secondItem="PK1-xM-avB" secondAttribute="top" id="8uv-6u-tEt"/>
+                            <constraint firstAttribute="trailing" secondItem="fXs-7c-fCo" secondAttribute="trailing" id="GMd-qM-ONe"/>
+                            <constraint firstItem="fXs-7c-fCo" firstAttribute="leading" secondItem="PK1-xM-avB" secondAttribute="leading" id="jyQ-ED-D46"/>
+                            <constraint firstItem="mSv-c8-uTN" firstAttribute="top" secondItem="fXs-7c-fCo" secondAttribute="bottom" id="zWy-S7-oCs"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="#Tags" id="PDI-di-gsx">
+                        <barButtonItem key="rightBarButtonItem" title="Next" id="UKk-g8-OfW">
+                            <connections>
+                                <action selector="goToNegHashtags:" destination="U6i-jw-5sV" id="hUA-sW-r7u"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="fXs-7c-fCo" id="jnT-IE-kb6"/>
+                        <segue destination="qmo-0a-LKf" kind="show" identifier="negHashtags" id="YLr-Fq-RxT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8G0-yh-OQV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4892" y="3452"/>
         </scene>
         <!--Social Collection View Controller-->
         <scene sceneID="QgB-SZ-mzd">
@@ -3304,7 +3317,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mob-la-3nD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7115.625" y="3381.3380281690138"/>
+            <point key="canvasLocation" x="6471" y="3452"/>
         </scene>
         <!--Add Rating-->
         <scene sceneID="xYa-YA-ZUc">
@@ -3390,7 +3403,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b1X-ho-Cc1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5086.875" y="4298.2394366197177"/>
+            <point key="canvasLocation" x="4892" y="4204"/>
         </scene>
         <!--Add New Place-->
         <scene sceneID="S1T-uA-lyu">
@@ -3443,7 +3456,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tNT-Wo-2hv" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="7170" y="2609.1549295774648"/>
+            <point key="canvasLocation" x="5703" y="2735"/>
         </scene>
         <!--Review Details-->
         <scene sceneID="qKu-6C-4yd">
@@ -4298,11 +4311,11 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="DWl-1Z-W5u"/>
+        <segue reference="qwH-GH-rMo"/>
+        <segue reference="Ybk-es-BQ9"/>
+        <segue reference="hdo-Ap-R3q"/>
         <segue reference="wCN-0l-elF"/>
         <segue reference="52f-zN-P3a"/>
-        <segue reference="bNY-2x-UqY"/>
-        <segue reference="Pvw-SR-10w"/>
-        <segue reference="Ybk-es-BQ9"/>
-        <segue reference="DWl-1Z-W5u"/>
     </inferredMetricsTieBreakers>
 </document>

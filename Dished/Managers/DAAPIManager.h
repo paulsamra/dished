@@ -12,26 +12,27 @@
 #define kNetworkUnreachableKey @"network_unreachable"
 #define kNetworkReachableKey   @"network_reachable"
 
+typedef enum
+{
+    eErrorTypeDataNonexists,
+    eErrorTypeEmailExists,
+    eErrorTypePhoneExists,
+    eErrorTypeTimeout,
+    eErrorTypeRequestCancelled,
+    eErrorTypeExpiredAccessToken,
+    eErrorTypeUnknown
+} eErrorType;
+
 
 @interface DAAPIManager : AFHTTPSessionManager
 
 + (DAAPIManager *)sharedManager;
-+ (BOOL)isErrorDataNonexistError:(NSError *)error;
++ (eErrorType)errorTypeForError:(NSError *)error;
++ (NSString *)errorResponseKey;
 
 - (BOOL)isLoggedIn;
-- (NSString *)accessToken;
-- (NSString *)errorResponseKey;
-- (BOOL)authenticate;
-
-/*
- * Check if another user is already signed up with a given email address.
- */
-- (void)checkAvailabilityOfEmail:(NSString *)email completion:(void(^)( BOOL available, NSError *error ) )completion;
-
-/*
- * Check if another user is already signed up with a given phone number.
- */
-- (void)checkAvailabilityOfPhoneNumber:(NSString *)phoneNumber completion:(void(^)( BOOL available, NSError *error ) )completion;
+- (void)authenticateWithCompletion:( void(^)( BOOL success ) )completion;
+- (NSDictionary *)authenticatedParametersWithParameters:(NSDictionary *)parameters;
 
 /*
  * Register new Dished user account.
@@ -57,30 +58,6 @@
  * Submit password reset to new password with verification pin.
  */
 - (void)submitPasswordResetWithPin:(NSString *)pin phoneNumber:(NSString *)phoneNumber newPassword:(NSString *)password completion:(void(^)( BOOL pinValid, BOOL success ) )completion;
-
-/*
- * Get up-to-date list of positive hashtags from server.
- * Returns nil or error object if error occured.
- * Dish type options: "food", "wine", "cocktail"
- * Returns task identifier that can be used to cancel
- * the data task.
- */
-- (void)getPositiveHashtagsForDishType:(NSString *)dishType completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Get up-to-date list of negative hashtags from server.
- * Returns nil or error object if error occured.
- * Dish type options: "food", "wine", "cocktail"
- * Returns task identifier that can be used to cancel
- * the data task.
- */
-- (void)getNegativeHashtagsForDishType:(NSString *)dishType completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Returns an NSURLSessionTask object for retrieving
- * dish suggestions based on a search string.
- */
-- (NSURLSessionTask *)getDishTitleSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Returns an array of locations given a search string.
