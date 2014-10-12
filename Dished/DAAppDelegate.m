@@ -13,6 +13,7 @@
 #import "DAAPIManager.h"
 #import "DAErrorView.h"
 #import <Crashlytics/Crashlytics.h>
+#import "DAUserManager.h"
 
 
 @interface DAAppDelegate() <DAErrorViewDelegate>
@@ -28,6 +29,7 @@
 {
     [self setupAppearance];
     
+    [DAUserManager sharedManager];
     [DATwitterManager sharedManager];
     
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];

@@ -63,6 +63,8 @@
 		943E6274198984FE00DF2135 /* DAExploreCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */; };
 		943ECCF319EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCF219EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.m */; };
 		943ECCF519EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943ECCF419EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib */; };
+		943ECCF819EB19E9009516E8 /* DAEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */; };
+		943ECCFB19EB1AD5009516E8 /* DAUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCFA19EB1AD5009516E8 /* DAUserManager.m */; };
 		9443DEF519CFC7BE00F134BA /* DANewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DEF419CFC7BE00F134BA /* DANewsTableViewCell.xib */; };
 		9443DEFA19CFCEA900F134BA /* DANewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEF919CFCEA900F134BA /* DANewsTableViewCell.swift */; };
 		9443DEFC19D020F500F134BA /* DATouchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFB19D020F500F134BA /* DATouchTableView.swift */; };
@@ -132,6 +134,7 @@
 		94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */; };
 		94AE445619E949520008C64F /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AE445519E949520008C64F /* DAFeedItem.m */; };
 		94AE445819E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */; };
+		94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */; };
 		94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */; };
 		94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6319BFBE75005071D5 /* DADishProfile.m */; };
 		94BC4F1919C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1819C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m */; };
@@ -325,6 +328,10 @@
 		943ECCF119EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewButtonsCollectionViewCell.h; sourceTree = "<group>"; };
 		943ECCF219EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewButtonsCollectionViewCell.m; sourceTree = "<group>"; };
 		943ECCF419EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAReviewButtonsCollectionViewCell.xib; sourceTree = "<group>"; };
+		943ECCF619EB19E9009516E8 /* DAEditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAEditProfileViewController.h; sourceTree = "<group>"; };
+		943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAEditProfileViewController.m; sourceTree = "<group>"; };
+		943ECCF919EB1AD5009516E8 /* DAUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUserManager.h; sourceTree = "<group>"; };
+		943ECCFA19EB1AD5009516E8 /* DAUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserManager.m; sourceTree = "<group>"; };
 		9443DEF419CFC7BE00F134BA /* DANewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DANewsTableViewCell.xib; sourceTree = "<group>"; };
 		9443DEF619CFCE9000F134BA /* Dished-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dished-Bridging-Header.h"; sourceTree = "<group>"; };
 		9443DEF919CFCEA900F134BA /* DANewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DANewsTableViewCell.swift; sourceTree = "<group>"; };
@@ -434,6 +441,8 @@
 		94AE445419E949520008C64F /* DAFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedItem.h; sourceTree = "<group>"; };
 		94AE445519E949520008C64F /* DAFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedItem.m; sourceTree = "<group>"; };
 		94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAReviewDetailCollectionViewCell.xib; sourceTree = "<group>"; };
+		94B43AAA19EB2BAF00482F52 /* DANotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANotificationSettingsViewController.h; sourceTree = "<group>"; };
+		94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANotificationSettingsViewController.m; sourceTree = "<group>"; };
 		94B92C5F19BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGlobalReviewCollectionViewCell.h; sourceTree = "<group>"; };
 		94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGlobalReviewCollectionViewCell.m; sourceTree = "<group>"; };
 		94B92C6219BFBE75005071D5 /* DADishProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishProfile.h; sourceTree = "<group>"; };
@@ -722,6 +731,10 @@
 				944D1E7919DB8786006F73BF /* DAFollowListViewController.m */,
 				9401F92C19E496360037812B /* DASettingsViewController.h */,
 				9401F92D19E496360037812B /* DASettingsViewController.m */,
+				94B43AAA19EB2BAF00482F52 /* DANotificationSettingsViewController.h */,
+				94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */,
+				943ECCF619EB19E9009516E8 /* DAEditProfileViewController.h */,
+				943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */,
 				94F2AD69198B2D5E00450C6F /* Login & Register */,
 				943320041995ED04000A8E2B /* Feed */,
 				94F2AD6B198B2D6E00450C6F /* Explore */,
@@ -1117,6 +1130,8 @@
 				945F95B019A7B90400241D0D /* DAFeedImportManager.m */,
 				9443DF0C19D2AC1D00F134BA /* DANewsManager.h */,
 				9443DF0D19D2AC1D00F134BA /* DANewsManager.m */,
+				943ECCF919EB1AD5009516E8 /* DAUserManager.h */,
+				943ECCFA19EB1AD5009516E8 /* DAUserManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -1507,6 +1522,7 @@
 				94CB03CD19B0EA94009010F6 /* SWLongPressGestureRecognizer.m in Sources */,
 				94CB03CF19B0EA94009010F6 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */,
+				943ECCF819EB19E9009516E8 /* DAEditProfileViewController.m in Sources */,
 				94E5EF711943F5530021A711 /* MRActivityIndicatorView.m in Sources */,
 				94942A221990AB5900095A70 /* DADish.m in Sources */,
 				947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */,
@@ -1559,6 +1575,7 @@
 				94E5EF781943F5530021A711 /* MRWeakProxy.m in Sources */,
 				94DCE9BC1980ABB100396C0A /* UIProgressView+AFNetworking.m in Sources */,
 				94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */,
+				943ECCFB19EB1AD5009516E8 /* DAUserManager.m in Sources */,
 				9443DEFE19D0224300F134BA /* DAReplaceSegue.swift in Sources */,
 				94F2AD9D198C539200450C6F /* SDWebImageCompat.m in Sources */,
 				944689A0195FFA6500FAE288 /* DAExploreViewController.m in Sources */,
@@ -1591,6 +1608,7 @@
 				94F2AD9A198C539200450C6F /* MKAnnotationView+WebCache.m in Sources */,
 				94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */,
 				94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */,
+				94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */,
 				942AA01419C23F3100D0D77C /* DADishLayer.m in Sources */,
 				94F2ADA5198C539200450C6F /* UIImage+MultiFormat.m in Sources */,
 				94F2ADA7198C539200450C6F /* UIImageView+HighlightedWebCache.m in Sources */,

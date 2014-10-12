@@ -28,6 +28,7 @@ NSString *const kFollowingSubtypeTwoUserYum           = @"tuty";
 
 NSString *const kHashtagsURL          = @"hashtags";
 NSString *const kDishSearchURL        = @"dishes/search";
+NSString *const kUserSettingsURL      = @"users/settings";
 NSString *const kEmailAvailabilityURL = @"users/availability/email";
 NSString *const kPhoneAvailabilityURL = @"users/availability/phone";
 
@@ -39,12 +40,17 @@ NSString *const kPriceKey        = @"price";
 NSString *const kGradeKey        = @"grade";
 NSString *const kEmailKey        = @"email";
 NSString *const kPhoneKey        = @"phone";
+NSString *const kPublicKey       = @"public";
+NSString *const kPushYumKey      = @"push_yum";
 NSString *const kDistanceKey     = @"distance";
 NSString *const kDishTypeKey     = @"dish_type";
 NSString *const kUsernameKey     = @"username";
 NSString *const kGoogleIDKey     = @"google_id";
+NSString *const kSavePhotoKey    = @"save_photo";
 NSString *const kLocationIDKey   = @"loc_id";
 NSString *const kHashtagTypeKey  = @"tag_type";
+NSString *const kPushReviewKey   = @"push_review";
+NSString *const kPushCommentKey  = @"push_comment";
 NSString *const kLocationNameKey = @"loc_name";
 
 NSString *const kErrorKey           = @"error";
@@ -52,5 +58,8 @@ NSString *const kEmailExistsError   = @"email_exists";
 NSString *const kPhoneExistsError   = @"phone_exists";
 NSString *const kDataNonexistsError = @"data_nonexists";
 
+NSString *const kAll              = @"all";
+NSString *const kNone             = @"none";
+NSString *const kFollow           = @"follow";
 NSString *const kPositiveHashtags = @"rev_p";
 NSString *const kNegativeHashtags = @"rev_n";

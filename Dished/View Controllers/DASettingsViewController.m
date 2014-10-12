@@ -7,9 +7,14 @@
 //
 
 #import "DASettingsViewController.h"
+#import "DAAPIManager.h"
+#import "DAUserManager.h"
+#import "DANotificationSettingsViewController.h"
 
 
 @interface DASettingsViewController() <UIActionSheetDelegate>
+
+@property (strong, nonatomic) NSURLSessionTask *profilePrivacyURLTask;
 
 @end
 
@@ -22,6 +27,21 @@
     
     self.tableView.rowHeight = 44.0;
     self.tableView.estimatedRowHeight = 44.0;
+    
+    [self populateSettings];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.tableView deselectRowAtIndexPath:[self.tableView indexPathForSelectedRow] animated:YES];
+}
+
+- (void)populateSettings
+{
+    self.privacySwitch.on    = [DAUserManager sharedManager].publicProfile;
+    self.dishPhotosSwitch.on = [DAUserManager sharedManager].savesDishPhoto;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -33,8 +53,7 @@
             break;
             
         case 1:
-            [self performSegueWithIdentifier:@"notifications" sender:[tableView cellForRowAtIndexPath:indexPath].textLabel.text];
-            //[self handleNotificationSectionSelectionForRow:indexPath.row];
+            [self handleNotificationSectionSelectionForRow:indexPath.row];
             break;
             
         case 4:
@@ -79,7 +98,16 @@
 
 - (void)handleNotificationSectionSelectionForRow:(NSInteger)row
 {
+    NSString *notificationType = nil;
     
+    switch( row )
+    {
+        case 0: notificationType = @"yum";     break;
+        case 1: notificationType = @"comment"; break;
+        case 2: notificationType = @"review";  break;
+    }
+    
+    [self performSegueWithIdentifier:@"notifications" sender:notificationType];
 }
 
 - (void)handleTermsSectionSelectionForRow:(NSInteger)row
@@ -91,14 +119,35 @@
 {
     if( [segue.identifier isEqualToString:@"notifications"] )
     {
-        UIViewController *dest = segue.destinationViewController;
-        dest.title = sender;
+        DANotificationSettingsViewController *dest = segue.destinationViewController;
+        dest.notificationType = sender;
     }
 }
 
 - (IBAction)changedProfilePrivacySetting
 {
+    [self.profilePrivacyURLTask cancel];
     
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kPublicKey : @(self.privacySwitch.on) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        self.profilePrivacyURLTask = [[DAAPIManager sharedManager] POST:kUserSettingsURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType != eErrorTypeRequestCancelled )
+            {
+                [self populateSettings];
+            }
+        }];
+    }];
 }
 
 - (IBAction)changedDishPhotosSetting

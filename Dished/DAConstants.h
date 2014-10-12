@@ -34,6 +34,7 @@ extern NSString *const kFollowingSubtypeTwoUserYum;
 
 extern NSString *const kHashtagsURL;
 extern NSString *const kDishSearchURL;
+extern NSString *const kUserSettingsURL;
 extern NSString *const kEmailAvailabilityURL;
 extern NSString *const kPhoneAvailabilityURL;
 
@@ -45,12 +46,17 @@ extern NSString *const kPriceKey;
 extern NSString *const kGradeKey;
 extern NSString *const kEmailKey;
 extern NSString *const kPhoneKey;
+extern NSString *const kPublicKey;
+extern NSString *const kPushYumKey;
 extern NSString *const kDistanceKey;
 extern NSString *const kDishTypeKey;
 extern NSString *const kUsernameKey;
 extern NSString *const kGoogleIDKey;
+extern NSString *const kSavePhotoKey;
 extern NSString *const kLocationIDKey;
 extern NSString *const kHashtagTypeKey;
+extern NSString *const kPushReviewKey;
+extern NSString *const kPushCommentKey;
 extern NSString *const kLocationNameKey;
 
 extern NSString *const kErrorKey;
@@ -58,5 +64,8 @@ extern NSString *const kEmailExistsError;
 extern NSString *const kPhoneExistsError;
 extern NSString *const kDataNonexistsError;
 
+extern NSString *const kAll;
+extern NSString *const kNone;
+extern NSString *const kFollow;
 extern NSString *const kPositiveHashtags;
 extern NSString *const kNegativeHashtags;
