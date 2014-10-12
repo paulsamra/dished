@@ -32,7 +32,7 @@
 @property (weak, nonatomic) IBOutlet UIButton    *locationButton;
 @property (weak, nonatomic) IBOutlet UIImageView *dishImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
-@property (weak, nonatomic) IBOutlet UIButton    *priceLabel;
+@property (weak, nonatomic) IBOutlet UILabel    *priceLabel;
 
 @property (weak, nonatomic) id<DAFeedCollectionViewCellDelegate> delegate;
 

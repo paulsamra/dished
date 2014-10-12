@@ -24,7 +24,7 @@
         _img               = nilOrJSONObjectForKey( data, @"img" );
         _name              = nilOrJSONObjectForKey( data, @"name" );
         _grade             = nilOrJSONObjectForKey( data, @"grade" );
-        _price             = nilOrJSONObjectForKey( data, @"price" );
+        _price             = nilOrJSONObjectForKey( data, kPriceKey );
         _comment           = nilOrJSONObjectForKey( data, @"comment" );
         _loc_name          = nilOrJSONObjectForKey( data, @"loc_name" );
         _creator_type      = nilOrJSONObjectForKey( data, @"creator_type" );

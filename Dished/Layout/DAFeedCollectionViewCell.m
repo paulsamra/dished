@@ -22,13 +22,6 @@
 {
     [super awakeFromNib];
     
-    self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
     self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
     self.userImageView.layer.masksToBounds = YES;
     self.userImageView.clipsToBounds = YES;
@@ -50,6 +43,19 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc ] initWithTarget:self action:@selector(userImageTapped)];
     tapGesture.numberOfTapsRequired = 1;
     [self.userImageView addGestureRecognizer:tapGesture];
+}
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    
+    self.userImageView.image = nil;
+    self.dishImageView.image = nil;
+    [self.titleButton    setTitle:nil forState:UIControlStateNormal];
+    [self.locationButton setTitle:nil forState:UIControlStateNormal];
+    [self.creatorButton  setTitle:nil forState:UIControlStateNormal];
+    self.priceLabel.text = nil;
+    self.timeLabel.text = nil;
 }
 
 - (void)dishImageDoubleTapped

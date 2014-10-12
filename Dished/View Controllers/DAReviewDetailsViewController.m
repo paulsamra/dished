@@ -176,10 +176,10 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [dishCell.creatorButton setTitle:usernameString   forState:UIControlStateNormal];
         [dishCell.titleButton   setTitle:self.review.name forState:UIControlStateNormal];
         
-        if( self.review.price )
+        if( [self.review.price floatValue] > 0 )
         {
             NSString *priceString = [NSString stringWithFormat:@"$%@", self.review.price];
-            [dishCell.priceLabel setTitle:priceString forState:UIControlStateNormal];
+            dishCell.priceLabel.text = priceString;
         }
         
         UIImage *locationIcon = [[UIImage imageNamed:@"dish_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
@@ -265,13 +265,14 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment
 {
-    NSString *usernameString = [NSString stringWithFormat:@" @%@", comment.creator_username];
+    NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
     NSDictionary *attributes = [DAReviewDetailCollectionViewCell linkedTextAttributes];
     NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
     NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
     
     if( comment.img_thumb && comment.img_thumb.length > 0 )
     {
+        [labelString insertAttributedString:[[NSAttributedString alloc] initWithString:@" "] atIndex:0];
         [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
         
         NSTextAttachment *avatarIcon = [[NSTextAttachment alloc] init];
