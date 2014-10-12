@@ -196,7 +196,7 @@
 
 - (void)configureForUserProfile
 {
-    self.navigationItem.title = self.userProfile.username;
+    self.navigationItem.title = [NSString stringWithFormat:@"@%@", self.userProfile.username];
     
     NSURL *url = [NSURL URLWithString:self.userProfile.img_thumb];
     [self.userImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"profile_image"]];
@@ -324,7 +324,7 @@
         cell.isExplore = NO;
         cell.gradeLabel.text = result.grade;
         [cell.locationButton setTitle:result.locationName forState:UIControlStateNormal];
-        cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.influencerReviews];
+        cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.numComments];
     }
     
     return cell;

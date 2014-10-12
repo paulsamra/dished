@@ -11,10 +11,19 @@
 
 @implementation DAReviewDetailCollectionViewCell
 
-- (void)layoutSubviews
++ (DAReviewDetailCollectionViewCell *)sizingCell
 {
-    [super layoutSubviews];
+    NSString *nibName = NSStringFromClass( [DAReviewDetailCollectionViewCell class] );
+    DAReviewDetailCollectionViewCell *sizeCell = [[[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil] lastObject];
+
+    return sizeCell;
+}
+
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
     
+    self.textView.textContainerInset = UIEdgeInsetsZero;
     self.detailTextView.textContainerInset = UIEdgeInsetsZero;
 }
 
@@ -23,6 +32,16 @@
     [super setBounds:bounds];
     
     self.contentView.frame = bounds;
+}
+
+- (void)prepareForReuse
+{
+    [super prepareForReuse];
+    
+    self.iconImageView.hidden = NO;
+    self.iconImageView.image = nil;
+    self.textView.text = nil;
+    self.textView.attributedText = nil;
 }
 
 + (NSDictionary *)textAttributes

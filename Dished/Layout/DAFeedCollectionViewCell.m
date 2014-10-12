@@ -34,18 +34,10 @@
     self.userImageView.clipsToBounds = YES;
     
     self.titleButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    self.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     
-    [self.commentsButton addTarget:self action:@selector(commentButtonTapped)  forControlEvents:UIControlEventTouchUpInside];
     [self.titleButton    addTarget:self action:@selector(titleButtonTapped)    forControlEvents:UIControlEventTouchUpInside];
-    [self.yumButton      addTarget:self action:@selector(yumButtonTapped)      forControlEvents:UIControlEventTouchUpInside];
     [self.locationButton addTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.creatorButton  addTarget:self action:@selector(creatorButtonTapped)  forControlEvents:UIControlEventTouchUpInside];
-    
-    self.commentsButton.layer.cornerRadius = 3;
-    self.yumButton.layer.cornerRadius = 3;
-    self.commentsButton.layer.masksToBounds = YES;
-    self.yumButton.layer.masksToBounds = YES;
     
     self.dishImageView.clipsToBounds = YES;
     
@@ -53,6 +45,11 @@
     UITapGestureRecognizer *doubleTapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dishImageDoubleTapped)];
     doubleTapGesture.numberOfTapsRequired = 2;
     [self.dishImageView addGestureRecognizer:doubleTapGesture];
+    
+    self.userImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc ] initWithTarget:self action:@selector(userImageTapped)];
+    tapGesture.numberOfTapsRequired = 1;
+    [self.userImageView addGestureRecognizer:tapGesture];
 }
 
 - (void)dishImageDoubleTapped
@@ -63,27 +60,11 @@
     }
 }
 
-- (void)commentButtonTapped
-{
-    if( [self.delegate respondsToSelector:@selector(commentButtonTappedOnFeedCollectionViewCell:)] )
-    {
-        [self.delegate commentButtonTappedOnFeedCollectionViewCell:self];
-    }
-}
-
 - (void)titleButtonTapped
 {
     if( [self.delegate respondsToSelector:@selector(titleButtonTappedOnFeedCollectionViewCell:)] )
     {
         [self.delegate titleButtonTappedOnFeedCollectionViewCell:self];
-    }
-}
-
-- (void)yumButtonTapped
-{
-    if( [self.delegate respondsToSelector:@selector(yumButtonTappedOnFeedCollectionViewCell:)] )
-    {
-        [self.delegate yumButtonTappedOnFeedCollectionViewCell:self];
     }
 }
 
@@ -100,6 +81,14 @@
     if( [self.delegate respondsToSelector:@selector(creatorButtonTappedOnFeedCollectionViewCell:)] )
     {
         [self.delegate creatorButtonTappedOnFeedCollectionViewCell:self];
+    }
+}
+
+- (void)userImageTapped
+{
+    if( [self.delegate respondsToSelector:@selector(userImageTappedOnFeedCollectionViewCell:)] )
+    {
+        [self.delegate userImageTappedOnFeedCollectionViewCell:self];
     }
 }
 

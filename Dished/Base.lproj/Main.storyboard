@@ -630,90 +630,6 @@
                                             <outlet property="userImageView" destination="60u-03-UTG" id="M7x-Q0-h9X"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="commentCell" id="NTm-Xx-Cbd" customClass="DAReviewDetailCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="64" width="320" height="425"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="50"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="comments_icon" translatesAutoresizingMaskIntoConstraints="NO" id="fE8-RI-5UF">
-                                                    <rect key="frame" x="9" y="4" width="12" height="11"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="12" id="A66-yd-v2k"/>
-                                                        <constraint firstAttribute="height" constant="11" id="xAp-6P-uoF"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="comment" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VtQ-qb-xnq">
-                                                    <rect key="frame" x="23" y="0.0" width="562" height="50"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="fE8-RI-5UF" firstAttribute="top" secondItem="NTm-Xx-Cbd" secondAttribute="top" constant="4" id="6RO-ZJ-LzF"/>
-                                            <constraint firstAttribute="bottom" secondItem="VtQ-qb-xnq" secondAttribute="bottom" id="HUp-6o-QCk"/>
-                                            <constraint firstItem="fE8-RI-5UF" firstAttribute="leading" secondItem="NTm-Xx-Cbd" secondAttribute="leading" constant="9" id="J1T-s3-CzJ"/>
-                                            <constraint firstAttribute="trailing" secondItem="VtQ-qb-xnq" secondAttribute="trailing" constant="15" id="Thy-bS-yDA"/>
-                                            <constraint firstItem="VtQ-qb-xnq" firstAttribute="leading" secondItem="fE8-RI-5UF" secondAttribute="trailing" constant="2" id="TpL-Ao-gfQ"/>
-                                            <constraint firstItem="VtQ-qb-xnq" firstAttribute="top" secondItem="NTm-Xx-Cbd" secondAttribute="top" id="mlB-G1-C1u"/>
-                                        </constraints>
-                                        <size key="customSize" width="600" height="50"/>
-                                        <connections>
-                                            <outlet property="detailTextView" destination="VtQ-qb-xnq" id="Khx-Mq-XJ8"/>
-                                            <outlet property="imageView" destination="fE8-RI-5UF" id="8nd-CY-DIk"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="buttonCell" id="mQx-ql-Saj" customClass="DAFeedCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="64" width="320" height="425"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="600" height="70"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lbO-9f-Erh">
-                                                    <rect key="frame" x="6" y="5" width="61" height="26"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="26" id="YP8-uA-UDf"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <inset key="contentEdgeInsets" minX="-2" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    <inset key="titleEdgeInsets" minX="7" minY="2" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="YUM" image="yum_button_icon" backgroundImage="yum_button_background">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="yCM-im-AZB">
-                                                    <rect key="frame" x="72" y="5" width="107" height="26"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="107" id="Utx-O4-eey"/>
-                                                        <constraint firstAttribute="height" constant="26" id="oBL-nt-yTl"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
-                                                    <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="5" maxY="0.0"/>
-                                                    <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="7 Comments" image="comments_button_icon" backgroundImage="comments_button_background">
-                                                        <color key="titleColor" red="0.39215686274509803" green="0.40784313725490196" blue="0.46274509803921571" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="yCM-im-AZB" firstAttribute="top" secondItem="mQx-ql-Saj" secondAttribute="top" constant="5" id="Hgq-iq-lBj"/>
-                                            <constraint firstItem="lbO-9f-Erh" firstAttribute="top" secondItem="mQx-ql-Saj" secondAttribute="top" constant="5" id="Z56-PF-9xs"/>
-                                            <constraint firstItem="lbO-9f-Erh" firstAttribute="leading" secondItem="mQx-ql-Saj" secondAttribute="leading" constant="6" id="bdx-It-ofW"/>
-                                            <constraint firstItem="yCM-im-AZB" firstAttribute="leading" secondItem="lbO-9f-Erh" secondAttribute="trailing" constant="5" id="ohv-Ju-KZC"/>
-                                        </constraints>
-                                        <size key="customSize" width="600" height="70"/>
-                                        <connections>
-                                            <outlet property="commentsButton" destination="yCM-im-AZB" id="aXB-JR-Prk"/>
-                                            <outlet property="yumButton" destination="lbO-9f-Erh" id="7fD-be-tuK"/>
-                                        </connections>
-                                    </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionHeaderView" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="titleHeader" id="vzk-gu-ZJW" customClass="DAFeedHeaderCollectionReusableView">
                                     <rect key="frame" x="0.0" y="64" width="600" height="40"/>
@@ -744,7 +660,7 @@
                                             </constraints>
                                         </view>
                                     </subviews>
-                                    <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="backgroundColor" red="0.97254901960784312" green="0.97254901960784312" blue="0.97254901960784312" alpha="0.95000000000000007" colorSpace="calibratedRGB"/>
                                     <constraints>
                                         <constraint firstItem="xJg-Es-uup" firstAttribute="leading" secondItem="vzk-gu-ZJW" secondAttribute="leading" constant="10" id="4zS-Qt-bCX"/>
                                         <constraint firstItem="CXj-Wn-Ray" firstAttribute="top" secondItem="vzk-gu-ZJW" secondAttribute="top" id="P8a-oH-tbW"/>
@@ -796,6 +712,7 @@
                         <outlet property="collectionView" destination="ZsI-AF-9cR" id="umg-Yf-vCs"/>
                         <segue destination="P8x-Vf-lZp" kind="show" identifier="commentsSegue" id="bNY-2x-UqY"/>
                         <segue destination="gSo-WE-Bx1" kind="show" identifier="reviewDetails" id="Pvw-SR-10w"/>
+                        <segue destination="vVU-kX-jzI" kind="show" identifier="globalDish" id="GvD-hA-tHw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rf5-pm-q8l" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3529,7 +3446,7 @@
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="20" id="S86-yw-Zod"/>
                                                             </constraints>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                             <state key="normal" title="Button">
                                                                 <color key="titleColor" red="0.0" green="0.61568627450000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -3537,7 +3454,7 @@
                                                         </button>
                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZVd-uA-8Q9">
                                                             <rect key="frame" x="54" y="25" width="200" height="20"/>
-                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                                                             <state key="normal" title="Button">
                                                                 <color key="titleColor" red="0.0" green="0.61568627450000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -3619,158 +3536,6 @@
                                             <outlet property="userImageView" destination="JiP-yq-sbD" id="7Ok-GR-QSP"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="yums" id="iKe-SN-8X6" customClass="DAReviewDetailCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="449" width="320" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="yum_icon" translatesAutoresizingMaskIntoConstraints="NO" id="ohc-Wh-yYJ">
-                                                    <rect key="frame" x="7" y="2" width="12" height="11"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="11" id="HRr-0x-Pvc"/>
-                                                        <constraint firstAttribute="width" constant="12" id="N5B-qj-ITF"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="@username" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SGb-9J-AhH">
-                                                    <rect key="frame" x="26" y="0.0" width="282" height="50"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="ohc-Wh-yYJ" firstAttribute="leading" secondItem="iKe-SN-8X6" secondAttribute="leading" constant="7" id="CEK-bn-3Af"/>
-                                            <constraint firstAttribute="trailing" secondItem="SGb-9J-AhH" secondAttribute="trailing" constant="12" id="KHR-Yo-bWG"/>
-                                            <constraint firstItem="SGb-9J-AhH" firstAttribute="top" secondItem="iKe-SN-8X6" secondAttribute="top" id="MSV-qP-A41"/>
-                                            <constraint firstItem="SGb-9J-AhH" firstAttribute="leading" secondItem="ohc-Wh-yYJ" secondAttribute="trailing" constant="7" id="SA3-Vz-QqY"/>
-                                            <constraint firstAttribute="bottom" secondItem="SGb-9J-AhH" secondAttribute="bottom" id="Ui6-LW-TWm"/>
-                                            <constraint firstItem="ohc-Wh-yYJ" firstAttribute="top" secondItem="iKe-SN-8X6" secondAttribute="top" constant="2" id="uLi-nQ-Wgi"/>
-                                        </constraints>
-                                        <size key="customSize" width="320" height="50"/>
-                                        <connections>
-                                            <outlet property="detailTextView" destination="SGb-9J-AhH" id="acf-kz-lbs"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="tags" id="8N7-Iz-WkJ" customClass="DAReviewDetailCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="491" width="320" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="hashtag_icon" translatesAutoresizingMaskIntoConstraints="NO" id="6rY-Up-zm7">
-                                                    <rect key="frame" x="7" y="2" width="13" height="13"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="13" id="UWF-2t-bQr"/>
-                                                        <constraint firstAttribute="width" constant="13" id="yO0-ma-xEd"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="#Hashtags" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lxS-mu-hvT">
-                                                    <rect key="frame" x="26" y="0.0" width="282" height="50"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="6rY-Up-zm7" firstAttribute="leading" secondItem="8N7-Iz-WkJ" secondAttribute="leading" constant="7" id="F8Q-Hp-3OH"/>
-                                            <constraint firstAttribute="trailing" secondItem="lxS-mu-hvT" secondAttribute="trailing" constant="12" id="Khn-uH-4hS"/>
-                                            <constraint firstItem="6rY-Up-zm7" firstAttribute="top" secondItem="8N7-Iz-WkJ" secondAttribute="top" constant="2" id="cb0-kZ-FS4"/>
-                                            <constraint firstItem="lxS-mu-hvT" firstAttribute="top" secondItem="8N7-Iz-WkJ" secondAttribute="top" id="k8I-YQ-v3N"/>
-                                            <constraint firstItem="lxS-mu-hvT" firstAttribute="leading" secondItem="6rY-Up-zm7" secondAttribute="trailing" constant="6" id="r6R-5e-VME"/>
-                                            <constraint firstAttribute="bottom" secondItem="lxS-mu-hvT" secondAttribute="bottom" id="vRG-og-Vpx"/>
-                                        </constraints>
-                                        <size key="customSize" width="320" height="50"/>
-                                        <connections>
-                                            <outlet property="detailTextView" destination="lxS-mu-hvT" id="UAC-KX-lWk"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="comment" id="a9d-wj-hUg" customClass="DAReviewDetailCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="533" width="320" height="32"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="Comment" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s9D-oV-V06">
-                                                    <rect key="frame" x="27" y="0.0" width="282" height="50"/>
-                                                    <color key="backgroundColor" red="0.80000000000000004" green="0.80000000000000004" blue="0.82745098039215681" alpha="0.0" colorSpace="calibratedRGB"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="comments_icon" translatesAutoresizingMaskIntoConstraints="NO" id="uEl-9g-pUn">
-                                                    <rect key="frame" x="7" y="2" width="14" height="12"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="12" id="FtC-1t-bBb"/>
-                                                        <constraint firstAttribute="width" constant="14" id="qGH-Lc-AKb"/>
-                                                    </constraints>
-                                                </imageView>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="s9D-oV-V06" firstAttribute="top" secondItem="a9d-wj-hUg" secondAttribute="top" id="9PY-KG-2jX"/>
-                                            <constraint firstItem="uEl-9g-pUn" firstAttribute="leading" secondItem="a9d-wj-hUg" secondAttribute="leading" constant="7" id="TdT-sr-MT5"/>
-                                            <constraint firstItem="uEl-9g-pUn" firstAttribute="top" secondItem="a9d-wj-hUg" secondAttribute="top" constant="2" id="gx9-PA-A4M"/>
-                                            <constraint firstItem="s9D-oV-V06" firstAttribute="leading" secondItem="uEl-9g-pUn" secondAttribute="trailing" constant="6" id="iL1-fF-6tm"/>
-                                            <constraint firstAttribute="trailing" secondItem="s9D-oV-V06" secondAttribute="trailing" constant="11" id="pVd-Cg-pbK"/>
-                                            <constraint firstAttribute="bottom" secondItem="s9D-oV-V06" secondAttribute="bottom" id="zn7-q3-uoZ"/>
-                                        </constraints>
-                                        <size key="customSize" width="320" height="50"/>
-                                        <connections>
-                                            <outlet property="detailTextView" destination="s9D-oV-V06" id="sFh-9P-WqS"/>
-                                            <outlet property="imageView" destination="uEl-9g-pUn" id="aqt-5W-SG6"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="footer" id="DcN-JX-ot2" customClass="DAFeedCollectionViewCell">
-                                        <rect key="frame" x="0.0" y="575" width="320" height="45"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="45"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bff-v9-HC2">
-                                                    <rect key="frame" x="72" y="10" width="107" height="26"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
-                                                    <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="5" maxY="0.0"/>
-                                                    <inset key="titleEdgeInsets" minX="5" minY="1" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="7 Comments" image="comments_button_icon" backgroundImage="comments_button_background">
-                                                        <color key="titleColor" red="0.3921568627" green="0.40784313729999999" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                </button>
-                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MEk-pr-4xo">
-                                                    <rect key="frame" x="6" y="10" width="61" height="26"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="61" id="7Qu-07-Ijw"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                    <inset key="contentEdgeInsets" minX="-2" minY="1" maxX="0.0" maxY="0.0"/>
-                                                    <inset key="titleEdgeInsets" minX="6" minY="2" maxX="0.0" maxY="0.0"/>
-                                                    <state key="normal" title="YUM" image="yum_button_icon" backgroundImage="yum_button_background">
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                </button>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="MEk-pr-4xo" firstAttribute="top" secondItem="DcN-JX-ot2" secondAttribute="top" constant="10" id="407-yn-MGu"/>
-                                            <constraint firstItem="Bff-v9-HC2" firstAttribute="top" secondItem="DcN-JX-ot2" secondAttribute="top" constant="10" id="KaY-fs-NKc"/>
-                                            <constraint firstAttribute="bottom" secondItem="MEk-pr-4xo" secondAttribute="bottom" constant="9" id="Uf6-Sd-0Xt"/>
-                                            <constraint firstItem="MEk-pr-4xo" firstAttribute="leading" secondItem="DcN-JX-ot2" secondAttribute="leading" constant="6" id="fD2-Ya-Tiy"/>
-                                            <constraint firstItem="Bff-v9-HC2" firstAttribute="leading" secondItem="MEk-pr-4xo" secondAttribute="trailing" constant="5" id="qSx-4A-fP1"/>
-                                        </constraints>
-                                        <size key="customSize" width="320" height="45"/>
-                                        <connections>
-                                            <outlet property="commentsButton" destination="Bff-v9-HC2" id="gBr-ll-tYx"/>
-                                            <outlet property="yumButton" destination="MEk-pr-4xo" id="5A4-Fg-urm"/>
-                                        </connections>
-                                    </collectionViewCell>
                                 </cells>
                                 <connections>
                                     <outlet property="dataSource" destination="gSo-WE-Bx1" id="xbo-JL-EYR"/>
@@ -3792,7 +3557,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="Pj1-MA-v2t" id="A9A-W0-Hyj"/>
-                        <segue destination="vVU-kX-jzI" kind="show" identifier="globalReview" id="Ybk-es-BQ9"/>
+                        <segue destination="vVU-kX-jzI" kind="show" identifier="globalDish" id="Ybk-es-BQ9"/>
                         <segue destination="P8x-Vf-lZp" kind="show" identifier="commentsSegue" id="hdo-Ap-R3q"/>
                     </connections>
                 </viewController>
@@ -4268,9 +4033,6 @@
         <image name="camera_source" width="44" height="22"/>
         <image name="change_location" width="14" height="14"/>
         <image name="cocktail_dish_blue" width="16" height="16"/>
-        <image name="comments_button_background" width="107" height="26"/>
-        <image name="comments_button_icon" width="15" height="11"/>
-        <image name="comments_icon" width="14" height="12"/>
         <image name="current_location" width="15" height="15"/>
         <image name="disclosure_indicator" width="8" height="12"/>
         <image name="dish_location" width="10" height="15"/>
@@ -4281,7 +4043,6 @@
         <image name="feed_tab" width="30" height="24"/>
         <image name="food_dish_blue" width="17" height="18"/>
         <image name="gray_dot" width="6" height="6"/>
-        <image name="hashtag_icon" width="13" height="13"/>
         <image name="location_pin" width="8" height="12"/>
         <image name="login" width="320" height="54"/>
         <image name="login_background" width="320" height="568"/>
@@ -4305,17 +4066,14 @@
         <image name="twitter" width="22" height="22"/>
         <image name="username" width="320" height="44"/>
         <image name="wine_dish_blue" width="11" height="18"/>
-        <image name="yum_button_background" width="61" height="26"/>
-        <image name="yum_button_icon" width="14" height="13"/>
-        <image name="yum_icon" width="12" height="11"/>
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="DWl-1Z-W5u"/>
-        <segue reference="Pvw-SR-10w"/>
         <segue reference="bNY-2x-UqY"/>
-        <segue reference="Ybk-es-BQ9"/>
-        <segue reference="wCN-0l-elF"/>
+        <segue reference="Pvw-SR-10w"/>
+        <segue reference="GvD-hA-tHw"/>
         <segue reference="52f-zN-P3a"/>
+        <segue reference="wCN-0l-elF"/>
     </inferredMetricsTieBreakers>
 </document>

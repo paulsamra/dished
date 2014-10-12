@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment defaultVersion="1792" identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="wzj-yW-lvD" customClass="DAReviewButtonsCollectionViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="65"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DJR-tZ-Zw3">
+                        <rect key="frame" x="6" y="5" width="61" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="61" id="Jsj-3D-eZh"/>
+                            <constraint firstAttribute="height" constant="26" id="Nrx-tg-yuT"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                        <inset key="contentEdgeInsets" minX="-2" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <inset key="titleEdgeInsets" minX="7" minY="2" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="YUM" image="yum_button_icon" backgroundImage="yum_button_background">
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HkH-cB-LWt">
+                        <rect key="frame" x="72" y="5" width="107" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="26" id="3Ky-6r-wEy"/>
+                            <constraint firstAttribute="width" constant="107" id="hoL-EF-lM0"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="13"/>
+                        <inset key="contentEdgeInsets" minX="6" minY="0.0" maxX="5" maxY="0.0"/>
+                        <inset key="titleEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        <state key="normal" title="7 Comments" image="comments_button_icon" backgroundImage="comments_button_background">
+                            <color key="titleColor" red="0.3921568627" green="0.40784313729999999" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eg1-Id-OLO">
+                        <rect key="frame" x="224" y="5" width="90" height="26"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="90" id="cmA-IZ-vFR"/>
+                            <constraint firstAttribute="height" constant="26" id="iii-hu-K6E"/>
+                        </constraints>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="12"/>
+                        <state key="normal" title="More Reviews" backgroundImage="comments_button_background">
+                            <color key="titleColor" red="0.3921568627" green="0.40784313729999999" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        </state>
+                    </button>
+                </subviews>
+                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+            </view>
+            <constraints>
+                <constraint firstItem="HkH-cB-LWt" firstAttribute="leading" secondItem="DJR-tZ-Zw3" secondAttribute="trailing" constant="5" id="2L6-0p-483"/>
+                <constraint firstAttribute="trailing" secondItem="eg1-Id-OLO" secondAttribute="trailing" constant="6" id="Fbb-rr-hAm"/>
+                <constraint firstItem="eg1-Id-OLO" firstAttribute="top" secondItem="wzj-yW-lvD" secondAttribute="top" constant="5" id="NlN-py-hT1"/>
+                <constraint firstItem="DJR-tZ-Zw3" firstAttribute="top" secondItem="wzj-yW-lvD" secondAttribute="top" constant="5" id="Nqo-IV-h0h"/>
+                <constraint firstItem="HkH-cB-LWt" firstAttribute="top" secondItem="wzj-yW-lvD" secondAttribute="top" constant="5" id="gme-Ww-Y7g"/>
+                <constraint firstItem="DJR-tZ-Zw3" firstAttribute="leading" secondItem="wzj-yW-lvD" secondAttribute="leading" constant="6" id="iIT-II-c4F"/>
+            </constraints>
+            <connections>
+                <outlet property="commentsButton" destination="HkH-cB-LWt" id="Kxh-d2-K5l"/>
+                <outlet property="moreReviewsButton" destination="eg1-Id-OLO" id="H3h-GK-xNh"/>
+                <outlet property="yumButton" destination="DJR-tZ-Zw3" id="Nz1-3x-VJC"/>
+            </connections>
+            <point key="canvasLocation" x="448" y="300"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="comments_button_background" width="107" height="26"/>
+        <image name="comments_button_icon" width="15" height="11"/>
+        <image name="yum_button_background" width="61" height="26"/>
+        <image name="yum_button_icon" width="14" height="13"/>
+    </resources>
+</document>

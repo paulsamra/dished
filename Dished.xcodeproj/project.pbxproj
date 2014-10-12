@@ -61,6 +61,8 @@
 		943E62641987362100DF2135 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E62571987362100DF2135 /* STHTTPRequest.m */; };
 		943E62671987705B00DF2135 /* DATwitterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E62661987705B00DF2135 /* DATwitterManager.m */; };
 		943E6274198984FE00DF2135 /* DAExploreCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */; };
+		943ECCF319EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCF219EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.m */; };
+		943ECCF519EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943ECCF419EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib */; };
 		9443DEF519CFC7BE00F134BA /* DANewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DEF419CFC7BE00F134BA /* DANewsTableViewCell.xib */; };
 		9443DEFA19CFCEA900F134BA /* DANewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEF919CFCEA900F134BA /* DANewsTableViewCell.swift */; };
 		9443DEFC19D020F500F134BA /* DATouchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFB19D020F500F134BA /* DATouchTableView.swift */; };
@@ -320,6 +322,9 @@
 		943E62661987705B00DF2135 /* DATwitterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATwitterManager.m; sourceTree = "<group>"; };
 		943E6272198984FE00DF2135 /* DAExploreCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreCollectionViewCell.h; sourceTree = "<group>"; };
 		943E6273198984FE00DF2135 /* DAExploreCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreCollectionViewCell.m; sourceTree = "<group>"; };
+		943ECCF119EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewButtonsCollectionViewCell.h; sourceTree = "<group>"; };
+		943ECCF219EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewButtonsCollectionViewCell.m; sourceTree = "<group>"; };
+		943ECCF419EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAReviewButtonsCollectionViewCell.xib; sourceTree = "<group>"; };
 		9443DEF419CFC7BE00F134BA /* DANewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DANewsTableViewCell.xib; sourceTree = "<group>"; };
 		9443DEF619CFCE9000F134BA /* Dished-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dished-Bridging-Header.h"; sourceTree = "<group>"; };
 		9443DEF919CFCEA900F134BA /* DANewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DANewsTableViewCell.swift; sourceTree = "<group>"; };
@@ -785,6 +790,28 @@
 			path = Vendor;
 			sourceTree = "<group>";
 		};
+		943ECCEE19EA2507009516E8 /* Comments */ = {
+			isa = PBXGroup;
+			children = (
+				9443DF0319D0295E00F134BA /* DACommentTableViewCell.swift */,
+				9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */,
+			);
+			name = Comments;
+			sourceTree = "<group>";
+		};
+		943ECCF019EA2E84009516E8 /* Reviews */ = {
+			isa = PBXGroup;
+			children = (
+				D112F41319BE00550059300F /* DAReviewDetailCollectionViewCell.h */,
+				D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */,
+				94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */,
+				943ECCF119EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.h */,
+				943ECCF219EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.m */,
+				943ECCF419EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib */,
+			);
+			name = Reviews;
+			sourceTree = "<group>";
+		};
 		9443DEF319CFC7A400F134BA /* News */ = {
 			isa = PBXGroup;
 			children = (
@@ -870,6 +897,8 @@
 		945E312419C7CE5E00C8AA52 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				945A3B5F19A52B4A000D76E3 /* DAFeedCollectionViewCell.h */,
+				945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */,
 				94BC4F1719C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.h */,
 				94BC4F1819C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m */,
 				945E312119C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.h */,
@@ -1299,6 +1328,8 @@
 		94FE15E119411F3000FE00EA /* Layout */ = {
 			isa = PBXGroup;
 			children = (
+				943ECCF019EA2E84009516E8 /* Reviews */,
+				943ECCEE19EA2507009516E8 /* Comments */,
 				9443DEF319CFC7A400F134BA /* News */,
 				94FD7B5419C83CCE008D60CA /* Add Review */,
 				94FD7B5319C83C93008D60CA /* Global Dish Details */,
@@ -1315,19 +1346,12 @@
 				D13DB8F31988B221008C86BB /* DADishTableViewCell.h */,
 				D13DB8F41988B221008C86BB /* DADishTableViewCell.m */,
 				94F2AD76198C454600450C6F /* DADishTableViewCell.xib */,
-				945A3B5F19A52B4A000D76E3 /* DAFeedCollectionViewCell.h */,
-				945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */,
 				942AA01219C23F3100D0D77C /* DADishLayer.h */,
 				942AA01319C23F3100D0D77C /* DADishLayer.m */,
 				94EA2D5519AA820B00ABE3B7 /* DARefreshControl.h */,
 				94EA2D5619AA820B00ABE3B7 /* DARefreshControl.m */,
 				942AA01519C23F8D00D0D77C /* DAProgressView.h */,
 				942AA01619C23F8D00D0D77C /* DAProgressView.m */,
-				9443DF0319D0295E00F134BA /* DACommentTableViewCell.swift */,
-				9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */,
-				D112F41319BE00550059300F /* DAReviewDetailCollectionViewCell.h */,
-				D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */,
-				94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */,
 				944D1E7419DB8514006F73BF /* DAFollowListTableViewCell.swift */,
 				944D1E7619DB853A006F73BF /* DAFollowListTableViewCell.xib */,
 			);
@@ -1402,6 +1426,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */,
+				943ECCF519EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib in Resources */,
 				94449EFF1949A3B2008B8881 /* iTunesArtwork.png in Resources */,
 				9443DF0219D026DE00F134BA /* DACommentTableViewCell.xib in Resources */,
 				94F2AD77198C454600450C6F /* DADishTableViewCell.xib in Resources */,
@@ -1543,6 +1568,7 @@
 				94E5EF471943472D0021A711 /* AFURLConnectionOperation.m in Sources */,
 				94CB03B019AFD334009010F6 /* DAComment.m in Sources */,
 				94DCE9BE1980ABB100396C0A /* UIWebView+AFNetworking.m in Sources */,
+				943ECCF319EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.m in Sources */,
 				94E5EF431943472D0021A711 /* AFHTTPRequestOperationManager.m in Sources */,
 				9489F65119CA295600BEF540 /* DAMoreViewController.m in Sources */,
 				947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */,

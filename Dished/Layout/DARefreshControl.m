@@ -173,6 +173,41 @@
     [self.maskLayer addAnimation:repeatAnimation forKey:@"repeat"];
 }
 
+- (void)startRefreshing
+{
+    UIScrollView *containingScrollView = [self containingScrollView];
+    
+    self.isRefreshing = YES;
+    [self setLoadingScrollViewInsets:containingScrollView];
+
+    CGPoint contentOffset = containingScrollView.contentOffset;
+    contentOffset.y -= self.frame.size.height;
+    [containingScrollView setContentOffset:contentOffset animated:YES];
+    
+    [self startAnimation];
+}
+
+- (UIScrollView *)containingScrollView
+{
+    UIScrollView *scrollView = nil;
+    
+    if( self.scrollView )
+    {
+        scrollView = self.scrollView;
+    }
+    else
+    {
+        UIView *superView = [self superview];
+        
+        if( [superView isKindOfClass:[UIScrollView class]] )
+        {
+            scrollView = (UIScrollView *)superView;
+        }
+    }
+    
+    return scrollView;
+}
+
 - (void)endRefreshing
 {
     if( !self.isRefreshing )
@@ -183,20 +218,7 @@
     [self.maskLayer removeAllAnimations];
     self.maskLayer.frame = CGRectMake( 0, 0, 0, self.blueDishLayer.frame.size.height );
     self.isRefreshing = NO;
-    
-    if( self.scrollView )
-    {
-        [self resetScrollViewInsets:self.scrollView];
-    }
-    else
-    {
-        UIView *superView = [self superview];
-        
-        if( [superView isKindOfClass:[UIScrollView class]] )
-        {
-            [self resetScrollViewInsets:(UIScrollView *)superView];
-        }
-    }
+    [self resetScrollViewInsets:[self containingScrollView]];
 }
 
 - (BOOL)isRefreshing

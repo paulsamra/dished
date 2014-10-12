@@ -79,8 +79,10 @@
             
             CGPoint origin = frameWithEdgeInsets.origin;
             
+            CGFloat statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
             CGFloat navigationBarOffset  = 0;
             CGFloat refreshControlOffset = 0;
+            CGFloat refreshControlHiddenOffset = 0;
             
             if( self.navigationBar )
             {
@@ -92,13 +94,18 @@
             {
                 CGRect refreshControlFrame = self.refreshControl.frame;
                 refreshControlOffset = refreshControlFrame.size.height;
+                
+                if( contentOffset.y > -[[UIApplication sharedApplication] statusBarFrame].size.height )
+                {
+                    refreshControlHiddenOffset = statusBarHeight * 2;
+                }
             }
             
-            origin.y = MIN( MAX( contentOffset.y + navigationBarOffset - refreshControlOffset,
+            origin.y = MIN( MAX( contentOffset.y + navigationBarOffset - refreshControlOffset + refreshControlHiddenOffset,
                                ( CGRectGetMinY(firstObjectAttrs.frame) - topHeaderHeight) ),
                                ( CGRectGetMaxY(lastObjectAttrs.frame) - bottomHeaderHeight ) );
-            
-            layoutAttributes.transform3D = CATransform3DMakeTranslation( 0 ,0 ,2000 );
+                        
+            layoutAttributes.transform3D = CATransform3DMakeTranslation( 0, 0, 1 );
             
             layoutAttributes.frame = (CGRect)
             {

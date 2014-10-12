@@ -8,18 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
-@class DAFeedCollectionViewCell;
 
+@class DAFeedCollectionViewCell;
 
 @protocol DAFeedCollectionViewCellDelegate <NSObject>
 
 @optional
-- (void)commentButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 - (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
-- (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 - (void)locationButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 - (void)creatorButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
+- (void)userImageTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 
 @end
 
@@ -31,8 +30,6 @@
 @property (weak, nonatomic) IBOutlet UIButton    *titleButton;
 @property (weak, nonatomic) IBOutlet UIButton    *creatorButton;
 @property (weak, nonatomic) IBOutlet UIButton    *locationButton;
-@property (weak, nonatomic) IBOutlet UIButton    *commentsButton;
-@property (weak, nonatomic) IBOutlet UIButton    *yumButton;
 @property (weak, nonatomic) IBOutlet UIImageView *dishImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
 @property (weak, nonatomic) IBOutlet UIButton    *priceLabel;

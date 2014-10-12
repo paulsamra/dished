@@ -10,7 +10,6 @@
 #import "DAFeedCollectionViewCell.h"
 #import "DAFeedItem+Utility.h"
 #import "DAAPIManager.h"
-#import "DACoreDataManager.h"
 #import "DAFeedImportManager.h"
 #import "DARefreshControl.h"
 #import "DAUserProfileViewController.h"
@@ -22,9 +21,13 @@
 #import "NSAttributedString+Dished.h"
 #import "DAFeedHeaderCollectionReusableView.h"
 #import "DAReviewDetailCollectionViewCell.h"
+#import "DAReviewButtonsCollectionViewCell.h"
+
+static NSString *const kReviewDetailCellIdentifier  = @"reviewDetailCell";
+static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 
-@interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate>
+@interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate, DAReviewButtonsCollectionViewCellDelegate>
 
 @property (strong, nonatomic) NSCache                          *mainImageCache;
 @property (strong, nonatomic) UIImageView                      *yumTapImageView;
@@ -34,6 +37,7 @@
 @property (strong, nonatomic) DAFeedImportManager              *importer;
 @property (strong, nonatomic) NSFetchedResultsController       *fetchedResultsController;
 
+@property (nonatomic) BOOL    initialLoadActive;
 @property (nonatomic) BOOL    hasMoreData;
 @property (nonatomic) BOOL    isLoadingMore;
 @property (nonatomic) CGFloat previousScrollViewYOffset;
@@ -47,6 +51,7 @@
 {	
     [super viewDidLoad];
     
+    [self registerCollectionViewCellNibs];
     [self setupRefreshControl];
     
     DAFeedCollectionViewFlowLayout *flowLayout = (DAFeedCollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
@@ -73,16 +78,29 @@
         self.collectionView.hidden = NO;
     }
     
+    self.initialLoadActive = YES;
     [self.importer importFeedItemsWithLimit:10 offset:0 completion:^( BOOL success, BOOL hasMoreData )
     {
         self.hasMoreData = hasMoreData;
+        self.initialLoadActive = NO;
+        [self.refreshControl endRefreshing];
         
         if( success )
         {
             self.collectionView.hidden = NO;
             [spinner stopAnimating];
         }
-    }];    
+    }];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    if( self.initialLoadActive )
+    {
+        [self.refreshControl startRefreshing];
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -92,6 +110,15 @@
     self.isLoadingMore = NO;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
+}
+
+- (void)registerCollectionViewCellNibs
+{
+    UINib *reviewDetailCellNib = [UINib nibWithNibName:NSStringFromClass( [DAReviewDetailCollectionViewCell class] ) bundle:[NSBundle mainBundle]];
+    [self.collectionView registerNib:reviewDetailCellNib forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
+    
+    UINib *reviewButtonsCellNib = [UINib nibWithNibName:NSStringFromClass( [DAReviewButtonsCollectionViewCell class] ) bundle:[NSBundle mainBundle]];
+    [self.collectionView registerNib:reviewButtonsCellNib forCellWithReuseIdentifier:kReviewButtonsCellIdentifier];
 }
 
 - (void)setupRefreshControl
@@ -146,7 +173,7 @@
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    return numberOfObjects + [feedItem.comments count] + 1;
+    return numberOfObjects + [feedItem.comments count] + ( [feedItem.num_yums integerValue] > 0 ? 2 : 1 );
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -163,6 +190,9 @@
 {
     UICollectionViewCell *cell = nil;
     NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
+    NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+    NSInteger num_yums = [feedItem.num_yums integerValue];
     
     if( indexPath.row == 0 )
     {
@@ -173,24 +203,34 @@
         
         cell = feedCell;
     }
-    else if( indexPath.row > 0 && indexPath.row < sectionItems - 1 )
+    else if( num_yums > 0 && indexPath.row == 1 )
     {
-        DAReviewDetailCollectionViewCell *commentCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"commentCell" forIndexPath:indexPath];
+        DAReviewDetailCollectionViewCell *yumCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
         
-        NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-        DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+        yumCell.iconImageView.image = [UIImage imageNamed:@"yum_icon"];
         
+        NSString *yumsString = [NSString stringWithFormat:@"%d YUMs", (int)[feedItem.num_yums integerValue]];
+        yumCell.textView.attributedText = [[NSAttributedString alloc] initWithString:yumsString attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
+        
+        cell = yumCell;
+    }
+    else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
+    {
+        DAReviewDetailCollectionViewCell *commentCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
+
         NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
-        DAFeedComment *comment = comments[indexPath.row - 1];
+        DAFeedComment *comment = comments[indexPath.row - ( num_yums > 0 ? 2 : 1 )];
         
-        commentCell.imageView.hidden = indexPath.row - 1 == 0 ? NO : YES;
-        commentCell.detailTextView.attributedText = [self commentStringForComment:comment];
+        commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
+        
+        commentCell.iconImageView.hidden = indexPath.row - ( num_yums > 0 ? 2 : 1 ) == 0 ? NO : YES;
+        commentCell.textView.attributedText = [self commentStringForComment:comment];
         
         cell = commentCell;
     }
     else if( indexPath.row == sectionItems - 1 )
     {
-        DAFeedCollectionViewCell *buttonCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"buttonCell" forIndexPath:indexPath];
+        DAReviewButtonsCollectionViewCell *buttonCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewButtonsCellIdentifier forIndexPath:indexPath];
         
         NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
         DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
@@ -295,13 +335,13 @@
     return labelString;
 }
 
-- (void)yumCell:(DAFeedCollectionViewCell *)cell
+- (void)yumCell:(DAReviewButtonsCollectionViewCell *)cell
 {
     [cell.yumButton setBackgroundImage:[UIImage imageNamed:@"yum_button_background"] forState:UIControlStateNormal];
     [cell.yumButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
 
-- (void)unyumCell:(DAFeedCollectionViewCell *)cell
+- (void)unyumCell:(DAReviewButtonsCollectionViewCell *)cell
 {
     [cell.yumButton setBackgroundImage:[UIImage imageNamed:@"unyum_button_background"] forState:UIControlStateNormal];
     [cell.yumButton setTitleColor:[UIColor commentButtonTextColor] forState:UIControlStateNormal];
@@ -350,6 +390,9 @@
 {
     CGSize itemSize = CGSizeZero;
     NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
+    NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+    NSInteger num_yums = [feedItem.num_yums integerValue];
     
     if( indexPath.row == 0 )
     {
@@ -357,16 +400,26 @@
         
         itemSize = CGSizeMake( collectionView.frame.size.width, flowLayout.itemSize.height );
     }
-    else if( indexPath.row > 0 && indexPath.row < sectionItems - 1 )
+    else if( num_yums > 0 && indexPath.row == 1 )
     {
-        NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-        
-        DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+        itemSize = CGSizeMake( collectionView.frame.size.width, 18 );
+    }
+    else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
+    {
         NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
-        DAFeedComment *comment = comments[indexPath.row - 1];
+        DAFeedComment *comment = comments[indexPath.row - ( num_yums > 0 ? 2 : 1 )];
+        
+        static DAReviewDetailCollectionViewCell *sizingCell;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^
+        {
+             sizingCell = [DAReviewDetailCollectionViewCell sizingCell];
+        });
+        
+        CGFloat textViewLeftMargin = sizingCell.frame.size.width - ( sizingCell.textView.frame.origin.x + sizingCell.textView.frame.size.width );
+        CGFloat textViewWidth = collectionView.frame.size.width - sizingCell.textView.frame.origin.x - textViewLeftMargin;
         
         CGSize cellSize = CGSizeZero;
-        CGFloat textViewWidth = collectionView.frame.size.width - 38;
         cellSize.width = collectionView.frame.size.width;
         
         NSAttributedString *commentString = [self commentStringForComment:comment];
@@ -376,8 +429,8 @@
                                                           options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
                                                           context:nil];
         
-        CGFloat textViewHeight = ceilf( stringRect.size.height ) + 1;
-        cellSize.height += textViewHeight;
+        CGFloat textViewHeight = ceilf( stringRect.size.height ) + 2;
+        cellSize.height = textViewHeight;
         
         itemSize = cellSize;
     }
@@ -397,13 +450,25 @@
     [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
 }
 
-- (void)commentButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+- (void)commentsButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
     
     [self performSegueWithIdentifier:@"commentsSegue" sender:feedItem];
+}
+
+- (void)userImageTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    userProfileViewController.username = feedItem.creator_username;
+    userProfileViewController.user_id  = [feedItem.creator_id integerValue];
+    userProfileViewController.isRestaurant = NO;
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
 - (void)creatorButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
@@ -418,6 +483,15 @@
     [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
+- (void)moreReviewsButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
+    
+    [self performSegueWithIdentifier:@"globalDish" sender:feedItem];
+}
+
 - (void)locationButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
@@ -430,7 +504,7 @@
     [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
-- (void)yumButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+- (void)yumButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
 {
     [self changeYumStatusForCell:cell];
 }
@@ -473,6 +547,7 @@
             completion:^( BOOL finished )
             {
                 feedItem.caller_yumd = @(YES);
+                feedItem.num_yums = @([feedItem.num_yums integerValue] + 1);
                 
                 if( finished )
                 {
@@ -486,13 +561,13 @@
     {
         NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
         NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForItem:sectionItems - 1 inSection:indexPath.section];
-        DAFeedCollectionViewCell *buttonCell = (DAFeedCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:buttonIndexPath];
+        DAReviewButtonsCollectionViewCell *buttonCell = (DAReviewButtonsCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:buttonIndexPath];
         [self yumCell:buttonCell];
         [self yumFeedItemWithReviewID:[feedItem.item_id integerValue]];
     }
 }
 
-- (void)changeYumStatusForCell:(DAFeedCollectionViewCell *)cell
+- (void)changeYumStatusForCell:(DAReviewButtonsCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
@@ -502,6 +577,7 @@
     {
         [self unyumCell:cell];
         feedItem.caller_yumd = @(NO);
+        feedItem.num_yums = @([feedItem.num_yums integerValue] - 1);
         
         [self unyumFeedItemWithReviewID:[feedItem.item_id integerValue]];
     }
@@ -509,6 +585,7 @@
     {
         [self yumCell:cell];
         feedItem.caller_yumd = @(YES);
+        feedItem.num_yums = @([feedItem.num_yums integerValue] + 1);
         
         [self yumFeedItemWithReviewID:[feedItem.item_id integerValue]];
     }
@@ -668,6 +745,14 @@
         DAReviewDetailsViewController *dest = segue.destinationViewController;
         dest.feedItem = feedItem;
     }
+    
+    if( [segue.identifier isEqualToString:@"globalDish"] )
+    {
+        DAFeedItem *feedItem = sender;
+        
+        DAGlobalDishDetailViewController *dest = segue.destinationViewController;
+        dest.dishID = [feedItem.item_id integerValue];
+    }
 }
 
 - (void)scrollFeedToTop
@@ -678,7 +763,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     CGFloat scrollPosition = scrollView.contentOffset.y + scrollView.contentInset.top;
-    self.refreshControl.hidden = scrollPosition > 0 ? YES : NO;
+    self.refreshControl.hidden = scrollPosition > 0 && ![self.refreshControl isRefreshing] ? YES : NO;
     
     [self.refreshControl containingScrollViewDidScroll:scrollView];
     
