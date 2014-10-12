@@ -29,6 +29,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 @property (strong, nonatomic) NSString *accessToken;
 @property (strong, nonatomic) NSString *refreshToken;
 
+@property (nonatomic) BOOL                 isNetworkReachable;
 @property (nonatomic) BOOL                 isAuthenticating;
 @property (nonatomic) dispatch_queue_t     queue;
 @property (nonatomic) dispatch_semaphore_t sem;
@@ -95,6 +96,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 - (void)networkReachabilityStatusChanged:(BOOL)reachable
 {
     NSLog(@"%@", reachable ? @"network reachable" : @"network unreachable");
+    self.isNetworkReachable = reachable;
     
     if( reachable )
     {
@@ -104,6 +106,11 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     {
         [[NSNotificationCenter defaultCenter] postNotificationName:kNetworkUnreachableKey object:nil];
     }
+}
+
+- (BOOL)networkIsReachable
+{
+    return self.isNetworkReachable;
 }
 
 + (NSString *)errorResponseKey
@@ -164,12 +171,18 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 {
     if( ![self isLoggedIn] || !self.refreshToken || !self.clientSecret )
     {
-        completion( NO );
+        if( completion )
+        {
+            completion( NO );
+        }
     }
     
     if( self.isAuthenticating )
     {
-        completion( YES );
+        if( completion )
+        {
+            completion( YES );
+        }
     }
     
     dispatch_async( self.queue, ^

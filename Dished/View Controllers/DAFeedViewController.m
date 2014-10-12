@@ -82,7 +82,7 @@
             self.collectionView.hidden = NO;
             [spinner stopAnimating];
         }
-    }];
+    }];    
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -544,9 +544,109 @@
     }];
 }
 
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
+{
+    self.itemChanges    = [[NSMutableArray alloc] init];
+    self.sectionChanges = [[NSMutableArray alloc] init];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
+           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
+{
+    NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
+    change[@(type)] = @(sectionIndex);
+    [self.sectionChanges addObject:change];
+}
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath
+     forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+{
+    NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
+    
+    switch( type )
+    {
+        case NSFetchedResultsChangeInsert:
+            change[@(type)] = newIndexPath;
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            change[@(type)] = indexPath;
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            change[@(type)] = indexPath;
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            change[@(type)] = @[indexPath, newIndexPath];
+            break;
+    }
+    
+    [self.itemChanges addObject:change];
+}
+
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
 {
-    [self.collectionView reloadData];
+    [UIView animateWithDuration:0 animations:^
+    {
+        [self.collectionView performBatchUpdates:^
+        {
+            for( NSDictionary *change in self.sectionChanges )
+            {
+                [change enumerateKeysAndObjectsUsingBlock:^( id key, id obj, BOOL *stop )
+                {
+                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                    
+                    switch( type )
+                    {
+                        case NSFetchedResultsChangeInsert:
+                            [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
+                            
+                        case NSFetchedResultsChangeDelete:
+                            [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
+                            break;
+                        
+                        case NSFetchedResultsChangeMove:
+                        case NSFetchedResultsChangeUpdate:
+                            break;
+                    }
+                }];
+            }
+            
+            for( NSDictionary *change in self.itemChanges )
+            {
+                [change enumerateKeysAndObjectsUsingBlock:^( id key, id obj, BOOL *stop )
+                {
+                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
+                    
+                    switch( type )
+                    {
+                        case NSFetchedResultsChangeInsert:
+                            [self.collectionView insertItemsAtIndexPaths:@[obj]];
+                            break;
+                            
+                        case NSFetchedResultsChangeDelete:
+                            [self.collectionView deleteItemsAtIndexPaths:@[obj]];
+                            break;
+                            
+                        case NSFetchedResultsChangeUpdate:
+                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:((NSIndexPath *) obj).section]];
+                            break;
+                            
+                        case NSFetchedResultsChangeMove:
+                            [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
+                            break;
+                    }
+                }];
+            }
+        }
+        completion:^( BOOL finished )
+        {
+            self.itemChanges    = nil;
+            self.sectionChanges = nil;
+        }];
+    }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

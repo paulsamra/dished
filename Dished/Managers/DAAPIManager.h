@@ -30,6 +30,7 @@ typedef enum
 + (eErrorType)errorTypeForError:(NSError *)error;
 + (NSString *)errorResponseKey;
 
+- (BOOL)networkIsReachable;
 - (BOOL)isLoggedIn;
 - (void)authenticateWithCompletion:( void(^)( BOOL success ) )completion;
 - (NSDictionary *)authenticatedParametersWithParameters:(NSDictionary *)parameters;

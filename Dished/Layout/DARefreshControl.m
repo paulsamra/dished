@@ -208,9 +208,14 @@
 {
     UIEdgeInsets loadingInset = scrollView.contentInset;
     loadingInset.top += self.frame.size.height;
-
-    scrollView.contentInset = loadingInset;
-    scrollView.contentOffset = CGPointZero;
+    
+    CGPoint contentOffset = scrollView.contentOffset;
+    
+    [UIView animateWithDuration:0.2 animations:^
+    {
+        scrollView.contentInset = loadingInset;
+        scrollView.contentOffset = contentOffset;
+    }];
 }
 
 - (void)resetScrollViewInsets:(UIScrollView *)scrollView
