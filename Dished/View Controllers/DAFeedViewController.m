@@ -462,18 +462,17 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (void)userImageTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
-    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.username = feedItem.creator_username;
-    userProfileViewController.user_id  = [feedItem.creator_id integerValue];
-    userProfileViewController.isRestaurant = NO;
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
+    [self goToUserProfileAtIndexPath:indexPath];
 }
 
 - (void)creatorButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    [self goToUserProfileAtIndexPath:indexPath];
+}
+
+- (void)goToUserProfileAtIndexPath:(NSIndexPath *)indexPath
+{
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];

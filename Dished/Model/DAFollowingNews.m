@@ -48,14 +48,14 @@ typedef enum
         _username = nilOrJSONObjectForKey( data, @"username" );
         _users    = nilOrJSONObjectForKey( data, @"users" );
         
-        _yum_count = [data[@"yum_count"] integerValue];
-        _review_id = [data[@"review_id"] integerValue];
+        _yum_count    = [nilOrJSONObjectForKey( data, @"yum_count" )    integerValue];
+        _friend_count = [nilOrJSONObjectForKey( data, @"friend_count" ) integerValue];
         
         id userData = nilOrJSONObjectForKey( data, @"followed" );
         if( userData )
         {
             DAUsername *username = [[DAUsername alloc] init];
-            username.user_id = [userData[@"idUser"] integerValue];
+            username.user_id = [nilOrJSONObjectForKey( data, @"idUser" ) integerValue];
             username.username = nilOrJSONObjectForKey( userData, @"username" );
             
             _followed = username;
@@ -152,6 +152,7 @@ typedef enum
             break;
             
         case eFollowingNewsYumNotificationSubtypeMultiUserYum:
+            string = [NSString stringWithFormat:@"%d of your friends YUMMED %@'s review", (int)self.friend_count, self.username];
             break;
             
         case eFollowingNewsYumNotificationSubtypeTwoUserYum:

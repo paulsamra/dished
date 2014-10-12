@@ -22,9 +22,7 @@
     {
         _comment  = nilOrJSONObjectForKey( data, @"comment" );
         _username = nilOrJSONObjectForKey( data, @"username" );
-        
-        _review_id = [data[@"review_id"] integerValue];
-        
+                
         _notificationType = [self notificationTypeForTypeString:nilOrJSONObjectForKey( data, @"type" )];
     }
     

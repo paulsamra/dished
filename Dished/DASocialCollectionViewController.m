@@ -40,15 +40,16 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     if( indexPath.row == (self.isReview ? 3 : 4) )
     {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"doneCell" forIndexPath:indexPath];
        
-        if (!self.isReview)
+        if( !self.isReview )
         {
             cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, self.view.frame.size.width, cell.frame.size.height);
-            if (cell.tag == 12) {
+            
+            if( cell.tag == 12 )
+            {
                 
             }
         }
@@ -76,13 +77,26 @@
     }
     else
     {
-        
         cell.socialImageView.alpha = 1.0;
         cell.socialLabel.alpha = 1.0;
-
     }
 
 	return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionViewLayout;
+    CGSize defaultItemSize = flowLayout.itemSize;
+    
+    CGFloat width = collectionView.frame.size.width;
+    CGFloat sectionInsetSpacing = flowLayout.sectionInset.right + flowLayout.sectionInset.left;
+    CGFloat availableWidth = width - ( 2 * flowLayout.minimumInteritemSpacing ) - sectionInsetSpacing;
+    CGFloat itemWidth = availableWidth / 2;
+    
+    CGSize itemSize = CGSizeMake( itemWidth, defaultItemSize.height );
+    
+    return itemSize;
 }
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
@@ -154,11 +168,7 @@
                         
                         [self presentViewController:controller animated:YES completion:nil];
                     }
-
                 }
-                
-
-                
             }
         }
         break;
@@ -239,7 +249,6 @@
         }
         break;
         case 3:
-        {
             if (self.isReview)
             {
                 [[NSNotificationCenter defaultCenter] postNotificationName:kDoneSelecting object:nil];
@@ -248,15 +257,11 @@
             {
               	//do flag stuff here.
             }
-
-        }
             break;
 
         case 4:
-        {
             [[NSNotificationCenter defaultCenter] postNotificationName:kDoneSelecting object:nil];
-        }
-        break;
+            break;
     }
 }
 

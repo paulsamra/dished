@@ -19,8 +19,9 @@
         _created   = [NSDate dateWithTimeIntervalSince1970:timeInterval];
         _img = nilOrJSONObjectForKey( data, @"img" );
         
-        _viewed    = [data[@"viewed"]    boolValue];
-        _item_id   = [data[@"id"]        integerValue];
+        _viewed    = [nilOrJSONObjectForKey( data, @"viewed" )       boolValue];
+        _item_id   = [nilOrJSONObjectForKey( data, kIDKey )       integerValue];
+        _review_id = [nilOrJSONObjectForKey( data, @"review_id" ) integerValue];
     }
     
     return self;

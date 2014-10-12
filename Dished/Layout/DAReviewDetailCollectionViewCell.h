@@ -9,12 +9,22 @@
 #import <UIKit/UIKit.h>
 
 
+@class DAReviewDetailCollectionViewCell;
+
+@protocol DAReviewDetailCollectionViewCellDelegate <NSObject>
+
+@optional
+- (void)linkedTextTappedWithAttributes:(NSDictionary *)attributes;
+
+@end
+
+
 @interface DAReviewDetailCollectionViewCell : UICollectionViewCell
+
+@property (weak, nonatomic) id<DAReviewDetailCollectionViewCellDelegate> delegate;
 
 @property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
 @property (weak, nonatomic) IBOutlet UITextView  *textView;
-@property (weak, nonatomic) IBOutlet UIImageView *imageView;
-@property (weak, nonatomic) IBOutlet UITextView  *detailTextView;
 
 + (DAReviewDetailCollectionViewCell *)sizingCell;
 + (NSDictionary *)linkedTextAttributes;

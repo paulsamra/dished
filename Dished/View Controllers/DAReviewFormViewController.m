@@ -126,6 +126,7 @@
     [super viewWillDisappear:animated];
     
     [self.socialViewController.view removeFromSuperview];
+    [self.dimView removeFromSuperview];
 }
 
 - (void)setupShareView
@@ -170,9 +171,11 @@
         CGRect hiddenRect = self.socialViewController.view.frame;
         hiddenRect.origin.y = 600;
         self.socialViewController.view.frame = hiddenRect;
-        self.socialViewController.view.hidden = NO;
     }
-    completion:nil];
+    completion:^( BOOL finished )
+    {
+        self.socialViewController.view.hidden = YES;
+    }];
     
     self.facebookImage.alpha = 0.3;
     self.twitterImage.alpha  = 0.3;
@@ -519,8 +522,8 @@
     
     [UIView animateWithDuration:0.3 animations:^
     {
-        self.dimView.backgroundColor = [UIColor lightGrayColor];
-        self.dimView.alpha = 0.7;
+        self.dimView.backgroundColor = [UIColor blackColor];
+        self.dimView.alpha = 0.3;
     }];
 
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^

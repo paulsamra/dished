@@ -14,8 +14,9 @@
 @property (copy, nonatomic) NSDate   *created;
 @property (copy, nonatomic) NSString *img;
 
-@property (nonatomic) BOOL viewed;
+@property (nonatomic) BOOL      viewed;
 @property (nonatomic) NSInteger item_id;
+@property (nonatomic) NSInteger review_id;
 
 
 - (id)initWithData:(id)data;
