@@ -75,8 +75,15 @@
 {
     [super viewDidLayoutSubviews];
     
-    [self setupSuggestionTable];
-    [self setupShareView];
+    if( !self.dishSuggestionsTable )
+    {
+        [self setupSuggestionTable];
+    }
+    
+    if( !self.socialViewController )
+    {
+        [self setupShareView];
+    }
 }
 
 - (void)locationServicesDenied

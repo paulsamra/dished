@@ -18,15 +18,18 @@ typedef enum
 
 @interface DAUserManager : NSObject
 
+@property (copy, nonatomic, readonly) NSDate   *dateOfBirth;
 @property (copy, nonatomic, readonly) NSString *firstName;
 @property (copy, nonatomic, readonly) NSString *lastName;
 @property (copy, nonatomic, readonly) NSString *username;
 @property (copy, nonatomic, readonly) NSString *desc;
 @property (copy, nonatomic, readonly) NSString *email;
 @property (copy, nonatomic, readonly) NSString *img_thumb;
+@property (copy, nonatomic, readonly) NSString *userType;
 
 @property (nonatomic, readonly) BOOL         savesDishPhoto;
 @property (nonatomic, readonly) BOOL         publicProfile;
+@property (nonatomic, readonly) BOOL         user_id;
 @property (nonatomic, readonly) ePushSetting receivesYumPushNotifications;
 @property (nonatomic, readonly) ePushSetting receivesCommentPushNotifications;
 @property (nonatomic, readonly) ePushSetting receivesReviewPushNotifications;
@@ -35,5 +38,9 @@ typedef enum
 + (DAUserManager *)sharedManager;
 
 - (void)loadUserInfoWithCompletion:( void(^)( BOOL success ) )completion;
+- (void)saveDishPhotoSetting:(BOOL)dishPhotoSetting completion:( void(^)( BOOL success ) )completion;
+- (void)savePrivacySetting:(BOOL)privacySetting completion:( void(^)( BOOL success ) )completion;
+- (void)setUserProfileImage:(UIImage *)image completion:( void(^)( BOOL success ) )completion;
+- (void)deleteLocalUserSettings;
 
 @end

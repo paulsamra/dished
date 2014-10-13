@@ -135,6 +135,7 @@
 		94AE445619E949520008C64F /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AE445519E949520008C64F /* DAFeedItem.m */; };
 		94AE445819E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */; };
 		94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */; };
+		94B43AAE19EB6D9500482F52 /* DACollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAD19EB6D9500482F52 /* DACollectionView.swift */; };
 		94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */; };
 		94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6319BFBE75005071D5 /* DADishProfile.m */; };
 		94BC4F1919C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1819C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m */; };
@@ -443,6 +444,7 @@
 		94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAReviewDetailCollectionViewCell.xib; sourceTree = "<group>"; };
 		94B43AAA19EB2BAF00482F52 /* DANotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANotificationSettingsViewController.h; sourceTree = "<group>"; };
 		94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANotificationSettingsViewController.m; sourceTree = "<group>"; };
+		94B43AAD19EB6D9500482F52 /* DACollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DACollectionView.swift; sourceTree = "<group>"; };
 		94B92C5F19BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGlobalReviewCollectionViewCell.h; sourceTree = "<group>"; };
 		94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGlobalReviewCollectionViewCell.m; sourceTree = "<group>"; };
 		94B92C6219BFBE75005071D5 /* DADishProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishProfile.h; sourceTree = "<group>"; };
@@ -1369,6 +1371,7 @@
 				942AA01619C23F8D00D0D77C /* DAProgressView.m */,
 				944D1E7419DB8514006F73BF /* DAFollowListTableViewCell.swift */,
 				944D1E7619DB853A006F73BF /* DAFollowListTableViewCell.xib */,
+				94B43AAD19EB6D9500482F52 /* DACollectionView.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -1665,6 +1668,7 @@
 				943E62621987362100DF2135 /* BAVPlistNode.m in Sources */,
 				94DCE9BB1980ABB100396C0A /* UIImageView+AFNetworking.m in Sources */,
 				9445C1B7199927B800F3A4F8 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
+				94B43AAE19EB6D9500482F52 /* DACollectionView.swift in Sources */,
 				941F3209196FA838000042AE /* DALocationManager.m in Sources */,
 				94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				9473FACF19E63235003A1D1B /* DARestaurantProfile.m in Sources */,

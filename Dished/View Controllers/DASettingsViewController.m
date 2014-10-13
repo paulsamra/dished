@@ -10,6 +10,7 @@
 #import "DAAPIManager.h"
 #import "DAUserManager.h"
 #import "DANotificationSettingsViewController.h"
+#import "DAEditProfileViewController.h"
 
 
 @interface DASettingsViewController() <UIActionSheetDelegate>
@@ -67,7 +68,7 @@
     switch( row )
     {
         case 0:
-            
+            [self goToEditProfile];
             break;
             
         case 1:
@@ -79,6 +80,13 @@
             [self showLogoutVerification];
             break;
     }
+}
+
+- (void)goToEditProfile
+{
+    DAEditProfileViewController *editProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfile"];
+    editProfileViewController.user_id = [DAUserManager sharedManager].user_id;
+    [self.navigationController pushViewController:editProfileViewController animated:YES];
 }
 
 - (void)showLogoutVerification
@@ -126,33 +134,18 @@
 
 - (IBAction)changedProfilePrivacySetting
 {
-    [self.profilePrivacyURLTask cancel];
-    
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    [[DAUserManager sharedManager] savePrivacySetting:self.privacySwitch.on completion:^( BOOL success )
     {
-        NSDictionary *parameters = @{ kPublicKey : @(self.privacySwitch.on) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        self.profilePrivacyURLTask = [[DAAPIManager sharedManager] POST:kUserSettingsURL parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            
-        }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            eErrorType errorType = [DAAPIManager errorTypeForError:error];
-            
-            if( errorType != eErrorTypeRequestCancelled )
-            {
-                [self populateSettings];
-            }
-        }];
+        [self populateSettings];
     }];
 }
 
 - (IBAction)changedDishPhotosSetting
 {
-    
+    [[DAUserManager sharedManager] saveDishPhotoSetting:self.dishPhotosSwitch.on completion:^( BOOL success )
+    {
+        [self populateSettings];
+    }];
 }
 
 @end

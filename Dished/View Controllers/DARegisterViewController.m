@@ -20,8 +20,6 @@
 @property (strong, nonatomic) UIImage              *validIconImage;
 @property (strong, nonatomic) DAErrorView          *errorView;
 @property (strong, nonatomic) NSIndexPath          *pickerIndexPath;
-@property (strong, nonatomic) UIAlertView          *emailExistsAlert;
-@property (strong, nonatomic) UIAlertView          *phoneExistsAlert;
 @property (strong, nonatomic) UIAlertView          *loginFailAlert;
 @property (strong, nonatomic) UIAlertView          *registerFailAlert;
 @property (strong, nonatomic) UIAlertView          *registerSuccessAlert;
@@ -45,6 +43,9 @@
     
     self.errorData  = [[NSMutableDictionary alloc] init];
     self.usernameIsValid = NO;
+    
+    self.errorIconImage = [UIImage imageNamed:@"invalid_input"];
+    self.validIconImage = [UIImage imageNamed:@"valid_input"];
 }
 
 - (void)errorViewDidTapCloseButton:(DAErrorView *)errorView
@@ -87,6 +88,8 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    [super touchesBegan:touches withEvent:event];
+    
     [self.view endEditing:YES];
 }
 
@@ -618,14 +621,14 @@
             {
                 [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
                 {
-                    [self.emailExistsAlert show];
+                    [self showAlertMessageWithTitle:@"Account Exists" message:@"An account with the given email address already exists. Please sign in or submit a forgotten password request."];
                 }];
             }
             else if( !phoneSuccess )
             {
                 [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
                 {
-                    [self.phoneExistsAlert show];
+                    [self showAlertMessageWithTitle:@"Phone Number Exists" message:@"An account with the given phone number already exists. Please sign in or enter a different phone number."];
                 }];
             }
             else
@@ -919,6 +922,12 @@
     [self performSegueWithIdentifier:@"goToLogin" sender:nil];
 }
 
+- (void)showAlertMessageWithTitle:(NSString *)title message:(NSString *)message
+{
+    [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil
+                      cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+}
+
 - (NSDateFormatter *)birthDateFormatter
 {
     if( !_birthDateFormatter )
@@ -928,46 +937,6 @@
     }
     
     return _birthDateFormatter;
-}
-
-- (UIImage *)errorIconImage
-{
-    if( !_errorIconImage )
-    {
-        _errorIconImage = [UIImage imageNamed:@"invalid_input"];
-    }
-    
-    return _errorIconImage;
-}
-
-- (UIImage *)validIconImage
-{
-    if( !_validIconImage )
-    {
-        _validIconImage = [UIImage imageNamed:@"valid_input"];
-    }
-    
-    return _validIconImage;
-}
-
-- (UIAlertView *)emailExistsAlert
-{
-    if( !_emailExistsAlert )
-    {
-        _emailExistsAlert = [[UIAlertView alloc] initWithTitle:@"Account Exists" message:@"An account with the given email address already exists. Please sign in or submit a forgotten password request." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    }
-    
-    return _emailExistsAlert;
-}
-
-- (UIAlertView *)phoneExistsAlert
-{
-    if( !_phoneExistsAlert )
-    {
-        _phoneExistsAlert = [[UIAlertView alloc] initWithTitle:@"Phone Number Exists" message:@"An account with the given phone number already exists. Please sign in or enter a different phone number." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    }
-    
-    return _phoneExistsAlert;
 }
 
 - (UIAlertView *)registerFailAlert

@@ -21,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UIButton           *directionsButton;
 @property (weak, nonatomic) IBOutlet UIButton           *phoneNumberButton;
 @property (weak, nonatomic) IBOutlet UIButton           *dishesMapButton;
+@property (weak, nonatomic) IBOutlet UIButton           *moreInfoButton;
 @property (weak, nonatomic) IBOutlet UIButton           *numDishesButton;
 @property (weak, nonatomic) IBOutlet UIButton           *numFollowingButton;
 @property (weak, nonatomic) IBOutlet UIButton           *numFollowersButton;

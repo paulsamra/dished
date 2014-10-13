@@ -95,17 +95,25 @@
     CGFloat refreshControlHeight = 40.0f;
     CGFloat refreshControlWidth  = self.newsTableView.frame.size.width;
     CGRect refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
-    self.newsRefreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
-    [self.newsRefreshControl addTarget:self action:@selector(refreshNewsData) forControlEvents:UIControlEventValueChanged];
-    [self.newsTableView addSubview:self.newsRefreshControl];
-    self.newsRefreshControl.hidden = YES;
     
-    refreshControlWidth  = self.followingTableView.frame.size.width;
-    refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
-    self.followingRefreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
-    [self.followingRefreshControl addTarget:self action:@selector(refreshFollowingData) forControlEvents:UIControlEventValueChanged];
-    [self.followingTableView addSubview:self.followingRefreshControl];
-    self.followingRefreshControl.hidden = YES;
+    if( !self.newsRefreshControl )
+    {
+        self.newsRefreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
+        [self.newsRefreshControl addTarget:self action:@selector(refreshNewsData) forControlEvents:UIControlEventValueChanged];
+        [self.newsTableView addSubview:self.newsRefreshControl];
+        self.newsRefreshControl.hidden = YES;
+    }
+    
+    if( !self.followingRefreshControl )
+    {
+        refreshControlWidth  = self.followingTableView.frame.size.width;
+        refreshControlRect = CGRectMake( 0, -refreshControlHeight, refreshControlWidth, refreshControlHeight );
+        
+        self.followingRefreshControl = [[DARefreshControl alloc] initWithFrame:refreshControlRect];
+        [self.followingRefreshControl addTarget:self action:@selector(refreshFollowingData) forControlEvents:UIControlEventValueChanged];
+        [self.followingTableView addSubview:self.followingRefreshControl];
+        self.followingRefreshControl.hidden = YES;
+    }
 }
 
 - (void)viewDidAppear:(BOOL)animated

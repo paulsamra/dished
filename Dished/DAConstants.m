@@ -26,8 +26,11 @@ NSString *const kFollowingSubtypeSingleUserMultiYum   = @"sumy";
 NSString *const kFollowingSubtypeMultiUserYum         = @"muty";
 NSString *const kFollowingSubtypeTwoUserYum           = @"tuty";
 
+NSString *const kLogoutURL            = @"auth/logout";
 NSString *const kHashtagsURL          = @"hashtags";
+NSString *const kUserImageURL         = @"users/image";
 NSString *const kDishSearchURL        = @"dishes/search";
+NSString *const kEditProfileURL       = @"users/update";
 NSString *const kUserSettingsURL      = @"users/settings";
 NSString *const kEmailAvailabilityURL = @"users/availability/email";
 NSString *const kPhoneAvailabilityURL = @"users/availability/phone";

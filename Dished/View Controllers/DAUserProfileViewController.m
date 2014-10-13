@@ -18,6 +18,7 @@
 #import <MapKit/MapKit.h>
 #import "DAUserProfile.h"
 #import "DARestaurantProfile.h"
+#import "DAEditProfileViewController.h"
 
 
 @interface DAUserProfileViewController() <UIActionSheetDelegate, UIAlertViewDelegate>
@@ -186,10 +187,15 @@
     self.phoneNumberButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.phoneNumberButton setTitle: ( [self.restaurantProfile.phone integerValue] > 0 ? self.restaurantProfile.phone : @"No Phone\nNumber" ) forState:UIControlStateNormal];
     
+    [self.moreInfoButton setImage:[UIImage imageNamed:@"more_info"] forState:UIControlStateNormal];
+    [self.moreInfoButton addTarget:self action:@selector(showGradeInfoAlert) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.dishesMapButton setImage:nil forState:UIControlStateNormal];
     self.dishesMapButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     self.dishesMapButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.dishesMapButton setTitle:self.restaurantProfile.avg_grade forState:UIControlStateNormal];
+    self.dishesMapButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0];
+    [self.dishesMapButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     
     [self.dishesTableView reloadData];
 }
@@ -214,6 +220,8 @@
     [self setTitle:@"Dishes"    withValue:self.userProfile.num_reviews   forButton:self.numDishesButton];
     [self setTitle:@"Following" withValue:self.userProfile.num_following forButton:self.numFollowingButton];
     [self setTitle:@"Followers" withValue:self.userProfile.num_followers forButton:self.numFollowersButton];
+    
+    self.moreInfoButton.userInteractionEnabled = NO;
     
     NSString *name = [NSString stringWithFormat:@"%@ %@", self.userProfile.firstName, self.userProfile.lastName];
     [self setDescriptionTextWithName:name description:self.userProfile.desc];
@@ -401,7 +409,7 @@
 
 - (IBAction)showGradeInfoAlert
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This grade is averaged from all\nthe dish reviews at this\nrestaurant." message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"This grade is averaged from\nall the dish reviews at this\nrestaurant." message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     [alertView show];
 }
 
@@ -414,6 +422,12 @@
     {
         isFollowed ? [self unfollowUserID:self.user_id] : [self followUserID:self.user_id];
         [self setFollowButtonState:!isFollowed];
+    }
+    else
+    {
+        DAEditProfileViewController *editProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfile"];
+        editProfileViewController.user_id = self.userProfile.user_id;
+        [self.navigationController pushViewController:editProfileViewController animated:YES];
     }
 }
 

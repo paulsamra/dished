@@ -57,8 +57,7 @@
         else
         {
             self.comments = [self commentsFromResponse:response];
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self scrollTableViewToBottom];
+            [self.tableView reloadData];
         }
     }];
     
@@ -139,6 +138,7 @@
         {
             self.comments = [self commentsFromResponse:response];
             [self.tableView reloadData];
+            [self scrollTableViewToBottom];
         }
     }];
 }
@@ -191,7 +191,7 @@
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment
 {
     NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
-    NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f] }];
+    NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0f] }];
     NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
     
     if( [comment.creator_type isEqualToString:@"influencer"] )
@@ -204,7 +204,7 @@
     }
     
     [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:13.0f] }]];
+    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0f] }]];
     
     return labelString;
 }
@@ -399,7 +399,7 @@
     {
         [self refreshComments];
         
-        self.feedItem.num_comments =@( [self.feedItem.num_comments integerValue] + 1 );
+        self.feedItem.num_comments = @( [self.feedItem.num_comments integerValue] + 1 );
     }];
 }
 

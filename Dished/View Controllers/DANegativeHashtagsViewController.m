@@ -35,7 +35,7 @@
 
 - (void)loadHashtags
 {
-    NSDictionary *parameters = @{ kDishTypeKey : self.review.type, kHashtagTypeKey : kPositiveHashtags };
+    NSDictionary *parameters = @{ kDishTypeKey : self.review.type, kHashtagTypeKey : kNegativeHashtags };
     NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     [[DAAPIManager sharedManager] GET:kHashtagsURL parameters:authParameters

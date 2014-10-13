@@ -49,6 +49,11 @@
         weakSelf.hashtagArray = [weakSelf hashtagsFromResponse:responseObject];
         weakSelf.selectedHashtags = [weakSelf.review.hashtags mutableCopy];
         
+        if( !weakSelf.selectedHashtags )
+        {
+            weakSelf.selectedHashtags = [NSMutableArray array];
+        }
+        
         for( DAHashtag *tag in weakSelf.selectedHashtags )
         {
             NSUInteger index = [weakSelf.hashtagArray indexOfObject:tag];

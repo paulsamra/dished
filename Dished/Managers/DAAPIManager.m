@@ -395,27 +395,18 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             [self POST:@"auth/token" parameters:authParameters
             success:^( NSURLSessionDataTask *task, id responseObject )
             {
-                NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+                NSDictionary *auth = (NSDictionary *)responseObject;
+                
+                self.accessToken  = auth[kAccessTokenKey];
+                self.refreshToken = auth[kRefreshTokenKey];
+                
+                [SSKeychain setPassword:self.accessToken  forService:kKeychainService account:kAccessTokenKey];
+                [SSKeychain setPassword:self.refreshToken forService:kKeychainService account:kRefreshTokenKey];
+                
+                [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kLastRefreshKey];
+                [[NSUserDefaults standardUserDefaults] synchronize];
                  
-                if( response.statusCode == 200 )
-                {
-                    NSDictionary *auth = (NSDictionary *)responseObject;
-                    
-                    self.accessToken  = auth[kAccessTokenKey];
-                    self.refreshToken = auth[kRefreshTokenKey];
-                    
-                    [SSKeychain setPassword:self.accessToken  forService:kKeychainService account:kAccessTokenKey];
-                    [SSKeychain setPassword:self.refreshToken forService:kKeychainService account:kRefreshTokenKey];
-                    
-                    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kLastRefreshKey];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                     
-                    completion( YES, badUser, badPass );
-                }
-                else
-                {
-                    completion( NO, badUser, badPass );
-                }
+                completion( YES, badUser, badPass );
             }
             failure:^( NSURLSessionDataTask *task, NSError *error )
             {

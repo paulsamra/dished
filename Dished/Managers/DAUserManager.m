@@ -19,6 +19,11 @@
 @property (copy, nonatomic, readwrite) NSString *email;
 @property (copy, nonatomic, readwrite) NSString *img_thumb;
 
+@property (strong, nonatomic) NSURLSessionTask *userImageTask;
+@property (strong, nonatomic) NSURLSessionTask *loadSettingsTask;
+@property (strong, nonatomic) NSURLSessionTask *dishPhotoURLTask;
+@property (strong, nonatomic) NSURLSessionTask *profilePrivacyURLTask;
+
 @property (nonatomic, readwrite) BOOL         savesDishPhoto;
 @property (nonatomic, readwrite) BOOL         publicProfile;
 @property (nonatomic, readwrite) ePushSetting receivesYumPushNotifications;
@@ -65,23 +70,73 @@
 
 - (void)loadUserInfoWithCompletion:( void (^)( BOOL success ) )completion
 {
-    NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+        
+        [self.loadSettingsTask cancel];
+        
+        self.loadSettingsTask = [[DAAPIManager sharedManager] GET:kUserSettingsURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            NSDictionary *settings = nilOrJSONObjectForKey( responseObject, kDataKey );
+            [self saveSettingsWithSettingsData:settings];
+            [self saveProfile];
+            
+            if( completion )
+            {
+                completion( YES );
+            }
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            
+        }];
+    }];
+}
+
+- (void)saveSettingsWithSettingsData:(id)settings
+{
+    self.publicProfile  = [nilOrJSONObjectForKey( settings, kPublicKey )    boolValue];
+    self.savesDishPhoto = [nilOrJSONObjectForKey( settings, kSavePhotoKey ) boolValue];
     
-    [[DAAPIManager sharedManager] GET:kUserSettingsURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    self.receivesYumPushNotifications     = [self pushSettingForSetting:nilOrJSONObjectForKey( settings, kPushYumKey )];
+    self.receivesReviewPushNotifications  = [self pushSettingForSetting:nilOrJSONObjectForKey( settings, kPushReviewKey )];
+    self.receivesCommentPushNotifications = [self pushSettingForSetting:nilOrJSONObjectForKey( settings, kPushCommentKey )];
+}
+
+- (void)setUserProfileImage:(UIImage *)image completion:( void(^)( BOOL success ) )completion
+{
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        NSDictionary *settings = nilOrJSONObjectForKey( responseObject, kDataKey );
+        NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
         
-        self.publicProfile  = [nilOrJSONObjectForKey( settings, kPublicKey )    boolValue];
-        self.savesDishPhoto = [nilOrJSONObjectForKey( settings, kSavePhotoKey ) boolValue];
-        
-        self.receivesYumPushNotifications     = [self pushSettingForSetting:nilOrJSONObjectForKey( settings, kPushYumKey )];
-        self.receivesReviewPushNotifications  = [self pushSettingForSetting:nilOrJSONObjectForKey( settings, kPushReviewKey )];
-        self.receivesCommentPushNotifications = [self pushSettingForSetting:nilOrJSONObjectForKey( settings, kPushCommentKey )];
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        
+        [[DAAPIManager sharedManager] POST:kUserImageURL parameters:parameters
+        constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
+        {
+            if( image )
+            {
+                float compression = 0.8;
+                NSData *imageData = UIImageJPEGRepresentation( image, compression );
+                int maxFileSize = 2000000;
+                while( [imageData length] > maxFileSize )
+                {
+                    compression -= 0.1;
+                    imageData = UIImageJPEGRepresentation( image, compression );
+                }
+                 
+                [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+            }
+        }
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            completion( YES );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"failure: %@", error );
+            completion( NO );
+        }];
     }];
 }
 
@@ -103,6 +158,83 @@
     }
     
     return pushSetting;
+}
+
+- (void)saveDishPhotoSetting:(BOOL)dishPhotoSetting completion:( void(^)( BOOL success ) )completion
+{
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kSavePhotoKey : @(dishPhotoSetting) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [self.dishPhotoURLTask cancel];
+        
+        self.dishPhotoURLTask = [[DAAPIManager sharedManager] POST:kUserSettingsURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            NSDictionary *settings = nilOrJSONObjectForKey( responseObject, kDataKey );
+            [self saveSettingsWithSettingsData:settings];
+            [self saveProfile];
+            
+            if( completion )
+            {
+                completion( YES );
+            }
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType != eErrorTypeRequestCancelled )
+            {
+                if( completion )
+                {
+                    completion( NO );
+                }
+            }
+        }];
+    }];
+}
+
+- (void)savePrivacySetting:(BOOL)privacySetting completion:( void(^)( BOOL success ) )completion
+{
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kPublicKey : @(privacySetting) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [self.profilePrivacyURLTask cancel];
+        
+        self.profilePrivacyURLTask = [[DAAPIManager sharedManager] POST:kUserSettingsURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            NSDictionary *settings = nilOrJSONObjectForKey( responseObject, kDataKey );
+            [self saveSettingsWithSettingsData:settings];
+            [self saveProfile];
+            
+            if( completion )
+            {
+                completion( YES );
+            }
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType != eErrorTypeRequestCancelled )
+            {
+                if( completion )
+                {
+                    completion( NO );
+                }
+            }
+        }];
+    }];
+}
+
+- (void)deleteLocalUserSettings
+{
+    
 }
 
 - (void)restoreProfile
