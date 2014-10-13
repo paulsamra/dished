@@ -19,6 +19,7 @@
         <attribute name="creator_img_thumb" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="creator_type" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="creator_username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dish_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="grade" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="img" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="img_public" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -34,6 +35,6 @@
     </entity>
     <elements>
         <element name="DAFeedComment" positionX="-54" positionY="216" width="128" height="178"/>
-        <element name="DAFeedItem" positionX="-54" positionY="90" width="128" height="330"/>
+        <element name="DAFeedItem" positionX="-54" positionY="90" width="128" height="345"/>
     </elements>
 </model>

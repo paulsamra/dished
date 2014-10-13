@@ -329,8 +329,20 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [labelString appendAttributedString:influencerIconString];
     }
     
+    NSArray *words = [comment.comment componentsSeparatedByString:@" "];
+    NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:[DAReviewDetailCollectionViewCell textAttributes]];
+    
+    for( NSString *word in words )
+    {
+        if( [word hasPrefix:@"#"] || [word hasPrefix:@"@"] )
+        {
+            NSRange matchRange = [comment.comment rangeOfString:word];
+            [commentString setAttributes:[DAReviewDetailCollectionViewCell linkedTextAttributes] range:matchRange];
+        }
+    }
+    
     [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:comment.comment attributes:[DAReviewDetailCollectionViewCell textAttributes]]];
+    [labelString appendAttributedString:commentString];
     
     return labelString;
 }
@@ -750,7 +762,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         DAFeedItem *feedItem = sender;
         
         DAGlobalDishDetailViewController *dest = segue.destinationViewController;
-        dest.dishID = [feedItem.item_id integerValue];
+        dest.dishID = [feedItem.dish_id integerValue];
     }
 }
 

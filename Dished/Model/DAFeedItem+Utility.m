@@ -35,6 +35,7 @@
     self.creator_id        = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"creator_id" )];
     self.item_id           = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"id" )];
     self.loc_id            = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"loc_id" )];
+    self.dish_id           = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"dish_id" )];
     
     id num_yums = nilOrJSONObjectForKey( dictionary, @"num_yums" );
     if( [num_yums isKindOfClass:[NSNumber class]] )

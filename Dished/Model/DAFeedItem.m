@@ -2,7 +2,7 @@
 //  DAFeedItem.m
 //  Dished
 //
-//  Created by Ryan Khalili on 10/11/14.
+//  Created by Ryan Khalili on 10/13/14.
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
@@ -28,8 +28,9 @@
 @dynamic loc_name;
 @dynamic name;
 @dynamic num_comments;
-@dynamic source;
 @dynamic num_yums;
+@dynamic source;
+@dynamic dish_id;
 @dynamic comments;
 
 @end

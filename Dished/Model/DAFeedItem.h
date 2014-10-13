@@ -2,7 +2,7 @@
 //  DAFeedItem.h
 //  Dished
 //
-//  Created by Ryan Khalili on 10/11/14.
+//  Created by Ryan Khalili on 10/13/14.
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
@@ -29,8 +29,9 @@
 @property (nonatomic, retain) NSString * loc_name;
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * num_comments;
-@property (nonatomic, retain) NSString * source;
 @property (nonatomic, retain) NSNumber * num_yums;
+@property (nonatomic, retain) NSString * source;
+@property (nonatomic, retain) NSNumber * dish_id;
 @property (nonatomic, retain) NSSet *comments;
 @end
 

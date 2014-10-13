@@ -178,7 +178,7 @@
     CGImageRef imageRef = [[CIContext contextWithOptions:nil] createCGImage:outputImage fromRect:outputImage.extent];
     UIImage *newImg = [UIImage imageWithCGImage:imageRef];
     CGImageRelease(imageRef);
-    
+
     return newImg;
 }
 
