@@ -41,6 +41,8 @@
     
     self.userImageView.layer.masksToBounds = YES;
     
+    self.dishesTableView.tableFooterView = [[UIView alloc] init];
+    
     UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"more"] style:UIBarButtonItemStylePlain target:self action:@selector(showMoreActionSheet)];
     self.navigationItem.rightBarButtonItem = moreButton;
     
@@ -186,6 +188,7 @@
     self.phoneNumberButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.phoneNumberButton.titleLabel.textAlignment = NSTextAlignmentCenter;
     [self.phoneNumberButton setTitle: ( [self.restaurantProfile.phone integerValue] > 0 ? self.restaurantProfile.phone : @"No Phone\nNumber" ) forState:UIControlStateNormal];
+    self.phoneNumberButton.enabled = [self.restaurantProfile.phone integerValue] > 0 ? YES : NO;
     
     [self.moreInfoButton setImage:[UIImage imageNamed:@"more_info"] forState:UIControlStateNormal];
     [self.moreInfoButton addTarget:self action:@selector(showGradeInfoAlert) forControlEvents:UIControlEventTouchUpInside];

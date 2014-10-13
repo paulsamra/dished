@@ -11,6 +11,8 @@
 #import "DAUserManager.h"
 #import "DANotificationSettingsViewController.h"
 #import "DAEditProfileViewController.h"
+#import "DAAppDelegate.h"
+#import "MRProgress.h"
 
 
 @interface DASettingsViewController() <UIActionSheetDelegate>
@@ -100,7 +102,29 @@
 {
     if( buttonIndex == actionSheet.destructiveButtonIndex )
     {
+        [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"Logging Out..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
         
+        [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+        {
+            NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+            
+            [[DAAPIManager sharedManager] POST:kLogoutURL parameters:parameters
+            success:^( NSURLSessionDataTask *task, id responseObject )
+            {
+                [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+                {
+                    DAAppDelegate *appDelegate = (DAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                    [appDelegate logout];
+                }];
+            }
+            failure:^( NSURLSessionDataTask *task, NSError *error )
+            {
+                [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+                {
+                    [[[UIAlertView alloc] initWithTitle:@"Failed to Log Out" message:@"There was a problem logging you out. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+                }];
+            }];
+        }];
     }
 }
 

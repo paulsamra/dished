@@ -16,20 +16,24 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="A+" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="29v-6h-ZEZ">
-                        <rect key="frame" x="130" y="68" width="80" height="21"/>
+                        <rect key="frame" x="130" y="70" width="80" height="20"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="21" id="Jla-NY-m1e"/>
-                            <constraint firstAttribute="width" constant="80" id="nrJ-VG-GMK"/>
+                            <constraint firstAttribute="width" constant="80" id="LuV-FX-XiV"/>
+                            <constraint firstAttribute="height" constant="20" id="ovk-It-5X0"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Medium" family="Helvetica Neue" pointSize="19"/>
                         <color key="textColor" red="0.3921568627" green="0.40784313729999999" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" minimumFontSize="11" preferredMaxLayoutWidth="145" translatesAutoresizingMaskIntoConstraints="NO" id="fgI-8i-wgp">
-                        <rect key="frame" x="130" y="8" width="135" height="34"/>
-                        <string key="text">No-Bake Blueberry
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="11" preferredMaxLayoutWidth="140" translatesAutoresizingMaskIntoConstraints="NO" id="fgI-8i-wgp">
+                        <rect key="frame" x="130" y="5" width="140" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="140" id="Wce-0y-jLf"/>
+                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="bSv-7e-Szw"/>
+                        </constraints>
+                        <string key="text">No Bake Blueberry
 Truffle Tartlets</string>
-                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="food.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="u1c-pF-dRm">
@@ -70,6 +74,9 @@ Truffle Tartlets</string>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2l8-tU-bbH">
                         <rect key="frame" x="130" y="52" width="182" height="17"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="17" id="fmV-Kr-nnw"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
                         <inset key="titleEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <state key="normal" title="Skopje City Mallg" image="dish_location">
@@ -79,23 +86,21 @@ Truffle Tartlets</string>
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="fgI-8i-wgp" secondAttribute="trailing" constant="55" id="5Au-iR-ehY"/>
+                    <constraint firstAttribute="bottom" secondItem="29v-6h-ZEZ" secondAttribute="bottom" constant="6" id="0gA-l0-hY4"/>
                     <constraint firstItem="u1c-pF-dRm" firstAttribute="top" secondItem="VAm-Dq-PNs" secondAttribute="top" constant="6" id="GRs-rn-fJz"/>
-                    <constraint firstItem="fgI-8i-wgp" firstAttribute="top" secondItem="VAm-Dq-PNs" secondAttribute="top" constant="8" id="Jfh-tb-824"/>
+                    <constraint firstItem="fgI-8i-wgp" firstAttribute="top" secondItem="VAm-Dq-PNs" secondAttribute="top" constant="5" id="Jfh-tb-824"/>
                     <constraint firstAttribute="bottom" secondItem="HMt-UO-HO5" secondAttribute="bottom" constant="5" id="Kya-Ik-99U"/>
                     <constraint firstItem="HMt-UO-HO5" firstAttribute="leading" secondItem="AV9-t2-Maj" secondAttribute="trailing" constant="8" id="RWg-x2-MRE"/>
-                    <constraint firstAttribute="bottom" secondItem="29v-6h-ZEZ" secondAttribute="bottom" constant="7" id="RjU-gn-9i0"/>
                     <constraint firstItem="AV9-t2-Maj" firstAttribute="leading" secondItem="5kL-Q7-VaA" secondAttribute="trailing" constant="9" id="WKx-dW-Mum"/>
                     <constraint firstAttribute="trailing" secondItem="HMt-UO-HO5" secondAttribute="trailing" constant="10" id="WPa-sc-i7l"/>
                     <constraint firstAttribute="bottom" secondItem="5kL-Q7-VaA" secondAttribute="bottom" constant="5" id="f66-lc-Tgf"/>
                     <constraint firstAttribute="trailing" secondItem="2l8-tU-bbH" secondAttribute="trailing" constant="8" id="gOg-m7-p96"/>
                     <constraint firstItem="2l8-tU-bbH" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="hrY-01-ve3"/>
-                    <constraint firstItem="29v-6h-ZEZ" firstAttribute="top" secondItem="2l8-tU-bbH" secondAttribute="bottom" constant="-1" id="nmf-8t-Y48"/>
-                    <constraint firstItem="29v-6h-ZEZ" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="pBI-uR-4IV"/>
+                    <constraint firstItem="29v-6h-ZEZ" firstAttribute="top" secondItem="2l8-tU-bbH" secondAttribute="bottom" constant="1" id="jM9-bm-vLU"/>
                     <constraint firstItem="fgI-8i-wgp" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="ptz-Hh-hGw"/>
                     <constraint firstAttribute="bottom" secondItem="AV9-t2-Maj" secondAttribute="bottom" constant="5" id="q6i-NI-S6V"/>
                     <constraint firstItem="u1c-pF-dRm" firstAttribute="leading" secondItem="VAm-Dq-PNs" secondAttribute="leading" constant="6" id="wBj-MI-1wN"/>
-                    <constraint firstItem="2l8-tU-bbH" firstAttribute="top" secondItem="fgI-8i-wgp" secondAttribute="bottom" constant="10" id="yU5-35-ahk"/>
+                    <constraint firstItem="29v-6h-ZEZ" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="wNE-vW-nhK"/>
                     <constraint firstAttribute="bottom" secondItem="u1c-pF-dRm" secondAttribute="bottom" constant="4" id="yYn-Hu-jPG"/>
                 </constraints>
             </tableViewCellContentView>

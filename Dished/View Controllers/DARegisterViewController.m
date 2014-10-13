@@ -694,7 +694,7 @@
     if( alertView == self.registerSuccessAlert )
     {
         DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-        [delegate setRootView];
+        [delegate login];
     }
 }
 

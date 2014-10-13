@@ -19,6 +19,7 @@
 @property (weak, nonatomic) IBOutlet UITextField     *firstNameField;
 @property (weak, nonatomic) IBOutlet UITextField     *lastNameField;
 @property (weak, nonatomic) IBOutlet UITextField     *emailField;
+@property (weak, nonatomic) IBOutlet UITextField     *phoneNumberField;
 @property (weak, nonatomic) IBOutlet UITextField     *passwordField;
 @property (weak, nonatomic) IBOutlet UITextField     *confirmPasswordField;
 @property (weak, nonatomic) IBOutlet UIImageView     *placeholderUserImageView;

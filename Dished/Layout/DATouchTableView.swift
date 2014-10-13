@@ -33,4 +33,9 @@ class DATouchTableView: UITableView
         super.touchesMoved( touches, withEvent: event )
         self.nextResponder()?.touchesMoved( touches, withEvent: event )
     }
+    
+    override func touchesShouldCancelInContentView(view: UIView!) -> Bool
+    {
+        return true;
+    }
 }

@@ -14,6 +14,8 @@
 #import "DAErrorView.h"
 #import <Crashlytics/Crashlytics.h>
 #import "DAUserManager.h"
+#import "DACoreDataManager.h"
+#import "DANewsManager.h"
 
 
 @interface DAAppDelegate() <DAErrorViewDelegate>
@@ -269,6 +271,20 @@
                        options:UIViewAnimationOptionTransitionCrossDissolve
                     animations:nil
                     completion:nil];
+}
+
+- (void)login
+{
+    [[DANewsManager sharedManager] updateAllNewsWithCompletion:nil];
+    [self setRootView];
+}
+
+- (void)logout
+{
+    [[DAAPIManager sharedManager] logout];
+    [[DAUserManager sharedManager] deleteLocalUserSettings];
+    [[DACoreDataManager sharedManager] resetStore];
+    [self setLoginView];
 }
 
 - (DAErrorView *)errorView

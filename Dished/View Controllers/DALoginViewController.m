@@ -79,7 +79,7 @@
             if( success )
             {
                 DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-                [delegate setRootView];
+                [delegate login];
             }
             else if( wrongUser )
             {

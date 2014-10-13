@@ -943,7 +943,7 @@
         <scene sceneID="T8V-Q3-nBv">
             <objects>
                 <tableViewController id="ip7-Gm-KZc" customClass="DAExploreDishResultsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vgq-L9-vAe">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vgq-L9-vAe" customClass="DATouchTableView" customModule="Dished" customModuleProvider="target">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1290,7 +1290,7 @@
                                     <inset key="sectionInset" minX="24" minY="32" maxX="15" maxY="30"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="filterCell" id="tfz-hd-W1r">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="filterCell" id="tfz-hd-W1r" customClass="DAPhotoFilterCollectionViewCell" customModule="Dished" customModuleProvider="target">
                                         <rect key="frame" x="24" y="42" width="82" height="82"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -1312,6 +1312,11 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                         </view>
+                                        <connections>
+                                            <outlet property="activityIndicator" destination="tTS-3l-iXZ" id="oYM-qW-DkX"/>
+                                            <outlet property="filterNameLabel" destination="aqe-95-tFd" id="z7H-r6-Wre"/>
+                                            <outlet property="photoImageView" destination="dQf-tm-FI3" id="bsI-jh-VAh"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
@@ -1702,7 +1707,7 @@
                                     <constraint firstAttribute="bottom" secondItem="8ob-W7-Kqy" secondAttribute="bottom" id="wdu-k8-1eW"/>
                                 </constraints>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vtb-xV-tXd">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vtb-xV-tXd" customClass="DATouchTableView" customModule="Dished" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="200" width="600" height="400"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -2421,6 +2426,29 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
+                            <tableViewSection id="yhF-Rr-PHb">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="PSB-Hd-t4U">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PSB-Hd-t4U" id="VTh-t2-Udc">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qjD-cQ-eaS">
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="43"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="qjD-cQ-eaS" secondAttribute="trailing" constant="15" id="1Pe-qC-tCa"/>
+                                                <constraint firstItem="qjD-cQ-eaS" firstAttribute="leading" secondItem="VTh-t2-Udc" secondAttribute="leading" constant="15" id="7PU-mP-mDu"/>
+                                                <constraint firstAttribute="bottom" secondItem="qjD-cQ-eaS" secondAttribute="bottom" id="YqU-7V-bF9"/>
+                                                <constraint firstItem="qjD-cQ-eaS" firstAttribute="top" secondItem="VTh-t2-Udc" secondAttribute="top" id="om3-PJ-9Jp"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
                             <tableViewSection id="uaG-ya-MWJ">
                                 <cells>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" id="Bo9-JT-ljQ">
@@ -2505,24 +2533,6 @@
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
-                            <tableViewSection id="yhF-Rr-PHb">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="j1S-hz-bZd" style="IBUITableViewCellStyleDefault" id="PSB-Hd-t4U">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="PSB-Hd-t4U" id="VTh-t2-Udc">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Become an Influencer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="j1S-hz-bZd">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
                         </sections>
                         <connections>
                             <outlet property="dataSource" destination="af1-Ep-kcC" id="0q8-WK-Pdq"/>
@@ -2542,6 +2552,7 @@
                         <outlet property="lastNameField" destination="Hlw-Xv-cA9" id="DfS-io-N71"/>
                         <outlet property="nameSeperatorHeightConstraint" destination="jCQ-Bl-jjj" id="cWo-25-fbp"/>
                         <outlet property="passwordField" destination="sOn-Vd-KeC" id="MAJ-ks-rMW"/>
+                        <outlet property="phoneNumberField" destination="qjD-cQ-eaS" id="lEH-BY-fgJ"/>
                         <outlet property="placeholderUserImageView" destination="Hc4-MZ-aby" id="CgY-wv-llg"/>
                         <outlet property="userImageView" destination="4ca-4C-17M" id="VpQ-Xb-PW6"/>
                         <outlet property="usernameLabel" destination="Tb6-KW-ARU" id="ciB-SA-4gv"/>
@@ -4250,11 +4261,11 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="h3Z-0T-q76"/>
+        <segue reference="bNY-2x-UqY"/>
+        <segue reference="Pvw-SR-10w"/>
+        <segue reference="DWl-1Z-W5u"/>
         <segue reference="wCN-0l-elF"/>
         <segue reference="52f-zN-P3a"/>
-        <segue reference="Pvw-SR-10w"/>
-        <segue reference="bNY-2x-UqY"/>
-        <segue reference="GvD-hA-tHw"/>
-        <segue reference="DWl-1Z-W5u"/>
     </inferredMetricsTieBreakers>
 </document>

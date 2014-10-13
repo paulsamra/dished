@@ -17,6 +17,8 @@
 
 - (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error;
 
+- (void)login;
+- (void)logout;
 - (void)setRootView;
 - (void)setLoginView;
 

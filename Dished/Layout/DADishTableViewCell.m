@@ -14,7 +14,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
+        
     if( self.isExplore )
     {
         self.rightNumberLabel.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"dish_result_influencers"]];

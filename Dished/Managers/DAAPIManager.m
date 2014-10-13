@@ -177,14 +177,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         }
     }
     
-    if( self.isAuthenticating )
-    {
-        if( completion )
-        {
-            completion( YES );
-        }
-    }
-    
     dispatch_async( self.queue, ^
     {
         dispatch_async( dispatch_get_main_queue(), ^
@@ -424,13 +416,11 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)logout
 {
-    [SSKeychain deletePasswordForService:kKeychainService account:kClientSecretKey];
     [SSKeychain deletePasswordForService:kKeychainService account:kAccessTokenKey];
     [SSKeychain deletePasswordForService:kKeychainService account:kRefreshTokenKey];
     
     self.accessToken  = nil;
     self.refreshToken = nil;
-    self.clientSecret = nil;
 }
 
 - (void)requestPasswordResetCodeWithPhoneNumber:(NSString *)phoneNumber completion:(void(^)( BOOL success ))completion

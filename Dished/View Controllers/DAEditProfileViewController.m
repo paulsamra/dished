@@ -131,7 +131,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.section == 5 && indexPath.row == 0 )
+    if( indexPath.section == 6 && indexPath.row == 0 )
     {
         [self toggleDatePicker];
     }
@@ -141,7 +141,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.section == 5 && indexPath.row == 1 )
+    if( indexPath.section == 6 && indexPath.row == 1 )
     {
         DADatePickerTableViewCell *cell = [[DADatePickerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"datePickerCell"];
         
@@ -160,7 +160,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if( section == 5 && self.pickerIndexPath )
+    if( section == 6 && self.pickerIndexPath )
     {
         return 2;
     }
@@ -170,7 +170,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.section == 5 && indexPath.row == 1 )
+    if( indexPath.section == 6 && indexPath.row == 1 )
     {
         return 175;
     }
@@ -180,7 +180,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.section == 5  && indexPath.row == 1 )
+    if( indexPath.section == 6  && indexPath.row == 1 )
     {
         return [super tableView:tableView indentationLevelForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     }
@@ -192,7 +192,7 @@
 {
     [self.tableView beginUpdates];
     
-    NSArray *indexPaths = @[ [NSIndexPath indexPathForRow:1 inSection:5] ];
+    NSArray *indexPaths = @[ [NSIndexPath indexPathForRow:1 inSection:6] ];
     
     if ( self.pickerIndexPath )
     {
