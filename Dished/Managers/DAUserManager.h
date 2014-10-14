@@ -19,13 +19,14 @@ typedef enum
 @interface DAUserManager : NSObject
 
 @property (copy, nonatomic, readonly) NSDate   *dateOfBirth;
-@property (copy, nonatomic, readonly) NSString *firstName;
-@property (copy, nonatomic, readonly) NSString *lastName;
-@property (copy, nonatomic, readonly) NSString *username;
 @property (copy, nonatomic, readonly) NSString *desc;
 @property (copy, nonatomic, readonly) NSString *email;
-@property (copy, nonatomic, readonly) NSString *img_thumb;
+@property (copy, nonatomic, readonly) NSString *username;
 @property (copy, nonatomic, readonly) NSString *userType;
+@property (copy, nonatomic, readonly) NSString *lastName;
+@property (copy, nonatomic, readonly) NSString *firstName;
+@property (copy, nonatomic, readonly) NSString *img_thumb;
+@property (copy, nonatomic, readonly) NSString *phoneNumber;
 
 @property (nonatomic, readonly) BOOL         savesDishPhoto;
 @property (nonatomic, readonly) BOOL         publicProfile;
@@ -41,6 +42,9 @@ typedef enum
 - (void)saveDishPhotoSetting:(BOOL)dishPhotoSetting completion:( void(^)( BOOL success ) )completion;
 - (void)savePrivacySetting:(BOOL)privacySetting completion:( void(^)( BOOL success ) )completion;
 - (void)setUserProfileImage:(UIImage *)image completion:( void(^)( BOOL success ) )completion;
+- (void)setYumPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;
+- (void)setCommentPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;
+- (void)setReviewPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;
 - (void)deleteLocalUserSettings;
 
 @end

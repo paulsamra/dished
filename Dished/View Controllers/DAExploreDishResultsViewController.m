@@ -78,6 +78,7 @@
         }
         else if( [self.searchTerm characterAtIndex:0] == '#' )
         {
+            self.searchTerm = [self.searchTerm substringFromIndex:1];
             self.title = [NSString stringWithFormat:@"#%@", self.searchTerm];
             
             [[DAAPIManager sharedManager] exploreDishesWithHashtagSearchTaskWithQuery:self.searchTerm

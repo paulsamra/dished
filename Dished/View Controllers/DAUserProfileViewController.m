@@ -50,6 +50,11 @@
     
     if( self.username )
     {
+        if( [self.username characterAtIndex:0] == '@' )
+        {
+            self.username = [self.username substringFromIndex:1];
+        }
+        
         self.navigationItem.title = self.isRestaurant ? self.username : [NSString stringWithFormat:@"@%@", self.username];
     }
     
@@ -142,22 +147,27 @@
     }
     else
     {
-        [[DAAPIManager sharedManager] getUserProfileWithUserID:self.user_id completion:^( id response, NSError *error )
+        [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
         {
-            if( !response || error )
+            NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
+                                          ( self.username ? self.username : @(self.user_id) ) };
+            parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+            
+            [[DAAPIManager sharedManager] GET:kUserProfileURL parameters:parameters
+            success:^( NSURLSessionDataTask *task, id responseObject )
             {
-                
-            }
-            else
-            {
-                self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( response, @"data" )];
+                self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, @"data" )];
                 [self configureForUserProfile];
                 
                 [spinner stopAnimating];
                 [spinner removeFromSuperview];
-                 
+                
                 [self setMainViewsHidden:NO animated:YES];
             }
+            failure:^( NSURLSessionDataTask *task, NSError *error )
+            {
+                
+            }];
         }];
     }
 }

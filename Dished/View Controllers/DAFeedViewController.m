@@ -22,12 +22,13 @@
 #import "DAFeedHeaderCollectionReusableView.h"
 #import "DAReviewDetailCollectionViewCell.h"
 #import "DAReviewButtonsCollectionViewCell.h"
+#import "DAExploreDishResultsViewController.h"
 
 static NSString *const kReviewDetailCellIdentifier  = @"reviewDetailCell";
 static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 
-@interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate, DAReviewButtonsCollectionViewCellDelegate>
+@interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate>
 
 @property (strong, nonatomic) NSCache                          *mainImageCache;
 @property (strong, nonatomic) UIImageView                      *yumTapImageView;
@@ -212,6 +213,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         NSString *yumsString = [NSString stringWithFormat:@"%d YUMs", (int)[feedItem.num_yums integerValue]];
         yumCell.textView.attributedText = [[NSAttributedString alloc] initWithString:yumsString attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
         
+        yumCell.delegate = self;
+        
         cell = yumCell;
     }
     else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
@@ -225,6 +228,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         commentCell.iconImageView.hidden = indexPath.row - ( num_yums > 0 ? 2 : 1 ) == 0 ? NO : YES;
         commentCell.textView.attributedText = [self commentStringForComment:comment];
+        
+        commentCell.delegate = self;
         
         cell = commentCell;
     }
@@ -501,6 +506,38 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
     
     [self performSegueWithIdentifier:@"globalDish" sender:feedItem];
+}
+
+- (void)textViewTappedAtCharacterIndex:(NSUInteger)characterIndex inCell:(DAReviewDetailCollectionViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
+    NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
+    NSInteger num_yums = [feedItem.num_yums integerValue];
+    
+    if( num_yums > 0 && indexPath.row == 1 )
+    {
+        
+    }
+    else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
+    {
+        eLinkedTextType linkedTextType = [cell.textView linkedTextTypeForCharacterAtIndex:characterIndex];
+        
+        if( linkedTextType == eLinkedTextTypeHashtag )
+        {
+            DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
+            exploreResultsViewController.searchTerm = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+            [self.navigationController pushViewController:exploreResultsViewController animated:YES];
+        }
+        else if( linkedTextType == eLinkedTextTypeUsername )
+        {
+            DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+            userProfileViewController.username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+            userProfileViewController.isRestaurant = NO;
+            [self.navigationController pushViewController:userProfileViewController animated:YES];
+        }
+    }
 }
 
 - (void)locationButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell

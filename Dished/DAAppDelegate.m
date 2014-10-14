@@ -275,6 +275,7 @@
 
 - (void)login
 {
+    [[DAUserManager sharedManager] loadUserInfoWithCompletion:nil];
     [[DANewsManager sharedManager] updateAllNewsWithCompletion:nil];
     [self setRootView];
 }

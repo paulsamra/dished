@@ -77,6 +77,28 @@
     [self deselectAllRows];
     
     [self selectRowWithPushSetting:pushSetting];
+    
+    if( [self.notificationType isEqualToString:@"yum"] )
+    {
+        [[DAUserManager sharedManager] setYumPushNotificationSetting:pushSetting completion:^( BOOL success )
+        {
+            [self populateSetting];
+        }];
+    }
+    else if( [self.notificationType isEqualToString:@"comment"] )
+    {
+        [[DAUserManager sharedManager] setCommentPushNotificationSetting:pushSetting completion:^( BOOL success )
+        {
+            [self populateSetting];
+        }];
+    }
+    else if( [self.notificationType isEqualToString:@"review"] )
+    {
+        [[DAUserManager sharedManager] setReviewPushNotificationSetting:pushSetting completion:^( BOOL success )
+        {
+            [self populateSetting];
+        }];
+    }
 }
 
 @end

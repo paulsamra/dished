@@ -12,18 +12,26 @@
 
 @interface DAUserManager()
 
-@property (copy, nonatomic, readwrite) NSString *firstName;
-@property (copy, nonatomic, readwrite) NSString *lastName;
-@property (copy, nonatomic, readwrite) NSString *username;
+@property (copy, nonatomic, readwrite) NSDate   *dateOfBirth;
 @property (copy, nonatomic, readwrite) NSString *desc;
 @property (copy, nonatomic, readwrite) NSString *email;
+@property (copy, nonatomic, readwrite) NSString *lastName;
+@property (copy, nonatomic, readwrite) NSString *username;
+@property (copy, nonatomic, readwrite) NSString *userType;
+@property (copy, nonatomic, readwrite) NSString *firstName;
 @property (copy, nonatomic, readwrite) NSString *img_thumb;
+@property (copy, nonatomic, readwrite) NSString *phoneNumber;
 
+@property (strong, nonatomic) NSURLSessionTask *yumPushTask;
 @property (strong, nonatomic) NSURLSessionTask *userImageTask;
+@property (strong, nonatomic) NSURLSessionTask *reviewPushTask;
+@property (strong, nonatomic) NSURLSessionTask *loadProfileTask;
+@property (strong, nonatomic) NSURLSessionTask *commentPushTask;
 @property (strong, nonatomic) NSURLSessionTask *loadSettingsTask;
-@property (strong, nonatomic) NSURLSessionTask *dishPhotoURLTask;
-@property (strong, nonatomic) NSURLSessionTask *profilePrivacyURLTask;
+@property (strong, nonatomic) NSURLSessionTask *dishPhotoTask;
+@property (strong, nonatomic) NSURLSessionTask *profilePrivacyTask;
 
+@property (nonatomic, readwrite) BOOL         userProfileSuccessfullySaved;
 @property (nonatomic, readwrite) BOOL         savesDishPhoto;
 @property (nonatomic, readwrite) BOOL         publicProfile;
 @property (nonatomic, readwrite) ePushSetting receivesYumPushNotifications;
@@ -53,6 +61,9 @@
     if( self = [super init] )
     {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUserData) name:UIApplicationDidFinishLaunchingNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkNeedsRefresh) name:UIApplicationWillEnterForegroundNotification object:nil];
+        
+        _userProfileSuccessfullySaved = NO;
         
         [self restoreProfile];
     }
@@ -68,41 +79,100 @@
     }
 }
 
+- (void)checkNeedsRefresh
+{
+    if( !self.userProfileSuccessfullySaved )
+    {
+        [self refreshUserData];
+    }
+}
+
 - (void)loadUserInfoWithCompletion:( void (^)( BOOL success ) )completion
 {
     [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+        dispatch_group_t group = dispatch_group_create();
+        dispatch_group_enter( group );
+        
+        __block BOOL successful = YES;
+        
+        NSDictionary *settingsParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
         
         [self.loadSettingsTask cancel];
         
-        self.loadSettingsTask = [[DAAPIManager sharedManager] GET:kUserSettingsURL parameters:parameters
+        self.loadSettingsTask = [[DAAPIManager sharedManager] GET:kUserSettingsURL parameters:settingsParameters
         success:^( NSURLSessionDataTask *task, id responseObject )
         {
             NSDictionary *settings = nilOrJSONObjectForKey( responseObject, kDataKey );
-            [self saveSettingsWithSettingsData:settings];
-            [self saveProfile];
+            [self setSettingsWithSettingsData:settings];
             
-            if( completion )
-            {
-                completion( YES );
-            }
+            dispatch_group_leave( group );
         }
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {
+            successful &= NO;
             
+            dispatch_group_leave( group );
         }];
+        
+        dispatch_group_enter( group );
+        
+        NSDictionary *profileParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+        
+        [self.loadProfileTask cancel];
+        
+        self.loadProfileTask = [[DAAPIManager sharedManager] GET:kUsersURL parameters:profileParameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            NSDictionary *profile = nilOrJSONObjectForKey( responseObject, kDataKey );
+            [self setProfileWithProfileData:profile];
+            
+            dispatch_group_leave( group );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            successful &= NO;
+            
+            dispatch_group_leave( group );
+        }];
+        
+        dispatch_group_notify( group, dispatch_get_main_queue(), ^
+        {
+            [self saveProfile];
+            
+            self.userProfileSuccessfullySaved = successful;
+            
+            if( completion )
+            {
+                completion( successful );
+            }
+        });
     }];
 }
 
-- (void)saveSettingsWithSettingsData:(id)settings
+- (void)setSettingsWithSettingsData:(id)settings
 {
-    self.publicProfile  = [nilOrJSONObjectForKey( settings, kPublicKey )    boolValue];
+    self.publicProfile  = [nilOrJSONObjectForKey( settings, kPublicKey    ) boolValue];
     self.savesDishPhoto = [nilOrJSONObjectForKey( settings, kSavePhotoKey ) boolValue];
     
-    self.receivesYumPushNotifications     = [self pushSettingForSetting:nilOrJSONObjectForKey( settings, kPushYumKey )];
-    self.receivesReviewPushNotifications  = [self pushSettingForSetting:nilOrJSONObjectForKey( settings, kPushReviewKey )];
-    self.receivesCommentPushNotifications = [self pushSettingForSetting:nilOrJSONObjectForKey( settings, kPushCommentKey )];
+    self.receivesYumPushNotifications     = [self pushSettingForSettingString:nilOrJSONObjectForKey( settings, kPushYumKey )];
+    self.receivesReviewPushNotifications  = [self pushSettingForSettingString:nilOrJSONObjectForKey( settings, kPushReviewKey )];
+    self.receivesCommentPushNotifications = [self pushSettingForSettingString:nilOrJSONObjectForKey( settings, kPushCommentKey )];
+}
+
+- (void)setProfileWithProfileData:(id)profile
+{
+    NSTimeInterval dateOfBirthTimestamp = [nilOrJSONObjectForKey( profile, kDateOfBirthKey ) doubleValue];
+    self.dateOfBirth = [NSDate dateWithTimeIntervalSince1970:dateOfBirthTimestamp];
+    
+    self.desc        = nilOrJSONObjectForKey( profile, kDescriptionKey );
+    self.email       = nilOrJSONObjectForKey( profile, kEmailKey       );
+    self.userType    = nilOrJSONObjectForKey( profile, kTypeKey        );
+    self.lastName    = nilOrJSONObjectForKey( profile, @"lastname"     );
+    self.username    = nilOrJSONObjectForKey( profile, kUsernameKey    );
+    self.firstName   = nilOrJSONObjectForKey( profile, @"firstname"    );
+    self.img_thumb   = nilOrJSONObjectForKey( profile, kImgThumbKey    );
+    self.phoneNumber = nilOrJSONObjectForKey( profile, kPhoneKey       );
 }
 
 - (void)setUserProfileImage:(UIImage *)image completion:( void(^)( BOOL success ) )completion
@@ -140,7 +210,7 @@
     }];
 }
 
-- (ePushSetting)pushSettingForSetting:(NSString *)setting
+- (ePushSetting)pushSettingForSettingString:(NSString *)setting
 {
     ePushSetting pushSetting = ePushSettingOff;
     
@@ -162,54 +232,105 @@
 
 - (void)saveDishPhotoSetting:(BOOL)dishPhotoSetting completion:( void(^)( BOOL success ) )completion
 {
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
-    {
-        NSDictionary *parameters = @{ kSavePhotoKey : @(dishPhotoSetting) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        [self.dishPhotoURLTask cancel];
-        
-        self.dishPhotoURLTask = [[DAAPIManager sharedManager] POST:kUserSettingsURL parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            NSDictionary *settings = nilOrJSONObjectForKey( responseObject, kDataKey );
-            [self saveSettingsWithSettingsData:settings];
-            [self saveProfile];
-            
-            if( completion )
-            {
-                completion( YES );
-            }
-        }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            eErrorType errorType = [DAAPIManager errorTypeForError:error];
-            
-            if( errorType != eErrorTypeRequestCancelled )
-            {
-                if( completion )
-                {
-                    completion( NO );
-                }
-            }
-        }];
-    }];
+    NSDictionary *parameters = @{ kSavePhotoKey : @(dishPhotoSetting) };
+    [self saveSettingsToServerWithParameters:parameters completion:completion];
 }
 
 - (void)savePrivacySetting:(BOOL)privacySetting completion:( void(^)( BOOL success ) )completion
 {
+    NSDictionary *parameters = @{ kPublicKey : @(privacySetting) };
+    [self saveSettingsToServerWithParameters:parameters completion:completion];
+}
+
+- (void)setYumPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion
+{
+    NSDictionary *parameters = @{ kPushYumKey : [self pushSettingStringForPushSetting:pushSetting] };
+    [self saveSettingsToServerWithParameters:parameters completion:completion];
+}
+
+- (void)setCommentPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion
+{
+    NSDictionary *parameters = @{ kPushCommentKey : [self pushSettingStringForPushSetting:pushSetting] };
+    [self saveSettingsToServerWithParameters:parameters completion:completion];
+}
+
+- (void)setReviewPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion
+{
+    NSDictionary *parameters = @{ kPushReviewKey : [self pushSettingStringForPushSetting:pushSetting] };
+    [self saveSettingsToServerWithParameters:parameters completion:completion];
+}
+
+- (NSURLSessionTask *)getTaskWithParameters:(NSDictionary *)parameters
+{
+    NSURLSessionTask *task = nil;
+    
+    for( NSString *key in parameters )
+    {
+        if( [key isEqualToString:kPushYumKey] )
+        {
+            task = self.yumPushTask;
+        }
+        else if( [key isEqualToString:kPushCommentKey] )
+        {
+            task = self.commentPushTask;
+        }
+        else if( [key isEqualToString:kPushReviewKey] )
+        {
+            task = self.reviewPushTask;
+        }
+        else if( [key isEqualToString:kPublicKey] )
+        {
+            task = self.profilePrivacyTask;
+        }
+        else if( [key isEqualToString:kSavePhotoKey] )
+        {
+            task = self.dishPhotoTask;
+        }
+    }
+    
+    return task;
+}
+
+- (void)setTask:(NSURLSessionTask *)task withParameters:(NSDictionary *)parameters
+{
+    for( NSString *key in parameters )
+    {
+        if( [key isEqualToString:kPushYumKey] )
+        {
+            self.yumPushTask = task;
+        }
+        else if( [key isEqualToString:kPushCommentKey] )
+        {
+            self.commentPushTask = task;
+        }
+        else if( [key isEqualToString:kPushReviewKey] )
+        {
+            self.reviewPushTask = task;
+        }
+        else if( [key isEqualToString:kPublicKey] )
+        {
+            self.profilePrivacyTask = task;
+        }
+        else if( [key isEqualToString:kSavePhotoKey] )
+        {
+            self.dishPhotoTask = task;
+        }
+    }
+}
+
+- (void)saveSettingsToServerWithParameters:(NSDictionary *)parameters completion:( void(^)( BOOL success ) )completion
+{
     [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        NSDictionary *parameters = @{ kPublicKey : @(privacySetting) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
         
-        [self.profilePrivacyURLTask cancel];
+        [[self getTaskWithParameters:parameters] cancel];
         
-        self.profilePrivacyURLTask = [[DAAPIManager sharedManager] POST:kUserSettingsURL parameters:parameters
+        NSURLSessionTask *task = [[DAAPIManager sharedManager] POST:kUserSettingsURL parameters:authParameters
         success:^( NSURLSessionDataTask *task, id responseObject )
         {
             NSDictionary *settings = nilOrJSONObjectForKey( responseObject, kDataKey );
-            [self saveSettingsWithSettingsData:settings];
+            [self setSettingsWithSettingsData:settings];
             [self saveProfile];
             
             if( completion )
@@ -229,7 +350,23 @@
                 }
             }
         }];
+        
+        [self setTask:task withParameters:parameters];
     }];
+}
+
+- (NSString *)pushSettingStringForPushSetting:(ePushSetting)pushSetting
+{
+    NSString *pushSettingString = kNone;
+    
+    switch( pushSetting )
+    {
+        case ePushSettingOff:      pushSettingString = kNone;   break;
+        case ePushSettingEveryone: pushSettingString = kAll;    break;
+        case ePushSettingFollowed: pushSettingString = kFollow; break;
+    }
+    
+    return pushSettingString;
 }
 
 - (void)deleteLocalUserSettings

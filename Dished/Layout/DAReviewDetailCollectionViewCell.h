@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DALinkedTextView.h"
 
 
 @class DAReviewDetailCollectionViewCell;
@@ -14,7 +15,7 @@
 @protocol DAReviewDetailCollectionViewCellDelegate <NSObject>
 
 @optional
-- (void)linkedTextTappedWithAttributes:(NSDictionary *)attributes;
+- (void)textViewTappedAtCharacterIndex:(NSUInteger)characterIndex inCell:(DAReviewDetailCollectionViewCell *)cell;
 
 @end
 
@@ -23,8 +24,8 @@
 
 @property (weak, nonatomic) id<DAReviewDetailCollectionViewCellDelegate> delegate;
 
-@property (weak, nonatomic) IBOutlet UIImageView *iconImageView;
-@property (weak, nonatomic) IBOutlet UITextView  *textView;
+@property (weak, nonatomic) IBOutlet UIImageView      *iconImageView;
+@property (weak, nonatomic) IBOutlet DALinkedTextView *textView;
 
 + (DAReviewDetailCollectionViewCell *)sizingCell;
 + (NSDictionary *)linkedTextAttributes;

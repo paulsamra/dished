@@ -45,16 +45,9 @@
     
     if( characterIndex < textView.textStorage.length )
     {
-//        NSRange range;
-//        id value = [textView.attributedText attribute:@"myCustomTag" atIndex:characterIndex effectiveRange:&range];
-//        NSLog(@"%@, %d, %d", value, (int)range.location, (int)range.length);
-        
-        NSDictionary *attributes = [textView.attributedText attributesAtIndex:characterIndex effectiveRange:nil];
-        NSLog(@"%@", textView.attributedText);
-        
-        if( [self.delegate respondsToSelector:@selector(linkedTextTappedWithAttributes:)] )
+        if( [self.delegate respondsToSelector:@selector(textViewTappedAtCharacterIndex:inCell:)] )
         {
-            [self.delegate linkedTextTappedWithAttributes:attributes];
+            [self.delegate textViewTappedAtCharacterIndex:characterIndex inCell:self];
         }
     }
 }

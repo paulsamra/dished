@@ -32,10 +32,12 @@ extern NSString *const kFollowingSubtypeSingleUserMultiYum;
 extern NSString *const kFollowingSubtypeMultiUserYum;
 extern NSString *const kFollowingSubtypeTwoUserYum;
 
+extern NSString *const kUsersURL;
 extern NSString *const kLogoutURL;
 extern NSString *const kHashtagsURL;
 extern NSString *const kUserImageURL;
 extern NSString *const kDishSearchURL;
+extern NSString *const kUserProfileURL;
 extern NSString *const kEditProfileURL;
 extern NSString *const kUserSettingsURL;
 extern NSString *const kEmailAvailabilityURL;
@@ -55,10 +57,13 @@ extern NSString *const kDistanceKey;
 extern NSString *const kDishTypeKey;
 extern NSString *const kUsernameKey;
 extern NSString *const kGoogleIDKey;
+extern NSString *const kImgThumbKey;
 extern NSString *const kSavePhotoKey;
 extern NSString *const kLocationIDKey;
-extern NSString *const kHashtagTypeKey;
 extern NSString *const kPushReviewKey;
+extern NSString *const kDateOfBirthKey;
+extern NSString *const kHashtagTypeKey;
+extern NSString *const kDescriptionKey;
 extern NSString *const kPushCommentKey;
 extern NSString *const kLocationNameKey;
 

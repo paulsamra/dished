@@ -8,6 +8,7 @@
 
 #import "DAEditProfileViewController.h"
 #import "DAUserManager.h"
+#import "UIImageView+WebCache.h"
 
 
 @interface DAEditProfileViewController() <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
@@ -28,6 +29,9 @@
     self.tableView.contentInset = UIEdgeInsetsMake( -35, 0, 0, 0 );
     self.tableView.rowHeight = 44.0;
     self.tableView.estimatedRowHeight = 44.0;
+    
+    self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
+    self.userImageView.layer.masksToBounds = YES;
     
     self.descriptionTextView.placeholder = @"Description";
     
@@ -61,14 +65,29 @@
     self.dateOfBirth = userManager.dateOfBirth;
     
     self.emailField.text          = userManager.email;
-    self.usernameLabel.text       = userManager.username;
+    self.usernameLabel.text       = [NSString stringWithFormat:@"@%@", userManager.username];
     self.lastNameField.text       = userManager.lastName;
     self.firstNameField.text      = userManager.firstName;
+    self.phoneNumberField.text    = userManager.phoneNumber;
     self.descriptionTextView.text = userManager.desc;
     
     if( userManager.dateOfBirth )
     {
+        self.dateOfBirth = userManager.dateOfBirth;
         self.dateOfBirthCell.detailTextLabel.text = [self.dateFormatter stringFromDate:userManager.dateOfBirth];
+    }
+    
+    if( userManager.img_thumb )
+    {
+        self.addPhotoLabel.hidden = YES;
+        self.placeholderUserImageView.hidden = YES;
+        
+        NSURL *userImageURL = [NSURL URLWithString:userManager.img_thumb];
+        [self.userImageView sd_setImageWithURL:userImageURL];
+    }
+    else
+    {
+        self.userImageView.hidden = YES;
     }
 }
 

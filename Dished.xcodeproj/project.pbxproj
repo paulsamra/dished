@@ -159,6 +159,7 @@
 		94CB040719B15FB9009010F6 /* JSQMessagesKeyboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB040619B15FB9009010F6 /* JSQMessagesKeyboardController.m */; };
 		94D8D69419EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8D69319EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift */; };
 		94D8D69A19EC7B12001A9EC3 /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D8D69919EC7B12001A9EC3 /* DAFeedItem.m */; };
+		94D8D69D19EC8BBE001A9EC3 /* DALinkedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */; };
 		94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9A71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m */; };
 		94DCE9B81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9A91980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m */; };
 		94DCE9B91980ABB100396C0A /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9AB1980ABB100396C0A /* UIAlertView+AFNetworking.m */; };
@@ -489,6 +490,8 @@
 		94D8D69319EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAPhotoFilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		94D8D69819EC7B12001A9EC3 /* DAFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedItem.h; sourceTree = "<group>"; };
 		94D8D69919EC7B12001A9EC3 /* DAFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedItem.m; sourceTree = "<group>"; };
+		94D8D69B19EC8BBE001A9EC3 /* DALinkedTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALinkedTextView.h; sourceTree = "<group>"; };
+		94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALinkedTextView.m; sourceTree = "<group>"; };
 		94DCE9A61980ABB100396C0A /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
 		94DCE9A71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
 		94DCE9A81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityIndicatorView+AFNetworking.h"; sourceTree = "<group>"; };
@@ -1375,6 +1378,8 @@
 				944D1E7419DB8514006F73BF /* DAFollowListTableViewCell.swift */,
 				944D1E7619DB853A006F73BF /* DAFollowListTableViewCell.xib */,
 				94B43AAD19EB6D9500482F52 /* DACollectionView.swift */,
+				94D8D69B19EC8BBE001A9EC3 /* DALinkedTextView.h */,
+				94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -1511,6 +1516,7 @@
 				94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */,
 				942AA00E19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m in Sources */,
 				94237E5E194A2CF6004DFAB6 /* DAForgotPasswordViewController.m in Sources */,
+				94D8D69D19EC8BBE001A9EC3 /* DALinkedTextView.m in Sources */,
 				94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */,
 				94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */,
 				D112F41519BE00550059300F /* DAReviewDetailCollectionViewCell.m in Sources */,

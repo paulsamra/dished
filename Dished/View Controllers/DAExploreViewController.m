@@ -357,7 +357,7 @@
                 break;
                 
             case eHashtagSearchResult:
-                [self performSegueWithIdentifier:@"dishResults" sender:searchResult.name];
+                [self performSegueWithIdentifier:@"dishResults" sender:[NSString stringWithFormat:@"#%@", searchResult.name]];
                 break;
                 
             case eDishSearchResult:
