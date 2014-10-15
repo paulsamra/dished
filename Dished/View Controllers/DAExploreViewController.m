@@ -468,7 +468,7 @@
 {
     DAHashtag *selectedHashtag = self.hashtags[indexPath.row];
     
-    [self performSegueWithIdentifier:@"dishResults" sender:selectedHashtag.name];
+    [self performSegueWithIdentifier:@"dishResults" sender:[NSString stringWithFormat:@"#%@", selectedHashtag.name]];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

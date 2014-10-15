@@ -25,16 +25,25 @@
 
 - (void)setAttributedText:(NSAttributedString *)attributedText
 {
-    NSAttributedString *linkedAttributedText = [self addLinkedTextAttributesToAttributedText:attributedText];
+    NSAttributedString *linkedAttributedText = [self addLinkedTextAttributesToAttributedText:attributedText withDelimiter:nil];
     
     [super setAttributedText:linkedAttributedText];
     
     self.attributedString = linkedAttributedText;
 }
 
-- (NSAttributedString *)addLinkedTextAttributesToAttributedText:(NSAttributedString *)attributedText
+- (void)setAttributedText:(NSAttributedString *)attributedText withDelimiter:(NSString *)delimiter
 {
-    NSArray *words = [attributedText.string componentsSeparatedByString:@" "];
+    NSAttributedString *linkedAttributedText = [self addLinkedTextAttributesToAttributedText:attributedText withDelimiter:delimiter];
+    
+    [super setAttributedText:linkedAttributedText];
+    
+    self.attributedString = linkedAttributedText;
+}
+
+- (NSAttributedString *)addLinkedTextAttributesToAttributedText:(NSAttributedString *)attributedText withDelimiter:(NSString *)delimiter
+{
+    NSArray *words = [attributedText.string componentsSeparatedByString:delimiter ? delimiter : @" "];
     NSMutableAttributedString *linkedText = [attributedText mutableCopy];
     NSRange currentRange = NSMakeRange( 0, attributedText.string.length );
     

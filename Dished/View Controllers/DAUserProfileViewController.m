@@ -193,12 +193,16 @@
     self.userImageView.layer.cornerRadius     = 10;
     self.descriptionHeightConstraint.constant = 0;
     
-    NSString *formattedPhontNumber = [NSString stringWithFormat:@"(%@) %@-%@", [self.restaurantProfile.phone substringWithRange:NSMakeRange( 0, 3 )], [self.restaurantProfile.phone substringWithRange:NSMakeRange( 3, 3 )], [self.restaurantProfile.phone substringFromIndex:6]];
-    self.phoneNumberButton.titleLabel.numberOfLines = 0;
+    NSString *phoneNumberString = @"No Phone Number";
+    
+    if( self.restaurantProfile.phone )
+    {
+        phoneNumberString = [NSString stringWithFormat:@"(%@) %@-%@", [self.restaurantProfile.phone substringWithRange:NSMakeRange( 0, 3 )], [self.restaurantProfile.phone substringWithRange:NSMakeRange( 3, 3 )], [self.restaurantProfile.phone substringFromIndex:6]];
+    }
     self.phoneNumberButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.phoneNumberButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
     self.phoneNumberButton.titleLabel.textAlignment = NSTextAlignmentCenter;
-    [self.phoneNumberButton setTitle: ( [self.restaurantProfile.phone integerValue] > 0 ? formattedPhontNumber : @"No Phone\nNumber" ) forState:UIControlStateNormal];
+    [self.phoneNumberButton setTitle:phoneNumberString forState:UIControlStateNormal];
     self.phoneNumberButton.enabled = [self.restaurantProfile.phone integerValue] > 0 ? YES : NO;
     
     [self.moreInfoButton setImage:[UIImage imageNamed:@"more_info"] forState:UIControlStateNormal];

@@ -177,37 +177,37 @@
 
 - (void)setUserProfileImage:(UIImage *)image completion:( void(^)( BOOL success ) )completion
 {
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
-    {
-        NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
-        
-        [[DAAPIManager sharedManager] POST:kUserImageURL parameters:parameters
-        constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
-        {
-            if( image )
-            {
-                float compression = 0.8;
-                NSData *imageData = UIImageJPEGRepresentation( image, compression );
-                int maxFileSize = 2000000;
-                while( [imageData length] > maxFileSize )
-                {
-                    compression -= 0.1;
-                    imageData = UIImageJPEGRepresentation( image, compression );
-                }
-                 
-                [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
-            }
-        }
-        success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            completion( YES );
-        }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            NSLog(@"failure: %@", error );
-            completion( NO );
-        }];
-    }];
+//    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+//    {
+//        NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+//        
+//        [[DAAPIManager sharedManager] POST:kUserImageURL parameters:parameters
+//        constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
+//        {
+//            if( image )
+//            {
+//                float compression = 0.8;
+//                NSData *imageData = UIImageJPEGRepresentation( image, compression );
+//                int maxFileSize = 2000000;
+//                while( [imageData length] > maxFileSize )
+//                {
+//                    compression -= 0.1;
+//                    imageData = UIImageJPEGRepresentation( image, compression );
+//                }
+//                 
+//                [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+//            }
+//        }
+//        success:^( NSURLSessionDataTask *task, id responseObject )
+//        {
+//            completion( YES );
+//        }
+//        failure:^( NSURLSessionDataTask *task, NSError *error )
+//        {
+//            NSLog(@"failure: %@", error );
+//            completion( NO );
+//        }];
+//    }];
 }
 
 - (ePushSetting)pushSettingForSettingString:(NSString *)setting

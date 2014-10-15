@@ -136,19 +136,32 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     
     if( [errorResponse isKindOfClass:[NSDictionary class]] )
     {
-        NSString *errorString = errorResponse[kErrorKey];
+        id errorValue = errorResponse[kErrorKey];
         
-        if( [errorString isEqualToString:kDataNonexistsError] )
+        if( [errorValue isKindOfClass:[NSNumber class]] )
         {
-            errorType = eErrorTypeDataNonexists;
+            if( [errorValue integerValue] == 403 )
+            {
+                if( [errorResponse[@"error_description"] rangeOfString:@"Access token"].location != NSNotFound )
+                {
+                    errorType = eErrorTypeExpiredAccessToken;
+                }
+            }
         }
-        else if( [errorString isEqualToString:kEmailExistsError] )
+        else
         {
-            errorType = eErrorTypeEmailExists;
-        }
-        else if( [errorString isEqualToString:kPhoneExistsError] )
-        {
-            errorType = eErrorTypePhoneExists;
+            if( [errorValue isEqualToString:kDataNonexistsError] )
+            {
+                errorType = eErrorTypeDataNonexists;
+            }
+            else if( [errorValue isEqualToString:kEmailExistsError] )
+            {
+                errorType = eErrorTypeEmailExists;
+            }
+            else if( [errorValue isEqualToString:kPhoneExistsError] )
+            {
+                errorType = eErrorTypePhoneExists;
+            }
         }
     }
     

@@ -20,6 +20,7 @@
 #import "DAUserProfileViewController.h"
 #import "DAReviewDetailCollectionViewCell.h"
 #import "DAReviewButtonsCollectionViewCell.h"
+#import "DAExploreDishResultsViewController.h"
 
 typedef enum
 {
@@ -35,7 +36,7 @@ static NSString *const kReviewDetailCellIdentifier  = @"reviewDetailCell";
 static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 
-@interface DAReviewDetailsViewController() <DAFeedCollectionViewCellDelegate, DAReviewButtonsCollectionViewCellDelegate>
+@interface DAReviewDetailsViewController() <DAFeedCollectionViewCellDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate>
 
 @property (strong, nonatomic) DAReview *review;
 
@@ -221,8 +222,10 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         DAReviewDetailCollectionViewCell *yumsCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
         
-        yumsCell.textView.attributedText = [self yumStringWithUsernames:self.review.yums];
+        [yumsCell.textView setAttributedText:[self yumStringWithUsernames:self.review.yums] withDelimiter:@", "];
         yumsCell.iconImageView.image = [UIImage imageNamed:@"yum_icon"];
+        
+        yumsCell.delegate = self;
         
         cell = yumsCell;
     }
@@ -230,8 +233,10 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         DAReviewDetailCollectionViewCell *tagsCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
 
-        tagsCell.textView.attributedText = [self hashtagStringWithHashtags:self.review.hashtags];
+        [tagsCell.textView setAttributedText:[self hashtagStringWithHashtags:self.review.hashtags] withDelimiter:@", "];
         tagsCell.iconImageView.image = [UIImage imageNamed:@"hashtag_icon"];
+        
+        tagsCell.delegate = self;
         
         cell = tagsCell;
     }
@@ -244,6 +249,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         commentCell.textView.attributedText = [self commentStringForComment:comment];
         commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
         commentCell.iconImageView.hidden = [self commentIndexForIndexPath:indexPath] == 0 ? NO : YES;
+        
+        commentCell.delegate = self;
         
         cell = commentCell;
     }
@@ -318,8 +325,20 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [labelString appendAttributedString:influencerIconString];
     }
     
+    NSArray *words = [comment.comment componentsSeparatedByString:@" "];
+    NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:[DAReviewDetailCollectionViewCell textAttributes]];
+    
+    for( NSString *word in words )
+    {
+        if( [word hasPrefix:@"#"] || [word hasPrefix:@"@"] )
+        {
+            NSRange matchRange = [comment.comment rangeOfString:word];
+            [commentString setAttributes:[DAReviewDetailCollectionViewCell linkedTextAttributes] range:matchRange];
+        }
+    }
+    
     [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:comment.comment attributes:[DAReviewDetailCollectionViewCell textAttributes]]];
+    [labelString appendAttributedString:commentString];
     
     return labelString;
 }
@@ -449,6 +468,25 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (void)moreReviewsButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
 {
     [self performSegueWithIdentifier:@"globalDish" sender:nil];
+}
+
+- (void)textViewTappedAtCharacterIndex:(NSUInteger)characterIndex inCell:(DAReviewDetailCollectionViewCell *)cell
+{
+    eLinkedTextType linkedTextType = [cell.textView linkedTextTypeForCharacterAtIndex:characterIndex];
+    
+    if( linkedTextType == eLinkedTextTypeHashtag )
+    {
+        DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
+        exploreResultsViewController.searchTerm = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+        [self.navigationController pushViewController:exploreResultsViewController animated:YES];
+    }
+    else if( linkedTextType == eLinkedTextTypeUsername )
+    {
+        DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+        userProfileViewController.username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+        userProfileViewController.isRestaurant = NO;
+        [self.navigationController pushViewController:userProfileViewController animated:YES];
+    }
 }
 
 - (void)creatorButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
@@ -582,7 +620,15 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     if( [segue.identifier isEqualToString:@"commentsSegue"] )
     {
         DACommentsViewController *dest = segue.destinationViewController;
-        dest.feedItem = self.feedItem;
+        
+        if( self.feedItem )
+        {
+            dest.feedItem = self.feedItem;
+        }
+        else
+        {
+            dest.reviewID = self.reviewID;
+        }
     }
     
     if( [segue.identifier isEqualToString:@"globalDish"] )

@@ -20,7 +20,7 @@
                             <constraint firstAttribute="height" constant="23" id="rCY-tp-wcj"/>
                         </constraints>
                     </imageView>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="comment" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Sh-p8-Rj3">
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="comment" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Sh-p8-Rj3" customClass="DALinkedTextView">
                         <rect key="frame" x="39" y="12" width="273" height="23"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>
@@ -31,8 +31,7 @@
                     <constraint firstAttribute="trailing" secondItem="6Sh-p8-Rj3" secondAttribute="trailing" constant="8" id="9pI-Bw-EvX"/>
                     <constraint firstItem="6Sh-p8-Rj3" firstAttribute="top" secondItem="uWL-4e-TFW" secondAttribute="top" constant="12" id="Msb-Ng-UNi"/>
                     <constraint firstItem="6Sh-p8-Rj3" firstAttribute="leading" secondItem="qFl-CJ-GFM" secondAttribute="trailing" constant="8" id="RrY-AK-wyY"/>
-                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="qFl-CJ-GFM" secondAttribute="bottom" constant="9" id="S4n-1B-buJ"/>
-                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="6Sh-p8-Rj3" secondAttribute="bottom" constant="8" id="cMI-MI-CwI"/>
+                    <constraint firstAttribute="bottom" secondItem="6Sh-p8-Rj3" secondAttribute="bottom" constant="8" id="cMI-MI-CwI"/>
                     <constraint firstItem="qFl-CJ-GFM" firstAttribute="top" secondItem="uWL-4e-TFW" secondAttribute="top" constant="11" id="e8q-Yo-58L"/>
                     <constraint firstItem="qFl-CJ-GFM" firstAttribute="leading" secondItem="uWL-4e-TFW" secondAttribute="leading" constant="8" id="vnn-PA-sjw"/>
                 </constraints>

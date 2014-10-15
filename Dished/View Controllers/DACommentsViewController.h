@@ -14,12 +14,14 @@
 #import "JSQMessagesKeyboardController.h"
 
 
-@interface DACommentsViewController : UIViewController
+@interface DACommentsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet JSQMessagesInputToolbar *inputToolbar;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarHeightConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarBottomConstraint;
 @property (weak, nonatomic) DAFeedItem *feedItem;
+
+@property (nonatomic) NSInteger reviewID;
 
 @end

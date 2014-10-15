@@ -10,9 +10,11 @@
 #import "DAComment.h"
 #import "DAAPIManager.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+#import "DAExploreDishResultsViewController.h"
+#import "DAUserProfileViewController.h"
 
 
-@interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate>
+@interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate, DACommentTableViewCellDelegate>
 
 @property (strong, nonatomic) NSArray                       *comments;
 @property (strong, nonatomic) UIActivityIndicatorView       *spinner;
@@ -44,7 +46,7 @@
     
     self.keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView contextView:self.view panGestureRecognizer:self.tableView.panGestureRecognizer delegate:self];
     
-    NSInteger reviewID = [self.feedItem.item_id integerValue];
+    NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
     [[DAAPIManager sharedManager] getCommentsForReviewID:reviewID completion:^( id response, NSError *error )
     {
         [self.spinner stopAnimating];
@@ -64,7 +66,6 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"DACommentTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"commentCell"];
     
     self.tableView.estimatedRowHeight = 44.0;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -127,7 +128,7 @@
     [self.spinner stopAnimating];
     [self.spinner removeFromSuperview];
     
-    NSInteger reviewID = [self.feedItem.item_id integerValue];
+    NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
     [[DAAPIManager sharedManager] getCommentsForReviewID:reviewID completion:^( id response, NSError *error )
     {
         if( error || !response )
@@ -169,10 +170,48 @@
     cell.rightUtilityButtons = [self utilityButtonsAtIndexPath:indexPath];
     
     cell.delegate = self;
+    cell.textViewTapDelegate = self;
     
     [cell layoutIfNeeded];
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    DAComment *comment = [self.comments objectAtIndex:indexPath.row];
+    
+    static DACommentTableViewCell *sizingCell;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+    {
+        sizingCell = [tableView dequeueReusableCellWithIdentifier:@"commentCell"];
+    });
+    
+    UITextView *textView = sizingCell.commentTextView;
+    
+    CGFloat textViewRightMargin = sizingCell.frame.size.width - ( textView.frame.origin.x + textView.frame.size.width );
+    CGFloat textViewWidth = tableView.frame.size.width - textView.frame.origin.x - textViewRightMargin;
+    
+    NSAttributedString *commentString = [self commentStringForComment:comment];
+    
+    CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
+    CGRect stringRect   = [commentString boundingRectWithSize:boundingSize
+                                                      options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
+                                                      context:nil];
+    
+    CGFloat textViewTopMargin = textView.frame.origin.y;
+    CGFloat textViewBottomMargin = sizingCell.frame.size.height - ( textView.frame.origin.y + textView.frame.size.height );
+    CGFloat textViewHeight = ceilf( stringRect.size.height ) + 2;
+    
+    CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
+    
+    if( calculatedHeight < 44.0 )
+    {
+        calculatedHeight = 44.0;
+    }
+    
+    return calculatedHeight;
 }
 
 - (NSArray *)utilityButtonsAtIndexPath:(NSIndexPath *)indexPath
@@ -203,10 +242,41 @@
         [labelString appendAttributedString:influencerIconString];
     }
     
+    NSArray *words = [comment.comment componentsSeparatedByString:@" "];
+    NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0f] }];
+    
+    for( NSString *word in words )
+    {
+        if( [word hasPrefix:@"#"] || [word hasPrefix:@"@"] )
+        {
+            NSRange matchRange = [comment.comment rangeOfString:word];
+            [commentString setAttributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0f] } range:matchRange];
+        }
+    }
+    
     [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0f] }]];
+    [labelString appendAttributedString:commentString];
     
     return labelString;
+}
+
+- (void)textViewTapped:(NSInteger)characterIndex cell:(DACommentTableViewCell *)cell
+{
+    eLinkedTextType linkedTextType = [cell.commentTextView linkedTextTypeForCharacterAtIndex:characterIndex];
+    
+    if( linkedTextType == eLinkedTextTypeHashtag )
+    {
+        DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
+        exploreResultsViewController.searchTerm = [cell.commentTextView linkedTextForCharacterAtIndex:characterIndex];
+        [self.navigationController pushViewController:exploreResultsViewController animated:YES];
+    }
+    else if( linkedTextType == eLinkedTextTypeUsername )
+    {
+        DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+        userProfileViewController.username = [cell.commentTextView linkedTextForCharacterAtIndex:characterIndex];
+        userProfileViewController.isRestaurant = NO;
+        [self.navigationController pushViewController:userProfileViewController animated:YES];
+    }
 }
 
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index

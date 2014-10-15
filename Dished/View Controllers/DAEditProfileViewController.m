@@ -101,46 +101,46 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    if( buttonIndex == actionSheet.cancelButtonIndex )
-    {
-        return;
-    }
-    
-    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-    imagePickerController.delegate = self;
-    imagePickerController.allowsEditing = YES;
-    
-    if( buttonIndex == 0 )
-    {
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    }
-    else if( buttonIndex == 1 )
-    {
-        imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-    }
-    else if( buttonIndex == actionSheet.destructiveButtonIndex )
-    {
-        return;
-    }
-    
-    [self presentViewController:imagePickerController animated:YES completion:nil];
+//    if( buttonIndex == actionSheet.cancelButtonIndex )
+//    {
+//        return;
+//    }
+//    
+//    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+//    imagePickerController.delegate = self;
+//    imagePickerController.allowsEditing = YES;
+//    
+//    if( buttonIndex == 0 )
+//    {
+//        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+//    }
+//    else if( buttonIndex == 1 )
+//    {
+//        imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+//    }
+//    else if( buttonIndex == actionSheet.destructiveButtonIndex )
+//    {
+//        return;
+//    }
+//    
+//    [self presentViewController:imagePickerController animated:YES completion:nil];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-    
-    [[DAUserManager sharedManager] setUserProfileImage:chosenImage completion:^( BOOL success )
-    {
-        if( success )
-        {
-            
-        }
-        else
-        {
-            
-        }
-    }];
+//    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+//    
+//    [[DAUserManager sharedManager] setUserProfileImage:chosenImage completion:^( BOOL success )
+//    {
+//        if( success )
+//        {
+//            
+//        }
+//        else
+//        {
+//            
+//        }
+//    }];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
