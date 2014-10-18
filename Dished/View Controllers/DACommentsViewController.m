@@ -12,6 +12,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAExploreDishResultsViewController.h"
 #import "DAUserProfileViewController.h"
+#import "DAUserManager.h"
 
 
 @interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate, DACommentTableViewCellDelegate>
@@ -60,6 +61,7 @@
         {
             self.comments = [self commentsFromResponse:response];
             [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self scrollTableViewToBottom];
         }
     }];
     
@@ -452,6 +454,9 @@
     
     DAComment *newComment = [[DAComment alloc] init];
     newComment.comment = commentText;
+    newComment.creator_username = [[DAUserManager sharedManager] username];
+    newComment.img_thumb = [[DAUserManager sharedManager] img_thumb];
+    newComment.creator_type = [[DAUserManager sharedManager] userType];
     self.comments = [self.comments arrayByAddingObject:newComment];
     [self.tableView reloadData];
     [self scrollTableViewToBottom];

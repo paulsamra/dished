@@ -562,27 +562,24 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    if( !self.yumTapImageView )
-    {
-        UIImage *image = [UIImage imageNamed:@"yum_tap"];
-        self.yumTapImageView = [[UIImageView alloc] initWithImage:image];
-    }
+    UIImage *image = [UIImage imageNamed:@"yum_tap"];
+    UIImageView *yumTapImageView = [[UIImageView alloc] initWithImage:image];
     
-    CGSize imageSize = self.yumTapImageView.image.size;
+    CGSize imageSize = yumTapImageView.image.size;
     CGFloat x = ( self.view.frame.size.width  / 2 ) - ( imageSize.width  / 2 );
     CGFloat y = ( cell.dishImageView.frame.size.height / 2 ) - ( imageSize.height / 2 );
     CGFloat width  = imageSize.width;
     CGFloat height = imageSize.height;
-    self.yumTapImageView.frame = CGRectMake( x, y, width, height );
-    self.yumTapImageView.alpha = 1;
+    yumTapImageView.frame = CGRectMake( x, y, width, height );
+    yumTapImageView.alpha = 1;
     
-    [cell.dishImageView addSubview:self.yumTapImageView];
+    [cell.dishImageView addSubview:yumTapImageView];
     
-    self.yumTapImageView.transform = CGAffineTransformMakeScale( 0, 0 );
+    yumTapImageView.transform = CGAffineTransformMakeScale( 0, 0 );
     
     [UIView animateWithDuration:0.3 animations:^
     {
-        self.yumTapImageView.transform = CGAffineTransformMakeScale( 1, 1 );
+        yumTapImageView.transform = CGAffineTransformMakeScale( 1, 1 );
     }
     completion:^( BOOL finished )
     {
@@ -590,16 +587,19 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         {
             [UIView animateWithDuration:0.3 animations:^
             {
-                self.yumTapImageView.alpha = 0;
+                yumTapImageView.alpha = 0;
             }
             completion:^( BOOL finished )
             {
-                feedItem.caller_yumd = @(YES);
-                feedItem.num_yums = @([feedItem.num_yums integerValue] + 1);
+                if( ![feedItem.caller_yumd boolValue] )
+                {
+                    feedItem.caller_yumd = @(YES);
+                    feedItem.num_yums = @([feedItem.num_yums integerValue] + 1);
+                }
                 
                 if( finished )
                 {
-                    [self.yumTapImageView removeFromSuperview];
+                    [yumTapImageView removeFromSuperview];
                 }
             }];
         }

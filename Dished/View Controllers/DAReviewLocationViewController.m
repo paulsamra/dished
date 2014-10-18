@@ -143,48 +143,56 @@
     double longitude = [[DALocationManager sharedManager] currentLocation].longitude;
     double latitude  = [[DALocationManager sharedManager] currentLocation].latitude;
     
-    if( self.searchTask )
-    {
-        [self.searchTask cancel];
-    }
+    [self.searchTask cancel];
     
-    self.searchTask = [[DAAPIManager sharedManager] exploreLocationSearchTaskWithQuery:searchText
-    longitude:longitude latitude:latitude completion:^( id response, NSError *error )
+    NSDictionary *parameters = @{ kQueryKey : searchText, kLongitudeKey : @(longitude), kLatitudeKey : @(latitude) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    self.searchTask = [[DAAPIManager sharedManager] GET:kExploreLocationsURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        self.locationData = [self locationsFromResponse:response];
-        
+        self.locationData = [self locationsFromResponse:responseObject];
         [self.tableView reloadData];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+        
+        if( errorType != eErrorTypeRequestCancelled )
+        {
+            
+        }
     }];
 }
 
 - (NSArray *)locationsFromResponse:(id)response
 {
-    NSArray *locations = response[@"data"][@"locations"];
+    NSDictionary *data = nilOrJSONObjectForKey( response, kDataKey );
+    NSArray *locations = nilOrJSONObjectForKey( data, @"locations" );
     NSMutableArray *newLocations = [NSMutableArray array];
     
-    if( locations && ![locations isEqual:[NSNull null]] )
+    for( NSDictionary *locationInfo in locations )
     {
-        for( NSDictionary *locationInfo in locations )
+        NSMutableDictionary *location = [NSMutableDictionary dictionary];
+        location[kNameKey] = locationInfo[kNameKey];
+        
+        if( nilOrJSONObjectForKey( locationInfo, kDistanceKey ) )
         {
-            NSMutableDictionary *location = [NSMutableDictionary dictionary];
-            location[kNameKey] = locationInfo[kNameKey];
-            
-            if( [locationInfo[kTypeKey] isEqualToString:@"system"] )
-            {
-                location[kIDKey] = locationInfo[kIDKey];
-            }
-            else if( [locationInfo[kTypeKey] isEqualToString:@"google"] )
-            {
-                location[kGoogleIDKey] = locationInfo[kGoogleIDKey];
-            }
-            
-            if( locationInfo[kDistanceKey] )
-            {
-                location[kDistanceKey] = locationInfo[kDistanceKey];
-            }
-            
-            [newLocations addObject:location];
+            location[kDistanceKey] = locationInfo[kDistanceKey];
         }
+        
+        NSString *type = nilOrJSONObjectForKey( locationInfo, kTypeKey );
+        
+        if( [type isEqualToString:@"system"] )
+        {
+            location[kIDKey] = locationInfo[kIDKey];
+        }
+        else if( [type isEqualToString:@"google"] )
+        {
+            location[kGoogleIDKey] = locationInfo[kGoogleIDKey];
+        }
+        
+        [newLocations addObject:location];
     }
     
     return [newLocations copy];

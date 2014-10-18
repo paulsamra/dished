@@ -132,6 +132,7 @@
 {
     [super viewWillDisappear:animated];
     
+    [self.view endEditing:YES];
     [self.socialViewController.view removeFromSuperview];
     [self.dimView removeFromSuperview];
 }

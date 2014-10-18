@@ -6,14 +6,22 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#define IS_IPHONE5 (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
-#define IS_IPHONE4 (([[UIScreen mainScreen] bounds].size.height-480)?NO:YES)
+#define IS_IPHONE5      (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
+#define IS_IPHONE4      (([[UIScreen mainScreen] bounds].size.height-480)?NO:YES)
+#define IS_IPHONE6      (([[UIScreen mainScreen] bounds].size.height-667)?NO:YES)
+#define IS_IPHONE6_PLUS (([[UIScreen mainScreen] bounds].size.height-1104)?NO:YES)
+
+#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
 #define IS_IOS8 (([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)?YES:NO)
 
 #define nilOrJSONObjectForKey(JSON_, KEY_) [[JSON_ objectForKey:KEY_] isKindOfClass:[NSNull class]] ? nil : [JSON_ objectForKey:KEY_]
 
 extern NSString *const kProjectName;
+
+extern NSString *const kFirstLaunchKey;
+extern NSString *const kWelcomeScreenImageNameFormat;
+extern NSString *const kWelcomeScreenDotsImageNameFormat;
 
 extern NSString *const kFood;
 extern NSString *const kWine;
@@ -40,6 +48,7 @@ extern NSString *const kDishSearchURL;
 extern NSString *const kUserProfileURL;
 extern NSString *const kEditProfileURL;
 extern NSString *const kUserSettingsURL;
+extern NSString *const kExploreLocationsURL;
 extern NSString *const kEmailAvailabilityURL;
 extern NSString *const kPhoneAvailabilityURL;
 
@@ -47,6 +56,7 @@ extern NSString *const kIDKey;
 extern NSString *const kDataKey;
 extern NSString *const kTypeKey;
 extern NSString *const kNameKey;
+extern NSString *const kQueryKey;
 extern NSString *const kPriceKey;
 extern NSString *const kGradeKey;
 extern NSString *const kEmailKey;
@@ -58,6 +68,8 @@ extern NSString *const kDishTypeKey;
 extern NSString *const kUsernameKey;
 extern NSString *const kGoogleIDKey;
 extern NSString *const kImgThumbKey;
+extern NSString *const kLatitudeKey;
+extern NSString *const kLongitudeKey;
 extern NSString *const kSavePhotoKey;
 extern NSString *const kLocationIDKey;
 extern NSString *const kPushReviewKey;

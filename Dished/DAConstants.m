@@ -8,6 +8,11 @@
 
 NSString *const kProjectName = @"Dished";
 
+NSString *const kFirstLaunchKey = @"first_launch";
+
+NSString *const kWelcomeScreenImageNameFormat     = @"welcome_%d_%d";
+NSString *const kWelcomeScreenDotsImageNameFormat = @"page_%d_dots";
+
 NSString *const kFood     = @"food";
 NSString *const kWine     = @"wine";
 NSString *const kCocktail = @"cocktail";
@@ -34,10 +39,12 @@ NSString *const kDishSearchURL        = @"dishes/search";
 NSString *const kUserProfileURL       = @"users/profile";
 NSString *const kEditProfileURL       = @"users/update";
 NSString *const kUserSettingsURL      = @"users/settings";
+NSString *const kExploreLocationsURL  = @"explore/locations";
 NSString *const kEmailAvailabilityURL = @"users/availability/email";
 NSString *const kPhoneAvailabilityURL = @"users/availability/phone";
 
 NSString *const kIDKey           = @"id";
+NSString *const kQueryKey        = @"query";
 NSString *const kDataKey         = @"data";
 NSString *const kTypeKey         = @"type";
 NSString *const kNameKey         = @"name";
@@ -52,6 +59,8 @@ NSString *const kDishTypeKey     = @"dish_type";
 NSString *const kUsernameKey     = @"username";
 NSString *const kGoogleIDKey     = @"google_id";
 NSString *const kImgThumbKey     = @"img_thumb";
+NSString *const kLatitudeKey     = @"latitude";
+NSString *const kLongitudeKey    = @"longitude";
 NSString *const kSavePhotoKey    = @"save_photo";
 NSString *const kLocationIDKey   = @"loc_id";
 NSString *const kPushReviewKey   = @"push_review";

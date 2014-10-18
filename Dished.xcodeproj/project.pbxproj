@@ -28,6 +28,10 @@
 		942AA01A19C2655A00D0D77C /* UIImageView+DishProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */; };
 		942CC23819BDB21700BDBB75 /* DAReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23719BDB21700BDBB75 /* DAReview.m */; };
 		942CC23B19BDBCCF00BDBB75 /* DAUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23A19BDBCCF00BDBB75 /* DAUsername.m */; };
+		94302D1519EFB90300E962B8 /* launch_image_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 94302D1119EFB90300E962B8 /* launch_image_4.png */; };
+		94302D1619EFB90300E962B8 /* launch_image_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 94302D1219EFB90300E962B8 /* launch_image_5.png */; };
+		94302D1719EFB90300E962B8 /* launch_image_6_plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 94302D1319EFB90300E962B8 /* launch_image_6_plus.png */; };
+		94302D1819EFB90300E962B8 /* launch_image_6.png in Resources */ = {isa = PBXBuildFile; fileRef = 94302D1419EFB90300E962B8 /* launch_image_6.png */; };
 		943093F81942633D00B1F61F /* DAErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 943093F71942633D00B1F61F /* DAErrorView.m */; };
 		943093FC1942638200B1F61F /* DAErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943093FB1942638200B1F61F /* DAErrorView.xib */; };
 		9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */; };
@@ -122,8 +126,6 @@
 		948B9A7B19BB3125008BBFCF /* DANavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B9A7A19BB3125008BBFCF /* DANavigationController.m */; };
 		948B9A7E19BD0063008BBFCF /* DAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B9A7D19BD0063008BBFCF /* DAViewController.m */; };
 		948EE6A61996FA2E004EC600 /* DANewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948EE6A51996FA2E004EC600 /* DANewsViewController.m */; };
-		948F35B719ABE0C100F57BEB /* avatar.png in Resources */ = {isa = PBXBuildFile; fileRef = 948F35B519ABE0C100F57BEB /* avatar.png */; };
-		948F35B819ABE0C100F57BEB /* avatar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 948F35B619ABE0C100F57BEB /* avatar@2x.png */; };
 		949382C919C63C5D003A416C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
 		94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */; };
 		94942A1F1990AB0800095A70 /* DAExploreLiveSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1E1990AB0800095A70 /* DAExploreLiveSearchResult.m */; };
@@ -215,10 +217,7 @@
 		D1100DB719AA3DA200C73AC8 /* DAGraphControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DB619AA3DA200C73AC8 /* DAGraphControl.m */; };
 		D1100DBA19AA3DDB00C73AC8 /* DAGraphControlLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */; };
 		D112F41519BE00550059300F /* DAReviewDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */; };
-		D112F41719BE22F60059300F /* avatar-small.png in Resources */ = {isa = PBXBuildFile; fileRef = D112F41619BE22F60059300F /* avatar-small.png */; };
-		D112F41919BE24790059300F /* avatar-small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D112F41819BE24780059300F /* avatar-small@2x.png */; };
 		D1236B9619AE7B4B00727447 /* DAReviewDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1236B9519AE7B4B00727447 /* DAReviewDetailsViewController.m */; };
-		D13605B91986F5B60085DC7D /* food.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D13605B81986F5B60085DC7D /* food.jpg */; };
 		D13DB8F51988B221008C86BB /* DADishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D13DB8F41988B221008C86BB /* DADishTableViewCell.m */; };
 		D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D170CA661992B7C4006D9DCB /* DASocialCollectionViewController.m */; };
 		D170CA6A19931D3F006D9DCB /* DASocialCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D170CA6919931D3F006D9DCB /* DASocialCollectionViewCell.m */; };
@@ -272,6 +271,10 @@
 		942CC23719BDB21700BDBB75 /* DAReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReview.m; sourceTree = "<group>"; };
 		942CC23919BDBCCF00BDBB75 /* DAUsername.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUsername.h; sourceTree = "<group>"; };
 		942CC23A19BDBCCF00BDBB75 /* DAUsername.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUsername.m; sourceTree = "<group>"; };
+		94302D1119EFB90300E962B8 /* launch_image_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_image_4.png; sourceTree = "<group>"; };
+		94302D1219EFB90300E962B8 /* launch_image_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_image_5.png; sourceTree = "<group>"; };
+		94302D1319EFB90300E962B8 /* launch_image_6_plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_image_6_plus.png; sourceTree = "<group>"; };
+		94302D1419EFB90300E962B8 /* launch_image_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_image_6.png; sourceTree = "<group>"; };
 		943093F61942633D00B1F61F /* DAErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAErrorView.h; sourceTree = "<group>"; };
 		943093F71942633D00B1F61F /* DAErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAErrorView.m; sourceTree = "<group>"; };
 		943093FB1942638200B1F61F /* DAErrorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAErrorView.xib; sourceTree = "<group>"; };
@@ -424,8 +427,6 @@
 		948B9A7D19BD0063008BBFCF /* DAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAViewController.m; sourceTree = "<group>"; };
 		948EE6A41996FA2E004EC600 /* DANewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANewsViewController.h; sourceTree = "<group>"; };
 		948EE6A51996FA2E004EC600 /* DANewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANewsViewController.m; sourceTree = "<group>"; };
-		948F35B519ABE0C100F57BEB /* avatar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = avatar.png; sourceTree = "<group>"; };
-		948F35B619ABE0C100F57BEB /* avatar@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar@2x.png"; sourceTree = "<group>"; };
 		949382C819C63C5D003A416C /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		94942A1519902D1E00095A70 /* DAExploreLiveSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreLiveSearchResult.h; sourceTree = "<group>"; };
 		94942A1B1990A6C700095A70 /* DAExploreDishResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreDishResultsViewController.h; sourceTree = "<group>"; };
@@ -607,11 +608,8 @@
 		D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGraphControlLayer.m; sourceTree = "<group>"; };
 		D112F41319BE00550059300F /* DAReviewDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewDetailCollectionViewCell.h; sourceTree = "<group>"; };
 		D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewDetailCollectionViewCell.m; sourceTree = "<group>"; };
-		D112F41619BE22F60059300F /* avatar-small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-small.png"; sourceTree = "<group>"; };
-		D112F41819BE24780059300F /* avatar-small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "avatar-small@2x.png"; sourceTree = "<group>"; };
 		D1236B9419AE7B4B00727447 /* DAReviewDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewDetailsViewController.h; sourceTree = "<group>"; };
 		D1236B9519AE7B4B00727447 /* DAReviewDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewDetailsViewController.m; sourceTree = "<group>"; };
-		D13605B81986F5B60085DC7D /* food.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = food.jpg; sourceTree = "<group>"; };
 		D13DB8F31988B221008C86BB /* DADishTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishTableViewCell.h; sourceTree = "<group>"; };
 		D13DB8F41988B221008C86BB /* DADishTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishTableViewCell.m; sourceTree = "<group>"; };
 		D170CA651992B7C4006D9DCB /* DASocialCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DASocialCollectionViewController.h; path = ../DASocialCollectionViewController.h; sourceTree = "<group>"; };
@@ -713,11 +711,7 @@
 		941538EE193F2A00008B3B79 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				D112F41619BE22F60059300F /* avatar-small.png */,
-				D112F41819BE24780059300F /* avatar-small@2x.png */,
-				948F35B519ABE0C100F57BEB /* avatar.png */,
-				948F35B619ABE0C100F57BEB /* avatar@2x.png */,
-				D13605B81986F5B60085DC7D /* food.jpg */,
+				94302D1019EFB8A100E962B8 /* Launch Images */,
 				94449EE01949A3B2008B8881 /* Icons */,
 			);
 			path = Images;
@@ -750,6 +744,17 @@
 				9489F64E19CA293800BEF540 /* More */,
 			);
 			path = "View Controllers";
+			sourceTree = "<group>";
+		};
+		94302D1019EFB8A100E962B8 /* Launch Images */ = {
+			isa = PBXGroup;
+			children = (
+				94302D1119EFB90300E962B8 /* launch_image_4.png */,
+				94302D1219EFB90300E962B8 /* launch_image_5.png */,
+				94302D1319EFB90300E962B8 /* launch_image_6_plus.png */,
+				94302D1419EFB90300E962B8 /* launch_image_6.png */,
+			);
+			name = "Launch Images";
 			sourceTree = "<group>";
 		};
 		943320041995ED04000A8E2B /* Feed */ = {
@@ -1453,6 +1458,7 @@
 			files = (
 				947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */,
 				943ECCF519EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib in Resources */,
+				94302D1619EFB90300E962B8 /* launch_image_5.png in Resources */,
 				94449EFF1949A3B2008B8881 /* iTunesArtwork.png in Resources */,
 				9443DF0219D026DE00F134BA /* DACommentTableViewCell.xib in Resources */,
 				94F2AD77198C454600450C6F /* DADishTableViewCell.xib in Resources */,
@@ -1463,27 +1469,25 @@
 				94449EF21949A3B2008B8881 /* Icon-40@2x.png in Resources */,
 				94449EFC1949A3B2008B8881 /* Icon-Small@2x.png in Resources */,
 				94449EF31949A3B2008B8881 /* Icon-60.png in Resources */,
-				948F35B819ABE0C100F57BEB /* avatar@2x.png in Resources */,
 				94449EFD1949A3B2008B8881 /* Icon.png in Resources */,
 				94CB040019B146AF009010F6 /* JSQMessagesToolbarContentView.xib in Resources */,
+				94302D1719EFB90300E962B8 /* launch_image_6_plus.png in Resources */,
 				94449EF51949A3B2008B8881 /* Icon-72.png in Resources */,
 				944D1E7719DB853A006F73BF /* DAFollowListTableViewCell.xib in Resources */,
 				94CB03D219B0EECA009010F6 /* Images.xcassets in Resources */,
 				941538D1193F270A008B3B79 /* Main.storyboard in Resources */,
 				9443DEF519CFC7BE00F134BA /* DANewsTableViewCell.xib in Resources */,
 				94449EF71949A3B2008B8881 /* Icon-76.png in Resources */,
-				D13605B91986F5B60085DC7D /* food.jpg in Resources */,
-				D112F41719BE22F60059300F /* avatar-small.png in Resources */,
 				94449EF91949A3B2008B8881 /* Icon-Small-50.png in Resources */,
+				94302D1819EFB90300E962B8 /* launch_image_6.png in Resources */,
 				94449EF61949A3B2008B8881 /* Icon-72@2x.png in Resources */,
 				941538D3193F270A008B3B79 /* App.xcassets in Resources */,
 				94449EFB1949A3B2008B8881 /* Icon-Small.png in Resources */,
+				94302D1519EFB90300E962B8 /* launch_image_4.png in Resources */,
 				943093FC1942638200B1F61F /* DAErrorView.xib in Resources */,
 				94449F001949A3B2008B8881 /* iTunesArtwork@2x.png in Resources */,
 				94449EF11949A3B2008B8881 /* Icon-40.png in Resources */,
-				D112F41919BE24790059300F /* avatar-small@2x.png in Resources */,
 				94449EFE1949A3B2008B8881 /* Icon@2x.png in Resources */,
-				948F35B719ABE0C100F57BEB /* avatar.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
