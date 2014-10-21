@@ -54,6 +54,7 @@
     [self.titleButton    setTitle:nil forState:UIControlStateNormal];
     [self.locationButton setTitle:nil forState:UIControlStateNormal];
     [self.creatorButton  setTitle:nil forState:UIControlStateNormal];
+    [self.creatorButton  setImage:nil forState:UIControlStateNormal];
     self.priceLabel.text = nil;
     self.timeLabel.text = nil;
 }

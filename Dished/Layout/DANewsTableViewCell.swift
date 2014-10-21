@@ -41,13 +41,13 @@ class DANewsTableViewCell: UITableViewCell
         let font = UIFont( name: "HelveticaNeue-Light", size: 14.0 )
         let color = UIColor.blackColor()
         
-        return [ NSFontAttributeName : font, NSForegroundColorAttributeName : color ] as NSDictionary
+        return NSDictionary( objectsAndKeys: font!, NSFontAttributeName, color, NSForegroundColorAttributeName )
     }
     
     class func timeLabelAttributes() -> NSDictionary
     {
         let font = UIFont( name: "HelveticaNeue-Light", size: 11.0 )
         
-        return [ NSFontAttributeName : font ] as NSDictionary
+        return NSDictionary( objectsAndKeys: font!, NSFontAttributeName )
     }
 }

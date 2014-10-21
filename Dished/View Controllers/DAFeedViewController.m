@@ -16,7 +16,9 @@
 #import "DAReviewDetailsViewController.h"
 #import "DACommentsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
-#import "UIImageView+DishProgress.h"
+//#import "UIImageView+DishProgress.h"
+#import "UIImageView+WebCache.h"
+//#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAFeedCollectionViewFlowLayout.h"
 #import "NSAttributedString+Dished.h"
 #import "DAFeedHeaderCollectionReusableView.h"
@@ -30,7 +32,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate>
 
-@property (strong, nonatomic) NSCache                          *mainImageCache;
+@property (strong, nonatomic) NSCache                          *feedImageCache;
+@property (strong, nonatomic) NSCache                          *itemSizeCache;
 @property (strong, nonatomic) UIImageView                      *yumTapImageView;
 @property (strong, nonatomic) NSMutableArray                   *sectionChanges;
 @property (strong, nonatomic) NSMutableArray                   *itemChanges;
@@ -284,24 +287,46 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     [cell.locationButton setImage:locationIcon  forState:UIControlStateNormal];
     [cell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
     
-    UIImage *image = [self.mainImageCache objectForKey:item.img];
+    UIImage *image = [self.feedImageCache objectForKey:item.img];
     if( image )
     {
-        [cell.dishImageView removeProgressView];
+        //[cell.dishImageView removeProgressView];
         cell.dishImageView.image = image;
     }
     else
     {
         cell.dishImageView.image = nil;
+        cell.tag = indexPath.section;
         NSURL *dishImageURL = [NSURL URLWithString:item.img];
-        [cell.dishImageView setImageUsingProgressViewWithURL:dishImageURL placeholderImage:nil
-        completion:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
+        
+        [[SDWebImageManager sharedManager] downloadImageWithURL:dishImageURL options:0 progress:nil
+        completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
         {
-            if( image )
+            if( image && cell.tag == indexPath.section )
             {
-                [self.mainImageCache setObject:image forKey:item.img];
+                cell.dishImageView.image = image;
+                [self.feedImageCache setObject:image forKey:item.img];
             }
         }];
+        
+//        [cell.dishImageView setImageWithURL:dishImageURL
+//        completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
+//        {
+//            if( image )
+//            {
+//                [self.feedImageCache setObject:image forKey:item.img];
+//            }
+//        }
+//        usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        
+//        [cell.dishImageView setImageUsingProgressViewWithURL:dishImageURL placeholderImage:nil
+//        completion:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
+//        {
+//            if( image )
+//            {
+//                [self.feedImageCache setObject:image forKey:item.img];
+//            }
+//        }];
     }
     
     cell.gradeLabel.text = [item.grade uppercaseString];
@@ -423,6 +448,12 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
     else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
     {
+        if( [self.itemSizeCache objectForKey:indexPath] )
+        {
+            CGSize cachedSize = [[self.itemSizeCache objectForKey:indexPath] CGSizeValue];
+            return cachedSize;
+        }
+        
         NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
         DAFeedComment *comment = comments[indexPath.row - ( num_yums > 0 ? 2 : 1 )];
         
@@ -448,6 +479,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         CGFloat textViewHeight = ceilf( stringRect.size.height ) + 2;
         cellSize.height = textViewHeight;
+        
+        [self.itemSizeCache setObject:[NSValue valueWithCGSize:cellSize] forKey:indexPath];
         
         itemSize = cellSize;
     }
@@ -897,15 +930,26 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     [self updateNavigationBarToAlpha:1.0f];
 }
 
-- (NSCache *)mainImageCache
+- (NSCache *)feedImageCache
 {
-    if( !_mainImageCache )
+    if( !_feedImageCache )
     {
-        _mainImageCache = [[NSCache alloc] init];
-        [_mainImageCache setName:@"maincache"];
+        _feedImageCache = [[NSCache alloc] init];
+        [_feedImageCache setName:@"feedImageCache"];
     }
     
-    return _mainImageCache;
+    return _feedImageCache;
+}
+
+- (NSCache *)itemSizeCache
+{
+    if( !_itemSizeCache )
+    {
+        _itemSizeCache = [[NSCache alloc] init];
+        [_itemSizeCache setName:@"feedItemSizeCache"];
+    }
+    
+    return _itemSizeCache;
 }
 
 @end

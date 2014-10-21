@@ -14,11 +14,14 @@
 #import "DAFeedViewController.h"
 #import "DANewsManager.h"
 #import "DANewsViewController.h"
+#import "DAMenuViewController.h"
+#import "DAContainerViewController.h"
 
 
 @interface DATabBarController() <UITabBarControllerDelegate, MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) UIButton *newsBadgeButton;
+@property (strong, nonatomic) DAMenuViewController *menuViewController;
 
 @end
 
@@ -132,6 +135,13 @@
     {
         DAImagePickerController *reviewImagePicker = [self.storyboard instantiateViewControllerWithIdentifier:@"addReview"];
         [self presentViewController:reviewImagePicker animated:YES completion:nil];
+        
+        return NO;
+    }
+    
+    if( [viewController.title isEqualToString:@"menuDummy"] )
+    {
+        [self.containerViewController slideOutMenu];
         
         return NO;
     }

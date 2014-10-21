@@ -91,7 +91,23 @@ static char TAG_ACTIVITY_INDICATOR;
     
     __weak typeof(self) weakSelf = self;
     
-    [self sd_setImageWithURL:url placeholderImage:placeholder options:0
+//    [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:url options:options
+//    progress:^( NSInteger receivedSize, NSInteger expectedSize )
+//    {
+//        CGFloat percentage = (CGFloat)receivedSize / (CGFloat)expectedSize;
+//        weakSelf.progressView.percentage = percentage;
+//    }
+//    completed:^( UIImage *image, NSData *data, NSError *error, BOOL finished )
+//    {
+//        if( finished && completion )
+//        {
+//            completion( image, error, url );
+//        }
+//        
+//        [weakSelf removeProgressView];
+//    }];
+    
+    [self sd_setImageWithURL:url placeholderImage:placeholder options:options
     progress:^( NSInteger receivedSize, NSInteger expectedSize )
     {
         CGFloat percentage = (CGFloat)receivedSize / (CGFloat)expectedSize;

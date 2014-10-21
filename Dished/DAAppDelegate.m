@@ -16,6 +16,7 @@
 #import "DAUserManager.h"
 #import "DACoreDataManager.h"
 #import "DANewsManager.h"
+#import "DAContainerViewController.h"
 
 
 @interface DAAppDelegate() <DAErrorViewDelegate>
@@ -247,9 +248,12 @@
 {
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     
-    UITabBarController *mainTabs = [mainStoryboard instantiateViewControllerWithIdentifier:@"mainTabs"];
+    DAContainerViewController *containerViewController = [mainStoryboard instantiateViewControllerWithIdentifier:@"container"];
     
-    self.window.rootViewController = mainTabs;
+    //UITabBarController *mainTabs = [mainStoryboard instantiateViewControllerWithIdentifier:@"tabBar"];
+    
+    //self.window.rootViewController = mainTabs;
+    self.window.rootViewController = containerViewController;
     
     [UIView transitionWithView:self.window
                       duration:0.2

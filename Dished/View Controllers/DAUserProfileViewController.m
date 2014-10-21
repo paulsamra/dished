@@ -489,7 +489,7 @@
 {
     if( self.restaurantProfile.phone.length > 0 )
     {
-        NSString *phoneNumber = [@"telprompt://" stringByAppendingString:self.phoneNumberButton.titleLabel.text];
+        NSString *phoneNumber = [@"telprompt://" stringByAppendingString:self.restaurantProfile.phone];
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
     }
 }
