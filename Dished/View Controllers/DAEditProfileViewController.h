@@ -29,6 +29,4 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *imageSeperatorWidthConstraint;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *nameSeperatorHeightConstraint;
 
-@property (nonatomic) NSInteger user_id;
-
 @end

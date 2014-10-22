@@ -87,7 +87,6 @@
 - (void)goToEditProfile
 {
     DAEditProfileViewController *editProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfile"];
-    editProfileViewController.user_id = [DAUserManager sharedManager].user_id;
     [self.navigationController pushViewController:editProfileViewController animated:YES];
 }
 

@@ -69,6 +69,8 @@ extern NSString *const kUsernameKey;
 extern NSString *const kGoogleIDKey;
 extern NSString *const kImgThumbKey;
 extern NSString *const kLatitudeKey;
+extern NSString *const kLastNameKey;
+extern NSString *const kFirstNameKey;
 extern NSString *const kLongitudeKey;
 extern NSString *const kSavePhotoKey;
 extern NSString *const kLocationIDKey;

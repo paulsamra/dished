@@ -23,6 +23,7 @@
 {
     [super awakeFromNib];
     
+    self.textView.scrollsToTop = NO;
     self.textView.textContainerInset = UIEdgeInsetsZero;
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textViewTapped:)];
@@ -65,8 +66,8 @@
     
     self.iconImageView.hidden = NO;
     self.iconImageView.image = nil;
-//    self.textView.text = nil;
-//    self.textView.attributedText = nil;
+    self.textView.text = nil;
+    self.textView.attributedText = nil;
 }
 
 + (NSDictionary *)textAttributes

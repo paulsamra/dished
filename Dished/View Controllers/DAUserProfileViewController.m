@@ -195,7 +195,7 @@
     
     NSString *phoneNumberString = @"No Phone Number";
     
-    if( self.restaurantProfile.phone )
+    if( self.restaurantProfile.phone && [self.restaurantProfile.phone integerValue] > 0 )
     {
         phoneNumberString = [NSString stringWithFormat:@"(%@) %@-%@", [self.restaurantProfile.phone substringWithRange:NSMakeRange( 0, 3 )], [self.restaurantProfile.phone substringWithRange:NSMakeRange( 3, 3 )], [self.restaurantProfile.phone substringFromIndex:6]];
     }
@@ -444,7 +444,6 @@
     else
     {
         DAEditProfileViewController *editProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfile"];
-        editProfileViewController.user_id = self.userProfile.user_id;
         [self.navigationController pushViewController:editProfileViewController animated:YES];
     }
 }

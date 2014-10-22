@@ -9,6 +9,8 @@
 #import "DAUserManager.h"
 #import "DAAPIManager.h"
 
+#define kSavedProfileKey @"userManager-profile"
+
 
 @interface DAUserManager()
 
@@ -162,15 +164,22 @@
 
 - (void)setProfileWithProfileData:(id)profile
 {
-    NSTimeInterval dateOfBirthTimestamp = [nilOrJSONObjectForKey( profile, kDateOfBirthKey ) doubleValue];
-    self.dateOfBirth = [NSDate dateWithTimeIntervalSince1970:dateOfBirthTimestamp];
+    if( profile[kDateOfBirthKey ] )
+    {
+        self.dateOfBirth = profile[kDateOfBirthKey];
+    }
+    else
+    {
+        NSTimeInterval dateOfBirthTimestamp = [nilOrJSONObjectForKey( profile, kDateOfBirthKey ) doubleValue];
+        self.dateOfBirth = [NSDate dateWithTimeIntervalSince1970:dateOfBirthTimestamp];
+    }
     
     self.desc        = nilOrJSONObjectForKey( profile, kDescriptionKey );
     self.email       = nilOrJSONObjectForKey( profile, kEmailKey       );
     self.userType    = nilOrJSONObjectForKey( profile, kTypeKey        );
-    self.lastName    = nilOrJSONObjectForKey( profile, @"lastname"     );
+    self.lastName    = nilOrJSONObjectForKey( profile, kFirstNameKey   );
     self.username    = nilOrJSONObjectForKey( profile, kUsernameKey    );
-    self.firstName   = nilOrJSONObjectForKey( profile, @"firstname"    );
+    self.firstName   = nilOrJSONObjectForKey( profile, kLastNameKey    );
     self.img_thumb   = nilOrJSONObjectForKey( profile, kImgThumbKey    );
     self.phoneNumber = nilOrJSONObjectForKey( profile, kPhoneKey       );
 }
@@ -371,17 +380,56 @@
 
 - (void)deleteLocalUserSettings
 {
+    self.dateOfBirth = nil;
+    self.firstName = nil;
+    self.lastName = nil;
+    self.email = nil;
+    self.desc = nil;
+    self.phoneNumber = nil;
+    self.username = nil;
+    self.userType = nil;
+    self.img_thumb = nil;
     
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSavedProfileKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)restoreProfile
 {
+    NSDictionary *userProfile = [[NSUserDefaults standardUserDefaults] objectForKey:kSavedProfileKey];
     
+    if( !userProfile )
+    {
+        return;
+    }
+    
+    [self setSettingsWithSettingsData:userProfile];
+    [self setProfileWithProfileData:userProfile];
 }
 
 - (void)saveProfile
 {
+    NSMutableDictionary *userProfile = [NSMutableDictionary dictionary];
     
+    userProfile[kTypeKey]        = self.userType;
+    userProfile[kPhoneKey]       = self.phoneNumber;
+    userProfile[kEmailKey]       = self.email;
+    userProfile[kUsernameKey]    = self.username;
+    userProfile[kImgThumbKey]    = self.img_thumb;
+    userProfile[kLastNameKey]    = self.lastName;
+    userProfile[kFirstNameKey]   = self.firstName;
+    userProfile[kDateOfBirthKey] = self.dateOfBirth;
+    userProfile[kDescriptionKey] = self.desc;
+    
+    userProfile[kPublicKey]    = @(self.publicProfile);
+    userProfile[kSavePhotoKey] = @(self.savesDishPhoto);
+    
+    userProfile[kPushYumKey]     = [NSString stringWithFormat:@"%d", (int)self.receivesYumPushNotifications];
+    userProfile[kPushReviewKey]  = [NSString stringWithFormat:@"%d", (int)self.receivesReviewPushNotifications];
+    userProfile[kPushCommentKey] = [NSString stringWithFormat:@"%d", (int)self.receivesCommentPushNotifications];
+    
+    [[NSUserDefaults standardUserDefaults] setObject:userProfile forKey:kSavedProfileKey];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 @end

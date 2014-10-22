@@ -18,11 +18,12 @@
 
 @property (strong, nonatomic) UIView                 *blockingView;
 @property (strong, nonatomic) DATabBarController     *tabBarController;
-@property (strong, nonatomic) DAMenuViewController   *menuViewController;
+@property (strong, nonatomic) UINavigationController *menuViewController;
 @property (strong, nonatomic) UITapGestureRecognizer *tapGestureRecognizer;
 @property (strong, nonatomic) UIPanGestureRecognizer *panGestureRecognizer;
 
 @property (nonatomic) BOOL menuIsShowing;
+@property (nonatomic) BOOL menuIsMainView;
 
 @end
 
@@ -44,24 +45,27 @@
     [self addChildViewController:self.tabBarController];
     [self.tabBarController didMoveToParentViewController:self];
     
-    self.menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menu"];
+    self.menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menuNav"];
     
     [self.view addSubview:self.menuViewController.view];
     [self.view sendSubviewToBack:self.menuViewController.view];
     [self addChildViewController:self.menuViewController];
     [self.menuViewController didMoveToParentViewController:self];
+    self.menuViewController.view.hidden = YES;
     
     self.menuViewController.view.frame = CGRectMake( kMenuHorizontalOffset, 0, self.view.frame.size.width - kMenuHorizontalOffset, self.view.frame.size.height );
 }
 
 - (void)slideOutMenu
 {
-    if( self.menuIsShowing )
+    if( self.menuIsShowing && !self.menuIsMainView )
     {
         return;
     }
     
+    self.menuIsMainView = NO;
     self.menuIsShowing = YES;
+    self.menuViewController.view.hidden = NO;
     
     [self addGestureRecognizers];
     
@@ -69,6 +73,7 @@
     {
         CGFloat x = -self.view.frame.size.width + kMenuHorizontalOffset;
         self.tabBarController.view.frame = CGRectMake( x, 0, self.view.frame.size.width, self.view.frame.size.height );
+        self.menuViewController.view.frame = CGRectMake( kMenuHorizontalOffset, 0, self.view.frame.size.width - kMenuHorizontalOffset, self.view.frame.size.height );
     }
     completion:nil];
 }
@@ -88,7 +93,10 @@
     {
         self.tabBarController.view.frame = CGRectMake( 0, 0, self.view.frame.size.width, self.view.frame.size.height );
     }
-    completion:nil];
+    completion:^( BOOL finished )
+    {
+        self.menuViewController.view.hidden = YES;
+    }];
 }
 
 - (void)addGestureRecognizers
@@ -152,63 +160,6 @@
     }
 }
 
-
-//- (void)panGestureDidMove:(UIPanGestureRecognizer *)sender
-//{
-//    [sender.view.layer removeAllAnimations];
-//    
-//    CGPoint translatedPoint = [sender translationInView:self.view];
-//    CGPoint velocity = [sender velocityInView:sender.view];
-//    
-//    if( sender.state == UIGestureRecognizerStateBegan )
-//    {
-//        UIView *childView = nil;
-//        
-//        if( velocity.x > 0 )
-//        {
-//            if( !self.menuIsShowing )
-//            {
-//                childView = self.tabBarController.view;
-//                [self moveToTabBar];
-//            }
-//        }
-//    }
-//    
-//    if( sender.state == UIGestureRecognizerStateEnded )
-//    {
-//        if( !_showPanel )
-//        {
-//            [self movePanelToOriginalPosition];
-//        }
-//        else
-//        {
-//            if (_showingLeftPanel) {
-//                [self movePanelRight];
-//            }  else if (_showingRightPanel) {
-//                [self movePanelLeft];
-//            }
-//        }
-//    }
-//    
-//    if( sender.state == UIGestureRecognizerStateChanged )
-//    {
-//        // Are you more than halfway? If so, show the panel when done dragging by setting this value to YES (1).
-//        _showPanel = abs([sender view].center.x - _centerViewController.view.frame.size.width/2) > _centerViewController.view.frame.size.width/2;
-//        
-//        // Allow dragging only in x-coordinates by only updating the x-coordinate with translation position.
-//        [sender view].center = CGPointMake([sender view].center.x + translatedPoint.x, [sender view].center.y);
-//        [(UIPanGestureRecognizer*)sender setTranslation:CGPointMake(0,0) inView:self.view];
-//        
-//        // If you needed to check for a change in direction, you could use this code to do so.
-//        if(velocity.x*_preVelocity.x + velocity.y*_preVelocity.y > 0) {
-//            // NSLog(@"same direction");
-//        } else {
-//            // NSLog(@"opposite direction");
-//        }
-//        
-//        _preVelocity = velocity;
-//}
-
 - (void)removeGestureRecognizers
 {
     [self.blockingView removeFromSuperview];
@@ -216,7 +167,24 @@
 
 - (void)moveToMenu
 {
+    if( self.menuIsMainView )
+    {
+        return;
+    }
     
+    self.menuIsMainView = YES;
+    self.menuIsShowing = YES;
+    
+    self.menuViewController.view.hidden = NO;
+    [self removeGestureRecognizers];
+    
+    [UIView animateWithDuration:kAnimationDuration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^
+    {
+        self.menuViewController.view.frame = CGRectMake( 0, 0, self.view.frame.size.width, self.view.frame.size.height );
+        [self.menuViewController.view layoutIfNeeded];
+        self.tabBarController.view.frame = CGRectMake( -self.view.frame.size.width, 0, self.view.frame.size.width, self.view.frame.size.height );
+    }
+    completion:nil];
 }
 
 @end
