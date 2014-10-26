@@ -19,7 +19,10 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
 @property (strong, nonatomic) NSArray                         *searchResults;
 @property (strong, nonatomic) NSArray                         *radiusArray;
 @property (strong, nonatomic) SPGooglePlacesAutocompleteQuery *placesQuery;
+@property (strong, nonatomic) SPGooglePlacesAutocompletePlace *selectedPlace;
 
+@property (nonatomic) BOOL didSelectDone;
+@property (nonatomic) BOOL locationChangeCancelled;
 @property (nonatomic) BOOL shouldUpdateResults;
 @property (nonatomic) BOOL radiusSelectionVisible;
 
@@ -34,6 +37,8 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
     
     self.searchResults          = [NSArray array];
     self.radiusSelectionVisible = NO;
+    self.locationChangeCancelled = NO;
+    self.didSelectDone = NO;
     
     [[DALocationManager sharedManager] startUpdatingLocation];
     
@@ -48,12 +53,49 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
 
 - (IBAction)cancelChangeLocation:(id)sender
 {
+    self.locationChangeCancelled = YES;
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)doneChoosingLocation:(id)sender
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    self.didSelectDone = YES;
+    
+    if( self.selectedPlace )
+    {
+        UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [spinner startAnimating];
+        self.navigationItem.rightBarButtonItem.customView = spinner;
+        
+        [self.selectedPlace resolveToPlacemark:^( CLPlacemark *placemark, NSString *addressString, NSError *error )
+        {
+            if( !self.locationChangeCancelled )
+            {
+                self.selectedLocation = placemark.location.coordinate;
+                
+                if( [self.delegate respondsToSelector:@selector(locationViewControllerDidSelectLocationName:atLocation:radius:)] )
+                {
+                    [self.delegate locationViewControllerDidSelectLocationName:self.selectedLocationName atLocation:self.selectedLocation radius:self.selectedRadius];
+                }
+                
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+            else
+            {
+                self.locationChangeCancelled = NO;
+            }
+        }];
+    }
+    else
+    {
+        if( [self.delegate respondsToSelector:@selector(locationViewControllerDidSelectLocationName:atLocation:radius:)] )
+        {
+            [self.delegate locationViewControllerDidSelectLocationName:self.selectedLocationName atLocation:self.selectedLocation radius:self.selectedRadius];
+        }
+        
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -130,7 +172,7 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
             
             if( [self.selectedLocationName isEqualToString:@"Current Location"] )
             {
-                cell.imageView.image = [UIImage imageNamed:@"explore_current_location"];
+                cell.imageView.image = [UIImage imageNamed:@"current_location"];
             }
             else
             {
@@ -140,7 +182,7 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
         else if( indexPath.row == [self.searchResults count] + 1 )
         {
             cell.accessoryType        = UITableViewCellAccessoryNone;
-            cell.imageView.image      = [UIImage imageNamed:@"explore_current_location"];
+            cell.imageView.image      = [UIImage imageNamed:@"current_location"];
             cell.textLabel.text       = @"Current Location";
             cell.detailTextLabel.text = @"";
         }
@@ -206,19 +248,21 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
     
     if( indexPath.section == 0 )
     {
+        if( self.didSelectDone )
+        {
+            self.locationChangeCancelled = YES;
+        }
+        
+        self.navigationItem.rightBarButtonItem.title = @"Done";
         self.shouldUpdateResults = NO;
         
         if( indexPath.row == [self.searchResults count] )
         {
             if( [self.selectedLocationName isEqualToString:@"Current Location"] )
             {
+                self.selectedPlace = nil;
                 self.selectedLocationName = @"Current Location";
                 self.selectedLocation     = [[DALocationManager sharedManager] currentLocation];
-            }
-            
-            if( [self.delegate respondsToSelector:@selector(locationViewControllerDidSelectLocationName:atLocation:radius:)] )
-            {
-                [self.delegate locationViewControllerDidSelectLocationName:self.selectedLocationName atLocation:self.selectedLocation radius:self.selectedRadius];
             }
             
             self.searchResults = [NSArray array];
@@ -226,13 +270,9 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
         }
         else if( indexPath.row == [self.searchResults count] + 1 )
         {
+            self.selectedPlace = nil;
             self.selectedLocationName = @"Current Location";
             self.selectedLocation     = [[DALocationManager sharedManager] currentLocation];
-            
-            if( [self.delegate respondsToSelector:@selector(locationViewControllerDidSelectLocationName:atLocation:radius:)] )
-            {
-                [self.delegate locationViewControllerDidSelectLocationName:@"Current Location" atLocation:self.selectedLocation radius:self.selectedRadius];
-            }
             
             self.searchResults = [NSArray array];
             [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -240,22 +280,8 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
         else
         {
             SPGooglePlacesAutocompletePlace *place = [self.searchResults objectAtIndex:indexPath.row];
+            self.selectedPlace = place;
             self.selectedLocationName = place.name;
-            
-            if( [self.delegate respondsToSelector:@selector(locationViewControllerDidSelectLocationName:atLocation:radius:)] )
-            {
-                id delegate = self.delegate;
-                
-                [place resolveToPlacemark:^( CLPlacemark *placemark, NSString *addressString, NSError *error )
-                {
-                    self.selectedLocation = placemark.location.coordinate;
-                    
-                    if( [self.delegate respondsToSelector:@selector(locationViewControllerDidSelectLocationName:atLocation:radius:)] )
-                    {
-                        [delegate locationViewControllerDidSelectLocationName:place.name atLocation:self.selectedLocation radius:self.selectedRadius];
-                    }
-                }];
-            }
             
             self.searchResults = [NSArray array];
             [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];

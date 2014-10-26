@@ -56,6 +56,11 @@
     self.menuViewController.view.frame = CGRectMake( kMenuHorizontalOffset, 0, self.view.frame.size.width - kMenuHorizontalOffset, self.view.frame.size.height );
 }
 
+- (BOOL)menuShowing
+{
+    return self.menuIsShowing;
+}
+
 - (void)slideOutMenu
 {
     if( self.menuIsShowing && !self.menuIsMainView )

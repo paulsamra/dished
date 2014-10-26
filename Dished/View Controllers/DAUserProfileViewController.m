@@ -313,6 +313,15 @@
     
     NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:name attributes:nameAttributes];
     
+    if( [self.userProfile.type isEqualToString:@"influencer"] )
+    {
+        [nameString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+        NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
+        influencerIcon.image = [UIImage imageNamed:@"influencer"];
+        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
+        [nameString appendAttributedString:influencerIconString];
+    }
+    
     if( description.length > 0 )
     {
         NSDictionary *descriptionAttributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14] };

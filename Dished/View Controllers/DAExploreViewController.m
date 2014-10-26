@@ -57,7 +57,7 @@
     
     self.selectedLocationName = @"Current Location";
     
-    self.selectedRadius = 5;
+    self.selectedRadius = 0;
     
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;

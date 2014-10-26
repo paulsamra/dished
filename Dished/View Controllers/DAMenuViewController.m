@@ -57,7 +57,7 @@
     
     [self.navigationController setNavigationBarHidden:YES animated:animated];
     
-    if( !self.initialViewAppear )
+    if( !self.initialViewAppear && [self.containerViewController menuShowing] )
     {
         [self.containerViewController slideOutMenu];
     }

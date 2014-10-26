@@ -752,7 +752,7 @@
 				94F2AD6B198B2D6E00450C6F /* Explore */,
 				94F2AD6A198B2D6400450C6F /* Add Review */,
 				948EE6A31996FA1C004EC600 /* News */,
-				9489F64E19CA293800BEF540 /* More */,
+				9489F64E19CA293800BEF540 /* Menu */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -984,13 +984,13 @@
 			name = "User Profiles";
 			sourceTree = "<group>";
 		};
-		9489F64E19CA293800BEF540 /* More */ = {
+		9489F64E19CA293800BEF540 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
 				940537A319F27BC600A02088 /* DAMenuViewController.h */,
 				940537A419F27BC600A02088 /* DAMenuViewController.m */,
 			);
-			name = More;
+			name = Menu;
 			sourceTree = "<group>";
 		};
 		948B7F3E1941B05F005494AA /* External */ = {

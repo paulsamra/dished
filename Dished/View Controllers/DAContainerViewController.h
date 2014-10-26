@@ -14,6 +14,7 @@
 - (void)moveToTabBar;
 - (void)slideOutMenu;
 - (void)moveToMenu;
+- (BOOL)menuShowing;
 
 @end
 
