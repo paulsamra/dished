@@ -24,6 +24,8 @@
 @interface DAUserProfileViewController() <UIActionSheetDelegate, UIAlertViewDelegate>
 
 @property (weak,   nonatomic) NSArray             *selectedDataSource;
+@property (strong, nonatomic) NSURLSessionTask    *profileLoadTask;
+@property (strong, nonatomic) NSURLSessionTask    *followTask;
 @property (strong, nonatomic) DAUserProfile       *userProfile;
 @property (strong, nonatomic) DARestaurantProfile *restaurantProfile;
 
@@ -42,9 +44,6 @@
     self.userImageView.layer.masksToBounds = YES;
     
     self.dishesTableView.tableFooterView = [[UIView alloc] init];
-    
-    UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"more"] style:UIBarButtonItemStylePlain target:self action:@selector(showMoreActionSheet)];
-    self.navigationItem.rightBarButtonItem = moreButton;
     
     [self setMainViewsHidden:YES animated:NO];
     
@@ -125,17 +124,17 @@
     [spinner startAnimating];
     [self.view addSubview:spinner];
     
-    if( self.isRestaurant )
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        [[DAAPIManager sharedManager] getRestaurantProfileWithRestaurantID:self.user_id completion:^( id response, NSError *error )
+        if( self.isRestaurant )
         {
-            if( !response || error )
+            NSDictionary *parameters = @{ @"loc_id" : @(self.user_id) };
+            parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+            
+            self.profileLoadTask = [[DAAPIManager sharedManager] GET:kRestaurantProfileURL parameters:parameters
+            success:^( NSURLSessionDataTask *task, id responseObject )
             {
-                
-            }
-            else
-            {
-                self.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( response, @"data" )];
+                self.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, @"data" )];
                 [self configureForRestaurantProfile];
                 
                 [spinner stopAnimating];
@@ -143,17 +142,18 @@
                 
                 [self setMainViewsHidden:NO animated:YES];
             }
-        }];
-    }
-    else
-    {
-        [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+            failure:^( NSURLSessionDataTask *task, NSError *error )
+            {
+                [self handleError:error];
+            }];
+        }
+        else
         {
             NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
                                           ( self.username ? self.username : @(self.user_id) ) };
             parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
             
-            [[DAAPIManager sharedManager] GET:kUserProfileURL parameters:parameters
+            self.profileLoadTask = [[DAAPIManager sharedManager] GET:kUserProfileURL parameters:parameters
             success:^( NSURLSessionDataTask *task, id responseObject )
             {
                 self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, @"data" )];
@@ -166,9 +166,19 @@
             }
             failure:^( NSURLSessionDataTask *task, NSError *error )
             {
-                
+                [self handleError:error];
             }];
-        }];
+        }
+    }];
+}
+
+- (void)handleError:(NSError *)error
+{
+    eErrorType errorType = [DAAPIManager errorTypeForError:error];
+    
+    if( errorType != eErrorTypeRequestCancelled )
+    {
+        
     }
 }
 
@@ -179,7 +189,17 @@
     NSURL *url = [NSURL URLWithString:self.restaurantProfile.img_thumb];
     [self.userImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"profile_image"]];
     
-    self.restaurantProfile.is_profile_owner ? [self setFollowButtonToProfileOwner] : [self setFollowButtonState:self.restaurantProfile.caller_follows];
+    self.restaurantProfile.is_profile_owner ? [self setFollowButtonToProfileOwner] : [self setFollowButtonState];
+    
+    if( self.restaurantProfile.is_profile_owner )
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    else
+    {
+        UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"more"] style:UIBarButtonItemStylePlain target:self action:@selector(showMoreActionSheet)];
+        self.navigationItem.rightBarButtonItem = moreButton;
+    }
     
     self.selectedDataSource = self.restaurantProfile.foodDishes;
     
@@ -225,7 +245,17 @@
     NSURL *url = [NSURL URLWithString:self.userProfile.img_thumb];
     [self.userImageView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"profile_image"]];
     
-    self.userProfile.is_profile_owner ? [self setFollowButtonToProfileOwner] : [self setFollowButtonState:self.userProfile.caller_follows];
+    self.userProfile.is_profile_owner ? [self setFollowButtonToProfileOwner] : [self setFollowButtonState];
+    
+    if( self.userProfile.is_profile_owner )
+    {
+        self.navigationItem.rightBarButtonItem = nil;
+    }
+    else
+    {
+        UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"more"] style:UIBarButtonItemStylePlain target:self action:@selector(showMoreActionSheet)];
+        self.navigationItem.rightBarButtonItem = moreButton;
+    }
     
     self.selectedDataSource = self.userProfile.foodReviews;
     
@@ -256,8 +286,10 @@
     [button setTitle:[NSString stringWithFormat:@"%d\n%@", (int)value, title] forState:UIControlStateNormal];
 }
 
-- (void)setFollowButtonState:(BOOL)isFollowed
+- (void)setFollowButtonState
 {
+    BOOL isFollowed = self.isRestaurant ? self.restaurantProfile.caller_follows : self.userProfile.caller_follows;
+    
     self.followButton.backgroundColor = isFollowed ? [UIColor clearColor] : [UIColor followButtonColor];
     
     NSString *buttonTitle = isFollowed ? @"Unfollow" : @"Follow";
@@ -434,12 +466,17 @@
 - (IBAction)followButtonPressed
 {
     BOOL isOwnProfile = self.isRestaurant ? self.restaurantProfile.is_profile_owner : self.userProfile.is_profile_owner;
-    BOOL isFollowed   = self.isRestaurant ? self.restaurantProfile.caller_follows : self.userProfile.caller_follows;
     
     if( !isOwnProfile )
     {
+        [self.followTask cancel];
+        
+        BOOL isFollowed = self.isRestaurant ? self.restaurantProfile.caller_follows : self.userProfile.caller_follows;
         isFollowed ? [self unfollowUserID:self.user_id] : [self followUserID:self.user_id];
-        [self setFollowButtonState:!isFollowed];
+        
+        self.restaurantProfile.caller_follows = !isFollowed;
+        self.userProfile.caller_follows = !isFollowed;
+        [self setFollowButtonState];
     }
     else
     {
@@ -476,12 +513,40 @@
 
 - (void)followUserID:(NSInteger)userID
 {
-    [[DAAPIManager sharedManager] followUserWithUserID:userID completion:nil];
+    self.restaurantProfile.caller_follows = self.userProfile.caller_follows = YES;
+    [self setFollowButtonState];
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kIDKey : @(userID) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        self.followTask = [[DAAPIManager sharedManager] POST:kFollowUserURL parameters:parameters
+        success:nil failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            self.restaurantProfile.caller_follows = self.userProfile.caller_follows = NO;
+            [self setFollowButtonState];
+        }];
+    }];
 }
 
 - (void)unfollowUserID:(NSInteger)userID
 {
-    [[DAAPIManager sharedManager] unfollowUserWithUserID:userID completion:nil];
+    self.restaurantProfile.caller_follows = self.userProfile.caller_follows = NO;
+    [self setFollowButtonState];
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kIDKey : @(userID) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        self.followTask = [[DAAPIManager sharedManager] POST:kUnfollowUserURL parameters:parameters
+        success:nil failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            self.restaurantProfile.caller_follows = self.userProfile.caller_follows = YES;
+            [self setFollowButtonState];
+        }];
+    }];
 }
 
 - (IBAction)phoneNumberButtonTapped

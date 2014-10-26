@@ -29,6 +29,8 @@
     
     self.initialViewAppear = YES;
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setupUserInfo) name:kUserProfileUpdatedNotification object:nil];
+    
     UIImageView *backgroundImage = [[UIImageView alloc] initWithFrame:self.tableView.frame];
     backgroundImage.image = [UIImage imageNamed:@"menu_background"];
     self.tableView.backgroundView = backgroundImage;
@@ -38,6 +40,11 @@
     self.userImageView.layer.cornerRadius  = self.userImageView.frame.size.width / 2;
     self.userImageView.layer.masksToBounds = YES;
     
+    [self setupUserInfo];
+}
+
+- (void)setupUserInfo
+{
     NSURL *userImageURL = [NSURL URLWithString:[DAUserManager sharedManager].img_thumb];
     [self.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];
     

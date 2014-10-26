@@ -310,11 +310,11 @@
             [self.dishPrice deleteCharactersInRange:NSMakeRange( [self.dishPrice length] - 1, 1 )];
             
             newAmount = [self formatCurrencyValue:( [self.dishPrice doubleValue] / 100 )];
-            [textField setText:[NSString stringWithFormat:@"$%@",newAmount]];
+            [textField setText:[NSString stringWithFormat:@"$%@", newAmount]];
         }
         else
         {
-            if ( [self.dishPrice doubleValue] < 1000000.0 )
+            if( [self.dishPrice doubleValue] < 1000000.0 )
             {
                 [self.dishPrice appendString:string];
 

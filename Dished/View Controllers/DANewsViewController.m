@@ -12,6 +12,8 @@
 #import "UIImageView+WebCache.h"
 #import "DASettingsViewController.h"
 
+#define kNewsCellID @"newsCell"
+
 
 @interface DANewsViewController()
 
@@ -45,12 +47,10 @@
     CGFloat estimatedCellHeight = 44.0;
     self.newsTableView.estimatedRowHeight = estimatedCellHeight;
     self.followingTableView.estimatedRowHeight = estimatedCellHeight;
-    self.newsTableView.estimatedRowHeight = UITableViewAutomaticDimension;
-    self.followingTableView.rowHeight = UITableViewAutomaticDimension;
     
     UINib *cellNib = [UINib nibWithNibName:@"DANewsTableViewCell" bundle:[NSBundle mainBundle]];
-    [self.newsTableView registerNib:cellNib forCellReuseIdentifier:@"newsCell"];
-    [self.followingTableView registerNib:cellNib forCellReuseIdentifier:@"newsCell"];
+    [self.newsTableView registerNib:cellNib forCellReuseIdentifier:kNewsCellID];
+    [self.followingTableView registerNib:cellNib forCellReuseIdentifier:kNewsCellID];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadNewsTable) name:kNewsUpdatedNotificationKey object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadFollowingTable) name:kFollowingUpdatedNotificationKey object:nil];
@@ -258,7 +258,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DANewsTableViewCell *newsCell = (DANewsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:@"newsCell"];
+    DANewsTableViewCell *newsCell = (DANewsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kNewsCellID];
     
     if( tableView == self.newsTableView )
     {
@@ -272,6 +272,52 @@
     }
 
     return newsCell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static DANewsTableViewCell *sizingCell;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+    {
+        sizingCell = [tableView dequeueReusableCellWithIdentifier:kNewsCellID];
+    });
+    
+    UITextView *textView = sizingCell.newsTextView;
+    
+    CGFloat textViewRightMargin = sizingCell.frame.size.width - ( textView.frame.origin.x + textView.frame.size.width );
+    CGFloat textViewWidth = tableView.frame.size.width - textView.frame.origin.x - textViewRightMargin;
+    
+    NSAttributedString *newsString = nil;
+    
+    if( tableView == self.newsTableView )
+    {
+        DAUserNews *news = [[DANewsManager sharedManager].newsNotifications objectAtIndex:indexPath.row];
+        newsString = [[NSAttributedString alloc] initWithString:[news formattedString] attributes:[DANewsTableViewCell newsLabelAttributes]];
+    }
+    else if( tableView == self.followingTableView )
+    {
+        DAFollowingNews *news = [[DANewsManager sharedManager].followingNotifications objectAtIndex:indexPath.row];
+        newsString = [[NSAttributedString alloc] initWithString:[news formattedString] attributes:[DANewsTableViewCell newsLabelAttributes]];
+    }
+    
+    CGSize boundingSize = CGSizeMake( textViewWidth - 2, CGFLOAT_MAX );
+    CGRect stringRect   = [newsString boundingRectWithSize:boundingSize
+                                                      options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
+                                                      context:nil];
+    
+    CGFloat textViewTopMargin = textView.frame.origin.y;
+    CGFloat textViewBottomMargin = sizingCell.frame.size.height - ( textView.frame.origin.y + textView.frame.size.height );
+    CGFloat textViewHeight = ceilf( stringRect.size.height ) + 2;
+    
+    CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
+    
+    if( calculatedHeight < 44.0 )
+    {
+        calculatedHeight = 44.0;
+    }
+    
+    return calculatedHeight;
 }
 
 - (void)configureCell:(DANewsTableViewCell *)cell withNews:(DANews *)news

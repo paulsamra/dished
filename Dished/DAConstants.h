@@ -44,11 +44,16 @@ extern NSString *const kUsersURL;
 extern NSString *const kLogoutURL;
 extern NSString *const kHashtagsURL;
 extern NSString *const kUserImageURL;
+extern NSString *const kFollowUserURL;
 extern NSString *const kDishSearchURL;
 extern NSString *const kUserProfileURL;
 extern NSString *const kEditProfileURL;
+extern NSString *const kUnfollowUserURL;
 extern NSString *const kUserSettingsURL;
+extern NSString *const kUserFollowersURL;
+extern NSString *const kUserFollowingURL;
 extern NSString *const kExploreLocationsURL;
+extern NSString *const kRestaurantProfileURL;
 extern NSString *const kEmailAvailabilityURL;
 extern NSString *const kPhoneAvailabilityURL;
 

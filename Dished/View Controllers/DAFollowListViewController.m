@@ -11,6 +11,7 @@
 #import "DAUsername.h"
 #import "UIImageView+WebCache.h"
 #import "DAUserProfileViewController.h"
+#import "DAUserManager.h"
 
 
 @interface DAFollowListViewController() <DAFollowListTableViewCellDelegate>
@@ -49,38 +50,41 @@
 
 - (void)loadFollowers
 {
-    NSInteger userID = self.user_id;
+    NSDictionary *parameters = @{ kIDKey : @(self.user_id), @"relation" : @(YES) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] getUserFollowersWithUserID:userID showRelations:YES completion:^( id response, NSError *error )
+    [[DAAPIManager sharedManager] POST:kUserFollowersURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        if( !response || error )
-        {
-            
-        }
-        else
-        {
-            self.usernameArray = [self usernamesWithData:response];
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
+        self.usernameArray = [self usernamesWithData:responseObject];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        [self handleLoadError:error];
     }];
 }
 
 - (void)loadFollowing
 {
-    NSInteger userID = self.user_id;
+    NSDictionary *parameters = @{ kIDKey : @(self.user_id), @"relation" : @(YES) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] getUserFollowingWithUserID:userID showRelations:YES completion:^( id response, NSError *error )
+    [[DAAPIManager sharedManager] POST:kUserFollowingURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        if( !response || error )
-        {
-             
-        }
-        else
-        {
-            self.usernameArray = [self usernamesWithData:response];
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-        }
+        self.usernameArray = [self usernamesWithData:responseObject];
+        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        [self handleLoadError:error];
     }];
+}
+
+- (void)handleLoadError:(NSError *)error
+{
+    
 }
 
 - (NSArray *)usernamesWithData:(id)data
@@ -124,10 +128,18 @@
         
         cell.usernameLabel.text = [NSString stringWithFormat:@"@%@", username.username];
         
-        [self configureFollowButton:cell.followButton withFollowStatus:username.isFollowed];
+        if( [username.username isEqualToString:[[DAUserManager sharedManager] username]] )
+        {
+            cell.followButton.hidden = YES;
+        }
+        else
+        {
+            cell.followButton.hidden = NO;
+            [self configureFollowButton:cell.followButton withFollowStatus:username.isFollowed];
+        }
         
         NSURL *imageURL = [NSURL URLWithString:username.img_thumb];
-        [cell.userImageView sd_setImageWithURL:imageURL];
+        [cell.userImageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];
         
         cell.delegate = self;
     }
@@ -166,12 +178,24 @@
 
 - (void)followUserID:(NSInteger)userID
 {
-    [[DAAPIManager sharedManager] followUserWithUserID:userID completion:nil];
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kIDKey : @(userID) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [[DAAPIManager sharedManager] POST:kFollowUserURL parameters:parameters success:nil failure:nil];
+    }];
 }
 
 - (void)unfollowUserID:(NSInteger)userID
 {
-    [[DAAPIManager sharedManager] unfollowUserWithUserID:userID completion:nil];
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kIDKey : @(userID) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [[DAAPIManager sharedManager] POST:kUnfollowUserURL parameters:parameters success:nil failure:nil];
+    }];
 }
 
 @end

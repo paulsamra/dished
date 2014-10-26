@@ -119,11 +119,11 @@ typedef enum
     switch( self.type )
     {
         case eFollowingNewsNotificationTypeCreateReview:
-            string = [NSString stringWithFormat:@"@%@ added %d reviews", self.username, 4];
+            string = [NSString stringWithFormat:@"@%@ added %d reviews.", self.username, 4];
             break;
             
         case eFollowingNewsNotificationTypeFollow:
-            string = [NSString stringWithFormat:@"@%@ followed @%@", self.username, self.followed.username];
+            string = [NSString stringWithFormat:@"@%@ followed @%@.", self.username, self.followed.username];
             break;
             
         case eFollowingNewsNotificationTypeYum:
@@ -152,7 +152,7 @@ typedef enum
             break;
             
         case eFollowingNewsYumNotificationSubtypeMultiUserYum:
-            string = [NSString stringWithFormat:@"%d of your friends YUMMED %@'s review", (int)self.friend_count, self.username];
+            string = [NSString stringWithFormat:@"%d of your friends YUMMED %@'s review.", (int)self.friend_count, self.username];
             break;
             
         case eFollowingNewsYumNotificationSubtypeTwoUserYum:

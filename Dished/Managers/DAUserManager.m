@@ -415,11 +415,11 @@
     userProfile[kPhoneKey]       = self.phoneNumber;
     userProfile[kEmailKey]       = self.email;
     userProfile[kUsernameKey]    = self.username;
-    userProfile[kImgThumbKey]    = self.img_thumb;
+    userProfile[kImgThumbKey]    = self.img_thumb ? self.img_thumb : @"";
     userProfile[kLastNameKey]    = self.lastName;
     userProfile[kFirstNameKey]   = self.firstName;
     userProfile[kDateOfBirthKey] = self.dateOfBirth;
-    userProfile[kDescriptionKey] = self.desc;
+    userProfile[kDescriptionKey] = self.desc ? self.desc : @"";
     
     userProfile[kPublicKey]    = @(self.publicProfile);
     userProfile[kSavePhotoKey] = @(self.savesDishPhoto);
@@ -430,6 +430,8 @@
     
     [[NSUserDefaults standardUserDefaults] setObject:userProfile forKey:kSavedProfileKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:kUserProfileUpdatedNotification object:nil];
 }
 
 @end

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#define kUserProfileUpdatedNotification @"user_updated"
+
 typedef enum
 {
     ePushSettingOff,

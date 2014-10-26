@@ -173,34 +173,4 @@ typedef enum
  */
 - (void)getFollowingNotificationsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( id response, NSError *error ) )completion;
 
-/*
- * Get a user's profile info.
- */
-- (void)getUserProfileWithUserID:(NSInteger)userID completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Get the followers of a user.
- */
-- (void)getUserFollowersWithUserID:(NSInteger)userID showRelations:(BOOL)showRelations completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Get the users a user is following.
- */
-- (void)getUserFollowingWithUserID:(NSInteger)userID showRelations:(BOOL)showRelations completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Start following a user.
- */
-- (void)followUserWithUserID:(NSInteger)userID completion:( void(^)( BOOL success ) )completion;
-
-/*
- * Unfollow a user.
- */
-- (void)unfollowUserWithUserID:(NSInteger)userID completion:( void(^)( BOOL success ) )completion;
-
-/*
- * Get a restaurant's profile info.
- */
-- (void)getRestaurantProfileWithRestaurantID:(NSInteger)restaurantID completion:( void(^)( id response, NSError *error ) )completion;
-
 @end
