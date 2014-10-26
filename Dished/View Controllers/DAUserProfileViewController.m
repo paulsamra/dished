@@ -19,6 +19,7 @@
 #import "DAUserProfile.h"
 #import "DARestaurantProfile.h"
 #import "DAEditProfileViewController.h"
+#import "DADishesMapViewController.h"
 
 
 @interface DAUserProfileViewController() <UIActionSheetDelegate, UIAlertViewDelegate>
@@ -454,7 +455,7 @@
 
 - (IBAction)goToDishesMap
 {
-    
+    [self performSegueWithIdentifier:@"dishesMap" sender:nil];
 }
 
 - (IBAction)showGradeInfoAlert
@@ -508,6 +509,17 @@
         DAFollowListViewController *dest = segue.destinationViewController;
         dest.showFollowers = showFollowers;
         dest.user_id = self.user_id;
+    }
+    
+    if( [segue.identifier isEqualToString:@"dishesMap"] )
+    {
+        DADishesMapViewController *dest = segue.destinationViewController;
+        
+        NSArray *dishes = self.userProfile.foodReviews;
+        dishes = [dishes arrayByAddingObjectsFromArray:self.userProfile.wineReviews];
+        dishes = [dishes arrayByAddingObjectsFromArray:self.userProfile.cocktailReviews];
+        
+        dest.dishes = dishes;
     }
 }
 

@@ -1781,6 +1781,7 @@
                         <outletCollection property="seperatorConstraints" destination="Rrh-f4-Jea" id="EGY-eL-iza"/>
                         <outletCollection property="seperatorConstraints" destination="2vf-pv-hQf" id="XKo-jX-Wh7"/>
                         <segue destination="kVw-2m-5wZ" kind="show" identifier="followList" id="5y2-hZ-hjV"/>
+                        <segue destination="Xi8-mD-phg" kind="show" identifier="dishesMap" id="uBl-Ci-X1m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4be-ya-FF8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1845,6 +1846,38 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b0y-NY-a1i" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3440" y="4324"/>
+        </scene>
+        <!--Dishes Map View Controller-->
+        <scene sceneID="9oW-Uw-1v2">
+            <objects>
+                <viewController id="Xi8-mD-phg" customClass="DADishesMapViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9tI-t2-HF9"/>
+                        <viewControllerLayoutGuide type="bottom" id="NDg-mm-hyf"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="eSC-QY-YI8">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ECy-v4-19s">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="ECy-v4-19s" secondAttribute="trailing" id="852-BI-wcO"/>
+                            <constraint firstItem="ECy-v4-19s" firstAttribute="top" secondItem="eSC-QY-YI8" secondAttribute="top" id="LmS-lk-w1Q"/>
+                            <constraint firstItem="NDg-mm-hyf" firstAttribute="top" secondItem="ECy-v4-19s" secondAttribute="bottom" id="e8M-9B-R9g"/>
+                            <constraint firstItem="ECy-v4-19s" firstAttribute="leading" secondItem="eSC-QY-YI8" secondAttribute="leading" id="soo-n5-8ok"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mapView" destination="ECy-v4-19s" id="ggw-dg-a1m"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Nq7-qo-k0T" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3440" y="5167"/>
         </scene>
         <!--dummy-->
         <scene sceneID="EV1-J9-y6i">
@@ -2352,7 +2385,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZA6-uw-dKe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3383" y="5167"/>
+            <point key="canvasLocation" x="2620" y="5914"/>
         </scene>
         <!--Notification Settings View Controller-->
         <scene sceneID="Sj9-km-NXk">
@@ -2716,7 +2749,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Xq-nX-rp2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4205" y="4321"/>
+            <point key="canvasLocation" x="4199" y="5167"/>
         </scene>
         <!--Review Form View Controller-->
         <scene sceneID="Xlq-CR-vdm">
