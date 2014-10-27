@@ -17,7 +17,7 @@ import UIKit
 
 class DAFollowListTableViewCell: UITableViewCell
 {
-    var delegate: DAFollowListTableViewCellDelegate?
+    weak var delegate: DAFollowListTableViewCellDelegate?
     
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!

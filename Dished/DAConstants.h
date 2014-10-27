@@ -73,6 +73,7 @@ extern NSString *const kEmailKey;
 extern NSString *const kPhoneKey;
 extern NSString *const kPublicKey;
 extern NSString *const kPushYumKey;
+extern NSString *const kRelationKey;
 extern NSString *const kDistanceKey;
 extern NSString *const kDishTypeKey;
 extern NSString *const kUsernameKey;

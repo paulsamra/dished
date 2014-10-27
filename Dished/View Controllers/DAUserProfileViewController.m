@@ -21,6 +21,8 @@
 #import "DAEditProfileViewController.h"
 #import "DADishesMapViewController.h"
 
+static NSString *const kDishSearchCellID = @"dishCell";
+
 
 @interface DAUserProfileViewController() <UIActionSheetDelegate, UIAlertViewDelegate>
 
@@ -44,6 +46,8 @@
     [self.dishesTableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
     
     self.userImageView.layer.masksToBounds = YES;
+    
+    self.privacyLabel.hidden = YES;
     
     self.dishesTableView.tableFooterView = [[UIView alloc] init];
     
@@ -112,17 +116,18 @@
                 self.dishesMapButton.hidden = YES;
                 self.moreInfoButton.hidden = YES;
             }
+            
+            self.privacyLabel.hidden = NO;
         }
-        
-        self.privacyLabel.hidden = hidden;
     }
     else
     {
-        self.privacyLabel.hidden = hidden;
         self.topView.hidden = hidden;
         self.descriptionTextView.hidden = hidden;
         self.middleView.hidden = hidden;
         self.dishesTableView.hidden = hidden;
+        
+        self.privacyLabel.hidden = !self.restaurantProfile.is_private && !self.userProfile.is_private;
     }
 }
 
@@ -150,7 +155,7 @@
             self.profileLoadTask = [[DAAPIManager sharedManager] GET:kRestaurantProfileURL parameters:parameters
             success:^( NSURLSessionDataTask *task, id responseObject )
             {
-                self.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, @"data" )];
+                self.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, kDataKey )];
                 [self configureForRestaurantProfile];
                 
                 [spinner stopAnimating];
@@ -172,7 +177,7 @@
             self.profileLoadTask = [[DAAPIManager sharedManager] GET:kUserProfileURL parameters:parameters
             success:^( NSURLSessionDataTask *task, id responseObject )
             {
-                self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, @"data" )];
+                self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, kDataKey )];
                 [self configureForUserProfile];
                 
                 [spinner stopAnimating];
@@ -532,7 +537,8 @@
         [self.followTask cancel];
         
         BOOL isFollowed = self.isRestaurant ? self.restaurantProfile.caller_follows : self.userProfile.caller_follows;
-        isFollowed ? [self unfollowUserID:self.user_id] : [self followUserID:self.user_id];
+        NSInteger user_id = self.isRestaurant ? self.restaurantProfile.user_id : self.userProfile.user_id;
+        isFollowed ? [self unfollowUserID:user_id] : [self followUserID:user_id];
         
         self.restaurantProfile.caller_follows = !isFollowed;
         self.userProfile.caller_follows = !isFollowed;

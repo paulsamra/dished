@@ -14,6 +14,8 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAGlobalDishDetailViewController.h"
 
+static NSString *const kDishSearchCellID = @"dishCell";
+
 
 @interface DAExploreDishResultsViewController()
 

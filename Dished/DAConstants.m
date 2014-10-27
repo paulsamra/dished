@@ -64,6 +64,7 @@ NSString *const kEmailKey        = @"email";
 NSString *const kPhoneKey        = @"phone";
 NSString *const kPublicKey       = @"public";
 NSString *const kPushYumKey      = @"push_yum";
+NSString *const kRelationKey     = @"relation";
 NSString *const kDistanceKey     = @"distance";
 NSString *const kDishTypeKey     = @"dish_type";
 NSString *const kUsernameKey     = @"username";

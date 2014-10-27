@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-#define kDishSearchCellID @"dishCell"
-
 
 @interface DADishTableViewCell : UITableViewCell
 

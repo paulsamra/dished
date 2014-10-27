@@ -19,6 +19,8 @@
 #import "DAExploreDishResultsViewController.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
+static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
+
 
 @interface DAExploreViewController() <DACurrentLocationViewControllerDelegate, UIScrollViewDelegate>
 
@@ -45,9 +47,6 @@
     
     self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
     self.collectionView.alwaysBounceVertical = YES;
-    
-    UINib *searchCellNib = [UINib nibWithNibName:@"DAExploreSearchTableViewCell" bundle:nil];
-    [self.searchDisplayController.searchResultsTableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
     
     [[DALocationManager sharedManager] startUpdatingLocation];
     
@@ -289,7 +288,13 @@
     {
         DAExploreLiveSearchResult *searchResult = [self.liveSearchResults objectAtIndex:indexPath.row];
         
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"searchResultCell"];
+        cell = [tableView dequeueReusableCellWithIdentifier:kSearchResultCellIdentifier];
+        
+        if( !cell )
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kSearchResultCellIdentifier];
+        }
+        
         cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
         
         switch( searchResult.resultType )

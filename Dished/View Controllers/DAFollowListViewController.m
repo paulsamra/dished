@@ -13,10 +13,13 @@
 #import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
 
+static NSString *const kFollowCellIdentifier = @"followCell";
+
 
 @interface DAFollowListViewController() <DAFollowListTableViewCellDelegate>
 
 @property (strong, nonatomic) NSArray                 *usernameArray;
+@property (strong, nonatomic) NSURLSessionTask        *loadTask;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
 @end
@@ -29,7 +32,7 @@
     [super viewDidLoad];
     
     UINib *searchCellNib = [UINib nibWithNibName:@"DAFollowListTableViewCell" bundle:nil];
-    [self.tableView registerNib:searchCellNib forCellReuseIdentifier:@"followCell"];
+    [self.tableView registerNib:searchCellNib forCellReuseIdentifier:kFollowCellIdentifier];
     
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
@@ -50,36 +53,51 @@
 
 - (void)loadFollowers
 {
-    NSDictionary *parameters = @{ kIDKey : @(self.user_id), @"relation" : @(YES) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    __weak typeof( self ) weakSelf = self;
     
-    [[DAAPIManager sharedManager] POST:kUserFollowersURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        self.usernameArray = [self usernamesWithData:responseObject];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        [self handleLoadError:error];
+        NSDictionary *parameters = @{ kIDKey : @(weakSelf.user_id), kRelationKey : @(YES) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        weakSelf.loadTask = [[DAAPIManager sharedManager] POST:kUserFollowersURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
+            [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            [weakSelf handleLoadError:error];
+        }];
     }];
 }
 
 - (void)loadFollowing
 {
-    NSDictionary *parameters = @{ kIDKey : @(self.user_id), @"relation" : @(YES) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    __weak typeof( self ) weakSelf = self;
     
-    [[DAAPIManager sharedManager] POST:kUserFollowingURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        self.usernameArray = [self usernamesWithData:responseObject];
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        [self handleLoadError:error];
+        NSDictionary *parameters = @{ kIDKey : @(weakSelf.user_id), kRelationKey : @(YES) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        weakSelf.loadTask = [[DAAPIManager sharedManager] POST:kUserFollowingURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
+            [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            [weakSelf handleLoadError:error];
+        }];
     }];
+}
+
+- (void)dealloc
+{
+    [self.loadTask cancel];
 }
 
 - (void)handleLoadError:(NSError *)error
@@ -89,12 +107,19 @@
 
 - (NSArray *)usernamesWithData:(id)data
 {
-    NSArray *dataArray = nilOrJSONObjectForKey( data, @"data" );
+    NSArray *dataArray = nilOrJSONObjectForKey( data, kDataKey );
     NSMutableArray *usernames = [NSMutableArray array];
     
     for( NSDictionary *username in dataArray )
     {
-        [usernames addObject:[DAUsername usernameWithData:username]];
+        DAUsername *newUsername = [DAUsername usernameWithData:username];
+        
+        if( !self.showFollowers && self.user_id == [DAUserManager sharedManager].user_id )
+        {
+            newUsername.isFollowed = YES;
+        }
+        
+        [usernames addObject:newUsername];
     }
     
     return usernames;
@@ -112,7 +137,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAFollowListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"followCell"];
+    DAFollowListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFollowCellIdentifier];
     
     if( self.usernameArray.count == 0 )
     {

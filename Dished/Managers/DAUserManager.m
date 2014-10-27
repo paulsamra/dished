@@ -36,6 +36,7 @@
 @property (nonatomic, readwrite) BOOL         userProfileSuccessfullySaved;
 @property (nonatomic, readwrite) BOOL         savesDishPhoto;
 @property (nonatomic, readwrite) BOOL         publicProfile;
+@property (nonatomic, readwrite) NSInteger    user_id;
 @property (nonatomic, readwrite) ePushSetting receivesYumPushNotifications;
 @property (nonatomic, readwrite) ePushSetting receivesCommentPushNotifications;
 @property (nonatomic, readwrite) ePushSetting receivesReviewPushNotifications;
@@ -182,6 +183,8 @@
     self.firstName   = nilOrJSONObjectForKey( profile, kLastNameKey    );
     self.img_thumb   = nilOrJSONObjectForKey( profile, kImgThumbKey    );
     self.phoneNumber = nilOrJSONObjectForKey( profile, kPhoneKey       );
+    
+    self.user_id     = [nilOrJSONObjectForKey( profile, kIDKey ) integerValue];
 }
 
 - (ePushSetting)pushSettingForSettingString:(NSString *)setting
@@ -376,6 +379,7 @@
 {
     NSMutableDictionary *userProfile = [NSMutableDictionary dictionary];
     
+    userProfile[kIDKey]          = @(self.user_id);
     userProfile[kTypeKey]        = self.userType;
     userProfile[kPhoneKey]       = self.phoneNumber;
     userProfile[kEmailKey]       = self.email;
