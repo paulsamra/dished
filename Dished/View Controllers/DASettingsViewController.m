@@ -43,7 +43,7 @@
 
 - (void)populateSettings
 {
-    self.privacySwitch.on    = [DAUserManager sharedManager].publicProfile;
+    self.privacySwitch.on    = ![DAUserManager sharedManager].publicProfile;
     self.dishPhotosSwitch.on = [DAUserManager sharedManager].savesDishPhoto;
 }
 
@@ -157,7 +157,7 @@
 
 - (IBAction)changedProfilePrivacySetting
 {
-    [[DAUserManager sharedManager] savePrivacySetting:self.privacySwitch.on completion:^( BOOL success )
+    [[DAUserManager sharedManager] savePrivacySetting:!self.privacySwitch.on completion:^( BOOL success )
     {
         [self populateSettings];
     }];

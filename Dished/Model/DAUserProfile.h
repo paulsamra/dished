@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSArray  *wineReviews;
 @property (strong, nonatomic) NSArray  *cocktailReviews;
 
+@property (nonatomic) BOOL      is_private;
 @property (nonatomic) BOOL      is_profile_owner;
 @property (nonatomic) BOOL      caller_follows;
 @property (nonatomic) NSInteger user_id;

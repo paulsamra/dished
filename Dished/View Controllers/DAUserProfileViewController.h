@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIView             *descriptionSeperator;
 @property (weak, nonatomic) IBOutlet UIView             *topView;
 @property (weak, nonatomic) IBOutlet UIView             *middleView;
+@property (weak, nonatomic) IBOutlet UILabel            *privacyLabel;
 @property (weak, nonatomic) IBOutlet UIButton           *directionsButton;
 @property (weak, nonatomic) IBOutlet UIButton           *phoneNumberButton;
 @property (weak, nonatomic) IBOutlet UIButton           *dishesMapButton;

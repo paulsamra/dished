@@ -40,6 +40,7 @@ NSString *const kUserImageURL         = @"users/image";
 NSString *const kFollowUserURL        = @"users/follow";
 NSString *const kDishSearchURL        = @"dishes/search";
 NSString *const kUserUpdateURL        = @"users/update";
+NSString *const kReportUserURL        = @"users/report";
 NSString *const kUserProfileURL       = @"users/profile";
 NSString *const kEditProfileURL       = @"users/update";
 NSString *const kUserSettingsURL      = @"users/settings";

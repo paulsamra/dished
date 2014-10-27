@@ -1724,6 +1724,16 @@
                                     <constraint firstAttribute="bottom" secondItem="8ob-W7-Kqy" secondAttribute="bottom" id="wdu-k8-1eW"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This user has chosen to make their profile private." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="Bxs-47-jYR" userLabel="Privacy Label">
+                                <rect key="frame" x="175" y="378" width="250" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="250" id="23B-FA-Nzl"/>
+                                    <constraint firstAttribute="height" constant="44" id="QEd-i8-7R3"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vtb-xV-tXd" customClass="DATouchTableView" customModule="Dished" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="200" width="600" height="400"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1746,6 +1756,8 @@
                             <constraint firstAttribute="trailing" secondItem="Vtb-xV-tXd" secondAttribute="trailing" id="ZdU-Wn-DEt"/>
                             <constraint firstItem="rFf-8O-gvy" firstAttribute="leading" secondItem="GfR-xH-HPV" secondAttribute="leading" id="gC5-LO-mjz"/>
                             <constraint firstAttribute="trailing" secondItem="rFf-8O-gvy" secondAttribute="trailing" id="lYO-OO-xnP"/>
+                            <constraint firstItem="Vtb-xV-tXd" firstAttribute="centerX" secondItem="Bxs-47-jYR" secondAttribute="centerX" id="qHH-HL-TB3"/>
+                            <constraint firstItem="Vtb-xV-tXd" firstAttribute="centerY" secondItem="Bxs-47-jYR" secondAttribute="centerY" id="qY1-zt-KWO"/>
                             <constraint firstAttribute="trailing" secondItem="rjM-3p-6hb" secondAttribute="trailing" id="u8F-bk-yLv"/>
                             <constraint firstItem="Vtb-xV-tXd" firstAttribute="top" secondItem="rjM-3p-6hb" secondAttribute="bottom" id="wpe-hO-rBr"/>
                         </constraints>
@@ -1767,6 +1779,7 @@
                         <outlet property="numFollowersButton" destination="m7Z-n0-oCT" id="3j5-H9-82L"/>
                         <outlet property="numFollowingButton" destination="lgs-if-r8f" id="xwd-fl-JR1"/>
                         <outlet property="phoneNumberButton" destination="dRO-Fz-2eh" id="i44-ql-EDQ"/>
+                        <outlet property="privacyLabel" destination="Bxs-47-jYR" id="rp6-0j-23f"/>
                         <outlet property="secondButtonSeperator" destination="qRx-MU-JKf" id="PYW-qk-EEu"/>
                         <outlet property="thirdButtonSeperator" destination="fmo-IQ-mHB" id="5PB-tu-Ta2"/>
                         <outlet property="topView" destination="rFf-8O-gvy" id="NgR-Ya-25E"/>

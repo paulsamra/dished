@@ -30,6 +30,7 @@
         _latitude  = [nilOrJSONObjectForKey( location, @"latitude"  ) doubleValue];
         _longitude = [nilOrJSONObjectForKey( location, @"longitude" ) doubleValue];
         
+        _is_private       = [nilOrJSONObjectForKey( data, @"is_private" )       boolValue];
         _caller_follows   = [nilOrJSONObjectForKey( data, @"caller_follows" )   boolValue];
         _is_profile_owner = [nilOrJSONObjectForKey( data, @"is_profile_owner" ) boolValue];
         

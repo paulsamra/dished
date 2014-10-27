@@ -27,6 +27,7 @@
 @property (weak,   nonatomic) NSArray             *selectedDataSource;
 @property (strong, nonatomic) NSURLSessionTask    *profileLoadTask;
 @property (strong, nonatomic) NSURLSessionTask    *followTask;
+@property (strong, nonatomic) NSURLSessionTask    *spamReportTask;
 @property (strong, nonatomic) DAUserProfile       *userProfile;
 @property (strong, nonatomic) DARestaurantProfile *restaurantProfile;
 
@@ -94,16 +95,30 @@
         
         self.middleView.hidden = hidden;
         
-        [UIView transitionWithView:self.dishesTableView
-                          duration:0.2
-                           options:UIViewAnimationOptionTransitionCrossDissolve
-                        animations:nil
-                        completion:nil];
+        if( !self.restaurantProfile.is_private && !self.userProfile.is_private )
+        {
+            [UIView transitionWithView:self.dishesTableView
+                              duration:0.2
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:nil
+                            completion:nil];
+            
+            self.dishesTableView.hidden = hidden;
+        }
+        else
+        {
+            if( !self.isRestaurant )
+            {
+                self.dishesMapButton.hidden = YES;
+                self.moreInfoButton.hidden = YES;
+            }
+        }
         
-        self.dishesTableView.hidden = hidden;
+        self.privacyLabel.hidden = hidden;
     }
     else
     {
+        self.privacyLabel.hidden = hidden;
         self.topView.hidden = hidden;
         self.descriptionTextView.hidden = hidden;
         self.middleView.hidden = hidden;
@@ -274,7 +289,7 @@
     
     NSString *name = [NSString stringWithFormat:@"%@ %@", self.userProfile.firstName, self.userProfile.lastName];
     [self setDescriptionTextWithName:name description:self.userProfile.desc];
-    
+
     [self.dishesTableView reloadData];
 }
 
@@ -460,6 +475,41 @@
 {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Block User" otherButtonTitles:@"Report for Spam", nil];
     [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if( buttonIndex == actionSheet.cancelButtonIndex )
+    {
+        return;
+    }
+    
+    if( buttonIndex == actionSheet.destructiveButtonIndex )
+    {
+        [self blockUser];
+    }
+    else
+    {
+        [self reportUserForSpam];
+    }
+}
+
+- (void)blockUser
+{
+    
+}
+
+- (void)reportUserForSpam
+{
+    [self.spamReportTask cancel];
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kIDKey : @(self.userProfile.user_id) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        self.spamReportTask = [[DAAPIManager sharedManager] POST:kReportUserURL parameters:parameters success:nil failure:nil];
+    }];
 }
 
 - (IBAction)goToDishesMap

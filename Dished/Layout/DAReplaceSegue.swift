@@ -16,7 +16,9 @@ class DAReplaceSegue: UIStoryboardSegue
         let dest = self.destinationViewController as UIViewController
         let navigationController = source.navigationController
         
-        navigationController?.popToRootViewControllerAnimated( false )
-        navigationController?.pushViewController( dest, animated: true )
+        let controllerStack = navigationController?.viewControllers
+        var stackCopy = NSMutableArray( array: controllerStack! )
+        stackCopy.replaceObjectAtIndex( stackCopy.indexOfObject( source ), withObject: dest )
+        navigationController?.setViewControllers( stackCopy, animated: true )
     }
 }
