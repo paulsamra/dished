@@ -13,6 +13,7 @@
 
 @interface DATabBarController : UITabBarController
 
+- (void)showShareView;
 - (void) startAddReviewProcessWithDishProfile:(DADishProfile *)dishProfile;
 
 @end

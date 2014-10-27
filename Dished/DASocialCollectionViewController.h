@@ -11,6 +11,15 @@
 
 #define kDoneSelecting @"doneSelecting"
 
+@class DASocialCollectionViewController;
+
+@protocol DASocialCollectionViewControllerDelegate <NSObject>
+
+@optional
+- (void)socialCollectionViewControllerDidFinish:(DASocialCollectionViewController *)controller;
+
+@end
+
 
 @interface DASocialCollectionViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
@@ -20,7 +29,11 @@
 @property (strong, nonatomic) UIAlertView         *twitterLoginAlert;
 @property (strong, nonatomic) UIAlertView         *emailFailAlert;
 @property (strong, nonatomic) NSMutableDictionary *selectedSharing;
-@property BOOL isReview;
+
+@property (weak, nonatomic) id<DASocialCollectionViewControllerDelegate> delegate;
+
+@property (nonatomic) BOOL isReview;
+@property (nonatomic) BOOL isOwnReview;
 
 - (void)shareReview:(DANewReview *)review imageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion;
 

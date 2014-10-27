@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "DANewReview.h"
-#import "DAViewController.h"
 
 
-@interface DAPositiveHashtagsViewController : DAViewController <UITableViewDataSource, UITableViewDelegate>
+@interface DAPositiveHashtagsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) DANewReview *review;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;

@@ -204,7 +204,7 @@
             NSString *query = searchText;
             
             self.liveSearchTask = [[DAAPIManager sharedManager] exploreDishAndLocationSuggestionsTaskWithQuery:query
-            longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:15
+            longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:self.selectedRadius
             completion:^( id response, NSError *error )
             {
                 if( response && ![response isEqual:[NSNull null]] )

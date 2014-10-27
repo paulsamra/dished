@@ -8,6 +8,8 @@
 
 NSString *const kProjectName = @"Dished";
 
+NSString *const kHelveticaNeueLightFont = @"HelveticaNeue-Light";
+
 NSString *const kFirstLaunchKey = @"first_launch";
 
 NSString *const kWelcomeScreenImageNameFormat     = @"welcome_%d_%d";

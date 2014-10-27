@@ -13,7 +13,6 @@
 #import "DAGradeGraphCollectionViewCell.h"
 #import "DAGlobalReviewCollectionViewCell.h"
 #import "UIImageView+WebCache.h"
-#import "DASocialCollectionViewController.h"
 #import "NSAttributedString+Dished.h"
 #import "DAReviewDetailsViewController.h"
 #import "DAUserProfileViewController.h"
@@ -26,7 +25,6 @@
 @property (strong, nonatomic) UIActivityIndicatorView          *spinner;
 @property (strong, nonatomic) DAGlobalDishCollectionViewCell   *referenceDishCell;
 @property (strong, nonatomic) DAGlobalReviewCollectionViewCell *referenceReviewCell;
-@property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
 
 @property (nonatomic) BOOL   graphAnimated;
 @property (nonatomic) CGRect keyboardFrame;
@@ -42,10 +40,6 @@
     
     self.graphAnimated = NO;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissSocialView) name:kDoneSelecting object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
-    [self setupShareView];
-
     self.collectionView.hidden = YES;
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -353,78 +347,8 @@
 
 - (IBAction)shareBarButtonTapped:(UIBarButtonItem *)sender
 {
-    [self showShareView];
-}
-
-- (void)showShareView
-{
-//    [self.navigationController.view addSubview:self.dimView];
-    [self.view addSubview:self.socialViewController.view];
-    
-    [UIView animateWithDuration:0.3 animations:^
-     {
-//         self.dimView.backgroundColor = [UIColor lightGrayColor];
-//         self.dimView.alpha = 0.7;
-     }];
-    
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
-     {
-         CGFloat keyboardY = self.view.window.frame.size.height - self.keyboardFrame.size.height;
-       //  CGFloat socialViewHeight = self.socialViewController.collectionViewLayout.collectionViewContentSize.height;
-         CGRect socialViewFrame = self.socialViewController.view.frame;
-         socialViewFrame.origin.y = keyboardY - 300;
-         self.socialViewController.view.frame = socialViewFrame;
-     }
-                     completion:nil];
-}
-
-- (void)dismissSocialView
-{
-//    [UIView animateWithDuration:0.3 animations:^
-//     {
-//         self.dimView.backgroundColor = [UIColor clearColor];
-//         self.dimView.alpha = 1.0;
-//     }
-//                     completion:^( BOOL finished )
-//     {
-//         [self.dimView removeFromSuperview];
-//     }];
-    
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^
-     {
-         CGRect hiddenRect = self.socialViewController.view.frame;
-         hiddenRect.origin.y = 600;
-         self.socialViewController.view.frame = hiddenRect;
-     }
-                     completion:nil];
-    
-}
-
-- (void)keyboardOnScreen:(NSNotification *)notification
-{
-    NSDictionary *info  = notification.userInfo;
-    NSValue      *value = info[UIKeyboardFrameEndUserInfoKey];
-    
-    CGRect rawFrame      = [value CGRectValue];
-    CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
-    
-    self.keyboardFrame = keyboardFrame;
-}
-
-
-- (void)setupShareView
-{
-//    self.dimView = [[UIView alloc] initWithFrame:self.view.frame];
-//    self.dimView.backgroundColor = [UIColor clearColor];
-//    
-    self.socialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"social"];
-    self.socialViewController.isReview = NO;
-    self.socialViewController.view.frame = CGRectMake( 0, 600, self.view.bounds.size.width, self.view.bounds.size.height );
-}
-
-- (void)dealloc
-{
-    self.collectionView.delegate = nil;
+    DATabBarController *tabBarController = (DATabBarController *)self.tabBarController;
+    [tabBarController showShareView];
 }
 
 @end

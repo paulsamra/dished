@@ -16,12 +16,14 @@
 #import "DANewsViewController.h"
 #import "DAMenuViewController.h"
 #import "DAContainerViewController.h"
+#import "DASocialCollectionViewController.h"
 
 
-@interface DATabBarController() <UITabBarControllerDelegate, MFMailComposeViewControllerDelegate>
+@interface DATabBarController() <UITabBarControllerDelegate, MFMailComposeViewControllerDelegate, DASocialCollectionViewControllerDelegate>
 
 @property (strong, nonatomic) UIButton *newsBadgeButton;
 @property (strong, nonatomic) DAMenuViewController *menuViewController;
+@property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
 
 @end
 
@@ -212,6 +214,50 @@
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)showShareView
+{
+    if( !self.socialViewController )
+    {
+        [self setupShareView];
+    }
+    
+    [self.view insertSubview:self.socialViewController.view belowSubview:self.tabBar];
+    
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+    {
+        CGFloat socialViewHeight = self.socialViewController.collectionViewLayout.collectionViewContentSize.height;
+        CGRect socialViewFrame = self.socialViewController.view.frame;
+        socialViewFrame.origin.y = self.tabBar.frame.origin.y - socialViewHeight;
+        self.socialViewController.view.frame = socialViewFrame;
+    }
+    completion:nil];
+}
+
+- (void)dismissSocialView
+{
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^
+    {
+        CGRect hiddenRect = self.socialViewController.view.frame;
+        hiddenRect.origin.y = self.view.frame.size.height;
+        self.socialViewController.view.frame = hiddenRect;
+    }
+    completion:nil];
+}
+
+- (void)setupShareView
+{
+    self.socialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"social"];
+    self.socialViewController.isReview = NO;
+    self.socialViewController.view.frame = CGRectMake( 0, self.view.frame.size.height, self.view.bounds.size.width, self.view.bounds.size.height );
+    self.socialViewController.delegate = self;
+    [self addChildViewController:self.socialViewController];
+}
+
+- (void)socialCollectionViewControllerDidFinish:(DASocialCollectionViewController *)controller
+{
+    [self dismissSocialView];
 }
 
 @end

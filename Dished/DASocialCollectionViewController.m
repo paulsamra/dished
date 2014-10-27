@@ -14,7 +14,7 @@
 #import "DATwitterManager.h"
 #import <Social/Social.h>
 
-@interface DASocialCollectionViewController() <UIAlertViewDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate>
+@interface DASocialCollectionViewController() <UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
 @end
 
@@ -40,19 +40,9 @@
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.row == (self.isReview ? 3 : 4) )
+    if( indexPath.row == self.cellLabels.count - 1 )
     {
         UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"doneCell" forIndexPath:indexPath];
-       
-        if( !self.isReview )
-        {
-            cell.frame = CGRectMake(cell.frame.origin.x, cell.frame.origin.y, self.view.frame.size.width, cell.frame.size.height);
-            
-            if( cell.tag == 12 )
-            {
-                
-            }
-        }
         
         return cell;
     }
@@ -62,7 +52,7 @@
     cell.socialLabel.text = [self.cellLabels objectAtIndex:indexPath.row];
     cell.socialImageView.image = [self.cellImages objectAtIndex:indexPath.row];
     
-    if (self.isReview)
+    if( self.isReview )
     {
         if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]])
         {
@@ -93,6 +83,11 @@
     CGFloat sectionInsetSpacing = flowLayout.sectionInset.right + flowLayout.sectionInset.left;
     CGFloat availableWidth = width - ( 2 * flowLayout.minimumInteritemSpacing ) - sectionInsetSpacing;
     CGFloat itemWidth = availableWidth / 2;
+    
+    if( indexPath.row == self.cellLabels.count - 1 && self.cellLabels.count % 2 == 1 )
+    {
+        itemWidth = availableWidth;
+    }
     
     CGSize itemSize = CGSizeMake( itemWidth, defaultItemSize.height );
     
@@ -141,7 +136,7 @@
             }
             else
             {
-                if (self.isReview)
+                if( self.isReview )
                 {
                     [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
                     [self.collectionView reloadData];
@@ -155,16 +150,12 @@
                     {
                         [self.facebookLoginAlert show];
                     }
-
                 }
                 else
                 {
                     if( [SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook] )
                     {
                         SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-                        
-                        //[controller setInitialText:@"Post your favorite dish!"];
-                       // [controller addImage:self.reviewImage];
                         
                         [self presentViewController:controller animated:YES completion:nil];
                     }
@@ -201,14 +192,10 @@
                 {
                     SLComposeViewController *tweetSheet = [SLComposeViewController
                                                            composeViewControllerForServiceType:SLServiceTypeTwitter];
-                    //[tweetSheet setInitialText:@"Tweet your favorite dish!"];
-                    //[tweetSheet addImage:self.reviewImage];
                     
                     [self presentViewController:tweetSheet animated:YES completion:nil];
                 }
-   
             }
-            
         }
         break;
             
@@ -220,38 +207,37 @@
                 [self.collectionView reloadData];
             }
             else
-            {                
-                [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
-                [self.collectionView reloadData];
-                
+            {
                 if( [MFMailComposeViewController canSendMail] )
                 {
-                    if (!self.isReview) {
-                        if( [MFMailComposeViewController canSendMail] )
-                        {
-                            MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
-                            [composeViewController setMailComposeDelegate:self];
-                            [composeViewController setSubject:@"Wow this Dish is awesome!"];
-                            //                        NSData *imageData = UIImagePNGRepresentation(self.reviewImage);
-                            //                        [composeViewController addAttachmentData:imageData mimeType:nil fileName:@"image.png"];
-                            [self.view.window.rootViewController presentViewController:composeViewController animated:YES completion:nil];
-                        }
-
+                    if( !self.isReview )
+                    {
+                        MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+                        [composeViewController setMailComposeDelegate:self];
+                        [composeViewController setSubject:@"Wow this Dish is awesome!"];
+                        [self.parentViewController presentViewController:composeViewController animated:YES completion:nil];
                     }
-                    
+                    else
+                    {
+                        [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
+                        [self.collectionView reloadData];
+                    }
                 }
                 else
                 {
                     [self.emailFailAlert show];
-
                 }
             }
         }
         break;
+            
         case 3:
             if (self.isReview)
             {
-                [[NSNotificationCenter defaultCenter] postNotificationName:kDoneSelecting object:nil];
+                if( [self.delegate respondsToSelector:@selector(socialCollectionViewControllerDidFinish:)] )
+                {
+                    [self.delegate socialCollectionViewControllerDidFinish:self];
+                }
             }
             else
             {
@@ -260,24 +246,19 @@
             break;
 
         case 4:
-            [[NSNotificationCenter defaultCenter] postNotificationName:kDoneSelecting object:nil];
+            if( [self.delegate respondsToSelector:@selector(socialCollectionViewControllerDidFinish:)] )
+            {
+                [self.delegate socialCollectionViewControllerDidFinish:self];
+            }
             break;
     }
 }
 
-- (void)mailComposeController:(MFMailComposeViewController*)controller
-          didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+- (void)mailComposeController:(MFMailComposeViewController*)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
-    [self.view.window.rootViewController dismissViewControllerAnimated:YES completion:nil];
-    
-    if (result == MessageComposeResultCancelled)
-        NSLog(@"Message cancelled");
-    else if (result == MessageComposeResultSent)
-        NSLog(@"Message sent");
-    else
-        NSLog(@"Message failed");
-
+    [self.parentViewController dismissViewControllerAnimated:YES completion:nil];
 }
+
 - (void)openFacebookSession
 {
     [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:YES
@@ -443,15 +424,21 @@
 {
     if( !_cellLabels )
     {
-        if (self.isReview)
+        if ( self.isReview )
         {
             _cellLabels = @[ @"Facebook", @"Twitter", @"Email", @"Done" ];
 
         }
         else
         {
-            _cellLabels = @[ @"Facebook", @"Twitter", @"Email", @"Report", @"Done" ];
-
+            if( self.isOwnReview )
+            {
+                _cellLabels = @[ @"Facebook", @"Twitter", @"Email", @"Delete", @"Done" ];
+            }
+            else
+            {
+                _cellLabels = @[ @"Facebook", @"Twitter", @"Email", @"Report", @"Done" ];
+            }
         }
     }
     

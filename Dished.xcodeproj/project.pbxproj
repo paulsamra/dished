@@ -140,7 +140,6 @@
 		948615CE19FE1C3D002497D0 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615C419FE1C3D002497D0 /* MRWeakProxy.m */; };
 		9489F65419CA568400BEF540 /* DAUserNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9489F65319CA568400BEF540 /* DAUserNews.m */; };
 		948B9A7B19BB3125008BBFCF /* DANavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B9A7A19BB3125008BBFCF /* DANavigationController.m */; };
-		948B9A7E19BD0063008BBFCF /* DAViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B9A7D19BD0063008BBFCF /* DAViewController.m */; };
 		948EE6A61996FA2E004EC600 /* DANewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948EE6A51996FA2E004EC600 /* DANewsViewController.m */; };
 		949382C919C63C5D003A416C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
 		94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */; };
@@ -462,8 +461,6 @@
 		9489F65319CA568400BEF540 /* DAUserNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserNews.m; sourceTree = "<group>"; };
 		948B9A7919BB3125008BBFCF /* DANavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANavigationController.h; sourceTree = "<group>"; };
 		948B9A7A19BB3125008BBFCF /* DANavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANavigationController.m; sourceTree = "<group>"; };
-		948B9A7C19BD0063008BBFCF /* DAViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAViewController.h; sourceTree = "<group>"; };
-		948B9A7D19BD0063008BBFCF /* DAViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAViewController.m; sourceTree = "<group>"; };
 		948EE6A41996FA2E004EC600 /* DANewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANewsViewController.h; sourceTree = "<group>"; };
 		948EE6A51996FA2E004EC600 /* DANewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANewsViewController.m; sourceTree = "<group>"; };
 		949382C819C63C5D003A416C /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
@@ -738,8 +735,6 @@
 		941538F5194019C2008B3B79 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				948B9A7C19BD0063008BBFCF /* DAViewController.h */,
-				948B9A7D19BD0063008BBFCF /* DAViewController.m */,
 				940537AA19F4BA0400A02088 /* DAContainerViewController.h */,
 				940537AB19F4BA0400A02088 /* DAContainerViewController.m */,
 				944689A11960048500FAE288 /* DATabBarController.h */,
@@ -1605,7 +1600,6 @@
 				9486156919FCCE6E002497D0 /* DAMapAnnotation.m in Sources */,
 				9473FAD519E636E9003A1D1B /* DAUserProfile.m in Sources */,
 				94E5EF441943472D0021A711 /* AFHTTPSessionManager.m in Sources */,
-				948B9A7E19BD0063008BBFCF /* DAViewController.m in Sources */,
 				943093F81942633D00B1F61F /* DAErrorView.m in Sources */,
 				94237E72194A318C004DFAB6 /* DAResetPasswordViewController.m in Sources */,
 				94E5EF451943472D0021A711 /* AFNetworkReachabilityManager.m in Sources */,

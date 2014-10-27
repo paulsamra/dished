@@ -19,6 +19,8 @@
 
 extern NSString *const kProjectName;
 
+extern NSString *const kHelveticaNeueLightFont;
+
 extern NSString *const kFirstLaunchKey;
 extern NSString *const kWelcomeScreenImageNameFormat;
 extern NSString *const kWelcomeScreenDotsImageNameFormat;

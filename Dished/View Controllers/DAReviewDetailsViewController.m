@@ -21,6 +21,7 @@
 #import "DAReviewDetailCollectionViewCell.h"
 #import "DAReviewButtonsCollectionViewCell.h"
 #import "DAExploreDishResultsViewController.h"
+#import "DATabBarController.h"
 
 typedef enum
 {
@@ -637,6 +638,12 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         dest.dishID = self.review.dish_id;
         dest.presentingReviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
     }
+}
+
+- (IBAction)shareButtonPressed:(UIBarButtonItem *)sender
+{
+    DATabBarController *tabBarController = (DATabBarController *)self.tabBarController;
+    [tabBarController showShareView];
 }
 
 @end

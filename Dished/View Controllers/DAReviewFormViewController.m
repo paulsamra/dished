@@ -20,7 +20,7 @@
 #import "DASocialCollectionViewController.h"
 #import "DAImagePickerController.h"
 
-@interface DAReviewFormViewController() <UIAlertViewDelegate>
+@interface DAReviewFormViewController() <UIAlertViewDelegate, DASocialCollectionViewControllerDelegate>
 
 @property (strong, nonatomic) UIView                           *dimView;
 @property (strong, nonatomic) UIAlertView                      *postFailAlert;
@@ -44,7 +44,6 @@
     self.twitterImage.alpha  = 0.3;
     self.emailImage.alpha    = 0.3;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dismissSocialView) name:kDoneSelecting object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
     
     self.dishPrice    = [[NSMutableString alloc] init];
@@ -78,11 +77,6 @@
     if( !self.dishSuggestionsTable )
     {
         [self setupSuggestionTable];
-    }
-    
-    if( !self.socialViewController )
-    {
-        [self setupShareView];
     }
 }
 
@@ -145,6 +139,7 @@
     self.socialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"social"];
     self.socialViewController.isReview = YES;
     self.socialViewController.view.hidden = YES;
+    self.socialViewController.delegate = self;
     
     self.socialViewController.view.frame = CGRectMake( 0, 600, self.view.bounds.size.width, self.view.bounds.size.height );
 }
@@ -525,6 +520,11 @@
 
 - (IBAction)share:(UIButton *)sender
 {
+    if( !self.socialViewController )
+    {
+        [self setupShareView];
+    }
+    
     [self.navigationController.view addSubview:self.dimView];
     [self.navigationController.view addSubview:self.socialViewController.view];
     
@@ -545,6 +545,11 @@
         self.socialViewController.view.hidden = NO;
     }
     completion:nil];
+}
+
+- (void)socialCollectionViewControllerDidFinish:(DASocialCollectionViewController *)controller
+{
+    [self dismissSocialView];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

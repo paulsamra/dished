@@ -11,6 +11,7 @@
 #import "DAAPIManager.h"
 #import "DAHashtag.h"
 
+static NSString *const kHashtagCellIdentifier = @"hashtagCell";
 
 @interface DAPositiveHashtagsViewController()
 
@@ -38,49 +39,53 @@
 {
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
-    NSDictionary *parameters = @{ kDishTypeKey : self.review.type, kHashtagTypeKey : kPositiveHashtags };
-    
     __weak typeof( self ) weakSelf = self;
     
-    [self addURLTaskWithURL:kHashtagsURL parameters:parameters
-    successBlock:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
-        weakSelf.hashtagArray = [weakSelf hashtagsFromResponse:responseObject];
-        weakSelf.selectedHashtags = [weakSelf.review.hashtags mutableCopy];
+        NSDictionary *parameters = @{ kDishTypeKey : weakSelf.review.type, kHashtagTypeKey : kPositiveHashtags };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
         
-        if( !weakSelf.selectedHashtags )
+        [[DAAPIManager sharedManager] GET:kHashtagsURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            weakSelf.selectedHashtags = [NSMutableArray array];
-        }
-        
-        for( DAHashtag *tag in weakSelf.selectedHashtags )
-        {
-            NSUInteger index = [weakSelf.hashtagArray indexOfObject:tag];
+            weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+            weakSelf.hashtagArray = [weakSelf hashtagsFromResponse:responseObject];
+            weakSelf.selectedHashtags = [weakSelf.review.hashtags mutableCopy];
             
-            if( index != NSNotFound )
+            if( !weakSelf.selectedHashtags )
             {
-                [weakSelf.hashtagDict setObject:@"selected" forKey:@(index)];
+                weakSelf.selectedHashtags = [NSMutableArray array];
             }
-        }
-        
-        for( id key in weakSelf.hashtagDict )
-        {
-            [weakSelf.selectedHashtags removeObject:[weakSelf.hashtagArray objectAtIndex:[key intValue]]];
-        }
-        
-        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-        
-        weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
-    }
-    failureBlock:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        eErrorType errorType = [DAAPIManager errorTypeForError:error];
-        
-        if( errorType != eErrorTypeRequestCancelled )
-        {
             
+            for( DAHashtag *tag in weakSelf.selectedHashtags )
+            {
+                NSUInteger index = [weakSelf.hashtagArray indexOfObject:tag];
+                
+                if( index != NSNotFound )
+                {
+                    [weakSelf.hashtagDict setObject:@"selected" forKey:@(index)];
+                }
+            }
+            
+            for( id key in weakSelf.hashtagDict )
+            {
+                [weakSelf.selectedHashtags removeObject:[weakSelf.hashtagArray objectAtIndex:[key intValue]]];
+            }
+            
+            [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            
+            weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
         }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType != eErrorTypeRequestCancelled )
+            {
+                
+            }
+        }];
     }];
 }
 
@@ -115,7 +120,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"hashtagCell"];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kHashtagCellIdentifier];
     
     if( [self.hashtagArray count] == 0 )
     {
@@ -193,7 +198,7 @@
     
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.text = @"What do you like about the dish?";
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+    label.font = [UIFont fontWithName:kHelveticaNeueLightFont size:17];
     
     label.textAlignment = NSTextAlignmentCenter;
     
