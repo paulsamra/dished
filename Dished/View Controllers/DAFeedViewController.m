@@ -101,7 +101,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 {
     [super viewWillAppear:animated];
     
-    if( self.initialLoadActive )
+    if( self.initialLoadActive && ![self.refreshControl isRefreshing] )
     {
         [self.refreshControl startRefreshing];
     }

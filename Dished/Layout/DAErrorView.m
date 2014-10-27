@@ -18,6 +18,10 @@
     {
         NSBundle *mainBundle = [NSBundle mainBundle];
         NSArray *views = [mainBundle loadNibNamed:NSStringFromClass([self class]) owner:self options:nil];
+        UIView *view = views[0];
+        CGRect viewFrame = view.frame;
+        viewFrame.size = frame.size;
+        view.frame = viewFrame;
         [self addSubview:views[0]];
     }
     

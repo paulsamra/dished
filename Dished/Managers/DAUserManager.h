@@ -43,7 +43,6 @@ typedef enum
 - (void)loadUserInfoWithCompletion:( void(^)( BOOL success ) )completion;
 - (void)saveDishPhotoSetting:(BOOL)dishPhotoSetting completion:( void(^)( BOOL success ) )completion;
 - (void)savePrivacySetting:(BOOL)privacySetting completion:( void(^)( BOOL success ) )completion;
-- (void)setUserProfileImage:(UIImage *)image completion:( void(^)( BOOL success ) )completion;
 - (void)setYumPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;
 - (void)setCommentPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;
 - (void)setReviewPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;

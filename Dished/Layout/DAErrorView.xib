@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="5056" systemVersion="13E28" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DAErrorView">
@@ -17,8 +18,10 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="I4j-H6-L1h">
-                    <rect key="frame" x="285" y="28" width="20" height="30"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <rect key="frame" x="280" y="28" width="25" height="30"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="25" id="M6d-Zd-8SZ"/>
+                    </constraints>
                     <state key="normal" image="error_close">
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
@@ -28,7 +31,6 @@
                 </button>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some Tip how to fix this" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="CWh-yK-189">
                     <rect key="frame" x="15" y="39" width="250" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="gO1-lR-bOx"/>
                     </constraints>
@@ -38,7 +40,6 @@
                 </label>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Some Error text here" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="KHa-ml-6iG">
                     <rect key="frame" x="15" y="23" width="250" height="21"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="21" id="hyF-2J-5HW"/>
                     </constraints>
@@ -49,7 +50,6 @@
             </subviews>
             <color key="backgroundColor" red="0.85490196078431369" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
-                <constraint firstItem="I4j-H6-L1h" firstAttribute="leading" secondItem="ASC-qG-VQc" secondAttribute="leading" constant="285" id="2fe-gg-wRz"/>
                 <constraint firstAttribute="trailing" secondItem="KHa-ml-6iG" secondAttribute="trailing" constant="55" id="70j-na-cfX"/>
                 <constraint firstAttribute="trailing" secondItem="I4j-H6-L1h" secondAttribute="trailing" constant="15" id="BI8-se-KI7"/>
                 <constraint firstAttribute="bottom" secondItem="I4j-H6-L1h" secondAttribute="bottom" constant="6" id="X7H-se-xc7"/>
@@ -60,9 +60,17 @@
                 <constraint firstItem="KHa-ml-6iG" firstAttribute="top" secondItem="ASC-qG-VQc" secondAttribute="top" constant="23" id="tVX-dT-o7q"/>
                 <constraint firstAttribute="bottom" secondItem="CWh-yK-189" secondAttribute="bottom" constant="4" id="vZL-Ze-Ryk"/>
             </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="205" y="291"/>
         </view>
     </objects>
     <resources>
         <image name="error_close" width="13" height="12"/>
     </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
 </document>

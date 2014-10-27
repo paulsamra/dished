@@ -8,14 +8,24 @@
 
 #import "DAEditProfileViewController.h"
 #import "DAUserManager.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
+#import "DAErrorView.h"
+#import "DAAPIManager.h"
+#import "MRProgress.h"
 
 
-@interface DAEditProfileViewController() <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface DAEditProfileViewController() <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, DAErrorViewDelegate, UIAlertViewDelegate>
 
 @property (copy,   nonatomic) NSDate          *dateOfBirth;
+@property (strong, nonatomic) UIImage         *selectedImage;
+@property (strong, nonatomic) DAErrorView     *errorView;
 @property (strong, nonatomic) NSIndexPath     *pickerIndexPath;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
+
+@property (strong, nonatomic) NSURLSessionTask *saveProfileTask;
+@property (strong, nonatomic) NSURLSessionTask *removeProfilePictureTask;
+
+@property (nonatomic) BOOL errorVisible;
 
 @end
 
@@ -41,14 +51,92 @@
     [self.view layoutIfNeeded];
     
     self.userImageView.userInteractionEnabled = YES;
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedUserImage)];
-    tapGesture.numberOfTapsRequired = 1;
-    [self.userImageView addGestureRecognizer:tapGesture];
+    self.placeholderUserImageView.userInteractionEnabled = YES;
     
-    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveProfile)];
+    UITapGestureRecognizer *tapGesture1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedUserImage)];
+    tapGesture1.numberOfTapsRequired = 1;
+    [self.userImageView addGestureRecognizer:tapGesture1];
+    
+    UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tappedUserImage)];
+    tapGesture2.numberOfTapsRequired = 1;
+    [self.placeholderUserImageView addGestureRecognizer:tapGesture2];
+    
+    UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTapped)];
     self.navigationItem.rightBarButtonItem = saveButton;
     
     [self populateProfile];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.errorView = [[DAErrorView alloc] initWithFrame:[self invisibleErrorFrame]];
+    [[[UIApplication sharedApplication] keyWindow] addSubview:self.errorView];
+    self.errorView.delegate = self;
+    self.errorVisible = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.errorView removeFromSuperview];
+    
+    [super viewWillDisappear:animated];
+}
+
+- (void)dealloc
+{
+    [self.saveProfileTask cancel];
+    [self.removeProfilePictureTask cancel];
+}
+
+- (void)errorViewDidTapCloseButton:(DAErrorView *)errorView
+{
+    [self dismissErrorView];
+}
+
+- (void)showErrorView
+{
+    if( self.errorVisible )
+    {
+        return;
+    }
+    
+    self.errorVisible = YES;
+    
+    [UIView animateWithDuration:0.5 animations:^
+    {
+        [self.errorView setFrame:[self visibleErrorFrame]];
+    }];
+}
+
+- (void)dismissErrorView
+{
+    self.errorVisible = NO;
+    
+    [UIView animateWithDuration:0.3 animations:^
+    {
+        [self.errorView setFrame:[self invisibleErrorFrame]];
+    }];
+}
+
+- (CGRect)invisibleErrorFrame
+{
+    CGRect visibleFrame = [self visibleErrorFrame];
+    visibleFrame.origin.y -= 100;
+    return visibleFrame;
+}
+
+- (CGRect)visibleErrorFrame
+{
+    CGRect statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
+    CGRect navBarRect    = self.navigationController.navigationBar.frame;
+    
+    CGPoint location = statusBarRect.origin;
+    CGFloat height = navBarRect.size.height + statusBarRect.size.height;
+    CGSize  size = CGSizeMake( navBarRect.size.width, height );
+    
+    return CGRectMake( location.x, location.y, size.width, size.height );
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -68,22 +156,30 @@
     self.usernameLabel.text       = [NSString stringWithFormat:@"@%@", userManager.username];
     self.lastNameField.text       = userManager.lastName;
     self.firstNameField.text      = userManager.firstName;
-    self.phoneNumberField.text    = userManager.phoneNumber;
     self.descriptionTextView.text = userManager.desc;
     
+    if( userManager.phoneNumber.length == 10 )
+    {
+        NSMutableString *phoneNumber = [[NSMutableString alloc] initWithString:@"+1 "];
+        [phoneNumber appendFormat:@"(%@) ", [userManager.phoneNumber substringToIndex:3]];
+        [phoneNumber appendFormat:@"%@-", [userManager.phoneNumber substringWithRange:NSMakeRange( 3, 3 )]];
+        [phoneNumber appendString:[userManager.phoneNumber substringFromIndex:6]];
+        self.phoneNumberField.text = phoneNumber;
+    }
+
     if( userManager.dateOfBirth )
     {
         self.dateOfBirth = userManager.dateOfBirth;
         self.dateOfBirthCell.detailTextLabel.text = [self.dateFormatter stringFromDate:userManager.dateOfBirth];
     }
     
-    if( userManager.img_thumb )
+    if( userManager.img_thumb.length > 0 )
     {
         self.addPhotoLabel.hidden = YES;
         self.placeholderUserImageView.hidden = YES;
         
         NSURL *userImageURL = [NSURL URLWithString:userManager.img_thumb];
-        [self.userImageView sd_setImageWithURL:userImageURL];
+        [self.userImageView setImageWithURL:userImageURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }
     else
     {
@@ -91,9 +187,129 @@
     }
 }
 
+- (void)checkInputs
+{
+    if( !self.firstNameField.text || self.firstNameField.text.length == 0 )
+    {
+        self.errorView.errorTextLabel.text = @"Invalid First Name";
+        self.errorView.errorTipLabel.text  = @"Please enter your first name.";
+        
+        [self showErrorView];
+        return;
+    }
+    
+    if( !self.lastNameField.text || self.lastNameField.text.length == 0 )
+    {
+        self.errorView.errorTextLabel.text = @"Invalid Last Name";
+        self.errorView.errorTipLabel.text  = @"Please enter your last name.";
+        
+        [self showErrorView];
+        return;
+    }
+    
+    if( !self.emailField.text || ![self stringIsValidEmail:self.emailField.text] )
+    {
+        self.errorView.errorTextLabel.text = @"Invalid Email Address";
+        self.errorView.errorTipLabel.text  = @"Please enter a valid email address.";
+        
+        [self showErrorView];
+        return;
+    }
+    
+    if( !self.phoneNumberField.text || ![self phoneNumberIsValid:self.phoneNumberField.text] )
+    {
+        self.errorView.errorTextLabel.text = @"Invalid Phone Number";
+        self.errorView.errorTipLabel.text  = @"Please enter a valid phone number.";
+        
+        [self showErrorView];
+        return;
+    }
+    
+    if( self.passwordField.text.length > 0 || self.confirmPasswordField.text.length > 0 )
+    {
+        if( !self.passwordField.text || self.passwordField.text.length < 6 )
+        {
+            self.errorView.errorTextLabel.text = @"Invalid Password";
+            self.errorView.errorTipLabel.text  = @"Your password must be at least 6 characters.";
+            
+            [self showErrorView];
+            return;
+        }
+        
+        NSString *confirmPassword = self.confirmPasswordField.text;
+        if( !confirmPassword || [confirmPassword length] < 6 || ( self.passwordField.text.length >= 6 && ![confirmPassword isEqualToString:self.passwordField.text] ) )
+        {
+            self.errorView.errorTextLabel.text = @"Invalid Password";
+            self.errorView.errorTipLabel.text  = @"Your passwords must match.";
+            
+            [self showErrorView];
+            return;
+        }
+    }
+
+    if( !self.dateOfBirth || [self ageWithDate:self.dateOfBirth] < 13 )
+    {
+        self.errorView.errorTextLabel.text = @"You're too young!";
+        self.errorView.errorTipLabel.text  = @"You must be 13 years or older to be signed up with Dished.";
+        
+        [self showErrorView];
+        return;
+    }
+    
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    [self showProgressViewWithTitle:@"Saving..."];
+    [self checkEmailAndPhoneNumber];
+}
+
+- (void)showProgressViewWithTitle:(NSString *)title
+{
+    MRProgressOverlayView *view = [MRProgressOverlayView showOverlayAddedTo:self.view animated:YES];
+    view.titleLabelText = title;
+}
+
+- (BOOL)stringIsValidEmail:(NSString *)checkString
+{
+    NSString *emailRegex = @".+@.+\\.[A-Za-z]{2}[A-Za-z]*";
+    NSPredicate *emailTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", emailRegex];
+    return [emailTest evaluateWithObject:checkString];
+}
+
+- (BOOL)phoneNumberIsValid:(NSString *)phoneNumber
+{
+    if( !phoneNumber || phoneNumber.length < 10 )
+    {
+        return NO;
+    }
+    
+    NSString *after1 = [phoneNumber substringFromIndex:3];
+    NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
+    
+    if( decimalString.length < 10 )
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (int)ageWithDate:(NSDate *)date
+{
+    if( !date )
+    {
+        return 0;
+    }
+    
+    NSDate* now = [NSDate date];
+    NSDateComponents* ageComponents = [[NSCalendar currentCalendar] components:NSYearCalendarUnit fromDate:date toDate:now options:0];
+    NSInteger age = [ageComponents year];
+    
+    return (int)age;
+}
+
 - (void)tappedUserImage
 {
-    UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Profile Picture" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Photo Library", @"Take Photo or Video", @"Remove Profile Picture", nil];
+    UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Profile Picture" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Photo Library", @"Take Photo or Video", [DAUserManager sharedManager].img_thumb.length > 0 ? @"Remove Profile Picture" : nil, nil];
     photoActionSheet.destructiveButtonIndex = 2;
     
     [photoActionSheet showInView:self.view];
@@ -101,46 +317,52 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-//    if( buttonIndex == actionSheet.cancelButtonIndex )
-//    {
-//        return;
-//    }
-//    
-//    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
-//    imagePickerController.delegate = self;
-//    imagePickerController.allowsEditing = YES;
-//    
-//    if( buttonIndex == 0 )
-//    {
-//        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-//    }
-//    else if( buttonIndex == 1 )
-//    {
-//        imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
-//    }
-//    else if( buttonIndex == actionSheet.destructiveButtonIndex )
-//    {
-//        return;
-//    }
-//    
-//    [self presentViewController:imagePickerController animated:YES completion:nil];
+    if( buttonIndex == actionSheet.cancelButtonIndex )
+    {
+        return;
+    }
+    
+    UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    imagePickerController.delegate = self;
+    imagePickerController.allowsEditing = YES;
+    
+    if( buttonIndex == 0 )
+    {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    }
+    else if( buttonIndex == 1 )
+    {
+        imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
+    }
+    else if( buttonIndex == actionSheet.destructiveButtonIndex )
+    {
+        [[[UIAlertView alloc] initWithTitle:@"Are you sure you want to remove your profile picture?" message:nil delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] show];
+        return;
+    }
+    
+    [self presentViewController:imagePickerController animated:YES completion:nil];
+}
+
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    if( buttonIndex != alertView.cancelButtonIndex )
+    {
+        [self removeProfilePicture];
+    }
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
 {
-//    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
-//    
-//    [[DAUserManager sharedManager] setUserProfileImage:chosenImage completion:^( BOOL success )
-//    {
-//        if( success )
-//        {
-//            
-//        }
-//        else
-//        {
-//            
-//        }
-//    }];
+    UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
+    
+    self.userImageView.image = chosenImage;
+    self.selectedImage = chosenImage;
+    
+    self.userImageView.hidden = NO;
+    self.placeholderUserImageView.hidden = YES;
+    self.addPhotoLabel.hidden = YES;
+    
+    [picker dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
@@ -236,9 +458,427 @@
     self.dateOfBirthCell.detailTextLabel.text = [self.dateFormatter stringFromDate:datePicker.date];
 }
 
+- (void)checkEmailAndPhoneNumber
+{
+    __block BOOL emailSuccess = YES;
+    __block BOOL phoneSuccess = YES;
+    __block BOOL errorOccured = NO;
+    
+    dispatch_group_t group = dispatch_group_create();
+    
+    dispatch_group_enter( group );
+    
+    if( [self.emailField.text isEqualToString:[DAUserManager sharedManager].email] )
+    {
+        dispatch_group_leave( group );
+    }
+    else
+    {
+        NSDictionary *emailParameters = @{ kEmailKey : self.emailField.text };
+        
+        [[DAAPIManager sharedManager] GET:kEmailAvailabilityURL parameters:emailParameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            errorOccured &= NO;
+             
+            dispatch_group_leave( group );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType == eErrorTypeEmailExists )
+            {
+                errorOccured &= NO;
+                emailSuccess = NO;
+            }
+            else
+            {
+                errorOccured &= YES;
+            }
+             
+            dispatch_group_leave( group );
+        }];
+    }
+    
+    dispatch_group_enter( group );
+    
+    NSString *phoneNumber = self.phoneNumberField.text;
+    NSString *after1 = [phoneNumber substringFromIndex:3];
+    NSArray  *parts = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *decimalStr = [[parts componentsJoinedByString:@""] mutableCopy];
+    
+    if( [decimalStr isEqualToString:[DAUserManager sharedManager].phoneNumber] )
+    {
+        dispatch_group_leave( group );
+    }
+    else
+    {
+        NSDictionary *phoneParameters = @{ kPhoneKey : decimalStr };
+        
+        [[DAAPIManager sharedManager] GET:kPhoneAvailabilityURL parameters:phoneParameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            errorOccured &= NO;
+             
+            dispatch_group_leave( group );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+             
+            if( errorType == eErrorTypePhoneExists )
+            {
+                errorOccured &= NO;
+                phoneSuccess = NO;
+            }
+            else
+            {
+                errorOccured &= YES;
+            }
+             
+            dispatch_group_leave( group );
+        }];
+    }
+    
+    __weak typeof( self ) weakSelf = self;
+    
+    dispatch_group_notify( group, dispatch_get_main_queue(), ^
+    {
+        if( errorOccured )
+        {
+            weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+            
+            [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+            {
+                [weakSelf showAlertMessageWithTitle:@"Error" message:@"An error occured while saving your profile. Please try again."];
+            }];
+        }
+        else
+        {
+            if( !emailSuccess )
+            {
+                weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+                
+                [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+                {
+                    [weakSelf showAlertMessageWithTitle:@"Email Exists" message:@"An account with the given email address already exists."];
+                }];
+            }
+            else if( !phoneSuccess )
+            {
+                weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+
+                [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+                {
+                    [weakSelf showAlertMessageWithTitle:@"Phone Number Exists" message:@"An account with the given phone number already exists."];
+                }];
+            }
+            else
+            {
+                [weakSelf saveProfile];
+            }
+        }
+    });
+}
+
 - (void)saveProfile
 {
+    DAUserManager *userManager = [DAUserManager sharedManager];
     
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    
+    if( ![self.firstNameField.text isEqualToString:userManager.firstName] )
+    {
+        [parameters setObject:self.firstNameField.text forKey:@"fname"];
+    }
+    
+    if( ![self.lastNameField.text isEqualToString:userManager.lastName] )
+    {
+        [parameters setObject:self.lastNameField.text forKey:@"lname"];
+    }
+    
+    if( ![self.emailField.text isEqualToString:userManager.email] )
+    {
+        [parameters setObject:self.emailField.text forKey:kEmailKey];
+    }
+    
+    if( ![self.descriptionTextView.text isEqualToString:userManager.desc] )
+    {
+        [parameters setObject:self.descriptionTextView.text forKey:@"desc"];
+    }
+    
+    NSString *after1 = [self.phoneNumberField.text substringFromIndex:3];
+    NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
+    
+    if( ![decimalString isEqualToString:userManager.phoneNumber] )
+    {
+        [parameters setObject:decimalString forKey:kPhoneKey];
+    }
+    
+    if( ![self.dateOfBirth isEqualToDate:userManager.dateOfBirth] )
+    {
+        [parameters setObject:@([self.dateOfBirth timeIntervalSince1970]) forKey:kDateOfBirthKey];
+    }
+    
+    if( self.passwordField.text.length > 0 || self.confirmPasswordField.text.length > 0 )
+    {
+        [parameters setObject:self.passwordField.text forKey:@"password"];
+    }
+    
+    if( self.selectedImage )
+    {
+        [self saveProfileWithImage:self.selectedImage parameters:parameters];
+    }
+    else
+    {
+        [self saveProfileWithParameters:parameters];
+    }
+}
+
+- (void)saveProfileWithParameters:(NSDictionary *)parameters
+{
+    __weak typeof( self ) weakSelf = self;
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *params = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        weakSelf.saveProfileTask = [[DAAPIManager sharedManager] POST:kUserUpdateURL parameters:params
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
+            {
+                [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+                {
+                    if( success )
+                    {
+                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                    }
+                    else
+                    {
+                        weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+                        
+                        [weakSelf showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem saving your profile. Please try again."];
+                    }
+                }];
+            }];
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+            
+            [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+            {
+                [weakSelf handleSaveError:error];
+            }];
+        }];
+    }];
+}
+
+- (void)saveProfileWithImage:(UIImage *)image parameters:(NSDictionary *)parameters
+{
+    __weak typeof( self ) weakSelf = self;
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *params = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        weakSelf.saveProfileTask = [[DAAPIManager sharedManager] POST:kUserUpdateURL parameters:params
+        constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
+        {
+            float compression = 0.6;
+            NSData *imageData = UIImageJPEGRepresentation( image, compression );
+            int maxFileSize = 500000;
+            while( [imageData length] > maxFileSize )
+            {
+                compression -= 0.1;
+                imageData = UIImageJPEGRepresentation( image, compression );
+            }
+            
+            [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+        }
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
+            {
+                [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+                {
+                    if( success )
+                    {
+                        [weakSelf.navigationController popViewControllerAnimated:YES];
+                    }
+                    else
+                    {
+                        weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+                        
+                        [weakSelf showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem saving your profile. Please try again."];
+                    }
+                }];
+            }];
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+            
+            [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+            {
+                [weakSelf handleSaveError:error];
+            }];
+        }];
+    }];
+}
+
+- (void)handleSaveError:(NSError *)error
+{
+    eErrorType errorType = [DAAPIManager errorTypeForError:error];
+    
+    if( errorType != eErrorTypeRequestCancelled )
+    {
+        [self showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem saving your profile. Please try again."];
+    }
+}
+
+- (void)removeProfilePicture
+{
+    [self showProgressViewWithTitle:@"Removing..."];
+    
+    UIImage *tempImage = self.userImageView.image;
+    
+    __weak typeof( self ) weakSelf = self;
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+        
+        weakSelf.removeProfilePictureTask = [[DAAPIManager sharedManager] POST:kUserImageDeleteURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            weakSelf.userImageView.image = nil;
+            weakSelf.userImageView.hidden = YES;
+            weakSelf.placeholderUserImageView.hidden = NO;
+            weakSelf.addPhotoLabel.hidden = NO;
+            
+            [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
+            {
+                [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:nil];
+            }];
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            weakSelf.userImageView.image = tempImage;
+            
+            [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+            {
+                [self showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem removing your profile picture. Please try again."];
+            }];
+        }];
+    }];
+}
+
+- (void)showAlertMessageWithTitle:(NSString *)title message:(NSString *)message
+{
+    [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:@"OK"
+                      otherButtonTitles:nil, nil] show];
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if( textField == self.phoneNumberField && textField.text.length == 0 )
+    {
+        textField.text = @"+1 ";
+    }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if( textField == self.phoneNumberField && textField.text.length == 3 )
+    {
+        textField.text = @"";
+    }
+}
+
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
+{
+    NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+    
+    if( textField == self.phoneNumberField )
+    {
+        if( newString.length < 3 )
+        {
+            return NO;
+        }
+        
+        NSString *after1 = [newString substringFromIndex:3];
+        NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+        NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
+        NSUInteger length = decimalString.length;
+        
+        if( length > 10 )
+        {
+            return NO;
+        }
+        
+        NSUInteger index = 0;
+        NSMutableString *formattedString = [[NSMutableString alloc] initWithString:@"+1 "];
+        
+        if( length - index > 3 )
+        {
+            NSString *areaCode = [decimalString substringWithRange:NSMakeRange(index, 3)];
+            [formattedString appendFormat:@"(%@) ",areaCode];
+            index += 3;
+        }
+        
+        if( length - index > 3 )
+        {
+            NSString *prefix = [decimalString substringWithRange:NSMakeRange(index, 3)];
+            [formattedString appendFormat:@"%@-",prefix];
+            index += 3;
+        }
+        
+        NSString *remainder = [decimalString substringFromIndex:index];
+        [formattedString appendString:remainder];
+        
+        textField.text = formattedString;
+        
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (void)saveButtonTapped
+{
+    [self.view endEditing:YES];
+    
+    DAUserManager *userManager = [DAUserManager sharedManager];
+    
+    BOOL sameFirstName   = [self.firstNameField.text isEqualToString:userManager.firstName];
+    BOOL sameLastName    = [self.lastNameField.text isEqualToString:userManager.lastName];
+    BOOL sameEmail       = [self.emailField.text isEqualToString:userManager.email];
+    BOOL sameDescription = [self.descriptionTextView.text isEqualToString:userManager.desc];
+    
+    NSString *after1 = [self.phoneNumberField.text substringFromIndex:3];
+    NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
+    BOOL samePhone = [decimalString isEqualToString:userManager.phoneNumber];
+    
+    BOOL newPassword = self.passwordField.text.length > 0 || self.confirmPasswordField.text.length > 0;
+    
+    BOOL sameDateOfBirth = [self.dateOfBirth isEqualToDate:userManager.dateOfBirth];
+    
+    BOOL sameProfile = sameFirstName && sameLastName && sameEmail && sameDescription && samePhone && !newPassword && sameDateOfBirth && !self.selectedImage;
+    
+    if( sameProfile )
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    else
+    {
+        [self checkInputs];
+    }
 }
 
 - (NSDateFormatter *)dateFormatter

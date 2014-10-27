@@ -2626,6 +2626,9 @@
                                                     <rect key="frame" x="15" y="0.0" width="570" height="43"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="af1-Ep-kcC" id="XRr-8s-BzG"/>
+                                                    </connections>
                                                 </textField>
                                             </subviews>
                                             <constraints>

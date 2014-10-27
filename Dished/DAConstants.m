@@ -37,6 +37,7 @@ NSString *const kHashtagsURL          = @"hashtags";
 NSString *const kUserImageURL         = @"users/image";
 NSString *const kFollowUserURL        = @"users/follow";
 NSString *const kDishSearchURL        = @"dishes/search";
+NSString *const kUserUpdateURL        = @"users/update";
 NSString *const kUserProfileURL       = @"users/profile";
 NSString *const kEditProfileURL       = @"users/update";
 NSString *const kUserSettingsURL      = @"users/settings";
@@ -45,6 +46,7 @@ NSString *const kUserFollowersURL     = @"users/followers";
 NSString *const kUserFollowingURL     = @"users/following";
 NSString *const kExploreLocationsURL  = @"explore/locations";
 NSString *const kRestaurantProfileURL = @"restaurants/profile";
+NSString *const kUserImageDeleteURL   = @"users/image/delete";
 NSString *const kEmailAvailabilityURL = @"users/availability/email";
 NSString *const kPhoneAvailabilityURL = @"users/availability/phone";
 
