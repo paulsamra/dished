@@ -18,7 +18,6 @@
 #import "DAGlobalDishDetailViewController.h"
 //#import "UIImageView+DishProgress.h"
 #import "UIImageView+WebCache.h"
-//#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAFeedCollectionViewFlowLayout.h"
 #import "NSAttributedString+Dished.h"
 #import "DAFeedHeaderCollectionReusableView.h"
@@ -324,25 +323,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
                 [self.feedImageCache setObject:image forKey:item.img];
             }
         }];
-        
-//        [cell.dishImageView setImageWithURL:dishImageURL
-//        completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
-//        {
-//            if( image )
-//            {
-//                [self.feedImageCache setObject:image forKey:item.img];
-//            }
-//        }
-//        usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        
-//        [cell.dishImageView setImageUsingProgressViewWithURL:dishImageURL placeholderImage:nil
-//        completion:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
-//        {
-//            if( image )
-//            {
-//                [self.feedImageCache setObject:image forKey:item.img];
-//            }
-//        }];
     }
     
     cell.gradeLabel.text = [item.grade uppercaseString];
