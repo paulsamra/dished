@@ -12,6 +12,7 @@
 #import "DAContainerViewController.h"
 #import "DAEditProfileViewController.h"
 #import "DAUserManager.h"
+#import "DADocumentViewController.h"
 
 
 @interface DAMenuViewController()
@@ -67,13 +68,51 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [self.containerViewController moveToMenu];
+    
     switch( indexPath.row )
     {
+        case 0:
+            [self goToInviteFriends];
+            break;
+            
         case 1:
-            [self.containerViewController moveToMenu];
             [self goToSettings];
             break;
+            
+        case 2:
+            break;
+            
+        case 3:
+            [self showTermsOfUse];
+            break;
+        
+        case 4:
+            [self showPrivacyPolicy];
+            break;
     }
+}
+
+- (void)showTermsOfUse
+{
+    [self goToDocumentViewWithName:@"Terms & Conditions"];
+}
+
+- (void)showPrivacyPolicy
+{
+    [self goToDocumentViewWithName:@"Privacy Policy"];
+}
+
+- (void)goToDocumentViewWithName:(NSString *)documentName
+{
+    DADocumentViewController *documentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"document"];
+    documentViewController.documentName = documentName;
+    [self.navigationController pushViewController:documentViewController animated:YES];
+}
+
+- (void)goToInviteFriends
+{
+    [self performSegueWithIdentifier:@"inviteFriends" sender:nil];
 }
 
 - (void)goToSettings

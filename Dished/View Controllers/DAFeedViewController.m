@@ -177,7 +177,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    return numberOfObjects + [feedItem.comments count] + ( [feedItem.num_yums integerValue] > 0 ? 2 : 1 );
+    return numberOfObjects + [feedItem.comments count] + ( [feedItem.num_yums integerValue] > 0 ? 2 : 1 ) + ( [feedItem.num_comments integerValue] > 3 ? 1 : 0 );
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -223,18 +223,34 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
     {
         DAReviewDetailCollectionViewCell *commentCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
-
-        NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
-        DAFeedComment *comment = comments[indexPath.row - ( num_yums > 0 ? 2 : 1 )];
         
-        commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
-        
-        commentCell.iconImageView.hidden = indexPath.row - ( num_yums > 0 ? 2 : 1 ) == 0 ? NO : YES;
-        commentCell.textView.attributedText = [self commentStringForComment:comment];
-        
-        commentCell.delegate = self;
-        
-        cell = commentCell;
+        if( [feedItem.num_comments integerValue] > 3 && indexPath.row == ( num_yums > 0 ? 2 : 1 ) + 1 )
+        {
+            commentCell.iconImageView.hidden = YES;
+            
+            NSString *commentString = [NSString stringWithFormat:@"View all %d comments...", [feedItem.num_comments intValue]];
+            commentCell.textView.attributedText = [[NSAttributedString alloc] initWithString:commentString attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
+            
+            commentCell.delegate = self;
+            
+            cell = commentCell;
+        }
+        else
+        {
+            NSInteger commentIndex = indexPath.row - ( num_yums > 0 ? 2 : 1 );
+            commentIndex = [feedItem.num_comments integerValue] > 3 && commentIndex > 0 ? commentIndex - 1 : commentIndex;
+            NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
+            DAFeedComment *comment = comments[commentIndex];
+            
+            commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
+            
+            commentCell.iconImageView.hidden = indexPath.row - ( num_yums > 0 ? 2 : 1 ) == 0 ? NO : YES;
+            commentCell.textView.attributedText = [self commentStringForComment:comment];
+            
+            commentCell.delegate = self;
+            
+            cell = commentCell;
+        }
     }
     else if( indexPath.row == sectionItems - 1 )
     {
@@ -448,41 +464,50 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
     else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
     {
-        if( [self.itemSizeCache objectForKey:indexPath] )
+        if( [feedItem.num_comments integerValue] > 3 && indexPath.row == ( num_yums > 0 ? 2 : 1 ) + 1 )
         {
-            CGSize cachedSize = [[self.itemSizeCache objectForKey:indexPath] CGSizeValue];
-            return cachedSize;
+            itemSize = CGSizeMake( collectionView.frame.size.width, 18 );
         }
-        
-        NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
-        DAFeedComment *comment = comments[indexPath.row - ( num_yums > 0 ? 2 : 1 )];
-        
-        static DAReviewDetailCollectionViewCell *sizingCell;
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^
+        else
         {
-             sizingCell = [DAReviewDetailCollectionViewCell sizingCell];
-        });
-        
-        CGFloat textViewLeftMargin = sizingCell.frame.size.width - ( sizingCell.textView.frame.origin.x + sizingCell.textView.frame.size.width );
-        CGFloat textViewWidth = collectionView.frame.size.width - sizingCell.textView.frame.origin.x - textViewLeftMargin;
-        
-        CGSize cellSize = CGSizeZero;
-        cellSize.width = collectionView.frame.size.width;
-        
-        NSAttributedString *commentString = [self commentStringForComment:comment];
-        
-        CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
-        CGRect stringRect   = [commentString boundingRectWithSize:boundingSize
-                                                          options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                                          context:nil];
-        
-        CGFloat textViewHeight = ceilf( stringRect.size.height ) + 2;
-        cellSize.height = textViewHeight;
-        
-        [self.itemSizeCache setObject:[NSValue valueWithCGSize:cellSize] forKey:indexPath];
-        
-        itemSize = cellSize;
+            if( [self.itemSizeCache objectForKey:indexPath] )
+            {
+                CGSize cachedSize = [[self.itemSizeCache objectForKey:indexPath] CGSizeValue];
+                return cachedSize;
+            }
+            
+            NSInteger commentIndex = indexPath.row - ( num_yums > 0 ? 2 : 1 );
+            commentIndex = [feedItem.num_comments integerValue] > 3 && commentIndex > 0 ? commentIndex - 1 : commentIndex;
+            NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
+            DAFeedComment *comment = comments[commentIndex];
+            
+            static DAReviewDetailCollectionViewCell *sizingCell;
+            static dispatch_once_t onceToken;
+            dispatch_once(&onceToken, ^
+            {
+                 sizingCell = [DAReviewDetailCollectionViewCell sizingCell];
+            });
+            
+            CGFloat textViewLeftMargin = sizingCell.frame.size.width - ( sizingCell.textView.frame.origin.x + sizingCell.textView.frame.size.width );
+            CGFloat textViewWidth = collectionView.frame.size.width - sizingCell.textView.frame.origin.x - textViewLeftMargin;
+            
+            CGSize cellSize = CGSizeZero;
+            cellSize.width = collectionView.frame.size.width;
+            
+            NSAttributedString *commentString = [self commentStringForComment:comment];
+            
+            CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
+            CGRect stringRect   = [commentString boundingRectWithSize:boundingSize
+                                                              options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
+                                                              context:nil];
+            
+            CGFloat textViewHeight = ceilf( stringRect.size.height ) + 2;
+            cellSize.height = textViewHeight;
+            
+            [self.itemSizeCache setObject:[NSValue valueWithCGSize:cellSize] forKey:indexPath];
+            
+            itemSize = cellSize;
+        }
     }
     else if( indexPath.row == sectionItems - 1 )
     {
@@ -506,7 +531,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
     
-    [self performSegueWithIdentifier:@"commentsSegue" sender:feedItem];
+    DACommentsViewController *commentsView = [self.storyboard instantiateViewControllerWithIdentifier:@"comments"];
+    commentsView.feedItem = feedItem;
+    [self.navigationController pushViewController:commentsView animated:YES];
 }
 
 - (void)userImageTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
@@ -551,24 +578,37 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     
     if( num_yums > 0 && indexPath.row == 1 )
     {
-        
+
     }
     else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
     {
-        eLinkedTextType linkedTextType = [cell.textView linkedTextTypeForCharacterAtIndex:characterIndex];
-        
-        if( linkedTextType == eLinkedTextTypeHashtag )
+        if( [feedItem.num_comments integerValue] > 3 && indexPath.row == ( num_yums > 0 ? 2 : 1 ) + 1 )
         {
-            DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
-            exploreResultsViewController.searchTerm = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
-            [self.navigationController pushViewController:exploreResultsViewController animated:YES];
+            NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+            NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+            DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
+            
+            DACommentsViewController *commentsView = [self.storyboard instantiateViewControllerWithIdentifier:@"comments"];
+            commentsView.feedItem = feedItem;
+            [self.navigationController pushViewController:commentsView animated:YES];
         }
-        else if( linkedTextType == eLinkedTextTypeUsername )
+        else
         {
-            DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-            userProfileViewController.username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
-            userProfileViewController.isRestaurant = NO;
-            [self.navigationController pushViewController:userProfileViewController animated:YES];
+            eLinkedTextType linkedTextType = [cell.textView linkedTextTypeForCharacterAtIndex:characterIndex];
+            
+            if( linkedTextType == eLinkedTextTypeHashtag )
+            {
+                DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
+                exploreResultsViewController.searchTerm = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+                [self.navigationController pushViewController:exploreResultsViewController animated:YES];
+            }
+            else if( linkedTextType == eLinkedTextTypeUsername )
+            {
+                DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+                userProfileViewController.username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+                userProfileViewController.isRestaurant = NO;
+                [self.navigationController pushViewController:userProfileViewController animated:YES];
+            }
         }
     }
 }
@@ -808,17 +848,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if( [segue.identifier isEqualToString:@"commentsSegue"] )
-    {
-        DAFeedItem *feedItem = sender;
-        
-        DACommentsViewController *dest = segue.destinationViewController;
-        dest.feedItem = feedItem;
-        
-        return;
-    }
-    
+{    
     if( [segue.identifier isEqualToString:@"reviewDetails"] )
     {
         DAFeedItem *feedItem = sender;

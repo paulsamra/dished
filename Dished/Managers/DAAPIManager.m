@@ -953,21 +953,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
-- (void)flagCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion
-{
-    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(commentID) };
-    
-    [self POST:@"comments/report" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        NSLog(@"Failed to flag comment: %@", error.localizedDescription);
-        completion( NO );
-    }];
-}
-
 - (void)createComment:(NSString *)comment forReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID), @"comment" : comment };
@@ -1031,26 +1016,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
                 NSLog(@"Failed to unyum review: %@", error.localizedDescription);
                 completion( NO );
             }
-        }];
-    });
-}
-
-- (void)getProfileForReviewID:(NSInteger)reviewID completion:( void(^)( id response, NSError *error ) )completion
-{
-    [self authenticate];
-    
-    dispatch_async( self.queue, ^
-    {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID) };
-        
-        [self GET:@"reviews/profile" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            [responseObject[@"status"] isEqualToString:@"success"] ? completion( responseObject, nil ) : completion( nil, nil );
-        }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            NSLog(@"Failed to get review profile: %@", error.localizedDescription);
-            completion( nil, error );
         }];
     });
 }

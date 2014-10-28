@@ -134,11 +134,6 @@ typedef enum
 - (void)deleteCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion;
 
 /*
- * Flag a review comment.
- */
-- (void)flagCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion;
-
-/*
  * Create comment on a review.
  */
 - (void)createComment:(NSString *)comment forReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion;
@@ -152,11 +147,6 @@ typedef enum
  * Unyum a review.
  */
 - (void)unyumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion;
-
-/*
- * Get review details.
- */
-- (void)getProfileForReviewID:(NSInteger)reviewID completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Get global dish info.

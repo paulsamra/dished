@@ -519,7 +519,15 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (IBAction)goToDishesMap
 {
-    [self performSegueWithIdentifier:@"dishesMap" sender:nil];
+    DADishesMapViewController *dishesMapViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"dishesMap"];
+    
+    NSArray *dishes = self.userProfile.foodReviews;
+    dishes = [dishes arrayByAddingObjectsFromArray:self.userProfile.wineReviews];
+    dishes = [dishes arrayByAddingObjectsFromArray:self.userProfile.cocktailReviews];
+    
+    dishesMapViewController.dishes = dishes;
+    
+    [self.navigationController pushViewController:dishesMapViewController animated:YES];
 }
 
 - (IBAction)showGradeInfoAlert
@@ -553,39 +561,20 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (IBAction)numFollowingPressed
 {
-    BOOL showFollowers = NO;
+    DAFollowListViewController *followListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"followList"];
+    followListViewController.showFollowers = NO;
+    followListViewController.user_id = self.isRestaurant ? self.restaurantProfile.user_id : self.userProfile.user_id;
     
-    [self performSegueWithIdentifier:@"followList" sender:@(showFollowers)];
+    [self.navigationController pushViewController:followListViewController animated:YES];
 }
 
 - (IBAction)numFollowersPressed
 {
-    BOOL showFollowers = YES;
+    DAFollowListViewController *followListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"followList"];
+    followListViewController.showFollowers = YES;
+    followListViewController.user_id = self.isRestaurant ? self.restaurantProfile.user_id : self.userProfile.user_id;
     
-    [self performSegueWithIdentifier:@"followList" sender:@(showFollowers)];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if( [segue.identifier isEqualToString:@"followList"] )
-    {
-        BOOL showFollowers = [sender boolValue];
-        
-        DAFollowListViewController *dest = segue.destinationViewController;
-        dest.showFollowers = showFollowers;
-        dest.user_id = self.user_id;
-    }
-    
-    if( [segue.identifier isEqualToString:@"dishesMap"] )
-    {
-        DADishesMapViewController *dest = segue.destinationViewController;
-        
-        NSArray *dishes = self.userProfile.foodReviews;
-        dishes = [dishes arrayByAddingObjectsFromArray:self.userProfile.wineReviews];
-        dishes = [dishes arrayByAddingObjectsFromArray:self.userProfile.cocktailReviews];
-        
-        dest.dishes = dishes;
-    }
+    [self.navigationController pushViewController:followListViewController animated:YES];
 }
 
 - (void)followUserID:(NSInteger)userID

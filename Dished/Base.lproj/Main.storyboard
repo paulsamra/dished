@@ -547,7 +547,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZsI-AF-9cR" customClass="DACollectionView" customModule="Dished" customModuleProvider="target">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZsI-AF-9cR" customClass="DACollectionView" customModule="Dished" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="yI2-8g-oJF" customClass="DAFeedCollectionViewFlowLayout">
@@ -727,7 +727,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="collectionView" destination="ZsI-AF-9cR" id="umg-Yf-vCs"/>
-                        <segue destination="P8x-Vf-lZp" kind="show" identifier="commentsSegue" id="bNY-2x-UqY"/>
                         <segue destination="gSo-WE-Bx1" kind="show" identifier="reviewDetails" id="Pvw-SR-10w"/>
                         <segue destination="vVU-kX-jzI" kind="show" identifier="globalDish" id="GvD-hA-tHw"/>
                     </connections>
@@ -739,7 +738,7 @@
         <!--Comments-->
         <scene sceneID="yVA-c6-YZG">
             <objects>
-                <viewController hidesBottomBarWhenPushed="YES" id="P8x-Vf-lZp" customClass="DACommentsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="comments" hidesBottomBarWhenPushed="YES" id="P8x-Vf-lZp" customClass="DACommentsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="vCK-bC-2gn"/>
                         <viewControllerLayoutGuide type="bottom" id="t3g-ex-ZCh"/>
@@ -1793,8 +1792,6 @@
                         <outletCollection property="seperatorConstraints" destination="eiX-0v-rSE" id="a4m-R5-UD7"/>
                         <outletCollection property="seperatorConstraints" destination="Rrh-f4-Jea" id="EGY-eL-iza"/>
                         <outletCollection property="seperatorConstraints" destination="2vf-pv-hQf" id="XKo-jX-Wh7"/>
-                        <segue destination="kVw-2m-5wZ" kind="show" identifier="followList" id="5y2-hZ-hjV"/>
-                        <segue destination="Xi8-mD-phg" kind="show" identifier="dishesMap" id="uBl-Ci-X1m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4be-ya-FF8" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1804,7 +1801,7 @@
         <!--Follow List View Controller-->
         <scene sceneID="ECD-nV-nt4">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="kVw-2m-5wZ" customClass="DAFollowListViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="followList" automaticallyAdjustsScrollViewInsets="NO" id="kVw-2m-5wZ" customClass="DAFollowListViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nH2-te-LlE"/>
                         <viewControllerLayoutGuide type="bottom" id="Xve-lc-47U"/>
@@ -1841,7 +1838,7 @@
         <!--Dishes Map View Controller-->
         <scene sceneID="9oW-Uw-1v2">
             <objects>
-                <viewController id="Xi8-mD-phg" customClass="DADishesMapViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="dishesMap" id="Xi8-mD-phg" customClass="DADishesMapViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="9tI-t2-HF9"/>
                         <viewControllerLayoutGuide type="bottom" id="NDg-mm-hyf"/>
@@ -2089,16 +2086,17 @@
                     <connections>
                         <outlet property="userImageView" destination="s06-oC-NXq" id="4X2-3k-FfU"/>
                         <outlet property="usernameLabel" destination="n1a-jT-19Q" id="DIv-r5-BdD"/>
+                        <segue destination="RGM-nP-apk" kind="show" identifier="inviteFriends" id="eTW-eC-gRU"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Ncs-JG-fmO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-998" y="4250"/>
         </scene>
-        <!--View Controller-->
+        <!--Invite Your Friends-->
         <scene sceneID="xrz-7T-m4Z">
             <objects>
-                <viewController storyboardIdentifier="inviteFriends" id="RGM-nP-apk" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="inviteFriends" automaticallyAdjustsScrollViewInsets="NO" id="RGM-nP-apk" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FaY-e7-BZs"/>
                         <viewControllerLayoutGuide type="bottom" id="hCT-Jo-yOh"/>
@@ -2107,17 +2105,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vfd-fn-ZsM">
+                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="KFe-lu-bli">
-                                <rect key="frame" x="16" y="28" width="568" height="29"/>
+                                <rect key="frame" x="16" y="72" width="568" height="29"/>
                                 <segments>
                                     <segment title="Contacts"/>
                                     <segment title="Facebook"/>
                                 </segments>
                             </segmentedControl>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vfd-fn-ZsM">
-                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -2130,6 +2128,7 @@
                             <constraint firstItem="vfd-fn-ZsM" firstAttribute="top" secondItem="KFe-lu-bli" secondAttribute="bottom" constant="8" id="nQ8-g6-1j2"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" title="Invite Your Friends" id="Ksv-3E-WA5"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dCP-c0-n1m" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -4441,6 +4440,39 @@
             </objects>
             <point key="canvasLocation" x="-1783" y="4250"/>
         </scene>
+        <!--Document View Controller-->
+        <scene sceneID="d9R-Nq-BiD">
+            <objects>
+                <viewController storyboardIdentifier="document" id="0VK-pk-UPT" customClass="DADocumentViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="tj5-WZ-Iw2"/>
+                        <viewControllerLayoutGuide type="bottom" id="Jpq-1x-XLZ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TVR-V7-3lJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5d7-hL-CAy">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5d7-hL-CAy" firstAttribute="top" secondItem="TVR-V7-3lJ" secondAttribute="top" id="ALM-kJ-ns4"/>
+                            <constraint firstItem="5d7-hL-CAy" firstAttribute="leading" secondItem="TVR-V7-3lJ" secondAttribute="leading" id="Mdn-8a-mvn"/>
+                            <constraint firstAttribute="bottom" secondItem="5d7-hL-CAy" secondAttribute="bottom" id="PEv-Li-5xs"/>
+                            <constraint firstAttribute="trailing" secondItem="5d7-hL-CAy" secondAttribute="trailing" id="gIC-zz-5rm"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="5d7-hL-CAy" id="Ggn-lH-df8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tX7-cS-pRN" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1783" y="5010"/>
+        </scene>
     </scenes>
     <resources>
         <image name="add_place" width="13" height="13"/>
@@ -4490,11 +4522,10 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="hdo-Ap-R3q"/>
-        <segue reference="qwH-GH-rMo"/>
-        <segue reference="Ybk-es-BQ9"/>
-        <segue reference="e1c-XP-t2f"/>
-        <segue reference="DWl-1Z-W5u"/>
+        <segue reference="Pvw-SR-10w"/>
+        <segue reference="GvD-hA-tHw"/>
         <segue reference="uu3-ER-XS1"/>
+        <segue reference="DWl-1Z-W5u"/>
+        <segue reference="e1c-XP-t2f"/>
     </inferredMetricsTieBreakers>
 </document>

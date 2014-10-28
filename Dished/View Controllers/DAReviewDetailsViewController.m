@@ -61,15 +61,16 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     [self.view addSubview:spinner];
     
     NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
-    [[DAAPIManager sharedManager] getProfileForReviewID:reviewID completion:^( id response, NSError *error )
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        if( !response || error )
+        NSDictionary *parameters = @{ kIDKey : @(reviewID) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [[DAAPIManager sharedManager] GET:kReviewProfileURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            
-        }
-        else
-        {
-            self.review = [DAReview reviewWithData:response[@"data"]];
+            self.review = [DAReview reviewWithData:responseObject[kDataKey]];
             [self.collectionView reloadData];
             
             [spinner stopAnimating];
@@ -83,6 +84,10 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             
             self.collectionView.hidden = NO;
         }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            
+        }];
     }];
 }
 
@@ -98,17 +103,22 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (void)refreshReviewData
 {
     NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
-    [[DAAPIManager sharedManager] getProfileForReviewID:reviewID completion:^( id response, NSError *error )
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        if( !response || error )
+        NSDictionary *parameters = @{ kIDKey : @(reviewID) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+         
+        [[DAAPIManager sharedManager] GET:kReviewProfileURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            
-        }
-        else
-        {
-            self.review = [DAReview reviewWithData:response[@"data"]];
+            self.review = [DAReview reviewWithData:responseObject[kDataKey]];
             [self.collectionView reloadData];
         }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+              
+        }];
     }];
 }
 

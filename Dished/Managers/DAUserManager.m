@@ -381,7 +381,7 @@
     
     userProfile[kIDKey]          = @(self.user_id);
     userProfile[kTypeKey]        = self.userType;
-    userProfile[kPhoneKey]       = self.phoneNumber;
+    userProfile[kPhoneKey]       = self.phoneNumber ? self.phoneNumber : @"";
     userProfile[kEmailKey]       = self.email;
     userProfile[kUsernameKey]    = self.username;
     userProfile[kImgThumbKey]    = self.img_thumb ? self.img_thumb : @"";

@@ -30,7 +30,6 @@
 		942AA01A19C2655A00D0D77C /* UIImageView+DishProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */; };
 		942CC23819BDB21700BDBB75 /* DAReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23719BDB21700BDBB75 /* DAReview.m */; };
 		942CC23B19BDBCCF00BDBB75 /* DAUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23A19BDBCCF00BDBB75 /* DAUsername.m */; };
-		94302D1519EFB90300E962B8 /* launch_image_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 94302D1119EFB90300E962B8 /* launch_image_4.png */; };
 		94302D1619EFB90300E962B8 /* launch_image_5.png in Resources */ = {isa = PBXBuildFile; fileRef = 94302D1219EFB90300E962B8 /* launch_image_5.png */; };
 		94302D1719EFB90300E962B8 /* launch_image_6_plus.png in Resources */ = {isa = PBXBuildFile; fileRef = 94302D1319EFB90300E962B8 /* launch_image_6_plus.png */; };
 		94302D1819EFB90300E962B8 /* launch_image_6.png in Resources */ = {isa = PBXBuildFile; fileRef = 94302D1419EFB90300E962B8 /* launch_image_6.png */; };
@@ -149,6 +148,10 @@
 		94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */; };
 		94A027A4196F25B5004D5CD7 /* DARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A3196F25B5004D5CD7 /* DARatingViewController.m */; };
 		94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */; };
+		94A8CD1A19FF085700AA770D /* launch_image_4.png in Resources */ = {isa = PBXBuildFile; fileRef = 94A8CD1919FF085700AA770D /* launch_image_4.png */; };
+		94A8CD1D19FF143300AA770D /* Privacy Policy.html in Resources */ = {isa = PBXBuildFile; fileRef = 94A8CD1B19FF143300AA770D /* Privacy Policy.html */; };
+		94A8CD1E19FF143300AA770D /* Terms & Conditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 94A8CD1C19FF143300AA770D /* Terms & Conditions.html */; };
+		94A8CD2119FF145800AA770D /* DADocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A8CD2019FF145800AA770D /* DADocumentViewController.m */; };
 		94AE445819E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */; };
 		94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */; };
 		94B43AAE19EB6D9500482F52 /* DACollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAD19EB6D9500482F52 /* DACollectionView.swift */; };
@@ -280,7 +283,6 @@
 		942CC23719BDB21700BDBB75 /* DAReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReview.m; sourceTree = "<group>"; };
 		942CC23919BDBCCF00BDBB75 /* DAUsername.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUsername.h; sourceTree = "<group>"; };
 		942CC23A19BDBCCF00BDBB75 /* DAUsername.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUsername.m; sourceTree = "<group>"; };
-		94302D1119EFB90300E962B8 /* launch_image_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_image_4.png; sourceTree = "<group>"; };
 		94302D1219EFB90300E962B8 /* launch_image_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_image_5.png; sourceTree = "<group>"; };
 		94302D1319EFB90300E962B8 /* launch_image_6_plus.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_image_6_plus.png; sourceTree = "<group>"; };
 		94302D1419EFB90300E962B8 /* launch_image_6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_image_6.png; sourceTree = "<group>"; };
@@ -478,6 +480,11 @@
 		94A027A3196F25B5004D5CD7 /* DARatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARatingViewController.m; sourceTree = "<group>"; };
 		94A027A5196F264A004D5CD7 /* DARatingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARatingTableViewCell.h; sourceTree = "<group>"; };
 		94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARatingTableViewCell.m; sourceTree = "<group>"; };
+		94A8CD1919FF085700AA770D /* launch_image_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = launch_image_4.png; sourceTree = "<group>"; };
+		94A8CD1B19FF143300AA770D /* Privacy Policy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Privacy Policy.html"; sourceTree = "<group>"; };
+		94A8CD1C19FF143300AA770D /* Terms & Conditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Terms & Conditions.html"; sourceTree = "<group>"; };
+		94A8CD1F19FF145800AA770D /* DADocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADocumentViewController.h; sourceTree = "<group>"; };
+		94A8CD2019FF145800AA770D /* DADocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADocumentViewController.m; sourceTree = "<group>"; };
 		94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAReviewDetailCollectionViewCell.xib; sourceTree = "<group>"; };
 		94B43AAA19EB2BAF00482F52 /* DANotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANotificationSettingsViewController.h; sourceTree = "<group>"; };
 		94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANotificationSettingsViewController.m; sourceTree = "<group>"; };
@@ -703,6 +710,8 @@
 				941538C7193F270A008B3B79 /* DAAppDelegate.m */,
 				941810111970EB7700C83034 /* DAConstants.h */,
 				941810121970EB7700C83034 /* DAConstants.m */,
+				94A8CD1B19FF143300AA770D /* Privacy Policy.html */,
+				94A8CD1C19FF143300AA770D /* Terms & Conditions.html */,
 				9443DEF619CFCE9000F134BA /* Dished-Bridging-Header.h */,
 				941538D2193F270A008B3B79 /* App.xcassets */,
 				94CB03D119B0EECA009010F6 /* Images.xcassets */,
@@ -759,7 +768,7 @@
 		94302D1019EFB8A100E962B8 /* Launch Images */ = {
 			isa = PBXGroup;
 			children = (
-				94302D1119EFB90300E962B8 /* launch_image_4.png */,
+				94A8CD1919FF085700AA770D /* launch_image_4.png */,
 				94302D1219EFB90300E962B8 /* launch_image_5.png */,
 				94302D1319EFB90300E962B8 /* launch_image_6_plus.png */,
 				94302D1419EFB90300E962B8 /* launch_image_6.png */,
@@ -1046,6 +1055,8 @@
 			children = (
 				940537A319F27BC600A02088 /* DAMenuViewController.h */,
 				940537A419F27BC600A02088 /* DAMenuViewController.m */,
+				94A8CD1F19FF145800AA770D /* DADocumentViewController.h */,
+				94A8CD2019FF145800AA770D /* DADocumentViewController.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -1507,15 +1518,17 @@
 				94449EF51949A3B2008B8881 /* Icon-72.png in Resources */,
 				944D1E7719DB853A006F73BF /* DAFollowListTableViewCell.xib in Resources */,
 				94CB03D219B0EECA009010F6 /* Images.xcassets in Resources */,
+				94A8CD1D19FF143300AA770D /* Privacy Policy.html in Resources */,
 				941538D1193F270A008B3B79 /* Main.storyboard in Resources */,
+				94A8CD1E19FF143300AA770D /* Terms & Conditions.html in Resources */,
 				9443DEF519CFC7BE00F134BA /* DANewsTableViewCell.xib in Resources */,
+				94A8CD1A19FF085700AA770D /* launch_image_4.png in Resources */,
 				94449EF71949A3B2008B8881 /* Icon-76.png in Resources */,
 				94449EF91949A3B2008B8881 /* Icon-Small-50.png in Resources */,
 				94302D1819EFB90300E962B8 /* launch_image_6.png in Resources */,
 				94449EF61949A3B2008B8881 /* Icon-72@2x.png in Resources */,
 				941538D3193F270A008B3B79 /* App.xcassets in Resources */,
 				94449EFB1949A3B2008B8881 /* Icon-Small.png in Resources */,
-				94302D1519EFB90300E962B8 /* launch_image_4.png in Resources */,
 				943093FC1942638200B1F61F /* DAErrorView.xib in Resources */,
 				94449F001949A3B2008B8881 /* iTunesArtwork@2x.png in Resources */,
 				94449EF11949A3B2008B8881 /* Icon-40.png in Resources */,
@@ -1663,6 +1676,7 @@
 				94F2ADA7198C539200450C6F /* UIImageView+HighlightedWebCache.m in Sources */,
 				94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */,
 				94F2ADA9198C539200450C6F /* UIView+WebCacheOperation.m in Sources */,
+				94A8CD2119FF145800AA770D /* DADocumentViewController.m in Sources */,
 				9445C1B6199927B800F3A4F8 /* SPGooglePlacesAutocompleteQuery.m in Sources */,
 				94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */,
 				94CB03CE19B0EA94009010F6 /* SWTableViewCell.m in Sources */,

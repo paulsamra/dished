@@ -13,6 +13,7 @@
 #import "DAExploreDishResultsViewController.h"
 #import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
+#import "DAUserManager.h"
 
 
 @interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate, DACommentTableViewCellDelegate>
@@ -220,11 +221,21 @@
 {
     NSMutableArray *buttons = [NSMutableArray array];
     
+    DAComment *comment = [self.comments objectAtIndex:indexPath.row];
+    BOOL ownComment = comment.creator_id == [DAUserManager sharedManager].user_id;
+    
     UIImage *deleteImage = [UIImage imageNamed:@"delete_comment"];
     UIImage *flagImage   = [UIImage imageNamed:@"flag_comment"];
     
-    [buttons sw_addUtilityButtonWithColor:[UIColor colorWithRed:0.95 green:0 blue:0 alpha:1] icon:flagImage];
-    [buttons sw_addUtilityButtonWithColor:[UIColor colorWithRed:0.95 green:0 blue:0 alpha:1] icon:deleteImage];
+    if( !ownComment )
+    {
+        [buttons sw_addUtilityButtonWithColor:[UIColor colorWithRed:0.95 green:0 blue:0 alpha:1] icon:flagImage];
+    }
+    
+    if( ownComment )
+    {
+        [buttons sw_addUtilityButtonWithColor:[UIColor colorWithRed:0.95 green:0 blue:0 alpha:1] icon:deleteImage];
+    }
     
     return buttons;
 }
@@ -313,9 +324,12 @@
 
 - (void)flagComment:(DAComment *)comment
 {
-    [[DAAPIManager sharedManager] flagCommentWithID:comment.comment_id completion:^( BOOL success )
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        [self refreshComments];
+        NSDictionary *parameters = @{ kIDKey : @(comment.comment_id) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [[DAAPIManager sharedManager] POST:kFlagCommentURL parameters:parameters success:nil failure:nil];
     }];
 }
 
