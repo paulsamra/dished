@@ -50,6 +50,7 @@ extern NSString *const kFollowUserURL;
 extern NSString *const kDishSearchURL;
 extern NSString *const kUserUpdateURL;
 extern NSString *const kReportUserURL;
+extern NSString *const kReviewYumsURL;
 extern NSString *const kFlagCommentURL;
 extern NSString *const kUserProfileURL;
 extern NSString *const kEditProfileURL;

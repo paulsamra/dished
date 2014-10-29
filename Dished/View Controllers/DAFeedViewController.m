@@ -18,6 +18,7 @@
 #import "DAGlobalDishDetailViewController.h"
 //#import "UIImageView+DishProgress.h"
 #import "UIImageView+WebCache.h"
+#import "DAUserListViewController.h"
 #import "DAFeedCollectionViewFlowLayout.h"
 #import "NSAttributedString+Dished.h"
 #import "DAFeedHeaderCollectionReusableView.h"
@@ -558,7 +559,11 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     
     if( num_yums > 0 && indexPath.row == 1 )
     {
-
+        DAUserListViewController *userListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userList"];
+        userListViewController.listContent = eUserListContentYums;
+        userListViewController.object_id = [feedItem.item_id integerValue];
+        
+        [self.navigationController pushViewController:userListViewController animated:YES];
     }
     else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
     {

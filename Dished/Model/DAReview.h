@@ -32,6 +32,7 @@
 @property (nonatomic) NSInteger dish_id;
 @property (nonatomic) NSInteger creator_id;
 @property (nonatomic) NSInteger loc_id;
+@property (nonatomic) NSInteger num_yums;
 @property (nonatomic) NSInteger num_comments;
 
 + (DAReview *)reviewWithData:(id)data;

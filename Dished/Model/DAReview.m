@@ -31,10 +31,11 @@
         _creator_username  = nilOrJSONObjectForKey( data, @"creator_username" );
         _creator_img_thumb = nilOrJSONObjectForKey( data, @"creator_img_thumb" );
 
-        _caller_yumd       = [data[@"caller_yumd"]  boolValue];
+        _caller_yumd       = [data[@"caller_yumd"]     boolValue];
         _creator_id        = [data[@"creator_id"]   integerValue];
         _loc_id            = [data[@"loc_id"]       integerValue];
         _dish_id           = [data[@"dish_id"]      integerValue];
+        _num_yums          = [data[@"num_yums"]     integerValue];
         _num_comments      = [data[@"num_comments"] integerValue];
         
         NSTimeInterval timeInterval = [data[@"created"] doubleValue];

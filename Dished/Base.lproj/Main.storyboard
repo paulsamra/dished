@@ -1798,10 +1798,10 @@
             </objects>
             <point key="canvasLocation" x="2654" y="4324"/>
         </scene>
-        <!--Follow List View Controller-->
+        <!--User List View Controller-->
         <scene sceneID="ECD-nV-nt4">
             <objects>
-                <viewController storyboardIdentifier="followList" automaticallyAdjustsScrollViewInsets="NO" id="kVw-2m-5wZ" customClass="DAFollowListViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="userList" automaticallyAdjustsScrollViewInsets="NO" id="kVw-2m-5wZ" customClass="DAUserListViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nH2-te-LlE"/>
                         <viewControllerLayoutGuide type="bottom" id="Xve-lc-47U"/>

@@ -21,6 +21,7 @@
 #import "DAReviewDetailCollectionViewCell.h"
 #import "DAReviewButtonsCollectionViewCell.h"
 #import "DAExploreDishResultsViewController.h"
+#import "DAUserListViewController.h"
 #import "DATabBarController.h"
 
 typedef enum
@@ -124,7 +125,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (ReviewDetailsItem)itemTypeForIndexPath:(NSIndexPath *)indexPath
 {
-    NSUInteger yumsRows = self.review.yums.count > 0 ? 1 : 0;
+    NSUInteger yumsRows = self.review.num_yums > 0 ? 1 : 0;
     NSUInteger hashtagsRows = self.review.hashtags.count > 0 ? 1 : 0;
     NSUInteger commentsRows = self.review.comments.count;
     
@@ -152,14 +153,14 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (NSUInteger)commentIndexForIndexPath:(NSIndexPath *)indexPath
 {
-    NSUInteger yumsRows     = self.review.yums.count > 0 ? 1 : 0;
+    NSUInteger yumsRows     = self.review.num_yums > 0 ? 1 : 0;
     NSUInteger hashtagsRows = self.review.hashtags.count > 0 ? 1 : 0;
     return indexPath.row - 1 - yumsRows - hashtagsRows;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    NSUInteger yumsRows     = self.review.yums.count > 0 ? 1 : 0;
+    NSUInteger yumsRows     = self.review.num_yums > 0 ? 1 : 0;
     NSUInteger hashtagsRows = self.review.hashtags.count > 0 ? 1 : 0;
     NSUInteger commentsRows = self.review.comments.count;
     
@@ -233,8 +234,17 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         DAReviewDetailCollectionViewCell *yumsCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
         
-        [yumsCell.textView setAttributedText:[self yumStringWithUsernames:self.review.yums] withDelimiter:@", "];
         yumsCell.iconImageView.image = [UIImage imageNamed:@"yum_icon"];
+        
+        if( !self.review.yums || self.review.num_yums > 10 )
+        {
+            NSString *yumsString = [NSString stringWithFormat:@"%d YUMs", (int)self.review.num_yums];
+            yumsCell.textView.attributedText = [[NSAttributedString alloc] initWithString:yumsString attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
+        }
+        else
+        {
+            [yumsCell.textView setAttributedText:[self yumStringWithUsernames:self.review.yums] withDelimiter:@", "];
+        }
         
         yumsCell.delegate = self;
         
@@ -422,15 +432,22 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
     else if( itemType == ReviewDetailsItemYums )
     {
-        NSAttributedString *yumString = [self yumStringWithUsernames:self.review.yums];
-        
-        CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 38, CGFLOAT_MAX );
-        CGRect stringRect   = [yumString boundingRectWithSize:boundingSize
-                                    options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                    context:nil];
-        
-        CGFloat textHeight = ceilf( stringRect.size.height ) + 1;
-        itemSize = CGSizeMake( collectionView.frame.size.width, textHeight );
+        if( !self.review.yums || self.review.num_yums > 10 )
+        {
+            itemSize = CGSizeMake( collectionView.frame.size.width, 18 );
+        }
+        else
+        {
+            NSAttributedString *yumString = [self yumStringWithUsernames:self.review.yums];
+            
+            CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 38, CGFLOAT_MAX );
+            CGRect stringRect   = [yumString boundingRectWithSize:boundingSize
+                                                          options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
+                                                          context:nil];
+            
+            CGFloat textHeight = ceilf( stringRect.size.height ) + 1;
+            itemSize = CGSizeMake( collectionView.frame.size.width, textHeight );
+        }
     }
     else if( itemType == ReviewDetailsItemHashtags )
     {
@@ -450,7 +467,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
     else if( itemType == ReviewDetailsItemComment )
     {
-        DAComment *comment = [self.review.comments objectAtIndex:[self commentIndexForIndexPath:indexPath]];
+        NSInteger commentIndex = [self commentIndexForIndexPath:indexPath];
+        DAComment *comment = [self.review.comments objectAtIndex:commentIndex];
         
         NSAttributedString *commentString = [self commentStringForComment:comment];
         
@@ -483,20 +501,34 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (void)textViewTappedAtCharacterIndex:(NSUInteger)characterIndex inCell:(DAReviewDetailCollectionViewCell *)cell
 {
-    eLinkedTextType linkedTextType = [cell.textView linkedTextTypeForCharacterAtIndex:characterIndex];
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    NSUInteger yumsRows = self.review.num_yums > 0 ? 1 : 0;
     
-    if( linkedTextType == eLinkedTextTypeHashtag )
+    if( indexPath.row == 1 && yumsRows > 0 )
     {
-        DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
-        exploreResultsViewController.searchTerm = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
-        [self.navigationController pushViewController:exploreResultsViewController animated:YES];
+        DAUserListViewController *userListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userList"];
+        userListViewController.listContent = eUserListContentYums;
+        userListViewController.object_id = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
+        
+        [self.navigationController pushViewController:userListViewController animated:YES];
     }
-    else if( linkedTextType == eLinkedTextTypeUsername )
+    else
     {
-        DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-        userProfileViewController.username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
-        userProfileViewController.isRestaurant = NO;
-        [self.navigationController pushViewController:userProfileViewController animated:YES];
+        eLinkedTextType linkedTextType = [cell.textView linkedTextTypeForCharacterAtIndex:characterIndex];
+        
+        if( linkedTextType == eLinkedTextTypeHashtag )
+        {
+            DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
+            exploreResultsViewController.searchTerm = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+            [self.navigationController pushViewController:exploreResultsViewController animated:YES];
+        }
+        else if( linkedTextType == eLinkedTextTypeUsername )
+        {
+            DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+            userProfileViewController.username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+            userProfileViewController.isRestaurant = NO;
+            [self.navigationController pushViewController:userProfileViewController animated:YES];
+        }
     }
 }
 

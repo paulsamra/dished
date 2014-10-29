@@ -41,6 +41,7 @@ NSString *const kFollowUserURL        = @"users/follow";
 NSString *const kDishSearchURL        = @"dishes/search";
 NSString *const kUserUpdateURL        = @"users/update";
 NSString *const kReportUserURL        = @"users/report";
+NSString *const kReviewYumsURL        = @"reviews/yums";
 NSString *const kFlagCommentURL       = @"comments/report";
 NSString *const kUserProfileURL       = @"users/profile";
 NSString *const kEditProfileURL       = @"users/update";

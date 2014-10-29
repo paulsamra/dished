@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DAFollowListViewController.h"
+#import "DAUserListViewController.h"
 #import "DAAPIManager.h"
 #import "DAUsername.h"
 #import "UIImageView+WebCache.h"
@@ -16,7 +16,7 @@
 static NSString *const kFollowCellIdentifier = @"followCell";
 
 
-@interface DAFollowListViewController() <DAFollowListTableViewCellDelegate>
+@interface DAUserListViewController() <DAFollowListTableViewCellDelegate>
 
 @property (strong, nonatomic) NSArray                 *usernameArray;
 @property (strong, nonatomic) NSURLSessionTask        *loadTask;
@@ -25,7 +25,7 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 @end
 
 
-@implementation DAFollowListViewController
+@implementation DAUserListViewController
 
 - (void)viewDidLoad
 {
@@ -36,9 +36,23 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
-    self.showFollowers ? [self loadFollowers] : [self loadFollowing];
-    
-    self.navigationItem.title = self.showFollowers ? @"Followers" : @"Following";
+    switch( self.listContent )
+    {
+        case eUserListContentFollowers:
+            [self loadFollowers];
+            self.navigationItem.title = @"Followers";
+            break;
+            
+        case eUserListContentFollowing:
+            [self loadFollowing];
+            self.navigationItem.title = @"Following";
+            break;
+            
+        case eUserListContentYums:
+            [self loadYums];
+            self.navigationItem.title = @"YUMs";
+            break;
+    }
     
     self.tableView.rowHeight = 44.0;
 }
@@ -56,7 +70,7 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     
     [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        NSDictionary *parameters = @{ kIDKey : @(weakSelf.user_id), kRelationKey : @(YES) };
+        NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id), kRelationKey : @(YES) };
         parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
         
         weakSelf.loadTask = [[DAAPIManager sharedManager] POST:kUserFollowersURL parameters:parameters
@@ -78,10 +92,32 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     
     [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        NSDictionary *parameters = @{ kIDKey : @(weakSelf.user_id), kRelationKey : @(YES) };
+        NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id), kRelationKey : @(YES) };
         parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
         
         weakSelf.loadTask = [[DAAPIManager sharedManager] POST:kUserFollowingURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
+            [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            [weakSelf handleLoadError:error];
+        }];
+    }];
+}
+
+- (void)loadYums
+{
+    __weak typeof( self ) weakSelf = self;
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [[DAAPIManager sharedManager] GET:kReviewYumsURL parameters:parameters
         success:^( NSURLSessionDataTask *task, id responseObject )
         {
             weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
@@ -107,13 +143,19 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 - (NSArray *)usernamesWithData:(id)data
 {
     NSArray *dataArray = nilOrJSONObjectForKey( data, kDataKey );
+    
+    if( self.listContent == eUserListContentYums )
+    {
+        dataArray = nilOrJSONObjectForKey( (NSDictionary *)dataArray, @"yums" );
+    }
+    
     NSMutableArray *usernames = [NSMutableArray array];
     
     for( NSDictionary *username in dataArray )
     {
         DAUsername *newUsername = [DAUsername usernameWithData:username];
         
-        if( !self.showFollowers && self.user_id == [DAUserManager sharedManager].user_id )
+        if( self.listContent == eUserListContentFollowing && self.object_id == [DAUserManager sharedManager].user_id )
         {
             newUsername.isFollowed = YES;
         }
@@ -152,7 +194,7 @@ static NSString *const kFollowCellIdentifier = @"followCell";
         
         cell.usernameLabel.text = [NSString stringWithFormat:@"@%@", username.username];
         
-        if( [username.username isEqualToString:[[DAUserManager sharedManager] username]] )
+        if( [username.username isEqualToString:[DAUserManager sharedManager].username] || self.listContent == eUserListContentYums )
         {
             cell.followButton.hidden = YES;
         }

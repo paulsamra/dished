@@ -11,7 +11,7 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DADish.h"
 #import "DADishTableViewCell.h"
-#import "DAFollowListViewController.h"
+#import "DAUserListViewController.h"
 #import "DAReviewDetailsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
 #import <CoreLocation/CoreLocation.h>
@@ -561,18 +561,18 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (IBAction)numFollowingPressed
 {
-    DAFollowListViewController *followListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"followList"];
-    followListViewController.showFollowers = NO;
-    followListViewController.user_id = self.isRestaurant ? self.restaurantProfile.user_id : self.userProfile.user_id;
+    DAUserListViewController *followListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userList"];
+    followListViewController.listContent = eUserListContentFollowing;
+    followListViewController.object_id = self.isRestaurant ? self.restaurantProfile.user_id : self.userProfile.user_id;
     
     [self.navigationController pushViewController:followListViewController animated:YES];
 }
 
 - (IBAction)numFollowersPressed
 {
-    DAFollowListViewController *followListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"followList"];
-    followListViewController.showFollowers = YES;
-    followListViewController.user_id = self.isRestaurant ? self.restaurantProfile.user_id : self.userProfile.user_id;
+    DAUserListViewController *followListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userList"];
+    followListViewController.listContent = eUserListContentFollowers;
+    followListViewController.object_id = self.isRestaurant ? self.restaurantProfile.user_id : self.userProfile.user_id;
     
     [self.navigationController pushViewController:followListViewController animated:YES];
 }
