@@ -11,17 +11,26 @@
 
 @implementation DAGradeGraphCollectionViewCell
 
-- (IBAction)touchedArrow:(DAGraphControl *)sender
+- (void)awakeFromNib
 {
-    [CATransaction setAnimationDuration:1.0];
+    [super awakeFromNib];
     
-    if( sender.percentage == 1.0 )
+    self.opaque = YES;
+        
+    [self.gradeGraph    addTarget:self action:@selector(touchedGraph:event:) forControlEvents:UIControlEventTouchUpInside];
+    [self.utilityButton addTarget:self action:@selector(utilityButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)touchedGraph:(DAGraphControl *)sender event:(UIEvent *)event
+{
+    
+}
+     
+- (void)utilityButtonTapped
+{
+    if( [self.delegate respondsToSelector:@selector(utilityButtonTappedOnGradeGraphCollectionViewCell:)] )
     {
-        sender.percentage = 0.0;
-    }
-    else
-    {
-        sender.percentage = 1.0;
+        [self.delegate utilityButtonTappedOnGradeGraphCollectionViewCell:self];
     }
 }
 

@@ -19,7 +19,7 @@
 #import "DATabBarController.h"
 
 
-@interface DAGlobalDishDetailViewController() <DAGlobalDishCollectionViewCellDelegate, DAGlobalReviewCollectionViewCellDelegate>
+@interface DAGlobalDishDetailViewController() <DAGlobalDishCollectionViewCellDelegate, DAGlobalReviewCollectionViewCellDelegate, DAGradeGraphCollectionViewCellDelegate>
 
 @property (strong, nonatomic) DADishProfile                    *dishProfile;
 @property (strong, nonatomic) UIActivityIndicatorView          *spinner;
@@ -27,7 +27,6 @@
 @property (strong, nonatomic) DAGlobalReviewCollectionViewCell *referenceReviewCell;
 
 @property (nonatomic) BOOL   graphAnimated;
-@property (nonatomic) CGRect keyboardFrame;
 
 @end
 
@@ -127,8 +126,10 @@
     else if( indexPath.row == 1 )
     {
         DAGradeGraphCollectionViewCell *graphCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"gradeGraph" forIndexPath:indexPath];
-        
-        graphCell.control.gradeValues = self.dishProfile.num_grades;
+    
+        graphCell.gradeGraph.gradeValues = self.dishProfile.num_grades;
+        [graphCell.gradeGraph showGraphData];
+        graphCell.delegate = self;
         
         cell = graphCell;
     }
@@ -263,34 +264,33 @@
     }
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//    if( !self.graphAnimated )
+//    {
+//        CGFloat navigtionBarHeight = self.navigationController.navigationBar.frame.size.height;
+//        CGFloat staturBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
+//        CGFloat scrollOffset = scrollView.contentOffset.y + navigtionBarHeight + staturBarHeight;
+//        
+//        if( scrollOffset > scrollView.contentSize.height / 4 )
+//        {            
+//            NSIndexPath *graphIndexPath = [NSIndexPath indexPathForItem:1 inSection:0];
+//            DAGradeGraphCollectionViewCell *graphCell = (DAGradeGraphCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:graphIndexPath];
+//            [graphCell.gradeGraph showGraphData];
+//            
+//            self.graphAnimated = YES;
+//        }
+//    }
+//}
+
+- (void)dealloc
 {
-    if( indexPath.row == 1 && !self.graphAnimated )
-    {
-        DAGradeGraphCollectionViewCell *graphCell = (DAGradeGraphCollectionViewCell *)cell;
-        
-        graphCell.control.gradeValues = self.dishProfile.num_grades;
-        [graphCell.control sendActionsForControlEvents:UIControlEventTouchUpInside];
-    }
+    [self.collectionView setDelegate:nil];
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+- (void)utilityButtonTappedOnGradeGraphCollectionViewCell:(DAGradeGraphCollectionViewCell *)cell
 {
-    if( !self.graphAnimated )
-    {
-        CGFloat navigtionBarHeight = self.navigationController.navigationBar.frame.size.height;
-        CGFloat staturBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
-        CGFloat scrollOffset = scrollView.contentOffset.y + navigtionBarHeight + staturBarHeight;
-        
-        if( scrollOffset > self.view.frame.size.height / 2 )
-        {
-            NSIndexPath *graphIndexPath = [NSIndexPath indexPathForItem:1 inSection:0];
-            DAGradeGraphCollectionViewCell *graphCell = (DAGradeGraphCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:graphIndexPath];
-            [graphCell.control sendActionsForControlEvents:UIControlEventTouchUpInside];
-            
-            self.graphAnimated = YES;
-        }
-    }
+    [self shareBarButtonTapped:nil];
 }
 
 - (void)locationButtonTappedOnGlobalDishCollectionViewCell:(DAGlobalDishCollectionViewCell *)cell

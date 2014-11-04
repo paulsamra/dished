@@ -22,6 +22,10 @@
     {
         _comment  = nilOrJSONObjectForKey( data, @"comment" );
         _username = nilOrJSONObjectForKey( data, @"username" );
+        
+        NSDictionary *images = nilOrJSONObjectForKey( data, @"images" );
+        NSArray *reviewImages = nilOrJSONObjectForKey( images, @"reviews" );
+        _review_img_thumb = [reviewImages objectAtIndex:0];
                 
         _notificationType = [self notificationTypeForTypeString:nilOrJSONObjectForKey( data, @"type" )];
     }

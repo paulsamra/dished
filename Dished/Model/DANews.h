@@ -12,7 +12,7 @@
 @interface DANews : NSObject
 
 @property (copy, nonatomic) NSDate   *created;
-@property (copy, nonatomic) NSString *img;
+@property (copy, nonatomic) NSString *user_img_thumb;
 
 @property (nonatomic) BOOL      viewed;
 @property (nonatomic) NSInteger item_id;

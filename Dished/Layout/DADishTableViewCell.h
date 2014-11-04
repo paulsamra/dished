@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class DADishTableViewCell;
+
+
+@protocol DADishTableViewCellDelegate <NSObject>
+
+@optional
+- (void)locationButtonTappedOnDishTableViewCell:(DADishTableViewCell *)cell;
+
+@end
+
 
 @interface DADishTableViewCell : UITableViewCell
 
@@ -18,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UILabel     *rightNumberLabel;
 @property (weak, nonatomic) IBOutlet UIButton    *locationButton;
 @property (weak, nonatomic) IBOutlet UIImageView *mainImageView;
+@property (weak, nonatomic) id<DADishTableViewCellDelegate> delegate;
 
 @property (nonatomic) BOOL isExplore;
 

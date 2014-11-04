@@ -8,28 +8,8 @@
 
 #import "DAFollowingNews.h"
 
-typedef enum
-{
-    eFollowingNewsNotificationTypeCreateReview,
-    eFollowingNewsNotificationTypeFollow,
-    eFollowingNewsNotificationTypeYum,
-    eFollowingNewsNotificationTypeUnknown
-} eFollowingNewsNotificationType;
-
-typedef enum
-{
-    eFollowingNewsYumNotificationSubtypeSingleUserSingleYum,
-    eFollowingNewsYumNotificationSubtypeSingleUserMultiYum,
-    eFollowingNewsYumNotificationSubtypeMultiUserYum,
-    eFollowingNewsYumNotificationSubtypeTwoUserYum,
-    eFollowingNewsYumNotificationSubtypeUnknown
-} eFollowingNewsYumNotificationSubtype;
-
 
 @interface DAFollowingNews()
-
-@property (nonatomic) eFollowingNewsNotificationType type;
-@property (nonatomic) eFollowingNewsYumNotificationSubtype subtype;
 
 @end
 
@@ -50,19 +30,40 @@ typedef enum
         
         _yum_count    = [nilOrJSONObjectForKey( data, @"yum_count" )    integerValue];
         _friend_count = [nilOrJSONObjectForKey( data, @"friend_count" ) integerValue];
+        _review_count = [nilOrJSONObjectForKey( data, @"review_count" ) integerValue];
         
-        id userData = nilOrJSONObjectForKey( data, @"followed" );
+        NSDictionary *images = nilOrJSONObjectForKey( data, @"images" );
+        _review_images = nilOrJSONObjectForKey( images, @"reviews" );
+        
+        NSDictionary *userData = nilOrJSONObjectForKey( data, @"followed" );
         if( userData )
         {
             DAUsername *username = [[DAUsername alloc] init];
-            username.user_id = [nilOrJSONObjectForKey( data, @"idUser" ) integerValue];
+            username.user_id = [nilOrJSONObjectForKey( userData, @"idUser" ) integerValue];
             username.username = nilOrJSONObjectForKey( userData, @"username" );
             
             _followed = username;
         }
         
-        _type    = [self notificationTypeForTypeString:nilOrJSONObjectForKey( data, @"type" )];
-        _subtype = [self notificationSubtypeForSubtypeString:nilOrJSONObjectForKey( data, @"subtype" )];
+        NSArray *reviews = nilOrJSONObjectForKey( data, @"reviews" );
+        if( reviews )
+        {
+            NSMutableArray *reviewsData = [NSMutableArray array];
+            
+            for( NSDictionary *review in reviews )
+            {
+                DAGlobalReview *rev = [[DAGlobalReview alloc] init];
+                rev.review_id = [nilOrJSONObjectForKey( review, kIDKey ) integerValue];
+                rev.img = nilOrJSONObjectForKey( review, kImgThumbKey );
+                
+                [reviewsData addObject:rev];
+            }
+            
+            _reviews = reviewsData;
+        }
+        
+        _notificationType    = [self notificationTypeForTypeString:nilOrJSONObjectForKey( data, @"type" )];
+        _notificationSubtype = [self notificationSubtypeForSubtypeString:nilOrJSONObjectForKey( data, @"subtype" )];
     }
     
     return self;
@@ -116,10 +117,10 @@ typedef enum
 {
     NSString *string = [super formattedString];
     
-    switch( self.type )
+    switch( self.notificationType )
     {
         case eFollowingNewsNotificationTypeCreateReview:
-            string = [NSString stringWithFormat:@"@%@ added %d reviews.", self.username, 4];
+            string = [NSString stringWithFormat:@"@%@ added %d reviews.", self.username, (int)self.review_count];
             break;
             
         case eFollowingNewsNotificationTypeFollow:
@@ -127,7 +128,7 @@ typedef enum
             break;
             
         case eFollowingNewsNotificationTypeYum:
-            string = [self formattedStringForYumNotificationSubtype:self.subtype];
+            string = [self formattedStringForYumNotificationSubtype:self.notificationSubtype];
             break;
             
         case eFollowingNewsNotificationTypeUnknown:
@@ -152,7 +153,7 @@ typedef enum
             break;
             
         case eFollowingNewsYumNotificationSubtypeMultiUserYum:
-            string = [NSString stringWithFormat:@"%d of your friends YUMMED %@'s review.", (int)self.friend_count, self.username];
+            string = [NSString stringWithFormat:@"%d of your friends YUMMED @%@'s review.", (int)self.friend_count, self.username];
             break;
             
         case eFollowingNewsYumNotificationSubtypeTwoUserYum:

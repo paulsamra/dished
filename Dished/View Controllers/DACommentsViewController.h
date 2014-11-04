@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *toolbarBottomConstraint;
 @property (weak, nonatomic) DAFeedItem *feedItem;
 
+@property (nonatomic) BOOL      shouldShowKeyboard;
 @property (nonatomic) NSInteger reviewID;
 
 @end

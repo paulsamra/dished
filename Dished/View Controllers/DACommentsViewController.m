@@ -86,7 +86,10 @@
     
     [self.inputToolbar.contentView.textView addObserver:self forKeyPath:NSStringFromSelector(@selector(contentSize))options:NSKeyValueObservingOptionOld | NSKeyValueObservingOptionNew context:nil];
     
-    [self.inputToolbar.contentView.textView becomeFirstResponder];
+    if( self.shouldShowKeyboard )
+    {
+        [self.inputToolbar.contentView.textView becomeFirstResponder];
+    }
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -483,7 +486,7 @@
 
 - (void)sendCommentWithText:(NSString *)text
 {
-    NSInteger reviewID = [self.feedItem.item_id integerValue];
+    NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
     [[DAAPIManager sharedManager] createComment:text forReviewID:reviewID completion:^( BOOL success )
     {
         [self refreshComments];

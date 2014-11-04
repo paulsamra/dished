@@ -17,11 +17,14 @@
     {
         NSTimeInterval timeInterval = [data[@"created"] doubleValue];
         _created   = [NSDate dateWithTimeIntervalSince1970:timeInterval];
-        _img = nilOrJSONObjectForKey( data, @"img" );
+        
+        NSDictionary *images = nilOrJSONObjectForKey( data, @"images" );
+        _user_img_thumb = nilOrJSONObjectForKey( images, @"user" );
+        
+        _review_id = [nilOrJSONObjectForKey( data, @"review_id" ) integerValue];
         
         _viewed    = [nilOrJSONObjectForKey( data, @"viewed" )       boolValue];
         _item_id   = [nilOrJSONObjectForKey( data, kIDKey )       integerValue];
-        _review_id = [nilOrJSONObjectForKey( data, @"review_id" ) integerValue];
     }
     
     return self;

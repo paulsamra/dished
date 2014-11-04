@@ -514,6 +514,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     
     DACommentsViewController *commentsView = [self.storyboard instantiateViewControllerWithIdentifier:@"comments"];
     commentsView.feedItem = feedItem;
+    commentsView.shouldShowKeyboard = YES;
     [self.navigationController pushViewController:commentsView animated:YES];
 }
 
@@ -575,6 +576,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             
             DACommentsViewController *commentsView = [self.storyboard instantiateViewControllerWithIdentifier:@"comments"];
             commentsView.feedItem = feedItem;
+            commentsView.shouldShowKeyboard = NO;
             [self.navigationController pushViewController:commentsView animated:YES];
         }
         else

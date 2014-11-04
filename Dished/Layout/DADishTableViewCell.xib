@@ -73,7 +73,7 @@ Truffle Tartlets</string>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2l8-tU-bbH">
-                        <rect key="frame" x="130" y="52" width="182" height="17"/>
+                        <rect key="frame" x="130" y="47" width="182" height="17"/>
                         <constraints>
                             <constraint firstAttribute="height" constant="17" id="fmV-Kr-nnw"/>
                         </constraints>
@@ -94,9 +94,9 @@ Truffle Tartlets</string>
                     <constraint firstItem="AV9-t2-Maj" firstAttribute="leading" secondItem="5kL-Q7-VaA" secondAttribute="trailing" constant="9" id="WKx-dW-Mum"/>
                     <constraint firstAttribute="trailing" secondItem="HMt-UO-HO5" secondAttribute="trailing" constant="10" id="WPa-sc-i7l"/>
                     <constraint firstAttribute="bottom" secondItem="5kL-Q7-VaA" secondAttribute="bottom" constant="5" id="f66-lc-Tgf"/>
-                    <constraint firstAttribute="trailing" secondItem="2l8-tU-bbH" secondAttribute="trailing" constant="8" id="gOg-m7-p96"/>
+                    <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="2l8-tU-bbH" secondAttribute="trailing" constant="8" id="gOg-m7-p96"/>
                     <constraint firstItem="2l8-tU-bbH" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="hrY-01-ve3"/>
-                    <constraint firstItem="29v-6h-ZEZ" firstAttribute="top" secondItem="2l8-tU-bbH" secondAttribute="bottom" constant="1" id="jM9-bm-vLU"/>
+                    <constraint firstItem="29v-6h-ZEZ" firstAttribute="top" secondItem="2l8-tU-bbH" secondAttribute="bottom" constant="6" id="jM9-bm-vLU"/>
                     <constraint firstItem="fgI-8i-wgp" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="ptz-Hh-hGw"/>
                     <constraint firstAttribute="bottom" secondItem="AV9-t2-Maj" secondAttribute="bottom" constant="5" id="q6i-NI-S6V"/>
                     <constraint firstItem="u1c-pF-dRm" firstAttribute="leading" secondItem="VAm-Dq-PNs" secondAttribute="leading" constant="6" id="wBj-MI-1wN"/>

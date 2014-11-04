@@ -24,7 +24,7 @@
 	CABasicAnimation *anim = [CABasicAnimation animationWithKeyPath:key];
 	anim.fromValue = [[self presentationLayer] valueForKey:key];
 	anim.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseOut];
-	anim.duration = [CATransaction animationDuration];
+    anim.duration = 0.5f;
     
 	return anim;
 }
@@ -52,9 +52,14 @@
     
     //change this to set the grades totals
     NSArray *arrayOfGradeAmounts = [self.gradeValues allValues];
-    NSArray *arrayOfGrades = @[@"A", @"B", @"C", @"DF"];
+    NSArray *arrayOfGrades = @[ @"A", @"B", @"C", @"DF" ];
     
     float max = [[arrayOfGradeAmounts valueForKeyPath:@"@max.floatValue"] floatValue];
+    
+    if( !arrayOfGradeAmounts )
+    {
+        max = 1;
+    }
     
     float height = 20.0;
     float offset = 17.5;
@@ -70,32 +75,32 @@
     
     UIBezierPath* bezier3Path = UIBezierPath.bezierPath;
     [bezier3Path moveToPoint: CGPointMake(43.0, 183.5)];
-    [bezier3Path addLineToPoint: CGPointMake(250.0, 183.5)];
+    [bezier3Path addLineToPoint: CGPointMake(self.frame.size.width - 50.0, 183.5)];
     [UIColor.grayColor setStroke];
     bezier3Path.lineWidth = 0.5;
     [bezier3Path stroke];
-    
-    [arrayOfGrades enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         
+    [arrayOfGrades enumerateObjectsUsingBlock:^( id obj, NSUInteger idx, BOOL *stop )
+    {
         float y = (height + offset)*idx + 50;
         
-        float length = ([[self.gradeValues objectForKey:obj] floatValue]*250)/max;
+        float length = ( [[self.gradeValues objectForKey:obj] floatValue] * ( self.frame.size.width - 50.0 ) ) / max;
         
-        length = length*self.percentage;
+        length = length * self.percentage;
         
-        if (length < min)
+        if( length < min || length != length )
         {
             length = min;
         }
         
         UIBezierPath* bezierPath = UIBezierPath.bezierPath;
-//        [bezierPath moveToPoint: CGPointMake(x, y)];
-//        [bezierPath addLineToPoint: CGPointMake(length, y)];
-//        [bezierPath addLineToPoint: CGPointMake(length-12, y+height)];
-//        [bezierPath addLineToPoint: CGPointMake(x, y+height)];
-//        [bezierPath addLineToPoint: CGPointMake(x, y)];
-//        [[UIColor colorWithRed:24.0/255.0 green:171.0/255.0 blue:254.0/255.0 alpha:1.0] setStroke];
-//        [[UIColor colorWithRed:24.0/255.0 green:171.0/255.0 blue:254.0/255.0 alpha:1.0] setFill];
+        [bezierPath moveToPoint: CGPointMake(x, y)];
+        [bezierPath addLineToPoint: CGPointMake(length, y)];
+        [bezierPath addLineToPoint: CGPointMake(length-12, y+height)];
+        [bezierPath addLineToPoint: CGPointMake(x, y+height)];
+        [bezierPath addLineToPoint: CGPointMake(x, y)];
+        [[UIColor colorWithRed:24.0/255.0 green:171.0/255.0 blue:254.0/255.0 alpha:1.0] setStroke];
+        [[UIColor colorWithRed:24.0/255.0 green:171.0/255.0 blue:254.0/255.0 alpha:1.0] setFill];
         
         bezierPath.lineWidth = 1;
         [bezierPath fill];
@@ -111,7 +116,6 @@
                           withColor:[UIColor grayColor]
                            withFont:[UIFont fontWithName: @"HelveticaNeue-Medium" size: 16]];
     }];
-    
     
     UIGraphicsPopContext();
 }

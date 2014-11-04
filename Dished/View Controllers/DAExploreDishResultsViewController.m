@@ -13,11 +13,12 @@
 #import "DADish.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAGlobalDishDetailViewController.h"
+#import "DAUserProfileViewController.h"
 
 static NSString *const kDishSearchCellID = @"dishCell";
 
 
-@interface DAExploreDishResultsViewController()
+@interface DAExploreDishResultsViewController() <DADishTableViewCellDelegate>
 
 @property (strong, nonatomic) NSArray                 *searchResults;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
@@ -197,6 +198,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     cell.rightNumberLabel.text       = [NSString stringWithFormat:@"%d", (int)result.influencerReviews];
     [cell.locationButton setTitle:result.locationName forState:UIControlStateNormal];
     cell.isExplore = YES;
+    cell.delegate = self;
     
     if( result.imageURL )
     {
@@ -205,6 +207,19 @@ static NSString *const kDishSearchCellID = @"dishCell";
     }
     
     return cell;
+}
+
+- (void)locationButtonTappedOnDishTableViewCell:(DADishTableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+    DADish *result = [self.searchResults objectAtIndex:indexPath.row];
+    
+    DAUserProfileViewController *restaurantProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    
+    restaurantProfileViewController.username = result.locationName;
+    restaurantProfileViewController.user_id  = result.locationID;
+    restaurantProfileViewController.isRestaurant = YES;
+    [self.navigationController pushViewController:restaurantProfileViewController animated:YES];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

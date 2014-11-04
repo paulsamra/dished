@@ -12,12 +12,16 @@
 #import "UIImageView+WebCache.h"
 #import "DASettingsViewController.h"
 
-#define kNewsCellID @"newsCell"
+#define kUserNewsCellID @"userNewsCell"
+#define kSingleNewsCellID @"singleNewsCell"
+#define kMultiNewsCellID @"multiNewsCell"
 
 
 @interface DANewsViewController()
 
 @property (weak,   nonatomic) UITableView             *selectedTableView;
+@property (strong, nonatomic) NSDictionary            *newsTextAttributes;
+@property (strong, nonatomic) NSDictionary            *timeLabelAttributes;
 @property (strong, nonatomic) DARefreshControl        *newsRefreshControl;
 @property (strong, nonatomic) DARefreshControl        *followingRefreshControl;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
@@ -37,6 +41,10 @@
     self.isLoadingMoreNews = NO;
     self.isLoadingMoreFollowing = NO;
     
+    self.newsTextAttributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:15.0f], NSForegroundColorAttributeName : [UIColor blackColor] };
+    
+    self.timeLabelAttributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:11.0f] };
+
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.spinner.center = self.view.center;
     self.spinner.hidesWhenStopped = YES;
@@ -48,9 +56,13 @@
     self.newsTableView.estimatedRowHeight = estimatedCellHeight;
     self.followingTableView.estimatedRowHeight = estimatedCellHeight;
     
-    UINib *cellNib = [UINib nibWithNibName:@"DANewsTableViewCell" bundle:[NSBundle mainBundle]];
-    [self.newsTableView registerNib:cellNib forCellReuseIdentifier:kNewsCellID];
-    [self.followingTableView registerNib:cellNib forCellReuseIdentifier:kNewsCellID];
+    UINib *userNewsCellNib = [UINib nibWithNibName:@"DAUserNewsTableViewCell" bundle:[NSBundle mainBundle]];
+    [self.newsTableView registerNib:userNewsCellNib forCellReuseIdentifier:kUserNewsCellID];
+    [self.followingTableView registerNib:userNewsCellNib forCellReuseIdentifier:kUserNewsCellID];
+    
+    UINib *singleNewsCellNib = [UINib nibWithNibName:@"DASingleNewsTableViewCell" bundle:[NSBundle mainBundle]];
+    [self.newsTableView registerNib:singleNewsCellNib forCellReuseIdentifier:kSingleNewsCellID];
+    [self.followingTableView registerNib:singleNewsCellNib forCellReuseIdentifier:kSingleNewsCellID];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadNewsTable) name:kNewsUpdatedNotificationKey object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadFollowingTable) name:kFollowingUpdatedNotificationKey object:nil];
@@ -258,57 +270,176 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DANewsTableViewCell *newsCell = (DANewsTableViewCell *)[tableView dequeueReusableCellWithIdentifier:kNewsCellID];
+    DANewsTableViewCell *cell = nil;
     
     if( tableView == self.newsTableView )
     {
-        DAUserNews *news = [[DANewsManager sharedManager].newsNotifications objectAtIndex:indexPath.row];
-        [self configureCell:newsCell withNews:news];
+        cell = [self newsCellAtIndexPath:indexPath];
     }
-    else if( tableView == self.followingTableView )
+    else
     {
-        DAFollowingNews *news = [[DANewsManager sharedManager].followingNotifications objectAtIndex:indexPath.row];
-        [self configureCell:newsCell withNews:news];
+        cell = [self followingCellAtIndexPath:indexPath];
     }
 
-    return newsCell;
+    return cell;
+}
+
+- (DANewsTableViewCell *)newsCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    DANewsTableViewCell *cell = nil;
+    
+    DAUserNews *userNews = [[DANewsManager sharedManager].newsNotifications objectAtIndex:indexPath.row];
+    
+    switch( userNews.notificationType )
+    {
+        case eUserNewsNotificationTypeFollow:
+        case eUserNewsNotificationTypeUnknown:
+            cell = [self.newsTableView dequeueReusableCellWithIdentifier:kUserNewsCellID];
+            [self configureCell:cell withNews:userNews];
+            break;
+            
+        case eUserNewsNotificationTypeComment:
+        case eUserNewsNotificationTypeCommentMention:
+        case eUserNewsNotificationTypeYum:
+        {
+            cell = [self.newsTableView dequeueReusableCellWithIdentifier:kSingleNewsCellID];
+            [self configureCell:cell withNews:userNews];
+            
+            DASingleNewsTableViewCell *singleNewsCell = (DASingleNewsTableViewCell *)cell;
+            NSURL *url = [NSURL URLWithString:userNews.review_img_thumb];
+            [singleNewsCell.newsImageView sd_setImageWithURL:url];
+        }
+        break;
+    }
+    
+    return cell;
+}
+
+- (DANewsTableViewCell *)followingCellAtIndexPath:(NSIndexPath *)indexPath
+{
+    DANewsTableViewCell *cell = nil;
+    
+    DAFollowingNews *followingNews = [[DANewsManager sharedManager].followingNotifications objectAtIndex:indexPath.row];
+    
+    switch( followingNews.notificationType )
+    {
+        case eFollowingNewsNotificationTypeFollow:
+        case eFollowingNewsNotificationTypeUnknown:
+            cell = [self.followingTableView dequeueReusableCellWithIdentifier:kUserNewsCellID];
+            [self configureCell:cell withNews:followingNews];
+            break;
+            
+        case eFollowingNewsNotificationTypeCreateReview:
+        case eFollowingNewsNotificationTypeYum:
+        {
+            cell = [self.followingTableView dequeueReusableCellWithIdentifier:kSingleNewsCellID];
+            [self configureCell:cell withNews:followingNews];
+            
+            if( followingNews.reviews )
+            {
+                DASingleNewsTableViewCell *singleNewsCell = (DASingleNewsTableViewCell *)cell;
+                DAGlobalReview *review = [followingNews.reviews objectAtIndex:0];
+                NSURL *url = [NSURL URLWithString:review.img];
+                [singleNewsCell.newsImageView sd_setImageWithURL:url];
+            }
+            else
+            {
+                DASingleNewsTableViewCell *singleNewsCell = (DASingleNewsTableViewCell *)cell;
+                NSURL *url = [NSURL URLWithString:[followingNews.review_images objectAtIndex:0]];
+                [singleNewsCell.newsImageView sd_setImageWithURL:url];
+            }
+        }
+        break;
+    }
+    
+    return cell;
+}
+
+- (void)configureCell:(DANewsTableViewCell *)cell withNews:(DANews *)news
+{
+    UIImage *profileImage = [UIImage imageNamed:@"profile_image"];
+    NSURL *url = [NSURL URLWithString:news.user_img_thumb];
+    [cell.userImageView sd_setImageWithURL:url placeholderImage:profileImage];
+    
+    NSAttributedString *newsText = [[NSAttributedString alloc] initWithString:[news formattedString] attributes:self.newsTextAttributes];
+    cell.newsTextView.attributedText = newsText;
+    
+    cell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:news.created
+                                                                          attributes:self.timeLabelAttributes];
+    
+    cell.backgroundColor = !news.viewed ? [UIColor unviewedNewsColor] : [UIColor whiteColor];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static DANewsTableViewCell *sizingCell;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^
+    static DASingleNewsTableViewCell *singleNewsCell;
+    static dispatch_once_t singleNewsOnceToken;
+    dispatch_once( &singleNewsOnceToken, ^
     {
-        sizingCell = [tableView dequeueReusableCellWithIdentifier:kNewsCellID];
+        singleNewsCell = [tableView dequeueReusableCellWithIdentifier:kSingleNewsCellID];
     });
     
-    UITextView *textView = sizingCell.newsTextView;
+    static DAUserNewsTableViewCell *userNewsCell;
+    static dispatch_once_t userNewsOnceToken;
+    dispatch_once( &userNewsOnceToken, ^
+    {
+        userNewsCell = [tableView dequeueReusableCellWithIdentifier:kUserNewsCellID];
+    });
+    
+    UITableViewCell *sizingCell = nil;
+    UITextView *textView = nil;
+    DANews *news = nil;
+    
+    if( tableView == self.newsTableView )
+    {
+        news = [[DANewsManager sharedManager].newsNotifications objectAtIndex:indexPath.row];
+        
+        switch( ((DAUserNews *)news).notificationType )
+        {
+            case eUserNewsNotificationTypeFollow:
+            case eUserNewsNotificationTypeUnknown:
+                sizingCell = userNewsCell;
+                textView = userNewsCell.newsTextView;
+                break;
+                
+            case eUserNewsNotificationTypeComment:
+            case eUserNewsNotificationTypeCommentMention:
+            case eUserNewsNotificationTypeYum:
+                sizingCell = singleNewsCell;
+                textView = singleNewsCell.newsTextView;
+                break;
+        }
+    }
+    else
+    {
+        news = [[DANewsManager sharedManager].followingNotifications objectAtIndex:indexPath.row];
+        
+        switch( ((DAFollowingNews *)news).notificationType )
+        {
+            case eFollowingNewsNotificationTypeFollow:
+            case eFollowingNewsNotificationTypeUnknown:
+                sizingCell = userNewsCell;
+                textView = userNewsCell.newsTextView;
+                break;
+                
+            case eFollowingNewsNotificationTypeCreateReview:
+            case eFollowingNewsNotificationTypeYum:
+                sizingCell = singleNewsCell;
+                textView = singleNewsCell.newsTextView;
+                break;
+        }
+    }
     
     CGFloat textViewRightMargin = sizingCell.frame.size.width - ( textView.frame.origin.x + textView.frame.size.width );
     CGFloat textViewWidth = tableView.frame.size.width - textView.frame.origin.x - textViewRightMargin;
     
-    NSAttributedString *newsString = nil;
-    
-    if( tableView == self.newsTableView )
-    {
-        DAUserNews *news = [[DANewsManager sharedManager].newsNotifications objectAtIndex:indexPath.row];
-        newsString = [[NSAttributedString alloc] initWithString:[news formattedString] attributes:[DANewsTableViewCell newsLabelAttributes]];
-    }
-    else if( tableView == self.followingTableView )
-    {
-        DAFollowingNews *news = [[DANewsManager sharedManager].followingNotifications objectAtIndex:indexPath.row];
-        newsString = [[NSAttributedString alloc] initWithString:[news formattedString] attributes:[DANewsTableViewCell newsLabelAttributes]];
-    }
-    
-    CGSize boundingSize = CGSizeMake( textViewWidth - 2, CGFLOAT_MAX );
-    CGRect stringRect   = [newsString boundingRectWithSize:boundingSize
-                                                      options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                                      context:nil];
+    CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
+    textView.attributedText = [[NSAttributedString alloc] initWithString:[news formattedString] attributes:self.newsTextAttributes];
+    CGSize stringSize = [textView sizeThatFits:boundingSize];
     
     CGFloat textViewTopMargin = textView.frame.origin.y;
     CGFloat textViewBottomMargin = sizingCell.frame.size.height - ( textView.frame.origin.y + textView.frame.size.height );
-    CGFloat textViewHeight = ceilf( stringRect.size.height ) + 2;
+    CGFloat textViewHeight = ceilf( stringSize.height );
     
     CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
     
@@ -318,22 +449,6 @@
     }
     
     return calculatedHeight;
-}
-
-- (void)configureCell:(DANewsTableViewCell *)cell withNews:(DANews *)news
-{
-    UIImage *profileImage = [UIImage imageNamed:@"profile_image"];
-    NSURL *url = [NSURL URLWithString:news.img];
-    [cell.userImageView sd_setImageWithURL:url placeholderImage:profileImage];
-    
-    NSAttributedString *newsText = [[NSAttributedString alloc] initWithString:[news formattedString] attributes:[DANewsTableViewCell newsLabelAttributes]];
-    cell.newsTextView.attributedText = newsText;
-    
-    cell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:news.created attributes:[DANewsTableViewCell timeLabelAttributes]];
-    
-    cell.backgroundColor = !news.viewed ? [UIColor unviewedNewsColor] : [UIColor whiteColor];
-    
-    [cell layoutIfNeeded];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

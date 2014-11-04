@@ -22,8 +22,8 @@
 
 @interface DAGradeGraphCollectionViewCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet DAGraphControl *control;
-
-- (IBAction)touchedArrow:(DAGraphControl *)sender;
+@property (weak, nonatomic) IBOutlet UIButton *utilityButton;
+@property (weak, nonatomic) IBOutlet DAGraphControl *gradeGraph;
+@property (weak, nonatomic) id<DAGradeGraphCollectionViewCellDelegate> delegate;
 
 @end

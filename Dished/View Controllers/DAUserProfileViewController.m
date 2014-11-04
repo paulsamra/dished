@@ -24,7 +24,7 @@
 static NSString *const kDishSearchCellID = @"dishCell";
 
 
-@interface DAUserProfileViewController() <UIActionSheetDelegate, UIAlertViewDelegate>
+@interface DAUserProfileViewController() <UIActionSheetDelegate, UIAlertViewDelegate, DADishTableViewCellDelegate>
 
 @property (weak,   nonatomic) NSArray             *selectedDataSource;
 @property (strong, nonatomic) NSURLSessionTask    *profileLoadTask;
@@ -380,7 +380,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         
-        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+        cell.textLabel.font = [UIFont fontWithName:kHelveticaNeueLightFont size:17];
         cell.textLabel.text = self.isRestaurant ? @"No Dishes" : @"No Reviews";
         cell.userInteractionEnabled = NO;
         
@@ -413,9 +413,23 @@ static NSString *const kDishSearchCellID = @"dishCell";
         cell.gradeLabel.text = result.grade;
         [cell.locationButton setTitle:result.locationName forState:UIControlStateNormal];
         cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.numComments];
+        cell.delegate = self;
     }
     
     return cell;
+}
+
+- (void)locationButtonTappedOnDishTableViewCell:(DADishTableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.dishesTableView indexPathForCell:cell];
+    DADish *result = [self.selectedDataSource objectAtIndex:indexPath.row];
+    
+    DAUserProfileViewController *restaurantProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    
+    restaurantProfileViewController.username = result.locationName;
+    restaurantProfileViewController.user_id  = result.locationID;
+    restaurantProfileViewController.isRestaurant = YES;
+    [self.navigationController pushViewController:restaurantProfileViewController animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

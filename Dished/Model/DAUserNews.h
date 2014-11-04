@@ -23,6 +23,7 @@ typedef enum
 
 @property (copy, nonatomic) NSString *comment;
 @property (copy, nonatomic) NSString *username;
+@property (copy, nonatomic) NSString *review_img_thumb;
 
 @property (nonatomic) eUserNewsNotificationType notificationType;
 

@@ -547,7 +547,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZsI-AF-9cR" customClass="DACollectionView" customModule="Dished" customModuleProvider="target">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZsI-AF-9cR" customClass="DACollectionView" customModule="Dished" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="yI2-8g-oJF" customClass="DAFeedCollectionViewFlowLayout">
@@ -3993,7 +3993,7 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3xB-Ol-YTp" customClass="DACollectionView" customModule="Dished" customModuleProvider="target">
+                            <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" delaysContentTouches="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="3xB-Ol-YTp" customClass="DACollectionView" customModule="Dished" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Og0-j7-hbS">
@@ -4215,9 +4215,6 @@
                                                         <constraint firstItem="W5y-K1-VfI" firstAttribute="leading" secondItem="kuy-Wh-egv" secondAttribute="leading" constant="15" id="bCJ-cq-8WZ"/>
                                                         <constraint firstItem="W5y-K1-VfI" firstAttribute="top" secondItem="kuy-Wh-egv" secondAttribute="top" constant="9" id="hgM-Fk-Vca"/>
                                                     </constraints>
-                                                    <connections>
-                                                        <action selector="touchedArrow:" destination="Qeu-PH-8nI" eventType="touchUpInside" id="ds6-To-RHu"/>
-                                                    </connections>
                                                 </view>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2qs-aO-esX">
                                                     <rect key="frame" x="0.0" y="0.0" width="320" height="1"/>
@@ -4250,7 +4247,8 @@
                                         </constraints>
                                         <size key="customSize" width="320" height="209"/>
                                         <connections>
-                                            <outlet property="control" destination="kuy-Wh-egv" id="HMO-Sm-9ut"/>
+                                            <outlet property="gradeGraph" destination="kuy-Wh-egv" id="hLi-s1-f7w"/>
+                                            <outlet property="utilityButton" destination="Zek-IS-ZXk" id="RaX-jF-WJh"/>
                                         </connections>
                                     </collectionViewCell>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="reviewCell" id="IwI-kt-7Jv" customClass="DAGlobalReviewCollectionViewCell">
@@ -4522,10 +4520,10 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="Pvw-SR-10w"/>
-        <segue reference="GvD-hA-tHw"/>
-        <segue reference="uu3-ER-XS1"/>
         <segue reference="DWl-1Z-W5u"/>
         <segue reference="e1c-XP-t2f"/>
+        <segue reference="uu3-ER-XS1"/>
+        <segue reference="GvD-hA-tHw"/>
+        <segue reference="Pvw-SR-10w"/>
     </inferredMetricsTieBreakers>
 </document>

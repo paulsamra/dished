@@ -672,6 +672,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         {
             dest.reviewID = self.reviewID;
         }
+        
+        dest.shouldShowKeyboard = YES;
     }
     
     if( [segue.identifier isEqualToString:@"globalDish"] )

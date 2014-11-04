@@ -16,10 +16,14 @@
     return [DAGraphControlLayer class];
 }
 
-- (void)setPercentage:(CGFloat)percentage
+- (void)showGraphData
 {
-    _percentage = percentage;
-    ((DAGraphControlLayer *)self.layer).percentage = percentage;
+    ((DAGraphControlLayer *)self.layer).percentage = 1;
+}
+
+- (void)hideGraphData
+{
+    ((DAGraphControlLayer *)self.layer).percentage = 0.1;
 }
 
 - (void)setGradeValues:(NSDictionary *)gradeValues

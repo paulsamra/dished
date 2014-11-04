@@ -68,7 +68,8 @@
         imageView.contentMode = UIViewContentModeScaleAspectFill;
         imageView.layer.masksToBounds = YES;
         imageView.clipsToBounds = YES;
-        [imageView setImageUsingProgressViewWithURL:self.images[i]];
+        //[imageView setImageUsingProgressViewWithURL:self.images[i]];
+        [imageView sd_setImageWithURL:self.images[i]];
         [self.pagedImageView addSubview:imageView];
         [self.scrollViewImageViews addObject:imageView];
     }

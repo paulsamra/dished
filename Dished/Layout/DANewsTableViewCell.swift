@@ -2,11 +2,12 @@
 //  DANewsTableViewCell.swift
 //  Dished
 //
-//  Created by Ryan Khalili on 9/21/14.
+//  Created by Ryan Khalili on 11/4/14.
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
 import UIKit
+
 
 class DANewsTableViewCell: UITableViewCell
 {
@@ -34,20 +35,5 @@ class DANewsTableViewCell: UITableViewCell
         newsTextView.text = nil
         timeLabel.attributedText = nil
         timeLabel.text = nil
-    }
-    
-    class func newsLabelAttributes() -> NSDictionary
-    {
-        let font = UIFont( name: "HelveticaNeue-Light", size: 14.0 )
-        let color = UIColor.blackColor()
-        
-        return NSDictionary( objectsAndKeys: font!, NSFontAttributeName, color, NSForegroundColorAttributeName )
-    }
-    
-    class func timeLabelAttributes() -> NSDictionary
-    {
-        let font = UIFont( name: "HelveticaNeue-Light", size: 11.0 )
-        
-        return NSDictionary( objectsAndKeys: font!, NSFontAttributeName )
     }
 }
