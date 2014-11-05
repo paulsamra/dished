@@ -33,7 +33,8 @@
         _review_count = [nilOrJSONObjectForKey( data, @"review_count" ) integerValue];
         
         NSDictionary *images = nilOrJSONObjectForKey( data, @"images" );
-        _review_images = nilOrJSONObjectForKey( images, @"reviews" );
+        NSArray *reviewsImageArray = nilOrJSONObjectForKey( images, @"reviews" );
+        _review_image = [reviewsImageArray objectAtIndex:0];
         
         NSDictionary *userData = nilOrJSONObjectForKey( data, @"followed" );
         if( userData )
@@ -48,18 +49,22 @@
         NSArray *reviews = nilOrJSONObjectForKey( data, @"reviews" );
         if( reviews )
         {
-            NSMutableArray *reviewsData = [NSMutableArray array];
+            NSMutableArray *review_images = [NSMutableArray array];
+            NSMutableArray *reviewIDs = [NSMutableArray array];
             
             for( NSDictionary *review in reviews )
             {
-                DAGlobalReview *rev = [[DAGlobalReview alloc] init];
-                rev.review_id = [nilOrJSONObjectForKey( review, kIDKey ) integerValue];
-                rev.img = nilOrJSONObjectForKey( review, kImgThumbKey );
+                NSString *imageURL = nilOrJSONObjectForKey( review, kImgThumbKey );
                 
-                [reviewsData addObject:rev];
+                if( imageURL )
+                {
+                    [reviewIDs addObject:nilOrJSONObjectForKey( review, kIDKey )];
+                    [review_images addObject:imageURL];
+                }
             }
             
-            _reviews = reviewsData;
+            _review_images = review_images;
+            _reviewIDs = reviewIDs;
         }
         
         _notificationType    = [self notificationTypeForTypeString:nilOrJSONObjectForKey( data, @"type" )];

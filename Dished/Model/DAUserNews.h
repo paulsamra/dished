@@ -13,6 +13,7 @@ typedef enum
 {
     eUserNewsNotificationTypeFollow,
     eUserNewsNotificationTypeYum,
+    eUserNewsNotificationTypeReviewMention,
     eUserNewsNotificationTypeComment,
     eUserNewsNotificationTypeCommentMention,
     eUserNewsNotificationTypeUnknown

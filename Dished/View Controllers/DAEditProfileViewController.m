@@ -256,9 +256,40 @@
         return;
     }
     
-    self.navigationItem.rightBarButtonItem.enabled = NO;
-    [self showProgressViewWithTitle:@"Saving..."];
-    [self checkEmailAndPhoneNumber];
+    [self checkForEqualInputs];
+}
+
+- (void)checkForEqualInputs
+{
+    DAUserManager *userManager = [DAUserManager sharedManager];
+    
+    BOOL sameFirstName   = [self.firstNameField.text isEqualToString:userManager.firstName];
+    BOOL sameLastName    = [self.lastNameField.text isEqualToString:userManager.lastName];
+    BOOL sameEmail       = [self.emailField.text isEqualToString:userManager.email];
+    BOOL sameDescription = [self.descriptionTextView.text isEqualToString:userManager.desc];
+    
+    NSString *after1 = [self.phoneNumberField.text substringFromIndex:3];
+    NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
+    BOOL samePhone = [decimalString isEqualToString:userManager.phoneNumber];
+    
+    BOOL newPassword = self.passwordField.text.length > 0 || self.confirmPasswordField.text.length > 0;
+    
+    BOOL sameDateOfBirth = [self.dateOfBirth isEqualToDate:userManager.dateOfBirth];
+    
+    BOOL sameProfile = sameFirstName && sameLastName && sameEmail && sameDescription && samePhone && !newPassword && sameDateOfBirth && !self.selectedImage;
+    
+    if( sameProfile )
+    {
+        [self.navigationController popViewControllerAnimated:YES];
+        return;
+    }
+    else
+    {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
+        [self showProgressViewWithTitle:@"Saving..."];
+        [self checkEmailAndPhoneNumber];
+    }
 }
 
 - (void)showProgressViewWithTitle:(NSString *)title
@@ -276,7 +307,7 @@
 
 - (BOOL)phoneNumberIsValid:(NSString *)phoneNumber
 {
-    if( !phoneNumber || phoneNumber.length < 10 )
+    if( !phoneNumber || phoneNumber.length < 4 )
     {
         return NO;
     }
@@ -852,33 +883,7 @@
 {
     [self.view endEditing:YES];
     
-    DAUserManager *userManager = [DAUserManager sharedManager];
-    
-    BOOL sameFirstName   = [self.firstNameField.text isEqualToString:userManager.firstName];
-    BOOL sameLastName    = [self.lastNameField.text isEqualToString:userManager.lastName];
-    BOOL sameEmail       = [self.emailField.text isEqualToString:userManager.email];
-    BOOL sameDescription = [self.descriptionTextView.text isEqualToString:userManager.desc];
-    
-    NSString *after1 = [self.phoneNumberField.text substringFromIndex:3];
-    NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
-    NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
-    BOOL samePhone = [decimalString isEqualToString:userManager.phoneNumber];
-    
-    BOOL newPassword = self.passwordField.text.length > 0 || self.confirmPasswordField.text.length > 0;
-    
-    BOOL sameDateOfBirth = [self.dateOfBirth isEqualToDate:userManager.dateOfBirth];
-    
-    BOOL sameProfile = sameFirstName && sameLastName && sameEmail && sameDescription && samePhone && !newPassword && sameDateOfBirth && !self.selectedImage;
-    
-    if( sameProfile )
-    {
-        [self.navigationController popViewControllerAnimated:YES];
-        return;
-    }
-    else
-    {
-        [self checkInputs];
-    }
+    [self checkInputs];
 }
 
 - (NSDateFormatter *)dateFormatter

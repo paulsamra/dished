@@ -41,6 +41,14 @@
     self.userImageView.layer.cornerRadius  = self.userImageView.frame.size.width / 2;
     self.userImageView.layer.masksToBounds = YES;
     
+    UITapGestureRecognizer *tapGesture1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editProfile)];
+    self.userImageView.userInteractionEnabled = YES;
+    [self.userImageView addGestureRecognizer:tapGesture1];
+    
+    UITapGestureRecognizer *tapGesture2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(editProfile)];
+    self.usernameLabel.userInteractionEnabled = YES;
+    [self.usernameLabel addGestureRecognizer:tapGesture2];
+    
     [self setupUserInfo];
 }
 

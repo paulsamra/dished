@@ -31,6 +31,7 @@ extern NSString *const kCocktail;
 
 extern NSString *const kUserNewsFollowNotification;
 extern NSString *const kUserNewsReviewYumNotification;
+extern NSString *const kUserNewsReviewMentionNotification;
 extern NSString *const kUserNewsReviewCommentNotification;
 extern NSString *const kUserNewsReviewCommentMentionNotification;
 

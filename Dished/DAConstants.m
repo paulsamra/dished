@@ -21,6 +21,7 @@ NSString *const kCocktail = @"cocktail";
 
 NSString *const kUserNewsFollowNotification               = @"user_follow";
 NSString *const kUserNewsReviewYumNotification            = @"review_yum";
+NSString *const kUserNewsReviewMentionNotification        = @"review_mention";
 NSString *const kUserNewsReviewCommentNotification        = @"review_comment";
 NSString *const kUserNewsReviewCommentMentionNotification = @"review_comment_mention";
 

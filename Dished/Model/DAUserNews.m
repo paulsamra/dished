@@ -45,6 +45,10 @@
     {
         type = eUserNewsNotificationTypeYum;
     }
+    else if( [string isEqualToString:kUserNewsReviewMentionNotification] )
+    {
+        type = eUserNewsNotificationTypeReviewMention;
+    }
     else if( [string isEqualToString:kUserNewsReviewCommentNotification] )
     {
         type = eUserNewsNotificationTypeComment;
@@ -71,12 +75,16 @@
             string = [NSString stringWithFormat:@"@%@ YUMMED your review.", self.username];
             break;
             
+        case eUserNewsNotificationTypeReviewMention:
+            string = [NSString stringWithFormat:@"@%@ mentioned you in a review.", self.username];
+            break;
+            
         case eUserNewsNotificationTypeComment:
             string = [NSString stringWithFormat:@"@%@ left a comment on your review: %@", self.username, self.comment];
             break;
             
         case eUserNewsNotificationTypeCommentMention:
-            string = [NSString stringWithFormat:@"@%@ mentioned you in a review: %@", self.username, self.comment];
+            string = [NSString stringWithFormat:@"@%@ mentioned you in a comment: %@", self.username, self.comment];
             break;
             
         case eUserNewsNotificationTypeUnknown:

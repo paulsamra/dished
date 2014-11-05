@@ -11,6 +11,8 @@
 #import "DANewsManager.h"
 #import "UIImageView+WebCache.h"
 #import "DASettingsViewController.h"
+#import "DAReviewDetailsViewController.h"
+#import "DAUserProfileViewController.h"
 
 #define kUserNewsCellID @"userNewsCell"
 #define kSingleNewsCellID @"singleNewsCell"
@@ -56,6 +58,17 @@
     self.newsTableView.estimatedRowHeight = estimatedCellHeight;
     self.followingTableView.estimatedRowHeight = estimatedCellHeight;
     
+    [self registerCellNibs];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadNewsTable) name:kNewsUpdatedNotificationKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadFollowingTable) name:kFollowingUpdatedNotificationKey object:nil];
+    
+    ![DANewsManager sharedManager].newsFinishedLoading ? self.newsTableView.hidden = YES : [self setFooterForNewsTableView];
+    ![DANewsManager sharedManager].followingFinishedLoading ? self.followingTableView.hidden = YES : [self setFooterForFollowingTableView];
+}
+
+- (void)registerCellNibs
+{
     UINib *userNewsCellNib = [UINib nibWithNibName:@"DAUserNewsTableViewCell" bundle:[NSBundle mainBundle]];
     [self.newsTableView registerNib:userNewsCellNib forCellReuseIdentifier:kUserNewsCellID];
     [self.followingTableView registerNib:userNewsCellNib forCellReuseIdentifier:kUserNewsCellID];
@@ -64,11 +77,9 @@
     [self.newsTableView registerNib:singleNewsCellNib forCellReuseIdentifier:kSingleNewsCellID];
     [self.followingTableView registerNib:singleNewsCellNib forCellReuseIdentifier:kSingleNewsCellID];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadNewsTable) name:kNewsUpdatedNotificationKey object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadFollowingTable) name:kFollowingUpdatedNotificationKey object:nil];
-    
-    ![DANewsManager sharedManager].newsFinishedLoading ? self.newsTableView.hidden = YES : [self setFooterForNewsTableView];
-    ![DANewsManager sharedManager].followingFinishedLoading ? self.followingTableView.hidden = YES : [self setFooterForFollowingTableView];
+    UINib *multiNewsCellNib = [UINib nibWithNibName:@"DAMultiNewsTableViewCell" bundle:[NSBundle mainBundle]];
+    [self.newsTableView registerNib:multiNewsCellNib forCellReuseIdentifier:kMultiNewsCellID];
+    [self.followingTableView registerNib:multiNewsCellNib forCellReuseIdentifier:kMultiNewsCellID];
 }
 
 - (void)setFooterForNewsTableView
@@ -126,6 +137,14 @@
         [self.followingTableView addSubview:self.followingRefreshControl];
         self.followingRefreshControl.hidden = YES;
     }
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self.newsTableView deselectRowAtIndexPath:[self.newsTableView indexPathForSelectedRow] animated:YES];
+    [self.followingTableView deselectRowAtIndexPath:[self.followingTableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -298,6 +317,7 @@
             [self configureCell:cell withNews:userNews];
             break;
             
+        case eUserNewsNotificationTypeReviewMention:
         case eUserNewsNotificationTypeComment:
         case eUserNewsNotificationTypeCommentMention:
         case eUserNewsNotificationTypeYum:
@@ -330,23 +350,41 @@
             break;
             
         case eFollowingNewsNotificationTypeCreateReview:
-        case eFollowingNewsNotificationTypeYum:
         {
             cell = [self.followingTableView dequeueReusableCellWithIdentifier:kSingleNewsCellID];
             [self configureCell:cell withNews:followingNews];
+            DASingleNewsTableViewCell *singleNewsCell = (DASingleNewsTableViewCell *)cell;
+            NSURL *url = [NSURL URLWithString:[followingNews.review_images objectAtIndex:0]];
+            [singleNewsCell.newsImageView sd_setImageWithURL:url];
+        }
+        break;
             
-            if( followingNews.reviews )
+        case eFollowingNewsNotificationTypeYum:
+        {
+            switch( followingNews.notificationSubtype )
             {
-                DASingleNewsTableViewCell *singleNewsCell = (DASingleNewsTableViewCell *)cell;
-                DAGlobalReview *review = [followingNews.reviews objectAtIndex:0];
-                NSURL *url = [NSURL URLWithString:review.img];
-                [singleNewsCell.newsImageView sd_setImageWithURL:url];
-            }
-            else
-            {
-                DASingleNewsTableViewCell *singleNewsCell = (DASingleNewsTableViewCell *)cell;
-                NSURL *url = [NSURL URLWithString:[followingNews.review_images objectAtIndex:0]];
-                [singleNewsCell.newsImageView sd_setImageWithURL:url];
+                case eFollowingNewsYumNotificationSubtypeTwoUserYum:
+                case eFollowingNewsYumNotificationSubtypeSingleUserSingleYum:
+                case eFollowingNewsYumNotificationSubtypeMultiUserYum:
+                case eFollowingNewsYumNotificationSubtypeUnknown:
+                {
+                    cell = [self.followingTableView dequeueReusableCellWithIdentifier:kSingleNewsCellID];
+                    [self configureCell:cell withNews:followingNews];
+                    DASingleNewsTableViewCell *singleNewsCell = (DASingleNewsTableViewCell *)cell;
+                    NSURL *url = [NSURL URLWithString:followingNews.review_image];
+                    [singleNewsCell.newsImageView sd_setImageWithURL:url];
+                }
+                break;
+                    
+                case eFollowingNewsYumNotificationSubtypeSingleUserMultiYum:
+                {
+                    cell = [self.followingTableView dequeueReusableCellWithIdentifier:kSingleNewsCellID];
+                    [self configureCell:cell withNews:followingNews];
+                    DASingleNewsTableViewCell *multiNewsCell = (DASingleNewsTableViewCell *)cell;
+                    NSURL *url = [NSURL URLWithString:[followingNews.review_images objectAtIndex:0]];
+                    [multiNewsCell.newsImageView sd_setImageWithURL:url];
+                }
+                break;
             }
         }
         break;
@@ -386,6 +424,13 @@
         userNewsCell = [tableView dequeueReusableCellWithIdentifier:kUserNewsCellID];
     });
     
+    static DAMultiNewsTableViewCell *multiNewsCell;
+    static dispatch_once_t multiNewsOnceToken;
+    dispatch_once( &multiNewsOnceToken, ^
+    {
+        multiNewsCell = [tableView dequeueReusableCellWithIdentifier:kMultiNewsCellID];
+    });
+    
     UITableViewCell *sizingCell = nil;
     UITextView *textView = nil;
     DANews *news = nil;
@@ -401,7 +446,8 @@
                 sizingCell = userNewsCell;
                 textView = userNewsCell.newsTextView;
                 break;
-                
+            
+            case eUserNewsNotificationTypeReviewMention:
             case eUserNewsNotificationTypeComment:
             case eUserNewsNotificationTypeCommentMention:
             case eUserNewsNotificationTypeYum:
@@ -443,9 +489,9 @@
     
     CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
     
-    if( calculatedHeight < 44.0 )
+    if( calculatedHeight < 46.0 )
     {
-        calculatedHeight = 44.0;
+        calculatedHeight = 46.0;
     }
     
     return calculatedHeight;
@@ -453,10 +499,18 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    cell.backgroundColor = [UIColor whiteColor];
+    
     if( tableView == self.newsTableView )
     {
         DAUserNews *news = [[DANewsManager sharedManager].newsNotifications objectAtIndex:indexPath.row];
         [self didSelectUserNews:news];
+    }
+    else if( tableView == self.followingTableView )
+    {
+        DAFollowingNews *news = [[DANewsManager sharedManager].followingNotifications objectAtIndex:indexPath.row];
+        [self didSelectFollowingNews:news];
     }
 }
 
@@ -464,12 +518,48 @@
 {
     switch( news.notificationType )
     {
-        case eUserNewsNotificationTypeYum: break;
-        case eUserNewsNotificationTypeFollow: break;
-        case eUserNewsNotificationTypeComment: break;
-        case eUserNewsNotificationTypeCommentMention: break;
-        case eUserNewsNotificationTypeUnknown: break;
+        case eUserNewsNotificationTypeFollow:
+            [self goToUserProfileWithUserID:news.username];
+            break;
+            
+        case eUserNewsNotificationTypeYum:
+        case eUserNewsNotificationTypeReviewMention:
+        case eUserNewsNotificationTypeComment:
+        case eUserNewsNotificationTypeCommentMention:
+            [self goToReviewDetailsWithReviewID:news.review_id];
+            break;
+            
+        case eUserNewsNotificationTypeUnknown:
+            break;
     }
+}
+
+- (void)didSelectFollowingNews:(DAFollowingNews *)news
+{
+    switch( news.notificationType )
+    {
+        case eFollowingNewsNotificationTypeFollow:
+        case eFollowingNewsNotificationTypeUnknown:
+            break;
+            
+        case eFollowingNewsNotificationTypeCreateReview:
+        case eFollowingNewsNotificationTypeYum:
+            break;
+    }
+}
+                                               
+- (void)goToUserProfileWithUserID:(NSString *)username
+{
+    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    userProfileViewController.username = username;
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
+}
+
+- (void)goToReviewDetailsWithReviewID:(NSInteger)reviewID
+{
+    DAReviewDetailsViewController *reviewDetailsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"reviewDetails"];
+    reviewDetailsViewController.reviewID = reviewID;
+    [self.navigationController pushViewController:reviewDetailsViewController animated:YES];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView

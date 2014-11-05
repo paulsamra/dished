@@ -11,6 +11,8 @@
 		9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 9402317419C18B6E003B3017 /* DAGlobalReview.m */; };
 		940537A519F27BC600A02088 /* DAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537A419F27BC600A02088 /* DAMenuViewController.m */; };
 		940537AC19F4BA0400A02088 /* DAContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537AB19F4BA0400A02088 /* DAContainerViewController.m */; };
+		9414CB2A1A0990FE00D8B09B /* DAMultiNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9414CB291A0990FE00D8B09B /* DAMultiNewsTableViewCell.swift */; };
+		9414CB2C1A09919100D8B09B /* DAMultiNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9414CB2B1A09919100D8B09B /* DAMultiNewsTableViewCell.xib */; };
 		941538C5193F270A008B3B79 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C4193F270A008B3B79 /* main.m */; };
 		941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C7193F270A008B3B79 /* DAAppDelegate.m */; };
 		941538CB193F270A008B3B79 /* Dished.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 941538C9193F270A008B3B79 /* Dished.xcdatamodeld */; };
@@ -250,6 +252,8 @@
 		940537A419F27BC600A02088 /* DAMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAMenuViewController.m; sourceTree = "<group>"; };
 		940537AA19F4BA0400A02088 /* DAContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAContainerViewController.h; sourceTree = "<group>"; };
 		940537AB19F4BA0400A02088 /* DAContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAContainerViewController.m; sourceTree = "<group>"; };
+		9414CB291A0990FE00D8B09B /* DAMultiNewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAMultiNewsTableViewCell.swift; sourceTree = "<group>"; };
+		9414CB2B1A09919100D8B09B /* DAMultiNewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAMultiNewsTableViewCell.xib; sourceTree = "<group>"; };
 		941538BF193F270A008B3B79 /* Dished.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Dished.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		941538C3193F270A008B3B79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		941538C4193F270A008B3B79 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -866,10 +870,12 @@
 			isa = PBXGroup;
 			children = (
 				94E2520D1A08CB8400D6DCE4 /* DANewsTableViewCell.swift */,
-				9443DEF919CFCEA900F134BA /* DASingleNewsTableViewCell.swift */,
-				9443DEF419CFC7BE00F134BA /* DASingleNewsTableViewCell.xib */,
 				94E252091A08BAA900D6DCE4 /* DAUserNewsTableViewCell.swift */,
 				94E2520B1A08BAF900D6DCE4 /* DAUserNewsTableViewCell.xib */,
+				9443DEF919CFCEA900F134BA /* DASingleNewsTableViewCell.swift */,
+				9443DEF419CFC7BE00F134BA /* DASingleNewsTableViewCell.xib */,
+				9414CB291A0990FE00D8B09B /* DAMultiNewsTableViewCell.swift */,
+				9414CB2B1A09919100D8B09B /* DAMultiNewsTableViewCell.xib */,
 			);
 			name = News;
 			sourceTree = "<group>";
@@ -1529,6 +1535,7 @@
 				944D1E7719DB853A006F73BF /* DAFollowListTableViewCell.xib in Resources */,
 				94CB03D219B0EECA009010F6 /* Images.xcassets in Resources */,
 				94A8CD1D19FF143300AA770D /* Privacy Policy.html in Resources */,
+				9414CB2C1A09919100D8B09B /* DAMultiNewsTableViewCell.xib in Resources */,
 				941538D1193F270A008B3B79 /* Main.storyboard in Resources */,
 				94A8CD1E19FF143300AA770D /* Terms & Conditions.html in Resources */,
 				9443DEF519CFC7BE00F134BA /* DASingleNewsTableViewCell.xib in Resources */,
@@ -1630,6 +1637,7 @@
 				943E62581987362100DF2135 /* NSDateFormatter+STTwitter.m in Sources */,
 				942CC23819BDB21700BDBB75 /* DAReview.m in Sources */,
 				D17487C9196DE8BC00D83993 /* DAReviewFormViewController.m in Sources */,
+				9414CB2A1A0990FE00D8B09B /* DAMultiNewsTableViewCell.swift in Sources */,
 				94F2ADA1198C539200450C6F /* SDWebImageManager.m in Sources */,
 				9443DEFA19CFCEA900F134BA /* DASingleNewsTableViewCell.swift in Sources */,
 				94CB03D019B0EA94009010F6 /* SWUtilityButtonView.m in Sources */,

@@ -393,7 +393,7 @@
         
         [self shareReviewOnFacebook:review imageURL:imageURL completion:^( BOOL successful )
         {
-            success = successful;
+            success &= successful;
             
             dispatch_group_leave( group );
         }];
@@ -405,7 +405,7 @@
         
         [self postReviewToTwitter:review imageURL:imageURL completion:^( BOOL successful )
         {
-            success = successful;
+            success &= successful;
             
             dispatch_group_leave( group );
         }];

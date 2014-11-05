@@ -589,18 +589,21 @@
     {
         if( success )
         {
-            postSuccess = YES;
+            postSuccess &= YES;
             
-            dispatch_group_enter( group );
-            
-            [self.socialViewController shareReview:self.review imageURL:imageURL completion:^( BOOL success )
+            if( self.socialViewController )
             {
-                dispatch_group_leave( group );
-            }];
+                dispatch_group_enter( group );
+            
+                [self.socialViewController shareReview:self.review imageURL:imageURL completion:^( BOOL success )
+                {
+                    dispatch_group_leave( group );
+                }];
+            }
         }
         else
         {
-            postSuccess = NO;
+            postSuccess &= NO;
         }
         
         dispatch_group_leave( group );
@@ -619,6 +622,8 @@
         {
             if( postSuccess )
             {
+                [self.view endEditing:YES];
+                
                 [self dismissViewControllerAnimated:YES completion:^
                 {
                     if( data )

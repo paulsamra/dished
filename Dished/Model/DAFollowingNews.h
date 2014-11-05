@@ -31,9 +31,11 @@ typedef enum
 @interface DAFollowingNews : DANews
 
 @property (copy,   nonatomic) NSString   *username;
+@property (copy,   nonatomic) NSString   *review_image;
 @property (strong, nonatomic) NSArray    *users;
 @property (strong, nonatomic) NSArray    *reviews;
 @property (strong, nonatomic) NSArray    *review_images;
+@property (strong, nonatomic) NSArray    *reviewIDs;
 @property (strong, nonatomic) DAUsername *followed;
 
 @property (nonatomic) NSInteger yum_count;

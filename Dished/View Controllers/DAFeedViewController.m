@@ -318,7 +318,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [[SDWebImageManager sharedManager] downloadImageWithURL:dishImageURL options:0 progress:nil
         completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
         {
-            if( image && cell.tag == indexPath.section )
+            if( image && [imageURL.absoluteString isEqualToString:dishImageURL.absoluteString] )
             {
                 cell.dishImageView.image = image;
                 [self.feedImageCache setObject:image forKey:item.img];

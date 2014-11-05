@@ -300,12 +300,9 @@
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     DAComment *comment = [self.comments objectAtIndex:indexPath.row];
     
-    if( index == 0 )
-    {
-        [self flagComment:comment];
-        [cell hideUtilityButtonsAnimated:YES];
-    }
-    else
+    BOOL ownComment = comment.creator_id == [DAUserManager sharedManager].user_id;
+    
+    if( ownComment )
     {
         [self deleteComment:comment];
         
@@ -314,6 +311,24 @@
         self.comments = [mutableComments copy];
         
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+    }
+    else
+    {
+        if( index == 0 )
+        {
+            [self flagComment:comment];
+            [cell hideUtilityButtonsAnimated:YES];
+        }
+        else
+        {
+            [self deleteComment:comment];
+            
+            NSMutableArray *mutableComments = [self.comments mutableCopy];
+            [mutableComments removeObjectAtIndex:indexPath.row];
+            self.comments = [mutableComments copy];
+            
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        }
     }
 }
 

@@ -6,12 +6,12 @@
     },
     {
       "idiom" : "iphone",
-      "scale" : "2x",
-      "filename" : "02-welcomescreen-04-zg.png"
+      "scale" : "2x"
     },
     {
       "idiom" : "iphone",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "02-welcomescreen-04-zg.png"
     }
   ],
   "info" : {

@@ -4520,10 +4520,10 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="DWl-1Z-W5u"/>
-        <segue reference="e1c-XP-t2f"/>
-        <segue reference="uu3-ER-XS1"/>
-        <segue reference="GvD-hA-tHw"/>
         <segue reference="Pvw-SR-10w"/>
+        <segue reference="Ybk-es-BQ9"/>
+        <segue reference="uu3-ER-XS1"/>
+        <segue reference="e1c-XP-t2f"/>
+        <segue reference="DWl-1Z-W5u"/>
     </inferredMetricsTieBreakers>
 </document>
