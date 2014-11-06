@@ -687,7 +687,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (IBAction)shareButtonPressed:(UIBarButtonItem *)sender
 {
     DATabBarController *tabBarController = (DATabBarController *)self.tabBarController;
-    [tabBarController showShareView];
+    [tabBarController showShareViewWithReview:self.review];
 }
 
 @end

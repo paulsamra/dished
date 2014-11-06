@@ -137,11 +137,11 @@
     self.dimView.backgroundColor = [UIColor clearColor];
     
     self.socialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"social"];
-    self.socialViewController.isReview = YES;
+    self.socialViewController.isReviewPost = YES;
     self.socialViewController.view.hidden = YES;
     self.socialViewController.delegate = self;
     
-    self.socialViewController.view.frame = CGRectMake( 0, 600, self.view.bounds.size.width, self.view.bounds.size.height );
+    self.socialViewController.view.frame = CGRectMake( 0, self.view.frame.size.height, self.view.frame.size.width, self.view.frame.size.height );
 }
 
 - (void)keyboardOnScreen:(NSNotification *)notification
@@ -172,7 +172,7 @@
     [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^
     {
         CGRect hiddenRect = self.socialViewController.view.frame;
-        hiddenRect.origin.y = 600;
+        hiddenRect.origin.y = self.view.frame.size.height;
         self.socialViewController.view.frame = hiddenRect;
     }
     completion:^( BOOL finished )

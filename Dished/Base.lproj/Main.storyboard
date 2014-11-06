@@ -805,7 +805,7 @@
                                     <constraint firstAttribute="height" constant="44" id="tnC-GL-hZS"/>
                                 </constraints>
                                 <color key="barTintColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="calibratedRGB"/>
-                                <textInputTraits key="textInputTraits" keyboardType="twitter"/>
+                                <textInputTraits key="textInputTraits"/>
                                 <connections>
                                     <outlet property="delegate" destination="97x-wT-dc3" id="t8C-jl-9l2"/>
                                 </connections>

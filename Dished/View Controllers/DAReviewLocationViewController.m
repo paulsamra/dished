@@ -101,7 +101,7 @@
         }
         else if( [[self.locationData objectAtIndex:indexPath.row] objectForKey:kGoogleIDKey] )
         {
-            self.review.googleID = [[[self.locationData objectAtIndex:indexPath.row] objectForKey:kGoogleIDKey] integerValue];
+            self.review.googleID = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kGoogleIDKey];
         }
         
         [self.navigationController popViewControllerAnimated:YES];

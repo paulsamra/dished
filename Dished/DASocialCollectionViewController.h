@@ -8,10 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "DANewReview.h"
-
-#define kDoneSelecting @"doneSelecting"
+#import "DAReview.h"
+#import "DADishProfile.h"
 
 @class DASocialCollectionViewController;
+
 
 @protocol DASocialCollectionViewControllerDelegate <NSObject>
 
@@ -25,14 +26,13 @@
 
 @property (strong, nonatomic) NSArray             *cellLabels;
 @property (strong, nonatomic) NSArray             *cellImages;
-@property (strong, nonatomic) UIAlertView         *facebookLoginAlert;
-@property (strong, nonatomic) UIAlertView         *twitterLoginAlert;
-@property (strong, nonatomic) UIAlertView         *emailFailAlert;
 @property (strong, nonatomic) NSMutableDictionary *selectedSharing;
-
 @property (weak, nonatomic) id<DASocialCollectionViewControllerDelegate> delegate;
 
-@property (nonatomic) BOOL isReview;
+@property (weak, nonatomic) DAReview *review;
+@property (weak, nonatomic) DADishProfile *dishProfile;
+
+@property (nonatomic) BOOL isReviewPost;
 @property (nonatomic) BOOL isOwnReview;
 
 - (void)shareReview:(DANewReview *)review imageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion;

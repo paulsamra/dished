@@ -14,7 +14,12 @@
 #import "DATwitterManager.h"
 #import <Social/Social.h>
 
+
 @interface DASocialCollectionViewController() <UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
+
+@property (strong, nonatomic) UIAlertView *facebookLoginAlert;
+@property (strong, nonatomic) UIAlertView *twitterLoginAlert;
+@property (strong, nonatomic) UIAlertView *emailFailAlert;
 
 @end
 
@@ -52,7 +57,7 @@
     cell.socialLabel.text = [self.cellLabels objectAtIndex:indexPath.row];
     cell.socialImageView.image = [self.cellImages objectAtIndex:indexPath.row];
     
-    if( self.isReview )
+    if( self.isReviewPost )
     {
         if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]])
         {
@@ -136,7 +141,7 @@
             }
             else
             {
-                if( self.isReview )
+                if( self.isReviewPost )
                 {
                     [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
                     [self.collectionView reloadData];
@@ -167,7 +172,7 @@
         case 1:
         {
             
-            if (self.isReview)
+            if (self.isReviewPost)
             {
                 if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]] )
                 {
@@ -210,7 +215,7 @@
             {
                 if( [MFMailComposeViewController canSendMail] )
                 {
-                    if( !self.isReview )
+                    if( !self.isReviewPost )
                     {
                         MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
                         [composeViewController setMailComposeDelegate:self];
@@ -232,7 +237,7 @@
         break;
             
         case 3:
-            if (self.isReview)
+            if (self.isReviewPost)
             {
                 if( [self.delegate respondsToSelector:@selector(socialCollectionViewControllerDidFinish:)] )
                 {
@@ -420,14 +425,29 @@
     });
 }
 
+- (void)setIsOwnReview:(BOOL)isOwnReview
+{
+    _isOwnReview = isOwnReview;
+    
+    self.cellLabels = nil;
+    [self.collectionView reloadData];
+}
+
+- (void)setIsReviewPost:(BOOL)isReviewPost
+{
+    _isReviewPost = isReviewPost;
+    
+    self.cellLabels = nil;
+    [self.collectionView reloadData];
+}
+
 - (NSArray *)cellLabels
 {
     if( !_cellLabels )
     {
-        if ( self.isReview )
+        if ( self.isReviewPost )
         {
             _cellLabels = @[ @"Facebook", @"Twitter", @"Email", @"Done" ];
-
         }
         else
         {
@@ -457,7 +477,7 @@
         _cellImages = @[ facebookImage, twitterImage, emailImage, flagImage];
         
         
-        if (self.isReview)
+        if (self.isReviewPost)
         {
             _cellImages = @[ facebookImage, twitterImage, emailImage];
             

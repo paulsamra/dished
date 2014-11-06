@@ -9,11 +9,13 @@
 #import <UIKit/UIKit.h>
 
 @class DADishProfile;
+@class DAReview;
 
 
 @interface DATabBarController : UITabBarController
 
-- (void)showShareView;
-- (void) startAddReviewProcessWithDishProfile:(DADishProfile *)dishProfile;
+- (void)showShareViewWithDish:(DADishProfile *)dishProfile;
+- (void)showShareViewWithReview:(DAReview *)review;
+- (void)startAddReviewProcessWithDishProfile:(DADishProfile *)dishProfile;
 
 @end

@@ -348,7 +348,7 @@
 - (IBAction)shareBarButtonTapped:(UIBarButtonItem *)sender
 {
     DATabBarController *tabBarController = (DATabBarController *)self.tabBarController;
-    [tabBarController showShareView];
+    [tabBarController showShareViewWithDish:self.dishProfile];
 }
 
 @end

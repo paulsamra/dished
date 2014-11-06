@@ -596,9 +596,9 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             {
                 [parameters setObject:@(review.locationID) forKey:@"loc_id"];
             }
-            else if( review.googleID != 0 )
+            else if( review.googleID )
             {
-                [parameters setObject:@(review.googleID) forKey:@"loc_google_id"];
+                [parameters setObject:review.googleID forKey:@"loc_google_id"];
             }
             
             [parameters setObject:review.type forKey:@"type"];

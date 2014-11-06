@@ -159,6 +159,11 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     self.selectedRadius       = radius;
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [self performSegueWithIdentifier:@"dishResults" sender:searchBar.text];
+}
+
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     if( searchText.length > 0 )
