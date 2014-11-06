@@ -504,7 +504,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     NSUInteger yumsRows = self.review.num_yums > 0 ? 1 : 0;
     
-    if( indexPath.row == 1 && yumsRows > 0 )
+    if( indexPath.row == 1 && yumsRows > 0 && self.review.num_yums > 10 )
     {
         DAUserListViewController *userListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userList"];
         userListViewController.listContent = eUserListContentYums;

@@ -220,6 +220,11 @@
     return calculatedHeight;
 }
 
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell
+{
+    return YES;
+}
+
 - (NSArray *)utilityButtonsAtIndexPath:(NSIndexPath *)indexPath
 {
     NSMutableArray *buttons = [NSMutableArray array];
@@ -229,6 +234,11 @@
     
     UIImage *deleteImage = [UIImage imageNamed:@"delete_comment"];
     UIImage *flagImage   = [UIImage imageNamed:@"flag_comment"];
+    
+    if( comment.comment_id == 0 )
+    {
+        return buttons;
+    }
     
     if( !ownComment )
     {
