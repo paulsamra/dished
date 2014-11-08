@@ -54,10 +54,6 @@
     
     [DANewsManager sharedManager].newsFinishedLoading ? [self.spinner stopAnimating] : [self.spinner startAnimating];
     
-    CGFloat estimatedCellHeight = 44.0;
-    self.newsTableView.estimatedRowHeight = estimatedCellHeight;
-    self.followingTableView.estimatedRowHeight = estimatedCellHeight;
-    
     [self registerCellNibs];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadNewsTable) name:kNewsUpdatedNotificationKey object:nil];

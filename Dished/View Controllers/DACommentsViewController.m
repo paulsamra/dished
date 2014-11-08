@@ -19,8 +19,12 @@
 @interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate, DACommentTableViewCellDelegate>
 
 @property (strong, nonatomic) NSArray                       *comments;
+@property (strong, nonatomic) NSURLSessionTask              *loadCommentsTask;
 @property (strong, nonatomic) UIActivityIndicatorView       *spinner;
 @property (strong, nonatomic) JSQMessagesKeyboardController *keyboardController;
+
+@property (nonatomic) BOOL commentsLoaded;
+@property (nonatomic) BOOL isOwnReview;
 
 @end
 
@@ -31,12 +35,9 @@
 {
     [super viewDidLoad];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
+    self.commentsLoaded = NO;
     
-    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    self.spinner.center = self.view.center;
-    [self.view addSubview:self.spinner];
-    [self.spinner startAnimating];
+    self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
     
     self.inputToolbar.delegate = self;
     self.inputToolbar.contentView.leftBarButtonItem = nil;
@@ -48,34 +49,61 @@
     
     self.keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView contextView:self.view panGestureRecognizer:self.tableView.panGestureRecognizer delegate:self];
     
-    NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
-    [[DAAPIManager sharedManager] getCommentsForReviewID:reviewID completion:^( id response, NSError *error )
-    {
-        [self.spinner stopAnimating];
-        [self.spinner removeFromSuperview];
-        
-        if( error || !response )
-        {
-            
-        }
-        else
-        {
-            self.comments = [self commentsFromResponse:response];
-            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-            [self scrollTableViewToBottom];
-        }
-    }];
-    
     [self.tableView registerNib:[UINib nibWithNibName:@"DACommentTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"commentCell"];
     
     self.tableView.estimatedRowHeight = 44.0;
+    
+    self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.spinner.center = self.view.center;
+    [self.view addSubview:self.spinner];
+    [self.spinner startAnimating];
+    
+    [self loadComments];
+}
+
+- (void)loadComments
+{
+    __weak typeof( self ) weakSelf = self;
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSInteger reviewID = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
+        NSDictionary *parameters = @{ kIDKey : @(reviewID) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        weakSelf.loadCommentsTask = [[DAAPIManager sharedManager] GET:kCommentsURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [weakSelf.spinner stopAnimating];
+            [weakSelf.spinner removeFromSuperview];
+            
+            weakSelf.comments = [weakSelf commentsFromResponse:responseObject];
+            
+            if( !weakSelf.commentsLoaded )
+            {
+                [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+                
+                weakSelf.commentsLoaded = YES;
+            }
+            else
+            {
+                [weakSelf.tableView reloadData];
+            }
+            
+            [weakSelf scrollTableViewToBottom];
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            
+        }];
+    }];
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshComments) name:kNetworkReachableKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadComments) name:kNetworkReachableKey object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -104,6 +132,7 @@
 - (void)dealloc
 {
     [self.keyboardController endListeningForKeyboard];
+    [self.loadCommentsTask cancel];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -115,12 +144,16 @@
 
 - (NSArray *)commentsFromResponse:(id)response
 {
-    NSArray *data = response[@"data"];
+    NSDictionary *data = nilOrJSONObjectForKey( response, kDataKey );
     NSMutableArray *comments = [NSMutableArray array];
     
-    if( data && ![data isEqual:[NSNull null]] )
+    if( data )
     {
-        for( NSDictionary *dataObject in data )
+        NSArray *commentsData = nilOrJSONObjectForKey( data, @"comments" );
+        
+        self.isOwnReview = [nilOrJSONObjectForKey( data, @"is_creator" ) boolValue];
+        
+        for( NSDictionary *dataObject in commentsData )
         {
             [comments addObject:[DAComment commentWithData:dataObject]];
         }
@@ -128,29 +161,6 @@
     
     return [comments copy];
 }
-
-- (void)refreshComments
-{
-    [self.spinner stopAnimating];
-    [self.spinner removeFromSuperview];
-    
-    NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
-    [[DAAPIManager sharedManager] getCommentsForReviewID:reviewID completion:^( id response, NSError *error )
-    {
-        if( error || !response )
-        {
-            
-        }
-        else
-        {
-            self.comments = [self commentsFromResponse:response];
-            [self.tableView reloadData];
-            [self scrollTableViewToBottom];
-        }
-    }];
-}
-
-#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
@@ -177,8 +187,6 @@
     
     cell.delegate = self;
     cell.textViewTapDelegate = self;
-    
-    [cell layoutIfNeeded];
     
     return cell;
 }
@@ -245,7 +253,7 @@
         [buttons sw_addUtilityButtonWithColor:[UIColor colorWithRed:0.95 green:0 blue:0 alpha:1] icon:flagImage];
     }
     
-    if( ownComment )
+    if( ownComment || self.isOwnReview )
     {
         [buttons sw_addUtilityButtonWithColor:[UIColor colorWithRed:0.95 green:0 blue:0 alpha:1] icon:deleteImage];
     }
@@ -344,9 +352,22 @@
 
 - (void)deleteComment:(DAComment *)comment
 {
-    [[DAAPIManager sharedManager] deleteCommentWithID:comment.comment_id completion:^( BOOL success )
+    __weak typeof( self ) weakSelf = self;
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        [self refreshComments];
+        NSDictionary *parameters = @{ kIDKey : @(comment.comment_id) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+         
+        [[DAAPIManager sharedManager] POST:kDeleteCommentURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [weakSelf loadComments];
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            [weakSelf loadComments];
+        }];
     }];
 }
 
@@ -499,6 +520,7 @@
     newComment.creator_username = [[DAUserManager sharedManager] username];
     newComment.img_thumb = [[DAUserManager sharedManager] img_thumb];
     newComment.creator_type = [[DAUserManager sharedManager] userType];
+    newComment.creator_id = [[DAUserManager sharedManager] user_id];
     self.comments = [self.comments arrayByAddingObject:newComment];
     [self.tableView reloadData];
     [self scrollTableViewToBottom];
@@ -511,12 +533,25 @@
 
 - (void)sendCommentWithText:(NSString *)text
 {
-    NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
-    [[DAAPIManager sharedManager] createComment:text forReviewID:reviewID completion:^( BOOL success )
+    __weak typeof( self ) weakSelf = self;
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        [self refreshComments];
+        NSInteger reviewID = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
+        NSDictionary *parameters = @{ kIDKey : @(reviewID), @"comment" : text };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
         
-        self.feedItem.num_comments = @( [self.feedItem.num_comments integerValue] + 1 );
+        [[DAAPIManager sharedManager] POST:kCommentsURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            [weakSelf loadComments];
+            
+            self.feedItem.num_comments = @( [self.feedItem.num_comments integerValue] + 1 );
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            [weakSelf loadComments];
+        }];
     }];
 }
 

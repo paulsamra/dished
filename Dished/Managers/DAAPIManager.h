@@ -124,21 +124,6 @@ typedef enum
 - (void)getFeedActivityWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius offset:(NSInteger)offset limit:(NSInteger)limit completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
- * Get list of comments left on a review.
- */
-- (void)getCommentsForReviewID:(NSInteger)reviewID completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Delete a review comment.
- */
-- (void)deleteCommentWithID:(NSInteger)commentID completion:( void(^)( BOOL success ) )completion;
-
-/*
- * Create comment on a review.
- */
-- (void)createComment:(NSString *)comment forReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion;
-
-/*
  * Yum a review.
  */
 - (void)yumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion;

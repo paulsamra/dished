@@ -10,7 +10,7 @@
 #import "UIImageView+WebCache.h"
 #import "DASettingsViewController.h"
 #import "DAContainerViewController.h"
-#import "DAEditProfileViewController.h"
+#import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
 #import "DADocumentViewController.h"
 
@@ -133,8 +133,10 @@
 {
     [self.containerViewController moveToMenu];
     
-    DAEditProfileViewController *editProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"editProfile"];
-    [self.navigationController pushViewController:editProfileViewController animated:YES];
+    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
+    userProfileViewController.user_id = [DAUserManager sharedManager].user_id;
+    userProfileViewController.username = [DAUserManager sharedManager].username;
+    [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

@@ -45,6 +45,7 @@ extern NSString *const kFollowingSubtypeTwoUserYum;
 
 extern NSString *const kUsersURL;
 extern NSString *const kLogoutURL;
+extern NSString *const kCommentsURL;
 extern NSString *const kHashtagsURL;
 extern NSString *const kUserImageURL;
 extern NSString *const kFollowUserURL;
@@ -57,6 +58,7 @@ extern NSString *const kUserProfileURL;
 extern NSString *const kEditProfileURL;
 extern NSString *const kUnfollowUserURL;
 extern NSString *const kUserSettingsURL;
+extern NSString *const kDeleteCommentURL;
 extern NSString *const kReviewProfileURL;
 extern NSString *const kUserFollowersURL;
 extern NSString *const kUserFollowingURL;

@@ -36,6 +36,7 @@ NSString *const kFollowingSubtypeTwoUserYum           = @"tuty";
 
 NSString *const kUsersURL             = @"users";
 NSString *const kLogoutURL            = @"auth/logout";
+NSString *const kCommentsURL          = @"comments";
 NSString *const kHashtagsURL          = @"hashtags";
 NSString *const kUserImageURL         = @"users/image";
 NSString *const kFollowUserURL        = @"users/follow";
@@ -48,6 +49,7 @@ NSString *const kUserProfileURL       = @"users/profile";
 NSString *const kEditProfileURL       = @"users/update";
 NSString *const kUserSettingsURL      = @"users/settings";
 NSString *const kUnfollowUserURL      = @"users/unfollow";
+NSString *const kDeleteCommentURL     = @"comments/delete";
 NSString *const kReviewProfileURL     = @"reviews/profile";
 NSString *const kUserFollowersURL     = @"users/followers";
 NSString *const kUserFollowingURL     = @"users/following";

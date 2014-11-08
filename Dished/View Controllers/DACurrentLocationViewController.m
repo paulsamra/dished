@@ -35,8 +35,8 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
 {
     [super viewDidLoad];
     
-    self.searchResults          = [NSArray array];
-    self.radiusSelectionVisible = NO;
+    self.searchResults           = [NSArray array];
+    self.radiusSelectionVisible  = NO;
     self.locationChangeCancelled = NO;
     self.didSelectDone = NO;
     

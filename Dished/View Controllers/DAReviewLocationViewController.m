@@ -16,7 +16,6 @@
 @interface DAReviewLocationViewController() <UISearchBarDelegate>
 
 @property (strong, nonatomic) NSArray           *locationData;
-@property (strong, nonatomic) NSString          *currentTaskID;
 @property (strong, nonatomic) NSURLSessionTask  *searchTask;
 
 @end
@@ -27,13 +26,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
-    self.tableView.backgroundColor = [UIColor colorWithRed:0.90 green:0.90 blue:0.90 alpha:1];
-    
+        
     self.locationData = [NSArray array];
     
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;
+    
+    self.tableView.tableFooterView = [[UIView alloc] init];
 }
 
 #pragma mark - Table view data source
@@ -64,9 +63,9 @@
         cell.detailTextLabel.text = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kDistanceKey];
     }
     
-    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, 0.5)];
-    separatorLineView.backgroundColor = [UIColor lightGrayColor];
-    [cell.contentView addSubview:separatorLineView];
+//    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, 0.5)];
+//    separatorLineView.backgroundColor = [UIColor lightGrayColor];
+//    [cell.contentView addSubview:separatorLineView];
 
     return cell;
 }
