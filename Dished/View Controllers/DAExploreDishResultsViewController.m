@@ -127,7 +127,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (NSArray *)dishesFromResponse:(id)response
 {
-    NSArray *dishes = response[@"data"][@"dishes"];
+    NSArray *dishes = response[kDataKey][@"dishes"];
     NSMutableArray *results = [NSMutableArray array];
     
     if( dishes && ![dishes isEqual:[NSNull null]] )

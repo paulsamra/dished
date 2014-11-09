@@ -13,6 +13,8 @@
 #import "DAAppDelegate.h"
 #import "DATwitterManager.h"
 #import <Social/Social.h>
+#import "DAAPIManager.h"
+#import "MRProgress.h"
 
 
 @interface DASocialCollectionViewController() <UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
@@ -20,6 +22,7 @@
 @property (strong, nonatomic) UIAlertView *facebookLoginAlert;
 @property (strong, nonatomic) UIAlertView *twitterLoginAlert;
 @property (strong, nonatomic) UIAlertView *emailFailAlert;
+@property (strong, nonatomic) UIAlertView *deleteConfirmAlert;
 
 @end
 
@@ -124,6 +127,14 @@
         {
             [self.selectedSharing removeObjectForKey:self.cellLabels[1]];
             [self.collectionView reloadData];
+        }
+    }
+    
+    if( alertView == self.deleteConfirmAlert )
+    {
+        if( buttonIndex != alertView.cancelButtonIndex )
+        {
+            [self deleteReview];
         }
     }
 }
@@ -237,7 +248,7 @@
         break;
             
         case 3:
-            if (self.isReviewPost)
+            if( self.isReviewPost )
             {
                 if( [self.delegate respondsToSelector:@selector(socialCollectionViewControllerDidFinish:)] )
                 {
@@ -246,16 +257,75 @@
             }
             else
             {
-              	//do flag stuff here.
+              	if( !self.isOwnReview )
+                {
+                    self.dishProfile ? [self reportDish] : [self reportReview];
+                    [self dismissView];
+                }
+                else
+                {
+                    [self.deleteConfirmAlert show];
+                }
             }
             break;
 
         case 4:
-            if( [self.delegate respondsToSelector:@selector(socialCollectionViewControllerDidFinish:)] )
-            {
-                [self.delegate socialCollectionViewControllerDidFinish:self];
-            }
+            [self dismissView];
             break;
+    }
+}
+
+- (void)reportDish
+{
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kIDKey : @(self.dishProfile.dish_id) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [[DAAPIManager sharedManager] POST:kReportDishURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            
+        }];
+    }];
+}
+
+- (void)reportReview
+{
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kIDKey : @(self.review.review_id) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [[DAAPIManager sharedManager] POST:kReportReviewURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            
+        }];
+    }];
+}
+
+- (void)deleteReview
+{
+    if( [self.delegate respondsToSelector:@selector(socialCollectionViewControllerDidDeleteReview:)] )
+    {
+        [self.delegate socialCollectionViewControllerDidDeleteReview:self];
+    }
+}
+
+- (void)dismissView
+{
+    if( [self.delegate respondsToSelector:@selector(socialCollectionViewControllerDidFinish:)] )
+    {
+        [self.delegate socialCollectionViewControllerDidFinish:self];
     }
 }
 
@@ -476,19 +546,14 @@
 
         _cellImages = @[ facebookImage, twitterImage, emailImage, flagImage];
         
-        
         if (self.isReviewPost)
         {
             _cellImages = @[ facebookImage, twitterImage, emailImage];
-            
         }
         else
         {
             _cellImages = @[ facebookImage, twitterImage, emailImage, flagImage];
-            
         }
-        
-        
     }
     
     return _cellImages;
@@ -522,6 +587,16 @@
     }
     
     return _emailFailAlert;
+}
+
+- (UIAlertView *)deleteConfirmAlert
+{
+    if( !_deleteConfirmAlert )
+    {
+        _deleteConfirmAlert = [[UIAlertView alloc] initWithTitle:@"Confirm Deletion" message:@"Are you sure you want to delete your review?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    }
+    
+    return _deleteConfirmAlert;
 }
 
 @end

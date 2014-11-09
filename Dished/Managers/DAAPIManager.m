@@ -78,10 +78,12 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         }
         
         AFNetworkReachabilityManager *reachabilityManager = [AFNetworkReachabilityManager sharedManager];
+        
         [reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status)
         {
             [self networkReachabilityStatusChanged:( status != 0 ? YES : NO )];
         }];
+        
         [reachabilityManager startMonitoring];
         
         NSLog(@"access: %@",  self.accessToken);
@@ -565,7 +567,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             hashtagString = [hashtagString stringByAppendingFormat:@"%d,", (int)hashtag.hashtag_id];
         }
         
-        NSDictionary *baseParams = @{ kAccessTokenKey : self.accessToken, @"comment" : review.comment,
+        NSDictionary *baseParams = @{ kAccessTokenKey : self.accessToken, kCommentKey : review.comment,
                                       @"grade" : review.rating };
         
         NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:baseParams];

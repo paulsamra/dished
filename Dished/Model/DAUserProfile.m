@@ -24,7 +24,7 @@
         _lastName  = nilOrJSONObjectForKey( user, @"lname" );
         _img_thumb = nilOrJSONObjectForKey( user, @"img_thumb" );
         
-        _user_id       = [nilOrJSONObjectForKey( user, @"id" )            integerValue];
+        _user_id       = [nilOrJSONObjectForKey( user, kIDKey )           integerValue];
         _num_reviews   = [nilOrJSONObjectForKey( data, @"num_reviews" )   integerValue];
         _num_following = [nilOrJSONObjectForKey( data, @"num_following" ) integerValue];
         _num_followers = [nilOrJSONObjectForKey( data, @"num_followers" ) integerValue];
@@ -48,7 +48,7 @@
     
     for( NSDictionary *review in data )
     {
-        [reviews addObject:[DADish dishWithData:review]];
+        [reviews addObject:[DAReview reviewWithData:review]];
     }
     
     return reviews;

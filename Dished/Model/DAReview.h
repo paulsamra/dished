@@ -23,13 +23,17 @@
 @property (copy,   nonatomic) NSString *comment;
 @property (copy,   nonatomic) NSString *price;
 @property (copy,   nonatomic) NSString *img;
+@property (copy,   nonatomic) NSString *img_thumb;
 @property (copy,   nonatomic) NSString *loc_name;
 @property (strong, nonatomic) NSArray  *yums;
 @property (strong, nonatomic) NSArray  *hashtags;
 @property (strong, nonatomic) NSArray  *comments;
 
 @property (nonatomic) BOOL      caller_yumd;
+@property (nonatomic) double    longitude;
+@property (nonatomic) double    latitude;
 @property (nonatomic) NSInteger dish_id;
+@property (nonatomic) NSInteger review_id;
 @property (nonatomic) NSInteger creator_id;
 @property (nonatomic) NSInteger loc_id;
 @property (nonatomic) NSInteger num_yums;

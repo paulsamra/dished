@@ -111,6 +111,7 @@
 		944D1E7519DB8514006F73BF /* DAFollowListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944D1E7419DB8514006F73BF /* DAFollowListTableViewCell.swift */; };
 		944D1E7719DB853A006F73BF /* DAFollowListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 944D1E7619DB853A006F73BF /* DAFollowListTableViewCell.xib */; };
 		944D1E7A19DB8786006F73BF /* DAUserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 944D1E7919DB8786006F73BF /* DAUserListViewController.m */; };
+		945269131A0E244500A56B17 /* UIViewController+ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 945269121A0E244500A56B17 /* UIViewController+ShareView.m */; };
 		945A3B6119A52B4A000D76E3 /* DAFeedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */; };
 		945E312019C669CC00C8AA52 /* NSAttributedString+Dished.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E311F19C669CC00C8AA52 /* NSAttributedString+Dished.m */; };
 		945E312319C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E312219C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m */; };
@@ -411,6 +412,8 @@
 		944D1E7619DB853A006F73BF /* DAFollowListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAFollowListTableViewCell.xib; sourceTree = "<group>"; };
 		944D1E7819DB8786006F73BF /* DAUserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUserListViewController.h; sourceTree = "<group>"; };
 		944D1E7919DB8786006F73BF /* DAUserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserListViewController.m; sourceTree = "<group>"; };
+		945269111A0E244500A56B17 /* UIViewController+ShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ShareView.h"; sourceTree = "<group>"; };
+		945269121A0E244500A56B17 /* UIViewController+ShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ShareView.m"; sourceTree = "<group>"; };
 		945A3B5F19A52B4A000D76E3 /* DAFeedCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedCollectionViewCell.h; sourceTree = "<group>"; };
 		945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedCollectionViewCell.m; sourceTree = "<group>"; };
 		945E311E19C669CC00C8AA52 /* NSAttributedString+Dished.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Dished.h"; sourceTree = "<group>"; };
@@ -992,6 +995,8 @@
 				942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */,
 				945E311E19C669CC00C8AA52 /* NSAttributedString+Dished.h */,
 				945E311F19C669CC00C8AA52 /* NSAttributedString+Dished.m */,
+				945269111A0E244500A56B17 /* UIViewController+ShareView.h */,
+				945269121A0E244500A56B17 /* UIViewController+ShareView.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1714,6 +1719,7 @@
 				94F2ADA2198C539200450C6F /* SDWebImagePrefetcher.m in Sources */,
 				943E625E1987362100DF2135 /* STTwitterHTML.m in Sources */,
 				94CB040319B146AF009010F6 /* UIImage+JSQMessages.m in Sources */,
+				945269131A0E244500A56B17 /* UIViewController+ShareView.m in Sources */,
 				941810131970EB7700C83034 /* DAConstants.m in Sources */,
 				948615CE19FE1C3D002497D0 /* MRWeakProxy.m in Sources */,
 				9443DEFC19D020F500F134BA /* DATouchTableView.swift in Sources */,

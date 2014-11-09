@@ -93,10 +93,10 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
 
 - (NSArray *)hashtagsFromResponse:(id)response
 {
-    NSArray *data = response[@"data"];
+    NSArray *data = nilOrJSONObjectForKey( response, kDataKey );
     NSMutableArray *hashtags = [NSMutableArray array];
     
-    if( data && ![data isEqual:[NSNull null]] )
+    if( data )
     {
         for( NSDictionary *dataObject in data )
         {
@@ -110,7 +110,7 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
 
 - (NSArray *)imageURLsFromResponse:(id)response
 {
-    NSArray *data = nilOrJSONObjectForKey( response, @"data" );
+    NSArray *data = nilOrJSONObjectForKey( response, kDataKey );
     NSMutableArray *imageURLs = [NSMutableArray array];
     
     if( data )
@@ -238,7 +238,7 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     {
         case eUsernameSearchResult:
         case eHashtagSearchResult:
-            results = response[@"data"];
+            results = nilOrJSONObjectForKey( response, kDataKey );
             break;
             
         case eDishSearchResult:
@@ -250,7 +250,7 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
             break;
             
         default:
-            results = response[@"data"];
+            results = nilOrJSONObjectForKey( response, kDataKey );
             break;
     }
     

@@ -812,7 +812,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
                             break;
                             
                         case NSFetchedResultsChangeDelete:
-                            [self.collectionView deleteItemsAtIndexPaths:@[obj]];
+                            [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:((NSIndexPath *) obj).section]];
                             break;
                             
                         case NSFetchedResultsChangeUpdate:

@@ -538,7 +538,7 @@
     [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
         NSInteger reviewID = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
-        NSDictionary *parameters = @{ kIDKey : @(reviewID), @"comment" : text };
+        NSDictionary *parameters = @{ kIDKey : @(reviewID), kCommentKey : text };
         parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
         
         [[DAAPIManager sharedManager] POST:kCommentsURL parameters:parameters

@@ -73,10 +73,10 @@
 
 - (NSArray *)hashtagsFromResponse:(id)response
 {
-    NSArray *hashtags = response[@"data"];
+    NSArray *hashtags = nilOrJSONObjectForKey( response, kDataKey );
     NSMutableArray *newHashtags = [NSMutableArray array];
     
-    if( hashtags && ![hashtags isEqual:[NSNull null]] )
+    if( hashtags )
     {
         for( NSDictionary *hashtag in hashtags )
         {

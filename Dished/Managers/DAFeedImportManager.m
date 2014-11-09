@@ -24,25 +24,11 @@
     {
         if( error )
         {
-            id errorResponse = error.userInfo[[DAAPIManager errorResponseKey]];
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
             
-            if( [errorResponse isKindOfClass:[NSDictionary class]] )
+            if( errorType == eErrorTypeDataNonexists )
             {
-                if( [errorResponse[@"error"] isKindOfClass:[NSString class]] )
-                {
-                    if( [errorResponse[@"error"] isEqualToString:@"data_nonexists"] )
-                    {
-                        completion( YES, NO );
-                    }
-                    else
-                    {
-                        completion( NO, YES );
-                    }
-                }
-                else
-                {
-                    completion( NO, YES );
-                }
+                completion( YES, NO );
             }
             else
             {
@@ -51,7 +37,8 @@
         }
         else if( response )
         {
-            NSArray *itemIDs = [self itemIDsForData:response[@"data"]];
+            NSArray *itemIDs = [self itemIDsForData:response[kDataKey]];
+//            NSArray *timestamps = [self timestampsForData:response[kDataKey]];
             NSArray *matchingItems = [self feedItemsMatchingIDs:itemIDs];
             
             NSUInteger entityIndex = 0;
@@ -67,14 +54,14 @@
                     if( ![itemID isEqualToNumber:managedItem.item_id] )
                     {
                         DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
-                        [newManagedItem configureWithDictionary:response[@"data"][newItemIndex]];
-                        [self updateFeedItem:newManagedItem withCommentsData:response[@"data"][newItemIndex][@"comments"]];
+                        [newManagedItem configureWithDictionary:response[kDataKey][newItemIndex]];
+                        [self updateFeedItem:newManagedItem withCommentsData:response[kDataKey][newItemIndex][@"comments"]];
                     }
                     else
                     {
                         managedItem = matchingItems[entityIndex];
-                        [managedItem configureWithDictionary:response[@"data"][newItemIndex]];
-                        [self updateFeedItem:managedItem withCommentsData:response[@"data"][newItemIndex][@"comments"]];
+                        [managedItem configureWithDictionary:response[kDataKey][newItemIndex]];
+                        [self updateFeedItem:managedItem withCommentsData:response[kDataKey][newItemIndex][@"comments"]];
 
                         entityIndex++;
                     }
@@ -82,8 +69,8 @@
                 else
                 {
                     DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
-                    [newManagedItem configureWithDictionary:response[@"data"][newItemIndex]];
-                    [self updateFeedItem:newManagedItem withCommentsData:response[@"data"][newItemIndex][@"comments"]];
+                    [newManagedItem configureWithDictionary:response[kDataKey][newItemIndex]];
+                    [self updateFeedItem:newManagedItem withCommentsData:response[kDataKey][newItemIndex][@"comments"]];
                 }
             }
             
@@ -150,12 +137,26 @@
     {
         NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
         [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
-        NSNumber *itemID = [formatter numberFromString:item[@"id"]];
+        NSNumber *itemID = [formatter numberFromString:item[kIDKey]];
         
         [itemIDs addObject:itemID];
     }
     
     return itemIDs;
+}
+
+- (NSArray *)timestampsForData:(id)data
+{
+    NSMutableArray *timestamps = [NSMutableArray array];
+    
+    for( NSDictionary *item in data )
+    {
+        NSNumber *itemID = item[@"created"];
+        
+        [timestamps addObject:itemID];
+    }
+    
+    return timestamps;
 }
 
 - (NSFetchedResultsController *)fetchFeedItemsWithLimit:(NSUInteger)limit

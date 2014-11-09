@@ -20,8 +20,8 @@
 {
     if( self = [super initWithData:data] )
     {
-        _comment  = nilOrJSONObjectForKey( data, @"comment" );
-        _username = nilOrJSONObjectForKey( data, @"username" );
+        _comment  = nilOrJSONObjectForKey( data, kCommentKey );
+        _username = nilOrJSONObjectForKey( data, kUsernameKey );
         
         NSDictionary *images = nilOrJSONObjectForKey( data, @"images" );
         NSArray *reviewImages = nilOrJSONObjectForKey( images, @"reviews" );

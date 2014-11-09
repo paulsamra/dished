@@ -16,8 +16,6 @@
     if( self = [super initWithData:data] )
     {
         _source = nilOrJSONObjectForKey( data, @"source" );
-
-        _review_id = [data[@"id"] integerValue];
     }
     
     return self;

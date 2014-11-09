@@ -22,7 +22,8 @@
 #import "DAReviewButtonsCollectionViewCell.h"
 #import "DAExploreDishResultsViewController.h"
 #import "DAUserListViewController.h"
-#import "DATabBarController.h"
+#import "UIViewController+ShareView.h"
+#import "MRProgress.h"
 
 typedef enum
 {
@@ -72,6 +73,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         success:^( NSURLSessionDataTask *task, id responseObject )
         {
             self.review = [DAReview reviewWithData:responseObject[kDataKey]];
+            self.review.review_id = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
             [self.collectionView reloadData];
             
             [spinner stopAnimating];
@@ -684,10 +686,46 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
 }
 
+- (void)deleteReview
+{
+    [MRProgressOverlayView showOverlayAddedTo:self.view.window title:@"Deleting..." mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ kReviewIDKey : @(self.review.review_id) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [[DAAPIManager sharedManager] POST:kReviewDeleteURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            
+            
+            [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+            {
+                [self.navigationController popViewControllerAnimated:YES];
+            }];
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            [[[UIAlertView alloc] initWithTitle:@"Error Deleting Review" message:@"There was a problem deleting your review. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+        }];
+    }];
+}
+
+- (void)socialCollectionViewControllerDidDeleteReview:(DASocialCollectionViewController *)controller
+{
+    [self dismissShareView];
+    [self deleteReview];
+}
+
+- (void)socialCollectionViewControllerDidFinish:(DASocialCollectionViewController *)controller
+{
+    [self dismissShareView];
+}
+
 - (IBAction)shareButtonPressed:(UIBarButtonItem *)sender
 {
-    DATabBarController *tabBarController = (DATabBarController *)self.tabBarController;
-    [tabBarController showShareViewWithReview:self.review];
+    [self showShareViewWithReview:self.review];
 }
 
 @end

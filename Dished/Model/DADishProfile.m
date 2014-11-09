@@ -14,15 +14,15 @@
 {
     DADishProfile *profile = [[DADishProfile alloc] init];
     
-    profile.name            = nilOrJSONObjectForKey( data, @"name" );
+    profile.name            = nilOrJSONObjectForKey( data, kNameKey );
     profile.desc            = nilOrJSONObjectForKey( data, @"desc" );
-    profile.price           = nilOrJSONObjectForKey( data, @"price" );
+    profile.price           = nilOrJSONObjectForKey( data, kPriceKey );
     profile.loc_name        = nilOrJSONObjectForKey( data, @"loc_name" );
-    profile.grade           = nilOrJSONObjectForKey( data, @"grade" );
+    profile.grade           = nilOrJSONObjectForKey( data, kGradeKey );
     profile.images          = nilOrJSONObjectForKey( data, @"images" );
     profile.num_grades      = nilOrJSONObjectForKey( data, @"num_grades" );
     
-    profile.dish_id         = [data[@"id"]         integerValue];
+    profile.dish_id         = [data[kIDKey]        integerValue];
     profile.loc_id          = [data[@"loc_id"]     integerValue];
     profile.dish_id         = [data[@"dish_id"]    integerValue];
     profile.num_yums        = [data[@"num_yums"]   integerValue];

@@ -15,13 +15,13 @@
 {
     DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
     
-    searchResult.name       = type == eUsernameSearchResult ? data[@"username"] : data[@"name"];
-    searchResult.resultID   = [data[@"id"] integerValue];
+    searchResult.name       = type == eUsernameSearchResult ? nilOrJSONObjectForKey( data, kUsernameKey ) : nilOrJSONObjectForKey( data, kNameKey );
+    searchResult.resultID   = [data[kIDKey] integerValue];
     searchResult.resultType = type;
     
     if( type == eDishSearchResult )
     {
-        searchResult.dishType = data[@"type"];
+        searchResult.dishType = data[kTypeKey];
     }
     
     return searchResult;

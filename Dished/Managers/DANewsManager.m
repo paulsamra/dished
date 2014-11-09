@@ -281,9 +281,9 @@
 
 - (void)setBadgeValuesWithData:(id)data
 {
-    NSDictionary *response = data[@"data"];
+    NSDictionary *response = nilOrJSONObjectForKey( data, kDataKey );
     
-    if( response && ![response isEqual:[NSNull null]] && [response isKindOfClass:[NSDictionary class]] )
+    if( response && [response isKindOfClass:[NSDictionary class]] )
     {
         self.num_yums    = [response[@"num_yum"]    integerValue];
         self.num_reviews = [response[@"num_review"] integerValue];

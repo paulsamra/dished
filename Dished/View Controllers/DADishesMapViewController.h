@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
-#import "DADish.h"
+#import "DAReview.h"
 
 
 @interface DADishesMapViewController : UIViewController <MKMapViewDelegate>

@@ -18,10 +18,10 @@
     NSTimeInterval timeInterval = [data[@"created"] doubleValue];
     
     comment.created          = [NSDate dateWithTimeIntervalSince1970:timeInterval];
-    comment.comment_id       = [data[@"id"] integerValue];
+    comment.comment_id       = [data[kIDKey] integerValue];
     comment.creator_id       = [data[@"creator_id"] integerValue];
-    comment.comment          = data[@"comment"];
-    comment.img_thumb        = nilOrJSONObjectForKey( data, @"img_thumb" );
+    comment.comment          = nilOrJSONObjectForKey( data, kCommentKey );
+    comment.img_thumb        = nilOrJSONObjectForKey( data, kImgThumbKey );
     comment.creator_type     = data[@"creator_type"];
     comment.creator_username = data[@"creator_username"];
     

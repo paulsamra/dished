@@ -18,6 +18,7 @@
 
 @optional
 - (void)socialCollectionViewControllerDidFinish:(DASocialCollectionViewController *)controller;
+- (void)socialCollectionViewControllerDidDeleteReview:(DASocialCollectionViewController *)controller;
 
 @end
 

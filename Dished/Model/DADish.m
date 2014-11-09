@@ -19,24 +19,28 @@
 {
     if( self = [super init] )
     {
-        _name              = nilOrJSONObjectForKey( data, @"name" );
-        _type              = nilOrJSONObjectForKey( data, @"type" );
-        _price             = nilOrJSONObjectForKey( data, @"price" );
+        _name              = nilOrJSONObjectForKey( data, kNameKey );
+        _type              = nilOrJSONObjectForKey( data, kTypeKey );
+        _price             = nilOrJSONObjectForKey( data, kPriceKey );
         _avg_grade         = nilOrJSONObjectForKey( data, @"avg_grade" );
-        _grade             = nilOrJSONObjectForKey( data, @"grade" );
-        _imageURL          = nilOrJSONObjectForKey( data, @"img_thumb" );
-        _locationName      = nilOrJSONObjectForKey( data[@"location"], @"name" );
+        _grade             = nilOrJSONObjectForKey( data, kGradeKey );
+        _imageURL          = nilOrJSONObjectForKey( data, kImgThumbKey );
         
-        _dishID            = [nilOrJSONObjectForKey( data, @"id" )                      integerValue];
+        _dishID            = [nilOrJSONObjectForKey( data, kIDKey )                      integerValue];
         _numComments       = [nilOrJSONObjectForKey( data, @"num_comments" )            integerValue];
         _totalReviews      = [nilOrJSONObjectForKey( data, @"num_reviews" )             integerValue];
         _friendReviews     = [nilOrJSONObjectForKey( data, @"num_reviews_friends" )     integerValue];
         _influencerReviews = [nilOrJSONObjectForKey( data, @"num_reviews_influencers" ) integerValue];
         
-        NSDictionary *location = nilOrJSONObjectForKey( data, @"location" );
-        _longitude         = [nilOrJSONObjectForKey( location, @"longitude" ) doubleValue];
-        _latitude          = [nilOrJSONObjectForKey( location, @"latitude" )  doubleValue];
-        _locationID        = [nilOrJSONObjectForKey( location, @"id" )        integerValue];
+        NSDictionary *location = nilOrJSONObjectForKey( data, kLocationKey );
+        if( location )
+        {
+            _locationName      = nilOrJSONObjectForKey( location, kNameKey );
+            
+            _longitude         = [nilOrJSONObjectForKey( location, kLongitudeKey ) doubleValue];
+            _latitude          = [nilOrJSONObjectForKey( location, kLatitudeKey )  doubleValue];
+            _locationID        = [nilOrJSONObjectForKey( location, kIDKey )        integerValue];
+        }
     }
     
     return self;

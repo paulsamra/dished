@@ -22,10 +22,10 @@
     self.creator_type      = nilOrJSONObjectForKey( dictionary, @"creator_type" );
     self.creator_username  = nilOrJSONObjectForKey( dictionary, @"creator_username" );
     self.img_thumb         = nilOrJSONObjectForKey( dictionary, @"img_thumb" );
-    self.comment           = nilOrJSONObjectForKey( dictionary, @"comment" );
+    self.comment           = nilOrJSONObjectForKey( dictionary, kCommentKey );
     
     self.creator_id        = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"creator_id" )];
-    self.comment_id        = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, @"id" )];
+    self.comment_id        = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, kIDKey )];
 }
 
 + (NSString *)entityName

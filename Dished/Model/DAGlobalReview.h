@@ -14,8 +14,6 @@
 
 @property (copy, nonatomic) NSString *source;
 
-@property (nonatomic) NSInteger review_id;
-
 - (id)initWithData:(id)data;
 
 @end

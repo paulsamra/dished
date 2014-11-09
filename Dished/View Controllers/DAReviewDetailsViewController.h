@@ -17,4 +17,6 @@
 
 @property (nonatomic) NSInteger reviewID;
 
+- (void)deleteReview;
+
 @end

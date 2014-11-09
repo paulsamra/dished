@@ -44,8 +44,6 @@
     self.twitterImage.alpha  = 0.3;
     self.emailImage.alpha    = 0.3;
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
-    
     self.dishPrice    = [[NSMutableString alloc] init];
     self.review.type  = kFood;
 
@@ -106,6 +104,8 @@
     
     [self.tableView deselectRowAtIndexPath:self.tableView.indexPathForSelectedRow animated:YES];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
+    
     self.navigationController.navigationBar.barTintColor = nil;
     self.navigationController.navigationBar.titleTextAttributes = @{ NSForegroundColorAttributeName : [UIColor blackColor] };
     self.navigationController.navigationBar.barStyle = UIBarStyleDefault;
@@ -125,6 +125,8 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [self.view endEditing:YES];
     [self.socialViewController.view removeFromSuperview];
@@ -151,6 +153,11 @@
     
     CGRect rawFrame      = [value CGRectValue];
     CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
+    
+    if( keyboardFrame.origin.y > self.view.frame.size.height )
+    {
+        return;
+    }
     
     self.keyboardFrame = keyboardFrame;
     [self.tableView beginUpdates];
@@ -229,7 +236,7 @@
     }
     
     CGFloat availableSpace = self.keyboardFrame.origin.y;
-    
+
     if( indexPath.row == 1 )
     {
         return availableSpace * 0.5;

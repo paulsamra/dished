@@ -17,6 +17,7 @@
 #import "DAReviewDetailsViewController.h"
 #import "DAUserProfileViewController.h"
 #import "DATabBarController.h"
+#import "UIViewController+ShareView.h"
 
 
 @interface DAGlobalDishDetailViewController() <DAGlobalDishCollectionViewCellDelegate, DAGlobalReviewCollectionViewCellDelegate, DAGradeGraphCollectionViewCellDelegate>
@@ -26,7 +27,7 @@
 @property (strong, nonatomic) DAGlobalDishCollectionViewCell   *referenceDishCell;
 @property (strong, nonatomic) DAGlobalReviewCollectionViewCell *referenceReviewCell;
 
-@property (nonatomic) BOOL   graphAnimated;
+@property (nonatomic) BOOL graphAnimated;
 
 @end
 
@@ -54,7 +55,7 @@
         }
         else
         {
-            self.dishProfile = [DADishProfile profileWithData:response[@"data"]];
+            self.dishProfile = [DADishProfile profileWithData:nilOrJSONObjectForKey( response, kDataKey )];
             
             [spinner stopAnimating];
             [spinner removeFromSuperview];
@@ -264,25 +265,6 @@
     }
 }
 
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//    if( !self.graphAnimated )
-//    {
-//        CGFloat navigtionBarHeight = self.navigationController.navigationBar.frame.size.height;
-//        CGFloat staturBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
-//        CGFloat scrollOffset = scrollView.contentOffset.y + navigtionBarHeight + staturBarHeight;
-//        
-//        if( scrollOffset > scrollView.contentSize.height / 4 )
-//        {            
-//            NSIndexPath *graphIndexPath = [NSIndexPath indexPathForItem:1 inSection:0];
-//            DAGradeGraphCollectionViewCell *graphCell = (DAGradeGraphCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:graphIndexPath];
-//            [graphCell.gradeGraph showGraphData];
-//            
-//            self.graphAnimated = YES;
-//        }
-//    }
-//}
-
 - (void)dealloc
 {
     [self.collectionView setDelegate:nil];
@@ -345,10 +327,17 @@
     }
 }
 
+- (void)socialCollectionViewControllerDidFinish:(DASocialCollectionViewController *)controller
+{
+    [self dismissShareView];
+}
+
 - (IBAction)shareBarButtonTapped:(UIBarButtonItem *)sender
 {
-    DATabBarController *tabBarController = (DATabBarController *)self.tabBarController;
-    [tabBarController showShareViewWithDish:self.dishProfile];
+    [self showShareViewWithDish:self.dishProfile];
+    
+//    DATabBarController *tabBarController = (DATabBarController *)self.tabBarController;
+//    [tabBarController showShareViewWithDish:self.dishProfile];
 }
 
 @end

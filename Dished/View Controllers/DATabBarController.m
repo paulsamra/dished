@@ -17,15 +17,13 @@
 #import "DAMenuViewController.h"
 #import "DAUserManager.h"
 #import "DAContainerViewController.h"
-#import "DASocialCollectionViewController.h"
 
 
-@interface DATabBarController() <UITabBarControllerDelegate, MFMailComposeViewControllerDelegate, DASocialCollectionViewControllerDelegate>
+@interface DATabBarController() <UITabBarControllerDelegate, MFMailComposeViewControllerDelegate>
 
 @property (strong, nonatomic) UIView   *dimView;
 @property (strong, nonatomic) UIButton *newsBadgeButton;
 @property (strong, nonatomic) DAMenuViewController *menuViewController;
-@property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
 
 @end
 
@@ -216,97 +214,6 @@
 - (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     [self dismissViewControllerAnimated:YES completion:nil];
-}
-
-- (void)showShareViewWithDish:(DADishProfile *)dishProfile
-{
-    [self showShareView];
-    
-    self.socialViewController.dishProfile = dishProfile;    
-}
-
-- (void)showShareViewWithReview:(DAReview *)review
-{
-    [self showShareView];
-
-    self.socialViewController.review = review;
-    
-    if( [review.creator_username isEqualToString:[DAUserManager sharedManager].username] )
-    {
-        self.socialViewController.isOwnReview = YES;
-    }
-}
-
-- (void)showShareView
-{
-    if( !self.socialViewController )
-    {
-        [self setupShareView];
-    }
-    
-    [self.view addSubview:self.dimView];
-    [self.view addSubview:self.socialViewController.view];
-    self.socialViewController.view.hidden = NO;
-    
-    [UIView animateWithDuration:0.2 animations:^
-    {
-        self.dimView.backgroundColor = [UIColor blackColor];
-        self.dimView.alpha = 0.4;
-    }];
-    
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
-    {
-        CGFloat socialViewHeight = self.socialViewController.collectionViewLayout.collectionViewContentSize.height;
-        CGRect socialViewFrame = self.socialViewController.view.frame;
-        socialViewFrame.origin.y = self.view.frame.size.height - socialViewHeight;
-        self.socialViewController.view.frame = socialViewFrame;
-    }
-    completion:nil];
-}
-
-- (void)dismissSocialView
-{
-    self.socialViewController.dishProfile = nil;
-    self.socialViewController.review = nil;
-    self.socialViewController.isOwnReview = NO;
-    
-    [UIView animateWithDuration:0.3 animations:^
-    {
-        self.dimView.backgroundColor = [UIColor clearColor];
-        self.dimView.alpha = 1.0;
-    }
-    completion:^( BOOL finished )
-    {
-        [self.dimView removeFromSuperview];
-    }];
-    
-    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseIn animations:^
-    {
-        CGRect hiddenRect = self.socialViewController.view.frame;
-        hiddenRect.origin.y = self.view.frame.size.height;
-        self.socialViewController.view.frame = hiddenRect;
-    }
-    completion:^( BOOL finished )
-    {
-        self.socialViewController.view.hidden = YES;
-    }];
-}
-
-- (void)setupShareView
-{
-    self.dimView = [[UIView alloc] initWithFrame:self.view.frame];
-    self.dimView.backgroundColor = [UIColor clearColor];
-    
-    self.socialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"social"];
-    self.socialViewController.isReviewPost = NO;
-    self.socialViewController.view.frame = CGRectMake( 0, self.view.frame.size.height, self.view.bounds.size.width, self.view.bounds.size.height );
-    self.socialViewController.delegate = self;
-    [self addChildViewController:self.socialViewController];
-}
-
-- (void)socialCollectionViewControllerDidFinish:(DASocialCollectionViewController *)controller
-{
-    [self dismissSocialView];
 }
 
 @end

@@ -9,7 +9,6 @@
 #import "DAUserProfileViewController.h"
 #import "DAAPIManager.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-#import "DADish.h"
 #import "DADishTableViewCell.h"
 #import "DAUserListViewController.h"
 #import "DAReviewDetailsViewController.h"
@@ -389,15 +388,15 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     DADishTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kDishSearchCellID];
     
-    DADish *result = [self.selectedDataSource objectAtIndex:indexPath.row];
-    
-    cell.dishNameLabel.text = result.name;
-    
-    NSURL *url = [NSURL URLWithString:result.imageURL];
-    [cell.mainImageView setImageWithURL:url usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
     if( self.isRestaurant )
     {
+        DADish *result = [self.selectedDataSource objectAtIndex:indexPath.row];
+        
+        cell.dishNameLabel.text = result.name;
+        
+        NSURL *url = [NSURL URLWithString:result.imageURL];
+        [cell.mainImageView setImageWithURL:url usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        
         cell.isExplore = YES;
         cell.locationButton.hidden = YES;
         
@@ -409,10 +408,17 @@ static NSString *const kDishSearchCellID = @"dishCell";
     }
     else
     {
+        DAReview *review = [self.selectedDataSource objectAtIndex:indexPath.row];
+        
+        cell.dishNameLabel.text = review.name;
+        
+        NSURL *url = [NSURL URLWithString:review.img_thumb];
+        [cell.mainImageView setImageWithURL:url usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        
         cell.isExplore = NO;
-        cell.gradeLabel.text = result.grade;
-        [cell.locationButton setTitle:result.locationName forState:UIControlStateNormal];
-        cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.numComments];
+        cell.gradeLabel.text = review.grade;
+        [cell.locationButton setTitle:review.loc_name forState:UIControlStateNormal];
+        cell.rightNumberLabel.text = [NSString stringWithFormat:@"%d", (int)review.num_comments];
         cell.delegate = self;
     }
     
@@ -454,18 +460,20 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DADish *result = [self.selectedDataSource objectAtIndex:indexPath.row];
-    
     if( self.isRestaurant )
     {
+        DADish *dish = [self.selectedDataSource objectAtIndex:indexPath.row];
+        
         DAGlobalDishDetailViewController *globalDishViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"globalDish"];
-        globalDishViewController.dishID = result.dishID;
+        globalDishViewController.dishID = dish.dishID;
         [self.navigationController pushViewController:globalDishViewController animated:YES];
     }
     else
     {
+        DAReview *review = [self.selectedDataSource objectAtIndex:indexPath.row];
+        
         DAReviewDetailsViewController *reviewDetailsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"reviewDetails"];
-        reviewDetailsViewController.reviewID = result.dishID;
+        reviewDetailsViewController.reviewID = review.review_id;
         [self.navigationController pushViewController:reviewDetailsViewController animated:YES];
     }
 }
