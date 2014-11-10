@@ -38,20 +38,26 @@
         else if( response )
         {
             NSArray *itemIDs = [self itemIDsForData:response[kDataKey]];
-//            NSArray *timestamps = [self timestampsForData:response[kDataKey]];
-            NSArray *matchingItems = [self feedItemsMatchingIDs:itemIDs];
+            NSArray *timestamps = [self timestampsForData:response[kDataKey]];
+            NSArray *matchingItems = offset == 0 ? [self feedItemsUpToTimestamp:[[timestamps lastObject] doubleValue]] : [self feedItemsBetweenTimestamps:timestamps];
             
             NSUInteger entityIndex = 0;
             
-            for( NSNumber *itemID in itemIDs )
+            for( int i = 0; i < itemIDs.count; i++ )
             {
-                NSUInteger newItemIndex = [itemIDs indexOfObject:itemID];
+                NSUInteger newItemIndex = i;
                 
                 if( entityIndex < matchingItems.count)
                 {
                     DAFeedItem *managedItem = matchingItems[entityIndex];
                     
-                    if( ![itemID isEqualToNumber:managedItem.item_id] )
+                    if( [timestamps[newItemIndex] doubleValue] < [managedItem.created timeIntervalSince1970] )
+                    {
+                        [[DACoreDataManager sharedManager] deleteEntity:managedItem];
+                        entityIndex++;
+                        i--;
+                    }
+                    else if( ![itemIDs[i] isEqualToNumber:managedItem.item_id] )
                     {
                         DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
                         [newManagedItem configureWithDictionary:response[kDataKey][newItemIndex]];
@@ -117,13 +123,37 @@
     [feedItem setComments:commentItems];
 }
 
-- (NSArray *)feedItemsMatchingIDs:(NSArray *)itemIDs
+- (NSArray *)feedItemsBetweenTimestamps:(NSArray *)timestamps
 {
-    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
+    NSTimeInterval first = [[timestamps lastObject]  doubleValue];
+    NSTimeInterval last  = [[timestamps firstObject] doubleValue];
+    
+    NSDate *fromDate = [NSDate dateWithTimeIntervalSince1970:first];
+    NSDate *toDate   = [NSDate dateWithTimeIntervalSince1970:last];
+    
+    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kCreatedKey ascending:NO];
     NSArray *sortDescriptors = @[ dateSortDescriptor ];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"(item_id IN %@)", itemIDs];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"( ( %K >= %@ ) && ( %K <= %@ ) )", kCreatedKey, fromDate, kCreatedKey, toDate];
     
     NSString *entityName = [DAFeedItem entityName];
+    
+    NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:sortDescriptors predicate:predicate];
+    
+    return matchingItems;
+}
+
+- (NSArray *)feedItemsUpToTimestamp:(NSTimeInterval)timestamp
+{
+    NSDate *toDate = [NSDate dateWithTimeIntervalSince1970:timestamp];
+    
+    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kCreatedKey ascending:NO];
+    NSArray *sortDescriptors = @[ dateSortDescriptor ];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K >= %@", kCreatedKey, toDate];
+    
+    NSString *entityName = [DAFeedItem entityName];
+    
     NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:sortDescriptors predicate:predicate];
     
     return matchingItems;
@@ -151,7 +181,7 @@
     
     for( NSDictionary *item in data )
     {
-        NSNumber *itemID = item[@"created"];
+        NSNumber *itemID = item[kCreatedKey];
         
         [timestamps addObject:itemID];
     }
@@ -161,9 +191,9 @@
 
 - (NSFetchedResultsController *)fetchFeedItemsWithLimit:(NSUInteger)limit
 {
-    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"created" ascending:NO];
+    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kCreatedKey ascending:NO];
     NSArray *sortDescriptors = @[ dateSortDescriptor ];
-    NSFetchedResultsController *fetchedResultsController = [[DACoreDataManager sharedManager] fetchedResultsControllerWithEntityName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil sectionName:@"created" fetchLimit:limit];
+    NSFetchedResultsController *fetchedResultsController = [[DACoreDataManager sharedManager] fetchedResultsControllerWithEntityName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil sectionName:kCreatedKey fetchLimit:limit];
     
     return fetchedResultsController;
 }

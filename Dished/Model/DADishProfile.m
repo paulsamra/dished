@@ -17,20 +17,20 @@
     profile.name            = nilOrJSONObjectForKey( data, kNameKey );
     profile.desc            = nilOrJSONObjectForKey( data, @"desc" );
     profile.price           = nilOrJSONObjectForKey( data, kPriceKey );
-    profile.loc_name        = nilOrJSONObjectForKey( data, @"loc_name" );
+    profile.loc_name        = nilOrJSONObjectForKey( data, kLocationNameKey );
     profile.grade           = nilOrJSONObjectForKey( data, kGradeKey );
-    profile.images          = nilOrJSONObjectForKey( data, @"images" );
+    profile.images          = nilOrJSONObjectForKey( data, kImagesKey );
     profile.num_grades      = nilOrJSONObjectForKey( data, @"num_grades" );
     
-    profile.dish_id         = [data[kIDKey]        integerValue];
-    profile.loc_id          = [data[@"loc_id"]     integerValue];
+    profile.dish_id         = [nilOrJSONObjectForKey( data, kIDKey )         integerValue];
+    profile.loc_id          = [nilOrJSONObjectForKey( data, kLocationIDKey ) integerValue];
     profile.dish_id         = [data[@"dish_id"]    integerValue];
     profile.num_yums        = [data[@"num_yums"]   integerValue];
     profile.num_images      = [data[@"num_images"] integerValue];
     
     profile.additional_info = [data[@"additional_info"] boolValue];
         
-    NSArray *reviews = nilOrJSONObjectForKey( data, @"reviews" );
+    NSArray *reviews = nilOrJSONObjectForKey( data, kReviewsKey );
     if( reviews )
     {
         NSMutableArray *newReviews = [NSMutableArray array];

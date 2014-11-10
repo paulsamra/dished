@@ -14,9 +14,9 @@
 #import "DAReviewDetailsViewController.h"
 #import "DAUserProfileViewController.h"
 
-#define kUserNewsCellID @"userNewsCell"
+#define kUserNewsCellID   @"userNewsCell"
+#define kMultiNewsCellID  @"multiNewsCell"
 #define kSingleNewsCellID @"singleNewsCell"
-#define kMultiNewsCellID @"multiNewsCell"
 
 
 @interface DANewsViewController()
@@ -342,6 +342,7 @@
         case eFollowingNewsNotificationTypeFollow:
         case eFollowingNewsNotificationTypeUnknown:
             cell = [self.followingTableView dequeueReusableCellWithIdentifier:kUserNewsCellID];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [self configureCell:cell withNews:followingNews];
             break;
             

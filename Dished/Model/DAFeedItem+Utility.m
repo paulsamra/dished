@@ -16,7 +16,7 @@
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
     
-    NSTimeInterval timeInterval = [nilOrJSONObjectForKey( dictionary, @"created" ) doubleValue];
+    NSTimeInterval timeInterval = [nilOrJSONObjectForKey( dictionary, kCreatedKey ) doubleValue];
     self.created = [NSDate dateWithTimeIntervalSince1970:timeInterval];
     
     self.creator_img       = nilOrJSONObjectForKey( dictionary, @"creator_img" );
@@ -25,8 +25,8 @@
     self.creator_username  = nilOrJSONObjectForKey( dictionary, @"creator_username" );
     self.grade             = nilOrJSONObjectForKey( dictionary, kGradeKey );
     self.img               = nilOrJSONObjectForKey( dictionary, kImgKey );
-    self.img_thumb         = nilOrJSONObjectForKey( dictionary, @"img_thumb" );
-    self.loc_name          = nilOrJSONObjectForKey( dictionary, @"loc_name" );
+    self.img_thumb         = nilOrJSONObjectForKey( dictionary, kImgThumbKey );
+    self.loc_name          = nilOrJSONObjectForKey( dictionary, kLocationNameKey );
     self.name              = nilOrJSONObjectForKey( dictionary, kNameKey );
     self.source            = nilOrJSONObjectForKey( dictionary, @"source" );
     self.caller_yumd       = nilOrJSONObjectForKey( dictionary, @"caller_yumd" );

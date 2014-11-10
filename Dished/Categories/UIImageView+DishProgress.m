@@ -30,29 +30,15 @@ static char TAG_ACTIVITY_INDICATOR;
 {
     if( !self.progressView )
     {
-        self.progressView = [[DAProgressView alloc] init];
-        [self updateProgressViewFrame];
+        CGRect frame = CGRectMake( 0, 0, self.frame.size.width, self.frame.size.height );
+        self.progressView = [[DAProgressView alloc] initWithFrame:frame];
         self.progressView.backgroundColor = [UIColor clearColor];
     }
     
     dispatch_async( dispatch_get_main_queue(), ^
     {
         [self addSubview:self.progressView];
-        self.progressView.percentage = 0;
     });
-}
-
-- (void)updateProgressViewFrame
-{
-    if( self.progressView )
-    {
-        CGRect progressViewBounds = self.progressView.bounds;
-        
-        float x = ( self.frame.size.width  - progressViewBounds.size.width )  / 2;
-        float y = ( self.frame.size.height - progressViewBounds.size.height ) / 2;
-        
-        self.progressView.frame = CGRectMake( x, y, progressViewBounds.size.width, progressViewBounds.size.height);
-    }
 }
 
 - (void)removeProgressView
@@ -64,58 +50,49 @@ static char TAG_ACTIVITY_INDICATOR;
     }
 }
 
--(void)layoutSubviews
-{
-    [super layoutSubviews];
-    [self updateProgressViewFrame];
-}
-
 - (void)setImageUsingProgressViewWithURL:(NSURL *)url
 {
-    [self setImageUsingProgressViewWithURL:url placeholderImage:nil options:0 completion:nil];
+    [self setImageUsingProgressViewWithURL:url completion:nil];
 }
 
-- (void)setImageUsingProgressViewWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder
-{
-    [self setImageUsingProgressViewWithURL:url placeholderImage:placeholder options:0 completion:nil];
-}
-
-- (void)setImageUsingProgressViewWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder completion:(SDWebImageCompletionBlock)completion
-{
-    [self setImageUsingProgressViewWithURL:url placeholderImage:nil options:0 completion:completion];
-}
-
-- (void)setImageUsingProgressViewWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder options:(SDWebImageOptions)options completion:(SDWebImageCompletionBlock)completion
+- (void)setImageUsingProgressViewWithURL:(NSURL *)url completion:(SDWebImageCompletionBlock)completion
 {
     [self addProgressView];
     
     __weak typeof(self) weakSelf = self;
     
-//    [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:url options:options
-//    progress:^( NSInteger receivedSize, NSInteger expectedSize )
-//    {
-//        CGFloat percentage = (CGFloat)receivedSize / (CGFloat)expectedSize;
-//        weakSelf.progressView.percentage = percentage;
-//    }
-//    completed:^( UIImage *image, NSData *data, NSError *error, BOOL finished )
-//    {
-//        if( finished && completion )
-//        {
-//            completion( image, error, url );
-//        }
-//        
-//        [weakSelf removeProgressView];
-//    }];
-    
-    [self sd_setImageWithURL:url placeholderImage:placeholder options:options
+    [self sd_setImageWithURL:url placeholderImage:nil options:0
     progress:^( NSInteger receivedSize, NSInteger expectedSize )
     {
         CGFloat percentage = (CGFloat)receivedSize / (CGFloat)expectedSize;
-        weakSelf.progressView.percentage = percentage;
+        [weakSelf.progressView animateToPercentage:percentage];
     }
     completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
     {
         if( completion )
+        {
+            completion( image, error, cacheType, imageURL );
+        }
+         
+        [weakSelf removeProgressView];
+    }];
+}
+
+- (void)loadImageUsingProgressViewWithURL:(NSURL *)url completion:(SDWebImageCompletionBlock)completion
+{
+    [self addProgressView];
+    
+    __weak typeof(self) weakSelf = self;
+    
+    [[SDWebImageManager sharedManager] downloadImageWithURL:url options:0
+    progress:^( NSInteger receivedSize, NSInteger expectedSize )
+    {
+        CGFloat percentage = (CGFloat)receivedSize / (CGFloat)expectedSize;
+        [weakSelf.progressView animateToPercentage:percentage];
+    }
+    completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
+    {        
+        if( finished && completion )
         {
             completion( image, error, cacheType, imageURL );
         }

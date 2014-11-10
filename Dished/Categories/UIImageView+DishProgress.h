@@ -17,8 +17,8 @@
 @property (strong, nonatomic) DAProgressView *progressView;
 
 - (void)setImageUsingProgressViewWithURL:(NSURL *)url;
-- (void)setImageUsingProgressViewWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder;
-- (void)setImageUsingProgressViewWithURL:(NSURL *)url placeholderImage:(UIImage *)placeholder completion:(SDWebImageCompletionBlock)completion;
+- (void)setImageUsingProgressViewWithURL:(NSURL *)url  completion:(SDWebImageCompletionBlock)completion;
+- (void)loadImageUsingProgressViewWithURL:(NSURL *)url completion:(SDWebImageCompletionBlock)completion;
 
 - (void)removeProgressView;
 

@@ -19,18 +19,18 @@
         
         _name      = nilOrJSONObjectForKey( restaurant, kNameKey );
         _phone     = nilOrJSONObjectForKey( restaurant, kPhoneKey );
-        _username  = nilOrJSONObjectForKey( restaurant, @"username" );
-        _img_thumb = nilOrJSONObjectForKey( restaurant, @"img_thumb" );
+        _username  = nilOrJSONObjectForKey( restaurant, kUsernameKey );
+        _img_thumb = nilOrJSONObjectForKey( restaurant, kImgThumbKey );
         _avg_grade = nilOrJSONObjectForKey( restaurant, @"avg_grade" );
         
-        _loc_id  = [nilOrJSONObjectForKey( restaurant, @"loc_id" )  integerValue];
+        _loc_id  = [nilOrJSONObjectForKey( restaurant, kLocationIDKey )  integerValue];
         _user_id = [nilOrJSONObjectForKey( restaurant, @"user_id" ) integerValue];
         
         NSDictionary *location = nilOrJSONObjectForKey( restaurant, kLocationKey );
         if( location )
         {
-            _latitude  = [nilOrJSONObjectForKey( location, @"latitude"  ) doubleValue];
-            _longitude = [nilOrJSONObjectForKey( location, @"longitude" ) doubleValue];
+            _latitude  = [nilOrJSONObjectForKey( location, kLatitudeKey  ) doubleValue];
+            _longitude = [nilOrJSONObjectForKey( location, kLongitudeKey ) doubleValue];
         }
         
         _is_private       = [nilOrJSONObjectForKey( data, @"is_private" )       boolValue];

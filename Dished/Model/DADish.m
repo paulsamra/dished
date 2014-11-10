@@ -26,8 +26,7 @@
         _grade             = nilOrJSONObjectForKey( data, kGradeKey );
         _imageURL          = nilOrJSONObjectForKey( data, kImgThumbKey );
         
-        _dishID            = [nilOrJSONObjectForKey( data, kIDKey )                      integerValue];
-        _numComments       = [nilOrJSONObjectForKey( data, @"num_comments" )            integerValue];
+        _dishID            = [nilOrJSONObjectForKey( data, kIDKey )                     integerValue];
         _totalReviews      = [nilOrJSONObjectForKey( data, @"num_reviews" )             integerValue];
         _friendReviews     = [nilOrJSONObjectForKey( data, @"num_reviews_friends" )     integerValue];
         _influencerReviews = [nilOrJSONObjectForKey( data, @"num_reviews_influencers" ) integerValue];

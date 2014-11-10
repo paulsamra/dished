@@ -16,7 +16,7 @@
     NSNumberFormatter *formatter = [[NSNumberFormatter alloc] init];
     [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
     
-    NSTimeInterval timeInterval = [nilOrJSONObjectForKey( dictionary, @"created" ) doubleValue];
+    NSTimeInterval timeInterval = [nilOrJSONObjectForKey( dictionary, kCreatedKey ) doubleValue];
     self.created = [NSDate dateWithTimeIntervalSince1970:timeInterval];
     
     self.creator_type      = nilOrJSONObjectForKey( dictionary, @"creator_type" );

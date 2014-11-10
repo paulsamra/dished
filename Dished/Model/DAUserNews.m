@@ -23,11 +23,17 @@
         _comment  = nilOrJSONObjectForKey( data, kCommentKey );
         _username = nilOrJSONObjectForKey( data, kUsernameKey );
         
-        NSDictionary *images = nilOrJSONObjectForKey( data, @"images" );
-        NSArray *reviewImages = nilOrJSONObjectForKey( images, @"reviews" );
-        _review_img_thumb = [reviewImages objectAtIndex:0];
+        NSDictionary *images = nilOrJSONObjectForKey( data, kImagesKey );
+        if( images )
+        {
+            NSArray *reviewImages = nilOrJSONObjectForKey( images, kReviewsKey );
+            if( reviewImages )
+            {
+                _review_img_thumb = [reviewImages objectAtIndex:0];
+            }
+        }
                 
-        _notificationType = [self notificationTypeForTypeString:nilOrJSONObjectForKey( data, @"type" )];
+        _notificationType = [self notificationTypeForTypeString:nilOrJSONObjectForKey( data, kTypeKey )];
     }
     
     return self;

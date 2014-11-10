@@ -23,6 +23,7 @@
 #import "DAExploreDishResultsViewController.h"
 #import "DAUserListViewController.h"
 #import "UIViewController+ShareView.h"
+#import "UIImageView+DishProgress.h"
 #import "MRProgress.h"
 
 typedef enum
@@ -203,7 +204,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [dishCell.locationButton setTitleEdgeInsets:UIEdgeInsetsMake( 0, 5, 0, 0 )];
         
         NSURL *dishImageURL = [NSURL URLWithString:self.review.img];
-        [dishCell.dishImageView setImageWithURL:dishImageURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        [dishCell.dishImageView setImageUsingProgressViewWithURL:dishImageURL];
 
         dishCell.gradeLabel.text = [self.review.grade uppercaseString];
         
@@ -698,12 +699,44 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [[DAAPIManager sharedManager] POST:kReviewDeleteURL parameters:parameters
         success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            
-            
-            [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+            if( self.feedItem )
             {
-                [self.navigationController popViewControllerAnimated:YES];
-            }];
+                [[DACoreDataManager sharedManager] deleteEntity:self.feedItem];
+                
+                [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:^( BOOL saved, NSError *error )
+                {
+                    [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+                    {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+                }];
+            }
+            else
+            {
+                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"item_id", @(self.reviewID)];
+                NSString *entityName = [DAFeedItem entityName];
+                NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate];
+                
+                if( matchingItems.count > 0 )
+                {
+                    [[DACoreDataManager sharedManager] deleteEntity:[matchingItems objectAtIndex:0]];
+                    
+                    [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:^( BOOL saved, NSError *error )
+                    {
+                        [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+                        {
+                            [self.navigationController popViewControllerAnimated:YES];
+                        }];
+                    }];
+                }
+                else
+                {
+                    [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+                    {
+                        [self.navigationController popViewControllerAnimated:YES];
+                    }];
+                }
+            }
         }
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {

@@ -11,6 +11,6 @@
 
 @interface DAProgressView : UIView
 
-@property (nonatomic) CGFloat percentage;
+- (void)animateToPercentage:(CGFloat)percentage;
 
 @end

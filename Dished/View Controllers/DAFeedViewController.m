@@ -16,8 +16,7 @@
 #import "DAReviewDetailsViewController.h"
 #import "DACommentsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
-//#import "UIImageView+DishProgress.h"
-#import "UIImageView+WebCache.h"
+#import "UIImageView+DishProgress.h"
 #import "DAUserListViewController.h"
 #import "DAFeedCollectionViewFlowLayout.h"
 #import "NSAttributedString+Dished.h"
@@ -182,6 +181,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
+    NSLog(@"%d", (int)self.fetchedResultsController.sections.count);
     return self.fetchedResultsController.sections.count;
 }
 
@@ -306,7 +306,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     UIImage *image = [self.feedImageCache objectForKey:item.img];
     if( image )
     {
-        //[cell.dishImageView removeProgressView];
+        [cell.dishImageView removeProgressView];
         cell.dishImageView.image = image;
     }
     else
@@ -315,10 +315,10 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         cell.tag = indexPath.section;
         NSURL *dishImageURL = [NSURL URLWithString:item.img];
         
-        [[SDWebImageManager sharedManager] downloadImageWithURL:dishImageURL options:0 progress:nil
-        completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
+        [cell.dishImageView loadImageUsingProgressViewWithURL:dishImageURL
+        completion:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
         {
-            if( image && [imageURL.absoluteString isEqualToString:dishImageURL.absoluteString] )
+            if( image && cell.tag == indexPath.section )
             {
                 cell.dishImageView.image = image;
                 [self.feedImageCache setObject:image forKey:item.img];
@@ -812,7 +812,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
                             break;
                             
                         case NSFetchedResultsChangeDelete:
-                            [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:((NSIndexPath *) obj).section]];
                             break;
                             
                         case NSFetchedResultsChangeUpdate:

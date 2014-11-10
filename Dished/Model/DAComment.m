@@ -15,10 +15,10 @@
 {
     DAComment *comment = [[DAComment alloc] init];
     
-    NSTimeInterval timeInterval = [data[@"created"] doubleValue];
+    NSTimeInterval timeInterval = [nilOrJSONObjectForKey( data, kCreatedKey ) doubleValue];
     
     comment.created          = [NSDate dateWithTimeIntervalSince1970:timeInterval];
-    comment.comment_id       = [data[kIDKey] integerValue];
+    comment.comment_id       = [nilOrJSONObjectForKey( data, kIDKey ) integerValue];
     comment.creator_id       = [data[@"creator_id"] integerValue];
     comment.comment          = nilOrJSONObjectForKey( data, kCommentKey );
     comment.img_thumb        = nilOrJSONObjectForKey( data, kImgThumbKey );

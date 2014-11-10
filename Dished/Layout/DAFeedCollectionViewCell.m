@@ -57,6 +57,7 @@
     [self.creatorButton  setImage:nil forState:UIControlStateNormal];
     self.priceLabel.text = nil;
     self.timeLabel.text = nil;
+    self.tag = -1;
 }
 
 - (void)dishImageDoubleTapped

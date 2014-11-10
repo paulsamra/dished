@@ -10,33 +10,65 @@
 #import "DADishLayer.h"
 
 
+@interface DAProgressView()
+
+@property (strong, nonatomic) CALayer      *maskLayer;
+@property (strong, nonatomic) CALayer      *blueDishLayer;
+@property (strong, nonatomic) CALayer      *grayDishLayer;
+
+@end
+
+
 @implementation DAProgressView
 
-+ (Class)layerClass
+- (id)initWithFrame:(CGRect)frame
 {
-    return [DADishLayer class];
-}
-
-- (void)setPercentage:(CGFloat)percentage
-{
-    _percentage = percentage;
-    ((DADishLayer *)self.layer).blueDishWidthPercentage = percentage;
-}
-
-- (id)init
-{
-    if( self = [super init] )
+    self = [super initWithFrame:frame];
+    
+    if( self )
     {
-        self.layer.contentsScale = [UIScreen mainScreen].scale;
-        
-        CGRect currFrame = self.frame;
-        currFrame.size = [DADishLayer dishSize];
-        self.frame = currFrame;
-        
-        [self.layer setNeedsDisplay];
+        [self setupImageLayer];
     }
     
     return self;
+}
+
+- (void)setupImageLayer
+{
+    self.grayDishLayer = [CALayer layer];
+    self.grayDishLayer.masksToBounds = YES;
+    UIImage *dishImage = [UIImage imageNamed:@"refresh_gray"];
+    CGFloat x = ( self.frame.size.width  / 2 ) - ( dishImage.size.width  / 2 );
+    CGFloat y = ( self.frame.size.height / 2 ) - ( dishImage.size.height / 2 );
+    self.grayDishLayer.frame = CGRectMake( x, y, dishImage.size.width, dishImage.size.height );
+    self.grayDishLayer.backgroundColor = [UIColor clearColor].CGColor;
+    self.grayDishLayer.contents = (id)dishImage.CGImage;
+    [self.layer addSublayer:self.grayDishLayer];
+    
+    self.blueDishLayer = [CALayer layer];
+    self.blueDishLayer.frame = self.grayDishLayer.frame;
+    self.blueDishLayer.backgroundColor = [UIColor clearColor].CGColor;
+    self.blueDishLayer.contents = (id)[UIImage imageNamed:@"refresh_blue"].CGImage;
+    [self.layer addSublayer:self.blueDishLayer];
+    
+    self.maskLayer = [CALayer layer];
+    self.maskLayer.anchorPoint = CGPointZero;
+    self.maskLayer.frame = CGRectMake( 0, 0, 0, self.blueDishLayer.frame.size.height );
+    self.maskLayer.backgroundColor = [UIColor blackColor].CGColor;
+    self.blueDishLayer.mask = self.maskLayer;
+}
+
+- (void)animateToPercentage:(CGFloat)percentage
+{
+    [self.maskLayer removeAllAnimations];
+    
+    CGRect maskFrame = self.maskLayer.frame;
+    maskFrame.size.width = self.blueDishLayer.frame.size.width * percentage;
+    
+    [CATransaction begin];
+    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+    self.maskLayer.frame = maskFrame;
+    [CATransaction commit];
 }
 
 @end

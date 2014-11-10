@@ -15,16 +15,18 @@
 {
     if( self = [super init] )
     {
-        NSTimeInterval timeInterval = [data[@"created"] doubleValue];
+        NSTimeInterval timeInterval = [nilOrJSONObjectForKey( data, kCreatedKey ) doubleValue];
         _created   = [NSDate dateWithTimeIntervalSince1970:timeInterval];
         
-        NSDictionary *images = nilOrJSONObjectForKey( data, @"images" );
-        _user_img_thumb = nilOrJSONObjectForKey( images, @"user" );
+        NSDictionary *images = nilOrJSONObjectForKey( data, kImagesKey );
+        if( images )
+        {
+            _user_img_thumb = nilOrJSONObjectForKey( images, kUserKey );
+        }
         
-        _review_id = [nilOrJSONObjectForKey( data, @"review_id" ) integerValue];
-        
-        _viewed    = [nilOrJSONObjectForKey( data, @"viewed" )       boolValue];
-        _item_id   = [nilOrJSONObjectForKey( data, kIDKey )       integerValue];
+        _viewed    = [nilOrJSONObjectForKey( data, kViewedKey ) boolValue];
+        _item_id   = [nilOrJSONObjectForKey( data, kIDKey )    integerValue];
+        _review_id = [nilOrJSONObjectForKey( data, kReviewIDKey ) integerValue];
     }
     
     return self;

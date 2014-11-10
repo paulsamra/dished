@@ -15,16 +15,18 @@
 {
     if( self = [super init] )
     {
-        NSDictionary *user = nilOrJSONObjectForKey( data, @"user" );
+        NSDictionary *user = nilOrJSONObjectForKey( data, kUserKey );
+        if( user )
+        {
+            _desc      = nilOrJSONObjectForKey( user, @"desc" );
+            _type      = nilOrJSONObjectForKey( user, kTypeKey );
+            _username  = nilOrJSONObjectForKey( user, kUsernameKey );
+            _firstName = nilOrJSONObjectForKey( user, @"fname" );
+            _lastName  = nilOrJSONObjectForKey( user, @"lname" );
+            _img_thumb = nilOrJSONObjectForKey( user, kImgThumbKey );
+            _user_id       = [nilOrJSONObjectForKey( user, kIDKey ) integerValue];
+        }
         
-        _desc      = nilOrJSONObjectForKey( user, @"desc" );
-        _type      = nilOrJSONObjectForKey( user, @"type" );
-        _username  = nilOrJSONObjectForKey( user, @"username" );
-        _firstName = nilOrJSONObjectForKey( user, @"fname" );
-        _lastName  = nilOrJSONObjectForKey( user, @"lname" );
-        _img_thumb = nilOrJSONObjectForKey( user, @"img_thumb" );
-        
-        _user_id       = [nilOrJSONObjectForKey( user, kIDKey )           integerValue];
         _num_reviews   = [nilOrJSONObjectForKey( data, @"num_reviews" )   integerValue];
         _num_following = [nilOrJSONObjectForKey( data, @"num_following" ) integerValue];
         _num_followers = [nilOrJSONObjectForKey( data, @"num_followers" ) integerValue];
@@ -33,10 +35,13 @@
         _caller_follows   = [nilOrJSONObjectForKey( data, @"caller_follows" )   boolValue];
         _is_profile_owner = [nilOrJSONObjectForKey( data, @"is_profile_owner" ) boolValue];
         
-        NSDictionary *reviews = nilOrJSONObjectForKey( data, @"reviews" );
-        _foodReviews     = [self reviewsWithData:nilOrJSONObjectForKey( reviews, kFood )];
-        _wineReviews     = [self reviewsWithData:nilOrJSONObjectForKey( reviews, kWine )];
-        _cocktailReviews = [self reviewsWithData:nilOrJSONObjectForKey( reviews, kCocktail )];
+        NSDictionary *reviews = nilOrJSONObjectForKey( data, kReviewsKey );
+        if( reviews )
+        {
+            _foodReviews     = [self reviewsWithData:nilOrJSONObjectForKey( reviews, kFood )];
+            _wineReviews     = [self reviewsWithData:nilOrJSONObjectForKey( reviews, kWine )];
+            _cocktailReviews = [self reviewsWithData:nilOrJSONObjectForKey( reviews, kCocktail )];
+        }
     }
     
     return self;

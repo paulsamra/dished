@@ -26,7 +26,7 @@
         _grade             = nilOrJSONObjectForKey( data, kGradeKey );
         _price             = nilOrJSONObjectForKey( data, kPriceKey );
         _comment           = nilOrJSONObjectForKey( data, kCommentKey );
-        _loc_name          = nilOrJSONObjectForKey( data, @"loc_name" );
+        _loc_name          = nilOrJSONObjectForKey( data, kLocationNameKey );
         _img_thumb         = nilOrJSONObjectForKey( data, kImgThumbKey );
         _creator_type      = nilOrJSONObjectForKey( data, @"creator_type" );
         _creator_username  = nilOrJSONObjectForKey( data, @"creator_username" );
@@ -40,7 +40,7 @@
         _caller_yumd       = [nilOrJSONObjectForKey( data, @"caller_yumd" )     boolValue];
         _num_comments      = [nilOrJSONObjectForKey( data, @"num_comments" ) integerValue];
         
-        NSTimeInterval timeInterval = [data[@"created"] doubleValue];
+        NSTimeInterval timeInterval = [nilOrJSONObjectForKey( data, kCreatedKey ) doubleValue];
         _created = [NSDate dateWithTimeIntervalSince1970:timeInterval];
         
         NSArray *yums = nilOrJSONObjectForKey( data, @"yums" );

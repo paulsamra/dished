@@ -25,28 +25,34 @@
 {
     if( self = [super initWithData:data] )
     {
-        _username = nilOrJSONObjectForKey( data, @"username" );
+        _username = nilOrJSONObjectForKey( data, kUsernameKey );
         _users    = nilOrJSONObjectForKey( data, @"users" );
         
         _yum_count    = [nilOrJSONObjectForKey( data, @"yum_count" )    integerValue];
         _friend_count = [nilOrJSONObjectForKey( data, @"friend_count" ) integerValue];
         _review_count = [nilOrJSONObjectForKey( data, @"review_count" ) integerValue];
         
-        NSDictionary *images = nilOrJSONObjectForKey( data, @"images" );
-        NSArray *reviewsImageArray = nilOrJSONObjectForKey( images, @"reviews" );
-        _review_image = [reviewsImageArray objectAtIndex:0];
+        NSDictionary *images = nilOrJSONObjectForKey( data, kImagesKey );
+        if( images )
+        {
+            NSArray *reviewsImageArray = nilOrJSONObjectForKey( images, kReviewsKey );
+            if( reviewsImageArray )
+            {
+                _review_image = [reviewsImageArray objectAtIndex:0];
+            }
+        }
         
         NSDictionary *userData = nilOrJSONObjectForKey( data, @"followed" );
         if( userData )
         {
             DAUsername *username = [[DAUsername alloc] init];
             username.user_id = [nilOrJSONObjectForKey( userData, @"idUser" ) integerValue];
-            username.username = nilOrJSONObjectForKey( userData, @"username" );
+            username.username = nilOrJSONObjectForKey( userData, kUsernameKey );
             
             _followed = username;
         }
         
-        NSArray *reviews = nilOrJSONObjectForKey( data, @"reviews" );
+        NSArray *reviews = nilOrJSONObjectForKey( data, kReviewsKey );
         if( reviews )
         {
             NSMutableArray *review_images = [NSMutableArray array];
@@ -67,7 +73,7 @@
             _reviewIDs = reviewIDs;
         }
         
-        _notificationType    = [self notificationTypeForTypeString:nilOrJSONObjectForKey( data, @"type" )];
+        _notificationType    = [self notificationTypeForTypeString:nilOrJSONObjectForKey( data, kTypeKey )];
         _notificationSubtype = [self notificationSubtypeForSubtypeString:nilOrJSONObjectForKey( data, @"subtype" )];
     }
     
