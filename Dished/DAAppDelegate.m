@@ -282,6 +282,25 @@
     [[DAUserManager sharedManager] loadUserInfoWithCompletion:nil];
     [[DANewsManager sharedManager] updateAllNewsWithCompletion:nil];
     [self setRootView];
+    [self registerForPushNotifications];
+}
+
+- (void)registerForPushNotifications
+{
+    if( [[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0 )
+    {
+        UIUserNotificationType types = UIUserNotificationTypeSound | UIUserNotificationTypeAlert | UIUserNotificationTypeBadge;
+        
+        [[UIApplication sharedApplication] registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:types categories:nil]];
+        
+        [[UIApplication sharedApplication] registerForRemoteNotifications];
+    }
+    else
+    {
+        [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge |
+         UIRemoteNotificationTypeAlert |
+         UIRemoteNotificationTypeSound];
+    }
 }
 
 - (void)logout
