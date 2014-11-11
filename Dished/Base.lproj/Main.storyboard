@@ -1309,7 +1309,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="82" height="82"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dQf-tm-FI3">
+                                                <imageView userInteractionEnabled="NO" tag="100" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dQf-tm-FI3">
                                                     <rect key="frame" x="0.0" y="0.0" width="82" height="62"/>
                                                 </imageView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="200" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="7" translatesAutoresizingMaskIntoConstraints="NO" id="aqe-95-tFd">
@@ -1339,15 +1339,20 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="AZW-iV-RWQ">
                                 <rect key="frame" x="0.0" y="64" width="600" height="372"/>
                             </imageView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="T2L-5U-Ljd">
+                                <rect key="frame" x="282" y="231" width="37" height="37"/>
+                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="AZW-iV-RWQ" secondAttribute="trailing" id="6iW-Ql-69k"/>
                             <constraint firstItem="AZW-iV-RWQ" firstAttribute="leading" secondItem="FTo-k8-92G" secondAttribute="leading" id="Cu2-uF-oc5"/>
+                            <constraint firstItem="AZW-iV-RWQ" firstAttribute="centerX" secondItem="T2L-5U-Ljd" secondAttribute="centerX" constant="-0.5" id="DtH-TE-Yzt"/>
                             <constraint firstAttribute="trailing" secondItem="vLq-yB-2ws" secondAttribute="trailing" id="I6X-zn-3s4"/>
                             <constraint firstItem="qZy-sC-7XK" firstAttribute="top" secondItem="vLq-yB-2ws" secondAttribute="bottom" id="Jth-9q-GJ2"/>
                             <constraint firstItem="AZW-iV-RWQ" firstAttribute="top" secondItem="JEa-n2-C3d" secondAttribute="bottom" id="Qiy-I0-U6M"/>
                             <constraint firstItem="vLq-yB-2ws" firstAttribute="top" secondItem="AZW-iV-RWQ" secondAttribute="bottom" id="Rkp-3R-7BU"/>
+                            <constraint firstItem="AZW-iV-RWQ" firstAttribute="centerY" secondItem="T2L-5U-Ljd" secondAttribute="centerY" constant="0.5" id="Yqu-ag-1c6"/>
                             <constraint firstItem="vLq-yB-2ws" firstAttribute="leading" secondItem="FTo-k8-92G" secondAttribute="leading" id="zGT-KM-LTl"/>
                         </constraints>
                     </view>
@@ -1362,6 +1367,7 @@
                     <connections>
                         <outlet property="collectionView" destination="vLq-yB-2ws" id="iBt-Uo-Z6J"/>
                         <outlet property="pictureImageView" destination="AZW-iV-RWQ" id="Ehp-Cg-y4p"/>
+                        <outlet property="spinner" destination="T2L-5U-Ljd" id="CEe-4W-Rv9"/>
                         <segue destination="bLN-bd-eSr" kind="show" identifier="form" id="XLJ-sn-Zxg"/>
                     </connections>
                 </viewController>

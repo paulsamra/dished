@@ -12,7 +12,10 @@
 
 @interface DAReviewLocationViewController : UITableViewController
 
-@property (weak, nonatomic) DANewReview *review;
+@property (weak, nonatomic) NSArray              *suggestedLocations;
+@property (weak, nonatomic) DANewReview          *review;
 @property (weak, nonatomic) IBOutlet UISearchBar *searchBar;
+
++ (NSArray *)locationsFromResponse:(id)response;
 
 @end

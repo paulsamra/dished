@@ -14,11 +14,11 @@
 
 @interface DAImageFilterViewController()
 
-@property (strong, nonatomic) DANewReview           *review;
-@property (strong, nonatomic) NSArray               *filterTitles;
-@property (strong, nonatomic) NSArray               *filterNames;
-@property (strong, nonatomic) NSMutableDictionary   *filteredImages;
-@property (strong, nonatomic) NSOperationQueue      *imageFilterQueue;
+@property (strong, nonatomic) DANewReview             *review;
+@property (strong, nonatomic) NSArray                 *filterTitles;
+@property (strong, nonatomic) NSArray                 *filterNames;
+@property (strong, nonatomic) NSArray                 *filterImages;
+@property (strong, nonatomic) NSMutableDictionary     *filteredImages;
 
 @property (nonatomic) int selectedIndex;
 
@@ -35,6 +35,10 @@
     self.filteredImages = [NSMutableDictionary dictionary];
     self.pictureImageView.backgroundColor = [UIColor blackColor];
     
+    self.review = [[DANewReview alloc] init];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageReady:) name:kImageReadyNotificationKey object:nil];
+    
     DAImagePickerController *parentVC = [self.navigationController.viewControllers objectAtIndex:0];
     
     if( parentVC.pictureTaken )
@@ -44,14 +48,13 @@
         
         self.pictureTaken = pictureTaken;
         self.pictureImageView.image = self.pictureTaken;
+        
+        self.filteredImages[self.filterNames[0]] = self.pictureTaken;
     }
-    
-    self.review = [[DANewReview alloc] init];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageReady:) name:kImageReadyNotificationKey object:nil];
-    
-    self.imageFilterQueue = [[NSOperationQueue alloc] init];
-    self.imageFilterQueue.maxConcurrentOperationCount = 1;
+    else
+    {
+        [self.spinner startAnimating];
+    }
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -70,6 +73,10 @@
     
     self.pictureTaken = pictureTaken;
     self.pictureImageView.image = self.pictureTaken;
+    
+    self.filteredImages[self.filterNames[0]] = self.pictureTaken;
+    
+    [self.spinner stopAnimating];
     
     [self.collectionView reloadData];
 }
@@ -102,46 +109,7 @@
         imageView.layer.borderWidth = 0;
     }
     
-    UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:101];
-    
-    if( self.filteredImages[self.filterNames[indexPath.row]] )
-    {
-        imageView.image = self.filteredImages[self.filterNames[indexPath.row]];
-    }
-    else
-    {
-        [spinner startAnimating];
-        
-        if( self.pictureTaken )
-        {
-            NSBlockOperation *filterOperation = [NSBlockOperation blockOperationWithBlock:^
-            {
-                NSString *filterName = self.filterNames[indexPath.row];
-                
-                UIImage *newImg = nil;
-                
-                if( indexPath.row == 0 )
-                {
-                    newImg = self.pictureTaken;
-                }
-                else
-                {
-                    newImg = [self filterImage:self.pictureTaken withFilterName:filterName];
-                }
-                
-                dispatch_async( dispatch_get_main_queue(), ^
-                {
-                    self.filteredImages[self.filterNames[indexPath.row]] = newImg;
-                    [imageView setImage:newImg];
-                   
-                    [spinner stopAnimating];
-                });
-            }];
-            
-            [self.imageFilterQueue addOperation:filterOperation];
-        }
-    }
-    
+    imageView.image = [UIImage imageNamed:self.filterImages[indexPath.row]];
     UILabel *label = (UILabel *)[cell viewWithTag:200];
     label.text = [self.filterTitles objectAtIndex:indexPath.row];
     
@@ -185,6 +153,25 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     self.selectedIndex = (int)indexPath.row;
+    
+    UIImage *filteredImage = self.filteredImages[self.filterNames[indexPath.row]];
+    
+    if( !filteredImage )
+    {
+        if( indexPath.row == 0 )
+        {
+            
+        }
+        else
+        {
+            NSString *filterName = self.filterNames[indexPath.row];
+            
+            UIImage *newImage = [self filterImage:self.pictureTaken withFilterName:filterName];
+            
+            self.filteredImages[self.filterNames[indexPath.row]] = newImage;
+        }
+    }
+    
     self.pictureImageView.image = self.filteredImages[self.filterNames[indexPath.row]];
     [self.collectionView reloadData];
 }
@@ -202,6 +189,30 @@
         dest.reviewImage = self.filteredImages[self.filterNames[self.selectedIndex]];
         dest.review = self.review;        
     }
+}
+
+- (NSArray *)filterImages
+{
+    if( !_filterImages )
+    {
+        NSMutableArray *imageNames = [NSMutableArray array];
+        
+        for( NSString *title in self.filterTitles )
+        {
+            if( [self.filterTitles indexOfObject:title] == 0 )
+            {
+                [imageNames addObject:@"no_filter"];
+            }
+            else
+            {
+                [imageNames addObject:[NSString stringWithFormat:@"%@_filter", [title lowercaseString]]];
+            }
+        }
+        
+        _filterImages = imageNames;
+    }
+    
+    return _filterImages;
 }
 
 - (NSArray *)filterTitles

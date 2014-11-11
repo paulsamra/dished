@@ -12,6 +12,7 @@
 
 @property (weak, nonatomic) IBOutlet UIImageView      *pictureImageView;
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @property (strong, nonatomic) UIImage *pictureTaken;
 

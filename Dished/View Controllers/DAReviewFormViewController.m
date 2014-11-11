@@ -23,12 +23,14 @@
 @interface DAReviewFormViewController() <UIAlertViewDelegate, DASocialCollectionViewControllerDelegate>
 
 @property (strong, nonatomic) UIView                           *dimView;
+@property (strong, nonatomic) NSArray                          *suggestedLocations;
 @property (strong, nonatomic) UIAlertView                      *postFailAlert;
 @property (strong, nonatomic) UIAlertView                      *twitterLoginFailAlert;
 @property (strong, nonatomic) UIAlertView                      *googleLoginFailAlert;
 @property (strong, nonatomic) NSMutableString                  *dishPrice;
 @property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
 
+@property (nonatomic) BOOL   searchedForSuggestions;
 @property (nonatomic) CGRect keyboardFrame;
 
 @end
@@ -39,6 +41,8 @@
 - (void)viewDidLoad
 {    
     [super viewDidLoad];
+    
+    self.searchedForSuggestions = NO;
     
     self.facebookImage.alpha = 0.3;
     self.twitterImage.alpha  = 0.3;
@@ -64,6 +68,7 @@
     [self checkForSelectedDish];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationServicesDenied) name:kLocationServicesDeniedKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getLocationSuggestions) name:kLocationUpdateNotificationKey object:nil];
     
     [[DALocationManager sharedManager] startUpdatingLocation];
 }
@@ -75,6 +80,34 @@
     if( !self.dishSuggestionsTable )
     {
         [self setupSuggestionTable];
+    }
+}
+
+- (void)getLocationSuggestions
+{
+    if( !self.searchedForSuggestions )
+    {
+        self.searchedForSuggestions = YES;
+        
+        [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+        {
+            CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
+            
+            NSDictionary *parameters = @{ kLatitudeKey : @(currentLocation.latitude),
+                                          kLongitudeKey : @(currentLocation.longitude) };
+            parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+            
+            [[DAAPIManager sharedManager] GET:kExploreLocationsURL parameters:parameters
+            success:^( NSURLSessionDataTask *task, id responseObject )
+            {
+                self.suggestedLocations = [DAReviewLocationViewController locationsFromResponse:responseObject];
+                [[NSNotificationCenter defaultCenter] removeObserver:self name:kLocationUpdateNotificationKey object:nil];
+            }
+            failure:^( NSURLSessionDataTask *task, NSError *error )
+            {
+                self.searchedForSuggestions = NO;
+            }];
+        }];
     }
 }
 
@@ -577,6 +610,7 @@
     {
         DAReviewLocationViewController *dest = segue.destinationViewController;
         dest.review = self.review;
+        dest.suggestedLocations = self.suggestedLocations;
     }
 }
 

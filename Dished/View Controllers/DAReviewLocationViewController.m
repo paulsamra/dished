@@ -27,10 +27,12 @@
 {
     [super viewDidLoad];
         
-    self.locationData = [NSArray array];
+    //self.locationData = [NSArray array];
     
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;
+    
+    self.locationData = self.suggestedLocations;
     
     self.tableView.tableFooterView = [[UIView alloc] init];
 }
@@ -130,7 +132,8 @@
     if( searchText.length == 0 )
     {
         [self.searchTask cancel];
-        self.locationData  = [NSMutableArray array];
+        self.locationData = self.suggestedLocations;
+        //self.locationData  = [NSMutableArray array];
         [self.tableView reloadData];
         return;
     }
@@ -146,7 +149,7 @@
     self.searchTask = [[DAAPIManager sharedManager] GET:kExploreLocationsURL parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        self.locationData = [self locationsFromResponse:responseObject];
+        self.locationData = [DAReviewLocationViewController locationsFromResponse:responseObject];
         [self.tableView reloadData];
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
@@ -160,7 +163,7 @@
     }];
 }
 
-- (NSArray *)locationsFromResponse:(id)response
++ (NSArray *)locationsFromResponse:(id)response
 {
     NSDictionary *data = nilOrJSONObjectForKey( response, kDataKey );
     NSArray *locations = nilOrJSONObjectForKey( data, @"locations" );
