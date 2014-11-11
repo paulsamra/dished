@@ -502,7 +502,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 {
     NSIndexPath *indexPath = header.indexPath;
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
+        
     [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
 }
 
@@ -512,10 +512,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
     
-    DACommentsViewController *commentsView = [self.storyboard instantiateViewControllerWithIdentifier:@"comments"];
-    commentsView.feedItem = feedItem;
-    commentsView.shouldShowKeyboard = YES;
-    [self.navigationController pushViewController:commentsView animated:YES];
+    [self pushCommentsViewWithFeedItem:feedItem showKeyboard:YES];
 }
 
 - (void)userImageTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
@@ -534,11 +531,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 {
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.username = feedItem.creator_username;
-    userProfileViewController.user_id  = [feedItem.creator_id integerValue];
-    userProfileViewController.isRestaurant = NO;
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
+    [self pushUserProfileWithUsername:feedItem.creator_username];
 }
 
 - (void)moreReviewsButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
@@ -547,7 +540,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
     
-    [self performSegueWithIdentifier:@"globalDish" sender:feedItem];
+    [self pushGlobalDishWithDishID:[feedItem.dish_id integerValue]];
 }
 
 - (void)textViewTappedAtCharacterIndex:(NSUInteger)characterIndex inCell:(DAReviewDetailCollectionViewCell *)cell
@@ -574,10 +567,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
             DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
             
-            DACommentsViewController *commentsView = [self.storyboard instantiateViewControllerWithIdentifier:@"comments"];
-            commentsView.feedItem = feedItem;
-            commentsView.shouldShowKeyboard = NO;
-            [self.navigationController pushViewController:commentsView animated:YES];
+            [self pushCommentsViewWithFeedItem:feedItem showKeyboard:NO];
         }
         else
         {
@@ -591,10 +581,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             }
             else if( linkedTextType == eLinkedTextTypeUsername )
             {
-                DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-                userProfileViewController.username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
-                userProfileViewController.isRestaurant = NO;
-                [self.navigationController pushViewController:userProfileViewController animated:YES];
+                NSString *username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+                
+                [self pushUserProfileWithUsername:username];
             }
         }
     }
@@ -605,11 +594,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.username = feedItem.loc_name;
-    userProfileViewController.user_id  = [feedItem.loc_id integerValue];
-    userProfileViewController.isRestaurant = YES;
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
+    [self pushRestaurantProfileWithLocationID:[feedItem.loc_id integerValue] username:feedItem.loc_name];
 }
 
 - (void)yumButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
@@ -841,14 +826,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         DAReviewDetailsViewController *dest = segue.destinationViewController;
         dest.feedItem = feedItem;
-    }
-    
-    if( [segue.identifier isEqualToString:@"globalDish"] )
-    {
-        DAFeedItem *feedItem = sender;
-        
-        DAGlobalDishDetailViewController *dest = segue.destinationViewController;
-        dest.dishID = [feedItem.dish_id integerValue];
     }
 }
 

@@ -43,7 +43,7 @@
 
 - (NSAttributedString *)addLinkedTextAttributesToAttributedText:(NSAttributedString *)attributedText withDelimiter:(NSString *)delimiter
 {
-    NSArray *words = [attributedText.string componentsSeparatedByString:delimiter ? delimiter : @" "];
+    NSArray *words = delimiter ? [attributedText.string componentsSeparatedByString:delimiter] : [attributedText.string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSMutableAttributedString *linkedText = [attributedText mutableCopy];
     NSRange currentRange = NSMakeRange( 0, attributedText.string.length );
     

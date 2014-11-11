@@ -121,3 +121,10 @@ extern NSString *const kNone;
 extern NSString *const kFollow;
 extern NSString *const kPositiveHashtags;
 extern NSString *const kNegativeHashtags;
+
+extern NSString *const kReviewListID;
+extern NSString *const kGlobalDishID;
+extern NSString *const kUserProfileID;
+extern NSString *const kCommentsViewID;
+extern NSString *const kSettingsViewID;
+extern NSString *const kReviewDetailsID;

@@ -161,7 +161,7 @@
         reviewCell.gradeLabel.textColor = gradeColor;
         
         reviewCell.commentTextView.text = review.comment;
-        reviewCell.commentTextView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:15];
+        reviewCell.commentTextView.font = [UIFont fontWithName:kHelveticaNeueLightFont size:15];
         
         reviewCell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:review.created];
         
@@ -277,11 +277,7 @@
 
 - (void)locationButtonTappedOnGlobalDishCollectionViewCell:(DAGlobalDishCollectionViewCell *)cell
 {
-    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.username = self.dishProfile.loc_name;
-    userProfileViewController.user_id  = self.dishProfile.loc_id;
-    userProfileViewController.isRestaurant = YES;
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
+    [self pushRestaurantProfileWithLocationID:self.dishProfile.loc_id username:self.dishProfile.loc_name];
 }
 
 - (void)addReviewButtonTappedOnGlobalDishCollectionViewCell:(DAGlobalDishCollectionViewCell *)cell
@@ -295,10 +291,7 @@
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     DAGlobalReview *review = [self.dishProfile.reviews objectAtIndex:indexPath.row - 2];
     
-    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.username = review.creator_username;
-    userProfileViewController.user_id  = review.creator_id;
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
+    [self pushUserProfileWithUsername:review.creator_username];
 }
 
 - (void)commentTappedOnGlobalReviewCollectionViewCell:(DAGlobalReviewCollectionViewCell *)cell
@@ -312,18 +305,7 @@
     }
     else
     {
-        [self performSegueWithIdentifier:@"reviewDetails" sender:review];
-    }
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if( [segue.identifier isEqualToString:@"reviewDetails"] )
-    {
-        DAGlobalReview *review = sender;
-        DAReviewDetailsViewController *dest = segue.destinationViewController;
-        
-        dest.reviewID = review.review_id;
+        [self pushReviewDetailsWithReviewID:review.review_id];
     }
 }
 
@@ -335,9 +317,6 @@
 - (IBAction)shareBarButtonTapped:(UIBarButtonItem *)sender
 {
     [self showShareViewWithDish:self.dishProfile];
-    
-//    DATabBarController *tabBarController = (DATabBarController *)self.tabBarController;
-//    [tabBarController showShareViewWithDish:self.dishProfile];
 }
 
 @end

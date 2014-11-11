@@ -85,7 +85,7 @@
             {
                 UIButton *startButton = [UIButton buttonWithType:UIButtonTypeSystem];
                 [startButton addTarget:self action:@selector(hideWelcomeScreens) forControlEvents:UIControlEventTouchUpInside];
-                startButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:22.0];
+                startButton.titleLabel.font = [UIFont fontWithName:kHelveticaNeueLightFont size:22.0];
                 [startButton setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
                 [startButton setTitle:@"Start Using Dished" forState:UIControlStateNormal];
                 [startButton sizeToFit];

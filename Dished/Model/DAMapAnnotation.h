@@ -13,7 +13,7 @@
 @interface DAMapAnnotation : NSObject <MKAnnotation>
 
 @property (copy,   nonatomic) NSString       *img_thumb;
-@property (strong, nonatomic) NSMutableArray *dishes;
+@property (strong, nonatomic) NSMutableArray *reviews;
 
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 

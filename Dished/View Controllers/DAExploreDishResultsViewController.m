@@ -166,7 +166,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         
-        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+        cell.textLabel.font = [UIFont fontWithName:kHelveticaNeueLightFont size:17];
         
         if( self.isLoading )
         {
@@ -214,29 +214,14 @@ static NSString *const kDishSearchCellID = @"dishCell";
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     DADish *result = [self.searchResults objectAtIndex:indexPath.row];
     
-    DAUserProfileViewController *restaurantProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    
-    restaurantProfileViewController.username = result.locationName;
-    restaurantProfileViewController.user_id  = result.locationID;
-    restaurantProfileViewController.isRestaurant = YES;
-    [self.navigationController pushViewController:restaurantProfileViewController animated:YES];
+    [self pushRestaurantProfileWithLocationID:result.locationID username:result.locationName];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     DADish *result = [self.searchResults objectAtIndex:indexPath.row];
     
-    [self performSegueWithIdentifier:@"dishDetails" sender:result];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if( [segue.identifier isEqualToString:@"dishDetails"] )
-    {
-        DADish *result = sender;
-        DAGlobalDishDetailViewController *dest = segue.destinationViewController;
-        dest.dishID = result.dishID;
-    }
+    [self pushGlobalDishWithDishID:result.dishID];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

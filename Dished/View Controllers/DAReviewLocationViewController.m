@@ -62,10 +62,6 @@
         cell.textLabel.text       = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kNameKey];
         cell.detailTextLabel.text = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kDistanceKey];
     }
-    
-//    UIView* separatorLineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.contentView.frame.size.width, 0.5)];
-//    separatorLineView.backgroundColor = [UIColor lightGrayColor];
-//    [cell.contentView addSubview:separatorLineView];
 
     return cell;
 }

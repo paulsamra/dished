@@ -343,7 +343,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     if( description.length > 0 )
     {
-        NSDictionary *descriptionAttributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14] };
+        NSDictionary *descriptionAttributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14] };
         
         NSMutableAttributedString *descriptionString = [[NSMutableAttributedString alloc] initWithString:description attributes:descriptionAttributes];
         
@@ -428,14 +428,9 @@ static NSString *const kDishSearchCellID = @"dishCell";
 - (void)locationButtonTappedOnDishTableViewCell:(DADishTableViewCell *)cell
 {
     NSIndexPath *indexPath = [self.dishesTableView indexPathForCell:cell];
-    DADish *result = [self.selectedDataSource objectAtIndex:indexPath.row];
+    DAReview *result = [self.selectedDataSource objectAtIndex:indexPath.row];
     
-    DAUserProfileViewController *restaurantProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    
-    restaurantProfileViewController.username = result.locationName;
-    restaurantProfileViewController.user_id  = result.locationID;
-    restaurantProfileViewController.isRestaurant = YES;
-    [self.navigationController pushViewController:restaurantProfileViewController animated:YES];
+    [self pushRestaurantProfileWithLocationID:result.loc_id username:result.loc_name];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -464,17 +459,13 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         DADish *dish = [self.selectedDataSource objectAtIndex:indexPath.row];
         
-        DAGlobalDishDetailViewController *globalDishViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"globalDish"];
-        globalDishViewController.dishID = dish.dishID;
-        [self.navigationController pushViewController:globalDishViewController animated:YES];
+        [self pushGlobalDishWithDishID:dish.dishID];
     }
     else
     {
         DAReview *review = [self.selectedDataSource objectAtIndex:indexPath.row];
         
-        DAReviewDetailsViewController *reviewDetailsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"reviewDetails"];
-        reviewDetailsViewController.reviewID = review.review_id;
-        [self.navigationController pushViewController:reviewDetailsViewController animated:YES];
+        [self pushReviewDetailsWithReviewID:review.review_id];
     }
 }
 

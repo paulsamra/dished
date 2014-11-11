@@ -300,7 +300,7 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kSearchResultCellIdentifier];
         }
         
-        cell.textLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+        cell.textLabel.font = [UIFont fontWithName:kHelveticaNeueLightFont size:17];
         
         switch( searchResult.resultType )
         {
@@ -383,21 +383,14 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
 
 - (void)goToUserProfileForSearchResult:(DAExploreLiveSearchResult *)searchResult
 {
-    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    
     if( searchResult.resultType == eUsernameSearchResult )
     {
-        userProfileViewController.username = searchResult.name;
-        userProfileViewController.user_id  = searchResult.resultID;
+        [self pushUserProfileWithUsername:searchResult.name];
     }
     else if( searchResult.resultType == eLocationSearchResult )
     {
-        userProfileViewController.username = searchResult.name;
-        userProfileViewController.user_id  = searchResult.resultID;
-        userProfileViewController.isRestaurant = YES;
+        [self pushRestaurantProfileWithLocationID:searchResult.resultID username:searchResult.name];
     }
-
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section

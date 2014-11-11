@@ -53,7 +53,7 @@
 
 + (NSDictionary *)commentTextAttributes
 {
-    return @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:15] };
+    return @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:15] };
 }
 
 @end

@@ -217,10 +217,7 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 {
     DAUsername *username = [self.usernameArray objectAtIndex:indexPath.row];
     
-    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.username = username.username;
-    userProfileViewController.user_id  = username.user_id;
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
+    [self pushUserProfileWithUsername:username.username];
 }
 
 - (void)configureFollowButton:(UIButton *)followButton withFollowStatus:(BOOL)isFollowed

@@ -72,13 +72,13 @@
 
 + (NSDictionary *)textAttributes
 {
-    return @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0f] };
+    return @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] };
 }
 
 + (NSDictionary *)linkedTextAttributes;
 {
     return @{ NSForegroundColorAttributeName : [UIColor dishedColor],
-              NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0f] };
+              NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] };
 }
 
 @end

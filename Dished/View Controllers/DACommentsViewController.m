@@ -45,7 +45,7 @@
     self.inputToolbar.contentView.textView.backgroundColor = [UIColor colorWithRed:0.87 green:0.87 blue:0.87 alpha:1.0];
     self.inputToolbar.contentView.textView.placeHolder = @"Add Comment";
     self.inputToolbar.contentView.textView.delegate = self;
-    self.inputToolbar.contentView.textView.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+    self.inputToolbar.contentView.textView.font = [UIFont fontWithName:kHelveticaNeueLightFont size:17];
     
     self.keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView contextView:self.view panGestureRecognizer:self.tableView.panGestureRecognizer delegate:self];
     
@@ -264,7 +264,7 @@
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment
 {
     NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
-    NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0f] }];
+    NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] }];
     NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
     
     if( [comment.creator_type isEqualToString:@"influencer"] )
@@ -277,14 +277,14 @@
     }
     
     NSArray *words = [comment.comment componentsSeparatedByString:@" "];
-    NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0f] }];
+    NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] }];
     
     for( NSString *word in words )
     {
         if( [word hasPrefix:@"#"] || [word hasPrefix:@"@"] )
         {
             NSRange matchRange = [comment.comment rangeOfString:word];
-            [commentString setAttributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:14.0f] } range:matchRange];
+            [commentString setAttributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] } range:matchRange];
         }
     }
     
@@ -306,10 +306,9 @@
     }
     else if( linkedTextType == eLinkedTextTypeUsername )
     {
-        DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-        userProfileViewController.username = [cell.commentTextView linkedTextForCharacterAtIndex:characterIndex];
-        userProfileViewController.isRestaurant = NO;
-        [self.navigationController pushViewController:userProfileViewController animated:YES];
+        NSString *username = [cell.commentTextView linkedTextForCharacterAtIndex:characterIndex];
+        
+        [self pushUserProfileWithUsername:username];
     }
 }
 

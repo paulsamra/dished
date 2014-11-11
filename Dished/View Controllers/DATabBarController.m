@@ -80,7 +80,7 @@
     reviewAttachment.image = [UIImage imageNamed:@"badge_review"];
     NSAttributedString *reviewAttachmentString = [NSAttributedString attributedStringWithAttachment:reviewAttachment];
     
-    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont fontWithName:@"HelveticaNeue-Light" size:16],
+    NSDictionary *attributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:16],
                                   NSForegroundColorAttributeName : [UIColor whiteColor] };
     
     NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" %d  ", (int)yums] attributes:attributes];

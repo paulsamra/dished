@@ -112,3 +112,10 @@ NSString *const kNone             = @"none";
 NSString *const kFollow           = @"follow";
 NSString *const kPositiveHashtags = @"rev_p";
 NSString *const kNegativeHashtags = @"rev_n";
+
+NSString *const kReviewListID    = @"reviewList";
+NSString *const kGlobalDishID    = @"globalDish";
+NSString *const kUserProfileID   = @"userProfile";
+NSString *const kCommentsViewID  = @"commentsView";
+NSString *const kSettingsViewID  = @"settingsView";
+NSString *const kReviewDetailsID = @"reviewDetails";

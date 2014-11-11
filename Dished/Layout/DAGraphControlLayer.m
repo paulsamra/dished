@@ -109,12 +109,12 @@
         [self createLabelsWithFrame:CGRectMake(length-33, y+2, 30, 16)
                               title:[NSString stringWithFormat:@"%@", [self.gradeValues objectForKey:obj]]
                           withColor:[UIColor whiteColor]
-                           withFont:[UIFont fontWithName: @"HelveticaNeue-Light" size: 12]];
+                           withFont:[UIFont fontWithName:kHelveticaNeueLightFont size: 12]];
         
         [self createLabelsWithFrame:CGRectMake(10, y+2, 30, 16)
                               title:[NSString stringWithFormat:@"%@", obj]
                           withColor:[UIColor grayColor]
-                           withFont:[UIFont fontWithName: @"HelveticaNeue-Medium" size: 16]];
+                           withFont:[UIFont fontWithName:kHelveticaNeueLightFont size: 16]];
     }];
     
     UIGraphicsPopContext();

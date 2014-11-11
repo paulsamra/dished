@@ -85,7 +85,7 @@
 
 + (NSDictionary *)descriptionTextAttributes
 {
-    UIFont *font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+    UIFont *font = [UIFont fontWithName:kHelveticaNeueLightFont size:16];
     UIColor *color = [UIColor colorWithRed:0.4 green:0.43 blue:0.47 alpha:1];
     
     return @{ NSFontAttributeName : font, NSForegroundColorAttributeName : color };

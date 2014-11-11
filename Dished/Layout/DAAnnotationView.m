@@ -27,7 +27,7 @@
             _dishNumberLabel.backgroundColor = [UIColor colorWithPatternImage:badgeImage];
             _dishNumberLabel.text = [NSString stringWithFormat:@"%d", (int)dishNumber];
             _dishNumberLabel.textColor = [UIColor whiteColor];
-            _dishNumberLabel.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:16];
+            _dishNumberLabel.font = [UIFont fontWithName:kHelveticaNeueLightFont size:16];
             _dishNumberLabel.textAlignment = NSTextAlignmentCenter;
             _dishNumberLabel.adjustsFontSizeToFitWidth = YES;
 

@@ -125,18 +125,14 @@
 
 - (void)goToSettings
 {
-    DASettingsViewController *settingsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settings"];
-    [self.navigationController pushViewController:settingsViewController animated:YES];
+    [self pushSettingsView];
 }
 
 - (IBAction)editProfile
 {
     [self.containerViewController moveToMenu];
     
-    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.user_id = [DAUserManager sharedManager].user_id;
-    userProfileViewController.username = [DAUserManager sharedManager].username;
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
+    [self pushUserProfileWithUsername:[DAUserManager sharedManager].username];
 }
 
 - (void)viewWillDisappear:(BOOL)animated

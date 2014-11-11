@@ -489,17 +489,24 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
-    [self performSegueWithIdentifier:@"globalDish" sender:nil];
+    [self pushGlobalDishWithDishID:self.review.dish_id];
 }
 
 - (void)commentsButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
 {
-    [self performSegueWithIdentifier:@"commentsSegue" sender:self.review];
+    if( self.feedItem )
+    {
+        [self pushCommentsViewWithFeedItem:self.feedItem showKeyboard:YES];
+    }
+    else
+    {
+        [self pushCommentsViewWithReviewID:self.reviewID showKeyboard:YES];
+    }
 }
 
 - (void)moreReviewsButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
 {
-    [self performSegueWithIdentifier:@"globalDish" sender:nil];
+    [self pushGlobalDishWithDishID:self.review.dish_id];
 }
 
 - (void)textViewTappedAtCharacterIndex:(NSUInteger)characterIndex inCell:(DAReviewDetailCollectionViewCell *)cell
@@ -527,29 +534,21 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         }
         else if( linkedTextType == eLinkedTextTypeUsername )
         {
-            DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-            userProfileViewController.username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
-            userProfileViewController.isRestaurant = NO;
-            [self.navigationController pushViewController:userProfileViewController animated:YES];
+            NSString *username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+            
+            [self pushUserProfileWithUsername:username];
         }
     }
 }
 
 - (void)creatorButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
-    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.username = self.review.creator_username;
-    userProfileViewController.user_id  = self.review.creator_id;
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
+    [self pushUserProfileWithUsername:self.review.creator_username];
 }
 
 - (void)locationButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
-    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.username = self.review.loc_name;
-    userProfileViewController.user_id  = self.review.loc_id;
-    userProfileViewController.isRestaurant = YES;
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
+    [self pushRestaurantProfileWithLocationID:self.review.loc_id username:self.review.loc_name];
 }
 
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
@@ -659,32 +658,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             [self.collectionView reloadData];
         }
     }];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if( [segue.identifier isEqualToString:@"commentsSegue"] )
-    {
-        DACommentsViewController *dest = segue.destinationViewController;
-        
-        if( self.feedItem )
-        {
-            dest.feedItem = self.feedItem;
-        }
-        else
-        {
-            dest.reviewID = self.reviewID;
-        }
-        
-        dest.shouldShowKeyboard = YES;
-    }
-    
-    if( [segue.identifier isEqualToString:@"globalDish"] )
-    {
-        DAGlobalDishDetailViewController *dest = segue.destinationViewController;
-        dest.dishID = self.review.dish_id;
-        dest.presentingReviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
-    }
 }
 
 - (void)deleteReview

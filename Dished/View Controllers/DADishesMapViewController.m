@@ -11,6 +11,7 @@
 #import "DAAnnotationView.h"
 #import "UIImageView+WebCache.h"
 #import "DAReviewDetailsViewController.h"
+#import "DAReviewListViewController.h"
 
 
 @interface DADishesMapViewController()
@@ -38,7 +39,7 @@
 
         if( locationAnnotation )
         {
-            [locationAnnotation.dishes addObject:review];
+            [locationAnnotation.reviews addObject:review];
         }
         else
         {
@@ -47,12 +48,12 @@
             annotation.coordinate = coordinate;
             annotation.img_thumb = review.img_thumb;
             
-            if( !annotation.dishes )
+            if( !annotation.reviews )
             {
-                annotation.dishes = [NSMutableArray array];
+                annotation.reviews = [NSMutableArray array];
             }
             
-            [annotation.dishes addObject:review];
+            [annotation.reviews addObject:review];
             
             [annotations setObject:annotation forKey:@(review.loc_id)];
         }
@@ -72,7 +73,7 @@
     
     static NSString *viewIdentifier = @"dishMapAnnotationViewIdentifier";
     
-    DAAnnotationView *annotationView = [[DAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewIdentifier dishNumber:dishAnnotation.dishes.count];
+    DAAnnotationView *annotationView = [[DAAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:viewIdentifier dishNumber:dishAnnotation.reviews.count];
     
     NSURL *url = [NSURL URLWithString:dishAnnotation.img_thumb];
     [annotationView.dishImageView sd_setImageWithURL:url];
@@ -84,13 +85,16 @@
 {
     DAMapAnnotation *annotation = view.annotation;
     
-    if( annotation.dishes.count == 1 )
+    if( annotation.reviews.count == 1 )
     {
-        DAReview *review = [annotation.dishes objectAtIndex:0];
-        
-        DAReviewDetailsViewController *reviewDetailsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"reviewDetails"];
-        reviewDetailsViewController.reviewID = review.review_id;
-        [self.navigationController pushViewController:reviewDetailsViewController animated:YES];
+        DAReview *review = [annotation.reviews firstObject];
+        [self pushReviewDetailsWithReviewID:review.review_id];
+    }
+    else
+    {
+        DAReviewListViewController *reviewListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"reviewList"];
+        reviewListViewController.reviews = annotation.reviews;
+        [self.navigationController pushViewController:reviewListViewController animated:YES];
     }
 }
 

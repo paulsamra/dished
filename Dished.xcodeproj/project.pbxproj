@@ -72,6 +72,8 @@
 		943ECCF519EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943ECCF419EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib */; };
 		943ECCF819EB19E9009516E8 /* DAEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */; };
 		943ECCFB19EB1AD5009516E8 /* DAUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCFA19EB1AD5009516E8 /* DAUserManager.m */; };
+		943F90BE1A11E8F6008D07FC /* DAReviewListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943F90BD1A11E8F6008D07FC /* DAReviewListViewController.m */; };
+		943F90C11A11EDD6008D07FC /* UIViewController+DishSegues.m in Sources */ = {isa = PBXBuildFile; fileRef = 943F90C01A11EDD6008D07FC /* UIViewController+DishSegues.m */; };
 		9443DEF519CFC7BE00F134BA /* DASingleNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DEF419CFC7BE00F134BA /* DASingleNewsTableViewCell.xib */; };
 		9443DEFA19CFCEA900F134BA /* DASingleNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEF919CFCEA900F134BA /* DASingleNewsTableViewCell.swift */; };
 		9443DEFC19D020F500F134BA /* DATouchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFB19D020F500F134BA /* DATouchTableView.swift */; };
@@ -357,6 +359,10 @@
 		943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAEditProfileViewController.m; sourceTree = "<group>"; };
 		943ECCF919EB1AD5009516E8 /* DAUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUserManager.h; sourceTree = "<group>"; };
 		943ECCFA19EB1AD5009516E8 /* DAUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserManager.m; sourceTree = "<group>"; };
+		943F90BC1A11E8F6008D07FC /* DAReviewListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewListViewController.h; sourceTree = "<group>"; };
+		943F90BD1A11E8F6008D07FC /* DAReviewListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewListViewController.m; sourceTree = "<group>"; };
+		943F90BF1A11EDD6008D07FC /* UIViewController+DishSegues.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+DishSegues.h"; sourceTree = "<group>"; };
+		943F90C01A11EDD6008D07FC /* UIViewController+DishSegues.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+DishSegues.m"; sourceTree = "<group>"; };
 		9443DEF419CFC7BE00F134BA /* DASingleNewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DASingleNewsTableViewCell.xib; sourceTree = "<group>"; };
 		9443DEF619CFCE9000F134BA /* Dished-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dished-Bridging-Header.h"; sourceTree = "<group>"; };
 		9443DEF919CFCEA900F134BA /* DASingleNewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASingleNewsTableViewCell.swift; sourceTree = "<group>"; };
@@ -997,6 +1003,8 @@
 				945E311F19C669CC00C8AA52 /* NSAttributedString+Dished.m */,
 				945269111A0E244500A56B17 /* UIViewController+ShareView.h */,
 				945269121A0E244500A56B17 /* UIViewController+ShareView.m */,
+				943F90BF1A11EDD6008D07FC /* UIViewController+DishSegues.h */,
+				943F90C01A11EDD6008D07FC /* UIViewController+DishSegues.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -1010,6 +1018,8 @@
 				944D1E7919DB8786006F73BF /* DAUserListViewController.m */,
 				9486156319FCC306002497D0 /* DADishesMapViewController.h */,
 				9486156419FCC306002497D0 /* DADishesMapViewController.m */,
+				943F90BC1A11E8F6008D07FC /* DAReviewListViewController.h */,
+				943F90BD1A11E8F6008D07FC /* DAReviewListViewController.m */,
 				943ECCF619EB19E9009516E8 /* DAEditProfileViewController.h */,
 				943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */,
 			);
@@ -1646,6 +1656,7 @@
 				94F2ADA1198C539200450C6F /* SDWebImageManager.m in Sources */,
 				9443DEFA19CFCEA900F134BA /* DASingleNewsTableViewCell.swift in Sources */,
 				94CB03D019B0EA94009010F6 /* SWUtilityButtonView.m in Sources */,
+				943F90BE1A11E8F6008D07FC /* DAReviewListViewController.m in Sources */,
 				D187E06F19BFA1A500D8C85C /* DAGlobalDishDetailViewController.m in Sources */,
 				94F2AD9F198C539200450C6F /* SDWebImageDownloader.m in Sources */,
 				948615C919FE1C3D002497D0 /* MRIconView.m in Sources */,
@@ -1752,6 +1763,7 @@
 				9443DF0E19D2AC1D00F134BA /* DANewsManager.m in Sources */,
 				94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */,
 				94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */,
+				943F90C11A11EDD6008D07FC /* UIViewController+DishSegues.m in Sources */,
 				94CB040219B146AF009010F6 /* UIColor+JSQMessages.m in Sources */,
 				94F2ADA0198C539200450C6F /* SDWebImageDownloaderOperation.m in Sources */,
 				943E62621987362100DF2135 /* BAVPlistNode.m in Sources */,

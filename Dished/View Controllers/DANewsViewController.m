@@ -516,14 +516,14 @@
     switch( news.notificationType )
     {
         case eUserNewsNotificationTypeFollow:
-            [self goToUserProfileWithUserID:news.username];
+            [self pushUserProfileWithUsername:news.username];
             break;
             
         case eUserNewsNotificationTypeYum:
         case eUserNewsNotificationTypeReviewMention:
         case eUserNewsNotificationTypeComment:
         case eUserNewsNotificationTypeCommentMention:
-            [self goToReviewDetailsWithReviewID:news.review_id];
+            [self pushReviewDetailsWithReviewID:news.review_id];
             break;
             
         case eUserNewsNotificationTypeUnknown:
@@ -543,20 +543,6 @@
         case eFollowingNewsNotificationTypeYum:
             break;
     }
-}
-                                               
-- (void)goToUserProfileWithUserID:(NSString *)username
-{
-    DAUserProfileViewController *userProfileViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userProfile"];
-    userProfileViewController.username = username;
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
-}
-
-- (void)goToReviewDetailsWithReviewID:(NSInteger)reviewID
-{
-    DAReviewDetailsViewController *reviewDetailsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"reviewDetails"];
-    reviewDetailsViewController.reviewID = reviewID;
-    [self.navigationController pushViewController:reviewDetailsViewController animated:YES];
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
@@ -609,8 +595,7 @@
 
 - (IBAction)settingsButtonTapped:(id)sender
 {
-    DASettingsViewController *settingsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"settings"];
-    [self.navigationController pushViewController:settingsViewController animated:YES];
+    [self pushSettingsView];
 }
 
 @end

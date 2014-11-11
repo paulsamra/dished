@@ -187,7 +187,7 @@
     
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.text = @"What didn't you like about the dish?";
-    label.font = [UIFont fontWithName:@"HelveticaNeue-Light" size:17];
+    label.font = [UIFont fontWithName:kHelveticaNeueLightFont size:17];
     
     label.textAlignment = NSTextAlignmentCenter;
     
