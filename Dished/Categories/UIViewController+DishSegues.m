@@ -16,7 +16,18 @@
     
     restaurantProfileViewController.isRestaurant = YES;
     restaurantProfileViewController.username = username;
-    restaurantProfileViewController.user_id  = locationID;
+    restaurantProfileViewController.loc_id  = locationID;
+    
+    [self.navigationController pushViewController:restaurantProfileViewController animated:YES];
+}
+
+- (void)pushrestaurantProfileWithUserID:(NSInteger)userID username:(NSString *)username
+{
+    DAUserProfileViewController *restaurantProfileViewController = [self viewControllerWithStoryboardID:kUserProfileID];
+    
+    restaurantProfileViewController.isRestaurant = YES;
+    restaurantProfileViewController.username = username;
+    restaurantProfileViewController.user_id  = userID;
     
     [self.navigationController pushViewController:restaurantProfileViewController animated:YES];
 }

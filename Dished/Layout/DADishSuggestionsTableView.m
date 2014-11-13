@@ -38,7 +38,6 @@ static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";
         [self registerNib:broadcastCellNib forCellReuseIdentifier:kDishSuggestionCellIdentifier];
         
         self.rowHeight = 44.0;
-        self.estimatedRowHeight = 44.0;
     }
     
     return self;
@@ -105,8 +104,6 @@ static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";
     [self reloadData];
 }
 
-#pragma mark UITableViewDataSource methods
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return self.dishSearchResults.count;
@@ -122,7 +119,10 @@ static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";
     return cell;
 }
 
-#pragma mark UITableViewDelegate methods
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.0;
+}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

@@ -14,5 +14,6 @@
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 
 @property (copy, nonatomic) NSString *documentName;
+@property (copy, nonatomic) NSString *documentURL;
 
 @end

@@ -11,6 +11,7 @@
 
 @interface DAUsername : NSObject
 
+@property (copy, nonatomic) NSString *type;
 @property (copy, nonatomic) NSString *username;
 @property (copy, nonatomic) NSString *img_thumb;
 

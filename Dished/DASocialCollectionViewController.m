@@ -543,16 +543,24 @@
         UIImage *twitterImage = [UIImage imageNamed:@"twitter"];
         UIImage *emailImage = [UIImage imageNamed:@"email"];
         UIImage *flagImage = [UIImage imageNamed:@"flag"];
+        UIImage *trashImage = [UIImage imageNamed:@"trash"];
 
         _cellImages = @[ facebookImage, twitterImage, emailImage, flagImage];
         
-        if (self.isReviewPost)
+        if( self.isReviewPost )
         {
             _cellImages = @[ facebookImage, twitterImage, emailImage];
         }
         else
         {
-            _cellImages = @[ facebookImage, twitterImage, emailImage, flagImage];
+            if( self.isOwnReview )
+            {
+                _cellImages = @[ facebookImage, twitterImage, emailImage, trashImage ];
+            }
+            else
+            {
+                _cellImages = @[ facebookImage, twitterImage, emailImage, flagImage ];
+            }
         }
     }
     

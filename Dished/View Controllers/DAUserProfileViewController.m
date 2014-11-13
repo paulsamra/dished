@@ -148,7 +148,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         if( self.isRestaurant )
         {
-            NSDictionary *parameters = @{ @"loc_id" : @(self.user_id) };
+            NSDictionary *parameters = self.loc_id == 0 ? @{ kIDKey : @(self.user_id) } : @{ kLocationIDKey : @(self.loc_id) };
             parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
             
             self.profileLoadTask = [[DAAPIManager sharedManager] GET:kRestaurantProfileURL parameters:parameters
@@ -233,11 +233,15 @@ static NSString *const kDishSearchCellID = @"dishCell";
     self.userImageView.layer.cornerRadius     = 10;
     self.descriptionHeightConstraint.constant = 0;
     
-    NSString *phoneNumberString = @"No Phone Number";
+    NSString *phoneNumberString = @"No Phone\nNumber";
     
     if( self.restaurantProfile.phone && [self.restaurantProfile.phone integerValue] > 0 )
     {
         phoneNumberString = [NSString stringWithFormat:@"(%@) %@-%@", [self.restaurantProfile.phone substringWithRange:NSMakeRange( 0, 3 )], [self.restaurantProfile.phone substringWithRange:NSMakeRange( 3, 3 )], [self.restaurantProfile.phone substringFromIndex:6]];
+    }
+    else
+    {
+        [self.phoneNumberButton setImage:nil forState:UIControlStateNormal];
     }
     self.phoneNumberButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.phoneNumberButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;

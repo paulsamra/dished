@@ -178,9 +178,9 @@
     self.desc        = nilOrJSONObjectForKey( profile, kDescriptionKey );
     self.email       = nilOrJSONObjectForKey( profile, kEmailKey       );
     self.userType    = nilOrJSONObjectForKey( profile, kTypeKey        );
-    self.lastName    = nilOrJSONObjectForKey( profile, kFirstNameKey   );
+    self.lastName    = nilOrJSONObjectForKey( profile, kLastNameKey    );
     self.username    = nilOrJSONObjectForKey( profile, kUsernameKey    );
-    self.firstName   = nilOrJSONObjectForKey( profile, kLastNameKey    );
+    self.firstName   = nilOrJSONObjectForKey( profile, kFirstNameKey   );
     self.img_thumb   = nilOrJSONObjectForKey( profile, kImgThumbKey    );
     self.phoneNumber = nilOrJSONObjectForKey( profile, kPhoneKey       );
     

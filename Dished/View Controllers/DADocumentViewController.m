@@ -22,12 +22,25 @@
     
     self.navigationItem.title = self.documentName;
     
-    dispatch_async( dispatch_get_main_queue(), ^
+    if( self.documentURL )
     {
-        NSString *htmlFile = [[NSBundle mainBundle] pathForResource:self.documentName ofType:@"html"];
-        NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
-        [self.webView loadHTMLString:htmlString baseURL:nil];
-    });
+        dispatch_async( dispatch_get_main_queue(), ^
+        {
+            NSString *urlAddress = self.documentURL;
+            NSURL *url = [NSURL URLWithString:urlAddress];
+            NSURLRequest *urlRequest = [NSURLRequest requestWithURL:url];
+            [self.webView loadRequest:urlRequest];
+        });
+    }
+    else
+    {
+        dispatch_async( dispatch_get_main_queue(), ^
+        {
+            NSString *htmlFile = [[NSBundle mainBundle] pathForResource:self.documentName ofType:@"html"];
+            NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
+            [self.webView loadHTMLString:htmlString baseURL:nil];
+        });
+    }
 }
 
 @end

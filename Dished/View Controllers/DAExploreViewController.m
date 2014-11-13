@@ -423,7 +423,10 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
         [cell.imageView sd_setImageWithURL:url
         completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
         {
-            self.images[indexPath.row] = image;
+            if( image )
+            {
+                self.images[indexPath.row] = image;
+            }
             
             [cell.activityIndicatorView stopAnimating];
             cell.activityIndicatorView.hidden = YES;

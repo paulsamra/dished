@@ -25,6 +25,11 @@ extern NSString *const kFirstLaunchKey;
 extern NSString *const kWelcomeScreenImageNameFormat;
 extern NSString *const kWelcomeScreenDotsImageNameFormat;
 
+extern NSString *const kBasicUserType;
+extern NSString *const kAdminUserType;
+extern NSString *const kRestaurantUserType;
+extern NSString *const kInfluencerUserType;
+
 extern NSString *const kFood;
 extern NSString *const kWine;
 extern NSString *const kCocktail;

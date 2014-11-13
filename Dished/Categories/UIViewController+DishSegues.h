@@ -19,6 +19,7 @@
 @interface UIViewController (DishSegues)
 
 - (void)pushRestaurantProfileWithLocationID:(NSInteger)locationID username:(NSString *)username;
+- (void)pushrestaurantProfileWithUserID:(NSInteger)userID username:(NSString *)username;
 - (void)pushUserProfileWithUsername:(NSString *)username;
 - (void)pushUserProfileWithUserID:(NSInteger)userID;
 

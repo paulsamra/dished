@@ -17,6 +17,7 @@
 #import "DACoreDataManager.h"
 #import "DANewsManager.h"
 #import "DAContainerViewController.h"
+#import "UserVoice.h"
 
 
 @interface DAAppDelegate() <DAErrorViewDelegate>
@@ -51,6 +52,7 @@
     if( [[DAAPIManager sharedManager] isLoggedIn] )
     {
         [[DAAPIManager sharedManager] authenticateWithCompletion:nil];
+        [self setupUserVoice];
         [self setRootView];
     }
     
@@ -60,6 +62,18 @@
     [Crashlytics startWithAPIKey:@"8553c9eeaaf67ce6f513e36c6cd30df3176d0664"];
     
     return YES;
+}
+
+- (void)setupUserVoice
+{
+    NSString *email = [DAUserManager sharedManager].email;
+    NSString *name  = [NSString stringWithFormat:@"%@ %@", [DAUserManager sharedManager].firstName, [DAUserManager sharedManager].lastName];
+    NSString *userID = [NSString stringWithFormat:@"%d", (int)[DAUserManager sharedManager].user_id];
+    
+    
+    UVConfig *config = [UVConfig configWithSite:@"dishedapp.uservoice.com"];
+    [config identifyUserWithEmail:email name:name guid:userID];
+    [UserVoice initialize:config];
 }
 
 - (void)setupAppearance
@@ -281,6 +295,7 @@
 {
     [[DAUserManager sharedManager] loadUserInfoWithCompletion:nil];
     [[DANewsManager sharedManager] updateAllNewsWithCompletion:nil];
+    [self setupUserVoice];
     [self setRootView];
     [self registerForPushNotifications];
 }

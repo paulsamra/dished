@@ -19,6 +19,11 @@ NSString *const kFood     = @"food";
 NSString *const kWine     = @"wine";
 NSString *const kCocktail = @"cocktail";
 
+NSString *const kBasicUserType      = @"basic";
+NSString *const kAdminUserType      = @"admin";
+NSString *const kRestaurantUserType = @"restaurant";
+NSString *const kInfluencerUserType = @"influencer";
+
 NSString *const kUserNewsFollowNotification               = @"user_follow";
 NSString *const kUserNewsReviewYumNotification            = @"review_yum";
 NSString *const kUserNewsReviewMentionNotification        = @"review_mention";

@@ -40,5 +40,6 @@
 
 @property (nonatomic) BOOL      isRestaurant;
 @property (nonatomic) NSInteger user_id;
+@property (nonatomic) NSInteger loc_id;
 
 @end

@@ -20,11 +20,12 @@
 {
     if( self = [super init] )
     {
+        _type      = nilOrJSONObjectForKey( data, kTypeKey );
         _username  = nilOrJSONObjectForKey( data, kUsernameKey );
-        _img_thumb = nilOrJSONObjectForKey( data, @"img_thumb" );
+        _img_thumb = nilOrJSONObjectForKey( data, kImgThumbKey );
         
-        _isFollowed = [data[@"caller_follows"] boolValue];
-        _user_id    = [data[kIDKey] integerValue];
+        _user_id    = [nilOrJSONObjectForKey( data, kIDKey ) integerValue];
+        _isFollowed = [nilOrJSONObjectForKey( data, @"caller_follows" ) boolValue];
     }
     
     return self;

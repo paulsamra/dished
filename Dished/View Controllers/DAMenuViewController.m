@@ -13,6 +13,7 @@
 #import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
 #import "DADocumentViewController.h"
+#import "UserVoice.h"
 
 
 @interface DAMenuViewController()
@@ -89,6 +90,7 @@
             break;
             
         case 2:
+            [self goToFAQ];
             break;
             
         case 3:
@@ -98,23 +100,33 @@
         case 4:
             [self showPrivacyPolicy];
             break;
+            
+        case 5:
+            [UserVoice presentUserVoiceContactUsFormForParentViewController:self];
+            break;
     }
+}
+             
+- (void)goToFAQ
+{
+    [self goToDocumentViewWithName:@"FAQ" documentURL:@"http://www.dishedapp.com/faq/"];
 }
 
 - (void)showTermsOfUse
 {
-    [self goToDocumentViewWithName:@"Terms & Conditions"];
+    [self goToDocumentViewWithName:@"Terms & Conditions" documentURL:nil];
 }
 
 - (void)showPrivacyPolicy
 {
-    [self goToDocumentViewWithName:@"Privacy Policy"];
+    [self goToDocumentViewWithName:@"Privacy Policy" documentURL:nil];
 }
 
-- (void)goToDocumentViewWithName:(NSString *)documentName
+- (void)goToDocumentViewWithName:(NSString *)documentName documentURL:(NSString *)url
 {
     DADocumentViewController *documentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"document"];
     documentViewController.documentName = documentName;
+    documentViewController.documentURL = url;
     [self.navigationController pushViewController:documentViewController animated:YES];
 }
 

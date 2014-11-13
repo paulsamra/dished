@@ -217,7 +217,14 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 {
     DAUsername *username = [self.usernameArray objectAtIndex:indexPath.row];
     
-    [self pushUserProfileWithUsername:username.username];
+    if( [username.type isEqualToString:kRestaurantUserType] )
+    {
+        [self pushrestaurantProfileWithUserID:username.user_id username:username.username];
+    }
+    else
+    {
+        [self pushUserProfileWithUsername:username.username];
+    }
 }
 
 - (void)configureFollowButton:(UIButton *)followButton withFollowStatus:(BOOL)isFollowed
