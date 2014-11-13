@@ -206,9 +206,9 @@
         UIImage *croppedImage = [UIImage imageWithCGImage:imageRef];
         CGImageRelease( imageRef );
         
-        self.pictureTaken = croppedImage;
+        self.pictureTaken = [self scaleDownImage:croppedImage];
         
-        [self performSelectorOnMainThread:@selector(imageIsReady:) withObject:croppedImage waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(imageIsReady:) withObject:self.pictureTaken waitUntilDone:NO];
     });
 }
 
@@ -366,6 +366,24 @@
     [[DALocationManager sharedManager] stopUpdatingLocation];
     
     [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (UIImage *)scaleDownImage:(UIImage *)image
+{
+    CIImage *beginImage = [CIImage imageWithCGImage:image.CGImage];
+    
+    CIFilter *scaleFilter = [CIFilter filterWithName:@"CILanczosScaleTransform"];
+    [scaleFilter setValue:beginImage forKey:kCIInputImageKey];
+    [scaleFilter setValue:@(0.5f) forKey:kCIInputScaleKey];
+    [scaleFilter setValue:@(1.0f) forKey:kCIInputAspectRatioKey];
+    
+    CIImage *outputImage = [scaleFilter outputImage];
+    
+    CGImageRef imageRef = [[CIContext contextWithOptions:nil] createCGImage:outputImage fromRect:outputImage.extent];
+    UIImage *newImg = [UIImage imageWithCGImage:imageRef];
+    CGImageRelease(imageRef);
+    
+    return newImg;
 }
 
 @end

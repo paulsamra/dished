@@ -55,8 +55,8 @@
     
     if( self.shouldLogin )
     {
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"email", @"user_birthday"] allowLoginUI:YES
-                                      completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
+        [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_birthday" ] allowLoginUI:YES
+        completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
         {
             if( state == FBSessionStateOpen )
             {
@@ -74,18 +74,15 @@
                     }
                 }];
             }
+            else
+            {
+                [self.navigationController popViewControllerAnimated:YES];
+            }
             
             DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
             [appDelegate sessionStateChanged:session state:state error:error];
         }];        
     }
-}
-
-- (IBAction)goToTabs
-{
-    DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-    
-    [delegate setRootView];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

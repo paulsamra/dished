@@ -44,7 +44,6 @@
     if( parentVC.pictureTaken )
     {
         UIImage *pictureTaken = parentVC.pictureTaken;
-        pictureTaken = [self scaleDownImage:pictureTaken];
         
         self.pictureTaken = pictureTaken;
         self.pictureImageView.image = self.pictureTaken;
@@ -69,7 +68,6 @@
 - (void)imageReady:(NSNotification *)notification;
 {
     UIImage *pictureTaken = notification.object;
-    pictureTaken = [self scaleDownImage:pictureTaken];
     
     self.pictureTaken = pictureTaken;
     self.pictureImageView.image = self.pictureTaken;
@@ -114,24 +112,6 @@
     label.text = [self.filterTitles objectAtIndex:indexPath.row];
     
     return cell;
-}
-
-- (UIImage *)scaleDownImage:(UIImage *)image
-{
-    CIImage *beginImage = [CIImage imageWithCGImage:image.CGImage];
-    
-    CIFilter *scaleFilter = [CIFilter filterWithName:@"CILanczosScaleTransform"];
-    [scaleFilter setValue:beginImage forKey:kCIInputImageKey];
-    [scaleFilter setValue:@(0.5f) forKey:kCIInputScaleKey];
-    [scaleFilter setValue:@(1.0f) forKey:kCIInputAspectRatioKey];
-    
-    CIImage *outputImage = [scaleFilter outputImage];
-    
-    CGImageRef imageRef = [[CIContext contextWithOptions:nil] createCGImage:outputImage fromRect:outputImage.extent];
-    UIImage *newImg = [UIImage imageWithCGImage:imageRef];
-    CGImageRelease(imageRef);
-    
-    return newImg;
 }
 
 - (UIImage *)filterImage:(UIImage *)image withFilterName:(NSString *)filterName

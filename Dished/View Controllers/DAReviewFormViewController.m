@@ -19,6 +19,7 @@
 #import "DATwitterManager.h"
 #import "DASocialCollectionViewController.h"
 #import "DAImagePickerController.h"
+#import "DAUserManager.h"
 
 @interface DAReviewFormViewController() <UIAlertViewDelegate, DASocialCollectionViewControllerDelegate>
 
@@ -664,6 +665,11 @@
             if( postSuccess )
             {
                 [self.view endEditing:YES];
+                
+                if( [DAUserManager sharedManager].savesDishPhoto )
+                {
+                    UIImageWriteToSavedPhotosAlbum( self.reviewImage, nil, nil, nil );
+                }
                 
                 [self dismissViewControllerAnimated:YES completion:^
                 {

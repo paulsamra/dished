@@ -197,7 +197,7 @@
 - (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error
 {
     // If the session was opened successfully
-    if (!error && state == FBSessionStateOpen)
+    if( !error && state == FBSessionStateOpen )
     {
         NSLog(@"Session opened");
         return;

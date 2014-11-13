@@ -163,7 +163,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             
             self.fetchedResultsController.fetchRequest.fetchLimit += 10;
             [self.fetchedResultsController performFetch:nil];
-            self.fetchedResultsController.delegate = self;
         }
     }];
 }
@@ -451,11 +450,11 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         }
         else
         {
-            if( [self.itemSizeCache objectForKey:indexPath] )
-            {
-                CGSize cachedSize = [[self.itemSizeCache objectForKey:indexPath] CGSizeValue];
-                return cachedSize;
-            }
+//            if( [self.itemSizeCache objectForKey:indexPath] )
+//            {
+//                CGSize cachedSize = [[self.itemSizeCache objectForKey:indexPath] CGSizeValue];
+//                return cachedSize;
+//            }
             
             NSInteger commentIndex = indexPath.row - ( num_yums > 0 ? 2 : 1 );
             commentIndex = [feedItem.num_comments integerValue] > 3 && commentIndex > 0 ? commentIndex - 1 : commentIndex;
