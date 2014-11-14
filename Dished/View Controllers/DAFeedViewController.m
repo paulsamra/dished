@@ -201,6 +201,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         DAFeedCollectionViewCell *feedCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
         
+        [feedCell layoutIfNeeded];
         [self configureCell:feedCell atIndexPath:indexPath];
         feedCell.delegate = self;
         
