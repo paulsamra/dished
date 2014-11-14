@@ -53,6 +53,7 @@
     }
     else
     {
+        self.navigationItem.rightBarButtonItem.enabled = NO;
         [self.spinner startAnimating];
     }
 }
@@ -71,13 +72,17 @@
     UIImage *pictureTaken = notification.object;
     
     self.pictureTaken = pictureTaken;
-    self.pictureImageView.image = self.pictureTaken;
     
     self.filteredImages[self.filterNames[0]] = self.pictureTaken;
+    [self filterImageAtIndex:self.selectedIndex];
     
+    self.pictureImageView.image = self.filteredImages[self.filterNames[self.selectedIndex]];
+
     [self.spinner stopAnimating];
     
     [self.collectionView reloadData];
+    
+    self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -135,26 +140,30 @@
 {
     self.selectedIndex = (int)indexPath.row;
     
-    UIImage *filteredImage = self.filteredImages[self.filterNames[indexPath.row]];
-    
-    if( !filteredImage )
-    {
-        if( indexPath.row == 0 )
-        {
-            
-        }
-        else
-        {
-            NSString *filterName = self.filterNames[indexPath.row];
-            
-            UIImage *newImage = [self filterImage:self.pictureTaken withFilterName:filterName];
-            
-            self.filteredImages[self.filterNames[indexPath.row]] = newImage;
-        }
-    }
+    [self filterImageAtIndex:indexPath.row];
     
     self.pictureImageView.image = self.filteredImages[self.filterNames[indexPath.row]];
     [self.collectionView reloadData];
+}
+
+- (void)filterImageAtIndex:(NSInteger)index
+{
+    UIImage *filteredImage = self.filteredImages[self.filterNames[index]];
+    
+    if( !filteredImage )
+    {
+        if( index != 0 )
+        {
+            NSString *filterName = self.filterNames[index];
+            
+            UIImage *newImage = [self filterImage:self.pictureTaken withFilterName:filterName];
+            
+            if( newImage )
+            {
+                self.filteredImages[self.filterNames[index]] = newImage;
+            }
+        }
+    }
 }
 
 - (IBAction)goToDetails:(UIBarButtonItem *)sender

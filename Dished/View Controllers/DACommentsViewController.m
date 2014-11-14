@@ -125,12 +125,12 @@
     [super viewDidDisappear:animated];
     
     [self.keyboardController endListeningForKeyboard];
-    
-    [self.inputToolbar.contentView.textView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentSize)) context:nil];
 }
 
 - (void)dealloc
 {
+    [self.inputToolbar.contentView.textView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentSize)) context:nil];
+    
     [self.keyboardController endListeningForKeyboard];
     [self.loadCommentsTask cancel];
 }
