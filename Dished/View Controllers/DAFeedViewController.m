@@ -32,7 +32,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate>
 
 @property (strong, nonatomic) NSCache                          *feedImageCache;
-@property (strong, nonatomic) NSCache                          *itemSizeCache;
 @property (strong, nonatomic) UIImageView                      *yumTapImageView;
 @property (strong, nonatomic) NSMutableArray                   *sectionChanges;
 @property (strong, nonatomic) NSMutableArray                   *itemChanges;
@@ -451,12 +450,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         }
         else
         {
-//            if( [self.itemSizeCache objectForKey:indexPath] )
-//            {
-//                CGSize cachedSize = [[self.itemSizeCache objectForKey:indexPath] CGSizeValue];
-//                return cachedSize;
-//            }
-            
             NSInteger commentIndex = indexPath.row - ( num_yums > 0 ? 2 : 1 );
             commentIndex = [feedItem.num_comments integerValue] > 3 && commentIndex > 0 ? commentIndex - 1 : commentIndex;
             NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
@@ -469,23 +462,23 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
                  sizingCell = [DAReviewDetailCollectionViewCell sizingCell];
             });
             
-            CGFloat textViewLeftMargin = sizingCell.frame.size.width - ( sizingCell.textView.frame.origin.x + sizingCell.textView.frame.size.width );
-            CGFloat textViewWidth = collectionView.frame.size.width - sizingCell.textView.frame.origin.x - textViewLeftMargin;
+            CGFloat textViewRightMargin = sizingCell.frame.size.width - ( sizingCell.textView.frame.origin.x + sizingCell.textView.frame.size.width );
+            CGFloat textViewWidth = collectionView.frame.size.width - sizingCell.textView.frame.origin.x - textViewRightMargin;
             
             CGSize cellSize = CGSizeZero;
             cellSize.width = collectionView.frame.size.width;
             
             NSAttributedString *commentString = [self commentStringForComment:comment];
-            
+            sizingCell.textView.attributedText = commentString;
             CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
-            CGRect stringRect   = [commentString boundingRectWithSize:boundingSize
-                                                              options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                                              context:nil];
+            CGSize stringSize = [sizingCell.textView sizeThatFits:boundingSize];
             
-            CGFloat textViewHeight = ceilf( stringRect.size.height ) + 2;
-            cellSize.height = textViewHeight;
+            CGFloat textViewTopMargin = sizingCell.textView.frame.origin.y;
+            CGFloat textViewBottomMargin = sizingCell.frame.size.height - ( sizingCell.textView.frame.origin.y + sizingCell.textView.frame.size.height );
+            CGFloat textViewHeight = ceilf( stringSize.height );
             
-            [self.itemSizeCache setObject:[NSValue valueWithCGSize:cellSize] forKey:indexPath];
+            CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
+            cellSize.height = calculatedHeight;
             
             itemSize = cellSize;
         }
@@ -932,17 +925,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
     
     return _feedImageCache;
-}
-
-- (NSCache *)itemSizeCache
-{
-    if( !_itemSizeCache )
-    {
-        _itemSizeCache = [[NSCache alloc] init];
-        [_itemSizeCache setName:@"feedItemSizeCache"];
-    }
-    
-    return _itemSizeCache;
 }
 
 @end

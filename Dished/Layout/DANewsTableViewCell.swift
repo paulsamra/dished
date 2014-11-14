@@ -32,8 +32,8 @@ class DANewsTableViewCell: UITableViewCell
         
         userImageView.image = nil
         newsTextView.attributedText = nil
-        newsTextView.text = nil
+        newsTextView.text = ""
         timeLabel.attributedText = nil
-        timeLabel.text = nil
+        timeLabel.text = ""
     }
 }

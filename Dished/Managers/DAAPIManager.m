@@ -73,6 +73,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             [SSKeychain deletePasswordForService:kKeychainService account:kRefreshTokenKey];
             
             [[NSUserDefaults standardUserDefaults] setObject:@"firstRun" forKey:@"firstRun"];
+            [[NSUserDefaults standardUserDefaults] synchronize];
         }
         
         AFNetworkReachabilityManager *reachabilityManager = [AFNetworkReachabilityManager sharedManager];
