@@ -119,6 +119,7 @@ extern NSString *const kLocationNameKey;
 extern NSString *const kErrorKey;
 extern NSString *const kEmailExistsError;
 extern NSString *const kPhoneExistsError;
+extern NSString *const kParamsInvalidError;
 extern NSString *const kDataNonexistsError;
 
 extern NSString *const kAll;

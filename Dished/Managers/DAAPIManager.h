@@ -20,6 +20,7 @@ typedef enum
     eErrorTypeTimeout,
     eErrorTypeRequestCancelled,
     eErrorTypeExpiredAccessToken,
+    eErrorTypeParamsInvalid,
     eErrorTypeUnknown
 } eErrorType;
 

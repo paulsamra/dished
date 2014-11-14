@@ -24,7 +24,6 @@
     
     profile.dish_id         = [nilOrJSONObjectForKey( data, kIDKey )         integerValue];
     profile.loc_id          = [nilOrJSONObjectForKey( data, kLocationIDKey ) integerValue];
-    profile.dish_id         = [data[@"dish_id"]    integerValue];
     profile.num_yums        = [data[@"num_yums"]   integerValue];
     profile.num_images      = [data[@"num_images"] integerValue];
     

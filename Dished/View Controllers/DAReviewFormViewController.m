@@ -31,6 +31,7 @@
 @property (strong, nonatomic) NSMutableString                  *dishPrice;
 @property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
 
+@property (nonatomic) BOOL   selectedDish;
 @property (nonatomic) BOOL   searchedForSuggestions;
 @property (nonatomic) CGRect keyboardFrame;
 
@@ -43,6 +44,7 @@
 {    
     [super viewDidLoad];
     
+    self.selectedDish = NO;
     self.searchedForSuggestions = NO;
     
     self.facebookImage.alpha = 0.3;
@@ -124,9 +126,11 @@
     
     if( selectedDish )
     {
+        self.selectedDish = YES;
         self.review.title = selectedDish.name;
         self.review.locationName = selectedDish.loc_name;
         self.review.locationID = selectedDish.loc_id;
+        self.review.dishID = selectedDish.dish_id;
         
         [self updateFields];
     }
@@ -196,6 +200,14 @@
     self.keyboardFrame = keyboardFrame;
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
+    
+    CGFloat x = 0;
+    UITableViewCell *commentCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
+    CGFloat y = commentCell.frame.origin.y;
+    CGFloat width = self.tableView.frame.size.width;
+    CGFloat height = self.commentTextView.frame.size.height + self.imAtButton.frame.size.height;
+    
+    self.dishSuggestionsTable.frame = CGRectMake( x, y, width, height );
 }
 
 - (void)dismissSocialView
@@ -382,6 +394,15 @@
         self.review.title = textField.text;
         [self.dishSuggestionsTable cancelSearchQuery];
     }
+    
+    if( textField == self.priceTextField )
+    {
+        if( [self.dishPrice doubleValue] == 0 )
+        {
+            self.priceTextField.text = @"";
+            self.review.price = nil;
+        }
+    }
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -422,9 +443,13 @@
     if( self.review.dishID != 0 )
     {
         self.review.dishID = 0;
-        self.review.price = @"";
-        self.review.locationName = @"";
-        self.review.locationID = 0;
+        
+        if( !self.selectedDish )
+        {
+            self.review.locationName = @"";
+            self.review.locationID = 0;
+        }
+
         self.dishPrice = [[NSMutableString alloc] init];
     }
     
@@ -438,7 +463,11 @@
     self.review.locationName = locationName;
     self.review.locationID = locationID;
     self.dishPrice = [[NSMutableString alloc] init];
-    self.review.price = [NSString stringWithFormat:@"$%@", dishPrice];
+    
+    if( [dishPrice doubleValue] > 0 )
+    {
+        self.review.price = [NSString stringWithFormat:@"$%@", dishPrice];
+    }
     
     [self updateFields];
 }
@@ -495,10 +524,11 @@
     
     if( self.review.dishID != 0 )
     {
-        self.imAtButton.enabled = NO;
-        self.priceTextField.enabled = NO;
-        [self.imAtButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        self.priceTextField.textColor = [UIColor lightGrayColor];
+        if( !self.selectedDish )
+        {
+            self.imAtButton.enabled = NO;
+            [self.imAtButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        }
     }
     else
     {

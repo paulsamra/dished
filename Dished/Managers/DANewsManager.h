@@ -40,4 +40,6 @@ typedef void (^DANewsManagerCompletionBlock)( BOOL success );
 - (void)loadMoreNewsWithCompletion:(DANewsManagerCompletionBlock)completion;
 - (void)loadMoreFollowingWithCompletion:(DANewsManagerCompletionBlock)completion;
 
+- (void)deleteAllNews;
+
 @end

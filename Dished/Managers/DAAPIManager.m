@@ -72,8 +72,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             [SSKeychain deletePasswordForService:kKeychainService account:kAccessTokenKey];
             [SSKeychain deletePasswordForService:kKeychainService account:kRefreshTokenKey];
             
-            [self createClientID];
-            
             [[NSUserDefaults standardUserDefaults] setObject:@"firstRun" forKey:@"firstRun"];
         }
         
@@ -163,6 +161,10 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             else if( [errorValue isEqualToString:kPhoneExistsError] )
             {
                 errorType = eErrorTypePhoneExists;
+            }
+            else if( [errorValue isEqualToString:kParamsInvalidError] )
+            {
+                errorType = eErrorTypeParamsInvalid;
             }
         }
     }
@@ -257,6 +259,11 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (NSDictionary *)authenticatedParametersWithParameters:(NSDictionary *)parameters
 {
+    if( ![self isLoggedIn] )
+    {
+        return parameters;
+    }
+    
     NSMutableDictionary *authParameters = [NSMutableDictionary dictionaryWithDictionary:parameters];
     authParameters[kAccessTokenKey] = self.accessToken;
     
@@ -273,15 +280,17 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     
     NSNumber *dobTimestamp = @( [birthday timeIntervalSince1970] );
     
-    NSDictionary *parameters = @{ kClientIDKey : self.clientID, @"username" : username, @"password" : password,
-                                  @"phone" : phoneNumber, @"fname" : firstName, @"lname" : lastName, @"email" : email,
-                                  @"dob" : dobTimestamp };
+    NSDictionary *parameters = @{ kClientIDKey : self.clientID, kUsernameKey : username, @"password" : password,
+                                  kPhoneKey : phoneNumber, @"fname" : firstName, @"lname" : lastName, kEmailKey : email,
+                                  kDateOfBirthKey : dobTimestamp };
     
-    [self POST:@"users" parameters:parameters
+    [self POST:kUsersURL parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        clientSecret = responseObject[@"data"][kClientSecretKey];
+        clientSecret = responseObject[kDataKey][kClientSecretKey];
+        
         [SSKeychain setPassword:clientSecret forService:kKeychainService account:kClientSecretKey];
+        self.clientSecret = clientSecret;
         
         dispatch_group_leave( group );
     }
@@ -297,32 +306,23 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         if( clientSecret )
         {
             NSDictionary *authParameters = @{ kClientIDKey : self.clientID, kClientSecretKey : clientSecret,
-                                              @"username" : username, @"password" : password };
+                                              kUsernameKey : username, @"password" : password };
             
             [self POST:@"auth/token" parameters:authParameters
             success:^( NSURLSessionDataTask *task, id responseObject )
             {
-                NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
+                NSDictionary *auth = (NSDictionary *)responseObject;
                 
-                if( response.statusCode == 200 )
-                {
-                    NSDictionary *auth = (NSDictionary *)responseObject;
-                    
-                    self.accessToken  = auth[kAccessTokenKey];
-                    self.refreshToken = auth[kRefreshTokenKey];
-                    
-                    [SSKeychain setPassword:self.accessToken  forService:kKeychainService account:kAccessTokenKey];
-                    [SSKeychain setPassword:self.refreshToken forService:kKeychainService account:kRefreshTokenKey];
-                    
-                    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kLastRefreshKey];
-                    [[NSUserDefaults standardUserDefaults] synchronize];
-                    
-                    completion( YES, YES );
-                }
-                else
-                {
-                    completion( YES, NO );
-                }
+                self.accessToken  = auth[kAccessTokenKey];
+                self.refreshToken = auth[kRefreshTokenKey];
+                
+                [SSKeychain setPassword:self.accessToken  forService:kKeychainService account:kAccessTokenKey];
+                [SSKeychain setPassword:self.refreshToken forService:kKeychainService account:kRefreshTokenKey];
+                
+                [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kLastRefreshKey];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                completion( YES, YES );
             }
             failure:^( NSURLSessionDataTask *task, NSError *error )
             {
@@ -348,11 +348,11 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     
     dispatch_group_enter( group );
     
-    NSString *userKey = @"username";
+    NSString *userKey = kUsernameKey;
     
     if( [user rangeOfString:@"@"].location != NSNotFound )
     {
-        userKey = @"email";
+        userKey = kEmailKey;
     }
     
     NSDictionary *parameters = @{ kClientIDKey : self.clientID, userKey : user, @"password" : password };
@@ -360,33 +360,25 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     [self POST:@"auth/add" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSDictionary *response = (NSDictionary *)responseObject;
-        
-        clientSecret = response[@"data"][kClientSecretKey];
+        clientSecret = responseObject[kDataKey][kClientSecretKey];
         [SSKeychain setPassword:clientSecret forService:kKeychainService account:kClientSecretKey];
+        self.clientSecret = clientSecret;
         
-        userName = response[@"data"][@"username"];
+        userName = responseObject[kDataKey][kUsernameKey];
         
         dispatch_group_leave( group );
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"%@", error.localizedDescription);
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
         
-        NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-        
-        if( response.statusCode == 400 )
+        if( errorType == eErrorTypeDataNonexists )
         {
-            NSDictionary *failResponse = error.userInfo[JSONResponseSerializerWithDataKey];
-            
-            if( [failResponse[@"error"] isEqualToString:@"data_nonexists"] )
-            {
-                badUser = YES;
-            }
-            else if( [failResponse[@"error"] isEqualToString:@"params_invalid"] )
-            {
-                badPass = YES;
-            }
+            badUser = YES;
+        }
+        else if( errorType == eErrorTypeParamsInvalid )
+        {
+            badPass = YES;
         }
         
         dispatch_group_leave( group );
@@ -397,7 +389,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         if( clientSecret )
         {
             NSDictionary *authParameters = @{ kClientIDKey : self.clientID, kClientSecretKey : clientSecret,
-                                              @"username" : userName, @"password" : password };
+                                              kUsernameKey : userName, @"password" : password };
             
             [self POST:@"auth/token" parameters:authParameters
             success:^( NSURLSessionDataTask *task, id responseObject )
@@ -431,11 +423,13 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)logout
 {
+    [SSKeychain deletePasswordForService:kKeychainService account:kClientSecretKey];
     [SSKeychain deletePasswordForService:kKeychainService account:kAccessTokenKey];
     [SSKeychain deletePasswordForService:kKeychainService account:kRefreshTokenKey];
     
     self.accessToken  = nil;
     self.refreshToken = nil;
+    self.clientSecret = nil;
 }
 
 - (void)requestPasswordResetCodeWithPhoneNumber:(NSString *)phoneNumber completion:(void(^)( BOOL success ))completion
@@ -505,16 +499,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             [self POST:@"auth/password" parameters:parameters2
             success:^( NSURLSessionDataTask *task, id responseObject )
             {
-                NSDictionary *response = responseObject;
-                
-                if( [response[@"status"] isEqualToString:@"success"] )
-                {
-                    completion( YES, YES );
-                }
-                else
-                {
-                    completion( YES, NO );
-                }
+                completion( YES, YES );
             }
             failure:^( NSURLSessionDataTask *task, NSError *error )
             {
@@ -572,7 +557,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         
         NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:baseParams];
         
-        if( review.price.length > 0 )
+        if( review.price && review.price.length > 0 )
         {
             if( [review.price characterAtIndex:0] == '$' )
             {

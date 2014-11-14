@@ -193,6 +193,8 @@ static NSString *const kFollowCellIdentifier = @"followCell";
         DAUsername *username = [self.usernameArray objectAtIndex:indexPath.row];
         
         cell.usernameLabel.text = [NSString stringWithFormat:@"@%@", username.username];
+        cell.userInteractionEnabled = YES;
+        cell.accessoryView = nil;
         
         if( [username.username isEqualToString:[DAUserManager sharedManager].username] || self.listContent == eUserListContentYums )
         {
@@ -211,6 +213,11 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     }
     
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

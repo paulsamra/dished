@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="14A389" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment defaultVersion="1792" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -21,7 +21,10 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@Username" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" translatesAutoresizingMaskIntoConstraints="NO" id="aCf-wU-ZKO">
-                        <rect key="frame" x="50" y="11" width="191" height="21"/>
+                        <rect key="frame" x="50" y="11" width="89" height="21"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="21" id="jKu-Ae-DJe"/>
+                        </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -29,6 +32,7 @@
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="right" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R4g-bI-qER">
                         <rect key="frame" x="248" y="8" width="64" height="27"/>
                         <constraints>
+                            <constraint firstAttribute="height" constant="27" id="Qmg-H2-AeT"/>
                             <constraint firstAttribute="width" constant="64" id="k5c-d5-hQt"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
@@ -40,14 +44,12 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="kzO-5g-59d" firstAttribute="leading" secondItem="F7I-et-VTD" secondAttribute="leading" constant="15" id="4aO-j7-k3y"/>
-                    <constraint firstAttribute="bottom" secondItem="aCf-wU-ZKO" secondAttribute="bottom" constant="11" id="7Uc-Q6-Brh"/>
                     <constraint firstAttribute="trailing" secondItem="R4g-bI-qER" secondAttribute="trailing" constant="8" id="9L0-lM-8NN"/>
-                    <constraint firstItem="aCf-wU-ZKO" firstAttribute="top" secondItem="F7I-et-VTD" secondAttribute="top" constant="11" id="Ist-6h-xt2"/>
-                    <constraint firstItem="R4g-bI-qER" firstAttribute="leading" secondItem="aCf-wU-ZKO" secondAttribute="trailing" constant="7" id="MDx-hp-Bsa"/>
+                    <constraint firstAttribute="centerY" secondItem="R4g-bI-qER" secondAttribute="centerY" id="Ebo-a9-McV"/>
+                    <constraint firstAttribute="centerY" secondItem="aCf-wU-ZKO" secondAttribute="centerY" id="Hyo-qd-JoN"/>
+                    <constraint firstItem="R4g-bI-qER" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="aCf-wU-ZKO" secondAttribute="trailing" constant="7" id="MDx-hp-Bsa"/>
                     <constraint firstItem="aCf-wU-ZKO" firstAttribute="leading" secondItem="kzO-5g-59d" secondAttribute="trailing" constant="8" id="UEt-Yg-CKx"/>
-                    <constraint firstItem="R4g-bI-qER" firstAttribute="top" secondItem="F7I-et-VTD" secondAttribute="top" constant="8" id="Wc5-xq-0Jl"/>
                     <constraint firstItem="kzO-5g-59d" firstAttribute="top" secondItem="F7I-et-VTD" secondAttribute="top" constant="8" id="hL2-Zt-bIc"/>
-                    <constraint firstAttribute="bottom" secondItem="R4g-bI-qER" secondAttribute="bottom" constant="8" id="kiS-Lr-dm3"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>

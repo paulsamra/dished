@@ -350,9 +350,13 @@
         {
             cell = [self.followingTableView dequeueReusableCellWithIdentifier:kSingleNewsCellID];
             [self configureCell:cell withNews:followingNews];
-            DASingleNewsTableViewCell *singleNewsCell = (DASingleNewsTableViewCell *)cell;
-            NSURL *url = [NSURL URLWithString:[followingNews.review_images objectAtIndex:0]];
-            [singleNewsCell.newsImageView sd_setImageWithURL:url];
+            
+            if( followingNews.review_images.count > 0 )
+            {
+                DASingleNewsTableViewCell *singleNewsCell = (DASingleNewsTableViewCell *)cell;
+                NSURL *url = [NSURL URLWithString:[followingNews.review_images objectAtIndex:0]];
+                [singleNewsCell.newsImageView sd_setImageWithURL:url];
+            }
         }
         break;
             

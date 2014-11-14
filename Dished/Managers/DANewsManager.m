@@ -332,6 +332,23 @@
     return following;
 }
 
+- (void)deleteAllNews
+{
+    self.newsData = [NSMutableArray array];
+    self.followingData = [NSMutableArray array];
+    
+    self.newsFinishedLoading = NO;
+    self.followingFinishedLoading = NO;
+    
+    self.hasMoreNewsNotifications = YES;
+    self.hasMoreFollowingNotifications = YES;
+    
+    self.num_yums = 0;
+    self.num_reviews = 0;
+    
+    self.loadLimit = 25;
+}
+
 - (NSArray *)newsNotifications
 {
     return self.newsData;

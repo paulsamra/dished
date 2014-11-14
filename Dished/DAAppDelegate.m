@@ -322,6 +322,7 @@
 {
     [[DAAPIManager sharedManager] logout];
     [[DAUserManager sharedManager] deleteLocalUserSettings];
+    [[DANewsManager sharedManager] deleteAllNews];
     [[DACoreDataManager sharedManager] resetStore];
     [self setLoginView];
 }

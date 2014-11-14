@@ -35,11 +35,12 @@
     self.filteredImages = [NSMutableDictionary dictionary];
     self.pictureImageView.backgroundColor = [UIColor blackColor];
     
+    DAImagePickerController *parentVC = [self.navigationController.viewControllers objectAtIndex:0];
+    
     self.review = [[DANewReview alloc] init];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageReady:) name:kImageReadyNotificationKey object:nil];
     
-    DAImagePickerController *parentVC = [self.navigationController.viewControllers objectAtIndex:0];
     
     if( parentVC.pictureTaken )
     {
