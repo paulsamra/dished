@@ -9,7 +9,7 @@
 #import "DADocumentViewController.h"
 
 
-@interface DADocumentViewController()
+@interface DADocumentViewController() <UIWebViewDelegate>
 
 @end
 
@@ -21,6 +21,13 @@
     [super viewDidLoad];
     
     self.navigationItem.title = self.documentName;
+    self.webView.delegate = self;
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.navigationItem.rightBarButtonItem.customView = spinner;
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:spinner];
+    self.navigationItem.rightBarButtonItem = barButton;
+    [spinner startAnimating];
     
     if( self.documentURL )
     {
@@ -40,6 +47,22 @@
             NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
             [self.webView loadHTMLString:htmlString baseURL:nil];
         });
+    }
+}
+
+- (void)done
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    self.navigationItem.rightBarButtonItem = nil;
+    
+    if( self.presentingViewController )
+    {
+        UIBarButtonItem *doneButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(done)];
+        self.navigationItem.rightBarButtonItem = doneButton;
     }
 }
 

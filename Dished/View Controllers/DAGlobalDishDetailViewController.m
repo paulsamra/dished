@@ -207,37 +207,45 @@
     
     if( indexPath.row == 0 )
     {
+        DAGlobalDishCollectionViewCell *sizingCell = self.referenceDishCell;
+        
         CGSize cellSize = flowLayout.itemSize;
         cellSize.width = collectionView.frame.size.width;
-        cellSize.height -= self.referenceDishCell.descriptionTextView.frame.size.height;
+        cellSize.height -= sizingCell.descriptionTextView.frame.size.height;
         
         if( !self.dishProfile.desc )
         {
             return cellSize;
         }
         
+        CGFloat textViewRightMargin = sizingCell.frame.size.width - ( sizingCell.descriptionTextView.frame.origin.x + sizingCell.descriptionTextView.frame.size.width );
+        CGFloat textViewWidth = collectionView.frame.size.width - sizingCell.descriptionTextView.frame.origin.x - textViewRightMargin;
+        CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
+
         NSAttributedString *descriptionString = [self attributedDishDescriptionTextWithDescription:self.dishProfile.desc];
         
-        CGSize boundingSize = CGSizeMake( self.referenceDishCell.descriptionTextView.frame.size.width, CGFLOAT_MAX );
-        CGRect stringRect   = [descriptionString boundingRectWithSize:boundingSize
-                                                      options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                                      context:nil];
+        sizingCell.descriptionTextView.attributedText = descriptionString;
         
-        CGFloat textViewHeight = ceilf( stringRect.size.height );
+        CGSize stringSize = [sizingCell.descriptionTextView sizeThatFits:boundingSize];
+        
+        CGFloat textViewHeight = ceilf( stringSize.height );
+        
         cellSize.height += textViewHeight;
         
         return cellSize;
     }
     if( indexPath.row == 1 )
     {
-        return CGSizeMake(self.collectionView.frame.size.width, 209.0);
+        return CGSizeMake( self.collectionView.frame.size.width, 209.0 );
     }
     else
     {
         DAGlobalReview *review = [self.dishProfile.reviews objectAtIndex:indexPath.row - 2];
         
-        CGSize cellSize = self.referenceReviewCell.frame.size;
-        CGRect textViewRect = self.referenceReviewCell.commentTextView.frame;
+        DAGlobalReviewCollectionViewCell *sizingCell = self.referenceReviewCell;
+        
+        CGSize cellSize = sizingCell.frame.size;
+        CGRect textViewRect = sizingCell.commentTextView.frame;
         cellSize.width = collectionView.frame.size.width;
         cellSize.height = textViewRect.origin.y + textViewRect.size.height;
         CGSize referenceSize = cellSize;
@@ -251,12 +259,16 @@
         
         NSAttributedString *commentString = [[NSAttributedString alloc] initWithString:review.comment attributes:[DAGlobalReviewCollectionViewCell commentTextAttributes]];
         
-        CGSize boundingSize = CGSizeMake( textViewRect.size.width, CGFLOAT_MAX );
-        CGRect stringRect   = [commentString boundingRectWithSize:boundingSize
-                                                          options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                                          context:nil];
+        CGFloat textViewRightMargin = sizingCell.frame.size.width - ( sizingCell.commentTextView.frame.origin.x + sizingCell.commentTextView.frame.size.width );
+        CGFloat textViewWidth = collectionView.frame.size.width - sizingCell.commentTextView.frame.origin.x - textViewRightMargin;
+        CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
         
-        CGFloat textViewHeight = ceilf( stringRect.size.height );
+        sizingCell.commentTextView.attributedText = commentString;
+        
+        CGSize stringSize = [sizingCell.commentTextView sizeThatFits:boundingSize];
+        
+        CGFloat textViewHeight = ceilf( stringSize.height );
+        
         cellSize.height += textViewHeight;
         
         cellSize.height = cellSize.height < referenceSize.height ? referenceSize.height : cellSize.height;

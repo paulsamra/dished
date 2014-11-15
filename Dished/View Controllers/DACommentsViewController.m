@@ -209,14 +209,15 @@
     
     NSAttributedString *commentString = [self commentStringForComment:comment];
     
+    sizingCell.commentTextView.attributedText = commentString;
+    
     CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
-    CGRect stringRect   = [commentString boundingRectWithSize:boundingSize
-                                                      options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                                      context:nil];
+    
+    CGSize stringSize = [sizingCell.commentTextView sizeThatFits:boundingSize];
     
     CGFloat textViewTopMargin = textView.frame.origin.y;
     CGFloat textViewBottomMargin = sizingCell.frame.size.height - ( textView.frame.origin.y + textView.frame.size.height );
-    CGFloat textViewHeight = ceilf( stringRect.size.height ) + 2;
+    CGFloat textViewHeight = ceilf( stringSize.height );
     
     CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
     

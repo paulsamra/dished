@@ -73,6 +73,7 @@
     
     [self.nameTextField resignFirstResponder];
     
+    self.review.dishID     = 0;
     self.review.locationID = 0;
     self.review.googleID   = 0;
     

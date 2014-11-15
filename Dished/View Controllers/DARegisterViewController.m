@@ -11,6 +11,7 @@
 #import "DAAPIManager.h"
 #import "MRProgress.h"
 #import "DAAppDelegate.h"
+#import "DADocumentViewController.h"
 
 
 @interface DARegisterViewController() <DAErrorViewDelegate, UIAlertViewDelegate>
@@ -22,7 +23,7 @@
 @property (strong, nonatomic) NSIndexPath          *pickerIndexPath;
 @property (strong, nonatomic) UIAlertView          *loginFailAlert;
 @property (strong, nonatomic) UIAlertView          *registerFailAlert;
-@property (strong, nonatomic) UIAlertView          *registerSuccessAlert;
+@property (strong, nonatomic) UIAlertView          *termsAlertView;
 @property (strong, nonatomic) NSDateFormatter      *birthDateFormatter;
 @property (strong, nonatomic) NSMutableDictionary  *errorData;
 @property (strong, nonatomic) NSURLSessionDataTask *usernameCheckTask;
@@ -350,7 +351,10 @@
     
     if( indexPath.section == 6 )
     {
-        [self checkInputsAndRegister];
+        if( [self checkInputs] )
+        {
+            [self.termsAlertView show];
+        }
     }
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -427,7 +431,7 @@
     [self.tableView scrollToRowAtIndexPath:self.pickerIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
 }
 
-- (void)checkInputsAndRegister
+- (BOOL)checkInputs
 {
     int numOfInvalidInputs = 0;
     BOOL tooYoung = NO;
@@ -494,7 +498,7 @@
         
         [self showErrorView];
         
-        return;
+        return NO;
     }
     
     if( numOfInvalidInputs > 0 )
@@ -504,11 +508,10 @@
         
         [self showErrorView];
         
-        return;
+        return NO;
     }
     
-    [self showProgressView];
-    [self checkEmailAndPhoneNumber];
+    return YES;
 }
 
 - (BOOL)stringIsValidEmail:(NSString *)checkString
@@ -667,7 +670,8 @@
             }
             else
             {
-                [self.registerSuccessAlert show];
+                DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+                [delegate login];
             }
         }];
     }];
@@ -686,16 +690,34 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
-    if( alertView == self.loginFailAlert || alertView == self.registerSuccessAlert )
+    if( alertView == self.loginFailAlert )
     {
         [self.navigationController popToRootViewControllerAnimated:YES];
     }
-    
-    if( alertView == self.registerSuccessAlert )
+    else if( alertView == self.termsAlertView )
     {
-        DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-        [delegate login];
+        if( [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:@"Agree"] )
+        {
+            [self showProgressView];
+            [self checkEmailAndPhoneNumber];
+        }
+        else if( [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:kTermsAndConditions] )
+        {
+            [self goToDocumentViewWithName:kTermsAndConditions documentURL:nil];
+        }
+        else if( [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:kPrivacyPolicy] )
+        {
+            [self goToDocumentViewWithName:kPrivacyPolicy documentURL:nil];
+        }
     }
+}
+
+- (void)goToDocumentViewWithName:(NSString *)documentName documentURL:(NSString *)url
+{
+    DADocumentViewController *documentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"document"];
+    documentViewController.documentName = documentName;
+    documentViewController.documentURL = url;
+    [self.navigationController pushViewController:documentViewController animated:YES];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -959,14 +981,14 @@
     return _loginFailAlert;
 }
 
-- (UIAlertView *)registerSuccessAlert
+- (UIAlertView *)termsAlertView
 {
-    if( !_registerSuccessAlert )
+    if( !_termsAlertView )
     {
-        _registerSuccessAlert = [[UIAlertView alloc] initWithTitle:@"Successful Registration" message:@"Account created successfully!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        _termsAlertView = [[UIAlertView alloc] initWithTitle:nil message:@"By registering, you agree to Dished's Terms of Use and Privacy Policy." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Agree", kTermsAndConditions, kPrivacyPolicy, nil];
     }
     
-    return _registerSuccessAlert;
+    return _termsAlertView;
 }
 
 @end

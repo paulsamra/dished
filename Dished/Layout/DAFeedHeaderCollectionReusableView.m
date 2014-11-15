@@ -16,6 +16,7 @@
     [super layoutSubviews];
     
     self.titleButton.titleLabel.adjustsFontSizeToFitWidth = YES;
+    self.titleButton.titleLabel.minimumScaleFactor = 0.75;
     
     [self.titleButton addTarget:self action:@selector(titleButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     

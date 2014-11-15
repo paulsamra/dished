@@ -358,7 +358,7 @@
             [self.dishPrice deleteCharactersInRange:NSMakeRange( [self.dishPrice length] - 1, 1 )];
             
             newAmount = [self formatCurrencyValue:( [self.dishPrice doubleValue] / 100 )];
-            [textField setText:[NSString stringWithFormat:@"$%@", newAmount]];
+            [textField setText:[NSString stringWithFormat:@"%@", newAmount]];
         }
         else
         {
@@ -367,7 +367,7 @@
                 [self.dishPrice appendString:string];
 
                 newAmount = [self formatCurrencyValue:( [self.dishPrice doubleValue] / 100 )];
-                [textField setText:[NSString stringWithFormat:@"$%@", newAmount]];
+                [textField setText:[NSString stringWithFormat:@"%@", newAmount]];
             }
         }
         
@@ -381,6 +381,15 @@
         [self updateFields];
         
         return NO;
+    }
+    else if( textField == self.titleTextField )
+    {
+        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        
+        if( newString.length > 40 )
+        {
+            return NO;
+        }
     }
     
     return YES;
@@ -443,30 +452,22 @@
     if( self.review.dishID != 0 )
     {
         self.review.dishID = 0;
-        
-        if( !self.selectedDish )
-        {
-            self.review.locationName = @"";
-            self.review.locationID = 0;
-        }
-
-        self.dishPrice = [[NSMutableString alloc] init];
     }
     
     [self updateFields];
 }
 
-- (void)didSelectSuggestionWithDishName:(NSString *)dishName dishID:(NSInteger)dishID dishPrice:dishPrice locationName:(NSString *)locationName locationID:(NSInteger)locationID
+- (void)didSelectSuggestionWithDishName:(NSString *)dishName dishID:(NSInteger)dishID dishPrice:(NSString *)dishPrice locationName:(NSString *)locationName locationID:(NSInteger)locationID
 {
     self.review.dishID = dishID;
     self.review.title = dishName;
     self.review.locationName = locationName;
     self.review.locationID = locationID;
-    self.dishPrice = [[NSMutableString alloc] init];
+    self.dishPrice = [[dishPrice stringByReplacingOccurrencesOfString:@"." withString:@""] mutableCopy];
     
     if( [dishPrice doubleValue] > 0 )
     {
-        self.review.price = [NSString stringWithFormat:@"$%@", dishPrice];
+        self.review.price = dishPrice;
     }
     
     [self updateFields];
@@ -489,7 +490,11 @@
 {
     self.titleTextField.text  = self.review.title;
     self.commentTextView.text = self.review.comment;
-    self.priceTextField.text  = self.review.price;
+    
+    if( [self.review.price doubleValue] > 0 )
+    {
+        self.priceTextField.text  = [NSString stringWithFormat:@"$%@", self.review.price];
+    }
     
     if( self.review.locationName.length > 0 )
     {
@@ -520,26 +525,6 @@
     {
         [self.ratingButton setTitle:@"Rating" forState:UIControlStateNormal];
         [self.ratingButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-    }
-    
-    if( self.review.dishID != 0 )
-    {
-        if( !self.selectedDish )
-        {
-            self.imAtButton.enabled = NO;
-            [self.imAtButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
-        }
-    }
-    else
-    {
-        self.imAtButton.enabled = YES;
-        self.priceTextField.enabled = YES;
-        self.priceTextField.textColor = [UIColor blackColor];
-
-        if( self.review.locationName.length != 0 )
-        {
-            [self.imAtButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        }
     }
     
     [self setPostButtonStatus];

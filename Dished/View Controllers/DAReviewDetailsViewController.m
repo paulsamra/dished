@@ -422,6 +422,23 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    static DAReviewDetailCollectionViewCell *sizingCell;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^
+    {
+        sizingCell = [DAReviewDetailCollectionViewCell sizingCell];
+    });
+    
+    CGFloat textViewRightMargin = sizingCell.frame.size.width - ( sizingCell.textView.frame.origin.x + sizingCell.textView.frame.size.width );
+    CGFloat textViewWidth = collectionView.frame.size.width - sizingCell.textView.frame.origin.x - textViewRightMargin;
+    CGFloat textViewTopMargin = sizingCell.textView.frame.origin.y;
+    CGFloat textViewBottomMargin = sizingCell.frame.size.height - ( sizingCell.textView.frame.origin.y + sizingCell.textView.frame.size.height );
+    
+    CGSize cellSize = CGSizeZero;
+    cellSize.width = collectionView.frame.size.width;
+    
+    CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
+    
     CGSize itemSize = CGSizeZero;
     
     ReviewDetailsItem itemType = [self itemTypeForIndexPath:indexPath];
@@ -443,26 +460,32 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         {
             NSAttributedString *yumString = [self yumStringWithUsernames:self.review.yums];
             
-            CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 38, CGFLOAT_MAX );
-            CGRect stringRect   = [yumString boundingRectWithSize:boundingSize
-                                                          options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                                          context:nil];
+            sizingCell.textView.attributedText = yumString;
             
-            CGFloat textHeight = ceilf( stringRect.size.height ) + 1;
-            itemSize = CGSizeMake( collectionView.frame.size.width, textHeight );
+            CGSize stringSize = [sizingCell.textView sizeThatFits:boundingSize];
+            
+            CGFloat textViewHeight = ceilf( stringSize.height );
+            
+            CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
+            cellSize.height = calculatedHeight;
+            
+            itemSize = cellSize;
         }
     }
     else if( itemType == ReviewDetailsItemHashtags )
     {
         NSAttributedString *hashtagString = [self hashtagStringWithHashtags:self.review.hashtags];
         
-        CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 50, CGFLOAT_MAX );
-        CGRect stringRect   = [hashtagString boundingRectWithSize:boundingSize
-                                    options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                    context:nil];
+        sizingCell.textView.attributedText = hashtagString;
         
-        CGFloat minimumCellHeight = ceilf( stringRect.size.height ) + 1;
-        itemSize = CGSizeMake( collectionView.frame.size.width, minimumCellHeight );
+        CGSize stringSize = [sizingCell.textView sizeThatFits:boundingSize];
+        
+        CGFloat textViewHeight = ceilf( stringSize.height );
+        
+        CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
+        cellSize.height = calculatedHeight;
+        
+        itemSize = cellSize;
     }
     else if( itemType == ReviewDetailsItemFooter )
     {
@@ -472,16 +495,18 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         NSInteger commentIndex = [self commentIndexForIndexPath:indexPath];
         DAComment *comment = [self.review.comments objectAtIndex:commentIndex];
-        
         NSAttributedString *commentString = [self commentStringForComment:comment];
         
-        CGSize boundingSize = CGSizeMake( collectionView.frame.size.width - 38, CGFLOAT_MAX );
-        CGRect commentRect = [commentString boundingRectWithSize:boundingSize
-                                    options:( NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading )
-                                    context:nil];
+        sizingCell.textView.attributedText = commentString;
+
+        CGSize stringSize = [sizingCell.textView sizeThatFits:boundingSize];
         
-        CGFloat minimumCellHeight = ceilf( commentRect.size.height ) + 1;
-        itemSize = CGSizeMake( collectionView.frame.size.width, minimumCellHeight );
+        CGFloat textViewHeight = ceilf( stringSize.height );
+        
+        CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
+        cellSize.height = calculatedHeight;
+        
+        itemSize = cellSize;
     }
     
     return itemSize;
@@ -680,7 +705,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
                 {
                     [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
                     {
-                        [self.navigationController popViewControllerAnimated:YES];
+                        [self.navigationController popToRootViewControllerAnimated:YES];
                     }];
                 }];
             }

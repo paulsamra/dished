@@ -124,6 +124,9 @@
         [self.spinner removeFromSuperview];
         [self.spinner stopAnimating];
         
+        cell.userInteractionEnabled = YES;
+        cell.accessoryView = nil;
+        
         DAHashtag *hashtag = [self.hashtagArray objectAtIndex:indexPath.row];
         
         cell.textLabel.text = [NSString stringWithFormat:@"#%@", hashtag.name];

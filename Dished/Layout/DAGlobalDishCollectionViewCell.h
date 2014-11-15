@@ -34,7 +34,6 @@
 
 @property (weak, nonatomic) id<DAGlobalDishCollectionViewCellDelegate> delegate;
 
-
 + (NSDictionary *)descriptionTextAttributes;
 
 - (void)setPagedImages:(NSArray *)images;

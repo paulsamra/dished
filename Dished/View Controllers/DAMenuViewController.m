@@ -114,12 +114,12 @@
 
 - (void)showTermsOfUse
 {
-    [self goToDocumentViewWithName:@"Terms & Conditions" documentURL:nil];
+    [self goToDocumentViewWithName:kTermsAndConditions documentURL:nil];
 }
 
 - (void)showPrivacyPolicy
 {
-    [self goToDocumentViewWithName:@"Privacy Policy" documentURL:nil];
+    [self goToDocumentViewWithName:kPrivacyPolicy documentURL:nil];
 }
 
 - (void)goToDocumentViewWithName:(NSString *)documentName documentURL:(NSString *)url

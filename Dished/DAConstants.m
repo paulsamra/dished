@@ -8,6 +8,9 @@
 
 NSString *const kProjectName = @"Dished";
 
+NSString *const kPrivacyPolicy      = @"Privacy Policy";
+NSString *const kTermsAndConditions = @"Terms & Conditions";
+
 NSString *const kHelveticaNeueLightFont = @"HelveticaNeue-Light";
 
 NSString *const kFirstLaunchKey = @"first_launch";

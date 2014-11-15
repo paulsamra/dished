@@ -34,7 +34,7 @@
     
 #if TARGET_IPHONE_SIMULATOR
     NSLog(@"Running in the simulator");
-    [self performSelectorOnMainThread:@selector(imageIsReady:) withObject:[UIImage imageNamed:@"logo_blue.png"] waitUntilDone:NO];
+    self.pictureTaken = [UIImage imageNamed:@"Icon@2x.png"];
     [self performSegueWithIdentifier:@"chooseFilter" sender:nil];
 
 #elif TARGET_OS_IPHONE

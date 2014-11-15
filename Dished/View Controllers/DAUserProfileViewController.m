@@ -357,12 +357,11 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     self.descriptionTextView.attributedText = nameString;
     
-    CGFloat textViewWidth = self.descriptionTextView.frame.size.width;
+    CGFloat textViewWidth = self.view.frame.size.width;
     CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
-    CGRect stringRect = [nameString boundingRectWithSize:boundingSize options:NSStringDrawingUsesLineFragmentOrigin context:nil];
-    
-    UIEdgeInsets textViewInsets = self.descriptionTextView.textContainerInset;
-    CGFloat heightConstraint = stringRect.size.height + textViewInsets.top + textViewInsets.bottom;
+    CGSize stringSize = [self.descriptionTextView sizeThatFits:boundingSize];
+
+    CGFloat heightConstraint = stringSize.height;
     
     self.descriptionHeightConstraint.constant = heightConstraint;
 }

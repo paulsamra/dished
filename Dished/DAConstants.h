@@ -19,6 +19,9 @@
 
 extern NSString *const kProjectName;
 
+extern NSString *const kPrivacyPolicy;
+extern NSString *const kTermsAndConditions;
+
 extern NSString *const kHelveticaNeueLightFont;
 
 extern NSString *const kFirstLaunchKey;

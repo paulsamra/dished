@@ -91,6 +91,7 @@
         self.review.locationName = [[self.locationData objectAtIndex:indexPath.row] objectForKey:kNameKey];
         self.review.locationID = 0;
         self.review.googleID   = 0;
+        self.review.dishID     = 0;
         
         if( [[self.locationData objectAtIndex:indexPath.row] objectForKey:kIDKey] )
         {
@@ -133,7 +134,6 @@
     {
         [self.searchTask cancel];
         self.locationData = self.suggestedLocations;
-        //self.locationData  = [NSMutableArray array];
         [self.tableView reloadData];
         return;
     }

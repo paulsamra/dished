@@ -258,7 +258,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
         DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
         
-        NSString *commentString = [NSString stringWithFormat:@"%d comments", [feedItem.num_comments intValue]];
+        NSInteger numComments = [feedItem.num_comments intValue];
+        NSString *format = numComments == 1 ? @"%d comment" : @"%d comments";
+        NSString *commentString = [NSString stringWithFormat:format, [feedItem.num_comments intValue]];
         [buttonCell.commentsButton setTitle:commentString forState:UIControlStateNormal];
         
         [feedItem.caller_yumd boolValue] ? [self yumCell:buttonCell] : [self unyumCell:buttonCell];
