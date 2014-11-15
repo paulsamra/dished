@@ -27,6 +27,7 @@
     {
         _username = nilOrJSONObjectForKey( data, kUsernameKey );
         _users    = nilOrJSONObjectForKey( data, @"users" );
+        _review_creator = nilOrJSONObjectForKey( data, @"review_creator" );
         
         _yum_count    = [nilOrJSONObjectForKey( data, @"yum_count" )    integerValue];
         _friend_count = [nilOrJSONObjectForKey( data, @"friend_count" ) integerValue];
@@ -156,7 +157,7 @@
     switch( subtype )
     {
         case eFollowingNewsYumNotificationSubtypeSingleUserSingleYum:
-            string = [NSString stringWithFormat:@"@%@ YUMMED @%@'s review.", self.username, @"???"];
+            string = [NSString stringWithFormat:@"@%@ YUMMED @%@'s review.", self.username, self.review_creator];
             break;
             
         case eFollowingNewsYumNotificationSubtypeSingleUserMultiYum:
@@ -168,7 +169,7 @@
             break;
             
         case eFollowingNewsYumNotificationSubtypeTwoUserYum:
-            string = [NSString stringWithFormat:@"@%@ and @%@ YUMMED @%@'s review.", self.users[0], self.users[1], self.username];
+            string = [NSString stringWithFormat:@"@%@ and @%@ YUMMED @%@'s review.", self.users[0], self.users[1], self.review_creator];
             break;
             
         case eFollowingNewsYumNotificationSubtypeUnknown:

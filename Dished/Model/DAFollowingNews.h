@@ -32,6 +32,7 @@ typedef enum
 
 @property (copy,   nonatomic) NSString   *username;
 @property (copy,   nonatomic) NSString   *review_image;
+@property (copy,   nonatomic) NSString   *review_creator;
 @property (strong, nonatomic) NSArray    *users;
 @property (strong, nonatomic) NSArray    *reviews;
 @property (strong, nonatomic) NSArray    *review_images;

@@ -41,7 +41,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(imageReady:) name:kImageReadyNotificationKey object:nil];
     
-    
     if( parentVC.pictureTaken )
     {
         UIImage *pictureTaken = parentVC.pictureTaken;

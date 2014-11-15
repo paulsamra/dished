@@ -76,13 +76,13 @@
     self.review.dishID     = 0;
     self.review.locationID = 0;
     self.review.googleID   = 0;
-    
-    self.review.locationName      = self.nameTextField.text;
-    self.review.locationLatitude  = [[DALocationManager sharedManager] currentLocation].latitude;
-    self.review.locationLongitude = [[DALocationManager sharedManager] currentLocation].longitude;
+    self.review.locationName = @"";
+    self.review.locationLongitude = 0;
+    self.review.locationLatitude = 0;
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = self.view.center;
+    spinner.hidesWhenStopped = YES;
     [spinner startAnimating];
     [self.view addSubview:spinner];
     
@@ -90,20 +90,37 @@
     {
         if( !self.isCancelled )
         {
-            self.review.locationStreetNum  = addressDictionary[@"SubThoroughfare"];
-            self.review.locationStreetName = addressDictionary[@"Thoroughfare"];
-            self.review.locationCity       = addressDictionary[(NSString *)kABPersonAddressCityKey];
-            self.review.locationState      = addressDictionary[(NSString *)kABPersonAddressStateKey];
-            self.review.locationZip        = addressDictionary[(NSString *)kABPersonAddressZIPKey];
-            
-            for( UIViewController *parentController in navigationStack )
+            if( addressDictionary )
             {
-                if( [parentController isKindOfClass:[DAReviewFormViewController class]] )
+                CLSLog( @"Adding new place with address dictionary: %@", addressDictionary );
+                
+                self.review.locationName      = self.nameTextField.text;
+                self.review.locationLatitude  = [[DALocationManager sharedManager] currentLocation].latitude;
+                self.review.locationLongitude = [[DALocationManager sharedManager] currentLocation].longitude;
+                
+                self.review.locationStreetNum  = addressDictionary[@"SubThoroughfare"];
+                self.review.locationStreetName = addressDictionary[@"Thoroughfare"];
+                self.review.locationCity       = addressDictionary[(NSString *)kABPersonAddressCityKey];
+                self.review.locationState      = addressDictionary[(NSString *)kABPersonAddressStateKey];
+                self.review.locationZip        = addressDictionary[(NSString *)kABPersonAddressZIPKey];
+                
+                for( UIViewController *parentController in navigationStack )
                 {
-                    [self.navigationController popToViewController:parentController animated:YES];
+                    if( [parentController isKindOfClass:[DAReviewFormViewController class]] )
+                    {
+                        [self.navigationController popToViewController:parentController animated:YES];
+                    }
                 }
+                
+                CLSLog( @"Adding new place with address dictionary: %@", addressDictionary );
+            }
+            else
+            {
+                CLSLog(@"Address dictionary is null");
+                [spinner stopAnimating];
             }
         }
-    }];    
+    }];
 }
+
 @end

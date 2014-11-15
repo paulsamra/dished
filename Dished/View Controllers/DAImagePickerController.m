@@ -58,9 +58,9 @@
         self.captureManager.previewLayer.frame = self.videoView.bounds;
         [self.videoView.layer addSublayer:self.captureManager.previewLayer];
         self.videoView.layer.masksToBounds = YES;
-       
+        
         [self.captureManager startCapture];
-       
+        
         [self.captureManager enableFlash:NO];
         
         [spinner removeFromSuperview];

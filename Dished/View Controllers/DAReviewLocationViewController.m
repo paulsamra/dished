@@ -15,8 +15,9 @@
 
 @interface DAReviewLocationViewController() <UISearchBarDelegate>
 
-@property (strong, nonatomic) NSArray           *locationData;
-@property (strong, nonatomic) NSURLSessionTask  *searchTask;
+@property (strong, nonatomic) NSArray                 *locationData;
+@property (strong, nonatomic) NSURLSessionTask        *searchTask;
+@property (strong, nonatomic) UIActivityIndicatorView *searchSpinner;
 
 @end
 
@@ -26,8 +27,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-        
-    //self.locationData = [NSArray array];
     
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;
@@ -35,6 +34,12 @@
     self.locationData = self.suggestedLocations;
     
     self.tableView.tableFooterView = [[UIView alloc] init];
+    
+    self.searchSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    self.searchSpinner.hidesWhenStopped = YES;
+    
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:self.searchSpinner];
+    self.navigationItem.rightBarButtonItem = barButton;
 }
 
 #pragma mark - Table view data source
@@ -46,7 +51,14 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.locationData count] + 1;
+    if( self.locationData.count == 0 )
+    {
+        return 0;
+    }
+    else
+    {
+        return self.locationData.count + 1;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -70,18 +82,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;
 {
-    double height = 0.0;
-    
-	if( indexPath.row == ( [self.locationData count] + 1 ) )
-    {
-        height = 300.0;
-    }
-    else
-    {
-        height = 44.0;
-    }
-    
-    return height;
+    return 44.0;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -135,6 +136,7 @@
         [self.searchTask cancel];
         self.locationData = self.suggestedLocations;
         [self.tableView reloadData];
+        [self.searchSpinner stopAnimating];
         return;
     }
     
@@ -146,9 +148,12 @@
     NSDictionary *parameters = @{ kQueryKey : searchText, kLongitudeKey : @(longitude), kLatitudeKey : @(latitude) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
+    [self.searchSpinner startAnimating];
+    
     self.searchTask = [[DAAPIManager sharedManager] GET:kExploreLocationsURL parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
+        [self.searchSpinner stopAnimating];
         self.locationData = [DAReviewLocationViewController locationsFromResponse:responseObject];
         [self.tableView reloadData];
     }

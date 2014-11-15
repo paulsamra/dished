@@ -158,17 +158,21 @@
     }
     
     [self updateFields];
+    
+    CLSLog( @"Review form will appear..." );
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
     
     [self.view endEditing:YES];
     [self.socialViewController.view removeFromSuperview];
     [self.dimView removeFromSuperview];
+    
+    CLSLog( @"Review form will disappear..." );
 }
 
 - (void)setupShareView

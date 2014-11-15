@@ -51,7 +51,7 @@
 
 - (void)startUpdatingLocation
 {
-    if( [[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0 )
+    if( [[[UIDevice currentDevice] systemVersion] floatValue] >= 8.0 && ![self locationServicesEnabled] )
     {
         [self requestAuthorization];
     }
