@@ -53,13 +53,41 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     [self loadExploreContent];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationUpdated) name:kLocationUpdateNotificationKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationServicesDenied) name:kLocationServicesDeniedKey object:nil];
     
-    self.selectedLocationName = @"Current Location";
+    [self loadLocationSettings];
     
-    self.selectedRadius = 0;
+    [[DALocationManager sharedManager] startUpdatingLocation];
     
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;
+}
+
+- (void)loadLocationSettings
+{
+    NSDictionary *locationSettings = [[NSUserDefaults standardUserDefaults] objectForKey:@"locationSettings"];
+    
+    if( locationSettings )
+    {
+        NSString *locationName = locationSettings[@"locationName"];
+        self.selectedLocationName = locationName ? locationName : @"Current Location";
+        self.selectedRadius = [locationSettings[@"radius"] doubleValue];
+        
+        double longitude = [locationSettings[@"longitude"] doubleValue];
+        double latitude  = [locationSettings[@"latitude"]  doubleValue];
+        self.selectedLocation = CLLocationCoordinate2DMake( latitude, longitude );
+    }
+    else
+    {
+        self.selectedLocationName = @"Current Location";
+        self.selectedRadius = 0;
+        
+        NSDictionary *locationSettings = @{ @"locationName" : self.selectedLocationName, @"radius" : @(self.selectedRadius) };
+        [[NSUserDefaults standardUserDefaults] setObject:locationSettings forKey:@"locationSettings"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        [self performSegueWithIdentifier:@"currentLocation" sender:@(YES)];
+    }
 }
 
 - (void)loadExploreContent
@@ -83,6 +111,11 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
             NSLog(@"Error getting Explore content: %@", error.localizedDescription);
         }];
     }];
+}
+
+- (void)locationServicesDenied
+{
+    [[[UIAlertView alloc] initWithTitle:@"Location Services Disabled" message:@"Dished needs your current location to search for places near you. Please enable location services for Dished in your iPhone settings or set your current location manually." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
 }
 
 - (void)locationUpdated
@@ -159,6 +192,11 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     self.selectedLocation     = location;
     self.selectedLocationName = locationName;
     self.selectedRadius       = radius;
+    
+    NSDictionary *locationSettings = @{ kLongitudeKey : @(location.longitude), kLatitudeKey : @(location.latitude),
+                                        @"locationName" : locationName, @"radius" : @(radius) };
+    [[NSUserDefaults standardUserDefaults] setObject:locationSettings forKey:@"locationSettings"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
@@ -189,31 +227,13 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
         {
             NSString *query = [searchText substringFromIndex:1];
             
-            self.liveSearchTask = [[DAAPIManager sharedManager] exploreHashtagSuggestionsTaskWithQuery:query
-            completion:^(id response, NSError *error)
-            {
-                if( response && ![response isEqual:[NSNull null]] )
-                {
-                    self.liveSearchResults = [self resultsFromResponse:response withType:eHashtagSearchResult];
-                }
-                
-                [self.searchDisplayController.searchResultsTableView reloadData];
-            }];
+            [self searchWithURL:kHashtagsURL query:query queryKey:kNameKey resultType:eHashtagSearchResult];
         }
         else if( [searchText characterAtIndex:0] == '@' && searchText.length > 1 )
         {
             NSString *query = [searchText substringFromIndex:1];
             
-            self.liveSearchTask = [[DAAPIManager sharedManager] exploreUsernameSearchTaskWithQuery:query
-            competion:^( id response, NSError *error )
-            {
-                if( response && ![response isEqual:[NSNull null]] )
-                {
-                    self.liveSearchResults = [self resultsFromResponse:response withType:eUsernameSearchResult];
-                }
-                
-                [self.searchDisplayController.searchResultsTableView reloadData];
-            }];
+            [self searchWithURL:kExploreUsernamesURL query:query queryKey:kUsernameKey resultType:eUsernameSearchResult];
         }
         else
         {
@@ -223,12 +243,9 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
             longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:self.selectedRadius
             completion:^( id response, NSError *error )
             {
-                if( response && ![response isEqual:[NSNull null]] )
-                {
-                    NSArray *dishes    = [self resultsFromResponse:response withType:eDishSearchResult];
-                    NSArray *locations = [self resultsFromResponse:response withType:eLocationSearchResult];
-                    self.liveSearchResults = [dishes arrayByAddingObjectsFromArray:locations];
-                }
+                NSArray *dishes    = [self resultsFromResponse:response withType:eDishSearchResult];
+                NSArray *locations = [self resultsFromResponse:response withType:eLocationSearchResult];
+                self.liveSearchResults = [dishes arrayByAddingObjectsFromArray:locations];
                 
                 [self.searchDisplayController.searchResultsTableView reloadData];
             }];
@@ -239,6 +256,26 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
         [self.liveSearchTask cancel];
         self.liveSearchResults = [NSArray array];
     }
+}
+
+- (void)searchWithURL:(NSString *)url query:(NSString *)query queryKey:(NSString *)key resultType:(eExploreSearchResultType)type
+{
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSDictionary *parameters = @{ key : query };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        self.liveSearchTask = [[DAAPIManager sharedManager] GET:url parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            self.liveSearchResults = [self resultsFromResponse:responseObject withType:type];
+            [self.searchDisplayController.searchResultsTableView reloadData];
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            
+        }];
+    }];
 }
 
 - (NSArray *)resultsFromResponse:(id)response withType:(eExploreSearchResultType)type
@@ -254,19 +291,31 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
             break;
             
         case eDishSearchResult:
-            results = response[@"data"][@"dishes"];
-            break;
+        {
+            NSDictionary *dishData = nilOrJSONObjectForKey( response, kDataKey );
+            if( dishData )
+            {
+                results = nilOrJSONObjectForKey( dishData, @"dishes" );
+            }
+        }
+        break;
             
         case eLocationSearchResult:
-            results = response[@"data"][@"locations"];
-            break;
+        {
+            NSDictionary *locationData = nilOrJSONObjectForKey( response, kDataKey );
+            if( locationData )
+            {
+                results = nilOrJSONObjectForKey( locationData, @"locations" );
+            }
+        }
+        break;
             
         default:
             results = nilOrJSONObjectForKey( response, kDataKey );
             break;
     }
     
-    if( results && ![results isEqual:[NSNull null]] )
+    if( results )
     {
         for( NSDictionary *result in results )
         {
@@ -336,15 +385,15 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
                 
                 if( [searchResult.dishType isEqualToString:kFood] )
                 {
-                    cell.imageView.image = [UIImage imageNamed:@"food_dish_outline"];
+                    cell.imageView.image = [UIImage imageNamed:@"food_dish_gray"];
                 }
                 else if( [searchResult.dishType isEqualToString:kCocktail] )
                 {
-                    cell.imageView.image = [UIImage imageNamed:@"cocktail_dish_outline"];
+                    cell.imageView.image = [UIImage imageNamed:@"cocktail_dish_gray"];
                 }
                 else if( [searchResult.dishType isEqualToString:kWine] )
                 {
-                    cell.imageView.image = [UIImage imageNamed:@"wine_dish_outline"];
+                    cell.imageView.image = [UIImage imageNamed:@"wine_dish_gray"];
                 }
                 break;
         }
@@ -520,6 +569,11 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
         dest.selectedLocationName = self.selectedLocationName;
         dest.selectedRadius       = self.selectedRadius;
         dest.selectedLocation     = self.selectedLocation;
+        
+        if( [sender boolValue] == YES )
+        {
+            dest.navigationItem.title = @"Select Location";
+        }
     }
 }
 

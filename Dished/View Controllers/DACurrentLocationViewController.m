@@ -10,6 +10,7 @@
 #import "DALocationManager.h"
 #import "SPGooglePlacesAutocomplete.h"
 #import "DAExploreViewController.h"
+#import "UIViewController+TAPKeyboardPop.h"
 
 static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE";
 
@@ -21,6 +22,7 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
 @property (strong, nonatomic) SPGooglePlacesAutocompleteQuery *placesQuery;
 @property (strong, nonatomic) SPGooglePlacesAutocompletePlace *selectedPlace;
 
+@property (nonatomic) BOOL locationServicesEnabled;
 @property (nonatomic) BOOL didSelectDone;
 @property (nonatomic) BOOL locationChangeCancelled;
 @property (nonatomic) BOOL shouldUpdateResults;
@@ -40,15 +42,16 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
     self.locationChangeCancelled = NO;
     self.didSelectDone = NO;
     
-    [[DALocationManager sharedManager] startUpdatingLocation];
-    
-    if( !self.selectedLocationName )
-    {
-        self.selectedLocationName = @"Current Location";
-    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationServicesStatusChanged) name:kLocationServicesDeniedKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationServicesStatusChanged) name:kLocationServicesEnabledKey object:nil];
     
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;
+}
+
+- (void)locationServicesStatusChanged
+{
+    [self.tableView reloadData];
 }
 
 - (IBAction)cancelChangeLocation:(id)sender
@@ -161,18 +164,31 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
+    cell.userInteractionEnabled = YES;
     
     if( indexPath.section == 0 )
     {
         if( indexPath.row == [self.searchResults count] )
         {
             cell.textLabel.text       = self.selectedLocationName;
-            cell.accessoryType        = UITableViewCellAccessoryCheckmark;
             cell.detailTextLabel.text = @"";
+            cell.accessoryType = UITableViewCellAccessoryCheckmark;
             
             if( [self.selectedLocationName isEqualToString:@"Current Location"] )
             {
                 cell.imageView.image = [UIImage imageNamed:@"current_location"];
+                
+                if( [[DALocationManager sharedManager] locationServicesEnabled] )
+                {
+                    cell.textLabel.textColor = [UIColor blackColor];
+                }
+                else
+                {
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.userInteractionEnabled = NO;
+                    cell.textLabel.textColor = [UIColor lightGrayColor];
+                    cell.textLabel.text = @"Location Services Disabled";
+                }
             }
             else
             {
@@ -185,6 +201,15 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
             cell.imageView.image      = [UIImage imageNamed:@"current_location"];
             cell.textLabel.text       = @"Current Location";
             cell.detailTextLabel.text = @"";
+            cell.textLabel.textColor = [UIColor blackColor];
+            
+            if( ![[DALocationManager sharedManager] locationServicesEnabled] )
+            {
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.userInteractionEnabled = NO;
+                cell.textLabel.textColor = [UIColor lightGrayColor];
+                cell.textLabel.text = @"Location Services Disabled";
+            }
         }
         else
         {
@@ -198,35 +223,20 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
     else
     {
         cell.imageView.image = nil;
+        cell.detailTextLabel.text = @"";
 
         if( indexPath.row == 0 )
         {
             cell.textLabel.text = @"Search Radius";
             cell.accessoryType  = UITableViewCellAccessoryNone;
             
-            if( self.selectedRadius == 0 )
-            {
-                cell.detailTextLabel.text = @"No Radius";
-            }
-            else
-            {
-                cell.detailTextLabel.text = [NSString stringWithFormat:@"%.1f mi", self.selectedRadius];
-            }
+            cell.detailTextLabel.text = self.selectedRadius == 0 ? @"No Radius" : [NSString stringWithFormat:@"%.1f mi", self.selectedRadius];
         }
         else
         {
             double radius = [[self.radiusArray objectAtIndex:indexPath.row - 1] doubleValue];
             
-            cell.detailTextLabel.text = @"";
-            
-            if( radius == self.selectedRadius )
-            {
-                cell.accessoryType = UITableViewCellAccessoryCheckmark;
-            }
-            else
-            {
-                cell.accessoryType = UITableViewCellAccessoryNone;
-            }
+            cell.accessoryType = radius == self.selectedRadius ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
             
             if( indexPath.row == [self.radiusArray count] )
             {
@@ -297,12 +307,6 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
         else
         {
             self.selectedRadius = [[self.radiusArray objectAtIndex:indexPath.row - 1] doubleValue];
-            
-            if( [self.delegate respondsToSelector:@selector(locationViewControllerDidSelectLocationName:atLocation:radius:)] )
-            {
-                [self.delegate locationViewControllerDidSelectLocationName:self.selectedLocationName atLocation:self.selectedLocation radius:self.selectedRadius];
-            }
-            
             [tableView reloadData];
         }
     }

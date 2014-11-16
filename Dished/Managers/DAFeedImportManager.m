@@ -193,6 +193,7 @@
 {
     NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kCreatedKey ascending:NO];
     NSArray *sortDescriptors = @[ dateSortDescriptor ];
+    
     NSFetchedResultsController *fetchedResultsController = [[DACoreDataManager sharedManager] fetchedResultsControllerWithEntityName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil sectionName:kCreatedKey fetchLimit:limit];
     
     return fetchedResultsController;

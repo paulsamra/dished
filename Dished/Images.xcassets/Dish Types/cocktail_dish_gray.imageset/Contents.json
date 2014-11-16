@@ -3,17 +3,12 @@
     {
       "idiom" : "iphone",
       "scale" : "1x",
-      "filename" : "explore_search_food.png"
+      "filename" : "cocktail.png"
     },
     {
       "idiom" : "iphone",
       "scale" : "2x",
-      "filename" : "explore_search_food@2x.png"
-    },
-    {
-      "idiom" : "iphone",
-      "subtype" : "retina4",
-      "scale" : "2x"
+      "filename" : "cocktail@2x.png"
     },
     {
       "idiom" : "iphone",

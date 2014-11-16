@@ -81,6 +81,7 @@ extern NSString *const kUserFollowingURL;
 extern NSString *const kExploreHashtagsURL;
 extern NSString *const kHashtagsExploreURL;
 extern NSString *const kUserImageDeleteURL;
+extern NSString *const kExploreUsernamesURL;
 extern NSString *const kExploreLocationsURL;
 extern NSString *const kRestaurantProfileURL;
 extern NSString *const kEmailAvailabilityURL;

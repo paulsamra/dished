@@ -43,7 +43,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     UINib *searchCellNib = [UINib nibWithNibName:@"DADishTableViewCell" bundle:nil];
     [self.tableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
-    
+        
     self.isLoading = YES;
     
     [self createTableViewFooter];
@@ -125,11 +125,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
             
             weakSelf.hasMoreData = newResults.count < kRowLimit ? NO : YES;
             
-            if( !weakSelf.hasMoreData )
-            {
-                weakSelf.tableView.tableFooterView = [[UIView alloc] init];
-            }
-            
             if( weakSelf.isLoadingMore )
             {
                 [weakSelf.tableView reloadData];
@@ -137,6 +132,11 @@ static NSString *const kDishSearchCellID = @"dishCell";
             else
             {
                 [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            
+            if( !weakSelf.hasMoreData )
+            {
+                weakSelf.tableView.tableFooterView = [[UIView alloc] init];
             }
             
             weakSelf.isLoadingMore = NO;
@@ -209,7 +209,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
         
         if( self.isLoading )
         {
-            cell.textLabel.text = @"Loading...";
+            cell.textLabel.text = @"Searching...";
             cell.textLabel.textAlignment = NSTextAlignmentCenter;
             
             cell.userInteractionEnabled = NO;

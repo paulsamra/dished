@@ -87,6 +87,7 @@
     }
     else
     {
+        [[NSNotificationCenter defaultCenter] postNotificationName:kLocationServicesEnabledKey object:nil];
         [self.locationManager startUpdatingLocation];
     }
 }
@@ -94,6 +95,11 @@
 - (BOOL)locationServicesEnabled
 {
     CLAuthorizationStatus authStatus = [CLLocationManager authorizationStatus];
+    
+    if( authStatus == kCLAuthorizationStatusNotDetermined )
+    {
+        return NO;
+    }
     
     if( authStatus != kCLAuthorizationStatusDenied && authStatus != kCLAuthorizationStatusRestricted )
     {

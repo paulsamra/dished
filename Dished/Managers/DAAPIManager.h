@@ -73,22 +73,10 @@ typedef enum
 - (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success, NSString *imageURL ) )completion;
 
 /*
- * Search task for usernames given a search string.
- * Completion returns array of usernames.
- */
-- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id response, NSError *error ) )completion;
-
-/*
  * Search task for when it is unknown
  * when user is searching for dishes or locations.
  */
 - (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Search task for getting hashtag suggestions when
- * user is typing in a hashtag.
- */
-- (NSURLSessionTask *)exploreHashtagSuggestionsTaskWithQuery:(NSString *)query completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Search for dishes given a search term.

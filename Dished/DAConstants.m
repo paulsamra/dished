@@ -72,6 +72,7 @@ NSString *const kUserFollowingURL     = @"users/following";
 NSString *const kExploreHashtagsURL   = @"explore/dishes/hashtag";
 NSString *const kHashtagsExploreURL   = @"hashtags/explore";
 NSString *const kUserImageDeleteURL   = @"users/image/delete";
+NSString *const kExploreUsernamesURL  = @"explore/usernames";
 NSString *const kExploreLocationsURL  = @"explore/locations";
 NSString *const kRestaurantProfileURL = @"restaurants/profile";
 NSString *const kEmailAvailabilityURL = @"users/availability/email";

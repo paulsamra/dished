@@ -20,6 +20,7 @@
 #import "DAEditProfileViewController.h"
 #import "DADishesMapViewController.h"
 
+//static NSInteger kRowLimit = 20;
 static NSString *const kDishSearchCellID = @"dishCell";
 
 
@@ -258,6 +259,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     [self.dishesMapButton setTitle:self.restaurantProfile.avg_grade forState:UIControlStateNormal];
     self.dishesMapButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Medium" size:22.0];
     [self.dishesMapButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [self.dishesMapButton removeTarget:self action:@selector(goToDishesMap) forControlEvents:UIControlEventTouchUpInside];
     
     [self.dishesTableView reloadData];
 }

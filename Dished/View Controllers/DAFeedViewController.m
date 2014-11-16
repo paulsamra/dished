@@ -87,11 +87,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         self.initialLoadActive = NO;
         [self.refreshControl endRefreshing];
         
-        if( success )
-        {
-            self.collectionView.hidden = NO;
-            [spinner stopAnimating];
-        }
+        self.collectionView.hidden = NO;
+        [spinner stopAnimating];
     }];
 }
 
@@ -151,6 +148,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     self.isLoadingMore = YES;
     
     NSInteger offset = self.fetchedResultsController.fetchRequest.fetchLimit;
+    self.fetchedResultsController.fetchRequest.fetchLimit += 10;
     
     [self.importer importFeedItemsWithLimit:10 offset:offset completion:^( BOOL success, BOOL hasMoreData )
     {
@@ -159,9 +157,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         if( success )
         {
             self.isLoadingMore = NO;
-            
-            self.fetchedResultsController.fetchRequest.fetchLimit += 10;
-            [self.fetchedResultsController performFetch:nil];
         }
     }];
 }
@@ -179,8 +174,10 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    NSLog(@"%d", (int)self.fetchedResultsController.sections.count);
-    return self.fetchedResultsController.sections.count;
+    NSInteger numberOfSections = self.fetchedResultsController.sections.count;
+    
+    NSLog(@"%d", (int)numberOfSections);
+    return numberOfSections;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
@@ -757,12 +754,16 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
                     switch( type )
                     {
                         case NSFetchedResultsChangeInsert:
+                        {
                             [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                            break;
+                        }
+                        break;
                             
                         case NSFetchedResultsChangeDelete:
+                        {
                             [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                            break;
+                        }
+                        break;
                         
                         case NSFetchedResultsChangeMove:
                         case NSFetchedResultsChangeUpdate:

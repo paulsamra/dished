@@ -11,6 +11,7 @@
 
 #define kLocationUpdateNotificationKey @"location_updated"
 #define kLocationServicesDeniedKey     @"location_denied"
+#define kLocationServicesEnabledKey    @"location_enabled"
 
 
 @interface DALocationManager : NSObject

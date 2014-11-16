@@ -60,8 +60,10 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     {
         _isAuthenticating = NO;
         
-        self.responseSerializer = [JSONResponseSerializerWithData serializer];
-        self.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"application/json", nil];
+        AFJSONResponseSerializer *responseSerializer = [JSONResponseSerializerWithData serializer];
+        responseSerializer.readingOptions = NSJSONReadingAllowFragments;
+        responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", @"application/json", nil];
+        self.responseSerializer = responseSerializer;
         
         _sem   = dispatch_semaphore_create( 0 );
         _queue = dispatch_queue_create( "com.dishedapp.Dished.api", 0 );
@@ -637,34 +639,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
-- (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id response, NSError *error ) )completion
-{
-    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"username" : query };
-    
-    return [self GET:@"explore/usernames" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        NSDictionary *response = (NSDictionary *)responseObject;
-        
-        if( [response[@"status"] isEqualToString:@"success"] )
-        {
-            completion( responseObject, nil );
-        }
-        else
-        {
-            completion( nil, nil );
-        }
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        if( error.code != -999 )
-        {
-            NSLog(@"Username search error: %@", error);
-            completion( nil, error );
-        }
-    }];
-}
-
 - (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query,
@@ -673,33 +647,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     
     return [self GET:@"explore/dishes_locations" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        NSDictionary *response = (NSDictionary *)responseObject;
-        
-        if( [response[@"status"] isEqualToString:@"success"] )
-        {
-            completion( responseObject, nil );
-        }
-        else
-        {
-            completion( nil, nil );
-        }
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        if( error.code != -999 )
-        {
-            NSLog(@"Error searching dishes and locations: %@", error.localizedDescription);
-            completion( nil, error );
-        }
-    }];
-}
-
-- (NSURLSessionTask *)exploreHashtagSuggestionsTaskWithQuery:(NSString *)query completion:( void(^)( id response, NSError *error ) )completion
-{
-    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"name" : query };
-    
-    return [self GET:@"hashtags" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
     {
         NSDictionary *response = (NSDictionary *)responseObject;
         
