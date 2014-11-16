@@ -15,15 +15,19 @@
 #import "DAGlobalDishDetailViewController.h"
 #import "DAUserProfileViewController.h"
 
+#define kRowLimit 20
+
 static NSString *const kDishSearchCellID = @"dishCell";
 
 
 @interface DAExploreDishResultsViewController() <DADishTableViewCellDelegate>
 
-@property (strong, nonatomic) NSArray                 *searchResults;
-@property (strong, nonatomic) UIActivityIndicatorView *spinner;
+@property (strong, nonatomic) NSArray          *searchResults;
+@property (strong, nonatomic) NSURLSessionTask *searchTask;
 
 @property (nonatomic) BOOL isLoading;
+@property (nonatomic) BOOL hasMoreData;
+@property (nonatomic) BOOL isLoadingMore;
 
 @end
 
@@ -33,89 +37,123 @@ static NSString *const kDishSearchCellID = @"dishCell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.hasMoreData = YES;
     
     self.searchResults = [NSArray array];
-    
-    self.tableView.tableFooterView = [[UIView alloc] init];
     
     UINib *searchCellNib = [UINib nibWithNibName:@"DADishTableViewCell" bundle:nil];
     [self.tableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
     
+    self.isLoading = YES;
+    
+    [self createTableViewFooter];
+    [self loadData];
+}
+
+- (void)createTableViewFooter
+{
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, self.view.frame.size.width, 50 )];
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = footerView.center;
+    [spinner startAnimating];
+    
+    [footerView addSubview:spinner];
+    
+    self.tableView.tableFooterView = footerView;
+}
+
+- (void)loadData
+{
     if( self.searchTerm )
     {
-        self.isLoading = YES;
-        
-        if( [self.searchTerm isEqualToString:@"dished_editors_picks"] )
+        if( [self.searchTerm isEqualToString:kEditorsPicks] )
         {
             self.title = @"Editor's Picks";
             
-            [[DAAPIManager sharedManager] getEditorsPicksDishesWithLongitude:self.selectedLocation.longitude
-            latitude:self.selectedLocation.latitude radius:self.selectedRadius completion:^( id response, NSError *error )
-            {
-                self.isLoading = NO;
-                
-                if( response && ![response isEqual:[NSNull null]] )
-                {
-                    self.searchResults = [self dishesFromResponse:response];
-                }
-                
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }];
+            [self loadSearchResultsWithURL:kEditorsPicksURL query:nil queryKey:nil];
         }
-        else if( [self.searchTerm isEqualToString:@"dished_popular"] )
+        else if( [self.searchTerm isEqualToString:kPopularNow] )
         {
             self.title = @"Popular Now";
             
-            [[DAAPIManager sharedManager] getPopularDishesWithLongitude:self.selectedLocation.longitude
-            latitude:self.selectedLocation.latitude radius:self.selectedRadius completion:^( id response, NSError *error )
-            {
-                self.isLoading = NO;
-                
-                if( response && ![response isEqual:[NSNull null]] )
-                {
-                    self.searchResults = [self dishesFromResponse:response];
-                }
-                
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }];
+            [self loadSearchResultsWithURL:kPopularNowURL query:nil queryKey:nil];
         }
         else if( [self.searchTerm characterAtIndex:0] == '#' )
         {
             self.searchTerm = [self.searchTerm substringFromIndex:1];
             self.title = [NSString stringWithFormat:@"#%@", self.searchTerm];
             
-            [[DAAPIManager sharedManager] exploreDishesWithHashtagSearchTaskWithQuery:self.searchTerm
-            longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:self.selectedRadius
-            completion:^( id response, NSError *error )
-            {
-                self.isLoading = NO;
-                
-                if( response && ![response isEqual:[NSNull null]] )
-                {
-                    self.searchResults = [self dishesFromResponse:response];
-                }
-                
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }];
+            [self loadSearchResultsWithURL:kExploreHashtagsURL query:self.searchTerm queryKey:kHashtagKey];
         }
         else
         {
             self.title = self.searchTerm;
             
-            [[DAAPIManager sharedManager] exploreDishesWithQuery:self.searchTerm longitude:self.selectedLocation.longitude
-            latitude:self.selectedLocation.latitude radius:self.selectedRadius completion:^( id response, NSError *error )
-            {
-                self.isLoading = NO;
-                
-                if( response && ![response isEqual:[NSNull null]] )
-                {
-                    self.searchResults = [self dishesFromResponse:response];
-                }
-                
-                [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-            }];
+            [self loadSearchResultsWithURL:kExploreDishesURL query:self.searchTerm queryKey:kQueryKey];
         }
     }
+}
+
+- (void)loadSearchResultsWithURL:(NSString *)url query:(NSString *)query queryKey:(NSString *)key
+{
+    __weak typeof( self ) weakSelf = self;
+    
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+        parameters[kLongitudeKey] = @(weakSelf.selectedLocation.longitude);
+        parameters[kLatitudeKey]  = @(weakSelf.selectedLocation.latitude);
+        parameters[kRadiusKey]    = @(weakSelf.selectedRadius);
+        parameters[kRowOffsetKey] = @(weakSelf.searchResults.count);
+        parameters[kRowLimitKey]  = @(kRowLimit);
+        
+        if( query && key )
+        {
+            parameters[key] = query;
+        }
+        
+        NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        weakSelf.searchTask = [[DAAPIManager sharedManager] GET:url parameters:authParameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
+        {
+            weakSelf.isLoading = NO;
+            
+            NSArray *newResults = [weakSelf dishesFromResponse:responseObject];
+            weakSelf.searchResults = [weakSelf.searchResults arrayByAddingObjectsFromArray:newResults];
+            
+            weakSelf.hasMoreData = newResults.count < kRowLimit ? NO : YES;
+            
+            if( !weakSelf.hasMoreData )
+            {
+                weakSelf.tableView.tableFooterView = [[UIView alloc] init];
+            }
+            
+            if( weakSelf.isLoadingMore )
+            {
+                [weakSelf.tableView reloadData];
+            }
+            else
+            {
+                [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            }
+            
+            weakSelf.isLoadingMore = NO;
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            weakSelf.isLoading = NO;
+            weakSelf.isLoadingMore = NO;
+            
+            [weakSelf.tableView reloadData];
+        }];
+    }];
+}
+
+- (void)dealloc
+{
+    [self.searchTask cancel];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -127,20 +165,21 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (NSArray *)dishesFromResponse:(id)response
 {
-    NSArray *dishes = response[kDataKey][@"dishes"];
+    NSDictionary *data = nilOrJSONObjectForKey( response, kDataKey);
+    NSDictionary *dishes = nilOrJSONObjectForKey( data, @"dishes" );
+    
     NSMutableArray *results = [NSMutableArray array];
     
-    if( dishes && ![dishes isEqual:[NSNull null]] )
+    if( dishes )
     {
         for( NSDictionary *dish in dishes )
         {
             DADish *result = [DADish dishWithData:dish];
-            
             [results addObject:result];
         }
     }
     
-    return [results copy];
+    return results;
 }
 
 #pragma mark - Table view data source
@@ -171,17 +210,16 @@ static NSString *const kDishSearchCellID = @"dishCell";
         if( self.isLoading )
         {
             cell.textLabel.text = @"Loading...";
+            cell.textLabel.textAlignment = NSTextAlignmentCenter;
             
-            cell.accessoryView = self.spinner;
             cell.userInteractionEnabled = NO;
-            [self.spinner startAnimating];
         }
         else
         {
             cell.textLabel.text = @"No Dishes Found";
-            
+            cell.textLabel.textAlignment = NSTextAlignmentLeft;
+
             cell.userInteractionEnabled = NO;
-            [self.spinner removeFromSuperview];
         }
         
         return cell;
@@ -224,6 +262,17 @@ static NSString *const kDishSearchCellID = @"dishCell";
     [self pushGlobalDishWithDishID:result.dishID];
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    CGFloat bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
+    
+    if( bottomEdge >= scrollView.contentSize.height && self.hasMoreData )
+    {
+        self.isLoadingMore = YES;
+        [self loadData];
+    }
+}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if( [self.searchResults count] == 0 )
@@ -232,16 +281,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
     }
     
     return 97;
-}
-
-- (UIActivityIndicatorView *)spinner
-{
-    if( !_spinner )
-    {
-        _spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    }
-    
-    return _spinner;
 }
 
 @end

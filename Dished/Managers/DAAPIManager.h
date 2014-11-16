@@ -73,40 +73,16 @@ typedef enum
 - (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success, NSString *imageURL ) )completion;
 
 /*
- * Get content for main screen on explore tab incl.
- * hashtags and images.
- */
-- (void)getExploreTabContentWithCompletion:( void(^)( id response, NSError *error ) )completion;
-
-/*
  * Search task for usernames given a search string.
  * Completion returns array of usernames.
  */
 - (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id response, NSError *error ) )completion;
 
 /*
- * Search task for dishes given a hashtag.
- * Completion returns array of dishes.
- */
-- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
  * Search task for when it is unknown
  * when user is searching for dishes or locations.
  */
 - (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Get Editor's Picks dishes.
- * Completion returns array of dishes.
- */
-- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Get popular and trending dishes.
- * Completion returns array of dishes.
- */
-- (void)getPopularDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Search task for getting hashtag suggestions when
@@ -123,16 +99,6 @@ typedef enum
  * Retrieve data for user's feed view.
  */
 - (void)getFeedActivityWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius offset:(NSInteger)offset limit:(NSInteger)limit completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Yum a review.
- */
-- (void)yumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion;
-
-/*
- * Unyum a review.
- */
-- (void)unyumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion;
 
 /*
  * Get global dish info.

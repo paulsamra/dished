@@ -637,32 +637,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
-- (void)getExploreTabContentWithCompletion:( void(^)( id response, NSError *error ) )completion
-{
-    dispatch_async( self.queue, ^
-    {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken };
-        
-        [self GET:@"hashtags/explore" parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            if( [responseObject[@"status"] isEqualToString:@"success"] )
-            {
-                completion( responseObject, nil );
-            }
-            else
-            {
-                completion( nil, nil );
-            }
-        }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            NSLog(@"Error getting Explore content: %@", error.localizedDescription);
-            completion( nil, error );
-        }];
-    });
-}
-
 - (NSURLSessionTask *)exploreUsernameSearchTaskWithQuery:(NSString *)query competion:( void(^)( id response, NSError *error ) )completion
 {
     NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"username" : query };
@@ -689,94 +663,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             completion( nil, error );
         }
     }];
-}
-
-- (NSURLSessionTask *)exploreDishesWithHashtagSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
-{
-    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"hashtag" : query,
-                                  @"longitude" : @(longitude), @"latitude" : @(latitude),
-                                  @"radius" : @(radius) };
-    
-    return [self GET:@"explore/dishes/hashtag" parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
-    {
-        NSDictionary *response = (NSDictionary *)responseObject;
-                
-        if( [response[@"status"] isEqualToString:@"success"] )
-        {
-            completion( responseObject, nil );
-        }
-        else
-        {
-            completion( nil, nil );
-        }
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        if( error.code != -999 )
-        {
-            NSLog(@"Username search error: %@", error.localizedDescription);
-            completion( nil, error );
-        }
-    }];
-}
-
-- (void)getEditorsPicksDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
-{
-    dispatch_async( self.queue, ^
-    {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"longitude" : @(longitude),
-                                      @"latitude" : @(latitude), @"radius" : @(radius) };
-        
-        [self GET:@"explore/dishes/editors_pick" parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            NSDictionary *response = (NSDictionary *)responseObject;
-            
-            if( [response[@"status"] isEqualToString:@"success"] )
-            {
-                completion( responseObject, nil );
-            }
-            else
-            {
-                completion( nil, nil );
-            }
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error)
-        {
-            NSLog(@"Editors Picks error: %@", error.localizedDescription);
-            completion( nil, error );
-        }];
-    });
-}
-
-- (void)getPopularDishesWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
-{
-    dispatch_async( self.queue, ^
-    {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"longitude" : @(longitude),
-                                      @"latitude" : @(latitude), @"radius" : @(radius) };
-        
-        [self GET:@"explore/dishes/popular" parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            NSDictionary *response = (NSDictionary *)responseObject;
-             
-            if( [response[@"status"] isEqualToString:@"success"] )
-            {
-                completion( responseObject, nil );
-            }
-            else
-            {
-                completion( nil, nil );
-            }
-        }
-        failure:^(NSURLSessionDataTask *task, NSError *error)
-        {
-            NSLog(@"Editors Picks error: %@", error.localizedDescription);
-            completion( nil, error );
-        }];
-    });
 }
 
 - (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
@@ -890,58 +776,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         {
             NSLog(@"Error getting feed: %@", error.localizedDescription);
             completion( nil, error );
-        }];
-    });
-}
-
-- (void)yumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion
-{
-    [self authenticate];
-    
-    dispatch_async( self.queue, ^
-    {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID) };
-        
-        [self POST:@"reviews/yum" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            if( completion )
-            {
-                [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
-            }
-        }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            if( completion )
-            {
-                NSLog(@"Failed to yum review: %@", error.localizedDescription);
-                completion( NO );
-            }
-        }];
-    });
-}
-
-- (void)unyumReviewID:(NSInteger)reviewID completion:( void(^)( BOOL success ) )completion
-{
-    [self authenticate];
-    
-    dispatch_async( self.queue, ^
-    {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"id" : @(reviewID) };
-        
-        [self POST:@"reviews/unyum" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            if( completion )
-            {
-                [responseObject[@"status"] isEqualToString:@"success"] ? completion( YES ) : completion( NO );
-            }
-        }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            if( completion )
-            {
-                NSLog(@"Failed to unyum review: %@", error.localizedDescription);
-                completion( NO );
-            }
         }];
     });
 }

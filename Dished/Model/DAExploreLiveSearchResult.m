@@ -24,6 +24,11 @@
         searchResult.dishType = data[kTypeKey];
     }
     
+    if( type == eUsernameSearchResult )
+    {
+        searchResult.img_thumb  = nilOrJSONObjectForKey( data, kImgThumbKey );
+    }
+    
     return searchResult;
 }
 

@@ -219,10 +219,15 @@
 
 - (void)addActivityIndicatorFooterToTableView:(UITableView *)tableView
 {
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, self.view.frame.size.width, 50 )];
+    
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = footerView.center;
     [spinner startAnimating];
     
-    tableView.tableFooterView = spinner;
+    [footerView addSubview:spinner];
+    
+    tableView.tableFooterView = footerView;
 }
 
 - (IBAction)selectedNewsType

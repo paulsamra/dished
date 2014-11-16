@@ -9,6 +9,9 @@
 #import <UIKit/UIKit.h>
 #import <CoreLocation/CoreLocation.h>
 
+#define kPopularNow   @"dished_popular_now"
+#define kEditorsPicks @"dished_editors_picks"
+
 
 @interface DAExploreDishResultsViewController : UITableViewController
 

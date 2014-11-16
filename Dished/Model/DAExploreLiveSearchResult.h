@@ -22,6 +22,7 @@ typedef enum eExploreSearchResultType
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic) NSString *rating;
 @property (copy, nonatomic) NSString *dishType;
+@property (copy, nonatomic) NSString *img_thumb;
 
 @property (nonatomic) NSInteger                resultID;
 @property (nonatomic) eExploreSearchResultType resultType;

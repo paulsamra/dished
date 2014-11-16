@@ -655,33 +655,23 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (void)yumFeedItemWithReviewID:(NSInteger)reviewID
 {
-    [[DAAPIManager sharedManager] yumReviewID:reviewID completion:^( BOOL success )
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        if( success )
-        {
-            [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
-            [self refreshReviewData];
-        }
-        else
-        {
-            [self.collectionView reloadData];
-        }
+        NSDictionary *parameters = @{ kIDKey : @(reviewID) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+         
+        [[DAAPIManager sharedManager] POST:kYumReviewURL parameters:parameters success:nil failure:nil];
     }];
 }
 
 - (void)unyumFeedItemWithReviewID:(NSInteger)reviewID
 {
-    [[DAAPIManager sharedManager] unyumReviewID:reviewID completion:^( BOOL success )
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        if( success )
-        {
-            [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:nil];
-            [self refreshReviewData];
-        }
-        else
-        {
-            [self.collectionView reloadData];
-        }
+        NSDictionary *parameters = @{ kIDKey : @(reviewID) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+         
+        [[DAAPIManager sharedManager] POST:kUnyumReviewURL parameters:parameters success:nil failure:nil];
     }];
 }
 
@@ -723,7 +713,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
                     {
                         [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
                         {
-                            [self.navigationController popViewControllerAnimated:YES];
+                            [self.navigationController popToRootViewControllerAnimated:YES];
                         }];
                     }];
                 }
@@ -731,7 +721,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
                 {
                     [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
                     {
-                        [self.navigationController popViewControllerAnimated:YES];
+                        [self.navigationController popToRootViewControllerAnimated:YES];
                     }];
                 }
             }

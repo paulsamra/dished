@@ -35,39 +35,42 @@
 
 - (void)loadHashtags
 {
-    NSDictionary *parameters = @{ kDishTypeKey : self.review.type, kHashtagTypeKey : kNegativeHashtags };
-    NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-    
-    [[DAAPIManager sharedManager] GET:kHashtagsURL parameters:authParameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        self.hashtagArray = [self hashtagsFromResponse:responseObject];
+        NSDictionary *parameters = @{ kDishTypeKey : self.review.type, kHashtagTypeKey : kNegativeHashtags };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
         
-        for( DAHashtag *tag in self.selectedHashtags )
+        [[DAAPIManager sharedManager] GET:kHashtagsURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            NSUInteger index = [self.hashtagArray indexOfObject:tag];
+            self.hashtagArray = [self hashtagsFromResponse:responseObject];
             
-            if( index != NSNotFound )
+            for( DAHashtag *tag in self.selectedHashtags )
             {
-                [self.hashtagDict setObject:@"selected" forKey:@(index)];
+                NSUInteger index = [self.hashtagArray indexOfObject:tag];
+                
+                if( index != NSNotFound )
+                {
+                    [self.hashtagDict setObject:@"selected" forKey:@(index)];
+                }
             }
-        }
-        
-        for( id key in self.hashtagDict )
-        {
-            [self.selectedHashtags removeObject:[self.hashtagArray objectAtIndex:[key intValue]]];
-        }
-        
-        [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        eErrorType errorType = [DAAPIManager errorTypeForError:error];
-        
-        if( errorType != eErrorTypeRequestCancelled )
-        {
             
+            for( id key in self.hashtagDict )
+            {
+                [self.selectedHashtags removeObject:[self.hashtagArray objectAtIndex:[key intValue]]];
+            }
+            
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType != eErrorTypeRequestCancelled )
+            {
+                
+            }
+        }];
     }];
 }
 

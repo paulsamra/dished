@@ -45,7 +45,7 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
 {
     [super viewDidLoad];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake( -35, 0, 0, 0 );
     self.collectionView.alwaysBounceVertical = YES;
     
     [[DALocationManager sharedManager] startUpdatingLocation];
@@ -64,23 +64,25 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
 
 - (void)loadExploreContent
 {
-    [[DAAPIManager sharedManager] getExploreTabContentWithCompletion:^( id response, NSError *error )
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
     {
-        if( !error )
+        NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+        
+        [[DAAPIManager sharedManager] GET:kHashtagsExploreURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
         {
             [self.refreshControl endRefreshing];
             
-            self.imageURLs = [self imageURLsFromResponse:response];
-            self.hashtags  = [self hashtagsFromResponse:response];
-             
+            self.imageURLs = [self imageURLsFromResponse:responseObject];
+            self.hashtags  = [self hashtagsFromResponse:responseObject];
+            
             [self.collectionView reloadData];
         }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            NSLog(@"Error getting Explore content: %@", error.localizedDescription);
+        }];
     }];
-}
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)locationUpdated
@@ -161,7 +163,17 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
-    [self performSegueWithIdentifier:@"dishResults" sender:searchBar.text];
+    if( searchBar.text.length > 0 )
+    {
+        if( [searchBar.text characterAtIndex:0] != '@' )
+        {
+            [self performSegueWithIdentifier:@"dishResults" sender:searchBar.text];
+        }
+        else
+        {
+            [searchBar resignFirstResponder];
+        }
+    }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -352,8 +364,8 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     {
         switch( indexPath.row )
         {
-            case 0: [self performSegueWithIdentifier:@"dishResults" sender:@"dished_editors_picks"]; break;
-            case 1: [self performSegueWithIdentifier:@"dishResults" sender:@"dished_popular"]; break;
+            case 0: [self performSegueWithIdentifier:@"dishResults" sender:kEditorsPicks]; break;
+            case 1: [self performSegueWithIdentifier:@"dishResults" sender:kPopularNow]; break;
         }
     }
     else

@@ -25,11 +25,11 @@
                         <color key="textColor" red="0.3921568627" green="0.40784313729999999" blue="0.46274509800000002" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="11" preferredMaxLayoutWidth="140" translatesAutoresizingMaskIntoConstraints="NO" id="fgI-8i-wgp">
+                    <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="140" translatesAutoresizingMaskIntoConstraints="NO" id="fgI-8i-wgp">
                         <rect key="frame" x="130" y="5" width="140" height="36"/>
                         <constraints>
+                            <constraint firstAttribute="height" relation="lessThanOrEqual" constant="36" id="BkG-UV-nqX"/>
                             <constraint firstAttribute="width" constant="140" id="Wce-0y-jLf"/>
-                            <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="22" id="bSv-7e-Szw"/>
                         </constraints>
                         <string key="text">No Bake Blueberry
 Truffle Tartlets</string>
@@ -73,13 +73,13 @@ Truffle Tartlets</string>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2l8-tU-bbH">
-                        <rect key="frame" x="130" y="47" width="182" height="17"/>
+                        <rect key="frame" x="130" y="47" width="105" height="17"/>
                         <constraints>
+                            <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="Voi-ry-6as"/>
                             <constraint firstAttribute="height" constant="17" id="fmV-Kr-nnw"/>
                         </constraints>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="14"/>
-                        <inset key="titleEdgeInsets" minX="6" minY="0.0" maxX="0.0" maxY="0.0"/>
-                        <state key="normal" title="Skopje City Mallg" image="dish_location">
+                        <state key="normal" title="Skopje City Mallg">
                             <color key="titleColor" red="0.0" green="0.61568627450000002" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
@@ -87,6 +87,7 @@ Truffle Tartlets</string>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="29v-6h-ZEZ" secondAttribute="bottom" constant="6" id="0gA-l0-hY4"/>
+                    <constraint firstItem="HMt-UO-HO5" firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="2l8-tU-bbH" secondAttribute="trailing" id="Al6-we-5xK"/>
                     <constraint firstItem="u1c-pF-dRm" firstAttribute="top" secondItem="VAm-Dq-PNs" secondAttribute="top" constant="6" id="GRs-rn-fJz"/>
                     <constraint firstItem="fgI-8i-wgp" firstAttribute="top" secondItem="VAm-Dq-PNs" secondAttribute="top" constant="5" id="Jfh-tb-824"/>
                     <constraint firstAttribute="bottom" secondItem="HMt-UO-HO5" secondAttribute="bottom" constant="5" id="Kya-Ik-99U"/>
@@ -94,7 +95,6 @@ Truffle Tartlets</string>
                     <constraint firstItem="AV9-t2-Maj" firstAttribute="leading" secondItem="5kL-Q7-VaA" secondAttribute="trailing" constant="9" id="WKx-dW-Mum"/>
                     <constraint firstAttribute="trailing" secondItem="HMt-UO-HO5" secondAttribute="trailing" constant="10" id="WPa-sc-i7l"/>
                     <constraint firstAttribute="bottom" secondItem="5kL-Q7-VaA" secondAttribute="bottom" constant="5" id="f66-lc-Tgf"/>
-                    <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="2l8-tU-bbH" secondAttribute="trailing" constant="8" id="gOg-m7-p96"/>
                     <constraint firstItem="2l8-tU-bbH" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="hrY-01-ve3"/>
                     <constraint firstItem="29v-6h-ZEZ" firstAttribute="top" secondItem="2l8-tU-bbH" secondAttribute="bottom" constant="6" id="jM9-bm-vLU"/>
                     <constraint firstItem="fgI-8i-wgp" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="ptz-Hh-hGw"/>
@@ -116,9 +116,6 @@ Truffle Tartlets</string>
             <point key="canvasLocation" x="140" y="152.5"/>
         </tableViewCell>
     </objects>
-    <resources>
-        <image name="dish_location" width="10" height="15"/>
-    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
