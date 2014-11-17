@@ -50,6 +50,9 @@
     [spinner startAnimating];
     spinner.center = self.view.center;
     
+    self.view.backgroundColor = [UIColor blackColor];
+    self.videoView.hidden = YES;
+    
     dispatch_async( dispatch_get_main_queue(), ^
     {
         self.captureManager = [[DACaptureManager alloc] init];
@@ -62,6 +65,9 @@
         [self.captureManager startCapture];
         
         [self.captureManager enableFlash:NO];
+        
+        [UIView transitionWithView:self.videoView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve animations:nil completion:nil];
+        self.videoView.hidden = NO;
         
         [spinner removeFromSuperview];
     });
@@ -84,14 +90,6 @@
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     
     self.takePictureButton.enabled = YES;
-    
-    dispatch_async( dispatch_get_main_queue(), ^
-    {
-        if( !self.captureManager.previewLayer.connection.enabled )
-        {
-            self.captureManager.previewLayer.connection.enabled = YES;
-        }
-    });
 }
 
 - (void)loadCameraRollThumbnail
@@ -136,10 +134,10 @@
 
 - (IBAction)takePicture
 {
-    [self.captureManager captureStillImage];
-    
     self.takePictureButton.enabled = NO;
     self.pictureTaken = nil;
+    
+    [self.captureManager captureStillImage];
     
     if( ![self.captureManager cameraIsFocusing] )
     {
@@ -178,11 +176,6 @@
                 {
                     [shutterView removeFromSuperview];
                     
-                    dispatch_async( dispatch_get_main_queue(), ^
-                    {
-                        self.captureManager.previewLayer.connection.enabled = NO;
-                    });
-                      
                     [self performSegueWithIdentifier:@"chooseFilter" sender:nil];
                 }
             }];
@@ -192,7 +185,7 @@
 
 - (void)captureManager:(DACaptureManager *)captureManager didCaptureImage:(UIImage *)image
 {
-    dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_HIGH, 0 ), ^
+    dispatch_async( dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0 ), ^
     {        
         CGFloat cropWidth = ( image.size.width / self.videoView.bounds.size.width ) * self.view.bounds.size.width;
         CGFloat cropHeight = ( image.size.height / self.videoView.bounds.size.height ) * self.gridImageView.bounds.size.height;
@@ -352,11 +345,6 @@
     
     [self dismissViewControllerAnimated:YES completion:^
     {
-        dispatch_async( dispatch_get_main_queue(), ^
-        {
-            self.captureManager.previewLayer.connection.enabled = NO;
-        });
-        
         [self performSegueWithIdentifier:@"chooseFilter" sender:nil];
     }];
 }

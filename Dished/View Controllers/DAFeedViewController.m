@@ -224,7 +224,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         {
             commentCell.iconImageView.hidden = YES;
             
-            NSString *commentString = [NSString stringWithFormat:@"View all %d comments...", [feedItem.num_comments intValue]];
+            NSString *commentString = [NSString stringWithFormat:@"View all %d comments...", [feedItem.num_comments intValue] - 1];
             commentCell.textView.attributedText = [[NSAttributedString alloc] initWithString:commentString attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
             
             commentCell.delegate = self;
@@ -255,9 +255,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
         DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
         
-        NSInteger numComments = [feedItem.num_comments intValue];
-        NSString *format = numComments == 1 ? @"%d comment" : @"%d comments";
-        NSString *commentString = [NSString stringWithFormat:format, [feedItem.num_comments intValue]];
+        NSInteger numComments = [feedItem.num_comments intValue] - 1;
+        NSString *format = numComments == 0 ? @" No comments" : numComments == 1 ? @" %d comment" : @" %d comments";
+        NSString *commentString = [NSString stringWithFormat:format, numComments];
         [buttonCell.commentsButton setTitle:commentString forState:UIControlStateNormal];
         
         [feedItem.caller_yumd boolValue] ? [self yumCell:buttonCell] : [self unyumCell:buttonCell];

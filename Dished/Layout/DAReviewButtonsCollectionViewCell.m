@@ -18,7 +18,9 @@
     self.yumButton.layer.cornerRadius         = 3;
     self.commentsButton.layer.cornerRadius    = 3;
     self.moreReviewsButton.layer.cornerRadius = 3;
-
+    
+    self.commentsButton.titleLabel.font = [UIFont fontWithName:kHelveticaNeueLightFont size:13.0];
+    
     self.yumButton.layer.masksToBounds         = YES;
     self.commentsButton.layer.masksToBounds    = YES;
     self.moreReviewsButton.layer.masksToBounds = YES;
@@ -26,6 +28,13 @@
     [self.yumButton addTarget:self action:@selector(yumButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.commentsButton addTarget:self action:@selector(commentsButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.moreReviewsButton addTarget:self action:@selector(moreReviewsButtonTapped) forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)setBounds:(CGRect)bounds
+{
+    [super setBounds:bounds];
+    
+    self.contentView.frame = bounds;
 }
 
 - (void)yumButtonTapped

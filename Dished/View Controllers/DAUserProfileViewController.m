@@ -32,6 +32,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
 @property (strong, nonatomic) NSURLSessionTask    *spamReportTask;
 @property (strong, nonatomic) DAUserProfile       *userProfile;
 @property (strong, nonatomic) DARestaurantProfile *restaurantProfile;
+@property (strong, nonatomic) CLPlacemark         *directionsPlacemark;
 
 @end
 
@@ -162,6 +163,8 @@ static NSString *const kDishSearchCellID = @"dishCell";
                 [spinner removeFromSuperview];
                 
                 [self setMainViewsHidden:NO animated:YES];
+                
+                [self loadPlacemark];
             }
             failure:^( NSURLSessionDataTask *task, NSError *error )
             {
@@ -201,6 +204,22 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         
     }
+}
+
+- (void)loadPlacemark
+{
+    double longitude = self.restaurantProfile.longitude;
+    double latitude  = self.restaurantProfile.latitude;
+    
+    CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+    CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+    [geocoder reverseGeocodeLocation:location completionHandler:^( NSArray *placemarks, NSError *error )
+    {
+        if( !error && placemarks && placemarks.count > 0 )
+        {
+            self.directionsPlacemark = placemarks[0];
+        }
+    }];
 }
 
 - (void)configureForRestaurantProfile
@@ -644,17 +663,60 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (IBAction)directionsButtonTapped
 {
+    NSString *title = [NSString stringWithFormat:@"Directions to %@", self.restaurantProfile.name];
+    [[[UIAlertView alloc] initWithTitle:title message:@"Do you want to open the Maps app to view directions?" delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil] show];
+}
+
+- (void)openDirections
+{
+    if( self.directionsPlacemark )
+    {
+        [self openMapsDirectionsWithPlacemark:self.directionsPlacemark];
+    }
+    else
+    {
+        double longitude = self.restaurantProfile.longitude;
+        double latitude  = self.restaurantProfile.latitude;
+        
+        CLLocation *location = [[CLLocation alloc] initWithLatitude:latitude longitude:longitude];
+        CLGeocoder *geocoder = [[CLGeocoder alloc] init];
+        [geocoder reverseGeocodeLocation:location completionHandler:^( NSArray *placemarks, NSError *error )
+        {
+            if( !error && placemarks && placemarks.count > 0 )
+            {
+                CLPlacemark *placemark = placemarks[0];
+                 
+                [self openMapsDirectionsWithPlacemark:placemark];
+            }
+            else
+            {
+                [[[UIAlertView alloc] initWithTitle:@"Error Occured" message:@"There was a problem with opening maps directions. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+            }
+        }];
+    }
+}
+
+- (void)openMapsDirectionsWithPlacemark:(CLPlacemark *)placemark
+{
     double longitude = self.restaurantProfile.longitude;
     double latitude  = self.restaurantProfile.latitude;
     
-    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake( longitude, latitude);
-    MKPlacemark *placemark = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:nil];
-    MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark];
+    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake( latitude, longitude );
+    MKPlacemark *placemark2 = [[MKPlacemark alloc] initWithCoordinate:coordinate addressDictionary:placemark.addressDictionary];
+    MKMapItem *mapItem = [[MKMapItem alloc] initWithPlacemark:placemark2];
     mapItem.name = self.restaurantProfile.name;
     
     NSDictionary *launchOptions = @{ MKLaunchOptionsDirectionsModeKey : MKLaunchOptionsDirectionsModeDriving };
     MKMapItem *currentLocationMapItem = [MKMapItem mapItemForCurrentLocation];
     [MKMapItem openMapsWithItems:@[currentLocationMapItem, mapItem] launchOptions:launchOptions];
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if( buttonIndex != alertView.cancelButtonIndex )
+    {
+        [self openDirections];
+    }
 }
 
 @end

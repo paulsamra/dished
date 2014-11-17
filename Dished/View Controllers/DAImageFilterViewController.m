@@ -75,7 +75,10 @@
     self.filteredImages[self.filterNames[0]] = self.pictureTaken;
     [self filterImageAtIndex:self.selectedIndex];
     
+    self.pictureImageView.hidden = YES;
     self.pictureImageView.image = self.filteredImages[self.filterNames[self.selectedIndex]];
+    [UIView transitionWithView:self.pictureImageView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve animations:nil completion:nil];
+    self.pictureImageView.hidden = NO;
 
     [self.spinner stopAnimating];
     

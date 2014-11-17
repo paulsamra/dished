@@ -51,13 +51,20 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if( self.locationData.count == 0 )
+    if( self.locationData.count <= 0 )
     {
-        return 0;
+        return self.searchBar.text.length == 0 ? 0 : 1;
     }
     else
     {
-        return self.locationData.count + 1;
+        if( self.locationData == self.suggestedLocations )
+        {
+            return self.locationData.count;
+        }
+        else
+        {
+            return self.locationData.count + 1;
+        }
     }
 }
 
@@ -65,7 +72,7 @@
 {
     UITableViewCell *cell = nil;
     
-    if( indexPath.row == [self.locationData count] )
+    if( indexPath.row == [self.locationData count] || ( self.locationData.count == 0 && self.searchBar.text.length > 0 ) )
     {
         cell = [tableView dequeueReusableCellWithIdentifier:@"newPlaceCell"];
     }

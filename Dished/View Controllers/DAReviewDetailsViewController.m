@@ -224,9 +224,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         footerCell.delegate = self;
         
-        footerCell.commentsButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-        NSString *commentFormat = self.review.num_comments == 1 ? @"%d comment" : @"%d comments";
-        NSString *commentString = [NSString stringWithFormat:commentFormat, (int)self.review.num_comments];
+        NSInteger numComments = self.review.num_comments - 1;
+        NSString *commentFormat = numComments == 0 ? @" No comments" : numComments == 1 ? @" %d comment" : @" %d comments";
+        NSString *commentString = [NSString stringWithFormat:commentFormat, numComments];
         [footerCell.commentsButton setTitle:commentString forState:UIControlStateNormal];
         
         self.review.caller_yumd ? [self yumCell:footerCell] : [self unyumCell:footerCell];
