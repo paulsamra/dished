@@ -11,7 +11,7 @@ import UIKit
 
 @objc protocol DAMultiNewsTableViewCellDelegate
 {
-    optional func reviewImageTappedWithReviewID( reviewID: Int )
+    optional func reviewImageTappedAtIndex( index: Int, inCell cell: DAMultiNewsTableViewCell )
 }
 
 
@@ -20,7 +20,7 @@ class DAMultiNewsTableViewCell: DANewsTableViewCell, UICollectionViewDelegate, U
     @IBOutlet weak var imageCollectionView: UICollectionView!
     @IBOutlet weak var collectionViewHeightConstraint: NSLayoutConstraint!
     weak var delegate: DAMultiNewsTableViewCellDelegate?
-    private var reviews: [Dictionary<String, String>] = []
+    private var reviews: [String] = []
     
     override func awakeFromNib()
     {
@@ -32,11 +32,24 @@ class DAMultiNewsTableViewCell: DANewsTableViewCell, UICollectionViewDelegate, U
         imageCollectionView.registerClass( DAMultiNewsCollectionViewCell.self, forCellWithReuseIdentifier: "cell" )
     }
     
-    func setReviewImages( images: [Dictionary<String, String>] )
+    override func prepareForReuse()
+    {
+        super.prepareForReuse()
+        
+        reviews = [];
+        
+        imageCollectionView.reloadData()
+        imageCollectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    func setReviewImages( images: [String] )
     {
         reviews = images
         
         imageCollectionView.reloadData()
+        imageCollectionView.collectionViewLayout.invalidateLayout()
+        
+        collectionViewHeightConstraint.constant = imageCollectionView.collectionViewLayout.collectionViewContentSize().height
     }
     
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int
@@ -53,22 +66,17 @@ class DAMultiNewsTableViewCell: DANewsTableViewCell, UICollectionViewDelegate, U
     {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier( "cell", forIndexPath: indexPath ) as DAMultiNewsCollectionViewCell
         
-        let review = reviews[indexPath.row]
-        let urlString = review["img"]
+        let imageURL = reviews[indexPath.row]
         
-        let url = NSURL( string: urlString! )
-        cell.imageView.setImageWithURL( url, usingActivityIndicatorStyle: UIActivityIndicatorViewStyle.Gray )
+        let url = NSURL( string: imageURL )
+        cell.imageView.sd_setImageWithURL( url );
         
         return cell
     }
     
     func collectionView( collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath )
     {
-        let review = reviews[indexPath.row]
-        let reviewIDString = review["id"]
-        let reviewID = reviewIDString?.toInt()
-        
-        delegate?.reviewImageTappedWithReviewID!( reviewID! )
+        delegate?.reviewImageTappedAtIndex!( indexPath.row, inCell: self )
     }
 }
 
@@ -83,6 +91,13 @@ class DAMultiNewsCollectionViewCell: UICollectionViewCell
         commonInit()
     }
     
+    override init( frame: CGRect )
+    {
+        super.init( frame: frame )
+        
+        commonInit();
+    }
+    
     required init( coder aDecoder: NSCoder )
     {
         super.init( coder: aDecoder )
@@ -93,6 +108,8 @@ class DAMultiNewsCollectionViewCell: UICollectionViewCell
     func commonInit()
     {
         imageView = UIImageView( frame: self.contentView.frame )
+        imageView.contentMode = UIViewContentMode.ScaleAspectFill
+        imageView.layer.masksToBounds = true
         self.contentView.addSubview( imageView )
     }
 }

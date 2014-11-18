@@ -14,7 +14,13 @@
 #import	"UIColor+Dished.h"
 #import "NSAttributedString+Dished.h"
 #import "DAConstants.h"
-#import "Dished-Swift.h"
+
+#ifdef DEV
+    #import "Dished_DEV-Swift.h"
+#else
+    #import "Dished-Swift.h"
+#endif
+
 #import "UIViewController+DishSegues.h"
 #import <Crashlytics/Crashlytics.h>
 #endif

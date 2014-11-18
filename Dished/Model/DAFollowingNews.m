@@ -165,7 +165,7 @@
             break;
             
         case eFollowingNewsYumNotificationSubtypeMultiUserYum:
-            string = [NSString stringWithFormat:@"%d of your friends YUMMED @%@'s review.", (int)self.friend_count, self.username];
+            string = [NSString stringWithFormat:@"%d of your friends YUMMED @%@'s review.", (int)self.friend_count, self.review_creator];
             break;
             
         case eFollowingNewsYumNotificationSubtypeTwoUserYum:

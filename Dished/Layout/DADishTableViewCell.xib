@@ -73,7 +73,7 @@ Truffle Tartlets</string>
                         <nil key="highlightedColor"/>
                     </label>
                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2l8-tU-bbH">
-                        <rect key="frame" x="130" y="47" width="105" height="17"/>
+                        <rect key="frame" x="145" y="47" width="105" height="17"/>
                         <constraints>
                             <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="Voi-ry-6as"/>
                             <constraint firstAttribute="height" constant="17" id="fmV-Kr-nnw"/>
@@ -84,6 +84,13 @@ Truffle Tartlets</string>
                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                         </state>
                     </button>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dish_location" translatesAutoresizingMaskIntoConstraints="NO" id="8M7-ht-lSc">
+                        <rect key="frame" x="130" y="48" width="10" height="15"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="10" id="AUq-yc-CgF"/>
+                            <constraint firstAttribute="height" constant="15" id="NK6-T9-Izm"/>
+                        </constraints>
+                    </imageView>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="29v-6h-ZEZ" secondAttribute="bottom" constant="6" id="0gA-l0-hY4"/>
@@ -91,11 +98,13 @@ Truffle Tartlets</string>
                     <constraint firstItem="u1c-pF-dRm" firstAttribute="top" secondItem="VAm-Dq-PNs" secondAttribute="top" constant="6" id="GRs-rn-fJz"/>
                     <constraint firstItem="fgI-8i-wgp" firstAttribute="top" secondItem="VAm-Dq-PNs" secondAttribute="top" constant="5" id="Jfh-tb-824"/>
                     <constraint firstAttribute="bottom" secondItem="HMt-UO-HO5" secondAttribute="bottom" constant="5" id="Kya-Ik-99U"/>
+                    <constraint firstItem="2l8-tU-bbH" firstAttribute="top" secondItem="8M7-ht-lSc" secondAttribute="top" constant="-1" id="MQb-XY-Js8"/>
                     <constraint firstItem="HMt-UO-HO5" firstAttribute="leading" secondItem="AV9-t2-Maj" secondAttribute="trailing" constant="8" id="RWg-x2-MRE"/>
                     <constraint firstItem="AV9-t2-Maj" firstAttribute="leading" secondItem="5kL-Q7-VaA" secondAttribute="trailing" constant="9" id="WKx-dW-Mum"/>
                     <constraint firstAttribute="trailing" secondItem="HMt-UO-HO5" secondAttribute="trailing" constant="10" id="WPa-sc-i7l"/>
                     <constraint firstAttribute="bottom" secondItem="5kL-Q7-VaA" secondAttribute="bottom" constant="5" id="f66-lc-Tgf"/>
-                    <constraint firstItem="2l8-tU-bbH" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="hrY-01-ve3"/>
+                    <constraint firstItem="8M7-ht-lSc" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="gPh-aZ-3Zv"/>
+                    <constraint firstItem="2l8-tU-bbH" firstAttribute="leading" secondItem="8M7-ht-lSc" secondAttribute="trailing" constant="5" id="iUu-61-6EL"/>
                     <constraint firstItem="29v-6h-ZEZ" firstAttribute="top" secondItem="2l8-tU-bbH" secondAttribute="bottom" constant="6" id="jM9-bm-vLU"/>
                     <constraint firstItem="fgI-8i-wgp" firstAttribute="leading" secondItem="u1c-pF-dRm" secondAttribute="trailing" constant="9" id="ptz-Hh-hGw"/>
                     <constraint firstAttribute="bottom" secondItem="AV9-t2-Maj" secondAttribute="bottom" constant="5" id="q6i-NI-S6V"/>
@@ -116,6 +125,9 @@ Truffle Tartlets</string>
             <point key="canvasLocation" x="140" y="152.5"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="dish_location" width="10" height="15"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
