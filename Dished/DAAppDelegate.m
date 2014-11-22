@@ -70,7 +70,6 @@
     NSString *name  = [NSString stringWithFormat:@"%@ %@", [DAUserManager sharedManager].firstName, [DAUserManager sharedManager].lastName];
     NSString *userID = [NSString stringWithFormat:@"%d", (int)[DAUserManager sharedManager].user_id];
     
-    
     UVConfig *config = [UVConfig configWithSite:@"dishedapp.uservoice.com"];
     [config identifyUserWithEmail:email name:name guid:userID];
     [UserVoice initialize:config];

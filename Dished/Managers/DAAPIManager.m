@@ -18,9 +18,15 @@
 #define kRefreshTokenKey @"refresh_token"
 #define kLastRefreshKey  @"last_refresh"
 
-static NSString *const kbaseAPIURL      = @"http://54.215.184.64/api/";
 static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
+#ifdef DEV
+    static NSString *const kBaseAPIURL = @"http://54.67.63.46/v1/";
+#elif defined( STAGE )
+    static NSString *const kBaseAPIURL = @"http://54.215.184.64/v1/";
+#else
+    static NSString *const kBaseAPIURL = @"https://api.dishedapp.com/v1/";
+#endif
 
 @interface DAAPIManager()
 
@@ -46,7 +52,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     static dispatch_once_t singleton;
     
     dispatch_once(&singleton, ^{
-        manager = [[DAAPIManager alloc] initWithBaseURL:[NSURL URLWithString:kbaseAPIURL]];
+        manager = [[DAAPIManager alloc] initWithBaseURL:[NSURL URLWithString:kBaseAPIURL]];
     });
     
     return manager;

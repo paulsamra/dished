@@ -17,6 +17,8 @@
 
 #ifdef DEV
     #import "Dished_DEV-Swift.h"
+#elif defined( STAGE )
+    #import "Dished_STAGE-Swift.h"
 #else
     #import "Dished-Swift.h"
 #endif

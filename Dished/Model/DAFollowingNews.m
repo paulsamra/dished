@@ -61,12 +61,15 @@
             
             for( NSDictionary *review in reviews )
             {
-                NSString *imageURL = nilOrJSONObjectForKey( review, kImgThumbKey );
-                
-                if( imageURL )
+                if( [review isKindOfClass:[NSDictionary class]] )
                 {
-                    [reviewIDs addObject:nilOrJSONObjectForKey( review, kIDKey )];
-                    [review_images addObject:imageURL];
+                    NSString *imageURL = nilOrJSONObjectForKey( review, kImgThumbKey );
+                    
+                    if( imageURL )
+                    {
+                        [reviewIDs addObject:nilOrJSONObjectForKey( review, kIDKey )];
+                        [review_images addObject:imageURL];
+                    }
                 }
             }
             

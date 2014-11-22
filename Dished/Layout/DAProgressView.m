@@ -62,6 +62,11 @@
 {
     [self.maskLayer removeAllAnimations];
     
+    if( percentage != percentage )
+    {
+        return;
+    }
+    
     CGRect maskFrame = self.maskLayer.frame;
     maskFrame.size.width = self.blueDishLayer.frame.size.width * percentage;
     

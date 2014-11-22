@@ -64,8 +64,11 @@ static char TAG_ACTIVITY_INDICATOR;
     [self sd_setImageWithURL:url placeholderImage:nil options:0
     progress:^( NSInteger receivedSize, NSInteger expectedSize )
     {
-        CGFloat percentage = (CGFloat)receivedSize / (CGFloat)expectedSize;
-        [weakSelf.progressView animateToPercentage:percentage];
+        if( expectedSize != 0 )
+        {
+            CGFloat percentage = (CGFloat)receivedSize / (CGFloat)expectedSize;
+            [weakSelf.progressView animateToPercentage:percentage];
+        }
     }
     completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, NSURL *imageURL )
     {
