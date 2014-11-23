@@ -17,6 +17,7 @@ typedef enum
     eErrorTypeDataNonexists,
     eErrorTypeEmailExists,
     eErrorTypePhoneExists,
+    eErrorTypeContentPrivate,
     eErrorTypeTimeout,
     eErrorTypeRequestCancelled,
     eErrorTypeExpiredAccessToken,

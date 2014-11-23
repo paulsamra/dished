@@ -7,7 +7,6 @@
 //
 
 #import "DANegativeHashtagsViewController.h"
-#import "DAAPIManager.h"
 #import "DAHashtag.h"
 #import "DAReviewFormViewController.h"
 

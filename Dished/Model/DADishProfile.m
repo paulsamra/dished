@@ -17,6 +17,7 @@
     profile.name            = nilOrJSONObjectForKey( data, kNameKey );
     profile.desc            = nilOrJSONObjectForKey( data, @"desc" );
     profile.price           = nilOrJSONObjectForKey( data, kPriceKey );
+    profile.type            = nilOrJSONObjectForKey( data, kTypeKey );
     profile.loc_name        = nilOrJSONObjectForKey( data, kLocationNameKey );
     profile.grade           = nilOrJSONObjectForKey( data, kGradeKey );
     profile.images          = nilOrJSONObjectForKey( data, kImagesKey );

@@ -32,5 +32,8 @@
 
 
 - (id)initWithData:(id)data;
+- (void)addFoodReviewsWithData:(id)data;
+- (void)addCocktailReviewsWithData:(id)data;
+- (void)addWineReviewsWithData:(id)data;
 
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "DAExploreDishResultsViewController.h"
-#import "DAAPIManager.h"
 #import "DADishTableViewCell.h"
 #import "DALocationManager.h"
 #import "DADish.h"
@@ -266,7 +265,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     CGFloat bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
     
-    if( bottomEdge >= scrollView.contentSize.height && self.hasMoreData )
+    if( bottomEdge >= scrollView.contentSize.height && self.hasMoreData && !self.isLoadingMore )
     {
         self.isLoadingMore = YES;
         [self loadData];

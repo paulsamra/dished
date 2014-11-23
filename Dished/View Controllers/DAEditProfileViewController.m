@@ -10,7 +10,6 @@
 #import "DAUserManager.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAErrorView.h"
-#import "DAAPIManager.h"
 #import "MRProgress.h"
 
 

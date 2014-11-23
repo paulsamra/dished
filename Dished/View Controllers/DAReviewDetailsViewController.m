@@ -8,7 +8,6 @@
 
 #import "DAReviewDetailsViewController.h"
 #import "DAFeedCollectionViewCell.h"
-#import "DAAPIManager.h"
 #import "DAReview.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAReviewDetailCollectionViewCell.h"

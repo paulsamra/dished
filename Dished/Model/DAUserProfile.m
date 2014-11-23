@@ -59,4 +59,19 @@
     return reviews;
 }
 
+- (void)addFoodReviewsWithData:(id)data
+{
+    self.foodReviews = [self.foodReviews arrayByAddingObjectsFromArray:[self reviewsWithData:data]];
+}
+
+- (void)addCocktailReviewsWithData:(id)data
+{
+    self.cocktailReviews = [self.cocktailReviews arrayByAddingObjectsFromArray:[self reviewsWithData:data]];
+}
+
+- (void)addWineReviewsWithData:(id)data
+{
+    self.wineReviews = [self.wineReviews arrayByAddingObjectsFromArray:[self reviewsWithData:data]];
+}
+
 @end

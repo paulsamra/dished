@@ -8,7 +8,6 @@
 
 #import "DARegisterViewController.h"
 #import "DAErrorView.h"
-#import "DAAPIManager.h"
 #import "MRProgress.h"
 #import "DAAppDelegate.h"
 #import "DADocumentViewController.h"

@@ -50,15 +50,18 @@
 {
     [super prepareForReuse];
     
-    self.userImageView.image = nil;
-    self.dishImageView.image = nil;
-    [self.titleButton    setTitle:nil forState:UIControlStateNormal];
-    [self.locationButton setTitle:nil forState:UIControlStateNormal];
-    [self.creatorButton  setTitle:nil forState:UIControlStateNormal];
-    [self.creatorButton  setImage:nil forState:UIControlStateNormal];
-    self.priceLabel.text = nil;
-    self.timeLabel.text = nil;
-    self.tag = -1;
+    if( self )
+    {
+        self.userImageView.image = nil;
+        self.dishImageView.image = nil;
+        [self.titleButton    setTitle:nil forState:UIControlStateNormal];
+        [self.locationButton setTitle:nil forState:UIControlStateNormal];
+        [self.creatorButton  setTitle:nil forState:UIControlStateNormal];
+        [self.creatorButton  setImage:nil forState:UIControlStateNormal];
+        self.priceLabel.text = nil;
+        self.timeLabel.text = nil;
+        self.tag = -1;
+    }
 }
 
 - (void)dishImageDoubleTapped

@@ -8,7 +8,6 @@
 
 #import "DADishSuggestionsTableView.h"
 #import "DAReviewFormViewController.h"
-#import "DAAPIManager.h"
 #import "DADishSuggestionTableViewCell.h"
 
 static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";

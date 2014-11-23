@@ -86,6 +86,8 @@ extern NSString *const kExploreLocationsURL;
 extern NSString *const kRestaurantProfileURL;
 extern NSString *const kEmailAvailabilityURL;
 extern NSString *const kPhoneAvailabilityURL;
+extern NSString *const kUserProfileReviewsURL;
+extern NSString *const kRestaurantProfileDishesURL;
 
 extern NSString *const kIDKey;
 extern NSString *const kImgKey;
@@ -136,6 +138,7 @@ extern NSString *const kEmailExistsError;
 extern NSString *const kPhoneExistsError;
 extern NSString *const kParamsInvalidError;
 extern NSString *const kDataNonexistsError;
+extern NSString *const kContentPrivateError;
 
 extern NSString *const kAll;
 extern NSString *const kNone;

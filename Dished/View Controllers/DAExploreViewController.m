@@ -7,7 +7,6 @@
 //
 
 #import "DAHashtag.h"
-#import "DAAPIManager.h"
 #import "DARefreshControl.h"
 #import "DALocationManager.h"
 #import "DAExploreViewController.h"

@@ -7,7 +7,6 @@
 //
 
 #import "DAUserManager.h"
-#import "DAAPIManager.h"
 
 #define kSavedProfileKey @"userManager-profile"
 

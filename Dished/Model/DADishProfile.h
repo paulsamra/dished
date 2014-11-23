@@ -15,6 +15,7 @@
 @property (copy,   nonatomic) NSString     *name;
 @property (copy,   nonatomic) NSString     *desc;
 @property (copy,   nonatomic) NSString     *price;
+@property (copy,   nonatomic) NSString     *type;
 @property (copy,   nonatomic) NSString     *loc_name;
 @property (copy,   nonatomic) NSString     *grade;
 @property (strong, nonatomic) NSArray      *images;

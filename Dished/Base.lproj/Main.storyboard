@@ -1727,7 +1727,23 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vtb-xV-tXd" customClass="DATouchTableView" customModule="Dished" customModuleProvider="target">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="paO-1X-doJ" userLabel="Wine Table View">
+                                <rect key="frame" x="0.0" y="200" width="600" height="400"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="0N7-5R-4El" id="iUM-gn-yci"/>
+                                    <outlet property="delegate" destination="0N7-5R-4El" id="Qya-VM-J0w"/>
+                                </connections>
+                            </tableView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="QQ5-66-WUm" userLabel="Cocktail Table View">
+                                <rect key="frame" x="0.0" y="200" width="600" height="400"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="0N7-5R-4El" id="Q9d-eD-dbs"/>
+                                    <outlet property="delegate" destination="0N7-5R-4El" id="cmx-T6-h5S"/>
+                                </connections>
+                            </tableView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vtb-xV-tXd" userLabel="Food Table View" customClass="DATouchTableView" customModule="Dished" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="200" width="600" height="400"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -1738,16 +1754,24 @@
                         </subviews>
                         <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="paO-1X-doJ" firstAttribute="leading" secondItem="GfR-xH-HPV" secondAttribute="leading" id="1Bu-Up-XTD"/>
                             <constraint firstItem="Vtb-xV-tXd" firstAttribute="leading" secondItem="GfR-xH-HPV" secondAttribute="leading" id="7jP-1w-bht"/>
+                            <constraint firstItem="Xuz-o9-zP9" firstAttribute="top" secondItem="paO-1X-doJ" secondAttribute="bottom" id="BWq-kO-Gtv"/>
+                            <constraint firstItem="QQ5-66-WUm" firstAttribute="leading" secondItem="GfR-xH-HPV" secondAttribute="leading" id="Bax-dQ-k0M"/>
                             <constraint firstItem="rjM-3p-6hb" firstAttribute="top" secondItem="xdP-Ch-v0o" secondAttribute="bottom" id="CPW-BH-Bjt"/>
                             <constraint firstItem="rjM-3p-6hb" firstAttribute="leading" secondItem="GfR-xH-HPV" secondAttribute="leading" id="EyV-RJ-kgE"/>
                             <constraint firstItem="xdP-Ch-v0o" firstAttribute="leading" secondItem="GfR-xH-HPV" secondAttribute="leading" id="F50-tz-V47"/>
                             <constraint firstAttribute="trailing" secondItem="xdP-Ch-v0o" secondAttribute="trailing" id="Hci-27-5p5"/>
+                            <constraint firstItem="QQ5-66-WUm" firstAttribute="top" secondItem="rjM-3p-6hb" secondAttribute="bottom" id="IL1-FN-OmV"/>
+                            <constraint firstAttribute="trailing" secondItem="QQ5-66-WUm" secondAttribute="trailing" id="JgC-Qw-fSv"/>
                             <constraint firstItem="Xuz-o9-zP9" firstAttribute="top" secondItem="Vtb-xV-tXd" secondAttribute="bottom" id="O8C-Cf-k6H"/>
                             <constraint firstItem="rFf-8O-gvy" firstAttribute="top" secondItem="oBo-Wa-aBm" secondAttribute="bottom" id="QBq-ce-cIN"/>
                             <constraint firstItem="xdP-Ch-v0o" firstAttribute="top" secondItem="rFf-8O-gvy" secondAttribute="bottom" id="Wqr-sV-xv9"/>
+                            <constraint firstItem="paO-1X-doJ" firstAttribute="top" secondItem="rjM-3p-6hb" secondAttribute="bottom" id="X9a-tL-psa"/>
                             <constraint firstAttribute="trailing" secondItem="Vtb-xV-tXd" secondAttribute="trailing" id="ZdU-Wn-DEt"/>
                             <constraint firstItem="rFf-8O-gvy" firstAttribute="leading" secondItem="GfR-xH-HPV" secondAttribute="leading" id="gC5-LO-mjz"/>
+                            <constraint firstAttribute="trailing" secondItem="paO-1X-doJ" secondAttribute="trailing" id="gaS-nj-yht"/>
+                            <constraint firstItem="Xuz-o9-zP9" firstAttribute="top" secondItem="QQ5-66-WUm" secondAttribute="bottom" id="k3s-M7-iF2"/>
                             <constraint firstAttribute="trailing" secondItem="rFf-8O-gvy" secondAttribute="trailing" id="lYO-OO-xnP"/>
                             <constraint firstItem="Vtb-xV-tXd" firstAttribute="centerX" secondItem="Bxs-47-jYR" secondAttribute="centerX" id="qHH-HL-TB3"/>
                             <constraint firstItem="Vtb-xV-tXd" firstAttribute="centerY" secondItem="Bxs-47-jYR" secondAttribute="centerY" id="qY1-zt-KWO"/>
@@ -1755,17 +1779,21 @@
                             <constraint firstItem="Vtb-xV-tXd" firstAttribute="top" secondItem="rjM-3p-6hb" secondAttribute="bottom" id="wpe-hO-rBr"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Sr6-Lm-VcJ">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="l1F-d6-DJM"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="centerButtonSeperator" destination="SDW-wn-WUa" id="uj9-tW-Sjh"/>
+                        <outlet property="cocktailTableView" destination="QQ5-66-WUm" id="LcR-xs-Kmt"/>
                         <outlet property="descriptionHeightConstraint" destination="4YL-Kt-1ff" id="HIV-Hv-caM"/>
                         <outlet property="descriptionSeperator" destination="mkG-Li-ilE" id="AAK-hH-F3O"/>
                         <outlet property="descriptionTextView" destination="xdP-Ch-v0o" id="ZA4-7f-cms"/>
                         <outlet property="directionsButton" destination="XrQ-ka-5Ke" id="S2n-Mv-xpj"/>
                         <outlet property="dishTypeChooser" destination="egu-TC-VmW" id="dBw-tO-vNC"/>
                         <outlet property="dishesMapButton" destination="4a0-dg-TJC" id="URJ-PY-lIO"/>
-                        <outlet property="dishesTableView" destination="Vtb-xV-tXd" id="OLq-rR-g2d"/>
                         <outlet property="firstButtonSeperator" destination="9jH-CY-AfZ" id="bUU-3k-HBP"/>
                         <outlet property="followButton" destination="ZtF-4C-Xb9" id="XeJ-Jm-luF"/>
+                        <outlet property="foodTableView" destination="Vtb-xV-tXd" id="OPs-ST-A4R"/>
                         <outlet property="middleView" destination="rjM-3p-6hb" id="nZJ-WC-HQJ"/>
                         <outlet property="moreInfoButton" destination="fj1-p9-31m" id="qG3-pP-VJm"/>
                         <outlet property="numDishesButton" destination="66e-fw-4mJ" id="QCD-v2-ADh"/>
@@ -1777,6 +1805,7 @@
                         <outlet property="thirdButtonSeperator" destination="fmo-IQ-mHB" id="5PB-tu-Ta2"/>
                         <outlet property="topView" destination="rFf-8O-gvy" id="NgR-Ya-25E"/>
                         <outlet property="userImageView" destination="okB-ka-ksm" id="Mrk-jm-uTr"/>
+                        <outlet property="wineTableView" destination="paO-1X-doJ" id="GPj-Wm-8mi"/>
                         <outletCollection property="seperatorConstraints" destination="ezw-Di-Xm1" id="uia-Hy-IPC"/>
                         <outletCollection property="seperatorConstraints" destination="WnJ-hd-wAQ" id="l8j-Kq-hMe"/>
                         <outletCollection property="seperatorConstraints" destination="NwQ-Jx-c9M" id="iKg-XB-3gc"/>

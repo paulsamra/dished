@@ -13,6 +13,7 @@
 #import "DASettingsViewController.h"
 #import "DAReviewDetailsViewController.h"
 #import "DAUserProfileViewController.h"
+#import "NSAttributedString+Dished.h"
 
 #define kUserNewsCellID   @"userNewsCell"
 #define kMultiNewsCellID  @"multiNewsCell"

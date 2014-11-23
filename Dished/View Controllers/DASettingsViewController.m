@@ -7,7 +7,6 @@
 //
 
 #import "DASettingsViewController.h"
-#import "DAAPIManager.h"
 #import "DAUserManager.h"
 #import "DANotificationSettingsViewController.h"
 #import "DAEditProfileViewController.h"

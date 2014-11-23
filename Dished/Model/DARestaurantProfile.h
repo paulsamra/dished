@@ -31,5 +31,8 @@
 
 
 - (id)initWithData:(id)data;
+- (void)addFoodDishesWithData:(id)data;
+- (void)addCocktailDishesWithData:(id)data;
+- (void)addWineDishesWithData:(id)data;
 
 @end

@@ -175,6 +175,10 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             {
                 errorType = eErrorTypeParamsInvalid;
             }
+            else if( [errorValue isEqualToString:kContentPrivateError] )
+            {
+                errorType = eErrorTypeContentPrivate;
+            }
         }
     }
     

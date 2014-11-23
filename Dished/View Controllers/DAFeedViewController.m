@@ -9,7 +9,6 @@
 #import "DAFeedViewController.h"
 #import "DAFeedCollectionViewCell.h"
 #import "DAFeedItem+Utility.h"
-#import "DAAPIManager.h"
 #import "DAFeedImportManager.h"
 #import "DARefreshControl.h"
 #import "DAUserProfileViewController.h"
@@ -802,6 +801,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         {
             self.itemChanges    = nil;
             self.sectionChanges = nil;
+            
+            [self.collectionView.collectionViewLayout invalidateLayout];
         }];
     }];
 }

@@ -7,7 +7,6 @@
 //
 
 #import "DAUserProfileViewController.h"
-#import "DAAPIManager.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DADishTableViewCell.h"
 #import "DAUserListViewController.h"
@@ -20,19 +19,27 @@
 #import "DAEditProfileViewController.h"
 #import "DADishesMapViewController.h"
 
-//static NSInteger kRowLimit = 20;
+static NSInteger kRowLimit = 20;
 static NSString *const kDishSearchCellID = @"dishCell";
 
 
 @interface DAUserProfileViewController() <UIActionSheetDelegate, UIAlertViewDelegate, DADishTableViewCellDelegate>
 
 @property (weak,   nonatomic) NSArray             *selectedDataSource;
+@property (weak,   nonatomic) UITableView         *selectedTableView;
 @property (strong, nonatomic) NSURLSessionTask    *profileLoadTask;
 @property (strong, nonatomic) NSURLSessionTask    *followTask;
 @property (strong, nonatomic) NSURLSessionTask    *spamReportTask;
 @property (strong, nonatomic) DAUserProfile       *userProfile;
 @property (strong, nonatomic) DARestaurantProfile *restaurantProfile;
 @property (strong, nonatomic) CLPlacemark         *directionsPlacemark;
+
+@property (nonatomic) BOOL hasMoreFoodDishes;
+@property (nonatomic) BOOL hasMoreCocktailDishes;
+@property (nonatomic) BOOL hasMoreWineDishes;
+@property (nonatomic) BOOL isLoadingMoreFoodDishes;
+@property (nonatomic) BOOL isLoadingMoreCocktailDishes;
+@property (nonatomic) BOOL isLoadingMoreWineDishes;
 
 @end
 
@@ -43,14 +50,22 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     [super viewDidLoad];
     
+    self.hasMoreFoodDishes = YES;
+    self.hasMoreCocktailDishes = YES;
+    self.hasMoreWineDishes = YES;
+    self.isLoadingMoreFoodDishes = NO;
+    self.isLoadingMoreCocktailDishes = NO;
+    self.isLoadingMoreWineDishes = NO;
+    
     UINib *searchCellNib = [UINib nibWithNibName:@"DADishTableViewCell" bundle:nil];
-    [self.dishesTableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
+    [self.foodTableView     registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
+    [self.cocktailTableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
+    [self.wineTableView     registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
+    
+    self.selectedTableView = self.foodTableView;
     
     self.userImageView.layer.masksToBounds = YES;
-    
     self.privacyLabel.hidden = YES;
-    
-    self.dishesTableView.tableFooterView = [[UIView alloc] init];
     
     [self setMainViewsHidden:YES animated:NO];
     
@@ -68,7 +83,10 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         constraint.constant = 0.5;
     }
-        
+    
+    [self createFooterForTableView:self.foodTableView];
+    [self createFooterForTableView:self.cocktailTableView];
+    [self createFooterForTableView:self.wineTableView];
     [self loadData];
 }
 
@@ -102,13 +120,29 @@ static NSString *const kDishSearchCellID = @"dishCell";
         
         if( !self.restaurantProfile.is_private && !self.userProfile.is_private )
         {
-            [UIView transitionWithView:self.dishesTableView
+            [UIView transitionWithView:self.foodTableView
                               duration:0.2
                                options:UIViewAnimationOptionTransitionCrossDissolve
                             animations:nil
                             completion:nil];
             
-            self.dishesTableView.hidden = hidden;
+            self.foodTableView.hidden = hidden;
+            
+            [UIView transitionWithView:self.wineTableView
+                              duration:0.2
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:nil
+                            completion:nil];
+            
+            self.wineTableView.hidden = hidden;
+            
+            [UIView transitionWithView:self.cocktailTableView
+                              duration:0.2
+                               options:UIViewAnimationOptionTransitionCrossDissolve
+                            animations:nil
+                            completion:nil];
+            
+            self.cocktailTableView.hidden = hidden;
         }
         else
         {
@@ -126,17 +160,32 @@ static NSString *const kDishSearchCellID = @"dishCell";
         self.topView.hidden = hidden;
         self.descriptionTextView.hidden = hidden;
         self.middleView.hidden = hidden;
-        self.dishesTableView.hidden = hidden;
+        self.foodTableView.hidden = hidden;
+        self.cocktailTableView.hidden = hidden;
+        self.wineTableView.hidden = hidden;
         
         self.privacyLabel.hidden = !self.restaurantProfile.is_private && !self.userProfile.is_private;
     }
+}
+
+- (void)createFooterForTableView:(UITableView *)tableView
+{
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, self.view.frame.size.width, 50 )];
+    
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = footerView.center;
+    [spinner startAnimating];
+    
+    [footerView addSubview:spinner];
+    
+    tableView.tableFooterView = footerView;
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     
-    [self.dishesTableView deselectRowAtIndexPath:[self.dishesTableView indexPathForSelectedRow] animated:YES];
+    [self.selectedTableView deselectRowAtIndexPath:[self.selectedTableView indexPathForSelectedRow] animated:YES];
 }
 
 - (void)loadData
@@ -168,7 +217,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
             }
             failure:^( NSURLSessionDataTask *task, NSError *error )
             {
-                [self handleError:error];
+                [self handleLoadError:error];
             }];
         }
         else
@@ -190,13 +239,183 @@ static NSString *const kDishSearchCellID = @"dishCell";
             }
             failure:^( NSURLSessionDataTask *task, NSError *error )
             {
-                [self handleError:error];
+                [self handleLoadError:error];
             }];
         }
     }];
 }
 
-- (void)handleError:(NSError *)error
+- (void)loadMoreDishesOfType:(NSString *)dishType
+{
+    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    {
+        if( self.isRestaurant )
+        {
+            NSInteger offset = [dishType isEqualToString:kFood] ? self.restaurantProfile.foodDishes.count : [dishType isEqualToString:kCocktail] ? self.restaurantProfile.cocktailDishes.count : self.restaurantProfile.wineDishes.count;
+            
+            NSDictionary *parameters = @{ kIDKey : @(self.restaurantProfile.user_id), kDishTypeKey : dishType,
+                                          kRowLimitKey : @(kRowLimit), kRowOffsetKey : @(offset) };
+            parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+            
+            [[DAAPIManager sharedManager] GET:kRestaurantProfileDishesURL parameters:parameters
+            success:^( NSURLSessionDataTask *task, id responseObject )
+            {
+                NSArray *newDishesData = nilOrJSONObjectForKey( responseObject, kDataKey );
+                
+                if( [dishType isEqualToString:kFood] )
+                {
+                    [self.restaurantProfile addFoodDishesWithData:newDishesData];
+                }
+                else if( [dishType isEqualToString:kCocktail] )
+                {
+                    [self.restaurantProfile addCocktailDishesWithData:newDishesData];
+                }
+                else if( [dishType isEqualToString:kWine] )
+                {
+                    [self.restaurantProfile addWineDishesWithData:newDishesData];
+                }
+                
+                [self finishedLoadingMoreDishesOfType:dishType loadCount:newDishesData.count];
+            }
+            failure:^( NSURLSessionDataTask *task, NSError *error )
+            {
+                [self loadMoreDishType:dishType failedWithError:error];
+            }];
+        }
+        else
+        {
+            NSInteger offset = [dishType isEqualToString:kFood] ? self.userProfile.foodReviews.count : [dishType isEqualToString:kCocktail] ? self.userProfile.cocktailReviews.count : self.userProfile.wineReviews.count;
+            
+            NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
+                                          ( self.username ? self.username : @(self.user_id) ),
+                                          kDishTypeKey : dishType,
+                                          kRowLimitKey : @(kRowLimit), kRowOffsetKey : @(offset) };
+            parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+            
+            [[DAAPIManager sharedManager] GET:kUserProfileReviewsURL parameters:parameters
+            success:^( NSURLSessionDataTask *task, id responseObject )
+            {
+                NSArray *newReviewData = nilOrJSONObjectForKey( responseObject, kDataKey );
+                
+                if( [dishType isEqualToString:kFood] )
+                {
+                    [self.userProfile addFoodReviewsWithData:newReviewData];
+                }
+                else if( [dishType isEqualToString:kCocktail] )
+                {
+                    [self.userProfile addCocktailReviewsWithData:newReviewData];
+                }
+                else if( [dishType isEqualToString:kWine] )
+                {
+                    [self.userProfile addWineReviewsWithData:newReviewData];
+                }
+                
+                [self finishedLoadingMoreDishesOfType:dishType loadCount:newReviewData.count];
+            }
+            failure:^( NSURLSessionDataTask *task, NSError *error )
+            {
+                [self loadMoreDishType:dishType failedWithError:error];
+            }];
+        }
+    }];
+}
+
+- (void)finishedLoadingMoreDishesOfType:(NSString *)dishType loadCount:(NSInteger)count
+{
+    if( [dishType isEqualToString:kFood] )
+    {
+        if( self.selectedTableView == self.foodTableView )
+        {
+            self.selectedDataSource = self.userProfile.foodReviews;
+        }
+        
+        if( count < 20 )
+        {
+            self.hasMoreFoodDishes = NO;
+            self.foodTableView.tableFooterView = [[UIView alloc] init];
+        }
+        
+        [self.foodTableView reloadData];
+        self.isLoadingMoreFoodDishes = NO;
+    }
+    else if( [dishType isEqualToString:kCocktail] )
+    {
+        if( self.selectedTableView == self.cocktailTableView )
+        {
+            self.selectedDataSource = self.userProfile.cocktailReviews;
+        }
+        
+        if( count < 20 )
+        {
+            self.hasMoreCocktailDishes = NO;
+            self.cocktailTableView.tableFooterView = [[UIView alloc] init];
+        }
+        
+        [self.cocktailTableView reloadData];
+        self.isLoadingMoreCocktailDishes = NO;
+    }
+    else if( [dishType isEqualToString:kWine] )
+    {
+        if( self.selectedTableView == self.wineTableView )
+        {
+            self.selectedDataSource = self.userProfile.wineReviews;
+        }
+        
+        if( count < 20 )
+        {
+            self.hasMoreWineDishes = NO;
+            self.wineTableView.tableFooterView = [[UIView alloc] init];
+        }
+        
+        [self.wineTableView reloadData];
+        self.isLoadingMoreWineDishes = NO;
+    }
+}
+
+- (void)loadMoreDishType:(NSString *)dishType failedWithError:(NSError *)error
+{
+    eErrorType errorType = [DAAPIManager errorTypeForError:error];
+    BOOL noMoreData = errorType == eErrorTypeDataNonexists;
+    
+    if( [dishType isEqualToString:kFood] )
+    {
+        self.hasMoreFoodDishes = noMoreData ? NO : YES;
+        self.isLoadingMoreFoodDishes = NO;
+        
+        if( noMoreData )
+        {
+            self.foodTableView.tableFooterView = [[UIView alloc] init];
+        }
+        
+        [self.foodTableView reloadData];
+    }
+    else if( [dishType isEqualToString:kCocktail] )
+    {
+        self.hasMoreCocktailDishes = noMoreData ? NO : YES;
+        self.isLoadingMoreCocktailDishes = NO;
+        
+        if( noMoreData )
+        {
+            self.cocktailTableView.tableFooterView = [[UIView alloc] init];
+        }
+        
+        [self.cocktailTableView reloadData];
+    }
+    else if( [dishType isEqualToString:kWine] )
+    {
+        self.hasMoreWineDishes = noMoreData ? NO : YES;
+        self.isLoadingMoreWineDishes = NO;
+        
+        if( noMoreData )
+        {
+            self.wineTableView.tableFooterView = [[UIView alloc] init];
+        }
+        
+        [self.wineTableView reloadData];
+    }
+}
+
+- (void)handleLoadError:(NSError *)error
 {
     eErrorType errorType = [DAAPIManager errorTypeForError:error];
     
@@ -280,7 +499,30 @@ static NSString *const kDishSearchCellID = @"dishCell";
     [self.dishesMapButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     [self.dishesMapButton removeTarget:self action:@selector(goToDishesMap) forControlEvents:UIControlEventTouchUpInside];
     
-    [self.dishesTableView reloadData];
+    if( self.restaurantProfile.foodDishes.count < 20 )
+    {
+        self.foodTableView.tableFooterView = [[UIView alloc] init];
+        self.hasMoreFoodDishes = NO;
+    }
+    
+    if( self.restaurantProfile.cocktailDishes.count < 20 )
+    {
+        self.cocktailTableView.tableFooterView = [[UIView alloc] init];
+        self.hasMoreCocktailDishes = NO;
+    }
+    
+    if( self.restaurantProfile.wineDishes.count < 20 )
+    {
+        self.wineTableView.tableFooterView = [[UIView alloc] init];
+        self.hasMoreWineDishes = NO;
+    }
+    
+    [self.selectedTableView reloadData];
+    
+    if( self.restaurantProfile.is_private )
+    {
+        self.dishTypeChooser.enabled = NO;
+    }
 }
 
 - (void)configureForUserProfile
@@ -318,8 +560,31 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     NSString *name = [NSString stringWithFormat:@"%@ %@", self.userProfile.firstName, self.userProfile.lastName];
     [self setDescriptionTextWithName:name description:self.userProfile.desc];
-
-    [self.dishesTableView reloadData];
+    
+    if( self.userProfile.foodReviews.count < 20 )
+    {
+        self.foodTableView.tableFooterView = [[UIView alloc] init];
+        self.hasMoreFoodDishes = NO;
+    }
+    
+    if( self.userProfile.cocktailReviews.count < 20 )
+    {
+        self.cocktailTableView.tableFooterView = [[UIView alloc] init];
+        self.hasMoreCocktailDishes = NO;
+    }
+    
+    if( self.userProfile.wineReviews.count < 20 )
+    {
+        self.wineTableView.tableFooterView = [[UIView alloc] init];
+        self.hasMoreWineDishes = NO;
+    }
+    
+    [self.selectedTableView reloadData];
+    
+    if( self.userProfile.is_private )
+    {
+        self.dishTypeChooser.enabled = NO;
+    }
 }
 
 - (void)setTitle:(NSString *)title withValue:(NSInteger)value forButton:(UIButton *)button
@@ -451,7 +716,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (void)locationButtonTappedOnDishTableViewCell:(DADishTableViewCell *)cell
 {
-    NSIndexPath *indexPath = [self.dishesTableView indexPathForCell:cell];
+    NSIndexPath *indexPath = [self.selectedTableView indexPathForCell:cell];
     DAReview *result = [self.selectedDataSource objectAtIndex:indexPath.row];
     
     [self pushRestaurantProfileWithLocationID:result.loc_id username:result.loc_name];
@@ -498,19 +763,25 @@ static NSString *const kDishSearchCellID = @"dishCell";
     switch( self.dishTypeChooser.selectedSegmentIndex )
     {
         case 0:
+            self.selectedTableView = self.foodTableView;
+            [self.view bringSubviewToFront:self.foodTableView];
             self.selectedDataSource = self.isRestaurant ? self.restaurantProfile.foodDishes : self.userProfile.foodReviews;
             break;
             
         case 1:
+            self.selectedTableView = self.cocktailTableView;
+            [self.view bringSubviewToFront:self.cocktailTableView];
             self.selectedDataSource = self.isRestaurant ? self.restaurantProfile.cocktailDishes : self.userProfile.cocktailReviews;
             break;
             
         case 2:
+            self.selectedTableView = self.wineTableView;
+            [self.view bringSubviewToFront:self.wineTableView];
             self.selectedDataSource = self.isRestaurant ? self.restaurantProfile.wineDishes : self.userProfile.wineReviews;
             break;
     }
     
-    [self.dishesTableView reloadData];
+    [self.selectedTableView reloadData];
 }
 
 - (void)showMoreActionSheet
@@ -716,6 +987,30 @@ static NSString *const kDishSearchCellID = @"dishCell";
     if( buttonIndex != alertView.cancelButtonIndex )
     {
         [self openDirections];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    CGFloat bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
+    
+    if( bottomEdge >= scrollView.contentSize.height )
+    {
+        if( scrollView == self.foodTableView && self.hasMoreFoodDishes && !self.isLoadingMoreFoodDishes )
+        {
+            self.isLoadingMoreFoodDishes = YES;
+            [self loadMoreDishesOfType:kFood];
+        }
+        else if( scrollView == self.cocktailTableView && self.hasMoreCocktailDishes && !self.isLoadingMoreCocktailDishes )
+        {
+            self.isLoadingMoreCocktailDishes = YES;
+            [self loadMoreDishesOfType:kCocktail];
+        }
+        else if( scrollView == self.wineTableView && self.hasMoreWineDishes && !self.isLoadingMoreWineDishes )
+        {
+            self.isLoadingMoreWineDishes = YES;
+            [self loadMoreDishesOfType:kWine];
+        }
     }
 }
 

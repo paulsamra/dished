@@ -7,7 +7,6 @@
 //
 
 #import "DAUserListViewController.h"
-#import "DAAPIManager.h"
 #import "DAUsername.h"
 #import "UIImageView+WebCache.h"
 #import "DAUserProfileViewController.h"

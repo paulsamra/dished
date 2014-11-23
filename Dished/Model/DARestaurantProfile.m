@@ -61,4 +61,19 @@
     return dishes;
 }
 
+- (void)addFoodDishesWithData:(id)data
+{
+    self.foodDishes = [self.foodDishes arrayByAddingObjectsFromArray:[self dishesWithData:data]];
+}
+
+- (void)addCocktailDishesWithData:(id)data
+{
+    self.cocktailDishes = [self.cocktailDishes arrayByAddingObjectsFromArray:[self dishesWithData:data]];
+}
+
+- (void)addWineDishesWithData:(id)data
+{
+    self.wineDishes = [self.wineDishes arrayByAddingObjectsFromArray:[self dishesWithData:data]];
+}
+
 @end

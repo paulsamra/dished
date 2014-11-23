@@ -8,7 +8,6 @@
 
 #import "DAPositiveHashtagsViewController.h"
 #import "DANegativeHashtagsViewController.h"
-#import "DAAPIManager.h"
 #import "DAHashtag.h"
 
 static NSString *const kHashtagCellIdentifier = @"hashtagCell";
