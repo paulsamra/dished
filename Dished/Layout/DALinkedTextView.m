@@ -32,6 +32,53 @@
     self.attributedString = linkedAttributedText;
 }
 
+- (void)setAttributedText:(NSAttributedString *)attributedText withAttributes:(NSDictionary *)attributes delimiter:(NSString *)delimiter knownUsernames:(NSArray *)usernames
+{
+    NSArray *words = delimiter ? [attributedText.string componentsSeparatedByString:delimiter] : [attributedText.string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    NSMutableAttributedString *linkedText = [attributedText mutableCopy];
+    NSRange currentRange = NSMakeRange( 0, attributedText.string.length );
+
+    for( NSString *word in words )
+    {
+        if( word.length < 2 )
+        {
+            continue;
+        }
+        
+        NSRange matchRange = [attributedText.string rangeOfString:word options:0 range:currentRange];
+        NSInteger newIndex = matchRange.location + matchRange.length;
+        currentRange = NSMakeRange( newIndex, attributedText.string.length - newIndex );
+        
+        if( [word hasPrefix:@"#"] )
+        {
+            [linkedText setAttributes:attributes range:matchRange];
+            [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeHashtag range:matchRange];
+            [linkedText addAttribute:kLinkedTextKey value:word range:matchRange];
+        }
+        else if( [word hasPrefix:@"@"] )
+        {
+            if( usernames )
+            {
+                if( [usernames containsObject:[word substringFromIndex:1]] )
+                {
+                    [linkedText setAttributes:attributes range:matchRange];
+                    [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:matchRange];
+                    [linkedText addAttribute:kLinkedTextKey value:[word substringFromIndex:1] range:matchRange];
+                }
+            }
+            else
+            {
+                [linkedText setAttributes:attributes range:matchRange];
+                [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:matchRange];
+                [linkedText addAttribute:kLinkedTextKey value:[word substringFromIndex:1] range:matchRange];
+            }
+        }
+    }
+    
+    [super setAttributedText:linkedText];
+    self.attributedString = linkedText;
+}
+
 - (void)setAttributedText:(NSAttributedString *)attributedText withDelimiter:(NSString *)delimiter
 {
     NSAttributedString *linkedAttributedText = [self addLinkedTextAttributesToAttributedText:attributedText withDelimiter:delimiter];

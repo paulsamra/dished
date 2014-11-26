@@ -130,6 +130,9 @@
         self.review.locationName = selectedDish.loc_name;
         self.review.locationID = selectedDish.loc_id;
         self.review.dishID = selectedDish.dish_id;
+        self.review.type = selectedDish.type;
+        
+        [self updateDishTypeSegmentedControlToType:selectedDish.type];
         
         [self updateFields];
     }
@@ -447,7 +450,7 @@
     }
     else
     {
-        [self.dishSuggestionsTable updateSuggestionsWithQuery:self.titleTextField.text dishType:self.review.type];
+        [self.dishSuggestionsTable updateSuggestionsWithQuery:self.titleTextField.text];
     }
     
     self.review.title = self.titleTextField.text;
@@ -460,13 +463,16 @@
     [self updateFields];
 }
 
-- (void)didSelectSuggestionWithDishName:(NSString *)dishName dishID:(NSInteger)dishID dishPrice:(NSString *)dishPrice locationName:(NSString *)locationName locationID:(NSInteger)locationID
+- (void)didSelectSuggestionWithDishName:(NSString *)dishName dishType:(NSString *)dishType dishID:(NSInteger)dishID dishPrice:(NSString *)dishPrice locationName:(NSString *)locationName locationID:(NSInteger)locationID
 {
     self.review.dishID = dishID;
     self.review.title = dishName;
     self.review.locationName = locationName;
     self.review.locationID = locationID;
+    self.review.type = dishType;
     self.dishPrice = [[dishPrice stringByReplacingOccurrencesOfString:@"." withString:@""] mutableCopy];
+    
+    [self updateDishTypeSegmentedControlToType:dishType];
     
     if( [dishPrice doubleValue] > 0 )
     {
@@ -474,6 +480,22 @@
     }
     
     [self updateFields];
+}
+
+- (void)updateDishTypeSegmentedControlToType:(NSString *)dishType
+{
+    if( [dishType isEqualToString:kFood] )
+    {
+        self.dishTypeSegmentedControl.selectedSegmentIndex = 0;
+    }
+    else if( [dishType isEqualToString:kCocktail] )
+    {
+        self.dishTypeSegmentedControl.selectedSegmentIndex = 1;
+    }
+    else if( [dishType isEqualToString:kWine] )
+    {
+        self.dishTypeSegmentedControl.selectedSegmentIndex = 2;
+    }
 }
 
 - (IBAction)changedDishType

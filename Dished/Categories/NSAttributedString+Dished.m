@@ -73,4 +73,9 @@
     return [NSAttributedString attributedTimeStringWithDate:date attributes:nil];
 }
 
++ (NSDictionary *)linkedTextAttributesWithFontSize:(CGFloat)fontSize
+{
+    return @{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:fontSize] };
+}
+
 @end

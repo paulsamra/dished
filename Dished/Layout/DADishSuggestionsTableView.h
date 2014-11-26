@@ -13,7 +13,7 @@
 
 @protocol DADishSuggestionsTableDelegate <NSObject>
 
-- (void)didSelectSuggestionWithDishName:(NSString *)dishName dishID:(NSInteger)dishID dishPrice:(NSString *)dishPrice locationName:(NSString *)locationName locationID:(NSInteger)locationID;
+- (void)didSelectSuggestionWithDishName:(NSString *)dishName dishType:(NSString *)dishType dishID:(NSInteger)dishID dishPrice:(NSString *)dishPrice locationName:(NSString *)locationName locationID:(NSInteger)locationID;
 
 @end
 
@@ -22,7 +22,7 @@
 
 @property (weak, nonatomic) id<DADishSuggestionsTableDelegate> suggestionDelegate;
 
-- (void)updateSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType;
+- (void)updateSuggestionsWithQuery:(NSString *)query;
 - (void)cancelSearchQuery;
 - (void)resetTable;
 

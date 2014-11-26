@@ -269,7 +269,11 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
         DAComment *comment = [self.review.comments objectAtIndex:[self commentIndexForIndexPath:indexPath]];
         
-        commentCell.textView.attributedText = [self commentStringForComment:comment];
+        NSAttributedString *commentString = [self commentStringForComment:comment];
+        NSDictionary *linkedAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
+        NSArray *usernameMentions = [comment.usernameMentions arrayByAddingObject:comment.creator_username];
+        
+        [commentCell.textView setAttributedText:commentString withAttributes:linkedAttributes delimiter:nil knownUsernames:usernameMentions];
         commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
         commentCell.iconImageView.hidden = [self commentIndexForIndexPath:indexPath] == 0 ? NO : YES;
         
@@ -296,14 +300,14 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment
 {
     NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
-    NSDictionary *attributes = [DAReviewDetailCollectionViewCell linkedTextAttributes];
-    NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
-    NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
+    NSDictionary *attributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
+    NSAttributedString *attributedUsername = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
+    NSMutableAttributedString *labelString = [attributedUsername mutableCopy];
+    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     
     if( comment.img_thumb && comment.img_thumb.length > 0 )
     {
         [labelString insertAttributedString:[[NSAttributedString alloc] initWithString:@" "] atIndex:0];
-        [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
         
         NSTextAttachment *avatarIcon = [[NSTextAttachment alloc] init];
         CGRect userImageRect = CGRectMake( 0, 0, 15, 15 );
@@ -338,29 +342,16 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
     if( [comment.creator_type isEqualToString:@"influencer"] )
     {
-        [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-        
         NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
         influencerIcon.image = [UIImage imageNamed:@"influencer"];
         
         NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
 
         [labelString appendAttributedString:influencerIconString];
+        [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     }
     
-    NSArray *words = [comment.comment componentsSeparatedByString:@" "];
     NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:[DAReviewDetailCollectionViewCell textAttributes]];
-    
-    for( NSString *word in words )
-    {
-        if( [word hasPrefix:@"#"] || [word hasPrefix:@"@"] )
-        {
-            NSRange matchRange = [comment.comment rangeOfString:word];
-            [commentString setAttributes:[DAReviewDetailCollectionViewCell linkedTextAttributes] range:matchRange];
-        }
-    }
-    
-    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     [labelString appendAttributedString:commentString];
     
     return labelString;

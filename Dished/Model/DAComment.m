@@ -19,11 +19,17 @@
     
     comment.created          = [NSDate dateWithTimeIntervalSince1970:timeInterval];
     comment.comment_id       = [nilOrJSONObjectForKey( data, kIDKey ) integerValue];
-    comment.creator_id       = [data[@"creator_id"] integerValue];
+    comment.creator_id       = [nilOrJSONObjectForKey( data, @"creator_id" ) integerValue];
     comment.comment          = nilOrJSONObjectForKey( data, kCommentKey );
     comment.img_thumb        = nilOrJSONObjectForKey( data, kImgThumbKey );
-    comment.creator_type     = data[@"creator_type"];
-    comment.creator_username = data[@"creator_username"];
+    comment.creator_type     = nilOrJSONObjectForKey( data, @"creator_type" );
+    comment.creator_username = nilOrJSONObjectForKey( data, @"creator_username" );
+    comment.usernameMentions = nilOrJSONObjectForKey( data, @"usernames" );
+    
+    if( !comment.usernameMentions )
+    {
+        comment.usernameMentions = @[ ];
+    }
     
     return comment;
 }

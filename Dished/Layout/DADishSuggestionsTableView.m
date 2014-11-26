@@ -42,14 +42,14 @@ static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";
     return self;
 }
 
-- (void)updateSuggestionsWithQuery:(NSString *)query dishType:(NSString *)dishType;
+- (void)updateSuggestionsWithQuery:(NSString *)query
 {
     if( self.searchTask )
     {
         [self.searchTask cancel];
     }
     
-    NSDictionary *parameters = @{ kNameKey : query, kTypeKey : dishType };
+    NSDictionary *parameters = @{ kNameKey : query };
     NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     self.searchTask = [[DAAPIManager sharedManager] GET:kDishSearchURL parameters:authParameters
@@ -86,6 +86,7 @@ static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";
         
         newDish[kIDKey]           = dishInfo[kIDKey];
         newDish[kNameKey]         = dishInfo[kNameKey];
+        newDish[kTypeKey]         = dishInfo[kTypeKey];
         newDish[kPriceKey]        = dishInfo[kPriceKey];
         newDish[kLocationIDKey]   = dishInfo[kLocationIDKey];
         newDish[kLocationNameKey] = dishInfo[kLocationNameKey];
@@ -128,13 +129,14 @@ static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";
     NSDictionary *selectedDishInfo = self.dishSearchResults[indexPath.row];
     NSString *dishName     = selectedDishInfo[kNameKey];
     NSString *dishID       = selectedDishInfo[kIDKey];
+    NSString *dishType     = selectedDishInfo[kTypeKey];
     NSString *dishPrice    = selectedDishInfo[kPriceKey];
     NSString *locationName = selectedDishInfo[kLocationNameKey];
     NSString *locationID   = selectedDishInfo[kLocationIDKey];
     
-    if( [self.suggestionDelegate respondsToSelector:@selector(didSelectSuggestionWithDishName:dishID:dishPrice:locationName:locationID:)] )
+    if( [self.suggestionDelegate respondsToSelector:@selector(didSelectSuggestionWithDishName:dishType:dishID:dishPrice:locationName:locationID:)] )
     {
-        [self.suggestionDelegate didSelectSuggestionWithDishName:dishName dishID:[dishID integerValue] dishPrice:dishPrice locationName:locationName locationID:[locationID integerValue]];
+        [self.suggestionDelegate didSelectSuggestionWithDishName:dishName dishType:dishType dishID:[dishID integerValue] dishPrice:dishPrice locationName:locationName locationID:[locationID integerValue]];
     }
     
     self.hidden = YES;

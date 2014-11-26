@@ -13,6 +13,7 @@
 
 @property (copy,   nonatomic) NSDate   *created;
 @property (strong, nonatomic) UIImage  *creator_img;
+@property (strong, nonatomic) NSArray  *usernameMentions;
 @property (copy,   nonatomic) NSString *comment;
 @property (copy,   nonatomic) NSString *creator_username;
 @property (copy,   nonatomic) NSString *creator_type;

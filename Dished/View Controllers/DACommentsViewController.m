@@ -13,11 +13,13 @@
 #import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
 #import "DAUserManager.h"
+#import "NSAttributedString+Dished.h"
 
 
 @interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate, DACommentTableViewCellDelegate>
 
 @property (strong, nonatomic) NSArray                       *comments;
+@property (strong, nonatomic) NSDictionary                  *linkedTextAttributes;
 @property (strong, nonatomic) NSURLSessionTask              *loadCommentsTask;
 @property (strong, nonatomic) UIActivityIndicatorView       *spinner;
 @property (strong, nonatomic) JSQMessagesKeyboardController *keyboardController;
@@ -35,6 +37,7 @@
     [super viewDidLoad];
     
     self.commentsLoaded = NO;
+    self.linkedTextAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
     
     self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
     
@@ -176,8 +179,11 @@
     DACommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentCell" forIndexPath:indexPath];
     
     DAComment *comment = [self.comments objectAtIndex:indexPath.row];
-
-    cell.commentTextView.attributedText = [self commentStringForComment:comment];
+    
+    NSAttributedString *commentString = [self commentStringForComment:comment];
+    NSArray *usernameMentions = [comment.usernameMentions arrayByAddingObject:comment.creator_username];
+    
+    [cell.commentTextView setAttributedText:commentString withAttributes:self.linkedTextAttributes delimiter:nil knownUsernames:usernameMentions];
     
     NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
     [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];
@@ -264,8 +270,7 @@
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment
 {
     NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
-    NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] }];
-    NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
+    NSMutableAttributedString *labelString = [[[NSAttributedString alloc] initWithString:usernameString attributes:self.linkedTextAttributes] mutableCopy];
     
     if( [comment.creator_type isEqualToString:@"influencer"] )
     {
@@ -276,18 +281,7 @@
         [labelString appendAttributedString:influencerIconString];
     }
     
-    NSArray *words = [comment.comment componentsSeparatedByString:@" "];
-    NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] }];
-    
-    for( NSString *word in words )
-    {
-        if( [word hasPrefix:@"#"] || [word hasPrefix:@"@"] )
-        {
-            NSRange matchRange = [comment.comment rangeOfString:word];
-            [commentString setAttributes:@{ NSForegroundColorAttributeName : [UIColor dishedColor], NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] } range:matchRange];
-        }
-    }
-    
+    NSAttributedString *commentString = [[NSAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] }];
     [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     [labelString appendAttributedString:commentString];
     
