@@ -11,10 +11,22 @@
 
 @interface DAFeedImportManager()
 
+@property (weak, nonatomic) NSManagedObjectContext *managedObjectContext;
+
 @end
 
 
 @implementation DAFeedImportManager
+
+- (id)init
+{
+    if( self = [super init] )
+    {
+        self.managedObjectContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
+    }
+    
+    return self;
+}
 
 - (void)importFeedItemsWithLimit:(NSUInteger)limit offset:(NSUInteger)offset completion:(void (^)( BOOL success, BOOL hasMoreData ) )completion
 {
@@ -98,6 +110,22 @@
     }];
 }
 
+- (NSArray *)test:(NSTimeInterval)timestamp
+{
+    NSDate *toDate = [NSDate dateWithTimeIntervalSince1970:timestamp];
+    
+    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kCreatedKey ascending:NO];
+    NSArray *sortDescriptors = @[ dateSortDescriptor ];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K >= %@", kCreatedKey, toDate];
+    
+    NSString *entityName = [DAFeedItem entityName];
+    NSFetchRequest *fetchRequest = [[DACoreDataManager sharedManager] fetchRequestWithName:entityName sortDescriptors:sortDescriptors predicate:predicate fetchLimit:0];
+    
+    NSArray *matchingItems = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
+    
+    return matchingItems;
+}
+
 - (void)updateFeedItem:(DAFeedItem *)feedItem withCommentsData:(id)data
 {
     NSArray *comments = (NSArray *)data;
@@ -105,14 +133,14 @@
     
     NSSet *existingComments = feedItem.comments;
     
-    for( DAFeedComment *comment in existingComments )
+    for( DAManagedComment *comment in existingComments )
     {
         [[DACoreDataManager sharedManager] deleteEntity:comment];
     }
     
     for( NSDictionary *comment in comments )
     {
-        DAFeedComment *feedComment = (DAFeedComment *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedComment entityName]];
+        DAManagedComment *feedComment = (DAManagedComment *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAManagedComment entityName]];
         [feedComment configureWithDictionary:comment];
         feedComment.feedItem = feedItem;
         

@@ -1,15 +1,15 @@
 //
-//  DAFeedComment+Utility.m
+//  DAManagedComment+Utility.m
 //  Dished
 //
-//  Created by Ryan Khalili on 9/16/14.
+//  Created by Ryan Khalili on 11/26/14.
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DAFeedComment+Utility.h"
+#import "DAManagedComment+Utility.h"
 
 
-@implementation DAFeedComment (Utility)
+@implementation DAManagedComment (Utility)
 
 - (void)configureWithDictionary:(NSDictionary *)dictionary
 {

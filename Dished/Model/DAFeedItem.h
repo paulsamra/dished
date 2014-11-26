@@ -2,14 +2,14 @@
 //  DAFeedItem.h
 //  Dished
 //
-//  Created by Ryan Khalili on 10/13/14.
+//  Created by Ryan Khalili on 11/26/14.
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DAFeedComment;
+@class DAManagedComment;
 
 @interface DAFeedItem : NSManagedObject
 
@@ -20,6 +20,7 @@
 @property (nonatomic, retain) NSString * creator_img_thumb;
 @property (nonatomic, retain) NSString * creator_type;
 @property (nonatomic, retain) NSString * creator_username;
+@property (nonatomic, retain) NSNumber * dish_id;
 @property (nonatomic, retain) NSString * grade;
 @property (nonatomic, retain) NSString * img;
 @property (nonatomic, retain) NSNumber * img_public;
@@ -31,14 +32,13 @@
 @property (nonatomic, retain) NSNumber * num_comments;
 @property (nonatomic, retain) NSNumber * num_yums;
 @property (nonatomic, retain) NSString * source;
-@property (nonatomic, retain) NSNumber * dish_id;
 @property (nonatomic, retain) NSSet *comments;
 @end
 
 @interface DAFeedItem (CoreDataGeneratedAccessors)
 
-- (void)addCommentsObject:(DAFeedComment *)value;
-- (void)removeCommentsObject:(DAFeedComment *)value;
+- (void)addCommentsObject:(DAManagedComment *)value;
+- (void)removeCommentsObject:(DAManagedComment *)value;
 - (void)addComments:(NSSet *)values;
 - (void)removeComments:(NSSet *)values;
 

@@ -13,6 +13,7 @@
 
 @property (strong, nonatomic) NSManagedObjectModel         *managedObjectModel;
 @property (strong, nonatomic) NSManagedObjectContext       *managedObjectContext;
+@property (strong, nonatomic) NSManagedObjectContext       *backgroundManagedObjectContext;
 @property (strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 @end
@@ -58,8 +59,9 @@
     
     self.persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
     
-    NSDictionary *options = @{ NSPersistentStoreFileProtectionKey: NSFileProtectionComplete,
-                              NSMigratePersistentStoresAutomaticallyOption: @YES };
+    NSDictionary *options = @{ NSPersistentStoreFileProtectionKey : NSFileProtectionComplete,
+                               NSMigratePersistentStoresAutomaticallyOption : @(YES),
+                               NSInferMappingModelAutomaticallyOption : @(YES) };
     
     NSError *error = nil;
     NSPersistentStore *persistentStore = [self.persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType
@@ -76,7 +78,32 @@
     {
         self.managedObjectContext = [[NSManagedObjectContext alloc] init];
         self.managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
+        
+        self.backgroundManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
+        self.backgroundManagedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:nil queue:nil
+        usingBlock:^( NSNotification *notification )
+        {
+            if( notification.object != self.managedObjectContext )
+            {
+                [self.managedObjectContext performBlock:^()
+                {
+                    [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+                }];
+            }
+        }];
     }
+}
+
+- (NSManagedObjectContext *)mainManagedContext
+{
+    return self.managedObjectContext;
+}
+
+- (NSManagedObjectContext *)backgroundManagedContext
+{
+    return self.backgroundManagedObjectContext;
 }
 
 - (void)saveDataInManagedContextUsingBlock:( void (^)( BOOL saved, NSError *error ) )savedBlock
@@ -100,6 +127,7 @@
     NSFetchRequest *fetchRequest = [self fetchRequestWithName:name sortDescriptors:sortDescriptors predicate:predicate fetchLimit:0];
     
     NSError *error  = nil;
+    
     NSArray *results = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
     
     return error ? nil : results;
@@ -119,10 +147,8 @@
 
 - (NSFetchRequest *)fetchRequestWithName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate fetchLimit:(NSUInteger)limit
 {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    NSEntityDescription *entity = [NSEntityDescription entityForName:name inManagedObjectContext:self.managedObjectContext];
+    NSFetchRequest *fetchRequest = [NSFetchRequest fetchRequestWithEntityName:name];
     
-    fetchRequest.entity = entity;
     fetchRequest.sortDescriptors = sortDescriptors;
     fetchRequest.predicate = predicate;
     fetchRequest.fetchLimit = limit;

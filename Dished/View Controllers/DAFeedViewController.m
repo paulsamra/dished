@@ -235,7 +235,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             NSInteger commentIndex = indexPath.row - ( num_yums > 0 ? 2 : 1 );
             commentIndex = [feedItem.num_comments integerValue] > 3 && commentIndex > 0 ? commentIndex - 1 : commentIndex;
             NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
-            DAFeedComment *comment = comments[commentIndex];
+            DAManagedComment *comment = comments[commentIndex];
             
             commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
             
@@ -334,7 +334,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];
 }
 
-- (NSAttributedString *)commentStringForComment:(DAFeedComment *)comment
+- (NSAttributedString *)commentStringForComment:(DAManagedComment *)comment
 {
     NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
     NSDictionary *attributes = [DAReviewDetailCollectionViewCell linkedTextAttributes];
@@ -451,7 +451,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             NSInteger commentIndex = indexPath.row - ( num_yums > 0 ? 2 : 1 );
             commentIndex = [feedItem.num_comments integerValue] > 3 && commentIndex > 0 ? commentIndex - 1 : commentIndex;
             NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
-            DAFeedComment *comment = comments[commentIndex];
+            DAManagedComment *comment = comments[commentIndex];
             
             static DAReviewDetailCollectionViewCell *sizingCell;
             static dispatch_once_t onceToken;
