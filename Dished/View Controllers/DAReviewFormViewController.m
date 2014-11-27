@@ -83,6 +83,11 @@
     {
         [self setupSuggestionTable];
     }
+    
+    if( !self.tagTableView )
+    {
+        [self setupTagTableView];
+    }
 }
 
 - (void)getLocationSuggestions
@@ -207,13 +212,8 @@
     [self.tableView beginUpdates];
     [self.tableView endUpdates];
     
-    CGFloat x = 0;
-    UITableViewCell *commentCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
-    CGFloat y = commentCell.frame.origin.y;
-    CGFloat width = self.tableView.frame.size.width;
-    CGFloat height = self.commentTextView.frame.size.height + self.imAtButton.frame.size.height;
-    
-    self.dishSuggestionsTable.frame = CGRectMake( x, y, width, height );
+    self.dishSuggestionsTable.frame = [self dishSuggestionTableViewFrame];
+    self.tagTableView.frame = [self tagTableViewFrame];
 }
 
 - (void)dismissSocialView
@@ -266,7 +266,7 @@
     [MRProgressOverlayView showOverlayAddedTo:window title:@"Posting..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
 }
 
-- (void)setupSuggestionTable
+- (CGRect)dishSuggestionTableViewFrame
 {
     CGFloat x = 0;
     UITableViewCell *commentCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]];
@@ -274,10 +274,35 @@
     CGFloat width = self.tableView.frame.size.width;
     CGFloat height = self.commentTextView.frame.size.height + self.imAtButton.frame.size.height;
     
-    self.dishSuggestionsTable = [[DADishSuggestionsTableView alloc] initWithFrame:CGRectMake(x, y, width, height)];
+    return CGRectMake( x, y, width, height );
+}
+
+- (void)setupSuggestionTable
+{
+    self.dishSuggestionsTable = [[DADishSuggestionsTableView alloc] initWithFrame:[self dishSuggestionTableViewFrame]];
     [self.view addSubview:self.dishSuggestionsTable];
     self.dishSuggestionsTable.suggestionDelegate = self;
     self.dishSuggestionsTable.hidden = YES;
+}
+
+- (CGRect)tagTableViewFrame
+{
+    CGFloat x = 0;
+    UITableViewCell *imAtCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0]];
+    UITableViewCell *ratingCell = [self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0]];
+    CGFloat y = imAtCell.frame.origin.y;
+    CGFloat width = self.tableView.frame.size.width;
+    CGFloat height = imAtCell.frame.size.height + ratingCell.frame.size.height;
+    
+    return CGRectMake( x, y, width, height );
+}
+
+- (void)setupTagTableView
+{
+    self.tagTableView = [[DATagSuggestionTableView alloc] initWithFrame:[self tagTableViewFrame]];
+    self.tagTableView.hidden = YES;
+    self.tagTableView.suggestionDelegate = self;
+    [self.view addSubview:self.tagTableView];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -323,23 +348,143 @@
     return [numberFormatter stringFromNumber:c];
 }
 
-#define MAX_LENGTH 1000
+#define kMaxCommentLength 1000
 
 - (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
 {
-    NSUInteger newLength = ( textView.text.length - range.length ) + text.length;
-    if( newLength <= MAX_LENGTH )
+    NSString *newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    
+    if( newString.length <= kMaxCommentLength )
     {
+        [self commentTextChangedToText:newString];
         return YES;
     }
     else
     {
-        NSUInteger emptySpace = MAX_LENGTH - ( textView.text.length - range.length );
-        textView.text = [[[textView.text substringToIndex:range.location]
-                          stringByAppendingString:[text substringToIndex:emptySpace]]
-                         stringByAppendingString:[textView.text substringFromIndex:(range.location + range.length)]];
         return NO;
     }
+}
+
+- (void)commentTextChangedToText:(NSString *)newString
+{
+    if( newString.length == 0 )
+    {
+        return;
+    }
+    
+    NSRange lastSpace = [newString rangeOfString:@" " options:NSBackwardsSearch];
+    
+    if( lastSpace.location != NSNotFound )
+    {
+        if( lastSpace.location != newString.length - 1  )
+        {
+            NSString *substring = [newString substringFromIndex:lastSpace.location + 1];
+            
+            if( substring.length > 1 )
+            {
+                if( [substring characterAtIndex:0] == '@' )
+                {
+                    [self showTagTableWithUsernameQuery:[substring substringFromIndex:1]];
+                }
+                else if( [substring characterAtIndex:0] == '#' )
+                {
+                    [self showTagTableWithHashtagQuery:[substring substringFromIndex:1]];
+                }
+            }
+            else
+            {
+                [self hideTagTableView];
+            }
+        }
+        else
+        {
+            [self hideTagTableView];
+        }
+    }
+    else if( newString.length > 1 )
+    {
+        if( [newString characterAtIndex:0] == '@' )
+        {
+            [self showTagTableWithUsernameQuery:[newString substringFromIndex:1]];
+        }
+        else if( [newString characterAtIndex:0] == '#' )
+        {
+            [self showTagTableWithHashtagQuery:[newString substringFromIndex:1]];
+        }
+    }
+    else
+    {
+        [self hideTagTableView];
+    }
+}
+
+- (void)showTagTableWithUsernameQuery:(NSString *)query
+{
+    NSRange invalidRange = [query rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
+    
+    if( invalidRange.location == NSNotFound )
+    {
+        [self.tagTableView updateUsernameSuggestionsWithQuery:query];
+        
+        if( [self.tagTableView numberOfRowsInSection:0] > 0 )
+        {
+            self.tagTableView.hidden = NO;
+        }
+    }
+    else
+    {
+        [self hideTagTableView];
+    }
+}
+
+- (void)showTagTableWithHashtagQuery:(NSString *)query
+{
+    NSRange invalidRange = [query rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
+    
+    if( invalidRange.location == NSNotFound )
+    {
+        [self.tagTableView updateHashtagSuggestionsWithQuery:query];
+        
+        if( [self.tagTableView numberOfRowsInSection:0] > 0 )
+        {
+            self.tagTableView.hidden = NO;
+        }
+    }
+    else
+    {
+        [self hideTagTableView];
+    }
+}
+
+- (void)hideTagTableView
+{
+    self.tagTableView.hidden = YES;
+    [self.tagTableView resetTable];
+}
+
+- (void)didSelectUsernameWithName:(NSString *)name
+{
+    [self didSelectSuggestion:name withPrefix:@"@"];
+}
+
+- (void)didSelectHashtagWithName:(NSString *)name
+{
+    [self didSelectSuggestion:name withPrefix:@"#"];
+}
+
+- (void)didSelectSuggestion:(NSString *)suggestion withPrefix:(NSString *)prefix
+{
+    self.tagTableView.hidden = YES;
+    [self.tagTableView resetTable];
+    
+    NSString *text = self.commentTextView.text;
+    
+    NSRange lastAt = [text rangeOfString:prefix options:NSBackwardsSearch];
+    lastAt.location++;
+    lastAt.length = ( text.length ) - lastAt.location;
+    
+    NSString *updatedText = [text stringByReplacingCharactersInRange:lastAt withString:suggestion];
+    self.commentTextView.text = [NSString stringWithFormat:@"%@ ", updatedText];
 }
 
 - (void)textViewDidChange:(UITextView *)textView
@@ -424,6 +569,7 @@
 {
     if( textView == self.commentTextView )
     {
+        [self hideTagTableView];
         self.review.comment = textView.text;
     }
 }

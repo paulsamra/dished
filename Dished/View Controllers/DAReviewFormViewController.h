@@ -10,11 +10,12 @@
 #import <UIKit/UIKit.h>
 #import "SZTextView.h"
 #import "DADishSuggestionsTableView.h"
+#import "DATagSuggestionTableView.h"
 
 
 @class DANewReview;
 
-@interface DAReviewFormViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate>
+@interface DAReviewFormViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate, DADishSuggestionsTableDelegate, DATagSuggestionsTableViewDelegate>
 
 
 @property (weak, nonatomic) IBOutlet UIImageView         *facebookImage;
@@ -32,6 +33,7 @@
 
 @property (weak,   nonatomic) UIImage                    *reviewImage;
 @property (strong, nonatomic) DANewReview                *review;
+@property (strong, nonatomic) DATagSuggestionTableView   *tagTableView;
 @property (strong, nonatomic) DADishSuggestionsTableView *dishSuggestionsTable;
 
 @end
