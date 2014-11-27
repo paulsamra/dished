@@ -41,38 +41,62 @@
     
     self.collectionView.hidden = YES;
     
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = self.view.center;
-    [spinner startAnimating];
-    [self.view addSubview:spinner];
-    
-    [[DAAPIManager sharedManager] getGlobalDishInfoForDishID:self.dishID completion:^( id response, NSError *error )
-    {
-        if( !response || error )
-        {
-             
-        }
-        else
-        {
-            self.dishProfile = [DADishProfile profileWithData:nilOrJSONObjectForKey( response, kDataKey )];
-            
-            [spinner stopAnimating];
-            [spinner removeFromSuperview];
-            
-            [self.collectionView reloadData];
-            
-            [UIView transitionWithView:self.collectionView
-                              duration:0.3
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:nil
-                            completion:nil];
-            
-            self.collectionView.hidden = NO;
-        }
-    }];
-
     self.referenceDishCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"dishCell" forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
     self.referenceReviewCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"reviewCell" forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    
+    [self loadDishDetails];
+}
+
+- (void)showSpinner
+{
+    if( !self.spinner )
+    {
+        self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.spinner.center = self.view.center;
+        self.spinner.hidesWhenStopped = YES;
+        [self.view addSubview:self.spinner];
+    }
+    
+    [self.spinner startAnimating];
+}
+
+- (void)hideSpinner
+{
+    [self.spinner stopAnimating];
+}
+
+- (void)loadDishDetails
+{
+    [self showSpinner];
+    
+    NSDictionary *parameters = @{ kIDKey : @(self.dishID) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] GET:@"dishes/profile" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        self.dishProfile = [DADishProfile profileWithData:nilOrJSONObjectForKey( responseObject, kDataKey )];
+        [self hideSpinner];
+        [self.collectionView reloadData];
+        
+        [UIView transitionWithView:self.collectionView
+                          duration:0.3
+                           options:UIViewAnimationOptionTransitionCrossDissolve
+                        animations:nil
+                        completion:nil];
+        
+        self.collectionView.hidden = NO;
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self loadDishDetails];
+            }];
+        }
+    }];
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

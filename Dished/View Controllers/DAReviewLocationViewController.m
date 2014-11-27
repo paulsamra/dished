@@ -165,11 +165,12 @@
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        eErrorType errorType = [DAAPIManager errorTypeForError:error];
-        
-        if( errorType != eErrorTypeRequestCancelled )
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self searchBar:searchBar textDidChange:searchText];
+            }];
         }
     }];
 }

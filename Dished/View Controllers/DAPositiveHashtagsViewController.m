@@ -40,51 +40,49 @@ static NSString *const kHashtagCellIdentifier = @"hashtagCell";
     
     __weak typeof( self ) weakSelf = self;
     
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = @{ kDishTypeKey : weakSelf.review.type, kHashtagTypeKey : kPositiveHashtags };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] GET:kHashtagsURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSDictionary *parameters = @{ kDishTypeKey : weakSelf.review.type, kHashtagTypeKey : kPositiveHashtags };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+        weakSelf.hashtagArray = [weakSelf hashtagsFromResponse:responseObject];
+        weakSelf.selectedHashtags = [weakSelf.review.hashtags mutableCopy];
         
-        [[DAAPIManager sharedManager] GET:kHashtagsURL parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
+        if( !weakSelf.selectedHashtags )
         {
-            weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
-            weakSelf.hashtagArray = [weakSelf hashtagsFromResponse:responseObject];
-            weakSelf.selectedHashtags = [weakSelf.review.hashtags mutableCopy];
-            
-            if( !weakSelf.selectedHashtags )
-            {
-                weakSelf.selectedHashtags = [NSMutableArray array];
-            }
-            
-            for( DAHashtag *tag in weakSelf.selectedHashtags )
-            {
-                NSUInteger index = [weakSelf.hashtagArray indexOfObject:tag];
-                
-                if( index != NSNotFound )
-                {
-                    [weakSelf.hashtagDict setObject:@"selected" forKey:@(index)];
-                }
-            }
-            
-            for( id key in weakSelf.hashtagDict )
-            {
-                [weakSelf.selectedHashtags removeObject:[weakSelf.hashtagArray objectAtIndex:[key intValue]]];
-            }
-            
-            [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
-            
-            weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+            weakSelf.selectedHashtags = [NSMutableArray array];
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
+        
+        for( DAHashtag *tag in weakSelf.selectedHashtags )
         {
-            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            NSUInteger index = [weakSelf.hashtagArray indexOfObject:tag];
             
-            if( errorType != eErrorTypeRequestCancelled )
+            if( index != NSNotFound )
             {
-                
+                [weakSelf.hashtagDict setObject:@"selected" forKey:@(index)];
             }
-        }];
+        }
+        
+        for( id key in weakSelf.hashtagDict )
+        {
+            [weakSelf.selectedHashtags removeObject:[weakSelf.hashtagArray objectAtIndex:[key intValue]]];
+        }
+        
+        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [weakSelf loadHashtags];
+            }];
+        }
     }];
 }
 
