@@ -42,5 +42,7 @@
 + (DAReview *)reviewWithData:(id)data;
 
 - (id)initWithData:(id)data;
+- (NSArray *)yumsStringArray;
+- (NSArray *)hashtagsStringArray;
 
 @end

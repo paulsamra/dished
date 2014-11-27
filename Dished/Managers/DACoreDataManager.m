@@ -82,18 +82,17 @@
         self.backgroundManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         self.backgroundManagedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
         
-        [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:nil queue:nil
+        [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:self.backgroundManagedContext queue:nil
         usingBlock:^( NSNotification *notification )
         {
-            if( notification.object != self.managedObjectContext )
-            {
-                [self.managedObjectContext performBlock:^()
-                {
-                    [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
-                }];
-            }
+            [self performSelectorOnMainThread:@selector(backgroundContextDidSave:) withObject:notification waitUntilDone:NO];
         }];
     }
+}
+
+- (void)backgroundContextDidSave:(NSNotification *)notification
+{
+    [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
 }
 
 - (NSManagedObjectContext *)mainManagedContext

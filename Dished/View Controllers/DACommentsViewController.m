@@ -13,14 +13,16 @@
 #import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
 #import "DAUserManager.h"
+#import "DATagSuggestionTableView.h"
 #import "NSAttributedString+Dished.h"
 
 
-@interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate, DACommentTableViewCellDelegate>
+@interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate, DACommentTableViewCellDelegate, DATagSuggestionsTableViewDelegate>
 
 @property (strong, nonatomic) NSArray                       *comments;
 @property (strong, nonatomic) NSDictionary                  *linkedTextAttributes;
 @property (strong, nonatomic) NSURLSessionTask              *loadCommentsTask;
+@property (strong, nonatomic) DATagSuggestionTableView      *tagTableView;
 @property (strong, nonatomic) UIActivityIndicatorView       *spinner;
 @property (strong, nonatomic) JSQMessagesKeyboardController *keyboardController;
 
@@ -48,6 +50,7 @@
     self.inputToolbar.contentView.textView.placeHolder = @"Add Comment";
     self.inputToolbar.contentView.textView.delegate = self;
     self.inputToolbar.contentView.textView.font = [UIFont fontWithName:kHelveticaNeueLightFont size:17];
+    self.inputToolbar.contentView.textView.keyboardType = UIKeyboardTypeTwitter;
     
     self.keyboardController = [[JSQMessagesKeyboardController alloc] initWithTextView:self.inputToolbar.contentView.textView contextView:self.view panGestureRecognizer:self.tableView.panGestureRecognizer delegate:self];
     
@@ -106,6 +109,152 @@
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadComments) name:kNetworkReachableKey object:nil];
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    if( !self.tagTableView )
+    {
+        [self setupTagTableView];
+    }
+}
+
+- (void)setupTagTableView
+{
+    CGFloat y = self.navigationController.navigationBar.frame.origin.y + self.navigationController.navigationBar.frame.size.height;
+    CGFloat height = self.inputToolbar.frame.origin.y - y;
+    self.tagTableView = [[DATagSuggestionTableView alloc] initWithFrame:CGRectMake( 0, y, self.view.frame.size.width, height)];
+    self.tagTableView.suggestionDelegate = self;
+    self.tagTableView.hidden = YES;
+    [self.view insertSubview:self.tagTableView belowSubview:self.inputToolbar];
+}
+
+- (void)didSelectUsernameWithName:(NSString *)name
+{
+    [self didSelectSuggestion:name withPrefix:@"@"];
+}
+
+- (void)didSelectHashtagWithName:(NSString *)name
+{
+    [self didSelectSuggestion:name withPrefix:@"#"];
+}
+
+- (void)didSelectSuggestion:(NSString *)suggestion withPrefix:(NSString *)prefix
+{
+    self.tagTableView.hidden = YES;
+    [self.tagTableView resetTable];
+    
+    NSString *text = self.inputToolbar.contentView.textView.text;
+    
+    NSRange lastAt = [text rangeOfString:prefix options:NSBackwardsSearch];
+    lastAt.location++;
+    lastAt.length = ( text.length ) - lastAt.location;
+    
+    NSString *updatedText = [text stringByReplacingCharactersInRange:lastAt withString:suggestion];
+    self.inputToolbar.contentView.textView.text = [NSString stringWithFormat:@"%@ ", updatedText];
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    NSString *newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    
+    if( newString.length == 0 )
+    {
+        return YES;
+    }
+    
+    NSRange lastSpace = [newString rangeOfString:@" " options:NSBackwardsSearch];
+    
+    if( lastSpace.location != NSNotFound )
+    {
+        if( lastSpace.location != newString.length - 1  )
+        {
+            NSString *substring = [newString substringFromIndex:lastSpace.location + 1];
+            
+            if( substring.length > 1 )
+            {
+                if( [substring characterAtIndex:0] == '@' )
+                {
+                    [self showTagTableWithUsernameQuery:[substring substringFromIndex:1]];
+                }
+                else if( [substring characterAtIndex:0] == '#' )
+                {
+                    [self showTagTableWithHashtagQuery:[substring substringFromIndex:1]];
+                }
+            }
+            else
+            {
+                [self hideTagTableView];
+            }
+        }
+        else
+        {
+            [self hideTagTableView];
+        }
+    }
+    else if( newString.length > 1 )
+    {
+        if( [newString characterAtIndex:0] == '@' )
+        {
+            [self showTagTableWithUsernameQuery:[newString substringFromIndex:1]];
+        }
+        else if( [newString characterAtIndex:0] == '#' )
+        {
+            [self showTagTableWithHashtagQuery:[newString substringFromIndex:1]];
+        }
+    }
+    else
+    {
+        [self hideTagTableView];
+    }
+    
+    return YES;
+}
+
+- (void)showTagTableWithUsernameQuery:(NSString *)query
+{
+    NSRange invalidRange = [query rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
+    
+    if( invalidRange.location == NSNotFound )
+    {
+        [self.tagTableView updateUsernameSuggestionsWithQuery:query];
+        
+        if( [self.tagTableView numberOfRowsInSection:0] > 0 )
+        {
+            self.tagTableView.hidden = NO;
+        }
+    }
+    else
+    {
+        [self hideTagTableView];
+    }
+}
+
+- (void)showTagTableWithHashtagQuery:(NSString *)query
+{
+    NSRange invalidRange = [query rangeOfCharacterFromSet:[[NSCharacterSet alphanumericCharacterSet] invertedSet]];
+    
+    if( invalidRange.location == NSNotFound )
+    {
+        [self.tagTableView updateHashtagSuggestionsWithQuery:query];
+
+        if( [self.tagTableView numberOfRowsInSection:0] > 0 )
+        {
+            self.tagTableView.hidden = NO;
+        }
+    }
+    else
+    {
+        [self hideTagTableView];
+    }
+}
+
+- (void)hideTagTableView
+{
+    self.tagTableView.hidden = YES;
+    [self.tagTableView resetTable];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -423,6 +572,8 @@
 - (void)textViewDidChange:(UITextView *)textView
 {
     [self.inputToolbar toggleSendButtonEnabled];
+    
+    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

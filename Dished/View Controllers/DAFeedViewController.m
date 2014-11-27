@@ -240,7 +240,17 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
             
             commentCell.iconImageView.hidden = indexPath.row - ( num_yums > 0 ? 2 : 1 ) == 0 ? NO : YES;
-            commentCell.textView.attributedText = [self commentStringForComment:comment];
+            
+            NSAttributedString *commentString = [self commentStringForComment:comment];
+            NSMutableArray *usernameMentions = [NSMutableArray array];
+            [usernameMentions addObject:comment.creator_username];
+            
+            for( DAManagedUsername *managedUsername in comment.usernames )
+            {
+                [usernameMentions addObject:managedUsername.username];
+            }
+            
+            [commentCell.textView setAttributedText:commentString withAttributes:[NSAttributedString linkedTextAttributesWithFontSize:14.0f] delimiter:nil knownUsernames:usernameMentions];
             
             commentCell.delegate = self;
             
@@ -338,33 +348,19 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 {
     NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
     NSDictionary *attributes = [DAReviewDetailCollectionViewCell linkedTextAttributes];
-    NSAttributedString *attributedUsernameString = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
-    NSMutableAttributedString *labelString = [attributedUsernameString mutableCopy];
+    NSAttributedString *attributedUsername = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
+    NSMutableAttributedString *labelString = [attributedUsername mutableCopy];
     
     if( [comment.creator_type isEqualToString:@"influencer"] )
     {
         [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-        
         NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
         influencerIcon.image = [UIImage imageNamed:@"influencer"];
-        
         NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
-        
         [labelString appendAttributedString:influencerIconString];
     }
     
-    NSArray *words = [comment.comment componentsSeparatedByString:@" "];
     NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:[DAReviewDetailCollectionViewCell textAttributes]];
-    
-    for( NSString *word in words )
-    {
-        if( [word hasPrefix:@"#"] || [word hasPrefix:@"@"] )
-        {
-            NSRange matchRange = [comment.comment rangeOfString:word];
-            [commentString setAttributes:[DAReviewDetailCollectionViewCell linkedTextAttributes] range:matchRange];
-        }
-    }
-    
     [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     [labelString appendAttributedString:commentString];
     

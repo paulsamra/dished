@@ -129,7 +129,6 @@
 - (void)updateFeedItem:(DAFeedItem *)feedItem withCommentsData:(id)data
 {
     NSArray *comments = (NSArray *)data;
-    NSMutableSet *commentItems = [NSMutableSet set];
     
     NSSet *existingComments = feedItem.comments;
     
@@ -144,10 +143,30 @@
         [feedComment configureWithDictionary:comment];
         feedComment.feedItem = feedItem;
         
-        [commentItems addObject:feedComment];
+        NSArray *usernameMentions = nilOrJSONObjectForKey( comment, @"usernames" );
+        
+        for( NSString *username in usernameMentions )
+        {
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%@ == %K", username, kUsernameKey];
+            NSString *entityName = NSStringFromClass( [DAManagedUsername class] );
+            
+            NSArray *matches = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate];
+            
+            if( matches.count == 1 )
+            {
+                [feedComment addUsernamesObject:matches[0]];
+            }
+            else
+            {
+                DAManagedUsername *managedUsername = (DAManagedUsername *)[[DACoreDataManager sharedManager] createEntityWithClassName:entityName];
+                managedUsername.username = username;
+                
+                [feedComment addUsernamesObject:managedUsername];
+            }
+        }
+        
+        [feedItem addCommentsObject:feedComment];
     }
-    
-    [feedItem setComments:commentItems];
 }
 
 - (NSArray *)feedItemsBetweenTimestamps:(NSArray *)timestamps

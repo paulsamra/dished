@@ -19,7 +19,6 @@ typedef enum
 @interface DALinkedTextView : UITextView
 
 - (void)setAttributedText:(NSAttributedString *)attributedText withAttributes:(NSDictionary *)attributes delimiter:(NSString *)delimiter knownUsernames:(NSArray *)usernames;
-- (void)setAttributedText:(NSAttributedString *)attributedText withDelimiter:(NSString *)delimiter;
 - (eLinkedTextType)linkedTextTypeForCharacterAtIndex:(NSUInteger)characterIndex;
 - (NSString *)linkedTextForCharacterAtIndex:(NSUInteger)characterIndex;
 

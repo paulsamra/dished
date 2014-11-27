@@ -10,6 +10,14 @@
 #import "DAUsername.h"
 
 
+@interface DAReview()
+
+@property (strong, nonatomic) NSArray *yumUsernameStrings;
+@property (strong, nonatomic) NSArray *hashtagStrings;
+
+@end
+
+
 @implementation DAReview
 
 + (DAReview *)reviewWithData:(id)data
@@ -47,13 +55,17 @@
         if( yums )
         {
             NSMutableArray *newYums = [NSMutableArray array];
+            NSMutableArray *newYumsStrings = [NSMutableArray array];
             
             for( NSDictionary *yum in yums )
             {
-                [newYums addObject:[DAUsername usernameWithData:yum]];
+                DAUsername *username = [DAUsername usernameWithData:yum];
+                [newYums addObject:username];
+                [newYumsStrings addObject:username.username];
             }
             
-            _yums = [newYums copy];
+            _yums = newYums;
+            _yumUsernameStrings = newYumsStrings;
         }
         
         NSArray *comments = nilOrJSONObjectForKey( data, @"comments" );
@@ -66,13 +78,14 @@
                 [newComments addObject:[DAComment commentWithData:comment]];
             }
             
-            _comments = [newComments copy];
+            _comments = newComments;
         }
         
         NSArray *hashtags = nilOrJSONObjectForKey( data, @"hashtags" );
         if( hashtags )
         {
             NSMutableArray *newHashtags = [NSMutableArray array];
+            NSMutableArray *hashtagStrings = [NSMutableArray array];
             
             for( NSString *hashtag in hashtags )
             {
@@ -80,9 +93,10 @@
                 newHashtag.name = hashtag;
                 
                 [newHashtags addObject:newHashtag];
+                [hashtagStrings addObject:hashtag];
             }
             
-            _hashtags = [newHashtags copy];
+            _hashtags = newHashtags;
         }
         
         NSDictionary *location = nilOrJSONObjectForKey( data, kLocationKey );
@@ -96,6 +110,16 @@
     }
     
     return self;
+}
+
+- (NSArray *)yumsStringArray
+{
+    return self.yumUsernameStrings;
+}
+
+- (NSArray *)hashtagsStringArray
+{
+    return self.hashtagStrings;
 }
 
 @end

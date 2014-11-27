@@ -10,6 +10,7 @@
 #import "DACoreDataManager.h"
 #import "DAFeedItem+Utility.h"
 #import "DAManagedComment+Utility.h"
+#import "DAManagedUsername.h"
 
 
 @interface DAFeedImportManager : NSObject

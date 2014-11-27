@@ -50,7 +50,7 @@
 
 + (NSString *)entityName
 {
-    return NSStringFromClass( [self class] );
+    return NSStringFromClass( self );
 }
 
 @end

@@ -245,7 +245,10 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         }
         else
         {
-            [yumsCell.textView setAttributedText:[self yumStringWithUsernames:self.review.yums] withDelimiter:@", "];
+            NSAttributedString *yumString = [self yumStringWithUsernames:self.review.yums];
+            NSDictionary *linkedAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
+            
+            [yumsCell.textView setAttributedText:yumString withAttributes:linkedAttributes delimiter:@", " knownUsernames:[self.review yumsStringArray]];
         }
         
         yumsCell.delegate = self;
@@ -256,7 +259,10 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         DAReviewDetailCollectionViewCell *tagsCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
 
-        [tagsCell.textView setAttributedText:[self hashtagStringWithHashtags:self.review.hashtags] withDelimiter:@", "];
+        NSAttributedString *hashtagString = [self hashtagStringWithHashtags:self.review.hashtags];
+        NSDictionary *linkedAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
+        
+        [tagsCell.textView setAttributedText:hashtagString withAttributes:linkedAttributes delimiter:@", " knownUsernames:nil];
         tagsCell.iconImageView.image = [UIImage imageNamed:@"hashtag_icon"];
         
         tagsCell.delegate = self;
@@ -373,7 +379,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         }
     }];
     
-    NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:[string copy] attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
+    NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:string attributes:[DAReviewDetailCollectionViewCell textAttributes]];
     
     return yumString;
 }
@@ -394,7 +400,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         }
     }];
     
-    NSAttributedString *hashtagString = [[NSAttributedString alloc] initWithString:[string copy] attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
+    NSAttributedString *hashtagString = [[NSAttributedString alloc] initWithString:string attributes:[DAReviewDetailCollectionViewCell textAttributes]];
     
     return hashtagString;
 }

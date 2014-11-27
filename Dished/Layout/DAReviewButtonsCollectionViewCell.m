@@ -15,9 +15,9 @@
 {
     [super awakeFromNib];
     
-    self.yumButton.layer.cornerRadius         = 3;
-    self.commentsButton.layer.cornerRadius    = 3;
-    self.moreReviewsButton.layer.cornerRadius = 3;
+    self.yumButton.layer.cornerRadius         = 2;
+    self.commentsButton.layer.cornerRadius    = 2;
+    self.moreReviewsButton.layer.cornerRadius = 2;
     
     self.commentsButton.titleLabel.font = [UIFont fontWithName:kHelveticaNeueLightFont size:13.0];
     

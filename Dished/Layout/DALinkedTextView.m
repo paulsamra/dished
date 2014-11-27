@@ -7,6 +7,7 @@
 //
 
 #import "DALinkedTextView.h"
+#import "DATagManager.h"
 
 #define kLinkedTextTypeKey      @"linkedTextType"
 #define kLinkedTextTypeHashtag  @"linkedTextTypeHashtag"
@@ -25,11 +26,9 @@
 
 - (void)setAttributedText:(NSAttributedString *)attributedText
 {
-    NSAttributedString *linkedAttributedText = [self addLinkedTextAttributesToAttributedText:attributedText withDelimiter:nil];
+    [super setAttributedText:attributedText];
     
-    [super setAttributedText:linkedAttributedText];
-    
-    self.attributedString = linkedAttributedText;
+    self.attributedString = attributedText;
 }
 
 - (void)setAttributedText:(NSAttributedString *)attributedText withAttributes:(NSDictionary *)attributes delimiter:(NSString *)delimiter knownUsernames:(NSArray *)usernames
@@ -54,6 +53,7 @@
             [linkedText setAttributes:attributes range:matchRange];
             [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeHashtag range:matchRange];
             [linkedText addAttribute:kLinkedTextKey value:word range:matchRange];
+            [[DATagManager sharedManager] addHashtagInBackground:[word substringFromIndex:1]];
         }
         else if( [word hasPrefix:@"@"] )
         {
@@ -64,6 +64,7 @@
                     [linkedText setAttributes:attributes range:matchRange];
                     [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:matchRange];
                     [linkedText addAttribute:kLinkedTextKey value:[word substringFromIndex:1] range:matchRange];
+                    [[DATagManager sharedManager] addUsernameInBackground:[word substringFromIndex:1]];
                 }
             }
             else
@@ -77,47 +78,6 @@
     
     [super setAttributedText:linkedText];
     self.attributedString = linkedText;
-}
-
-- (void)setAttributedText:(NSAttributedString *)attributedText withDelimiter:(NSString *)delimiter
-{
-    NSAttributedString *linkedAttributedText = [self addLinkedTextAttributesToAttributedText:attributedText withDelimiter:delimiter];
-    
-    [super setAttributedText:linkedAttributedText];
-    
-    self.attributedString = linkedAttributedText;
-}
-
-- (NSAttributedString *)addLinkedTextAttributesToAttributedText:(NSAttributedString *)attributedText withDelimiter:(NSString *)delimiter
-{
-    NSArray *words = delimiter ? [attributedText.string componentsSeparatedByString:delimiter] : [attributedText.string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-    NSMutableAttributedString *linkedText = [attributedText mutableCopy];
-    NSRange currentRange = NSMakeRange( 0, attributedText.string.length );
-    
-    for( NSString *word in words )
-    {
-        if( word.length == 0 )
-        {
-            continue;
-        }
-        
-        NSRange matchRange = [attributedText.string rangeOfString:word options:0 range:currentRange];
-        NSInteger newIndex = matchRange.location + matchRange.length;
-        currentRange = NSMakeRange( newIndex, attributedText.string.length - newIndex );
-        
-        if( [word hasPrefix:@"#"] )
-        {
-            [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeHashtag range:matchRange];
-            [linkedText addAttribute:kLinkedTextKey value:word range:matchRange];
-        }
-        else if( [word hasPrefix:@"@"] )
-        {
-            [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:matchRange];
-            [linkedText addAttribute:kLinkedTextKey value:word range:matchRange];
-        }
-    }
-    
-    return linkedText;
 }
 
 - (eLinkedTextType)linkedTextTypeForCharacterAtIndex:(NSUInteger)characterIndex

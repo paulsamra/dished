@@ -639,6 +639,15 @@
 		948615CC19FE1C3D002497D0 /* MRStopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615BD19FE1C3D002497D0 /* MRStopButton.m */; };
 		948615CD19FE1C3D002497D0 /* MRMessageInterceptor.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615C119FE1C3D002497D0 /* MRMessageInterceptor.m */; };
 		948615CE19FE1C3D002497D0 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615C419FE1C3D002497D0 /* MRWeakProxy.m */; };
+		9488B9FF1A26A86F0098FE09 /* DATagManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9488B9FE1A26A86F0098FE09 /* DATagManager.m */; };
+		9488BA001A26AAC20098FE09 /* DATagManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9488B9FE1A26A86F0098FE09 /* DATagManager.m */; };
+		9488BA011A26AAC20098FE09 /* DATagManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 9488B9FE1A26A86F0098FE09 /* DATagManager.m */; };
+		9488BA041A26B6B10098FE09 /* DATagSuggestionTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9488BA031A26B6B10098FE09 /* DATagSuggestionTableView.m */; };
+		9488BA051A26E3AC0098FE09 /* DATagSuggestionTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9488BA031A26B6B10098FE09 /* DATagSuggestionTableView.m */; };
+		9488BA061A26E3AC0098FE09 /* DATagSuggestionTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9488BA031A26B6B10098FE09 /* DATagSuggestionTableView.m */; };
+		9488BA111A270D160098FE09 /* DAManagedHashtag.m in Sources */ = {isa = PBXBuildFile; fileRef = 9488BA101A270D160098FE09 /* DAManagedHashtag.m */; };
+		9488BA121A270D160098FE09 /* DAManagedHashtag.m in Sources */ = {isa = PBXBuildFile; fileRef = 9488BA101A270D160098FE09 /* DAManagedHashtag.m */; };
+		9488BA131A270D160098FE09 /* DAManagedHashtag.m in Sources */ = {isa = PBXBuildFile; fileRef = 9488BA101A270D160098FE09 /* DAManagedHashtag.m */; };
 		9489F65419CA568400BEF540 /* DAUserNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9489F65319CA568400BEF540 /* DAUserNews.m */; };
 		948B9A7B19BB3125008BBFCF /* DANavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B9A7A19BB3125008BBFCF /* DANavigationController.m */; };
 		948EE6A61996FA2E004EC600 /* DANewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948EE6A51996FA2E004EC600 /* DANewsViewController.m */; };
@@ -990,6 +999,12 @@
 		948615C219FE1C3D002497D0 /* MRProgressHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRProgressHelper.h; sourceTree = "<group>"; };
 		948615C319FE1C3D002497D0 /* MRWeakProxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MRWeakProxy.h; sourceTree = "<group>"; };
 		948615C419FE1C3D002497D0 /* MRWeakProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MRWeakProxy.m; sourceTree = "<group>"; };
+		9488B9FD1A26A86F0098FE09 /* DATagManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATagManager.h; sourceTree = "<group>"; };
+		9488B9FE1A26A86F0098FE09 /* DATagManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATagManager.m; sourceTree = "<group>"; };
+		9488BA021A26B6B10098FE09 /* DATagSuggestionTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DATagSuggestionTableView.h; sourceTree = "<group>"; };
+		9488BA031A26B6B10098FE09 /* DATagSuggestionTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATagSuggestionTableView.m; sourceTree = "<group>"; };
+		9488BA0F1A270D160098FE09 /* DAManagedHashtag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAManagedHashtag.h; sourceTree = "<group>"; };
+		9488BA101A270D160098FE09 /* DAManagedHashtag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAManagedHashtag.m; sourceTree = "<group>"; };
 		9489F65219CA568400BEF540 /* DAUserNews.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUserNews.h; sourceTree = "<group>"; };
 		9489F65319CA568400BEF540 /* DAUserNews.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserNews.m; sourceTree = "<group>"; };
 		948B9A7919BB3125008BBFCF /* DANavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANavigationController.h; sourceTree = "<group>"; };
@@ -1596,6 +1611,8 @@
 				940363831A25E2560068F61D /* DAManagedComment+Utility.m */,
 				940363751A25E0850068F61D /* DAManagedUsername.h */,
 				940363761A25E0850068F61D /* DAManagedUsername.m */,
+				9488BA0F1A270D160098FE09 /* DAManagedHashtag.h */,
+				9488BA101A270D160098FE09 /* DAManagedHashtag.m */,
 			);
 			name = "Core Data";
 			sourceTree = "<group>";
@@ -1911,6 +1928,8 @@
 				9443DF0D19D2AC1D00F134BA /* DANewsManager.m */,
 				943ECCF919EB1AD5009516E8 /* DAUserManager.h */,
 				943ECCFA19EB1AD5009516E8 /* DAUserManager.m */,
+				9488B9FD1A26A86F0098FE09 /* DATagManager.h */,
+				9488B9FE1A26A86F0098FE09 /* DATagManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -2100,6 +2119,8 @@
 				94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */,
 				9486156A19FCD97E002497D0 /* DAAnnotationView.h */,
 				9486156B19FCD97E002497D0 /* DAAnnotationView.m */,
+				9488BA021A26B6B10098FE09 /* DATagSuggestionTableView.h */,
+				9488BA031A26B6B10098FE09 /* DATagSuggestionTableView.m */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -2541,6 +2562,7 @@
 				941291D41A1BEED500B7C763 /* AFHTTPRequestOperationManager.m in Sources */,
 				941291D51A1BEED500B7C763 /* DADishSuggestionsTableView.m in Sources */,
 				941291D61A1BEED500B7C763 /* SDWebImageDecoder.m in Sources */,
+				9488BA051A26E3AC0098FE09 /* DATagSuggestionTableView.m in Sources */,
 				941291D71A1BEED500B7C763 /* DAUserListViewController.m in Sources */,
 				941291D81A1BEED500B7C763 /* UIButton+AFNetworking.m in Sources */,
 				941291D91A1BEED500B7C763 /* DANews.m in Sources */,
@@ -2558,6 +2580,7 @@
 				941291E51A1BEED500B7C763 /* NSString+JSQMessages.m in Sources */,
 				941291E61A1BEED500B7C763 /* MKAnnotationView+WebCache.m in Sources */,
 				941291E71A1BEED500B7C763 /* JSONResponseSerializerWithData.m in Sources */,
+				9488BA121A270D160098FE09 /* DAManagedHashtag.m in Sources */,
 				940363851A25E2560068F61D /* DAManagedComment+Utility.m in Sources */,
 				941291E81A1BEED500B7C763 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				941291E91A1BEED500B7C763 /* DANotificationSettingsViewController.m in Sources */,
@@ -2625,6 +2648,7 @@
 				941292281A1BEED500B7C763 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
 				941292291A1BEED500B7C763 /* DACollectionView.swift in Sources */,
 				9412922A1A1BEED500B7C763 /* DALocationManager.m in Sources */,
+				9488BA001A26AAC20098FE09 /* DATagManager.m in Sources */,
 				9412922B1A1BEED500B7C763 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				9412922C1A1BEED500B7C763 /* DARestaurantProfile.m in Sources */,
 				9412922D1A1BEED500B7C763 /* NSData+ImageContentType.m in Sources */,
@@ -2734,6 +2758,7 @@
 				941292D31A1C7AD100B7C763 /* AFHTTPRequestOperationManager.m in Sources */,
 				941292D41A1C7AD100B7C763 /* DADishSuggestionsTableView.m in Sources */,
 				941292D51A1C7AD100B7C763 /* SDWebImageDecoder.m in Sources */,
+				9488BA061A26E3AC0098FE09 /* DATagSuggestionTableView.m in Sources */,
 				941292D61A1C7AD100B7C763 /* DAUserListViewController.m in Sources */,
 				941292D71A1C7AD100B7C763 /* UIButton+AFNetworking.m in Sources */,
 				941292D81A1C7AD100B7C763 /* DANews.m in Sources */,
@@ -2751,6 +2776,7 @@
 				941292E41A1C7AD100B7C763 /* NSString+JSQMessages.m in Sources */,
 				941292E51A1C7AD100B7C763 /* MKAnnotationView+WebCache.m in Sources */,
 				941292E61A1C7AD100B7C763 /* JSONResponseSerializerWithData.m in Sources */,
+				9488BA131A270D160098FE09 /* DAManagedHashtag.m in Sources */,
 				940363861A25E2560068F61D /* DAManagedComment+Utility.m in Sources */,
 				941292E71A1C7AD100B7C763 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				941292E81A1C7AD100B7C763 /* DANotificationSettingsViewController.m in Sources */,
@@ -2818,6 +2844,7 @@
 				941293271A1C7AD100B7C763 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
 				941293281A1C7AD100B7C763 /* DACollectionView.swift in Sources */,
 				941293291A1C7AD100B7C763 /* DALocationManager.m in Sources */,
+				9488BA011A26AAC20098FE09 /* DATagManager.m in Sources */,
 				9412932A1A1C7AD100B7C763 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				9412932B1A1C7AD100B7C763 /* DARestaurantProfile.m in Sources */,
 				9412932C1A1C7AD100B7C763 /* NSData+ImageContentType.m in Sources */,
@@ -2927,6 +2954,7 @@
 				943ECCF319EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.m in Sources */,
 				94E5EF431943472D0021A711 /* AFHTTPRequestOperationManager.m in Sources */,
 				947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */,
+				9488BA041A26B6B10098FE09 /* DATagSuggestionTableView.m in Sources */,
 				94F2AD9E198C539200450C6F /* SDWebImageDecoder.m in Sources */,
 				944D1E7A19DB8786006F73BF /* DAUserListViewController.m in Sources */,
 				94DCE9BA1980ABB100396C0A /* UIButton+AFNetworking.m in Sources */,
@@ -2944,6 +2972,7 @@
 				948615C819FE1C3D002497D0 /* MRCircularProgressView.m in Sources */,
 				94CB040119B146AF009010F6 /* NSString+JSQMessages.m in Sources */,
 				94F2AD9A198C539200450C6F /* MKAnnotationView+WebCache.m in Sources */,
+				9488BA111A270D160098FE09 /* DAManagedHashtag.m in Sources */,
 				94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */,
 				94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */,
 				94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */,
@@ -3011,6 +3040,7 @@
 				9445C1B7199927B800F3A4F8 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
 				94B43AAE19EB6D9500482F52 /* DACollectionView.swift in Sources */,
 				941F3209196FA838000042AE /* DALocationManager.m in Sources */,
+				9488B9FF1A26A86F0098FE09 /* DATagManager.m in Sources */,
 				94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				9473FACF19E63235003A1D1B /* DARestaurantProfile.m in Sources */,
 				94F2AD9B198C539200450C6F /* NSData+ImageContentType.m in Sources */,
@@ -3096,6 +3126,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-all_load",
@@ -3130,6 +3161,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -3166,6 +3198,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-all_load",
@@ -3200,6 +3233,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",
@@ -3309,6 +3343,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-all_load",
@@ -3341,6 +3376,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 				);
+				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
 					"-all_load",

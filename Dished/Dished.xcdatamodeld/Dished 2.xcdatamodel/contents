@@ -20,7 +20,7 @@
         <attribute name="num_comments" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="num_yums" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DAManagedComment" inverseName="feedItem" inverseEntity="DAManagedComment" syncable="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DAManagedComment" inverseName="feedItem" inverseEntity="DAManagedComment" syncable="YES"/>
     </entity>
     <entity name="DAManagedComment" representedClassName="DAManagedComment" elementID="DAFeedComment" syncable="YES">
         <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
@@ -32,15 +32,18 @@
         <attribute name="img_thumb" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="feedItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DAFeedItem" inverseName="comments" inverseEntity="DAFeedItem" syncable="YES"/>
-        <relationship name="usernames" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DAManagedUsername" inverseName="comment" inverseEntity="DAManagedUsername" syncable="YES"/>
+        <relationship name="usernames" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DAManagedUsername" syncable="YES"/>
+    </entity>
+    <entity name="DAManagedHashtag" representedClassName="DAManagedHashtag" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="DAManagedUsername" representedClassName="DAManagedUsername" syncable="YES">
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
-        <relationship name="comment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DAManagedComment" inverseName="usernames" inverseEntity="DAManagedComment" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DAManagedComment" positionX="-54" positionY="216" width="128" height="193"/>
         <element name="DAFeedItem" positionX="-54" positionY="90" width="128" height="345"/>
-        <element name="DAManagedUsername" positionX="-45" positionY="243" width="128" height="73"/>
+        <element name="DAManagedComment" positionX="-54" positionY="216" width="128" height="193"/>
+        <element name="DAManagedUsername" positionX="-45" positionY="243" width="128" height="60"/>
+        <element name="DAManagedHashtag" positionX="-45" positionY="243" width="128" height="60"/>
     </elements>
 </model>
