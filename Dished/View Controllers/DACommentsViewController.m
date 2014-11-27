@@ -659,6 +659,9 @@
 {
     NSString *commentText = self.inputToolbar.contentView.textView.text;
     
+    self.tagTableView.hidden = YES;
+    [self.tagTableView resetTable];
+    
     DAComment *newComment = [[DAComment alloc] init];
     newComment.comment = commentText;
     newComment.creator_username = [[DAUserManager sharedManager] username];

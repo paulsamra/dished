@@ -25,14 +25,15 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 @interface DAUserProfileViewController() <UIActionSheetDelegate, UIAlertViewDelegate, DADishTableViewCellDelegate>
 
-@property (weak,   nonatomic) NSArray             *selectedDataSource;
-@property (weak,   nonatomic) UITableView         *selectedTableView;
-@property (strong, nonatomic) NSURLSessionTask    *profileLoadTask;
-@property (strong, nonatomic) NSURLSessionTask    *followTask;
-@property (strong, nonatomic) NSURLSessionTask    *spamReportTask;
-@property (strong, nonatomic) DAUserProfile       *userProfile;
-@property (strong, nonatomic) DARestaurantProfile *restaurantProfile;
-@property (strong, nonatomic) CLPlacemark         *directionsPlacemark;
+@property (weak,   nonatomic) NSArray                 *selectedDataSource;
+@property (weak,   nonatomic) UITableView             *selectedTableView;
+@property (strong, nonatomic) CLPlacemark             *directionsPlacemark;
+@property (strong, nonatomic) NSURLSessionTask        *profileLoadTask;
+@property (strong, nonatomic) NSURLSessionTask        *followTask;
+@property (strong, nonatomic) NSURLSessionTask        *spamReportTask;
+@property (strong, nonatomic) DAUserProfile           *userProfile;
+@property (strong, nonatomic) DARestaurantProfile     *restaurantProfile;
+@property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
 @property (nonatomic) BOOL hasMoreFoodDishes;
 @property (nonatomic) BOOL hasMoreCocktailDishes;
@@ -188,58 +189,91 @@ static NSString *const kDishSearchCellID = @"dishCell";
     [self.selectedTableView deselectRowAtIndexPath:[self.selectedTableView indexPathForSelectedRow] animated:YES];
 }
 
+- (void)showSpinner
+{
+    if( !self.spinner )
+    {
+        self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+        self.spinner.center = self.view.center;
+        self.spinner.hidesWhenStopped = YES;
+        [self.view addSubview:self.spinner];
+    }
+    
+    [self.spinner startAnimating];
+}
+
+- (void)hideSpinner
+{
+    [self.spinner stopAnimating];
+}
+
 - (void)loadData
 {
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    spinner.center = self.view.center;
-    [spinner startAnimating];
-    [self.view addSubview:spinner];
-    
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    [self showSpinner];
+
+    if( self.isRestaurant )
     {
-        if( self.isRestaurant )
+        [self loadRestaurantProfile];
+    }
+    else
+    {
+        [self loadUserProfile];
+    }
+}
+
+- (void)loadRestaurantProfile
+{
+    NSDictionary *parameters = self.loc_id == 0 ? @{ kIDKey : @(self.user_id) } : @{ kLocationIDKey : @(self.loc_id) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    self.profileLoadTask = [[DAAPIManager sharedManager] GET:kRestaurantProfileURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        self.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, kDataKey )];
+        [self configureForRestaurantProfile];
+        [self hideSpinner];
+        [self setMainViewsHidden:NO animated:YES];
+        [self loadPlacemark];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+        
+        if( errorType == eErrorTypeExpiredAccessToken )
         {
-            NSDictionary *parameters = self.loc_id == 0 ? @{ kIDKey : @(self.user_id) } : @{ kLocationIDKey : @(self.loc_id) };
-            parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-            
-            self.profileLoadTask = [[DAAPIManager sharedManager] GET:kRestaurantProfileURL parameters:parameters
-            success:^( NSURLSessionDataTask *task, id responseObject )
+            [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
             {
-                self.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, kDataKey )];
-                [self configureForRestaurantProfile];
-                
-                [spinner stopAnimating];
-                [spinner removeFromSuperview];
-                
-                [self setMainViewsHidden:NO animated:YES];
-                
-                [self loadPlacemark];
-            }
-            failure:^( NSURLSessionDataTask *task, NSError *error )
-            {
-                [self handleLoadError:error];
+                [self loadRestaurantProfile];
             }];
         }
-        else
+    }];
+}
+
+- (void)loadUserProfile
+{
+    NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
+                                  ( self.username ? self.username : @(self.user_id) ) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    self.profileLoadTask = [[DAAPIManager sharedManager] GET:kUserProfileURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, kDataKey )];
+        [self configureForUserProfile];
+        
+        [self hideSpinner];
+        
+        [self setMainViewsHidden:NO animated:YES];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+        
+        if( errorType == eErrorTypeExpiredAccessToken )
         {
-            NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
-                                          ( self.username ? self.username : @(self.user_id) ) };
-            parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-            
-            self.profileLoadTask = [[DAAPIManager sharedManager] GET:kUserProfileURL parameters:parameters
-            success:^( NSURLSessionDataTask *task, id responseObject )
+            [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
             {
-                self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, kDataKey )];
-                [self configureForUserProfile];
-                
-                [spinner stopAnimating];
-                [spinner removeFromSuperview];
-                
-                [self setMainViewsHidden:NO animated:YES];
-            }
-            failure:^( NSURLSessionDataTask *task, NSError *error )
-            {
-                [self handleLoadError:error];
+                [self loadUserProfile];
             }];
         }
     }];
@@ -412,16 +446,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
         }
         
         [self.wineTableView reloadData];
-    }
-}
-
-- (void)handleLoadError:(NSError *)error
-{
-    eErrorType errorType = [DAAPIManager errorTypeForError:error];
-    
-    if( errorType != eErrorTypeRequestCancelled )
-    {
-        
     }
 }
 
