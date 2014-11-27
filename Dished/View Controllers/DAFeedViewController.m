@@ -673,23 +673,37 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (void)yumFeedItemWithReviewID:(NSInteger)reviewID
 {
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = @{ kIDKey : @(reviewID) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] POST:kYumReviewURL parameters:parameters success:nil
+    failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSDictionary *parameters = @{ kIDKey : @(reviewID) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        [[DAAPIManager sharedManager] POST:kYumReviewURL parameters:parameters success:nil failure:nil];
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self yumFeedItemWithReviewID:reviewID];
+            }];
+        }
     }];
 }
 
 - (void)unyumFeedItemWithReviewID:(NSInteger)reviewID
 {
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = @{ kIDKey : @(reviewID) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] POST:kUnyumReviewURL parameters:parameters success:nil
+    failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSDictionary *parameters = @{ kIDKey : @(reviewID) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        [[DAAPIManager sharedManager] POST:kUnyumReviewURL parameters:parameters success:nil failure:nil];
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self unyumFeedItemWithReviewID:reviewID];
+            }];
+        }
     }];
 }
 

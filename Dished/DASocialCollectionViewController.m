@@ -276,39 +276,37 @@
 
 - (void)reportDish
 {
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = @{ kIDKey : @(self.dishProfile.dish_id) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] POST:kReportDishURL parameters:parameters success:nil
+    failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSDictionary *parameters = @{ kIDKey : @(self.dishProfile.dish_id) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        [[DAAPIManager sharedManager] POST:kReportDishURL parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self reportDish];
+            }];
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            
-        }];
     }];
 }
 
 - (void)reportReview
 {
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = @{ kIDKey : @(self.review.review_id) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] POST:kReportReviewURL parameters:parameters success:nil
+    failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSDictionary *parameters = @{ kIDKey : @(self.review.review_id) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        [[DAAPIManager sharedManager] POST:kReportReviewURL parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self reportReview];
+            }];
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            
-        }];
     }];
 }
 

@@ -101,30 +101,42 @@
 {
     if( buttonIndex == actionSheet.destructiveButtonIndex )
     {
-        [MRProgressOverlayView showOverlayAddedTo:self.view.window title:@"Logging Out..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
-        
-        [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+        [self logout];
+    }
+}
+
+- (void)logout
+{
+    [MRProgressOverlayView showOverlayAddedTo:self.view.window title:@"Logging Out..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    
+    NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+     
+    [[DAAPIManager sharedManager] POST:kLogoutURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
         {
-            NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
-            
-            [[DAAPIManager sharedManager] POST:kLogoutURL parameters:parameters
-            success:^( NSURLSessionDataTask *task, id responseObject )
-            {
-                [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
-                {
-                    DAAppDelegate *appDelegate = (DAAppDelegate *)[[UIApplication sharedApplication] delegate];
-                    [appDelegate logout];
-                }];
-            }
-            failure:^( NSURLSessionDataTask *task, NSError *error )
-            {
-                [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
-                {
-                    [[[UIAlertView alloc] initWithTitle:@"Failed to Log Out" message:@"There was a problem logging you out. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
-                }];
-            }];
+            DAAppDelegate *appDelegate = (DAAppDelegate *)[[UIApplication sharedApplication] delegate];
+            [appDelegate logout];
         }];
     }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self logout];
+            }];
+        }
+        else
+        {
+            [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+            {
+                [[[UIAlertView alloc] initWithTitle:@"Failed to Log Out" message:@"There was a problem logging you out. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+            }];
+        }
+    }];
 }
 
 - (void)handleNotificationSectionSelectionForRow:(NSInteger)row

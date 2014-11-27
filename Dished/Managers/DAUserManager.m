@@ -296,39 +296,43 @@
 
 - (void)saveSettingsToServerWithParameters:(NSDictionary *)parameters completion:( void(^)( BOOL success ) )completion
 {
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[self getTaskWithParameters:parameters] cancel];
+    
+    NSURLSessionTask *task = [[DAAPIManager sharedManager] POST:kUserSettingsURL parameters:authParameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        NSDictionary *settings = nilOrJSONObjectForKey( responseObject, kDataKey );
+        [self setSettingsWithSettingsData:settings];
+        [self saveProfile];
         
-        [[self getTaskWithParameters:parameters] cancel];
-        
-        NSURLSessionTask *task = [[DAAPIManager sharedManager] POST:kUserSettingsURL parameters:authParameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
+        if( completion )
         {
-            NSDictionary *settings = nilOrJSONObjectForKey( responseObject, kDataKey );
-            [self setSettingsWithSettingsData:settings];
-            [self saveProfile];
-            
+            completion( YES );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+        
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self saveSettingsToServerWithParameters:parameters completion:completion];
+            }];
+        }
+        else if( errorType != eErrorTypeRequestCancelled )
+        {
             if( completion )
             {
-                completion( YES );
+                completion( NO );
             }
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            eErrorType errorType = [DAAPIManager errorTypeForError:error];
-            
-            if( errorType != eErrorTypeRequestCancelled )
-            {
-                if( completion )
-                {
-                    completion( NO );
-                }
-            }
-        }];
-        
-        [self setTask:task withParameters:parameters];
     }];
+    
+    [self setTask:task withParameters:parameters];
 }
 
 - (NSString *)pushSettingStringForPushSetting:(ePushSetting)pushSetting

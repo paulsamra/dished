@@ -65,12 +65,6 @@ typedef enum
 - (void)submitPasswordResetWithPin:(NSString *)pin phoneNumber:(NSString *)phoneNumber newPassword:(NSString *)password completion:(void(^)( BOOL pinValid, BOOL success ) )completion;
 
 /*
- * Returns an array of locations given a search string.
- * Distances are given in miles.
- */
-- (NSURLSessionTask *)exploreLocationSearchTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
  * Posts a new dish review to the server.
  */
 - (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success, NSString *imageURL ) )completion;
@@ -80,11 +74,6 @@ typedef enum
  * when user is searching for dishes or locations.
  */
 - (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Search for dishes given a search term.
- */
-- (void)exploreDishesWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
 
 /*
  * Retrieve data for user's feed view.

@@ -50,7 +50,7 @@
     
     if( [[DAAPIManager sharedManager] isLoggedIn] )
     {
-        [[DAAPIManager sharedManager] authenticateWithCompletion:nil];
+        [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:nil];
         [self setupUserVoice];
         [self setRootView];
     }
@@ -116,7 +116,7 @@
     
     if( [[DAAPIManager sharedManager] isLoggedIn] )
     {
-        [[DAAPIManager sharedManager] authenticateWithCompletion:nil];
+        [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:nil];
     }
 }
 

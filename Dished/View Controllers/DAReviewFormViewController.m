@@ -96,24 +96,32 @@
     {
         self.searchedForSuggestions = YES;
         
-        [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+        CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
+        
+        NSDictionary *parameters = @{ kLatitudeKey : @(currentLocation.latitude),
+                                      kLongitudeKey : @(currentLocation.longitude) };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [[DAAPIManager sharedManager] GET:kExploreLocationsURL parameters:parameters
+        success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            CLLocationCoordinate2D currentLocation = [[DALocationManager sharedManager] currentLocation];
-            
-            NSDictionary *parameters = @{ kLatitudeKey : @(currentLocation.latitude),
-                                          kLongitudeKey : @(currentLocation.longitude) };
-            parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-            
-            [[DAAPIManager sharedManager] GET:kExploreLocationsURL parameters:parameters
-            success:^( NSURLSessionDataTask *task, id responseObject )
+            self.suggestedLocations = [DAReviewLocationViewController locationsFromResponse:responseObject];
+            [[NSNotificationCenter defaultCenter] removeObserver:self name:kLocationUpdateNotificationKey object:nil];
+        }
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
             {
-                self.suggestedLocations = [DAReviewLocationViewController locationsFromResponse:responseObject];
-                [[NSNotificationCenter defaultCenter] removeObserver:self name:kLocationUpdateNotificationKey object:nil];
+                [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+                {
+                    self.searchedForSuggestions = NO;
+                    [self getLocationSuggestions];
+                }];
             }
-            failure:^( NSURLSessionDataTask *task, NSError *error )
+            else
             {
                 self.searchedForSuggestions = NO;
-            }];
+            }
         }];
     }
 }
