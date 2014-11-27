@@ -237,11 +237,9 @@ static NSString *const kDishSearchCellID = @"dishCell";
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        eErrorType errorType = [DAAPIManager errorTypeForError:error];
-        
-        if( errorType == eErrorTypeExpiredAccessToken )
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
             {
                 [self loadRestaurantProfile];
             }];
@@ -267,11 +265,9 @@ static NSString *const kDishSearchCellID = @"dishCell";
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        eErrorType errorType = [DAAPIManager errorTypeForError:error];
-        
-        if( errorType == eErrorTypeExpiredAccessToken )
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
             {
                 [self loadUserProfile];
             }];
@@ -281,75 +277,102 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (void)loadMoreDishesOfType:(NSString *)dishType
 {
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    if( self.isRestaurant )
     {
-        if( self.isRestaurant )
+        [self loadMoreRestaurantDishesOfType:dishType];
+    }
+    else
+    {
+        [self loadMoreUserReviewsOfType:dishType];
+    }
+}
+
+- (void)loadMoreRestaurantDishesOfType:(NSString *)dishType
+{
+    NSInteger offset = [dishType isEqualToString:kFood] ? self.restaurantProfile.foodDishes.count : [dishType isEqualToString:kCocktail] ? self.restaurantProfile.cocktailDishes.count : self.restaurantProfile.wineDishes.count;
+    
+    NSDictionary *parameters = @{ kIDKey : @(self.restaurantProfile.user_id), kDishTypeKey : dishType,
+                                  kRowLimitKey : @(kRowLimit), kRowOffsetKey : @(offset) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] GET:kRestaurantProfileDishesURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSArray *newDishesData = nilOrJSONObjectForKey( responseObject, kDataKey );
+         
+        if( [dishType isEqualToString:kFood] )
         {
-            NSInteger offset = [dishType isEqualToString:kFood] ? self.restaurantProfile.foodDishes.count : [dishType isEqualToString:kCocktail] ? self.restaurantProfile.cocktailDishes.count : self.restaurantProfile.wineDishes.count;
-            
-            NSDictionary *parameters = @{ kIDKey : @(self.restaurantProfile.user_id), kDishTypeKey : dishType,
-                                          kRowLimitKey : @(kRowLimit), kRowOffsetKey : @(offset) };
-            parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-            
-            [[DAAPIManager sharedManager] GET:kRestaurantProfileDishesURL parameters:parameters
-            success:^( NSURLSessionDataTask *task, id responseObject )
+            [self.restaurantProfile addFoodDishesWithData:newDishesData];
+        }
+        else if( [dishType isEqualToString:kCocktail] )
+        {
+            [self.restaurantProfile addCocktailDishesWithData:newDishesData];
+        }
+        else if( [dishType isEqualToString:kWine] )
+        {
+            [self.restaurantProfile addWineDishesWithData:newDishesData];
+        }
+         
+        [self finishedLoadingMoreDishesOfType:dishType loadCount:newDishesData.count];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
             {
-                NSArray *newDishesData = nilOrJSONObjectForKey( responseObject, kDataKey );
-                
-                if( [dishType isEqualToString:kFood] )
-                {
-                    [self.restaurantProfile addFoodDishesWithData:newDishesData];
-                }
-                else if( [dishType isEqualToString:kCocktail] )
-                {
-                    [self.restaurantProfile addCocktailDishesWithData:newDishesData];
-                }
-                else if( [dishType isEqualToString:kWine] )
-                {
-                    [self.restaurantProfile addWineDishesWithData:newDishesData];
-                }
-                
-                [self finishedLoadingMoreDishesOfType:dishType loadCount:newDishesData.count];
-            }
-            failure:^( NSURLSessionDataTask *task, NSError *error )
-            {
-                [self loadMoreDishType:dishType failedWithError:error];
+                [self loadMoreRestaurantDishesOfType:dishType];
             }];
         }
         else
         {
-            NSInteger offset = [dishType isEqualToString:kFood] ? self.userProfile.foodReviews.count : [dishType isEqualToString:kCocktail] ? self.userProfile.cocktailReviews.count : self.userProfile.wineReviews.count;
-            
-            NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
-                                          ( self.username ? self.username : @(self.user_id) ),
-                                          kDishTypeKey : dishType,
-                                          kRowLimitKey : @(kRowLimit), kRowOffsetKey : @(offset) };
-            parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-            
-            [[DAAPIManager sharedManager] GET:kUserProfileReviewsURL parameters:parameters
-            success:^( NSURLSessionDataTask *task, id responseObject )
+            [self loadMoreDishType:dishType failedWithError:error];
+        }
+    }];
+}
+
+- (void)loadMoreUserReviewsOfType:(NSString *)dishType
+{
+    NSInteger offset = [dishType isEqualToString:kFood] ? self.userProfile.foodReviews.count : [dishType isEqualToString:kCocktail] ? self.userProfile.cocktailReviews.count : self.userProfile.wineReviews.count;
+    
+    NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
+                                  ( self.username ? self.username : @(self.user_id) ),
+                                  kDishTypeKey : dishType,
+                                  kRowLimitKey : @(kRowLimit), kRowOffsetKey : @(offset) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] GET:kUserProfileReviewsURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSArray *newReviewData = nilOrJSONObjectForKey( responseObject, kDataKey );
+         
+        if( [dishType isEqualToString:kFood] )
+        {
+            [self.userProfile addFoodReviewsWithData:newReviewData];
+        }
+        else if( [dishType isEqualToString:kCocktail] )
+        {
+            [self.userProfile addCocktailReviewsWithData:newReviewData];
+        }
+        else if( [dishType isEqualToString:kWine] )
+        {
+            [self.userProfile addWineReviewsWithData:newReviewData];
+        }
+         
+        [self finishedLoadingMoreDishesOfType:dishType loadCount:newReviewData.count];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
             {
-                NSArray *newReviewData = nilOrJSONObjectForKey( responseObject, kDataKey );
-                
-                if( [dishType isEqualToString:kFood] )
-                {
-                    [self.userProfile addFoodReviewsWithData:newReviewData];
-                }
-                else if( [dishType isEqualToString:kCocktail] )
-                {
-                    [self.userProfile addCocktailReviewsWithData:newReviewData];
-                }
-                else if( [dishType isEqualToString:kWine] )
-                {
-                    [self.userProfile addWineReviewsWithData:newReviewData];
-                }
-                
-                [self finishedLoadingMoreDishesOfType:dishType loadCount:newReviewData.count];
-            }
-            failure:^( NSURLSessionDataTask *task, NSError *error )
-            {
-                [self loadMoreDishType:dishType failedWithError:error];
+                [self loadMoreUserReviewsOfType:dishType];
             }];
+        }
+        else
+        {
+            [self loadMoreDishType:dishType failedWithError:error];
         }
     }];
 }
@@ -840,12 +863,19 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     [self.spamReportTask cancel];
     
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = @{ kIDKey : @(self.userProfile.user_id) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    self.spamReportTask = [[DAAPIManager sharedManager] POST:kReportUserURL parameters:parameters success:nil
+    failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSDictionary *parameters = @{ kIDKey : @(self.userProfile.user_id) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        self.spamReportTask = [[DAAPIManager sharedManager] POST:kReportUserURL parameters:parameters success:nil failure:nil];
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self reportUserForSpam];
+            }];
+        }
     }];
 }
 
@@ -914,17 +944,24 @@ static NSString *const kDishSearchCellID = @"dishCell";
     self.restaurantProfile.caller_follows = self.userProfile.caller_follows = YES;
     [self setFollowButtonState];
     
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = @{ kIDKey : @(userID) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    self.followTask = [[DAAPIManager sharedManager] POST:kFollowUserURL parameters:parameters
+    success:nil failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSDictionary *parameters = @{ kIDKey : @(userID) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        self.followTask = [[DAAPIManager sharedManager] POST:kFollowUserURL parameters:parameters
-        success:nil failure:^( NSURLSessionDataTask *task, NSError *error )
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self followUserID:userID];
+            }];
+        }
+        else
         {
             self.restaurantProfile.caller_follows = self.userProfile.caller_follows = NO;
             [self setFollowButtonState];
-        }];
+        }
     }];
 }
 
@@ -933,17 +970,24 @@ static NSString *const kDishSearchCellID = @"dishCell";
     self.restaurantProfile.caller_follows = self.userProfile.caller_follows = NO;
     [self setFollowButtonState];
     
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = @{ kIDKey : @(userID) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    self.followTask = [[DAAPIManager sharedManager] POST:kUnfollowUserURL parameters:parameters
+    success:nil failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSDictionary *parameters = @{ kIDKey : @(userID) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        self.followTask = [[DAAPIManager sharedManager] POST:kUnfollowUserURL parameters:parameters
-        success:nil failure:^( NSURLSessionDataTask *task, NSError *error )
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self unfollowUserID:userID];
+            }];
+        }
+        else
         {
             self.restaurantProfile.caller_follows = self.userProfile.caller_follows = YES;
             [self setFollowButtonState];
-        }];
+        }
     }];
 }
 

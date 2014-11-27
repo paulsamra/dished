@@ -37,6 +37,8 @@ typedef enum
 - (void)authenticateWithCompletion:( void(^)( BOOL success ) )completion;
 - (NSDictionary *)authenticatedParametersWithParameters:(NSDictionary *)parameters;
 
+- (void)refreshAuthenticationWithCompletion:( void(^)() )completion;
+
 /*
  * Register new Dished user account.
  */

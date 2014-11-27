@@ -671,31 +671,38 @@
 {
     __weak typeof( self ) weakSelf = self;
     
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *params = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    weakSelf.saveProfileTask = [[DAAPIManager sharedManager] POST:kUserUpdateURL parameters:params
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSDictionary *params = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        weakSelf.saveProfileTask = [[DAAPIManager sharedManager] POST:kUserUpdateURL parameters:params
-        success:^( NSURLSessionDataTask *task, id responseObject )
+        [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
         {
-            [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
+            [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
             {
-                [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+                if( success )
                 {
-                    if( success )
-                    {
-                        [weakSelf.navigationController popViewControllerAnimated:YES];
-                    }
-                    else
-                    {
-                        weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
-                        
-                        [weakSelf showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem saving your profile. Please try again."];
-                    }
-                }];
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+                else
+                {
+                    weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+                    
+                    [weakSelf showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem saving your profile. Please try again."];
+                }
+            }];
+        }];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [weakSelf saveProfileWithParameters:parameters];
             }];
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
+        else
         {
             weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
             
@@ -703,7 +710,7 @@
             {
                 [weakSelf handleSaveError:error];
             }];
-        }];
+        }
     }];
 }
 
@@ -711,44 +718,51 @@
 {
     __weak typeof( self ) weakSelf = self;
     
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *params = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    weakSelf.saveProfileTask = [[DAAPIManager sharedManager] POST:kUserUpdateURL parameters:params
+    constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
     {
-        NSDictionary *params = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        weakSelf.saveProfileTask = [[DAAPIManager sharedManager] POST:kUserUpdateURL parameters:params
-        constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
+        float compression = 0.6;
+        NSData *imageData = UIImageJPEGRepresentation( image, compression );
+        int maxFileSize = 500000;
+        while( [imageData length] > maxFileSize )
         {
-            float compression = 0.6;
-            NSData *imageData = UIImageJPEGRepresentation( image, compression );
-            int maxFileSize = 500000;
-            while( [imageData length] > maxFileSize )
-            {
-                compression -= 0.1;
-                imageData = UIImageJPEGRepresentation( image, compression );
-            }
-            
-            [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+            compression -= 0.1;
+            imageData = UIImageJPEGRepresentation( image, compression );
         }
-        success:^( NSURLSessionDataTask *task, id responseObject )
+        
+        [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+    }
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
         {
-            [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
+            [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
             {
-                [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+                if( success )
                 {
-                    if( success )
-                    {
-                        [weakSelf.navigationController popViewControllerAnimated:YES];
-                    }
-                    else
-                    {
-                        weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
-                        
-                        [weakSelf showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem saving your profile. Please try again."];
-                    }
-                }];
+                    [weakSelf.navigationController popViewControllerAnimated:YES];
+                }
+                else
+                {
+                    weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+                    
+                    [weakSelf showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem saving your profile. Please try again."];
+                }
+            }];
+        }];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [weakSelf saveProfileWithImage:image parameters:parameters];
             }];
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
+        else
         {
             weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
             
@@ -756,7 +770,7 @@
             {
                 [weakSelf handleSaveError:error];
             }];
-        }];
+        }
     }];
 }
 
@@ -778,24 +792,31 @@
     
     __weak typeof( self ) weakSelf = self;
     
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+    
+    weakSelf.removeProfilePictureTask = [[DAAPIManager sharedManager] POST:kUserImageDeleteURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+        weakSelf.userImageView.image = nil;
+        weakSelf.userImageView.hidden = YES;
+        weakSelf.placeholderUserImageView.hidden = NO;
+        weakSelf.addPhotoLabel.hidden = NO;
         
-        weakSelf.removeProfilePictureTask = [[DAAPIManager sharedManager] POST:kUserImageDeleteURL parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
+        [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
         {
-            weakSelf.userImageView.image = nil;
-            weakSelf.userImageView.hidden = YES;
-            weakSelf.placeholderUserImageView.hidden = NO;
-            weakSelf.addPhotoLabel.hidden = NO;
-            
-            [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
+            [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:nil];
+        }];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
             {
-                [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:nil];
+                [weakSelf removeProfilePicture];
             }];
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
+        else
         {
             weakSelf.userImageView.image = tempImage;
             
@@ -803,7 +824,7 @@
             {
                 [self showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem removing your profile picture. Please try again."];
             }];
-        }];
+        }
     }];
 }
 

@@ -67,21 +67,24 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 {
     __weak typeof( self ) weakSelf = self;
     
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id), kRelationKey : @(YES) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    weakSelf.loadTask = [[DAAPIManager sharedManager] POST:kUserFollowersURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id), kRelationKey : @(YES) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        weakSelf.loadTask = [[DAAPIManager sharedManager] POST:kUserFollowersURL parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
+        weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
+        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
-            [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [weakSelf loadFollowers];
+            }];
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            [weakSelf handleLoadError:error];
-        }];
     }];
 }
 
@@ -89,21 +92,24 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 {
     __weak typeof( self ) weakSelf = self;
     
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id), kRelationKey : @(YES) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    weakSelf.loadTask = [[DAAPIManager sharedManager] POST:kUserFollowingURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id), kRelationKey : @(YES) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        weakSelf.loadTask = [[DAAPIManager sharedManager] POST:kUserFollowingURL parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
+        weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
+        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
-            [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self loadFollowing];
+            }];
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            [weakSelf handleLoadError:error];
-        }];
     }];
 }
 
@@ -111,32 +117,30 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 {
     __weak typeof( self ) weakSelf = self;
     
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] GET:kReviewYumsURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        [[DAAPIManager sharedManager] GET:kReviewYumsURL parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
+        weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
+        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
-            [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self loadYums];
+            }];
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            [weakSelf handleLoadError:error];
-        }];
     }];
 }
 
 - (void)dealloc
 {
     [self.loadTask cancel];
-}
-
-- (void)handleLoadError:(NSError *)error
-{
-    
 }
 
 - (NSArray *)usernamesWithData:(id)data
@@ -254,23 +258,41 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 
 - (void)followUserID:(NSInteger)userID
 {
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    __weak typeof( self ) weakSelf = self;
+    
+    NSDictionary *parameters = @{ kIDKey : @(userID) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] POST:kFollowUserURL parameters:parameters success:nil
+    failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSDictionary *parameters = @{ kIDKey : @(userID) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        [[DAAPIManager sharedManager] POST:kFollowUserURL parameters:parameters success:nil failure:nil];
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [weakSelf followUserID:userID];
+            }];
+        }
     }];
 }
 
 - (void)unfollowUserID:(NSInteger)userID
 {
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    __weak typeof( self ) weakSelf = self;
+    
+    NSDictionary *parameters = @{ kIDKey : @(userID) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] POST:kUnfollowUserURL parameters:parameters success:nil
+    failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSDictionary *parameters = @{ kIDKey : @(userID) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-        
-        [[DAAPIManager sharedManager] POST:kUnfollowUserURL parameters:parameters success:nil failure:nil];
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [weakSelf followUserID:userID];
+            }];
+        }
     }];
 }
 

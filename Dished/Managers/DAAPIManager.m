@@ -197,6 +197,47 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     [self authenticateWithCompletion:nil];
 }
 
+- (void)refreshAuthenticationWithCompletion:( void(^)() )completion
+{
+    self.isAuthenticating = YES;
+    
+    NSDictionary *parameters = @{ kClientIDKey : self.clientID, kClientSecretKey : self.clientSecret,
+                                  kRefreshTokenKey : self.refreshToken };
+    
+    [self POST:@"auth/refresh" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        self.isAuthenticating = NO;
+         
+        NSDictionary *auth = (NSDictionary *)responseObject;
+         
+        self.accessToken  = auth[kAccessTokenKey];
+        self.refreshToken = auth[kRefreshTokenKey];
+         
+        [SSKeychain setPassword:self.accessToken  forService:kKeychainService account:kAccessTokenKey];
+        [SSKeychain setPassword:self.refreshToken forService:kKeychainService account:kRefreshTokenKey];
+         
+        [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:kLastRefreshKey];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+         
+        if( completion )
+        {
+            completion();
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        self.isAuthenticating = NO;
+         
+        NSLog(@"%@", error.localizedDescription);
+        
+        if( completion )
+        {
+            completion();
+        }
+    }];
+}
+
 - (void)authenticateWithCompletion:( void (^)( BOOL success ) )completion
 {
     if( ![self isLoggedIn] || !self.refreshToken || !self.clientSecret )
