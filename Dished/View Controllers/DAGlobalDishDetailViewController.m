@@ -163,7 +163,7 @@
         DAGlobalReview *review = [self.dishProfile.reviews objectAtIndex:indexPath.row - 2];
         
         NSString *usernameString = [NSString stringWithFormat:@"@%@", review.creator_username];
-        if( [review.creator_type isEqualToString:@"influencer"] )
+        if( [review.creator_type isEqualToString:kInfluencerUserType] )
         {
             usernameString = [NSString stringWithFormat:@" %@", usernameString];
             [reviewCell.usernameButton setImage:[UIImage imageNamed:@"influencer"] forState:UIControlStateNormal];

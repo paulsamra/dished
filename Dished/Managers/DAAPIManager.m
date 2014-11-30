@@ -723,48 +723,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
-- (void)getNewsNotificationsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( id response, NSError *error ) )completion
-{
-    [self authenticate];
-    
-    dispatch_async( self.queue, ^
-    {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"type" : @"user",
-                                      @"row_limit" : @(limit), @"row_offset" : @(offset) };
-        
-        [self GET:kUserNewsURL parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            [responseObject[@"status"] isEqualToString:@"success"] ? completion( responseObject, nil ) : completion( nil, nil );
-        }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            NSLog(@"Failed to get news notifications: %@", error.localizedDescription);
-            completion( nil, error );
-        }];
-    });
-}
-
-- (void)getFollowingNotificationsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( id response, NSError *error ) )completion
-{
-    [self authenticate];
-    
-    dispatch_async( self.queue, ^
-    {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"type" : @"following",
-                                      @"row_limit" : @(limit), @"row_offset" : @(offset) };
-        
-        [self GET:@"users/news" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            [responseObject[@"status"] isEqualToString:@"success"] ? completion( responseObject, nil ) : completion( nil, nil );
-        }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            NSLog(@"Failed to get following notifications: %@", error.localizedDescription);
-            completion( nil, error );
-        }];
-    });
-}
-
 - (BOOL)isLoggedIn
 {
     if( [self accessToken] )

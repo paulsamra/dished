@@ -32,7 +32,7 @@ typedef void (^DANewsManagerCompletionBlock)( BOOL success );
 
 + (DANewsManager *)sharedManager;
 
-- (void)updateAllNewsWithCompletion:(DANewsManagerCompletionBlock)completion;
+- (void)updateAllNews;
 
 - (void)refreshNewsWithCompletion:(DANewsManagerCompletionBlock)completion;
 - (void)refreshFollowingWithCompletion:(DANewsManagerCompletionBlock)completion;

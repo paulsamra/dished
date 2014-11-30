@@ -47,7 +47,7 @@ NSString *const kLogoutURL                  = @"auth/logout";
 NSString *const kAuthAddURL                 = @"auth/add";
 NSString *const kCommentsURL                = @"comments";
 NSString *const kHashtagsURL                = @"hashtags";
-NSString *const kUserNewsURL                = @"users/news";
+NSString *const kUsersNewsURL                = @"users/news";
 NSString *const kUserImageURL               = @"users/image";
 NSString *const kYumReviewURL               = @"reviews/yum";
 NSString *const kAuthTokenURL               = @"auth/token";
@@ -138,6 +138,7 @@ NSString *const kContentPrivateError = @"content_private";
 NSString *const kAll              = @"all";
 NSString *const kNone             = @"none";
 NSString *const kFollow           = @"follow";
+NSString *const kFollowing        = @"following";
 NSString *const kPositiveHashtags = @"rev_p";
 NSString *const kNegativeHashtags = @"rev_n";
 

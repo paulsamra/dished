@@ -56,7 +56,7 @@ extern NSString *const kLogoutURL;
 extern NSString *const kAuthAddURL;
 extern NSString *const kCommentsURL;
 extern NSString *const kHashtagsURL;
-extern NSString *const kUserNewsURL;
+extern NSString *const kUsersNewsURL;
 extern NSString *const kUserImageURL;
 extern NSString *const kYumReviewURL;
 extern NSString *const kAuthTokenURL;
@@ -147,6 +147,7 @@ extern NSString *const kContentPrivateError;
 extern NSString *const kAll;
 extern NSString *const kNone;
 extern NSString *const kFollow;
+extern NSString *const kFollowing;
 extern NSString *const kPositiveHashtags;
 extern NSString *const kNegativeHashtags;
 

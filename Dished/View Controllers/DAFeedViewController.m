@@ -292,7 +292,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     DAFeedItem *item = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     NSString *usernameString = [NSString stringWithFormat:@"@%@", item.creator_username];
-    if( [item.creator_type isEqualToString:@"influencer"] )
+    if( [item.creator_type isEqualToString:kInfluencerUserType] )
     {
         usernameString = [NSString stringWithFormat:@" %@", usernameString];
         [cell.creatorButton setImage:[UIImage imageNamed:@"influencer"] forState:UIControlStateNormal];
@@ -351,7 +351,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSAttributedString *attributedUsername = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
     NSMutableAttributedString *labelString = [attributedUsername mutableCopy];
     
-    if( [comment.creator_type isEqualToString:@"influencer"] )
+    if( [comment.creator_type isEqualToString:kInfluencerUserType] )
     {
         [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
         NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];

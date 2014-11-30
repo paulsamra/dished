@@ -283,7 +283,8 @@
 - (void)login
 {
     [[DAUserManager sharedManager] loadUserInfoWithCompletion:nil];
-    [[DANewsManager sharedManager] updateAllNewsWithCompletion:nil];
+    [[DANewsManager sharedManager] updateAllNews];
+    //[[DANewsManager sharedManager] updateAllNewsWithCompletion:nil];
     [self setupUserVoice];
     [self setRootView];
     [self registerForPushNotifications];

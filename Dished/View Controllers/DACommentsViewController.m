@@ -428,7 +428,7 @@
     NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
     NSMutableAttributedString *labelString = [[[NSAttributedString alloc] initWithString:usernameString attributes:self.linkedTextAttributes] mutableCopy];
     
-    if( [comment.creator_type isEqualToString:@"influencer"] )
+    if( [comment.creator_type isEqualToString:kInfluencerUserType] )
     {
         [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
         NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];

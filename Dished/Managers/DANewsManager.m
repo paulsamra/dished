@@ -71,104 +71,45 @@
 
 - (void)updateNews
 {
-    [self updateAllNewsWithCompletion:nil];
+    [self updateAllNews];
+    //[self updateAllNewsWithCompletion:nil];
 }
 
-- (void)updateAllNewsWithCompletion:( void (^)( BOOL success ) )completion
+- (void)updateAllNews
 {
     if( ![[DAAPIManager sharedManager] isLoggedIn] )
     {
         return;
     }
     
-    dispatch_group_t group = dispatch_group_create();
-    
-    __block BOOL successful = YES;
-    
-    dispatch_group_enter( group );
-    NSInteger newsLimit = self.newsData.count > 0 ? self.newsData.count : self.loadLimit;
-    [[DAAPIManager sharedManager] getNewsNotificationsWithLimit:newsLimit offset:0 completion:^( id response, NSError *error )
-    {
-        self.newsFinishedLoading = YES;
-        
-        if( !response || error )
-        {
-            eErrorType errorType = [DAAPIManager errorTypeForError:error];
-            
-            if( errorType == eErrorTypeDataNonexists )
-            {
-                self.hasMoreNewsNotifications = NO;
-            }
-            else
-            {
-                successful &= NO;
-            }
-        }
-        else
-        {
-            self.newsData = [self newsDataWithData:response];
-            [self setBadgeValuesWithData:response];
-            self.hasMoreNewsNotifications = !( self.newsData.count < self.loadLimit );
-            [self notifyNewsObservers];
-        }
-        
-        dispatch_group_leave( group );
-    }];
-    
-    dispatch_group_enter( group );
+    NSInteger userLimit = self.newsData.count > 0 ? self.newsData.count : self.loadLimit;
     NSInteger followingLimit = self.followingData.count > 0 ? self.followingData.count : self.loadLimit;
-    [[DAAPIManager sharedManager] getFollowingNotificationsWithLimit:followingLimit offset:0 completion:^( id response, NSError *error )
-    {
-        self.followingFinishedLoading = YES;
-        
-        if( !response || error )
-        {
-            eErrorType errorType = [DAAPIManager errorTypeForError:error];
-            
-            if( errorType == eErrorTypeDataNonexists )
-            {
-                self.hasMoreFollowingNotifications = NO;
-            }
-            else
-            {
-                successful &= NO;
-            }
-        }
-        else
-        {
-            self.followingData = [self followingDataWithData:response];
-            self.hasMoreFollowingNotifications = !( self.followingData.count < self.loadLimit );
-            [self notifyFollowingObservers];
-        }
-        
-        dispatch_group_leave( group );
-    }];
     
-    dispatch_group_notify( group, dispatch_get_main_queue(), ^
-    {
-        if( completion )
-        {
-            completion( successful );
-        }
-    });
+    [self updateUserNewsWithLimit:userLimit offset:0 completion:nil];
+    [self updateFollowingNewsWithLimit:followingLimit offset:0 completion:nil];
 }
 
-- (void)updateUserNews
+- (void)updateUserNewsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( BOOL success ) )completion
 {
-    NSInteger newsLimit = self.newsData.count > 0 ? self.newsData.count : self.loadLimit;
-    
-    NSDictionary *parameters = @{ kTypeKey : kUserKey, kRowLimitKey : @(newsLimit) };
+    NSDictionary *parameters = @{ kTypeKey : kUserKey, kRowLimitKey : @(limit), kRowOffsetKey : @(offset) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] GET:kUserNewsURL parameters:parameters
+    [[DAAPIManager sharedManager] GET:kUsersNewsURL parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
         self.newsFinishedLoading = YES;
 
-        self.newsData = [self newsDataWithData:responseObject];
+        NSMutableArray *newData = [self newsDataWithData:responseObject];
+        offset > 0 ? [self.newsData addObjectsFromArray:newData] : ( self.newsData = newData );
+        
         [self setBadgeValuesWithData:responseObject];
         self.hasMoreNewsNotifications = !( self.newsData.count < self.loadLimit );
         [self notifyNewsObservers];
+        
+        if( completion )
+        {
+            completion( YES );
+        }
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
@@ -180,12 +121,63 @@
         {
             [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
             {
-                [self updateUserNews];
+                [self updateUserNewsWithLimit:limit offset:offset completion:completion];
             }];
         }
         else if( errorType == eErrorTypeDataNonexists )
         {
             self.hasMoreNewsNotifications = NO;
+        }
+        
+        if( completion )
+        {
+            completion( NO );
+        }
+    }];
+}
+
+- (void)updateFollowingNewsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( BOOL success ) )completion
+{
+    NSDictionary *parameters = @{ kTypeKey : kFollowing, kRowLimitKey : @(limit), kRowOffsetKey : @(offset) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] GET:kUsersNewsURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        self.followingFinishedLoading = YES;
+        
+        NSMutableArray *newData = [self followingDataWithData:responseObject];
+        offset > 0 ? [self.followingData addObjectsFromArray:newData] : ( self.followingData = newData );
+        
+        self.hasMoreFollowingNotifications = !( self.followingData.count < self.loadLimit );
+        [self notifyFollowingObservers];
+        
+        if( completion )
+        {
+            completion( YES );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        self.followingFinishedLoading = YES;
+        
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self updateFollowingNewsWithLimit:limit offset:offset completion:completion];
+            }];
+        }
+        else if( errorType == eErrorTypeDataNonexists )
+        {
+            self.hasMoreFollowingNotifications = NO;
+        }
+        
+        if( completion )
+        {
+            completion( NO );
         }
     }];
 }
@@ -194,125 +186,24 @@
 {
     NSInteger limit = self.newsData.count > 0 ? self.newsData.count : self.loadLimit;
     
-    [[DAAPIManager sharedManager] getNewsNotificationsWithLimit:limit offset:0 completion:^( id response, NSError *error )
-    {
-        if( !response || error )
-        {
-            eErrorType errorType = [DAAPIManager errorTypeForError:error];
-            
-            if( errorType == eErrorTypeDataNonexists )
-            {
-                self.hasMoreNewsNotifications = NO;
-                completion( YES );
-            }
-            else
-            {
-                completion( NO );
-            }
-        }
-        else
-        {
-            self.newsData = [self newsDataWithData:response];
-            [self setBadgeValuesWithData:response];
-            
-            self.hasMoreNewsNotifications = !( self.newsData.count < limit );
-            
-            completion( YES );
-        }
-    }];
+    [self updateUserNewsWithLimit:limit offset:0 completion:completion];
 }
 
 - (void)refreshFollowingWithCompletion:(DANewsManagerCompletionBlock)completion
 {
-    NSInteger limit = self.followingData.count + self.loadLimit;
+    NSInteger limit = self.followingData.count > 0 ? self.followingData.count : self.loadLimit;
     
-    [[DAAPIManager sharedManager] getFollowingNotificationsWithLimit:limit offset:0 completion:^( id response, NSError *error )
-    {
-        if( !response || error )
-        {
-            eErrorType errorType = [DAAPIManager errorTypeForError:error];
-            
-            if( errorType == eErrorTypeDataNonexists )
-            {
-                self.hasMoreFollowingNotifications = NO;
-                completion( YES );
-            }
-            else
-            {
-                completion( NO );
-            }
-        }
-        else
-        {
-            self.followingData = [self followingDataWithData:response];
-            self.hasMoreFollowingNotifications = !( self.followingData.count < limit );
-            completion( YES );
-        }
-    }];
+    [self updateFollowingNewsWithLimit:limit offset:0 completion:completion];
 }
 
 - (void)loadMoreNewsWithCompletion:(DANewsManagerCompletionBlock)completion
 {
-    NSInteger offset = self.newsData.count;
-    
-    [[DAAPIManager sharedManager] getNewsNotificationsWithLimit:self.loadLimit offset:offset completion:^( id response, NSError *error )
-    {
-        if( error )
-        {
-            eErrorType errorType = [DAAPIManager errorTypeForError:error];
-            
-            if( errorType == eErrorTypeDataNonexists )
-            {
-                self.hasMoreNewsNotifications = NO;
-                completion( YES );
-            }
-            else
-            {
-                completion( NO );
-            }
-        }
-        else
-        {
-            NSMutableArray *newData = [self newsDataWithData:response];
-            [self.newsData addObjectsFromArray:newData];
-            
-            self.hasMoreNewsNotifications = !( newData.count < self.loadLimit );
-            
-            completion( YES );
-        }
-    }];
+    [self updateUserNewsWithLimit:self.loadLimit offset:self.newsData.count completion:completion];
 }
 
 - (void)loadMoreFollowingWithCompletion:(DANewsManagerCompletionBlock)completion
 {
-    NSInteger offset = self.followingData.count;
-    
-    [[DAAPIManager sharedManager] getFollowingNotificationsWithLimit:self.loadLimit offset:offset completion:^( id response, NSError *error )
-    {
-        if( !response || error )
-        {
-            eErrorType errorType = [DAAPIManager errorTypeForError:error];
-            
-            if( errorType == eErrorTypeDataNonexists )
-            {
-                self.hasMoreFollowingNotifications = NO;
-                completion( YES );
-            }
-            else
-            {
-                completion( NO );
-            }
-        }
-        else
-        {
-            NSMutableArray *newData = [self followingDataWithData:response];
-            [self.followingData addObjectsFromArray:newData];
-            
-            self.hasMoreFollowingNotifications = !( newData.count < self.loadLimit );
-            
-            completion( YES );
-        }
-    }];
+    [self updateFollowingNewsWithLimit:self.loadLimit offset:self.followingData.count completion:completion];
 }
 
 - (void)setBadgeValuesWithData:(id)data

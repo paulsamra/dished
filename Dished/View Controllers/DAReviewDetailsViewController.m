@@ -208,7 +208,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         dishCell.delegate = self;
         
         NSString *usernameString = [NSString stringWithFormat:@"@%@", self.review.creator_username];
-        if( [self.review.creator_type isEqualToString:@"influencer"] )
+        if( [self.review.creator_type isEqualToString:kInfluencerUserType] )
         {
             usernameString = [NSString stringWithFormat:@" %@", usernameString];
             [dishCell.creatorButton setImage:[UIImage imageNamed:@"influencer"] forState:UIControlStateNormal];
@@ -372,7 +372,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [labelString insertAttributedString:avatarIconString atIndex:0];
     }
 
-    if( [comment.creator_type isEqualToString:@"influencer"] )
+    if( [comment.creator_type isEqualToString:kInfluencerUserType] )
     {
         NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
         influencerIcon.image = [UIImage imageNamed:@"influencer"];
