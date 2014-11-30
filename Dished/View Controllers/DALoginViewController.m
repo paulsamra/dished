@@ -71,7 +71,8 @@
     
     [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"Logging In..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
     
-    [[DAAPIManager sharedManager] loginWithUser:user password:self.passwordField.text completion:^( BOOL success, BOOL wrongUser, BOOL wrongPass )
+    [[DAAPIManager sharedManager] loginWithUser:user password:self.passwordField.text
+    completion:^( BOOL success, BOOL wrongUser, BOOL wrongPass )
     {
         [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
         {

@@ -153,9 +153,46 @@
     });
 }
 
+- (void)updateUserNews
+{
+    NSInteger newsLimit = self.newsData.count > 0 ? self.newsData.count : self.loadLimit;
+    
+    NSDictionary *parameters = @{ kTypeKey : kUserKey, kRowLimitKey : @(newsLimit) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] GET:kUserNewsURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        self.newsFinishedLoading = YES;
+
+        self.newsData = [self newsDataWithData:responseObject];
+        [self setBadgeValuesWithData:responseObject];
+        self.hasMoreNewsNotifications = !( self.newsData.count < self.loadLimit );
+        [self notifyNewsObservers];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        self.newsFinishedLoading = YES;
+
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+        
+        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            {
+                [self updateUserNews];
+            }];
+        }
+        else if( errorType == eErrorTypeDataNonexists )
+        {
+            self.hasMoreNewsNotifications = NO;
+        }
+    }];
+}
+
 - (void)refreshNewsWithCompletion:(DANewsManagerCompletionBlock)completion
 {
-    NSInteger limit = self.newsData.count + self.loadLimit;
+    NSInteger limit = self.newsData.count > 0 ? self.newsData.count : self.loadLimit;
     
     [[DAAPIManager sharedManager] getNewsNotificationsWithLimit:limit offset:0 completion:^( id response, NSError *error )
     {

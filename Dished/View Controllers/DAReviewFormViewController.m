@@ -492,6 +492,10 @@
     lastAt.length = ( text.length ) - lastAt.location;
     
     NSString *updatedText = [text stringByReplacingCharactersInRange:lastAt withString:suggestion];
+    
+    [self.commentTextView resignFirstResponder];
+    [self.commentTextView becomeFirstResponder];
+    
     self.commentTextView.text = [NSString stringWithFormat:@"%@ ", updatedText];
 }
 

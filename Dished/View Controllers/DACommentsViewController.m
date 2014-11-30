@@ -156,6 +156,10 @@
     lastAt.length = ( text.length ) - lastAt.location;
     
     NSString *updatedText = [text stringByReplacingCharactersInRange:lastAt withString:suggestion];
+    
+    [self.inputToolbar.contentView.textView resignFirstResponder];
+    [self.inputToolbar.contentView.textView becomeFirstResponder];
+    
     self.inputToolbar.contentView.textView.text = [NSString stringWithFormat:@"%@ ", updatedText];
 }
 
