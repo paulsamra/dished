@@ -10,13 +10,20 @@
 #import "DAReviewFormViewController.h"
 #import "DAAddPlaceViewController.h"
 #import "DALocationManager.h"
+#import "DACurrentLocationViewController.h"
 
 
-@interface DAReviewLocationViewController() <UISearchBarDelegate>
+@interface DAReviewLocationViewController() <UISearchBarDelegate, DACurrentLocationViewControllerDelegate>
 
 @property (strong, nonatomic) NSArray                 *locationData;
+@property (strong, nonatomic) NSString                *selectedLocationName;
 @property (strong, nonatomic) NSURLSessionTask        *searchTask;
+@property (strong, nonatomic) UIBarButtonItem         *selectLocationBarButton;
+@property (strong, nonatomic) UIBarButtonItem         *spinnerBarButton;
 @property (strong, nonatomic) UIActivityIndicatorView *searchSpinner;
+
+@property (nonatomic) double selectedRadius;
+@property (nonatomic) CLLocationCoordinate2D selectedLocation;
 
 @end
 
@@ -37,8 +44,11 @@
     self.searchSpinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.searchSpinner.hidesWhenStopped = YES;
     
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:self.searchSpinner];
-    self.navigationItem.rightBarButtonItem = barButton;
+    self.selectLocationBarButton = self.navigationItem.rightBarButtonItem;
+    self.spinnerBarButton = [[UIBarButtonItem alloc] initWithCustomView:self.searchSpinner];
+    
+    self.selectedLocationName = @"Current Location";
+    self.selectedRadius = 0;
 }
 
 #pragma mark - Table view data source
@@ -133,6 +143,24 @@
         DAAddPlaceViewController *dest = segue.destinationViewController;
         dest.review = self.review;
     }
+    
+    if( [segue.identifier isEqualToString:@"currentLocation"] )
+    {
+        UINavigationController *nav = segue.destinationViewController;
+        DACurrentLocationViewController *dest = nav.viewControllers[0];
+        dest.delegate             = self;
+        dest.selectedLocationName = self.selectedLocationName;
+        dest.selectedRadius       = self.selectedRadius;
+        dest.selectedLocation     = self.selectedLocation;
+    }
+}
+
+- (void)locationUpdated
+{
+    if( [self.selectedLocationName isEqualToString:@"Current Location"] )
+    {
+        self.selectedLocation = [[DALocationManager sharedManager] currentLocation];
+    }
 }
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
@@ -140,25 +168,38 @@
     if( searchText.length == 0 )
     {
         [self.searchTask cancel];
-        self.locationData = self.suggestedLocations;
+
+        if( [self.selectedLocationName isEqualToString:@"Current Location"] )
+        {
+            self.locationData = self.suggestedLocations;
+        }
+        else
+        {
+            self.locationData = @[ ];
+        }
+        
         [self.tableView reloadData];
         [self.searchSpinner stopAnimating];
+        self.navigationItem.rightBarButtonItem = self.selectLocationBarButton;
         return;
     }
     
-    double longitude = [[DALocationManager sharedManager] currentLocation].longitude;
-    double latitude  = [[DALocationManager sharedManager] currentLocation].latitude;
+    double longitude = self.selectedLocation.longitude;
+    double latitude  = self.selectedLocation.latitude;
     
     [self.searchTask cancel];
     
-    NSDictionary *parameters = @{ kQueryKey : searchText, kLongitudeKey : @(longitude), kLatitudeKey : @(latitude) };
+    NSDictionary *parameters = @{ kQueryKey : searchText, kLongitudeKey : @(longitude), kLatitudeKey : @(latitude),
+                                  kRadiusKey : @(self.selectedRadius) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     [self.searchSpinner startAnimating];
+    self.navigationItem.rightBarButtonItem = self.spinnerBarButton;
     
     self.searchTask = [[DAAPIManager sharedManager] GET:kExploreLocationsURL parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
+        self.navigationItem.rightBarButtonItem = self.selectLocationBarButton;
         [self.searchSpinner stopAnimating];
         self.locationData = [DAReviewLocationViewController locationsFromResponse:responseObject];
         [self.tableView reloadData];
@@ -209,6 +250,29 @@
     }
     
     return [newLocations copy];
+}
+
+- (IBAction)showCurrentLocationView:(id)sender
+{
+    [self performSegueWithIdentifier:@"currentLocation" sender:nil];
+}
+
+- (void)locationViewControllerDidSelectLocationName:(NSString *)locationName atLocation:(CLLocationCoordinate2D)location radius:(double)radius
+{
+    self.selectedLocation     = location;
+    self.selectedLocationName = locationName;
+    self.selectedRadius       = radius;
+    
+    if( [self.selectedLocationName isEqualToString:@"Current Location"] )
+    {
+        self.locationData = self.suggestedLocations;
+    }
+    else
+    {
+        self.locationData = @[ ];
+    }
+    
+    [self.tableView reloadData];
 }
 
 @end

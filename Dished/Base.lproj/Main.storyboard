@@ -3507,11 +3507,17 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Select Place" id="qfr-R3-fWb">
                         <barButtonItem key="backBarButtonItem" title="Back" id="hur-US-ucr"/>
+                        <barButtonItem key="rightBarButtonItem" image="current_location" id="dVb-J4-K6X">
+                            <connections>
+                                <action selector="showCurrentLocationView:" destination="ZvA-N9-6Oj" id="bOs-iR-wSc"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="searchBar" destination="5Ap-I1-2fV" id="JN2-wB-R5S"/>
                         <outlet property="searchDisplayController" destination="sIX-WN-tYM" id="82Y-Mg-abw"/>
                         <segue destination="6yn-fV-DJE" kind="show" identifier="add" id="b3u-uq-vRp"/>
+                        <segue destination="gcr-dc-GVi" kind="presentation" identifier="currentLocation" id="X8z-8L-0Ll"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YAd-Gs-rKw" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -4586,6 +4592,7 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
+        <segue reference="X8z-8L-0Ll"/>
         <segue reference="YE9-MJ-lWu"/>
         <segue reference="aNd-9F-Yna"/>
         <segue reference="wCN-0l-elF"/>
