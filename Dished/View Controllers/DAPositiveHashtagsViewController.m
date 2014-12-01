@@ -78,9 +78,12 @@ static NSString *const kHashtagCellIdentifier = @"hashtagCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [weakSelf loadHashtags];
+                if( success )
+                {
+                    [weakSelf loadHashtags];
+                }
             }];
         }
     }];

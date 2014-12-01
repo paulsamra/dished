@@ -142,9 +142,12 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self loadSearchResultsWithURL:url query:query queryKey:key];
+                if( success )
+                {
+                    [self loadSearchResultsWithURL:url query:query queryKey:key];
+                }
             }];
         }
         else

@@ -239,9 +239,12 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self loadRestaurantProfile];
+                 if( success )
+                 {
+                     [self loadRestaurantProfile];
+                 }
             }];
         }
     }];
@@ -267,9 +270,12 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self loadUserProfile];
+                if( success )
+                {
+                    [self loadUserProfile];
+                }
             }];
         }
     }];
@@ -319,9 +325,16 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self loadMoreRestaurantDishesOfType:dishType];
+                if( success )
+                {
+                    [self loadMoreRestaurantDishesOfType:dishType];
+                }
+                else
+                {
+                    [self loadMoreDishType:dishType failedWithError:error];
+                }
             }];
         }
         else
@@ -365,9 +378,16 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self loadMoreUserReviewsOfType:dishType];
+                if( success )
+                {
+                    [self loadMoreUserReviewsOfType:dishType];
+                }
+                else
+                {
+                    [self loadMoreDishType:dishType failedWithError:error];
+                }
             }];
         }
         else
@@ -871,9 +891,12 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self reportUserForSpam];
+                if( success )
+                {
+                    [self reportUserForSpam];
+                }
             }];
         }
     }];
@@ -952,9 +975,12 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self followUserID:userID];
+                if( success )
+                {
+                    [self followUserID:userID];
+                }
             }];
         }
         else
@@ -978,9 +1004,12 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self unfollowUserID:userID];
+                if( success )
+                {
+                    [self unfollowUserID:userID];
+                }
             }];
         }
         else

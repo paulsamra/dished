@@ -377,6 +377,7 @@
 {
     if( buttonIndex != alertView.cancelButtonIndex )
     {
+        [self showProgressViewWithTitle:@"Removing..."];
         [self removeProfilePicture];
     }
 }
@@ -687,7 +688,6 @@
                 else
                 {
                     weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
-                    
                     [weakSelf showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem saving your profile. Please try again."];
                 }
             }];
@@ -697,9 +697,20 @@
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [weakSelf saveProfileWithParameters:parameters];
+                if( success )
+                {
+                    [weakSelf saveProfileWithParameters:parameters];
+                }
+                else
+                {
+                    [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+                    {
+                        weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+                        [weakSelf showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem saving your profile. Please try again."];
+                    }];
+                }
             }];
         }
         else
@@ -747,7 +758,6 @@
                 else
                 {
                     weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
-                    
                     [weakSelf showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem saving your profile. Please try again."];
                 }
             }];
@@ -757,9 +767,20 @@
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [weakSelf saveProfileWithImage:image parameters:parameters];
+                if( success )
+                {
+                    [weakSelf saveProfileWithImage:image parameters:parameters];
+                }
+                else
+                {
+                    [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+                    {
+                        weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+                        [weakSelf showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem saving your profile. Please try again."];
+                    }];
+                }
             }];
         }
         else
@@ -786,8 +807,6 @@
 
 - (void)removeProfilePicture
 {
-    [self showProgressViewWithTitle:@"Removing..."];
-    
     UIImage *tempImage = self.userImageView.image;
     
     __weak typeof( self ) weakSelf = self;
@@ -811,9 +830,21 @@
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [weakSelf removeProfilePicture];
+                if( success )
+                {
+                    [weakSelf removeProfilePicture];
+                }
+                else
+                {
+                    weakSelf.userImageView.image = tempImage;
+                    
+                    [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
+                    {
+                        [self showAlertMessageWithTitle:@"Error Occurred" message:@"There was a problem removing your profile picture. Please try again."];
+                    }];
+                }
             }];
         }
         else

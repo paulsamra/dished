@@ -35,10 +35,12 @@ typedef enum
 
 - (BOOL)networkIsReachable;
 - (BOOL)isLoggedIn;
-- (void)authenticateWithCompletion:( void(^)( BOOL success ) )completion;
 - (NSDictionary *)authenticatedParametersWithParameters:(NSDictionary *)parameters;
 
-- (void)refreshAuthenticationWithCompletion:( void(^)() )completion;
+/*
+ * Refreshes authentication tokens with Dished server.
+ */
+- (void)refreshAuthenticationWithCompletion:( void(^)( BOOL success ) )completion;
 
 /*
  * Register new Dished user account.

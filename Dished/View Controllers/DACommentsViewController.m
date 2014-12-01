@@ -56,8 +56,6 @@
     
     [self.tableView registerNib:[UINib nibWithNibName:@"DACommentTableViewCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"commentCell"];
     
-    self.tableView.estimatedRowHeight = 44.0;
-    
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.spinner.center = self.view.center;
     [self.view addSubview:self.spinner];
@@ -99,9 +97,12 @@
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [weakSelf loadComments];
+                if( success )
+                {
+                    [weakSelf loadComments];
+                }
             }];
         }
     }];
@@ -112,16 +113,6 @@
     [super viewWillAppear:animated];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadComments) name:kNetworkReachableKey object:nil];
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    
-    if( !self.tagTableView )
-    {
-        [self setupTagTableView];
-    }
 }
 
 - (void)setupTagTableView
@@ -267,6 +258,11 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    
+    if( !self.tagTableView )
+    {
+        [self setupTagTableView];
+    }
     
     [self.keyboardController beginListeningForKeyboard];
     
@@ -515,9 +511,16 @@
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [weakSelf deleteComment:comment];
+                if( success )
+                {
+                    [weakSelf deleteComment:comment];
+                }
+                else
+                {
+                    [self.tableView reloadData];
+                }
             }];
         }
         else
@@ -539,9 +542,12 @@
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [weakSelf flagComment:comment];
+                if( success )
+                {
+                    [weakSelf flagComment:comment];
+                }
             }];
         }
     }];
@@ -720,9 +726,16 @@
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [weakSelf sendCommentWithText:text];
+                if( success )
+                {
+                    [weakSelf sendCommentWithText:text];
+                }
+                else
+                {
+                    [self.tableView reloadData];
+                }
             }];
         }
         else

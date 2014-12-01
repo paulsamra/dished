@@ -107,9 +107,12 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self loadExploreContent];
+                if( success )
+                {
+                    [self loadExploreContent];
+                }
             }];
         }
     }];
@@ -275,9 +278,12 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self searchWithURL:url query:query queryKey:key resultType:type];
+                if( success )
+                {
+                    [self searchWithURL:url query:query queryKey:key resultType:type];
+                }
             }];
         }
     }];

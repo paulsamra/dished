@@ -91,7 +91,7 @@
 
 - (void)loadUserInfoWithCompletion:( void (^)( BOOL success ) )completion
 {
-    [[DAAPIManager sharedManager] authenticateWithCompletion:^( BOOL success )
+    [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
     {
         dispatch_group_t group = dispatch_group_create();
         dispatch_group_enter( group );
@@ -318,9 +318,16 @@
         
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self saveSettingsToServerWithParameters:parameters completion:completion];
+                if( success )
+                {
+                    [self saveSettingsToServerWithParameters:parameters completion:completion];
+                }
+                else
+                {
+                    completion( NO );
+                }
             }];
         }
         else if( errorType != eErrorTypeRequestCancelled )

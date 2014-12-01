@@ -119,9 +119,19 @@
         
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self updateUserNewsWithLimit:limit offset:offset completion:completion];
+                if( success )
+                {
+                    [self updateUserNewsWithLimit:limit offset:offset completion:completion];
+                }
+                else
+                {
+                    if( completion )
+                    {
+                        completion( NO );
+                    }
+                }
             }];
         }
         else if( errorType == eErrorTypeDataNonexists )
@@ -165,9 +175,19 @@
 
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self updateFollowingNewsWithLimit:limit offset:offset completion:completion];
+                if( success )
+                {
+                    [self updateFollowingNewsWithLimit:limit offset:offset completion:completion];
+                }
+                else
+                {
+                    if( completion )
+                    {
+                        completion( NO );
+                    }
+                }
             }];
         }
         else if( errorType == eErrorTypeDataNonexists )

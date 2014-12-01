@@ -44,7 +44,8 @@
     self.isLoadingMoreNews = NO;
     self.isLoadingMoreFollowing = NO;
     
-    self.newsTextAttributes  = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:15.0f] };
+    self.newsTextAttributes  = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:15.0f],
+                                  NSForegroundColorAttributeName : [UIColor blackColor] };
     self.timeLabelAttributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:11.0f] };
 
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -436,7 +437,7 @@
     cell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:news.created
                                                                           attributes:self.timeLabelAttributes];
     
-    cell.backgroundColor = !news.viewed ? [UIColor unviewedNewsColor] : [UIColor whiteColor];
+    cell.backgroundColor = !news.viewed ? [UIColor unviewedNewsColor] : [UIColor whiteColor];    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

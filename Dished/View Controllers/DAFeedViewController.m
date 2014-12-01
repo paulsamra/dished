@@ -681,9 +681,12 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self yumFeedItemWithReviewID:reviewID];
+                if( success )
+                {
+                    [self yumFeedItemWithReviewID:reviewID];
+                }
             }];
         }
     }];
@@ -699,9 +702,12 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self unyumFeedItemWithReviewID:reviewID];
+                if( success )
+                {
+                    [self unyumFeedItemWithReviewID:reviewID];
+                }
             }];
         }
     }];

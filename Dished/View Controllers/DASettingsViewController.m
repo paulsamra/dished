@@ -101,14 +101,13 @@
 {
     if( buttonIndex == actionSheet.destructiveButtonIndex )
     {
+        [MRProgressOverlayView showOverlayAddedTo:self.view.window title:@"Logging Out..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
         [self logout];
     }
 }
 
 - (void)logout
 {
-    [MRProgressOverlayView showOverlayAddedTo:self.view.window title:@"Logging Out..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
-    
     NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
      
     [[DAAPIManager sharedManager] POST:kLogoutURL parameters:parameters
@@ -124,9 +123,19 @@
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self logout];
+                if( success )
+                {
+                    [self logout];
+                }
+                else
+                {
+                    [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+                    {
+                        [[[UIAlertView alloc] initWithTitle:@"Failed to Log Out" message:@"There was a problem logging you out. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+                    }];
+                }
             }];
         }
         else

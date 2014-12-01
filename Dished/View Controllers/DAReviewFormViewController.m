@@ -112,10 +112,13 @@
         {
             if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
             {
-                [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+                [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
                 {
-                    self.searchedForSuggestions = NO;
-                    [self getLocationSuggestions];
+                    if( success )
+                    {
+                        self.searchedForSuggestions = NO;
+                        [self getLocationSuggestions];
+                    }
                 }];
             }
             else

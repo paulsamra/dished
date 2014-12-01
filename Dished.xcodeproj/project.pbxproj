@@ -666,6 +666,9 @@
 		94AE445819E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */; };
 		94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */; };
 		94B43AAE19EB6D9500482F52 /* DACollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAD19EB6D9500482F52 /* DACollectionView.swift */; };
+		94B553D31A2C813A002A8546 /* AFOAuth2Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B553CF1A2C8139002A8546 /* AFOAuth2Manager.m */; };
+		94B553D41A2C813A002A8546 /* AFOAuth2Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B553CF1A2C8139002A8546 /* AFOAuth2Manager.m */; };
+		94B553D51A2C813A002A8546 /* AFOAuth2Manager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B553CF1A2C8139002A8546 /* AFOAuth2Manager.m */; };
 		94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */; };
 		94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6319BFBE75005071D5 /* DADishProfile.m */; };
 		94BC4F1919C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1819C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m */; };
@@ -1035,6 +1038,8 @@
 		94B43AAA19EB2BAF00482F52 /* DANotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANotificationSettingsViewController.h; sourceTree = "<group>"; };
 		94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANotificationSettingsViewController.m; sourceTree = "<group>"; };
 		94B43AAD19EB6D9500482F52 /* DACollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DACollectionView.swift; sourceTree = "<group>"; };
+		94B553CE1A2C8139002A8546 /* AFOAuth2Manager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFOAuth2Manager.h; sourceTree = "<group>"; };
+		94B553CF1A2C8139002A8546 /* AFOAuth2Manager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFOAuth2Manager.m; sourceTree = "<group>"; };
 		94B92C5F19BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGlobalReviewCollectionViewCell.h; sourceTree = "<group>"; };
 		94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGlobalReviewCollectionViewCell.m; sourceTree = "<group>"; };
 		94B92C6219BFBE75005071D5 /* DADishProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishProfile.h; sourceTree = "<group>"; };
@@ -1728,6 +1733,7 @@
 				D17487D9196DE8FD00D83993 /* SZTextView */,
 				94E5EF791943FD760021A711 /* SSKeychain */,
 				94E5EF2E1943472D0021A711 /* AFNetworking */,
+				94B553CB1A2C8139002A8546 /* AFOAuth2Manager */,
 				94E5EF2B19432AE00021A711 /* UIViewController+TAPKeyboardPop.h */,
 				94E5EF2C19432AE00021A711 /* UIViewController+TAPKeyboardPop.m */,
 				94479D6319502E2F0071EF6A /* JSONResponseSerializerWithData.h */,
@@ -1776,6 +1782,15 @@
 				9486156819FCCE6E002497D0 /* DAMapAnnotation.m */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		94B553CB1A2C8139002A8546 /* AFOAuth2Manager */ = {
+			isa = PBXGroup;
+			children = (
+				94B553CE1A2C8139002A8546 /* AFOAuth2Manager.h */,
+				94B553CF1A2C8139002A8546 /* AFOAuth2Manager.m */,
+			);
+			path = AFOAuth2Manager;
 			sourceTree = "<group>";
 		};
 		94CB03BE19B0EA94009010F6 /* SWTableViewCell */ = {
@@ -2635,6 +2650,7 @@
 				9412921B1A1BEED500B7C763 /* DAUserNews.m in Sources */,
 				9412921C1A1BEED500B7C763 /* DACommentTableViewCell.swift in Sources */,
 				9412921D1A1BEED500B7C763 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
+				94B553D41A2C813A002A8546 /* AFOAuth2Manager.m in Sources */,
 				9412921E1A1BEED500B7C763 /* MRBlurView.m in Sources */,
 				9412921F1A1BEED500B7C763 /* MRActivityIndicatorView.m in Sources */,
 				941292201A1BEED500B7C763 /* DANewsManager.m in Sources */,
@@ -2831,6 +2847,7 @@
 				9412931A1A1C7AD100B7C763 /* DAUserNews.m in Sources */,
 				9412931B1A1C7AD100B7C763 /* DACommentTableViewCell.swift in Sources */,
 				9412931C1A1C7AD100B7C763 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
+				94B553D51A2C813A002A8546 /* AFOAuth2Manager.m in Sources */,
 				9412931D1A1C7AD100B7C763 /* MRBlurView.m in Sources */,
 				9412931E1A1C7AD100B7C763 /* MRActivityIndicatorView.m in Sources */,
 				9412931F1A1C7AD100B7C763 /* DANewsManager.m in Sources */,
@@ -3027,6 +3044,7 @@
 				9489F65419CA568400BEF540 /* DAUserNews.m in Sources */,
 				9443DF0419D0295E00F134BA /* DACommentTableViewCell.swift in Sources */,
 				94331FFF1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
+				94B553D31A2C813A002A8546 /* AFOAuth2Manager.m in Sources */,
 				948615C519FE1C3D002497D0 /* MRBlurView.m in Sources */,
 				948615C719FE1C3D002497D0 /* MRActivityIndicatorView.m in Sources */,
 				9443DF0E19D2AC1D00F134BA /* DANewsManager.m in Sources */,

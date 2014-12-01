@@ -80,9 +80,12 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [weakSelf loadFollowers];
+                if( success )
+                {
+                    [weakSelf loadFollowers];
+                }
             }];
         }
     }];
@@ -105,9 +108,12 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self loadFollowing];
+                if( success )
+                {
+                    [self loadFollowing];
+                }
             }];
         }
     }];
@@ -130,9 +136,12 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self loadYums];
+                if( success )
+                {
+                    [self loadYums];
+                }
             }];
         }
     }];
@@ -268,9 +277,12 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [weakSelf followUserID:userID];
+                if( success )
+                {
+                    [weakSelf followUserID:userID];
+                }
             }];
         }
     }];
@@ -288,9 +300,12 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [weakSelf followUserID:userID];
+                if( success )
+                {
+                    [weakSelf followUserID:userID];
+                }
             }];
         }
     }];

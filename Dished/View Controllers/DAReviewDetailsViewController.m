@@ -109,9 +109,12 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self loadReview];
+                if( success )
+                {
+                    [self loadReview];
+                }
             }];
         }
     }];
@@ -143,9 +146,12 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self refreshReviewData];
+                if( success )
+                {
+                    [self refreshReviewData];
+                }
             }];
         }
     }];
@@ -685,9 +691,12 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self yumFeedItemWithReviewID:reviewID];
+                if( success )
+                {
+                    [self yumFeedItemWithReviewID:reviewID];
+                }
             }];
         }
     }];
@@ -703,9 +712,12 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self unyumFeedItemWithReviewID:reviewID];
+                if( success )
+                {
+                    [self unyumFeedItemWithReviewID:reviewID];
+                }
             }];
         }
     }];
@@ -713,8 +725,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (void)deleteReview
 {
-    [MRProgressOverlayView showOverlayAddedTo:self.view.window title:@"Deleting..." mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
-    
     NSDictionary *parameters = @{ kReviewIDKey : @(self.review.review_id) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
@@ -764,14 +774,27 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^
+            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
             {
-                [self deleteReview];
+                if( success )
+                {
+                    [self deleteReview];
+                }
+                else
+                {
+                    [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+                    {
+                        [[[UIAlertView alloc] initWithTitle:@"Error Deleting Review" message:@"There was a problem deleting your review. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+                    }];
+                }
             }];
         }
         else
         {
-            [[[UIAlertView alloc] initWithTitle:@"Error Deleting Review" message:@"There was a problem deleting your review. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+            [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+            {
+                [[[UIAlertView alloc] initWithTitle:@"Error Deleting Review" message:@"There was a problem deleting your review. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+            }];
         }
     }];
 }
@@ -779,6 +802,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (void)socialCollectionViewControllerDidDeleteReview:(DASocialCollectionViewController *)controller
 {
     [self dismissShareView];
+    
+    [MRProgressOverlayView showOverlayAddedTo:self.view.window title:@"Deleting..." mode:MRProgressOverlayViewModeIndeterminateSmall animated:YES];
+
     [self deleteReview];
 }
 
