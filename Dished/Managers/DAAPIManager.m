@@ -196,7 +196,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 {
     NSDate *expirationDate = [[NSUserDefaults standardUserDefaults] objectForKey:kExpirationDate];
     
-    return [expirationDate compare:[NSDate date]] == NSOrderedAscending;
+    return [expirationDate compare:[NSDate date]] == NSOrderedDescending;
 }
 
 - (void)authenticate

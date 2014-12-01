@@ -358,7 +358,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
         NSArray *newReviewData = nilOrJSONObjectForKey( responseObject, kDataKey );
-         
+        
         if( [dishType isEqualToString:kFood] )
         {
             [self.userProfile addFoodReviewsWithData:newReviewData];
@@ -406,13 +406,14 @@ static NSString *const kDishSearchCellID = @"dishCell";
             self.selectedDataSource = self.userProfile.foodReviews;
         }
         
+        [self.foodTableView reloadData];
+        
         if( count < 20 )
         {
             self.hasMoreFoodDishes = NO;
             self.foodTableView.tableFooterView = [[UIView alloc] init];
         }
         
-        [self.foodTableView reloadData];
         self.isLoadingMoreFoodDishes = NO;
     }
     else if( [dishType isEqualToString:kCocktail] )
@@ -422,13 +423,14 @@ static NSString *const kDishSearchCellID = @"dishCell";
             self.selectedDataSource = self.userProfile.cocktailReviews;
         }
         
+        [self.cocktailTableView reloadData];
+        
         if( count < 20 )
         {
             self.hasMoreCocktailDishes = NO;
             self.cocktailTableView.tableFooterView = [[UIView alloc] init];
         }
         
-        [self.cocktailTableView reloadData];
         self.isLoadingMoreCocktailDishes = NO;
     }
     else if( [dishType isEqualToString:kWine] )
@@ -438,13 +440,14 @@ static NSString *const kDishSearchCellID = @"dishCell";
             self.selectedDataSource = self.userProfile.wineReviews;
         }
         
+        [self.wineTableView reloadData];
+        
         if( count < 20 )
         {
             self.hasMoreWineDishes = NO;
             self.wineTableView.tableFooterView = [[UIView alloc] init];
         }
         
-        [self.wineTableView reloadData];
         self.isLoadingMoreWineDishes = NO;
     }
 }
