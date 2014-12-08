@@ -83,14 +83,14 @@
 - (void)updateUsernameSuggestionsWithQuery:(NSString *)query
 {
     self.prefix = @"@";
-    self.suggestions = [[DATagManager sharedManager] usernamesForQuery:query];
+    self.suggestions = [DATagManager usernamesForQuery:query];
     [self reloadData];
 }
 
 - (void)updateHashtagSuggestionsWithQuery:(NSString *)query
 {
     self.prefix = @"#";
-    self.suggestions = [[DATagManager sharedManager] hashtagsForQuery:query];
+    self.suggestions = [DATagManager hashtagsForQuery:query];
     [self reloadData];
 }
 

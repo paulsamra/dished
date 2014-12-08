@@ -11,11 +11,9 @@
 
 @interface DATagManager : NSObject
 
-+ (DATagManager *)sharedManager;
-
-- (void)addUsernameInBackground:(NSString *)username;
-- (void)addHashtagInBackground:(NSString *)hashtag;
-- (NSArray *)usernamesForQuery:(NSString *)query;
-- (NSArray *)hashtagsForQuery:(NSString *)query;
++ (void)addUsernameInBackground:(NSString *)username;
++ (void)addHashtagInBackground:(NSString *)hashtag;
++ (NSArray *)usernamesForQuery:(NSString *)query;
++ (NSArray *)hashtagsForQuery:(NSString *)query;
 
 @end

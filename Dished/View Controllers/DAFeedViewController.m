@@ -11,6 +11,7 @@
 #import "DAFeedItem+Utility.h"
 #import "DAFeedImportManager.h"
 #import "DARefreshControl.h"
+#import "DACacheManager.h"
 #import "DAUserProfileViewController.h"
 #import "DAReviewDetailsViewController.h"
 #import "DACommentsViewController.h"
@@ -99,6 +100,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         [self.refreshControl startRefreshing];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -106,8 +109,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     [super viewDidAppear:animated];
     
     self.isLoadingMore = NO;
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
 }
 
 - (void)registerCollectionViewCellNibs
@@ -318,7 +319,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
     else
     {
-        cell.dishImageView.image = nil;
+        //cell.dishImageView.image = nil;
         cell.tag = indexPath.section;
         NSURL *dishImageURL = [NSURL URLWithString:item.img];
         
@@ -449,6 +450,15 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
             DAManagedComment *comment = comments[commentIndex];
             
+            NSString *cacheKey = [NSString stringWithFormat:@"feedComment_%@", comment.comment];
+            NSValue *cachedSize = [[DACacheManager sharedManager] cachedValueForKey:cacheKey];
+            
+            if( cachedSize )
+            {
+                CGSize size = [cachedSize CGSizeValue];
+                return size;
+            }
+            
             static DAReviewDetailCollectionViewCell *sizingCell;
             static dispatch_once_t onceToken;
             dispatch_once(&onceToken, ^
@@ -475,6 +485,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             cellSize.height = calculatedHeight;
             
             itemSize = cellSize;
+            
+            [[DACacheManager sharedManager] setCachedValue:[NSValue valueWithCGSize:itemSize] forKey:cacheKey];
         }
     }
     else if( indexPath.row == sectionItems - 1 )
@@ -489,7 +501,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 {
     NSIndexPath *indexPath = header.indexPath;
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-        
     [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
 }
 

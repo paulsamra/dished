@@ -30,9 +30,9 @@
 
 @implementation DAContainerViewController
 
-- (void)viewDidLoad
+- (void)awakeFromNib
 {
-    [super viewDidLoad];
+    [super awakeFromNib];
     
     [self setupViews];
 }
@@ -190,6 +190,27 @@
         self.tabBarController.view.frame = CGRectMake( -self.view.frame.size.width, 0, self.view.frame.size.width, self.view.frame.size.height );
     }
     completion:nil];
+}
+
+- (void)handleUserNotificationWithUserID:(NSInteger)userID isRestaurant:(BOOL)isRestaurant
+{
+    self.tabBarController.selectedIndex = 3;
+    
+    if( isRestaurant )
+    {
+        [self.tabBarController.selectedViewController pushrestaurantProfileWithUserID:userID username:nil];
+    }
+    else
+    {
+        [self.tabBarController.selectedViewController pushUserProfileWithUserID:userID];
+    }
+}
+
+- (void)handleReviewNotificationWithReviewID:(NSInteger)reviewID
+{
+    self.tabBarController.selectedIndex = 3;
+    
+    [self.tabBarController.selectedViewController pushReviewDetailsWithReviewID:reviewID];
 }
 
 @end

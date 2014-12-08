@@ -16,6 +16,9 @@
 - (void)moveToMenu;
 - (BOOL)menuShowing;
 
+- (void)handleUserNotificationWithUserID:(NSInteger)userID isRestaurant:(BOOL)isRestaurant;
+- (void)handleReviewNotificationWithReviewID:(NSInteger)reviewID;
+
 @end
 
 

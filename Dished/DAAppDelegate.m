@@ -17,6 +17,7 @@
 #import "DANewsManager.h"
 #import "DAContainerViewController.h"
 #import "UserVoice.h"
+#import "DAPushManager.h"
 
 
 @interface DAAppDelegate() <DAErrorViewDelegate>
@@ -50,8 +51,16 @@
     
     if( [[DAAPIManager sharedManager] isLoggedIn] )
     {
+        [self registerForPushNotifications];
         [self setupUserVoice];
         [self setRootView];
+        
+        NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+        
+        if ( userInfo )
+        {
+            [self application:application didReceiveRemoteNotification:userInfo];
+        }
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachable) name:kNetworkReachableKey object:nil];
@@ -284,7 +293,6 @@
 {
     [[DAUserManager sharedManager] loadUserInfoWithCompletion:nil];
     [[DANewsManager sharedManager] updateAllNews];
-    //[[DANewsManager sharedManager] updateAllNewsWithCompletion:nil];
     [self setupUserVoice];
     [self setRootView];
     [self registerForPushNotifications];
@@ -303,8 +311,51 @@
     else
     {
         [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge |
-         UIRemoteNotificationTypeAlert |
-         UIRemoteNotificationTypeSound];
+                                                                              UIRemoteNotificationTypeAlert |
+                                                                              UIRemoteNotificationTypeSound];
+    }
+}
+
+- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    const unsigned *tokenBytes = [deviceToken bytes];
+    NSString *hexToken = [NSString stringWithFormat:@"%08x%08x%08x%08x%08x%08x%08x%08x",
+                          ntohl(tokenBytes[0]), ntohl(tokenBytes[1]), ntohl(tokenBytes[2]),
+                          ntohl(tokenBytes[3]), ntohl(tokenBytes[4]), ntohl(tokenBytes[5]),
+                          ntohl(tokenBytes[6]), ntohl(tokenBytes[7])];
+    
+    NSLog(@"My push token is: %@", hexToken);
+    
+    if( [[DAAPIManager sharedManager] isLoggedIn] )
+    {
+        NSDictionary *parameters = @{ kTokenKey : hexToken };
+        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+        
+        [[DAAPIManager sharedManager] POST:kUserDeviceTokenURL parameters:parameters success:nil
+        failure:^( NSURLSessionDataTask *task, NSError *error )
+        {
+            if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+            {
+                [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
+                {
+                    if( success )
+                    {
+                        [self application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
+                    }
+                }];
+            }
+        }];
+    }
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    if( [[DAAPIManager sharedManager] isLoggedIn] )
+    {
+        NSLog(@"%@", userInfo);
+        NSLog(@"%@", self.window.rootViewController);
+        
+        [DAPushManager handlePushNotification:userInfo];
     }
 }
 

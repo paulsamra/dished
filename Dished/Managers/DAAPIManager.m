@@ -221,7 +221,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
         
         return;
     }
-    
+        
     self.isAuthenticating = YES;
     
     dispatch_async( self.queue, ^
@@ -238,7 +238,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
                 
                 self.accessToken  = responseObject[kAccessTokenKey];
                 self.refreshToken = responseObject[kRefreshTokenKey];
-                 
+                
                 [SSKeychain setPassword:self.accessToken  forService:kKeychainService account:kAccessTokenKey];
                 [SSKeychain setPassword:self.refreshToken forService:kKeychainService account:kRefreshTokenKey];
                 
@@ -247,7 +247,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
                 
                 [[NSUserDefaults standardUserDefaults] setObject:expirationDate forKey:kExpirationDate];
                 [[NSUserDefaults standardUserDefaults] synchronize];
-                 
+                
                 if( completion )
                 {
                     completion( YES );
@@ -258,7 +258,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             failure:^( NSURLSessionDataTask *task, NSError *error )
             {
                 self.isAuthenticating = NO;
-                 
+                
                 NSLog(@"%@", error);
                 
                 if( completion )

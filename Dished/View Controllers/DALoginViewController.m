@@ -10,6 +10,7 @@
 #import "MRProgress.h"
 #import "DAAppDelegate.h"
 #import "UIViewController+TAPKeyboardPop.h"
+#import "DAUserManager.h"
 
 
 @interface DALoginViewController()
@@ -51,6 +52,24 @@
         self.loginButton.enabled = NO;
         self.loginButton.alpha = 0.4;
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
+}
+
+- (void)keyboardOnScreen:(NSNotification *)notification
+{
+    NSDictionary *info  = notification.userInfo;
+    NSValue      *value = info[UIKeyboardFrameEndUserInfoKey];
+    
+    CGRect rawFrame      = [value CGRectValue];
+    CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
+    
+    if( keyboardFrame.origin.y > self.view.frame.size.height )
+    {
+        return;
+    }
+    
+    //self.keyboardFrame = keyboardFrame;
 }
 
 - (IBAction)textFieldDidChange:(UITextField *)sender
@@ -74,28 +93,31 @@
     [[DAAPIManager sharedManager] loginWithUser:user password:self.passwordField.text
     completion:^( BOOL success, BOOL wrongUser, BOOL wrongPass )
     {
-        [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+        [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL userLoadSuccess )
         {
-            if( success )
+            [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
             {
-                DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-                [delegate login];
-            }
-            else if( wrongUser )
-            {
-                [self showAlertViewWithTitle:@"Incorrect Username or Email"
-                                     message:@"The email or username you entered does not belong to an account."];
-            }
-            else if( wrongPass )
-            {
-                [self showAlertViewWithTitle:@"Incorrect Password"
-                                     message:@"The password you entered is incorrect. Please try again."];
-            }
-            else
-            {
-                [self showAlertViewWithTitle:@"Failed to Login"
-                                     message:@"There was a problem logging you in. Please try again."];
-            }
+                if( success && userLoadSuccess )
+                {
+                    DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+                    [delegate login];
+                }
+                else if( wrongUser )
+                {
+                    [self showAlertViewWithTitle:@"Incorrect Username or Email"
+                                         message:@"The email or username you entered does not belong to an account."];
+                }
+                else if( wrongPass )
+                {
+                    [self showAlertViewWithTitle:@"Incorrect Password"
+                                         message:@"The password you entered is incorrect. Please try again."];
+                }
+                else
+                {
+                    [self showAlertViewWithTitle:@"Failed to Login"
+                                         message:@"There was a problem logging you in. Please try again."];
+                }
+            }];
         }];
     }];
 }

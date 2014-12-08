@@ -130,7 +130,7 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="password" translatesAutoresizingMaskIntoConstraints="NO" id="hET-Pb-Yd0">
                                 <rect key="frame" x="0.0" y="316" width="600" height="44"/>
                             </imageView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ca0-3h-dku">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="OR" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ca0-3h-dku">
                                 <rect key="frame" x="146" y="427" width="308" height="24"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
@@ -4593,8 +4593,8 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="X8z-8L-0Ll"/>
-        <segue reference="YE9-MJ-lWu"/>
-        <segue reference="aNd-9F-Yna"/>
         <segue reference="wCN-0l-elF"/>
+        <segue reference="52f-zN-P3a"/>
+        <segue reference="aNd-9F-Yna"/>
     </inferredMetricsTieBreakers>
 </document>

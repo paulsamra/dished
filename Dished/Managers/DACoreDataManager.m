@@ -55,7 +55,9 @@
     
     NSURL *persistentURL = [documentDirectoryURL URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.sqlite", kProjectName]];
     
-    self.managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:[NSBundle allBundles]];
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"Dished" ofType:@"momd"];
+    NSURL *momURL = [NSURL fileURLWithPath:path];
+    self.managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:momURL];
     
     self.persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:self.managedObjectModel];
     
@@ -170,8 +172,7 @@
     NSPersistentStore *store = [self.persistentStoreCoordinator.persistentStores objectAtIndex:0];
     NSError *error = nil;
     NSURL *storeURL = store.URL;
-    NSPersistentStoreCoordinator *storeCoordinator = self.persistentStoreCoordinator;
-    [storeCoordinator removePersistentStore:store error:&error];
+    [self.persistentStoreCoordinator removePersistentStore:store error:&error];
     [[NSFileManager defaultManager] removeItemAtPath:storeURL.path error:&error];
     
     if( !error )

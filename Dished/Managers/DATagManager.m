@@ -10,6 +10,7 @@
 #import "DAManagedUsername.h"
 #import "DAManagedHashtag.h"
 #import "DACoreDataManager.h"
+#import "DACacheManager.h"
 
 
 @interface DATagManager()
@@ -19,20 +20,7 @@
 
 @implementation DATagManager
 
-+ (DATagManager *)sharedManager
-{
-    static DATagManager *manager = nil;
-    
-    static dispatch_once_t singleton;
-    
-    dispatch_once(&singleton, ^{
-        manager = [[DATagManager alloc] init];
-    });
-    
-    return manager;
-}
-
-- (NSArray *)usernamesForQuery:(NSString *)query
++ (NSArray *)usernamesForQuery:(NSString *)query
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[c] %@", kUsernameKey, query];
     NSString *name = NSStringFromClass( [DAManagedUsername class] );
@@ -49,7 +37,7 @@
     return array;
 }
 
-- (NSArray *)hashtagsForQuery:(NSString *)query
++ (NSArray *)hashtagsForQuery:(NSString *)query
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[c] %@", kNameKey, query];
     NSString *name = NSStringFromClass( [DAManagedHashtag class] );
@@ -66,8 +54,16 @@
     return array;
 }
 
-- (void)addUsernameInBackground:(NSString *)username
++ (void)addUsernameInBackground:(NSString *)username
 {
+    NSString *cacheKey = [NSString stringWithFormat:@"usernameTagSaved_%@", username];
+    NSString *cachedUsername = [[DACacheManager sharedManager] cachedValueForKey:cacheKey];
+    
+    if( cachedUsername )
+    {
+        return;
+    }
+    
     [[[DACoreDataManager sharedManager] backgroundManagedContext] performBlock:^
     {
         NSString *className = NSStringFromClass( [DAManagedUsername class] );
@@ -85,11 +81,21 @@
             
             [[[DACoreDataManager sharedManager] backgroundManagedContext] save:nil];
         }
+        
+        [[DACacheManager sharedManager] setCachedValue:username forKey:cacheKey];
     }];
 }
 
-- (void)addHashtagInBackground:(NSString *)hashtag
++ (void)addHashtagInBackground:(NSString *)hashtag
 {
+    NSString *cacheKey = [NSString stringWithFormat:@"hashtagTagSaved_%@", hashtag];
+    NSString *cachedHashtag = [[DACacheManager sharedManager] cachedValueForKey:cacheKey];
+    
+    if( cachedHashtag )
+    {
+        return;
+    }
+    
     [[[DACoreDataManager sharedManager] backgroundManagedContext] performBlock:^
     {
         NSString *className = NSStringFromClass( [DAManagedHashtag class] );
@@ -107,6 +113,8 @@
             
             [[[DACoreDataManager sharedManager] backgroundManagedContext] save:nil];
         }
+        
+        [[DACacheManager sharedManager] setCachedValue:hashtag forKey:cacheKey];
     }];
 }
 

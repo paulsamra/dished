@@ -10,6 +10,11 @@
 
 @implementation UIViewController (DishSegues)
 
+- (id)target
+{
+    return [self isKindOfClass:[UINavigationController class]] ? self : self.navigationController;
+}
+
 - (void)pushRestaurantProfileWithLocationID:(NSInteger)locationID username:(NSString *)username
 {
     DAUserProfileViewController *restaurantProfileViewController = [self viewControllerWithStoryboardID:kUserProfileID];
@@ -18,7 +23,7 @@
     restaurantProfileViewController.username = username;
     restaurantProfileViewController.loc_id  = locationID;
     
-    [self.navigationController pushViewController:restaurantProfileViewController animated:YES];
+    [[self target] pushViewController:restaurantProfileViewController animated:YES];
 }
 
 - (void)pushrestaurantProfileWithUserID:(NSInteger)userID username:(NSString *)username
@@ -29,7 +34,7 @@
     restaurantProfileViewController.username = username;
     restaurantProfileViewController.user_id  = userID;
     
-    [self.navigationController pushViewController:restaurantProfileViewController animated:YES];
+    [[self target] pushViewController:restaurantProfileViewController animated:YES];
 }
 
 - (void)pushUserProfileWithUserID:(NSInteger)userID
@@ -39,7 +44,7 @@
     userProfileViewController.isRestaurant = NO;
     userProfileViewController.user_id = userID;
     
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
+    [[self target] pushViewController:userProfileViewController animated:YES];
 }
 
 - (void)pushUserProfileWithUsername:(NSString *)username
@@ -49,7 +54,7 @@
     userProfileViewController.isRestaurant = NO;
     userProfileViewController.username = username;
     
-    [self.navigationController pushViewController:userProfileViewController animated:YES];
+    [[self target] pushViewController:userProfileViewController animated:YES];
 }
 
 - (void)pushReviewDetailsWithReviewID:(NSInteger)reviewID
@@ -58,7 +63,7 @@
     
     reviewDetailsViewController.reviewID = reviewID;
     
-    [self.navigationController pushViewController:reviewDetailsViewController animated:YES];
+    [[self target] pushViewController:reviewDetailsViewController animated:YES];
 }
 
 - (void)pushGlobalDishWithDishID:(NSInteger)dishID
@@ -67,7 +72,7 @@
     
     globalDishViewController.dishID = dishID;
     
-    [self.navigationController pushViewController:globalDishViewController animated:YES];
+    [[self target] pushViewController:globalDishViewController animated:YES];
 }
 
 - (void)pushCommentsViewWithFeedItem:(DAFeedItem *)feedItem showKeyboard:(BOOL)showKeyboard
@@ -77,7 +82,7 @@
     commentsViewController.feedItem = feedItem;
     commentsViewController.shouldShowKeyboard = showKeyboard;
     
-    [self.navigationController pushViewController:commentsViewController animated:YES];
+    [[self target] pushViewController:commentsViewController animated:YES];
 }
 
 - (void)pushCommentsViewWithReviewID:(NSInteger)reviewID showKeyboard:(BOOL)showKeyboard
@@ -87,14 +92,14 @@
     commentsViewController.reviewID = reviewID;
     commentsViewController.shouldShowKeyboard = showKeyboard;
     
-    [self.navigationController pushViewController:commentsViewController animated:YES];
+    [[self target] pushViewController:commentsViewController animated:YES];
 }
 
 - (void)pushSettingsView
 {
     DASettingsViewController *settingsViewController = [self viewControllerWithStoryboardID:kSettingsViewID];
     
-    [self.navigationController pushViewController:settingsViewController animated:YES];
+    [[self target] pushViewController:settingsViewController animated:YES];
 }
 
 - (id)viewControllerWithStoryboardID:(NSString *)storyboardID

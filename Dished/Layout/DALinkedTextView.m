@@ -8,6 +8,7 @@
 
 #import "DALinkedTextView.h"
 #import "DATagManager.h"
+#import "DACacheManager.h"
 
 #define kLinkedTextTypeKey      @"linkedTextType"
 #define kLinkedTextTypeHashtag  @"linkedTextTypeHashtag"
@@ -33,6 +34,15 @@
 
 - (void)setAttributedText:(NSAttributedString *)attributedText withAttributes:(NSDictionary *)attributes delimiter:(NSString *)delimiter knownUsernames:(NSArray *)usernames
 {
+    NSAttributedString *cachedString = [[DACacheManager sharedManager] cachedValueForKey:attributedText.string];
+    
+    if( cachedString )
+    {
+        [super setAttributedText:cachedString];
+        self.attributedString = cachedString;
+        return;
+    }
+    
     NSArray *words = delimiter ? [attributedText.string componentsSeparatedByString:delimiter] : [attributedText.string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSMutableAttributedString *linkedText = [attributedText mutableCopy];
     NSRange currentRange = NSMakeRange( 0, attributedText.string.length );
@@ -53,7 +63,7 @@
             [linkedText setAttributes:attributes range:matchRange];
             [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeHashtag range:matchRange];
             [linkedText addAttribute:kLinkedTextKey value:word range:matchRange];
-            [[DATagManager sharedManager] addHashtagInBackground:[word substringFromIndex:1]];
+            [DATagManager addHashtagInBackground:[word substringFromIndex:1]];
         }
         else if( [word hasPrefix:@"@"] )
         {
@@ -64,7 +74,7 @@
                     [linkedText setAttributes:attributes range:matchRange];
                     [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:matchRange];
                     [linkedText addAttribute:kLinkedTextKey value:[word substringFromIndex:1] range:matchRange];
-                    [[DATagManager sharedManager] addUsernameInBackground:[word substringFromIndex:1]];
+                    [DATagManager addUsernameInBackground:[word substringFromIndex:1]];
                 }
             }
             else
@@ -78,6 +88,7 @@
     
     [super setAttributedText:linkedText];
     self.attributedString = linkedText;
+    [[DACacheManager sharedManager] setCachedValue:linkedText forKey:attributedText.string];
 }
 
 - (eLinkedTextType)linkedTextTypeForCharacterAtIndex:(NSUInteger)characterIndex

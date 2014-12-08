@@ -11,8 +11,10 @@
 
 @interface DANewsManager()
 
-@property (strong, nonatomic) NSMutableArray *newsData;
-@property (strong, nonatomic) NSMutableArray *followingData;
+@property (strong, nonatomic) NSMutableArray   *newsData;
+@property (strong, nonatomic) NSMutableArray   *followingData;
+@property (strong, nonatomic) NSURLSessionTask *userNewsUpdateTask;
+@property (strong, nonatomic) NSURLSessionTask *followingNewsUpdateTask;
 
 @property (nonatomic, readwrite) BOOL      newsFinishedLoading;
 @property (nonatomic, readwrite) BOOL      followingFinishedLoading;
@@ -72,7 +74,6 @@
 - (void)updateNews
 {
     [self updateAllNews];
-    //[self updateAllNewsWithCompletion:nil];
 }
 
 - (void)updateAllNews
@@ -81,6 +82,9 @@
     {
         return;
     }
+    
+    [self.userNewsUpdateTask      cancel];
+    [self.followingNewsUpdateTask cancel];
     
     NSInteger userLimit = self.newsData.count > 0 ? self.newsData.count : self.loadLimit;
     NSInteger followingLimit = self.followingData.count > 0 ? self.followingData.count : self.loadLimit;
@@ -94,7 +98,7 @@
     NSDictionary *parameters = @{ kTypeKey : kUserKey, kRowLimitKey : @(limit), kRowOffsetKey : @(offset) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] GET:kUsersNewsURL parameters:parameters
+    self.userNewsUpdateTask = [[DAAPIManager sharedManager] GET:kUsersNewsURL parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
         self.newsFinishedLoading = YES;
@@ -137,11 +141,18 @@
         else if( errorType == eErrorTypeDataNonexists )
         {
             self.hasMoreNewsNotifications = NO;
+            
+            if( completion )
+            {
+                completion( NO );
+            }
         }
-        
-        if( completion )
+        else
         {
-            completion( NO );
+            if( completion )
+            {
+                completion( NO );
+            }
         }
     }];
 }
@@ -151,7 +162,7 @@
     NSDictionary *parameters = @{ kTypeKey : kFollowing, kRowLimitKey : @(limit), kRowOffsetKey : @(offset) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] GET:kUsersNewsURL parameters:parameters
+    self.followingNewsUpdateTask = [[DAAPIManager sharedManager] GET:kUsersNewsURL parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
         self.followingFinishedLoading = YES;
@@ -193,11 +204,18 @@
         else if( errorType == eErrorTypeDataNonexists )
         {
             self.hasMoreFollowingNotifications = NO;
+            
+            if( completion )
+            {
+                completion( NO );
+            }
         }
-        
-        if( completion )
+        else
         {
-            completion( NO );
+            if( completion )
+            {
+                completion( NO );
+            }
         }
     }];
 }
@@ -232,8 +250,8 @@
     
     if( response && [response isKindOfClass:[NSDictionary class]] )
     {
-        self.num_yums    = [response[@"num_yum"]    integerValue];
-        self.num_reviews = [response[@"num_review"] integerValue];
+        self.num_yums    = [nilOrJSONObjectForKey( response, @"num_yum" ) integerValue];
+        self.num_reviews = [nilOrJSONObjectForKey( response, @"num_review" ) integerValue];
     }
 }
 
