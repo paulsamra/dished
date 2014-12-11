@@ -93,32 +93,41 @@
     [[DAAPIManager sharedManager] loginWithUser:user password:self.passwordField.text
     completion:^( BOOL success, BOOL wrongUser, BOOL wrongPass )
     {
-        [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL userLoadSuccess )
+        if( wrongUser )
         {
-            [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+            [self showAlertViewWithTitle:@"Incorrect Username or Email"
+                                 message:@"The email or username you entered does not belong to an account."];
+        }
+        else if( wrongPass )
+        {
+            [self showAlertViewWithTitle:@"Incorrect Password"
+                                 message:@"The password you entered is incorrect. Please try again."];
+        }
+        else if( success )
+        {
+            [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL userLoadSuccess )
             {
-                if( success && userLoadSuccess )
+                [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
                 {
-                    DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-                    [delegate login];
-                }
-                else if( wrongUser )
-                {
-                    [self showAlertViewWithTitle:@"Incorrect Username or Email"
-                                         message:@"The email or username you entered does not belong to an account."];
-                }
-                else if( wrongPass )
-                {
-                    [self showAlertViewWithTitle:@"Incorrect Password"
-                                         message:@"The password you entered is incorrect. Please try again."];
-                }
-                else
-                {
-                    [self showAlertViewWithTitle:@"Failed to Login"
-                                         message:@"There was a problem logging you in. Please try again."];
-                }
+                    if( userLoadSuccess )
+                    {
+                        DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+                        [delegate login];
+                    }
+                    else
+                    {
+                        [[DAAPIManager sharedManager] logout];
+                        [self showAlertViewWithTitle:@"Failed to Login"
+                                             message:@"There was a problem logging you in. Please try again."];
+                    }
+                }];
             }];
-        }];
+        }
+        else
+        {
+            [self showAlertViewWithTitle:@"Failed to Login"
+                                 message:@"There was a problem logging you in. Please try again."];
+        }
     }];
 }
 

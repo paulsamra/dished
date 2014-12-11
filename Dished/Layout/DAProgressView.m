@@ -67,8 +67,14 @@
         return;
     }
     
+    CGFloat width = self.blueDishLayer.frame.size.width * percentage;
     CGRect maskFrame = self.maskLayer.frame;
-    maskFrame.size.width = self.blueDishLayer.frame.size.width * percentage;
+    maskFrame.size.width = width;
+    
+    if( width != width )
+    {
+        return;
+    }
     
     [CATransaction begin];
     [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];

@@ -127,12 +127,16 @@
             if( error )
             {
                 NSLog(@"Geocode failed with error: %@", error);
-                return;
+                
+                if( completion )
+                {
+                    completion( nil );
+                }
             }
-            
-            if( placemarks && placemarks.count > 0 )
+            else if( placemarks && placemarks.count > 0 )
             {
                 CLPlacemark *placemark = placemarks[0];
+                CLSLog( @"number of placemarks returned: %d", (int)placemarks.count );
                 
                 if( completion )
                 {
