@@ -24,7 +24,6 @@
     
     self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
     self.userImageView.layer.masksToBounds = YES;
-    self.userImageView.clipsToBounds = YES;
     
     self.titleButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.titleButton.titleLabel.minimumScaleFactor = 0.75;
@@ -44,6 +43,8 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc ] initWithTarget:self action:@selector(userImageTapped)];
     tapGesture.numberOfTapsRequired = 1;
     [self.userImageView addGestureRecognizer:tapGesture];
+    
+    self.opaque = YES;
 }
 
 - (void)prepareForReuse
@@ -56,7 +57,6 @@
         self.dishImageView.image = nil;
         [self.titleButton    setTitle:nil forState:UIControlStateNormal];
         [self.locationButton setTitle:nil forState:UIControlStateNormal];
-        [self.creatorButton  setTitle:nil forState:UIControlStateNormal];
         [self.creatorButton  setImage:nil forState:UIControlStateNormal];
         self.priceLabel.text = nil;
         self.timeLabel.text = nil;

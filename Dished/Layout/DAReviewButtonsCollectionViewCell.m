@@ -28,13 +28,8 @@
     [self.yumButton addTarget:self action:@selector(yumButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.commentsButton addTarget:self action:@selector(commentsButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.moreReviewsButton addTarget:self action:@selector(moreReviewsButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-}
-
-- (void)setBounds:(CGRect)bounds
-{
-    [super setBounds:bounds];
     
-    self.contentView.frame = bounds;
+    self.opaque = YES;
 }
 
 - (void)yumButtonTapped

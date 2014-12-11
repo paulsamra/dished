@@ -11,7 +11,6 @@
 #import "DAFeedItem+Utility.h"
 #import "DAFeedImportManager.h"
 #import "DARefreshControl.h"
-#import "DACacheManager.h"
 #import "DAUserProfileViewController.h"
 #import "DAReviewDetailsViewController.h"
 #import "DACommentsViewController.h"
@@ -32,6 +31,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate>
 
 @property (strong, nonatomic) NSCache                          *feedImageCache;
+@property (strong, nonatomic) NSCache                          *attributedStringCache;
+@property (strong, nonatomic) NSCache                          *usernameCache;
+@property (strong, nonatomic) NSCache                          *cellSizeCache;
 @property (strong, nonatomic) UIImageView                      *yumTapImageView;
 @property (strong, nonatomic) NSMutableArray                   *sectionChanges;
 @property (strong, nonatomic) NSMutableArray                   *itemChanges;
@@ -55,6 +57,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     
     [self registerCollectionViewCellNibs];
     [self setupRefreshControl];
+    [self setupCaches];
     
     DAFeedCollectionViewFlowLayout *flowLayout = (DAFeedCollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     flowLayout.navigationBar  = self.navigationController.navigationBar;
@@ -101,14 +104,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [self.refreshControl startRefreshing];
     }
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
+    [self.refreshControl shouldRestartAnimation];
     
-    self.isLoadingMore = NO;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
 }
 
 - (void)registerCollectionViewCellNibs
@@ -129,6 +127,21 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     [self.refreshControl addTarget:self action:@selector(refreshFeed) forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
     self.refreshControl.hidden = YES;
+}
+
+- (void)setupCaches
+{
+    self.attributedStringCache = [[NSCache alloc] init];
+    self.attributedStringCache.name = @"feedAttributedStrings";
+    
+    self.usernameCache = [[NSCache alloc] init];
+    self.usernameCache.name = @"feedUsernameStrings";
+    
+    self.feedImageCache = [[NSCache alloc] init];
+    self.feedImageCache.name = @"feedImageCache";
+    
+    self.cellSizeCache = [[NSCache alloc] init];
+    self.cellSizeCache.name = @"feedCellSizes";
 }
 
 - (void)refreshFeed
@@ -197,7 +210,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         DAFeedCollectionViewCell *feedCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
         
-        [feedCell layoutIfNeeded];
         [self configureCell:feedCell atIndexPath:indexPath];
         feedCell.delegate = self;
         
@@ -239,16 +251,15 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             DAManagedComment *comment = comments[commentIndex];
             
             commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
-            
             commentCell.iconImageView.hidden = indexPath.row - ( num_yums > 0 ? 2 : 1 ) == 0 ? NO : YES;
             
             NSAttributedString *commentString = [self commentStringForComment:comment];
-            NSMutableArray *usernameMentions = [NSMutableArray array];
-            [usernameMentions addObject:comment.creator_username];
-            
-            for( DAManagedUsername *managedUsername in comment.usernames )
+
+            NSArray *usernameMentions = [self.usernameCache objectForKey:comment.comment];
+            if( !usernameMentions )
             {
-                [usernameMentions addObject:managedUsername.username];
+                usernameMentions = [self usernameStringArrayWithUsernames:comment.usernames creator:comment.creator_username];
+                [self.usernameCache setObject:usernameMentions forKey:comment.comment];
             }
             
             [commentCell.textView setAttributedText:commentString withAttributes:[NSAttributedString linkedTextAttributesWithFontSize:14.0f] delimiter:nil knownUsernames:usernameMentions];
@@ -280,6 +291,19 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     return cell;
 }
 
+- (NSArray *)usernameStringArrayWithUsernames:(NSSet *)usernames creator:(NSString *)creator
+{
+    NSMutableArray *usernameMentions = [NSMutableArray array];
+    [usernameMentions addObject:creator];
+    
+    for( DAManagedUsername *managedUsername in usernames )
+    {
+        [usernameMentions addObject:managedUsername.username];
+    }
+    
+    return usernameMentions;
+}
+
 - (NSArray *)dateSortedArrayWithFeedComments:(NSSet *)comments
 {
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"created" ascending:YES];
@@ -303,8 +327,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [cell.creatorButton setImage:nil forState:UIControlStateNormal];
     }
     
-    [cell.creatorButton  setTitle:usernameString forState:UIControlStateNormal];
-    [cell.titleButton    setTitle:item.name      forState:UIControlStateNormal];
+    [cell.creatorButton setTitle:usernameString forState:UIControlStateNormal];
     
     UIImage *locationIcon = [[UIImage imageNamed:@"dish_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     [cell.locationButton setTitle:item.loc_name forState:UIControlStateNormal];
@@ -319,7 +342,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
     else
     {
-        //cell.dishImageView.image = nil;
         cell.tag = indexPath.section;
         NSURL *dishImageURL = [NSURL URLWithString:item.img];
         
@@ -336,17 +358,18 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     
     cell.gradeLabel.text = [item.grade uppercaseString];
     
-    if( item.created )
-    {
-        cell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:item.created];
-    }
-    
     NSURL *userImageURL = [NSURL URLWithString:item.creator_img_thumb];
     [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];
 }
 
 - (NSAttributedString *)commentStringForComment:(DAManagedComment *)comment
 {
+    NSAttributedString *cachedString = [self.attributedStringCache objectForKey:comment.comment];
+    if( cachedString )
+    {
+        return cachedString;
+    }
+    
     NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
     NSDictionary *attributes = [DAReviewDetailCollectionViewCell linkedTextAttributes];
     NSAttributedString *attributedUsername = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
@@ -364,6 +387,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:[DAReviewDetailCollectionViewCell textAttributes]];
     [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     [labelString appendAttributedString:commentString];
+    
+    [self.attributedStringCache setObject:labelString forKey:comment.comment];
     
     return labelString;
 }
@@ -391,10 +416,14 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         [header.titleButton setTitle:item.name forState:UIControlStateNormal];
         
-        if( item.created )
+        NSAttributedString *timeText = [self.attributedStringCache objectForKey:item.created];
+        if( !timeText )
         {
-            header.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:item.created];
+            timeText = [NSAttributedString attributedTimeStringWithDate:item.created];
+            [self.attributedStringCache setObject:timeText forKey:item.created];
         }
+
+        header.timeLabel.attributedText = timeText;
         
         header.indexPath = indexPath;
         header.delegate = self;
@@ -450,8 +479,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
             DAManagedComment *comment = comments[commentIndex];
             
-            NSString *cacheKey = [NSString stringWithFormat:@"feedComment_%@", comment.comment];
-            NSValue *cachedSize = [[DACacheManager sharedManager] cachedValueForKey:cacheKey];
+            NSValue *cachedSize = [self.cellSizeCache objectForKey:comment.comment];
             
             if( cachedSize )
             {
@@ -486,7 +514,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             
             itemSize = cellSize;
             
-            [[DACacheManager sharedManager] setCachedValue:[NSValue valueWithCGSize:itemSize] forKey:cacheKey];
+            [self.cellSizeCache setObject:[NSValue valueWithCGSize:itemSize] forKey:comment.comment];
         }
     }
     else if( indexPath.row == sectionItems - 1 )
@@ -937,17 +965,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     frame.origin.y = 20;
     [self.navigationController.navigationBar setFrame:frame];
     [self updateNavigationBarToAlpha:1.0f];
-}
-
-- (NSCache *)feedImageCache
-{
-    if( !_feedImageCache )
-    {
-        _feedImageCache = [[NSCache alloc] init];
-        [_feedImageCache setName:@"feedImageCache"];
-    }
-    
-    return _feedImageCache;
 }
 
 @end

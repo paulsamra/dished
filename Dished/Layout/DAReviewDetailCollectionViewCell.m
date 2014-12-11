@@ -29,6 +29,8 @@
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textViewTapped:)];
     tapGesture.numberOfTapsRequired = 1;
     [self.textView addGestureRecognizer:tapGesture];
+    
+    self.opaque = YES;
 }
 
 - (void)textViewTapped:(UITapGestureRecognizer *)recognizer
@@ -51,13 +53,6 @@
             [self.delegate textViewTappedAtCharacterIndex:characterIndex inCell:self];
         }
     }
-}
-
-- (void)setBounds:(CGRect)bounds
-{
-    [super setBounds:bounds];
-    
-    self.contentView.frame = bounds;
 }
 
 - (void)prepareForReuse

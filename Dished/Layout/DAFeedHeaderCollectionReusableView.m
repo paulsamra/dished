@@ -11,9 +11,9 @@
 
 @implementation DAFeedHeaderCollectionReusableView
 
-- (void)layoutSubviews
+- (void)awakeFromNib
 {
-    [super layoutSubviews];
+    [super awakeFromNib];
     
     self.titleButton.titleLabel.adjustsFontSizeToFitWidth = YES;
     self.titleButton.titleLabel.minimumScaleFactor = 0.75;
