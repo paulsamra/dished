@@ -30,78 +30,70 @@
 
 - (void)importFeedItemsWithLimit:(NSUInteger)limit offset:(NSUInteger)offset completion:(void (^)( BOOL success, BOOL hasMoreData ) )completion
 {
-    [[DAAPIManager sharedManager] getFeedActivityWithLongitude:0 latitude:0 radius:0 offset:offset limit:limit
-    completion:^( id response, NSError *error )
+    [self getFeedDataWithLimit:limit offset:offset success:^( id response )
     {
-        if( error )
+        NSArray *itemIDs = [self itemIDsForData:response[kDataKey]];
+        NSArray *timestamps = [self timestampsForData:response[kDataKey]];
+        NSArray *matchingItems = offset == 0 ? [self feedItemsUpToTimestamp:[[timestamps lastObject] doubleValue]] : [self feedItemsBetweenTimestamps:timestamps];
+        
+        NSUInteger entityIndex = 0;
+        
+        for( int i = 0; i < itemIDs.count; i++ )
         {
-            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            NSUInteger newItemIndex = i;
             
-            if( errorType == eErrorTypeDataNonexists )
+            if( entityIndex < matchingItems.count)
             {
-                completion( YES, NO );
-            }
-            else
-            {
-                completion( NO, YES );
-            }
-        }
-        else if( response )
-        {
-            NSArray *itemIDs = [self itemIDsForData:response[kDataKey]];
-            NSArray *timestamps = [self timestampsForData:response[kDataKey]];
-            NSArray *matchingItems = offset == 0 ? [self feedItemsUpToTimestamp:[[timestamps lastObject] doubleValue]] : [self feedItemsBetweenTimestamps:timestamps];
-            
-            NSUInteger entityIndex = 0;
-            
-            for( int i = 0; i < itemIDs.count; i++ )
-            {
-                NSUInteger newItemIndex = i;
+                DAFeedItem *managedItem = matchingItems[entityIndex];
                 
-                if( entityIndex < matchingItems.count)
+                if( [timestamps[newItemIndex] doubleValue] < [managedItem.created timeIntervalSince1970] )
                 {
-                    DAFeedItem *managedItem = matchingItems[entityIndex];
-                    
-                    if( [timestamps[newItemIndex] doubleValue] < [managedItem.created timeIntervalSince1970] )
-                    {
-                        [[DACoreDataManager sharedManager] deleteEntity:managedItem];
-                        entityIndex++;
-                        i--;
-                    }
-                    else if( ![itemIDs[i] isEqualToNumber:managedItem.item_id] )
-                    {
-                        DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
-                        [newManagedItem configureWithDictionary:response[kDataKey][newItemIndex]];
-                        [self updateFeedItem:newManagedItem withCommentsData:response[kDataKey][newItemIndex][@"comments"]];
-                    }
-                    else
-                    {
-                        managedItem = matchingItems[entityIndex];
-                        [managedItem configureWithDictionary:response[kDataKey][newItemIndex]];
-                        [self updateFeedItem:managedItem withCommentsData:response[kDataKey][newItemIndex][@"comments"]];
-
-                        entityIndex++;
-                    }
+                    [[DACoreDataManager sharedManager] deleteEntity:managedItem];
+                    entityIndex++;
+                    i--;
                 }
-                else
+                else if( ![itemIDs[i] isEqualToNumber:managedItem.item_id] )
                 {
                     DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
                     [newManagedItem configureWithDictionary:response[kDataKey][newItemIndex]];
                     [self updateFeedItem:newManagedItem withCommentsData:response[kDataKey][newItemIndex][@"comments"]];
                 }
-            }
-            
-            [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:^( BOOL saved, NSError *error )
-            {
-                if( !saved || error )
-                {
-                    completion( NO, YES );
-                }
                 else
                 {
-                    completion( YES, YES );
+                    managedItem = matchingItems[entityIndex];
+                    [managedItem configureWithDictionary:response[kDataKey][newItemIndex]];
+                    [self updateFeedItem:managedItem withCommentsData:response[kDataKey][newItemIndex][@"comments"]];
+                    
+                    entityIndex++;
                 }
-            }];
+            }
+            else
+            {
+                DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
+                [newManagedItem configureWithDictionary:response[kDataKey][newItemIndex]];
+                [self updateFeedItem:newManagedItem withCommentsData:response[kDataKey][newItemIndex][@"comments"]];
+            }
+        }
+        
+        [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:^( BOOL saved, NSError *error )
+        {
+            if( !saved || error )
+            {
+                completion( NO, YES );
+            }
+            else
+            {
+                completion( YES, YES );
+            }
+        }];
+    }
+    failure:^( NSError *error )
+    {
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+        
+        if( errorType == eErrorTypeDataNonexists )
+        {
+            completion( YES, NO );
         }
         else
         {
@@ -243,6 +235,30 @@
     NSFetchedResultsController *fetchedResultsController = [[DACoreDataManager sharedManager] fetchedResultsControllerWithEntityName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil sectionName:kCreatedKey fetchLimit:limit];
     
     return fetchedResultsController;
+}
+
+- (void)getFeedDataWithLimit:(NSInteger)limit offset:(NSInteger)offset success:( void(^)( id response ) )success failure:( void(^)( NSError *error ) )failure
+{
+    NSDictionary *parameters = @{ kRowLimitKey : @(limit), kRowOffsetKey : @(offset) };
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
+    
+    [[DAAPIManager sharedManager] GETRequest:kFeedURL withParameters:parameters success:^( id response )
+    {
+        success( response );
+    }
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
+        {
+            [self getFeedDataWithLimit:limit offset:offset success:success failure:failure];
+        }
+        else
+        {
+            CLSLog(@"Error getting feed: %@", error);
+            NSLog(@"Error getting feed: %@", error);
+            failure( error );
+        }
+    }];
 }
 
 @end

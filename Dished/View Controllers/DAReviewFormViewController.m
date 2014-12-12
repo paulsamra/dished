@@ -88,6 +88,11 @@
     {
         [self setupTagTableView];
     }
+    
+    if( !self.socialViewController )
+    {
+        [self setupShareView];
+    }
 }
 
 - (void)getLocationSuggestions
@@ -275,6 +280,16 @@
     UIWindow *window = [UIApplication sharedApplication].windows.lastObject;
     
     [MRProgressOverlayView showOverlayAddedTo:window title:@"Posting..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+}
+
+- (void)hideProgressViewWithCompletion:( void(^)() )completion
+{
+    UIWindow *window = [UIApplication sharedApplication].windows.lastObject;
+    
+    [MRProgressOverlayView dismissOverlayForView:window animated:YES completion:^
+    {
+        completion();
+    }];
 }
 
 - (CGRect)dishSuggestionTableViewFrame
@@ -762,11 +777,6 @@
 
 - (IBAction)share:(UIButton *)sender
 {
-    if( !self.socialViewController )
-    {
-        [self setupShareView];
-    }
-    
     [self.navigationController.view addSubview:self.dimView];
     [self.navigationController.view addSubview:self.socialViewController.view];
     
@@ -818,55 +828,42 @@
 
 - (IBAction)postDish:(UIBarButtonItem *)sender
 {
-    NSData *data = nil;
-    
     [self showProgressView];
     
-    dispatch_group_t group = dispatch_group_create();
+    __block NSData *data = nil;
     
-    __block BOOL postSuccess = YES;
+    NSDictionary *parameters = [self.review dictionaryRepresentation];
+    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    dispatch_group_enter( group );
-
-    [[DAAPIManager sharedManager] postNewReview:self.review withImage:self.reviewImage completion:^( BOOL success, NSString *imageURL )
+    [[DAAPIManager sharedManager] POST:@"reviews" parameters:parameters constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
     {
-        if( success )
+        if( self.reviewImage )
         {
-            postSuccess &= YES;
-            
-            if( self.socialViewController )
+            float compression = 0.8;
+            NSData *imageData = UIImageJPEGRepresentation( self.reviewImage, compression );
+            int maxFileSize = 2000000;
+            while( [imageData length] > maxFileSize )
             {
-                dispatch_group_enter( group );
-            
-                [self.socialViewController shareReview:self.review imageURL:imageURL completion:^( BOOL success )
-                {
-                    dispatch_group_leave( group );
-                }];
+                compression -= 0.1;
+                imageData = UIImageJPEGRepresentation( self.reviewImage, compression );
             }
-        }
-        else
-        {
-            postSuccess &= NO;
-        }
-        
-        dispatch_group_leave( group );
-    }];
-    
-    if( [self.socialViewController.selectedSharing objectForKey:self.socialViewController.cellLabels[2]] )
-    {
-        data = UIImageJPEGRepresentation( self.reviewImage, 0.5 );
-    }
-    
-    dispatch_group_notify( group, dispatch_get_main_queue(), ^
-    {
-        UIWindow *window = [UIApplication sharedApplication].windows.lastObject;
-
-        [MRProgressOverlayView dismissOverlayForView:window animated:YES completion:^
-        {
-            if( postSuccess )
+            
+            if( [self.socialViewController.selectedSharing objectForKey:self.socialViewController.cellLabels[2]] )
             {
-                [self.view endEditing:YES];
-                
+                data = imageData;
+            }
+            
+            [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
+        }
+    }
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSString *imageAddress = responseObject[kDataKey][kImgKey][@"url"];
+
+        [self.socialViewController shareReview:self.review imageURL:imageAddress completion:^( BOOL success )
+        {
+            [self hideProgressViewWithCompletion:^
+            {
                 if( [DAUserManager sharedManager].savesDishPhoto )
                 {
                     UIImageWriteToSavedPhotosAlbum( self.reviewImage, nil, nil, nil );
@@ -880,13 +877,15 @@
                         [[NSNotificationCenter defaultCenter] postNotificationName:@"presentEmail" object:info];
                     }
                 }];
-            }
-            else
-            {
-                [self.postFailAlert show];
-            }
+            }];
         }];
-    });
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        CLSLog( @"Failed to post review: %@\nReview data: %@", error, parameters);
+        
+        [self.postFailAlert show];
+    }];
 }
 
 - (UIAlertView *)postFailAlert

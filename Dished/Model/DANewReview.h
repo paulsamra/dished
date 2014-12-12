@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "DAHashtag.h"
 
 
 @interface DANewReview : NSObject
@@ -31,5 +32,7 @@
 @property (nonatomic) double    locationLatitude;
 @property (nonatomic) NSInteger dishID;
 @property (nonatomic) NSInteger locationID;
+
+- (NSDictionary *)dictionaryRepresentation;
 
 @end

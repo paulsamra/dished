@@ -7,7 +7,6 @@
 //
 
 #import "AFHTTPSessionManager.h"
-#import "DANewReview.h"
 
 #define kNetworkUnreachableKey @"network_unreachable"
 #define kNetworkReachableKey   @"network_reachable"
@@ -17,6 +16,8 @@ typedef enum
     eErrorTypeDataNonexists,
     eErrorTypeEmailExists,
     eErrorTypePhoneExists,
+    eErrorTypeUsernameExists,
+    eErrorTypeInvalidUsername,
     eErrorTypeContentPrivate,
     eErrorTypeTimeout,
     eErrorTypeRequestCancelled,
@@ -25,6 +26,9 @@ typedef enum
     eErrorTypeParamsInvalid,
     eErrorTypeUnknown
 } eErrorType;
+
+typedef void(^RequestSuccessBlock)( id response );
+typedef void(^RequestFailureBlock)( NSError *error, BOOL shouldRetry );
 
 
 @interface DAAPIManager : AFHTTPSessionManager
@@ -36,6 +40,16 @@ typedef enum
 - (BOOL)networkIsReachable;
 - (BOOL)isLoggedIn;
 - (NSDictionary *)authenticatedParametersWithParameters:(NSDictionary *)parameters;
+
+- (NSURLSessionTask *)GETRequest:(NSString *)url
+                  withParameters:(NSDictionary *)parameters
+                         success:(RequestSuccessBlock)success
+                         failure:(RequestFailureBlock)failure;
+
+- (NSURLSessionTask *)POSTRequest:(NSString *)url
+                   withParameters:(NSDictionary *)parameters
+                          success:(RequestSuccessBlock)success
+                          failure:(RequestFailureBlock)failure;
 
 /*
  * Refreshes authentication tokens with Dished server.
@@ -68,19 +82,9 @@ typedef enum
 - (void)submitPasswordResetWithPin:(NSString *)pin phoneNumber:(NSString *)phoneNumber newPassword:(NSString *)password completion:(void(^)( BOOL pinValid, BOOL success ) )completion;
 
 /*
- * Posts a new dish review to the server.
- */
-- (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success, NSString *imageURL ) )completion;
-
-/*
  * Search task for when it is unknown
  * when user is searching for dishes or locations.
  */
 - (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
-
-/*
- * Retrieve data for user's feed view.
- */
-- (void)getFeedActivityWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius offset:(NSInteger)offset limit:(NSInteger)limit completion:( void(^)( id response, NSError *error ) )completion;
 
 @end

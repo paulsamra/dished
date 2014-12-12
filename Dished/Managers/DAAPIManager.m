@@ -178,6 +178,14 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             {
                 errorType = eErrorTypePhoneExists;
             }
+            else if( [errorValue isEqualToString:kUsernameExistsError] )
+            {
+                errorType = eErrorTypeUsernameExists;
+            }
+            else if( [errorValue isEqualToString:kInvalidUsernameError] )
+            {
+                errorType = eErrorTypeInvalidUsername;
+            }
             else if( [errorValue isEqualToString:kParamsInvalidError] )
             {
                 errorType = eErrorTypeParamsInvalid;
@@ -274,6 +282,80 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     });
 }
 
+- (NSURLSessionTask *)GETRequest:(NSString *)url
+                  withParameters:(NSDictionary *)parameters
+                         success:(RequestSuccessBlock)success
+                         failure:(RequestFailureBlock)failure
+{
+    parameters = [self authenticatedParametersWithParameters:parameters];
+    
+    return [self GET:url parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        if( success )
+        {
+            success( responseObject );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [self.class errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [self refreshAuthenticationWithCompletion:^( BOOL success )
+            {
+                if( failure )
+                {
+                    failure( error, success );
+                }
+            }];
+        }
+        else
+        {
+            if( failure )
+            {
+                failure( error, NO );
+            }
+        }
+    }];
+}
+
+- (NSURLSessionTask *)POSTRequest:(NSString *)url
+                   withParameters:(NSDictionary *)parameters
+                          success:( void(^)( id response ) )success
+                          failure:( void(^)( NSError *error, BOOL shouldRetry ) )failure
+{
+    parameters = [self authenticatedParametersWithParameters:parameters];
+    
+    return [self POST:url parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        if( success )
+        {
+            success( responseObject );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [self.class errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [self refreshAuthenticationWithCompletion:^( BOOL success )
+            {
+                if( failure )
+                {
+                    failure( error, success );
+                }
+            }];
+        }
+        else
+        {
+            if( failure )
+            {
+                failure( error, NO );
+            }
+        }
+    }];
+}
+
 - (NSDictionary *)authenticatedParametersWithParameters:(NSDictionary *)parameters
 {
     if( ![self isLoggedIn] )
@@ -340,7 +422,7 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
-        NSLog(@"%@", error.userInfo[JSONResponseSerializerWithDataKey]);
+        NSLog(@"Error registering: %@", error);
         
         completion( NO, NO );
     }];
@@ -402,9 +484,9 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)requestPasswordResetCodeWithPhoneNumber:(NSString *)phoneNumber completion:(void(^)( BOOL success ))completion
 {
-    NSDictionary *parameters = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber };
+    NSDictionary *parameters = @{ kClientIDKey : self.clientID, kPhoneKey : phoneNumber };
     
-    [self POST:@"auth/password" parameters:parameters
+    [self POST:kAuthPasswordURL parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
         completion( YES );
@@ -417,155 +499,29 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
 
 - (void)submitPasswordResetWithPin:(NSString *)pin phoneNumber:(NSString *)phoneNumber newPassword:(NSString *)password completion:(void(^)( BOOL pinValid, BOOL success ))completion
 {
-    dispatch_group_t group = dispatch_group_create();
+    NSDictionary *parameters = @{ kClientIDKey : self.clientID, kPhoneKey : phoneNumber, @"pin" : pin };
     
-    dispatch_group_enter( group );
-    
-    __block BOOL pinSuccess = YES;
-    
-    NSDictionary *parameters = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber, @"pin" : pin };
-    
-    [self POST:@"auth/password" parameters:parameters
+    [self POST:kAuthPasswordURL parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSDictionary *response = responseObject;
+        NSDictionary *nextParameters = @{ kClientIDKey : self.clientID, kPhoneKey : phoneNumber, @"pin" : pin, kPasswordKey : password };
         
-        if( [response[@"status"] isEqualToString:@"success"] )
-        {
-            pinSuccess = YES;
-        }
-        else
-        {
-            pinSuccess = NO;
-        }
-        
-        dispatch_group_leave( group );
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        NSLog(@"%@", error);
-        pinSuccess = NO;
-        
-        dispatch_group_leave( group );
-    }];
-    
-    dispatch_group_notify( group, dispatch_get_main_queue(), ^
-    {
-        NSDictionary *parameters2 = @{ kClientIDKey : self.clientID, @"phone" : phoneNumber, @"pin" : pin, @"password" : password };
-        
-        if( pinSuccess )
-        {
-            [self POST:@"auth/password" parameters:parameters2
-            success:^( NSURLSessionDataTask *task, id responseObject )
-            {
-                completion( YES, YES );
-            }
-            failure:^( NSURLSessionDataTask *task, NSError *error )
-            {
-                NSLog(@"%@", error);
-                
-                completion( YES, NO );
-            }];
-        }
-        else
-        {
-            completion( NO, NO );
-        }
-    });
-}
-
-- (void)postNewReview:(DANewReview *)review withImage:(UIImage *)image completion:( void(^)( BOOL success, NSString *imageURL ) )completion
-{
-    dispatch_async( self.queue, ^
-    {
-        NSString *hashtagString = @"";
-        for( DAHashtag *hashtag in review.hashtags )
-        {
-            hashtagString = [hashtagString stringByAppendingFormat:@"%d,", (int)hashtag.hashtag_id];
-        }
-        
-        NSDictionary *baseParams = @{ kAccessTokenKey : self.accessToken, kCommentKey : review.comment,
-                                      @"grade" : review.rating };
-        
-        NSMutableDictionary *parameters = [[NSMutableDictionary alloc] initWithDictionary:baseParams];
-        
-        if( review.price && review.price.length > 0 )
-        {
-            if( [review.price characterAtIndex:0] == '$' )
-            {
-                review.price = [review.price substringFromIndex:1];
-            }
-            
-            [parameters setObject:review.price forKey:@"price"];
-        }
-        
-        if( hashtagString.length > 0 )
-        {
-            hashtagString = [hashtagString substringToIndex:hashtagString.length - 1];
-            [parameters setObject:hashtagString forKey:@"hashtags"];
-        }
-        
-        if( review.dishID != 0 )
-        {
-            [parameters setObject:@(review.dishID) forKey:@"dish_id"];
-        }
-        else if( review.locationID != 0 || review.googleID != 0 )
-        {
-            if( review.locationID != 0 )
-            {
-                [parameters setObject:@(review.locationID) forKey:@"loc_id"];
-            }
-            else if( review.googleID )
-            {
-                [parameters setObject:review.googleID forKey:@"loc_google_id"];
-            }
-            
-            [parameters setObject:review.type forKey:@"type"];
-            [parameters setObject:review.title forKey:@"title"];
-        }
-        else
-        {
-            [parameters setObject:review.locationName forKey:@"loc_name"];
-            [parameters setObject:@(review.locationLongitude) forKey:@"loc_longitude"];
-            [parameters setObject:@(review.locationLatitude) forKey:@"loc_latitude"];
-            [parameters setObject:review.locationStreetNum forKey:@"loc_street_number"];
-            [parameters setObject:review.locationStreetName forKey:@"loc_street"];
-            [parameters setObject:review.locationCity forKey:@"loc_city"];
-            [parameters setObject:review.locationState forKey:@"loc_state"];
-            [parameters setObject:review.locationZip forKey:@"loc_zip"];
-            
-            [parameters setObject:review.type forKey:@"type"];
-            [parameters setObject:review.title forKey:@"title"];
-        }
-        
-        [self POST:@"reviews" parameters:parameters
-        constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
-        {
-            if( image )
-            {
-                float compression = 0.8;
-                NSData *imageData = UIImageJPEGRepresentation( image, compression );
-                int maxFileSize = 2000000;
-                while( [imageData length] > maxFileSize )
-                {
-                    compression -= 0.1;
-                    imageData = UIImageJPEGRepresentation( image, compression );
-                }
-                
-                [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
-            }
-        }
+        [self POST:kAuthPasswordURL parameters:nextParameters
         success:^( NSURLSessionDataTask *task, id responseObject )
         {
-            NSString *imageAddress = responseObject[@"data"][@"img"][@"url"];
-            completion( YES, imageAddress );
+            completion( YES, YES );
         }
         failure:^( NSURLSessionDataTask *task, NSError *error )
         {
-            NSLog(@"failure: %@", error );
-            completion( NO, nil );
+            NSLog(@"Error sending reset password pin: %@", error);
+             
+            completion( YES, NO );
         }];
-    });
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        completion( NO, NO );
+    }];
 }
 
 - (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
@@ -596,35 +552,6 @@ static NSString *const kKeychainService = @"com.dishedapp.Dished";
             completion( nil, error );
         }
     }];
-}
-
-- (void)getFeedActivityWithLongitude:(double)longitude latitude:(double)latitude radius:(double)radius offset:(NSInteger)offset limit:(NSInteger)limit completion:( void(^)( id response, NSError *error ) )completion
-{
-    [self authenticate];
-    
-    dispatch_async( self.queue, ^
-    {
-        NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"longitude" : @(longitude),
-                                      @"latitude" : @(latitude), @"radius" : @(radius), @"row_limit" : @(limit),
-                                      @"row_offset" : @(offset) };
-        
-        [self GET:@"feed" parameters:parameters success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            if( [responseObject[@"status"] isEqualToString:@"success"] )
-            {
-                completion( responseObject, nil );
-            }
-            else
-            {
-                completion( nil, nil );
-            }
-        }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
-        {
-            NSLog(@"Error getting feed: %@", error.localizedDescription);
-            completion( nil, error );
-        }];
-    });
 }
 
 - (BOOL)isLoggedIn

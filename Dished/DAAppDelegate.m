@@ -351,10 +351,7 @@
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
     if( [[DAAPIManager sharedManager] isLoggedIn] )
-    {
-        NSLog(@"%@", userInfo);
-        NSLog(@"%@", self.window.rootViewController);
-        
+    {        
         [DAPushManager handlePushNotification:userInfo];
     }
 }

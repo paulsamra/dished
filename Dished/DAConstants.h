@@ -51,8 +51,10 @@ extern NSString *const kFollowingSubtypeSingleUserMultiYum;
 extern NSString *const kFollowingSubtypeMultiUserYum;
 extern NSString *const kFollowingSubtypeTwoUserYum;
 
+extern NSString *const kFeedURL;
 extern NSString *const kUsersURL;
 extern NSString *const kLogoutURL;
+extern NSString *const kReviewsURL;
 extern NSString *const kAuthAddURL;
 extern NSString *const kCommentsURL;
 extern NSString *const kHashtagsURL;
@@ -72,6 +74,7 @@ extern NSString *const kUnyumReviewURL;
 extern NSString *const kFlagCommentURL;
 extern NSString *const kUserProfileURL;
 extern NSString *const kEditProfileURL;
+extern NSString *const kAuthPasswordURL;
 extern NSString *const kEditorsPicksURL;
 extern NSString *const kReportReviewURL;
 extern NSString *const kUnfollowUserURL;
@@ -147,6 +150,8 @@ extern NSString *const kPhoneExistsError;
 extern NSString *const kParamsInvalidError;
 extern NSString *const kDataNonexistsError;
 extern NSString *const kContentPrivateError;
+extern NSString *const kUsernameExistsError;
+extern NSString *const kInvalidUsernameError;
 
 extern NSString *const kAll;
 extern NSString *const kNone;

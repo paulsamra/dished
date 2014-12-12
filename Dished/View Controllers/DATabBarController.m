@@ -172,6 +172,7 @@
         {
             [self.newsBadgeButton removeFromSuperview];
             self.newsBadgeButton = nil;
+            [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
         }
     }
     

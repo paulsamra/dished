@@ -58,9 +58,9 @@
         _num_reviews = 0;
         
         _loadLimit = 25;
-        
+                
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNews) name:UIApplicationWillEnterForegroundNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNews) name:UIApplicationDidFinishLaunchingNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateNews) name:UIApplicationDidFinishLaunchingNotification  object:nil];
     }
     
     return self;
@@ -96,62 +96,40 @@
 - (void)updateUserNewsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( BOOL success ) )completion
 {
     NSDictionary *parameters = @{ kTypeKey : kUserKey, kRowLimitKey : @(limit), kRowOffsetKey : @(offset) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    self.userNewsUpdateTask = [[DAAPIManager sharedManager] GET:kUsersNewsURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    self.userNewsUpdateTask = [[DAAPIManager sharedManager] GETRequest:kUsersNewsURL withParameters:parameters
+    success:^( id response )
     {
-        self.newsFinishedLoading = YES;
-
-        NSMutableArray *newData = [self newsDataWithData:responseObject];
+        NSMutableArray *newData = [self newsDataWithData:response];
         offset > 0 ? [self.newsData addObjectsFromArray:newData] : ( self.newsData = newData );
         
-        [self setBadgeValuesWithData:responseObject];
+        [self setBadgeValuesWithData:response];
         self.hasMoreNewsNotifications = !( self.newsData.count < self.loadLimit );
         [self notifyNewsObservers];
+        
+        self.newsFinishedLoading = YES;
         
         if( completion )
         {
             completion( YES );
         }
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        self.newsFinishedLoading = YES;
-
-        eErrorType errorType = [DAAPIManager errorTypeForError:error];
-        
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self updateUserNewsWithLimit:limit offset:offset completion:completion];
-                }
-                else
-                {
-                    if( completion )
-                    {
-                        completion( NO );
-                    }
-                }
-            }];
-        }
-        else if( errorType == eErrorTypeDataNonexists )
-        {
-            self.hasMoreNewsNotifications = NO;
-            
-            if( completion )
-            {
-                completion( NO );
-            }
+            [self updateUserNewsWithLimit:limit offset:offset completion:completion];
         }
         else
         {
+            BOOL noMoreData = [DAAPIManager errorTypeForError:error] == eErrorTypeDataNonexists;
+            
+            self.hasMoreNewsNotifications = !noMoreData;
+            self.newsFinishedLoading = YES;
+            
             if( completion )
             {
-                completion( NO );
+                completion( noMoreData );
             }
         }
     }];
@@ -160,14 +138,13 @@
 - (void)updateFollowingNewsWithLimit:(NSInteger)limit offset:(NSInteger)offset completion:( void(^)( BOOL success ) )completion
 {
     NSDictionary *parameters = @{ kTypeKey : kFollowing, kRowLimitKey : @(limit), kRowOffsetKey : @(offset) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    self.followingNewsUpdateTask = [[DAAPIManager sharedManager] GET:kUsersNewsURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    self.followingNewsUpdateTask = [[DAAPIManager sharedManager] GETRequest:kUsersNewsURL withParameters:parameters
+    success:^( id response )
     {
         self.followingFinishedLoading = YES;
         
-        NSMutableArray *newData = [self followingDataWithData:responseObject];
+        NSMutableArray *newData = [self followingDataWithData:response];
         offset > 0 ? [self.followingData addObjectsFromArray:newData] : ( self.followingData = newData );
         
         self.hasMoreFollowingNotifications = !( self.followingData.count < self.loadLimit );
@@ -178,43 +155,22 @@
             completion( YES );
         }
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        self.followingFinishedLoading = YES;
-        
-        eErrorType errorType = [DAAPIManager errorTypeForError:error];
-
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self updateFollowingNewsWithLimit:limit offset:offset completion:completion];
-                }
-                else
-                {
-                    if( completion )
-                    {
-                        completion( NO );
-                    }
-                }
-            }];
-        }
-        else if( errorType == eErrorTypeDataNonexists )
-        {
-            self.hasMoreFollowingNotifications = NO;
-            
-            if( completion )
-            {
-                completion( NO );
-            }
+            [self updateFollowingNewsWithLimit:limit offset:offset completion:completion];
         }
         else
         {
+            BOOL noMoreData = [DAAPIManager errorTypeForError:error] == eErrorTypeDataNonexists;
+            
+            self.hasMoreFollowingNotifications = !noMoreData;
+            self.followingFinishedLoading = YES;
+            
             if( completion )
             {
-                completion( NO );
+                completion( noMoreData );
             }
         }
     }];
@@ -250,7 +206,7 @@
     
     if( response && [response isKindOfClass:[NSDictionary class]] )
     {
-        self.num_yums    = [nilOrJSONObjectForKey( response, @"num_yum" ) integerValue];
+        self.num_yums    = [nilOrJSONObjectForKey( response, @"num_yum" )    integerValue];
         self.num_reviews = [nilOrJSONObjectForKey( response, @"num_review" ) integerValue];
     }
 }

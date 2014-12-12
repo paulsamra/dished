@@ -21,7 +21,6 @@
 @property (strong, nonatomic) DAErrorView          *errorView;
 @property (strong, nonatomic) NSIndexPath          *pickerIndexPath;
 @property (strong, nonatomic) UIAlertView          *loginFailAlert;
-@property (strong, nonatomic) UIAlertView          *registerFailAlert;
 @property (strong, nonatomic) UIAlertView          *termsAlertView;
 @property (strong, nonatomic) NSDateFormatter      *birthDateFormatter;
 @property (strong, nonatomic) NSMutableDictionary  *errorData;
@@ -174,64 +173,46 @@
         {
             NSString *username = [textField.text substringFromIndex:1];
             
-            if( self.usernameCheckTask )
-            {
-                [self.usernameCheckTask cancel];
-            }
+            [self.usernameCheckTask cancel];
             
             self.usernameIsValid = YES;
             
-            NSDictionary *parameters = @{ @"username" : username };
+            NSDictionary *parameters = @{ kUsernameKey : username };
             
             self.usernameCheckTask = [[DAAPIManager sharedManager] GET:@"users/availability/username" parameters:parameters
             success:^( NSURLSessionDataTask *task, id responseObject )
             {
-                NSHTTPURLResponse *response = (NSHTTPURLResponse *)task.response;
-                                          
-                if( response.statusCode == 200 )
+                self.usernameCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+               
+                self.usernameIsValid = YES;
+                [self dismissErrorView];
+            }
+            failure:^( NSURLSessionDataTask *task, NSError *error )
+            {
+                eErrorType errorType = [DAAPIManager errorTypeForError:error];
+                
+                if( errorType == eErrorTypeUsernameExists )
                 {
-                    self.usernameCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
-                   
-                    self.usernameIsValid = YES;
-                    [self dismissErrorView];
+                    self.errorView.errorTextLabel.text = @"Username unavailable!";
+                    self.errorView.errorTipLabel.text  = @"Please choose a different username.";
+                    
+                    [self showErrorView];
+                    self.usernameIsValid = NO;
+                }
+                else if( errorType == eErrorTypeInvalidUsername )
+                {
+                    self.errorView.errorTextLabel.text = @"Invalid Username!";
+                    self.errorView.errorTipLabel.text  = @"Your username must only contain letters and numbers.";
+                    
+                    [self showErrorView];
+                    self.usernameIsValid = NO;
+                    
+                    self.usernameCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
                 }
                 else
                 {
                     self.usernameIsValid = NO;
                     self.usernameCell.accessoryView = nil;
-                }
-            }
-            failure:^( NSURLSessionDataTask *task, NSError *error )
-            {
-                if( error.code != -999 )
-                {
-                    NSDictionary *errorResponse = error.userInfo[[DAAPIManager errorResponseKey]];
-              
-                    if( [errorResponse[@"error"] isEqualToString:@"username_exists"] )
-                    {
-                        self.errorView.errorTextLabel.text = @"Username unavailable!";
-                        self.errorView.errorTipLabel.text  = @"Please choose a different username.";
-                  
-                        [self showErrorView];
-                        self.usernameIsValid = NO;
-                  
-                        self.usernameCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
-                    }
-                    else if( [errorResponse[@"error"] isEqualToString:@"username_invalid"] )
-                    {
-                        self.errorView.errorTextLabel.text = @"Invalid Username!";
-                        self.errorView.errorTipLabel.text  = @"Your username must only contain letters and numbers.";
-                  
-                        [self showErrorView];
-                        self.usernameIsValid = NO;
-                  
-                        self.usernameCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
-                    }
-                    else
-                    {
-                        self.usernameIsValid = NO;
-                        self.usernameCell.accessoryView = nil;
-                    }
                 }
             }];
         }
@@ -614,7 +595,7 @@
         {
             [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
             {
-                [self.registerFailAlert show];
+                [self showAlertMessageWithTitle:@"Registration Error" message:@"There was an error registering your account. Please try again."];
             }];
         }
         else
@@ -661,7 +642,7 @@
         {
             if( !registered )
             {
-                [self.registerFailAlert show];
+                [self showAlertMessageWithTitle:@"Registration Error" message:@"There was an error registering your account. Please try again."];
             }
             else if( registered && !loggedIn )
             {
@@ -960,21 +941,11 @@
     return _birthDateFormatter;
 }
 
-- (UIAlertView *)registerFailAlert
-{
-    if( !_registerFailAlert )
-    {
-        _registerFailAlert = [[UIAlertView alloc] initWithTitle:@"Registration Error" message:@"There was an error registering your account. Please try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    }
-    
-    return _registerFailAlert;
-}
-
 - (UIAlertView *)loginFailAlert
 {
     if( !_loginFailAlert )
     {
-        _loginFailAlert = [[UIAlertView alloc] initWithTitle:@"Error Logging In" message:@"We were able to register your account, but there was a problem signing in. Please sign in with your username and password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        _loginFailAlert = [[UIAlertView alloc] initWithTitle:@"Error Logging In" message:@"We were able to register your account, but there was a problem logging in. Please sign in with your username and password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     }
     
     return _loginFailAlert;
