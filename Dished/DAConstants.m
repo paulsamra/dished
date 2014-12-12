@@ -76,6 +76,7 @@ NSString *const kDeleteCommentURL           = @"comments/delete";
 NSString *const kReviewProfileURL           = @"reviews/profile";
 NSString *const kUserFollowersURL           = @"users/followers";
 NSString *const kUserFollowingURL           = @"users/following";
+NSString *const kAuthPhoneVerifyURL         = @"auth/phone/verify";
 NSString *const kUserDeviceTokenURL         = @"users/devicetoken";
 NSString *const kExploreHashtagsURL         = @"explore/dishes/hashtag";
 NSString *const kHashtagsExploreURL         = @"hashtags/explore";

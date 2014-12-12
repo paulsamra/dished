@@ -28,6 +28,7 @@
 @property (weak, nonatomic) IBOutlet UILabel     *rightNumberLabel;
 @property (weak, nonatomic) IBOutlet UIButton    *locationButton;
 @property (weak, nonatomic) IBOutlet UIImageView *mainImageView;
+@property (weak, nonatomic) IBOutlet UIImageView *locationIconImageView;
 @property (weak, nonatomic) id<DADishTableViewCellDelegate> delegate;
 
 @property (nonatomic) BOOL isExplore;

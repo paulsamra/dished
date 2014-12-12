@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface DAForgotPasswordViewController : UIViewController
+@interface DAPhoneNumberViewController : UIViewController
 
 @property (weak, nonatomic) IBOutlet UITextField *phoneNumberField;
 @property (weak, nonatomic) IBOutlet UIButton *submitButton;
+@property (weak, nonatomic) IBOutlet UILabel *resetPasswordLabel;
+@property (weak, nonatomic) IBOutlet UILabel *registerPhoneNumberLabel;
+
+@property (nonatomic) BOOL registrationMode;
 
 @end

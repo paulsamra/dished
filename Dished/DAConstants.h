@@ -85,6 +85,7 @@ extern NSString *const kDeleteCommentURL;
 extern NSString *const kReviewProfileURL;
 extern NSString *const kUserFollowersURL;
 extern NSString *const kUserFollowingURL;
+extern NSString *const kAuthPhoneVerifyURL;
 extern NSString *const kExploreHashtagsURL;
 extern NSString *const kHashtagsExploreURL;
 extern NSString *const kUserImageDeleteURL;

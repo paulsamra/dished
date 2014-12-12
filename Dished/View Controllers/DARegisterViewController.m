@@ -45,6 +45,9 @@
     
     self.errorIconImage = [UIImage imageNamed:@"invalid_input"];
     self.validIconImage = [UIImage imageNamed:@"valid_input"];
+    
+    self.phoneNumberField.text = self.phoneNumber;
+    [self textFieldDidChange:self.phoneNumberField];
 }
 
 - (void)errorViewDidTapCloseButton:(DAErrorView *)errorView

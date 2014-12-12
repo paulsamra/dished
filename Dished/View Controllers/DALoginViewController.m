@@ -11,6 +11,7 @@
 #import "DAAppDelegate.h"
 #import "UIViewController+TAPKeyboardPop.h"
 #import "DAUserManager.h"
+#import "DAPhoneNumberViewController.h"
 
 
 @interface DALoginViewController()
@@ -93,17 +94,7 @@
     [[DAAPIManager sharedManager] loginWithUser:user password:self.passwordField.text
     completion:^( BOOL success, BOOL wrongUser, BOOL wrongPass )
     {
-        if( wrongUser )
-        {
-            [self showAlertViewWithTitle:@"Incorrect Username or Email"
-                                 message:@"The email or username you entered does not belong to an account."];
-        }
-        else if( wrongPass )
-        {
-            [self showAlertViewWithTitle:@"Incorrect Password"
-                                 message:@"The password you entered is incorrect. Please try again."];
-        }
-        else if( success )
+        if( success )
         {
             [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL userLoadSuccess )
             {
@@ -125,8 +116,24 @@
         }
         else
         {
-            [self showAlertViewWithTitle:@"Failed to Login"
-                                 message:@"There was a problem logging you in. Please try again."];
+            [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+            {
+                if( wrongUser )
+                {
+                    [self showAlertViewWithTitle:@"Incorrect Username or Email"
+                                         message:@"The email or username you entered does not belong to an account."];
+                }
+                else if( wrongPass )
+                {
+                    [self showAlertViewWithTitle:@"Incorrect Password"
+                                         message:@"The password you entered is incorrect. Please try again."];
+                }
+                else
+                {
+                    [self showAlertViewWithTitle:@"Failed to Login"
+                                         message:@"There was a problem logging you in. Please try again."];
+                }
+            }];
         }
     }];
 }
@@ -182,6 +189,21 @@
 - (IBAction)goToRegister
 {
     [self performSegueWithIdentifier:@"goToRegister" sender:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"goToRegister"] )
+    {
+        DAPhoneNumberViewController *dest = segue.destinationViewController;
+        dest.registrationMode = YES;
+    }
+    
+    if( [segue.identifier isEqualToString:@"forgotPassword"] )
+    {
+        DAPhoneNumberViewController *dest = segue.destinationViewController;
+        dest.registrationMode = NO;
+    }
 }
 
 - (void)animateTextField:(UITextField*)textField up:(BOOL)up

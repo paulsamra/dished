@@ -758,6 +758,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
         
         cell.isExplore = YES;
         cell.locationButton.hidden = YES;
+        cell.locationIconImageView.hidden = YES;
         
         cell.leftNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.totalReviews];
         cell.middleNumberLabel.text = [NSString stringWithFormat:@"%d", (int)result.friendReviews];

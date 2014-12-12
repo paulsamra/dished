@@ -6,50 +6,99 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
-#import "DAForgotPasswordViewController.h"
+#import "DAPhoneNumberViewController.h"
 #import "DAResetPasswordViewController.h"
+#import "DARegisterViewController.h"
 #import "MRProgress.h"
 
 
-@interface DAForgotPasswordViewController() <UIAlertViewDelegate, UITextFieldDelegate>
+@interface DAPhoneNumberViewController() <UIAlertViewDelegate, UITextFieldDelegate>
 
+@property (copy,   nonatomic) NSString    *verifiedPhoneNumber;
 @property (strong, nonatomic) UIAlertView *sentAlert;
 @property (strong, nonatomic) UIAlertView *errorAlert;
+@property (strong, nonatomic) UIAlertView *enterPinAlert;
+@property (strong, nonatomic) UIAlertView *wrongPinAlert;
 
 @end
 
 
-@implementation DAForgotPasswordViewController
+@implementation DAPhoneNumberViewController
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
     [self setSubmitButtonStatus:NO];
+    
+    self.registerPhoneNumberLabel.hidden = !self.registrationMode;
+    self.resetPasswordLabel.hidden = self.registrationMode;
+    
+    self.navigationItem.title = self.registrationMode ? @"Enter Phone Number" : @"Forgot Password";
+}
+
+- (void)showProgressView
+{
+    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+}
+
+- (void)hideProgressViewWithCompletion:( void(^)() )completion
+{
+    [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+    {
+        if( completion )
+        {
+            completion();
+        }
+    }];
 }
 
 - (IBAction)submitPhoneNumber
 {
     [self.view endEditing:YES];
     
-    [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
+    [self showProgressView];
     
     NSString *after1 = [self.phoneNumberField.text substringFromIndex:3];
     NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
     NSString *phoneNumber = [[components componentsJoinedByString:@""] mutableCopy];
     
+    if( self.registrationMode )
+    {
+        [self verifyPhoneNumber:phoneNumber];
+    }
+    else
+    {
+        [self submitPasswordResetRequestWithPhoneNumber:phoneNumber];
+    }
+}
+
+- (void)submitPasswordResetRequestWithPhoneNumber:(NSString *)phoneNumber
+{
     [[DAAPIManager sharedManager] requestPasswordResetCodeWithPhoneNumber:phoneNumber completion:^( BOOL success )
     {
-        [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+        [self hideProgressViewWithCompletion:^
         {
-            if( success )
-            {
-                [self.sentAlert show];
-            }
-            else
-            {
-                [self.errorAlert show];
-            }
+            success ? [self.sentAlert show] : [self.errorAlert show];
+        }];
+    }];
+}
+
+- (void)verifyPhoneNumber:(NSString *)phoneNumber
+{
+    NSDictionary *parameters = @{ kPhoneKey : phoneNumber };
+    
+    [[DAAPIManager sharedManager] POST:kAuthPhoneVerifyURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        [self.enterPinAlert show];
+        self.verifiedPhoneNumber = phoneNumber;
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        [self hideProgressViewWithCompletion:^
+        {
+            [self.errorAlert show];
         }];
     }];
 }
@@ -78,6 +127,40 @@
     {
         [self performSegueWithIdentifier:@"resetPassword" sender:nil];
     }
+    
+    if( alertView == self.enterPinAlert )
+    {
+        if( buttonIndex != alertView.cancelButtonIndex )
+        {
+            NSString *codeEntered = [alertView textFieldAtIndex:0].text;
+            [self verifyRegistrationCode:codeEntered];
+        }
+        else
+        {
+            [self hideProgressViewWithCompletion:nil];
+        }
+    }
+}
+
+- (void)verifyRegistrationCode:(NSString *)code
+{    
+    NSDictionary *parameters = @{ kPhoneKey : self.verifiedPhoneNumber, @"pin" : code };
+    
+    [[DAAPIManager sharedManager] POST:kAuthPhoneVerifyURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        [self hideProgressViewWithCompletion:^
+        {
+            [self performSegueWithIdentifier:@"registerForm" sender:nil];
+        }];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        [self hideProgressViewWithCompletion:^
+        {
+            [self.wrongPinAlert show];
+        }];
+    }];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -91,6 +174,13 @@
         NSString *phoneNumber = [[numbers componentsJoinedByString:@""] mutableCopy];
         
         dest.phoneNumber = phoneNumber;
+    }
+    
+    if( [segue.identifier isEqualToString:@"registerForm"] )
+    {
+        DARegisterViewController *dest = segue.destinationViewController;
+        
+        dest.phoneNumber = self.phoneNumberField.text;
     }
 }
 
@@ -187,6 +277,19 @@
     [UIView commitAnimations];
 }
 
+- (UIAlertView *)enterPinAlert
+{
+    if( !_enterPinAlert )
+    {
+        _enterPinAlert = [[UIAlertView alloc] initWithTitle:@"Enter Verification Code" message:@"You will receive text message with your verification code. Enter it here to verify your phone number." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        
+        _enterPinAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [_enterPinAlert textFieldAtIndex:0].keyboardType = UIKeyboardTypeDecimalPad;
+    }
+    
+    return _enterPinAlert;
+}
+
 - (UIAlertView *)sentAlert
 {
     if( !_sentAlert )
@@ -201,10 +304,20 @@
 {
     if( !_errorAlert )
     {
-        _errorAlert = [[UIAlertView alloc] initWithTitle:@"Request Error" message:@"There was an error requesting a password reset code. Please make sure you entered the correct phone number." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        _errorAlert = [[UIAlertView alloc] initWithTitle:@"Request Error" message:@"There was an error requesting a verification code. Please make sure you entered a valid phone number." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     }
     
     return _errorAlert;
+}
+
+- (UIAlertView *)wrongPinAlert
+{
+    if( !_wrongPinAlert )
+    {
+        _wrongPinAlert = [[UIAlertView alloc] initWithTitle:@"Incorrect Code" message:@"The verification code was incorrect. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+    }
+    
+    return _wrongPinAlert;
 }
 
 @end

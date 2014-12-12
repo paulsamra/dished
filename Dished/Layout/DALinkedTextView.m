@@ -46,6 +46,8 @@
     NSArray *words = delimiter ? [attributedText.string componentsSeparatedByString:delimiter] : [attributedText.string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
     NSMutableAttributedString *linkedText = [attributedText mutableCopy];
     NSRange currentRange = NSMakeRange( 0, attributedText.string.length );
+    
+    NSCharacterSet *invalidCharacterSet = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
 
     for( NSString *word in words )
     {
@@ -62,33 +64,35 @@
         {
             [linkedText setAttributes:attributes range:matchRange];
             [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeHashtag range:matchRange];
-            [linkedText addAttribute:kLinkedTextKey value:word range:matchRange];
-            [DATagManager addHashtagInBackground:[word substringFromIndex:1]];
+            NSString *strippedWord = [[word substringFromIndex:1] stringByTrimmingCharactersInSet:invalidCharacterSet];
+            strippedWord = [NSString stringWithFormat:@"#%@", strippedWord];
+            [linkedText addAttribute:kLinkedTextKey value:strippedWord range:matchRange];
+            [DATagManager addHashtagInBackground:[strippedWord substringFromIndex:1]];
         }
         else if( [word hasPrefix:@"@"] )
         {
+            NSString *strippedWord = [[word substringFromIndex:1] stringByTrimmingCharactersInSet:invalidCharacterSet];
+            
             if( usernames )
             {
-                if( [usernames containsObject:[word substringFromIndex:1]] )
+                if( [usernames containsObject:strippedWord] )
                 {
                     [linkedText setAttributes:attributes range:matchRange];
                     [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:matchRange];
-                    [linkedText addAttribute:kLinkedTextKey value:[word substringFromIndex:1] range:matchRange];
-                    [DATagManager addUsernameInBackground:[word substringFromIndex:1]];
+                    [linkedText addAttribute:kLinkedTextKey value:strippedWord range:matchRange];
+                    [DATagManager addUsernameInBackground:strippedWord];
                 }
-            }
-            else
-            {
-                [linkedText setAttributes:attributes range:matchRange];
-                [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:matchRange];
-                [linkedText addAttribute:kLinkedTextKey value:[word substringFromIndex:1] range:matchRange];
             }
         }
     }
     
     [super setAttributedText:linkedText];
     self.attributedString = linkedText;
-    [[DACacheManager sharedManager] setCachedValue:linkedText forKey:attributedText.string];
+    
+    if( usernames )
+    {
+        [[DACacheManager sharedManager] setCachedValue:linkedText forKey:attributedText.string];
+    }
 }
 
 - (eLinkedTextType)linkedTextTypeForCharacterAtIndex:(NSUInteger)characterIndex

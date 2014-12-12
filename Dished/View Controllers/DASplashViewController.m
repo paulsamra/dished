@@ -7,6 +7,7 @@
 //
 
 #import "DASplashViewController.h"
+#import "DAPhoneNumberViewController.h"
 
 
 @interface DASplashViewController() <UIScrollViewDelegate>
@@ -192,6 +193,15 @@
 - (IBAction)goToRegister
 {
     [self performSegueWithIdentifier:@"registerSegue" sender:nil];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if( [segue.identifier isEqualToString:@"registerSegue"] )
+    {
+        DAPhoneNumberViewController *dest = segue.destinationViewController;
+        dest.registrationMode = YES;
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated

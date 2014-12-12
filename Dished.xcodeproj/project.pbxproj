@@ -27,7 +27,7 @@
 		941291781A1BEED500B7C763 /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
 		941291791A1BEED500B7C763 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF301943472D0021A711 /* AFHTTPRequestOperation.m */; };
 		9412917A1A1BEED500B7C763 /* DAGlobalDishCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */; };
-		9412917B1A1BEED500B7C763 /* DAForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E5D194A2CF6004DFAB6 /* DAForgotPasswordViewController.m */; };
+		9412917B1A1BEED500B7C763 /* DAPhoneNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E5D194A2CF6004DFAB6 /* DAPhoneNumberViewController.m */; };
 		9412917C1A1BEED500B7C763 /* DALinkedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */; };
 		9412917D1A1BEED500B7C763 /* DADishesMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156419FCC306002497D0 /* DADishesMapViewController.m */; };
 		9412917E1A1BEED500B7C763 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
@@ -269,7 +269,7 @@
 		941292771A1C7AD100B7C763 /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
 		941292781A1C7AD100B7C763 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF301943472D0021A711 /* AFHTTPRequestOperation.m */; };
 		941292791A1C7AD100B7C763 /* DAGlobalDishCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */; };
-		9412927A1A1C7AD100B7C763 /* DAForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E5D194A2CF6004DFAB6 /* DAForgotPasswordViewController.m */; };
+		9412927A1A1C7AD100B7C763 /* DAPhoneNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E5D194A2CF6004DFAB6 /* DAPhoneNumberViewController.m */; };
 		9412927B1A1C7AD100B7C763 /* DALinkedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */; };
 		9412927C1A1C7AD100B7C763 /* DADishesMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156419FCC306002497D0 /* DADishesMapViewController.m */; };
 		9412927D1A1C7AD100B7C763 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
@@ -521,7 +521,7 @@
 		941810131970EB7700C83034 /* DAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 941810121970EB7700C83034 /* DAConstants.m */; };
 		941F3209196FA838000042AE /* DALocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F3208196FA838000042AE /* DALocationManager.m */; };
 		941F3215196FCC04000042AE /* DANewReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F3214196FCC04000042AE /* DANewReview.m */; };
-		94237E5E194A2CF6004DFAB6 /* DAForgotPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E5D194A2CF6004DFAB6 /* DAForgotPasswordViewController.m */; };
+		94237E5E194A2CF6004DFAB6 /* DAPhoneNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E5D194A2CF6004DFAB6 /* DAPhoneNumberViewController.m */; };
 		94237E72194A318C004DFAB6 /* DAResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */; };
 		942AA00E19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */; };
 		942AA01419C23F3100D0D77C /* DADishLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01319C23F3100D0D77C /* DADishLayer.m */; };
@@ -810,8 +810,8 @@
 		941F3208196FA838000042AE /* DALocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALocationManager.m; sourceTree = "<group>"; };
 		941F3213196FCC04000042AE /* DANewReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANewReview.h; sourceTree = "<group>"; };
 		941F3214196FCC04000042AE /* DANewReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANewReview.m; sourceTree = "<group>"; };
-		94237E5C194A2CF6004DFAB6 /* DAForgotPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAForgotPasswordViewController.h; sourceTree = "<group>"; };
-		94237E5D194A2CF6004DFAB6 /* DAForgotPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAForgotPasswordViewController.m; sourceTree = "<group>"; };
+		94237E5C194A2CF6004DFAB6 /* DAPhoneNumberViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAPhoneNumberViewController.h; sourceTree = "<group>"; };
+		94237E5D194A2CF6004DFAB6 /* DAPhoneNumberViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAPhoneNumberViewController.m; sourceTree = "<group>"; };
 		94237E70194A318C004DFAB6 /* DAResetPasswordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAResetPasswordViewController.h; sourceTree = "<group>"; };
 		94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAResetPasswordViewController.m; sourceTree = "<group>"; };
 		942AA00C19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGlobalDishCollectionViewCell.h; sourceTree = "<group>"; };
@@ -1985,8 +1985,8 @@
 				94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */,
 				94FF5269197347F200B97A61 /* DARegisterViewController.h */,
 				94FF526A197347F200B97A61 /* DARegisterViewController.m */,
-				94237E5C194A2CF6004DFAB6 /* DAForgotPasswordViewController.h */,
-				94237E5D194A2CF6004DFAB6 /* DAForgotPasswordViewController.m */,
+				94237E5C194A2CF6004DFAB6 /* DAPhoneNumberViewController.h */,
+				94237E5D194A2CF6004DFAB6 /* DAPhoneNumberViewController.m */,
 				94237E70194A318C004DFAB6 /* DAResetPasswordViewController.h */,
 				94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */,
 			);
@@ -2498,7 +2498,7 @@
 				941291781A1BEED500B7C763 /* DAImageFilterViewController.m in Sources */,
 				941291791A1BEED500B7C763 /* AFHTTPRequestOperation.m in Sources */,
 				9412917A1A1BEED500B7C763 /* DAGlobalDishCollectionViewCell.m in Sources */,
-				9412917B1A1BEED500B7C763 /* DAForgotPasswordViewController.m in Sources */,
+				9412917B1A1BEED500B7C763 /* DAPhoneNumberViewController.m in Sources */,
 				9412917C1A1BEED500B7C763 /* DALinkedTextView.m in Sources */,
 				940363781A25E0850068F61D /* DAManagedUsername.m in Sources */,
 				9412917D1A1BEED500B7C763 /* DADishesMapViewController.m in Sources */,
@@ -2697,7 +2697,7 @@
 				941292771A1C7AD100B7C763 /* DAImageFilterViewController.m in Sources */,
 				941292781A1C7AD100B7C763 /* AFHTTPRequestOperation.m in Sources */,
 				941292791A1C7AD100B7C763 /* DAGlobalDishCollectionViewCell.m in Sources */,
-				9412927A1A1C7AD100B7C763 /* DAForgotPasswordViewController.m in Sources */,
+				9412927A1A1C7AD100B7C763 /* DAPhoneNumberViewController.m in Sources */,
 				9412927B1A1C7AD100B7C763 /* DALinkedTextView.m in Sources */,
 				940363791A25E0850068F61D /* DAManagedUsername.m in Sources */,
 				9412927C1A1C7AD100B7C763 /* DADishesMapViewController.m in Sources */,
@@ -2896,7 +2896,7 @@
 				949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */,
 				94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */,
 				942AA00E19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m in Sources */,
-				94237E5E194A2CF6004DFAB6 /* DAForgotPasswordViewController.m in Sources */,
+				94237E5E194A2CF6004DFAB6 /* DAPhoneNumberViewController.m in Sources */,
 				94D8D69D19EC8BBE001A9EC3 /* DALinkedTextView.m in Sources */,
 				940363771A25E0850068F61D /* DAManagedUsername.m in Sources */,
 				9486156519FCC306002497D0 /* DADishesMapViewController.m in Sources */,

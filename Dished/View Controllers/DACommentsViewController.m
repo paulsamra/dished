@@ -223,6 +223,10 @@
         {
             self.tagTableView.hidden = NO;
         }
+        else
+        {
+            self.tagTableView.hidden = YES;
+        }
     }
     else
     {
@@ -502,31 +506,10 @@
     NSDictionary *parameters = @{ kIDKey : @(comment.comment_id) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
      
-    [[DAAPIManager sharedManager] POST:kDeleteCommentURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] POSTRequest:kDeleteCommentURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        [weakSelf loadComments];
-    }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
-    {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
-        {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [weakSelf deleteComment:comment];
-                }
-                else
-                {
-                    [self.tableView reloadData];
-                }
-            }];
-        }
-        else
-        {
-            [weakSelf loadComments];
-        }
+        shouldRetry ? [weakSelf deleteComment:comment] : [weakSelf loadComments];
     }];
 }
 
@@ -601,8 +584,6 @@
 - (void)textViewDidChange:(UITextView *)textView
 {
     [self.inputToolbar toggleSendButtonEnabled];
-    
-    
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -715,33 +696,16 @@
     NSDictionary *parameters = @{ kIDKey : @(reviewID), kCommentKey : text };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] POST:kCommentsURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] POSTRequest:kCommentsURL withParameters:parameters
+    success:^( id responseObject )
     {
         [weakSelf loadComments];
         
-        self.feedItem.num_comments = @( [self.feedItem.num_comments integerValue] + 1 );
+        weakSelf.feedItem.num_comments = @( [weakSelf.feedItem.num_comments integerValue] + 1 );
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
-        {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [weakSelf sendCommentWithText:text];
-                }
-                else
-                {
-                    [self.tableView reloadData];
-                }
-            }];
-        }
-        else
-        {
-            [weakSelf loadComments];
-        }
+        shouldRetry ? [weakSelf sendCommentWithText:text] : [weakSelf loadComments];
     }];
 }
 
