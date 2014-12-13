@@ -93,6 +93,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         self.collectionView.hidden = NO;
         [spinner stopAnimating];
     }];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetNavigationBar) name:UIApplicationDidEnterBackgroundNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -105,8 +108,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
     
     [self.refreshControl shouldRestartAnimation];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
 }
 
 - (void)registerCollectionViewCellNibs
@@ -556,7 +557,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     [self pushGlobalDishWithDishID:[feedItem.dish_id integerValue]];
 }
 
-- (void)textViewTappedAtCharacterIndex:(NSUInteger)characterIndex inCell:(DAReviewDetailCollectionViewCell *)cell
+- (void)textViewTappedOnText:(NSString *)text withTextType:(eLinkedTextType)textType inCell:(DAReviewDetailCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
@@ -584,19 +585,15 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         }
         else
         {
-            eLinkedTextType linkedTextType = [cell.textView linkedTextTypeForCharacterAtIndex:characterIndex];
-            
-            if( linkedTextType == eLinkedTextTypeHashtag )
+            if( textType == eLinkedTextTypeHashtag )
             {
                 DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
-                exploreResultsViewController.searchTerm = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+                exploreResultsViewController.searchTerm = text;
                 [self.navigationController pushViewController:exploreResultsViewController animated:YES];
             }
-            else if( linkedTextType == eLinkedTextTypeUsername )
-            {
-                NSString *username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
-                
-                [self pushUserProfileWithUsername:username];
+            else if( textType == eLinkedTextTypeUsername )
+            {                
+                [self pushUserProfileWithUsername:text];
             }
         }
     }
@@ -934,16 +931,16 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (void)viewDidDisappear:(BOOL)animated
 {
-    [self resetNavigationBar];
-    
     [super viewDidDisappear:animated];
+    
+    [self resetNavigationBar];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self resetNavigationBar];
-    
     [super viewWillDisappear:animated];
+    
+    [self resetNavigationBar];
 }
 
 - (void)resetNavigationBar
@@ -952,6 +949,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     frame.origin.y = 20;
     [self.navigationController.navigationBar setFrame:frame];
     [self updateNavigationBarToAlpha:1.0f];
+    
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 @end

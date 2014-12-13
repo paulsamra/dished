@@ -592,9 +592,9 @@
         calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
     }
     
-    if( calculatedHeight < 46.0 )
+    if( calculatedHeight < 55.0 )
     {
-        calculatedHeight = 46.0;
+        calculatedHeight = 55.0;
     }
     
     return calculatedHeight;

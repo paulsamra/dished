@@ -74,7 +74,7 @@
     
     [self addGestureRecognizers];
     
-    [UIView animateWithDuration:kAnimationDuration delay:0 options:UIViewAnimationOptionBeginFromCurrentState animations:^
+    [UIView animateWithDuration:kAnimationDuration delay:0 options:0 animations:^
     {
         CGFloat x = -self.view.frame.size.width + kMenuHorizontalOffset;
         self.tabBarController.view.frame = CGRectMake( x, 0, self.view.frame.size.width, self.view.frame.size.height );

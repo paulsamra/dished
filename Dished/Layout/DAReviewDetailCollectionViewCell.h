@@ -15,7 +15,9 @@
 @protocol DAReviewDetailCollectionViewCellDelegate <NSObject>
 
 @optional
-- (void)textViewTappedAtCharacterIndex:(NSUInteger)characterIndex inCell:(DAReviewDetailCollectionViewCell *)cell;
+- (void)textViewTappedOnText:(NSString *)text
+                      withTextType:(eLinkedTextType)textType
+                            inCell:(DAReviewDetailCollectionViewCell *)cell;
 
 @end
 

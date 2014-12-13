@@ -25,6 +25,57 @@
 
 @implementation DALinkedTextView
 
+- (id)initWithFrame:(CGRect)frame
+{
+    if( self = [super initWithFrame:frame] )
+    {
+        [self addTapGestureRecognizer];
+    }
+    
+    return self;
+}
+
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    if( self = [super initWithCoder:aDecoder] )
+    {
+        [self addTapGestureRecognizer];
+    }
+    
+    return self;
+}
+
+- (void)addTapGestureRecognizer
+{
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapDetected:)];
+    tapGesture.numberOfTapsRequired = 1;
+    [self addGestureRecognizer:tapGesture];
+}
+
+- (void)tapDetected:(UITapGestureRecognizer *)recognizer
+{
+    UITextView *textView = (UITextView *)recognizer.view;
+    
+    NSLayoutManager *layoutManager = textView.layoutManager;
+    CGPoint location = [recognizer locationInView:textView];
+    location.x -= textView.textContainerInset.left;
+    location.y -= textView.textContainerInset.top;
+    
+    NSUInteger characterIndex = [layoutManager characterIndexForPoint:location
+                                                      inTextContainer:textView.textContainer
+                             fractionOfDistanceBetweenInsertionPoints:nil];
+    
+    if( characterIndex < textView.textStorage.length )
+    {
+        if( [self.tapDelegate respondsToSelector:@selector(linkedTextView:tappedOnText:withLinkedTextType:)] )
+        {
+            NSString *textTapped = [self linkedTextForCharacterAtIndex:characterIndex];
+            eLinkedTextType textTypeTapped = [self linkedTextTypeForCharacterAtIndex:characterIndex];
+            [self.tapDelegate linkedTextView:self tappedOnText:textTapped withLinkedTextType:textTypeTapped];
+        }
+    }
+}
+
 - (void)setAttributedText:(NSAttributedString *)attributedText
 {
     [super setAttributedText:attributedText];
@@ -176,6 +227,8 @@
         
         [scanner scanUpToCharactersFromSet:symbols intoString:nil];
     }
+    
+    [linkedText appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     
     [super setAttributedText:linkedText];
     self.attributedString = linkedText;

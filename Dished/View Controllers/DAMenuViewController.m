@@ -73,6 +73,18 @@
     }
     
     self.initialViewAppear = NO;
+    
+    NSIndexPath *selectedRowIndexPath = [self.tableView indexPathForSelectedRow];
+    [self.tableView deselectRowAtIndexPath:selectedRowIndexPath animated:YES];
+    
+    [[self transitionCoordinator] notifyWhenInteractionEndsUsingBlock:^( id<UIViewControllerTransitionCoordinatorContext> context )
+    {
+        if( [context isCancelled] )
+        {
+            [self.tableView selectRowAtIndexPath:selectedRowIndexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
+            [self.containerViewController moveToMenu];
+        }
+    }];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

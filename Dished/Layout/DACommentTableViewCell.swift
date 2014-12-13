@@ -11,10 +11,10 @@ import UIKit
 
 @objc protocol DACommentTableViewCellDelegate
 {
-    optional func textViewTapped( characterIndex: Int, cell: DACommentTableViewCell )
+    optional func textViewTapped( text: String, textType: eLinkedTextType, inCell: DACommentTableViewCell )
 }
 
-class DACommentTableViewCell: SWTableViewCell
+class DACommentTableViewCell: SWTableViewCell, DALinkedTextViewDelegate
 {
     var textViewTapDelegate: DACommentTableViewCellDelegate?
     
@@ -28,27 +28,13 @@ class DACommentTableViewCell: SWTableViewCell
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2;
         userImageView.layer.masksToBounds = true;
         
-        commentTextView.textContainerInset = UIEdgeInsetsZero
+        commentTextView.tapDelegate = self;
         
-        let tapGesture = UITapGestureRecognizer( target: self, action: "textViewTapped:" )
-        tapGesture.numberOfTapsRequired = 1
-        self.commentTextView.addGestureRecognizer( tapGesture )
+        commentTextView.textContainerInset = UIEdgeInsetsZero
     }
     
-    func textViewTapped( recognizer: UITapGestureRecognizer )
+    func linkedTextView( textView: DALinkedTextView!, tappedOnText text: String!, withLinkedTextType textType: eLinkedTextType )
     {
-        let textView = recognizer.view as UITextView
-        
-        let layoutManager = textView.layoutManager
-        var location = recognizer.locationInView( textView )
-        location.x = location.x - textView.textContainerInset.left
-        location.y = location.y - textView.textContainerInset.top
-        
-        let characterIndex = layoutManager.characterIndexForPoint( location, inTextContainer: textView.textContainer, fractionOfDistanceBetweenInsertionPoints: nil )
-        
-        if characterIndex < textView.textStorage.length
-        {
-            textViewTapDelegate?.textViewTapped?( characterIndex, cell: self )
-        }
+        textViewTapDelegate?.textViewTapped?( text, textType: textType, inCell: self )
     }
 }

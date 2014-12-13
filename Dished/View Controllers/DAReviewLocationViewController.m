@@ -49,6 +49,8 @@
     
     self.selectedLocationName = @"Current Location";
     self.selectedRadius = 0;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationUpdated) name:kLocationUpdateNotificationKey object:nil];
 }
 
 #pragma mark - Table view data source

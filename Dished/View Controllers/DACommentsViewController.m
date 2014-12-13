@@ -423,21 +423,17 @@
     return buttons;
 }
 
-- (void)textViewTapped:(NSInteger)characterIndex cell:(DACommentTableViewCell *)cell
+- (void)textViewTapped:(NSString *)text textType:(eLinkedTextType)textType inCell:(DACommentTableViewCell *)inCell
 {
-    eLinkedTextType linkedTextType = [cell.commentTextView linkedTextTypeForCharacterAtIndex:characterIndex];
-    
-    if( linkedTextType == eLinkedTextTypeHashtag )
+    if( textType == eLinkedTextTypeHashtag )
     {
         DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
-        exploreResultsViewController.searchTerm = [cell.commentTextView linkedTextForCharacterAtIndex:characterIndex];
+        exploreResultsViewController.searchTerm = text;
         [self.navigationController pushViewController:exploreResultsViewController animated:YES];
     }
-    else if( linkedTextType == eLinkedTextTypeUsername )
+    else if( textType == eLinkedTextTypeUsername )
     {
-        NSString *username = [cell.commentTextView linkedTextForCharacterAtIndex:characterIndex];
-        
-        [self pushUserProfileWithUsername:username];
+        [self pushUserProfileWithUsername:text];
     }
 }
 

@@ -223,7 +223,7 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
     else
     {
         cell.imageView.image = nil;
-        cell.detailTextLabel.text = @"";
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
         if( indexPath.row == 0 )
         {
@@ -236,6 +236,7 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
         {
             double radius = [[self.radiusArray objectAtIndex:indexPath.row - 1] doubleValue];
             
+            cell.detailTextLabel.text = @"";
             cell.accessoryType = radius == self.selectedRadius ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
             
             if( indexPath.row == [self.radiusArray count] )
@@ -296,6 +297,8 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
             self.searchResults = [NSArray array];
             [tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
         }
+        
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
     else
     {
@@ -310,8 +313,6 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
             [tableView reloadData];
         }
     }
-    
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 - (SPGooglePlacesAutocompleteQuery *)placesQuery

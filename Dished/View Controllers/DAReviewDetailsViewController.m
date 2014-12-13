@@ -571,7 +571,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     [self pushGlobalDishWithDishID:self.review.dish_id];
 }
 
-- (void)textViewTappedAtCharacterIndex:(NSUInteger)characterIndex inCell:(DAReviewDetailCollectionViewCell *)cell
+- (void)textViewTappedOnText:(NSString *)text withTextType:(eLinkedTextType)textType inCell:(DAReviewDetailCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     NSUInteger yumsRows = self.review.num_yums > 0 ? 1 : 0;
@@ -586,19 +586,15 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
     else
     {
-        eLinkedTextType linkedTextType = [cell.textView linkedTextTypeForCharacterAtIndex:characterIndex];
-        
-        if( linkedTextType == eLinkedTextTypeHashtag )
+        if( textType == eLinkedTextTypeHashtag )
         {
             DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
-            exploreResultsViewController.searchTerm = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
+            exploreResultsViewController.searchTerm = text;
             [self.navigationController pushViewController:exploreResultsViewController animated:YES];
         }
-        else if( linkedTextType == eLinkedTextTypeUsername )
+        else if( textType == eLinkedTextTypeUsername )
         {
-            NSString *username = [cell.textView linkedTextForCharacterAtIndex:characterIndex];
-            
-            [self pushUserProfileWithUsername:username];
+            [self pushUserProfileWithUsername:text];
         }
     }
 }

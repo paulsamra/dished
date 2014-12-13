@@ -9,6 +9,11 @@
 #import "DAReviewDetailCollectionViewCell.h"
 
 
+@interface DAReviewDetailCollectionViewCell() <DALinkedTextViewDelegate>
+
+@end
+
+
 @implementation DAReviewDetailCollectionViewCell
 
 + (DAReviewDetailCollectionViewCell *)sizingCell
@@ -25,33 +30,16 @@
     
     self.textView.scrollsToTop = NO;
     self.textView.textContainerInset = UIEdgeInsetsZero;
-    
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(textViewTapped:)];
-    tapGesture.numberOfTapsRequired = 1;
-    [self.textView addGestureRecognizer:tapGesture];
+    self.textView.tapDelegate = self;
     
     self.opaque = YES;
 }
 
-- (void)textViewTapped:(UITapGestureRecognizer *)recognizer
+- (void)linkedTextView:(DALinkedTextView *)textView tappedOnText:(NSString *)text withLinkedTextType:(eLinkedTextType)textType
 {
-    UITextView *textView = (UITextView *)recognizer.view;
-    
-    NSLayoutManager *layoutManager = textView.layoutManager;
-    CGPoint location = [recognizer locationInView:textView];
-    location.x -= textView.textContainerInset.left;
-    location.y -= textView.textContainerInset.top;
-    
-    NSUInteger characterIndex = [layoutManager characterIndexForPoint:location
-                                                      inTextContainer:textView.textContainer
-                             fractionOfDistanceBetweenInsertionPoints:nil];
-    
-    if( characterIndex < textView.textStorage.length )
+    if( [self.delegate respondsToSelector:@selector(textViewTappedOnText:withTextType:inCell:)] )
     {
-        if( [self.delegate respondsToSelector:@selector(textViewTappedAtCharacterIndex:inCell:)] )
-        {
-            [self.delegate textViewTappedAtCharacterIndex:characterIndex inCell:self];
-        }
+        [self.delegate textViewTappedOnText:text withTextType:textType inCell:self];
     }
 }
 
