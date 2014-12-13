@@ -28,6 +28,28 @@
     self.comment_id        = [formatter numberFromString:nilOrJSONObjectForKey( dictionary, kIDKey )];
 }
 
+- (NSAttributedString *)attributedCommentStringWithFont:(UIFont *)font
+{
+    NSDictionary *textAttributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] };
+    NSString *usernameString = [NSString stringWithFormat:@"@%@", self.creator_username];
+    NSMutableAttributedString *finalString = [[[NSAttributedString alloc] initWithString:usernameString attributes:textAttributes] mutableCopy];
+    
+    if( [self.creator_type isEqualToString:kInfluencerUserType] )
+    {
+        [finalString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+        NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
+        influencerIcon.image = [UIImage imageNamed:@"influencer"];
+        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
+        [finalString appendAttributedString:influencerIconString];
+    }
+    
+    NSAttributedString *commentString = [[NSAttributedString alloc] initWithString:self.comment attributes:textAttributes];
+    [finalString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+    [finalString appendAttributedString:commentString];
+    
+    return finalString;
+}
+
 + (NSString *)entityName
 {
     return NSStringFromClass( [self class] );

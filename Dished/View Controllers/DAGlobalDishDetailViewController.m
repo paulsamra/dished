@@ -196,6 +196,9 @@
         cell = reviewCell;
     }
     
+    cell.layer.shouldRasterize = YES;
+    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    
     return cell;
 }
 

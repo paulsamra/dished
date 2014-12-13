@@ -12,6 +12,7 @@
 @interface DAManagedComment (Utility)
 
 - (void)configureWithDictionary:(NSDictionary *)dictionary;
+- (NSAttributedString *)attributedCommentStringWithFont:(UIFont *)font;
 + (NSString *)entityName;
 
 @end

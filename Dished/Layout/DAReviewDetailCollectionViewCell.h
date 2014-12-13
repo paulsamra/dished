@@ -28,7 +28,5 @@
 @property (weak, nonatomic) IBOutlet DALinkedTextView *textView;
 
 + (DAReviewDetailCollectionViewCell *)sizingCell;
-+ (NSDictionary *)linkedTextAttributes;
-+ (NSDictionary *)textAttributes;
 
 @end

@@ -336,7 +336,7 @@
     
     DAComment *comment = [self.comments objectAtIndex:indexPath.row];
     
-    NSAttributedString *commentString = [self commentStringForComment:comment];
+    NSAttributedString *commentString = [comment attributedCommentStringWithFont:[UIFont fontWithName:kHelveticaNeueLightFont size:14.0f]];
     NSArray *usernameMentions = [comment.usernameMentions arrayByAddingObject:comment.creator_username];
     
     [cell.commentTextView setAttributedText:commentString withAttributes:self.linkedTextAttributes delimiter:nil knownUsernames:usernameMentions];
@@ -368,7 +368,7 @@
     CGFloat textViewRightMargin = sizingCell.frame.size.width - ( textView.frame.origin.x + textView.frame.size.width );
     CGFloat textViewWidth = tableView.frame.size.width - textView.frame.origin.x - textViewRightMargin;
     
-    NSAttributedString *commentString = [self commentStringForComment:comment];
+    NSAttributedString *commentString = [comment attributedCommentStringWithFont:[UIFont fontWithName:kHelveticaNeueLightFont size:14.0f]];
     
     sizingCell.commentTextView.attributedText = commentString;
     
@@ -421,27 +421,6 @@
     }
     
     return buttons;
-}
-
-- (NSAttributedString *)commentStringForComment:(DAComment *)comment
-{
-    NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
-    NSMutableAttributedString *labelString = [[[NSAttributedString alloc] initWithString:usernameString attributes:self.linkedTextAttributes] mutableCopy];
-    
-    if( [comment.creator_type isEqualToString:kInfluencerUserType] )
-    {
-        [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-        NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
-        influencerIcon.image = [UIImage imageNamed:@"influencer"];
-        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
-        [labelString appendAttributedString:influencerIconString];
-    }
-    
-    NSAttributedString *commentString = [[NSAttributedString alloc] initWithString:comment.comment attributes:@{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] }];
-    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-    [labelString appendAttributedString:commentString];
-    
-    return labelString;
 }
 
 - (void)textViewTapped:(NSInteger)characterIndex cell:(DACommentTableViewCell *)cell

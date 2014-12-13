@@ -24,4 +24,6 @@
 
 + (DAComment *)commentWithData:(id)data;
 
+- (NSAttributedString *)attributedCommentStringWithFont:(UIFont *)font;
+
 @end

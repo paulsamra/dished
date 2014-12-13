@@ -267,18 +267,18 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     else if( itemType == ReviewDetailsItemYums )
     {
         DAReviewDetailCollectionViewCell *yumsCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
+        NSDictionary *linkedAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
         
         yumsCell.iconImageView.image = [UIImage imageNamed:@"yum_icon"];
         
         if( !self.review.yums || self.review.num_yums > 10 )
         {
             NSString *yumsString = [NSString stringWithFormat:@"%d YUMs", (int)self.review.num_yums];
-            yumsCell.textView.attributedText = [[NSAttributedString alloc] initWithString:yumsString attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
+            yumsCell.textView.attributedText = [[NSAttributedString alloc] initWithString:yumsString attributes:linkedAttributes];
         }
         else
         {
             NSAttributedString *yumString = [self yumStringWithUsernames:self.review.yums];
-            NSDictionary *linkedAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
             
             [yumsCell.textView setAttributedText:yumString withAttributes:linkedAttributes delimiter:@", " knownUsernames:[self.review yumsStringArray]];
         }
@@ -319,6 +319,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         cell = commentCell;
     }
+    
+    cell.layer.shouldRasterize = YES;
+    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     return cell;
 }
@@ -389,7 +392,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     }
     
-    NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:[DAReviewDetailCollectionViewCell textAttributes]];
+    NSDictionary *plainTextAttributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] };
+    
+    NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:plainTextAttributes];
     [labelString appendAttributedString:commentString];
     
     return labelString;
@@ -411,7 +416,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         }
     }];
     
-    NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:string attributes:[DAReviewDetailCollectionViewCell textAttributes]];
+    NSDictionary *plainTextAttributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] };
+    
+    NSAttributedString *yumString = [[NSAttributedString alloc] initWithString:string attributes:plainTextAttributes];
     
     return yumString;
 }
@@ -432,7 +439,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         }
     }];
     
-    NSAttributedString *hashtagString = [[NSAttributedString alloc] initWithString:string attributes:[DAReviewDetailCollectionViewCell textAttributes]];
+    NSDictionary *plainTextAttributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] };
+    
+    NSAttributedString *hashtagString = [[NSAttributedString alloc] initWithString:string attributes:plainTextAttributes];
     
     return hashtagString;
 }

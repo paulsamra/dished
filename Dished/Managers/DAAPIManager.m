@@ -19,14 +19,15 @@
 #define kRefreshTokenKey @"refresh_token"
 #define kExpirationDate  @"last_refresh"
 
-static NSString *const kKeychainService = @"com.dishedapp.Dished";
-
 #ifdef DEV
     static NSString *const kBaseAPIURL = @"http://54.67.63.46/v1/";
+    static NSString *const kKeychainService = @"com.dishedapp.Dished-DEV";
 #elif defined( STAGE )
     static NSString *const kBaseAPIURL = @"http://54.215.184.64/v1/";
+    static NSString *const kKeychainService = @"com.dishedapp.Dished-STAGE";
 #else
     static NSString *const kBaseAPIURL = @"https://api.dishedapp.com/v1/";
+    static NSString *const kKeychainService = @"com.dishedapp.Dished";
 #endif
 
 @interface DAAPIManager()

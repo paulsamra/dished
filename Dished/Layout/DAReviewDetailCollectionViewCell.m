@@ -65,15 +65,4 @@
     self.textView.attributedText = nil;
 }
 
-+ (NSDictionary *)textAttributes
-{
-    return @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] };
-}
-
-+ (NSDictionary *)linkedTextAttributes;
-{
-    return @{ NSForegroundColorAttributeName : [UIColor dishedColor],
-              NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] };
-}
-
 @end

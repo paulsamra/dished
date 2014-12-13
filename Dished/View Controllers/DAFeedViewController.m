@@ -222,7 +222,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         yumCell.iconImageView.image = [UIImage imageNamed:@"yum_icon"];
         
         NSString *yumsString = [NSString stringWithFormat:@"%d YUMs", (int)[feedItem.num_yums integerValue]];
-        yumCell.textView.attributedText = [[NSAttributedString alloc] initWithString:yumsString attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
+        yumCell.textView.attributedText = [[NSAttributedString alloc] initWithString:yumsString attributes:[NSAttributedString linkedTextAttributesWithFontSize:14.0f]];
         
         yumCell.delegate = self;
         
@@ -237,7 +237,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             commentCell.iconImageView.hidden = YES;
             
             NSString *commentString = [NSString stringWithFormat:@"View all %d comments...", [feedItem.num_comments intValue] - 1];
-            commentCell.textView.attributedText = [[NSAttributedString alloc] initWithString:commentString attributes:[DAReviewDetailCollectionViewCell linkedTextAttributes]];
+            commentCell.textView.attributedText = [[NSAttributedString alloc] initWithString:commentString attributes:[NSAttributedString linkedTextAttributesWithFontSize:14.0f]];
             
             commentCell.delegate = self;
             
@@ -373,27 +373,11 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         return cachedString;
     }
     
-    NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
-    NSDictionary *attributes = [DAReviewDetailCollectionViewCell linkedTextAttributes];
-    NSAttributedString *attributedUsername = [[NSAttributedString alloc] initWithString:usernameString attributes:attributes];
-    NSMutableAttributedString *labelString = [attributedUsername mutableCopy];
+    NSAttributedString *commentString = [comment attributedCommentStringWithFont:[UIFont fontWithName:kHelveticaNeueLightFont size:14.0f]];
     
-    if( [comment.creator_type isEqualToString:kInfluencerUserType] )
-    {
-        [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-        NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
-        influencerIcon.image = [UIImage imageNamed:@"influencer"];
-        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
-        [labelString appendAttributedString:influencerIconString];
-    }
+    [self.attributedStringCache setObject:commentString forKey:comment.comment];
     
-    NSMutableAttributedString *commentString = [[NSMutableAttributedString alloc] initWithString:comment.comment attributes:[DAReviewDetailCollectionViewCell textAttributes]];
-    [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-    [labelString appendAttributedString:commentString];
-    
-    [self.attributedStringCache setObject:labelString forKey:comment.comment];
-    
-    return labelString;
+    return commentString;
 }
 
 - (void)yumCell:(DAReviewButtonsCollectionViewCell *)cell
