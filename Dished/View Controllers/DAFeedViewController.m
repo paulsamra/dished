@@ -288,6 +288,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         cell = buttonCell;
     }
     
+    cell.layer.shouldRasterize = YES;
+    cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
+    
     return cell;
 }
 

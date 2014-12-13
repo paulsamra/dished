@@ -707,6 +707,9 @@
 		94D7CB071A1499970065229C /* uv_idea@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAFC1A1499970065229C /* uv_idea@2x.png */; };
 		94D8D69419EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8D69319EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift */; };
 		94D8D69D19EC8BBE001A9EC3 /* DALinkedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */; };
+		94DCBE4C1A3BEBE8009443FD /* UIViewController+Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE4B1A3BEBE8009443FD /* UIViewController+Alert.m */; };
+		94DCBE4D1A3BEBE8009443FD /* UIViewController+Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE4B1A3BEBE8009443FD /* UIViewController+Alert.m */; };
+		94DCBE4E1A3BEBE8009443FD /* UIViewController+Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE4B1A3BEBE8009443FD /* UIViewController+Alert.m */; };
 		94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9A71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m */; };
 		94DCE9B81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9A91980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m */; };
 		94DCE9B91980ABB100396C0A /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9AB1980ABB100396C0A /* UIAlertView+AFNetworking.m */; };
@@ -1138,6 +1141,8 @@
 		94D8D69319EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAPhotoFilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		94D8D69B19EC8BBE001A9EC3 /* DALinkedTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALinkedTextView.h; sourceTree = "<group>"; };
 		94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALinkedTextView.m; sourceTree = "<group>"; };
+		94DCBE4A1A3BEBE8009443FD /* UIViewController+Alert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Alert.h"; sourceTree = "<group>"; };
+		94DCBE4B1A3BEBE8009443FD /* UIViewController+Alert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Alert.m"; sourceTree = "<group>"; };
 		94DCE9A61980ABB100396C0A /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
 		94DCE9A71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
 		94DCE9A81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityIndicatorView+AFNetworking.h"; sourceTree = "<group>"; };
@@ -1645,6 +1650,8 @@
 				945269121A0E244500A56B17 /* UIViewController+ShareView.m */,
 				943F90BF1A11EDD6008D07FC /* UIViewController+DishSegues.h */,
 				943F90C01A11EDD6008D07FC /* UIViewController+DishSegues.m */,
+				94DCBE4A1A3BEBE8009443FD /* UIViewController+Alert.h */,
+				94DCBE4B1A3BEBE8009443FD /* UIViewController+Alert.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -2543,6 +2550,7 @@
 				941291A21A1BEED500B7C763 /* DATabBarController.m in Sources */,
 				941291A31A1BEED500B7C763 /* STHTTPRequest+STTwitter.m in Sources */,
 				941291A41A1BEED500B7C763 /* DAReviewDetailsViewController.m in Sources */,
+				94DCBE4D1A3BEBE8009443FD /* UIViewController+Alert.m in Sources */,
 				941291A51A1BEED500B7C763 /* DAPositiveHashtagsViewController.m in Sources */,
 				941291A61A1BEED500B7C763 /* DAContainerViewController.m in Sources */,
 				941291A81A1BEED500B7C763 /* SPGooglePlacesAutocompletePlace.m in Sources */,
@@ -2742,6 +2750,7 @@
 				941292A11A1C7AD100B7C763 /* DATabBarController.m in Sources */,
 				941292A21A1C7AD100B7C763 /* STHTTPRequest+STTwitter.m in Sources */,
 				941292A31A1C7AD100B7C763 /* DAReviewDetailsViewController.m in Sources */,
+				94DCBE4E1A3BEBE8009443FD /* UIViewController+Alert.m in Sources */,
 				941292A41A1C7AD100B7C763 /* DAPositiveHashtagsViewController.m in Sources */,
 				941292A51A1C7AD100B7C763 /* DAContainerViewController.m in Sources */,
 				941292A71A1C7AD100B7C763 /* SPGooglePlacesAutocompletePlace.m in Sources */,
@@ -2941,6 +2950,7 @@
 				944D1E7519DB8514006F73BF /* DAFollowListTableViewCell.swift in Sources */,
 				944689A31960048500FAE288 /* DATabBarController.m in Sources */,
 				943E625B1987362100DF2135 /* STHTTPRequest+STTwitter.m in Sources */,
+				94DCBE4C1A3BEBE8009443FD /* UIViewController+Alert.m in Sources */,
 				D1236B9619AE7B4B00727447 /* DAReviewDetailsViewController.m in Sources */,
 				9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */,
 				940537AC19F4BA0400A02088 /* DAContainerViewController.m in Sources */,

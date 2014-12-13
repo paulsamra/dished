@@ -47,6 +47,8 @@
     self.validIconImage = [UIImage imageNamed:@"valid_input"];
     
     self.phoneNumberField.text = self.phoneNumber;
+    self.phoneNumberField.textColor = [UIColor grayColor];
+    self.phoneNumberField.enabled = NO;
     [self textFieldDidChange:self.phoneNumberField];
 }
 

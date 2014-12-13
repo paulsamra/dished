@@ -37,6 +37,13 @@
     self.navigationItem.title = self.registrationMode ? @"Enter Phone Number" : @"Forgot Password";
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self.phoneNumberField becomeFirstResponder];
+}
+
 - (void)showProgressView
 {
     [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"" mode:MRProgressOverlayViewModeIndeterminate animated:YES];
@@ -281,7 +288,7 @@
 {
     if( !_enterPinAlert )
     {
-        _enterPinAlert = [[UIAlertView alloc] initWithTitle:@"Enter Verification Code" message:@"You will receive text message with your verification code. Enter it here to verify your phone number." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        _enterPinAlert = [[UIAlertView alloc] initWithTitle:@"Enter Verification Code" message:@"You will receive a text message with a six-digit verification code." delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
         
         _enterPinAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
         [_enterPinAlert textFieldAtIndex:0].keyboardType = UIKeyboardTypeDecimalPad;
