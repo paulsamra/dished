@@ -74,7 +74,7 @@
     
     if( !persistentStore )
     {
-        NSLog(@"ERROR: %@", error.description);
+        NSLog(@"CORE DATA ERROR: %@", error.description);
     }
     else
     {

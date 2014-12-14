@@ -112,12 +112,12 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    weakSelf.searchTask = [[DAAPIManager sharedManager] GET:url parameters:authParameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    weakSelf.searchTask = [[DAAPIManager sharedManager] GETRequest:url withParameters:authParameters
+    success:^( id response )
     {
         weakSelf.isLoading = NO;
         
-        NSArray *newResults = [weakSelf dishesFromResponse:responseObject];
+        NSArray *newResults = [weakSelf dishesFromResponse:response];
         weakSelf.searchResults = [weakSelf.searchResults arrayByAddingObjectsFromArray:newResults];
         
         weakSelf.hasMoreData = newResults.count < kRowLimit ? NO : YES;
@@ -138,23 +138,16 @@ static NSString *const kDishSearchCellID = @"dishCell";
         
         weakSelf.isLoadingMore = NO;
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self loadSearchResultsWithURL:url query:query queryKey:key];
-                }
-            }];
+            [weakSelf loadSearchResultsWithURL:url query:query queryKey:key];
         }
         else
         {
             weakSelf.isLoading = NO;
             weakSelf.isLoadingMore = NO;
-            
             [weakSelf.tableView reloadData];
         }
     }];

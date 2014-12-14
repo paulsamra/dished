@@ -91,64 +91,104 @@
 
 - (void)loadUserInfoWithCompletion:( void (^)( BOOL success ) )completion
 {
-    [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
+    dispatch_group_t group = dispatch_group_create();
+    
+    __block BOOL successful = YES;
+    
+    dispatch_group_enter( group );
+
+    [self loadUserSettingsWithCompletion:^( BOOL success )
     {
-        dispatch_group_t group = dispatch_group_create();
-        dispatch_group_enter( group );
+        successful &= success;
         
-        __block BOOL successful = YES;
+        dispatch_group_leave( group );
+    }];
+    
+    dispatch_group_enter( group );
+    
+    [self loadUserProfileWithCompletion:^( BOOL success )
+    {
+        successful &= success;
         
-        NSDictionary *settingsParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+        dispatch_group_leave( group );
+    }];
         
-        [self.loadSettingsTask cancel];
-        
-        self.loadSettingsTask = [[DAAPIManager sharedManager] GET:kUserSettingsURL parameters:settingsParameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            NSDictionary *settings = nilOrJSONObjectForKey( responseObject, kDataKey );
-            [self setSettingsWithSettingsData:settings];
+    dispatch_group_notify( group, dispatch_get_main_queue(), ^
+    {
+        [self saveProfile];
             
-            dispatch_group_leave( group );
+        self.userProfileSuccessfullySaved = successful;
+            
+        if( completion )
+        {
+            completion( successful );
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
+    });
+}
+
+- (void)loadUserSettingsWithCompletion:( void(^)( BOOL success ) )completion
+{
+    NSDictionary *settingsParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+    
+    [self.loadSettingsTask cancel];
+    
+    self.loadSettingsTask = [[DAAPIManager sharedManager] GETRequest:kUserSettingsURL withParameters:settingsParameters
+    success:^( id response )
+    {
+        NSDictionary *settings = nilOrJSONObjectForKey( response, kDataKey );
+        [self setSettingsWithSettingsData:settings];
+        
+        if( completion )
         {
-            successful &= NO;
-            
-            dispatch_group_leave( group );
-        }];
-        
-        dispatch_group_enter( group );
-        
-        NSDictionary *profileParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
-        
-        [self.loadProfileTask cancel];
-        
-        self.loadProfileTask = [[DAAPIManager sharedManager] GET:kUsersURL parameters:profileParameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
-        {
-            NSDictionary *profile = nilOrJSONObjectForKey( responseObject, kDataKey );
-            [self setProfileWithProfileData:profile];
-            
-            dispatch_group_leave( group );
+            completion( YES );
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
+    }
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
         {
-            successful &= NO;
-            
-            dispatch_group_leave( group );
-        }];
-        
-        dispatch_group_notify( group, dispatch_get_main_queue(), ^
+            [self loadUserSettingsWithCompletion:completion];
+        }
+        else
         {
-            [self saveProfile];
-            
-            self.userProfileSuccessfullySaved = successful;
-            
             if( completion )
             {
-                completion( successful );
+                completion( NO );
             }
-        });
+        }
+    }];
+}
+
+- (void)loadUserProfileWithCompletion:( void(^)( BOOL success ) )completion
+{
+    NSDictionary *profileParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
+    
+    [self.loadProfileTask cancel];
+    
+    self.loadProfileTask = [[DAAPIManager sharedManager] GETRequest:kUsersURL withParameters:profileParameters
+    success:^( id response )
+    {
+        NSDictionary *profile = nilOrJSONObjectForKey( response, kDataKey );
+        [self setProfileWithProfileData:profile];
+        
+        if( completion )
+        {
+            completion( YES );
+        }
+    }
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
+        {
+            [self loadUserProfileWithCompletion:completion];
+        }
+        else
+        {
+            if( completion )
+            {
+                completion( NO );
+            }
+        }
     }];
 }
 

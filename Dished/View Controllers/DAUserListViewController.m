@@ -70,23 +70,17 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id), kRelationKey : @(YES) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    weakSelf.loadTask = [[DAAPIManager sharedManager] POST:kUserFollowersURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    weakSelf.loadTask = [[DAAPIManager sharedManager] POSTRequest:kUserFollowersURL withParameters:parameters
+    success:^( id response )
     {
-        weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
+        weakSelf.usernameArray = [weakSelf usernamesWithData:response];
         [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [weakSelf loadFollowers];
-                }
-            }];
+            [weakSelf loadFollowers];
         }
     }];
 }
@@ -98,23 +92,17 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id), kRelationKey : @(YES) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    weakSelf.loadTask = [[DAAPIManager sharedManager] POST:kUserFollowingURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    weakSelf.loadTask = [[DAAPIManager sharedManager] POSTRequest:kUserFollowingURL withParameters:parameters
+    success:^( id response )
     {
-        weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
+        weakSelf.usernameArray = [weakSelf usernamesWithData:response];
         [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self loadFollowing];
-                }
-            }];
+            [weakSelf loadFollowing];
         }
     }];
 }
@@ -126,23 +114,17 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] GET:kReviewYumsURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] GETRequest:kReviewYumsURL withParameters:parameters
+    success:^( id response )
     {
-        weakSelf.usernameArray = [weakSelf usernamesWithData:responseObject];
+        weakSelf.usernameArray = [weakSelf usernamesWithData:response];
         [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self loadYums];
-                }
-            }];
+            [weakSelf loadYums];
         }
     }];
 }
@@ -272,18 +254,12 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     NSDictionary *parameters = @{ kIDKey : @(userID) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] POST:kFollowUserURL parameters:parameters success:nil
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    [[DAAPIManager sharedManager] POSTRequest:kFollowUserURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [weakSelf followUserID:userID];
-                }
-            }];
+            [weakSelf followUserID:userID];
         }
     }];
 }
@@ -295,18 +271,12 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     NSDictionary *parameters = @{ kIDKey : @(userID) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] POST:kUnfollowUserURL parameters:parameters success:nil
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    [[DAAPIManager sharedManager] POSTRequest:kUnfollowUserURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [weakSelf followUserID:userID];
-                }
-            }];
+            [weakSelf unfollowUserID:userID];
         }
     }];
 }
