@@ -78,9 +78,7 @@
         
         if( ![[NSUserDefaults standardUserDefaults] objectForKey:@"firstRun"] )
         {
-            [SSKeychain deletePasswordForService:kKeychainService account:kClientSecretKey];
-            [SSKeychain deletePasswordForService:kKeychainService account:kAccessTokenKey];
-            [SSKeychain deletePasswordForService:kKeychainService account:kRefreshTokenKey];
+            [self logout];
             
             [[NSUserDefaults standardUserDefaults] setObject:@"firstRun" forKey:@"firstRun"];
             [[NSUserDefaults standardUserDefaults] synchronize];
@@ -149,7 +147,13 @@
     {
         id errorValue = errorResponse[kErrorKey];
         
-        if( [errorValue isKindOfClass:[NSNumber class]] )
+        NSString *errorDescription = nilOrJSONObjectForKey( errorResponse, @"error_description" );
+        
+        if( errorDescription && [errorDescription rangeOfString:@"refresh token"].location != NSNotFound )
+        {
+            errorType = eErrorTypeInvalidRefreshToken;
+        }
+        else if( [errorValue isKindOfClass:[NSNumber class]] )
         {
             if( [errorValue integerValue] == 403 )
             {
@@ -159,15 +163,9 @@
                 }
             }
         }
-        else
+        else if( [errorValue isKindOfClass:[NSString class]] )
         {
-            NSString *errorDescription = nilOrJSONObjectForKey( errorResponse, @"error_description" );
-            
-            if( errorDescription && [errorDescription rangeOfString:@"refresh token"].location != NSNotFound )
-            {
-                errorType = eErrorTypeInvalidRefreshToken;
-            }
-            else if( [errorValue isEqualToString:kDataNonexistsError] )
+            if( [errorValue isEqualToString:kDataNonexistsError] )
             {
                 errorType = eErrorTypeDataNonexists;
             }
@@ -527,22 +525,16 @@
 
 - (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion
 {
-    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, @"query" : query,
-                                  @"longitude" : @(longitude), @"latitude" : @(latitude),
-                                  @"radius" : @(radius), @"auto_complete" : @(1) };
+    NSDictionary *parameters = @{ kAccessTokenKey : self.accessToken, kQueryKey : query,
+                                  kLongitudeKey : @(longitude), kLatitudeKey : @(latitude),
+                                  kRadiusKey : @(radius), @"auto_complete" : @(1) };
     
     return [self GET:@"explore/dishes_locations" parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
-        NSDictionary *response = (NSDictionary *)responseObject;
-        
-        if( [response[@"status"] isEqualToString:@"success"] )
+        if( completion )
         {
             completion( responseObject, nil );
-        }
-        else
-        {
-            completion( nil, nil );
         }
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )

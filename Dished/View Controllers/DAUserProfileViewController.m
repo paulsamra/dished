@@ -226,26 +226,20 @@ static NSString *const kDishSearchCellID = @"dishCell";
     NSDictionary *parameters = self.loc_id == 0 ? @{ kIDKey : @(self.user_id) } : @{ kLocationIDKey : @(self.loc_id) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    self.profileLoadTask = [[DAAPIManager sharedManager] GET:kRestaurantProfileURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    self.profileLoadTask = [[DAAPIManager sharedManager] GETRequest:kRestaurantProfileURL withParameters:parameters
+    success:^( id response )
     {
-        self.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, kDataKey )];
+        self.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( response, kDataKey )];
         [self configureForRestaurantProfile];
         [self hideSpinner];
         [self setMainViewsHidden:NO animated:YES];
         [self loadPlacemark];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                 if( success )
-                 {
-                     [self loadRestaurantProfile];
-                 }
-            }];
+            [self loadRestaurantProfile];
         }
     }];
 }
@@ -256,27 +250,21 @@ static NSString *const kDishSearchCellID = @"dishCell";
                                   ( self.username ? self.username : @(self.user_id) ) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    self.profileLoadTask = [[DAAPIManager sharedManager] GET:kUserProfileURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    self.profileLoadTask = [[DAAPIManager sharedManager] GETRequest:kUserProfileURL withParameters:parameters
+    success:^( id response )
     {
-        self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( responseObject, kDataKey )];
+        self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( response, kDataKey )];
         [self configureForUserProfile];
         
         [self hideSpinner];
         
         [self setMainViewsHidden:NO animated:YES];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self loadUserProfile];
-                }
-            }];
+            [self loadUserProfile];
         }
     }];
 }
