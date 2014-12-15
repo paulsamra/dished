@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface DAGlobalDishDetailViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate>
+@interface DAGlobalDishDetailViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 

@@ -113,4 +113,18 @@ NSString *const kDAPGradeAll = @"All Grades";
     self.mutableReviews[key] = newReviews;
 }
 
+- (void)addReviewData:(NSArray *)data forGradeKey:(NSString *)key
+{
+    NSMutableArray *newReviews = [NSMutableArray array];
+    
+    for( NSDictionary *review in data )
+    {
+        DAReview *newReview = [[DAReview alloc] initWithData:review];
+        [newReviews addObject:newReview];
+    }
+    
+    NSArray *currentReviews = self.mutableReviews[key];
+    self.mutableReviews[key] = [currentReviews arrayByAddingObjectsFromArray:newReviews];
+}
+
 @end

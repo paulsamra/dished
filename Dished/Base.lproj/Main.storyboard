@@ -4117,7 +4117,7 @@
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="Og0-j7-hbS">
                                     <size key="itemSize" width="320" height="570"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="50" height="70"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
@@ -4688,6 +4688,19 @@
                                         <size key="customSize" width="320" height="100"/>
                                     </collectionViewCell>
                                 </cells>
+                                <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="loadingFooter" id="gWJ-pP-eMW">
+                                    <rect key="frame" x="0.0" y="979" width="600" height="50"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="M6R-Fq-JeT">
+                                            <rect key="frame" x="290" y="25" width="20" height="20"/>
+                                        </activityIndicatorView>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="centerX" secondItem="M6R-Fq-JeT" secondAttribute="centerX" id="lHq-Qi-2S3"/>
+                                        <constraint firstAttribute="centerY" secondItem="M6R-Fq-JeT" secondAttribute="centerY" id="tdZ-vz-P5u"/>
+                                    </constraints>
+                                </collectionReusableView>
                                 <connections>
                                     <outlet property="dataSource" destination="vVU-kX-jzI" id="VZH-u0-PLQ"/>
                                     <outlet property="delegate" destination="vVU-kX-jzI" id="eqH-i0-Lge"/>

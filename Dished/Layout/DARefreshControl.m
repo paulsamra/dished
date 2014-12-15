@@ -95,7 +95,7 @@
         return;
     }
     
-    CGFloat percentWidth = fabs( scrollPosition ) / self.frame.size.height / 2.5;
+    CGFloat percentWidth = fabs( scrollPosition ) / self.frame.size.height / 2.0;
     
     CGRect maskFrame = self.maskLayer.frame;
     maskFrame.size.width = self.blueDishLayer.frame.size.width * percentWidth;

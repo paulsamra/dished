@@ -32,6 +32,8 @@
 @property (strong, nonatomic) DAGlobalReviewCollectionViewCell *referenceReviewCell;
 
 @property (nonatomic) BOOL graphAnimated;
+@property (nonatomic) BOOL hasMoreReviews;
+@property (nonatomic) BOOL isLoadingMore;
 
 @end
 
@@ -44,6 +46,8 @@
     
     self.gradeMode = kDAPGradeAll;
     self.graphAnimated = NO;
+    self.hasMoreReviews = YES;
+    self.isLoadingMore = NO;
     
     self.collectionView.hidden = YES;
     
@@ -75,7 +79,7 @@
 
 - (void)loadDishDetails
 {
-    NSDictionary *parameters = @{ kIDKey : @(self.dishID) };
+    NSDictionary *parameters = @{ kIDKey : @(self.dishID), kRowLimitKey : @(kLoadLimit) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     __weak typeof( self ) weakSelf = self;
@@ -85,6 +89,10 @@
     {
         weakSelf.dishProfile = [DADishProfile profileWithData:nilOrJSONObjectForKey( response, kDataKey )];
         [weakSelf hideSpinner];
+        
+        NSArray *reviews = weakSelf.dishProfile.reviews[weakSelf.gradeMode];
+        weakSelf.hasMoreReviews = reviews.count >= kLoadLimit;
+        
         [weakSelf.collectionView reloadData];
         
         [UIView transitionWithView:weakSelf.collectionView
@@ -130,12 +138,17 @@
 
 - (void)reloadReviewsWithCompletion:( void(^)() )completion
 {
-    NSDictionary *parameters = @{ kIDKey : @(self.dishID), kGradeKey : [self gradeKeyForGradeMode:self.gradeMode], kRowLimitKey : @(kLoadLimit) };
+    NSArray *reviews = self.dishProfile.reviews[self.gradeMode];
+    NSInteger limit = reviews.count ? reviews.count : kLoadLimit;
+    NSDictionary *parameters = @{ kIDKey : @(self.dishID), kGradeKey : [self gradeKeyForGradeMode:self.gradeMode], kRowLimitKey : @(limit) };
     [[DAAPIManager sharedManager] GETRequest:kDishesProfileReviewsURL withParameters:parameters
     success:^( id response )
     {
         NSDictionary *data = nilOrJSONObjectForKey( response, kDataKey );
         [self.dishProfile setReviewData:nilOrJSONObjectForKey( data, kReviewsKey ) forGradeKey:self.gradeMode];
+        
+        NSArray *reviews = self.dishProfile.reviews[self.gradeMode];
+        self.hasMoreReviews = reviews.count >= kLoadLimit;
         
         completion();
     }
@@ -152,16 +165,57 @@
     }];
 }
 
-- (void)reloadCollectionViewReviewsSection
+- (void)reloadCollectionViewReviewsSectionWithScroll:(BOOL)scroll
 {
     [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:1]];
-    [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:1] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+    
+    if( scroll )
+    {
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:1] atScrollPosition:UICollectionViewScrollPositionCenteredVertically animated:YES];
+    }
 }
 
-- (void)loadMoreReviewsOfGrade:(NSString *)grade
+- (void)loadMoreReviews
 {
-    //NSUInteger offset = self.dishProfile.reviews.count;
-    //NSDictionary *parameters = @{ kIDKey : @(self.dishID), kGradeKey : grade ? grade : @"", kRowLimitKey : 0 };
+    NSArray *reviews = self.dishProfile.reviews[self.gradeMode];
+    NSUInteger offset = reviews.count;
+    NSDictionary *parameters = @{ kIDKey : @(self.dishID), kGradeKey : [self gradeKeyForGradeMode:self.gradeMode],
+                                  kRowLimitKey : @(kLoadLimit), kRowOffsetKey : @(offset) };
+    
+    self.isLoadingMore = YES;
+    
+    [[DAAPIManager sharedManager] GETRequest:kDishesProfileReviewsURL withParameters:parameters
+    success:^( id response )
+    {
+        NSDictionary *data = nilOrJSONObjectForKey( response, kDataKey );
+        NSArray *newReviews = nilOrJSONObjectForKey( data, kReviewsKey );
+        [self.dishProfile addReviewData:nilOrJSONObjectForKey( data, kReviewsKey ) forGradeKey:self.gradeMode];
+        
+        self.hasMoreReviews = newReviews.count >= kLoadLimit;
+        
+        [self reloadCollectionViewReviewsSectionWithScroll:NO];
+        
+        self.isLoadingMore = NO;
+    }
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
+        {
+            [self loadMoreReviews];
+        }
+        else
+        {
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+
+            if( errorType == eErrorTypeDataNonexists )
+            {
+                self.hasMoreReviews = NO;
+                [self reloadCollectionViewReviewsSectionWithScroll:NO];
+            }
+            
+            self.isLoadingMore = NO;
+        }
+    }];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -289,6 +343,30 @@
     return cell;
 }
 
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionReusableView *view = nil;
+    
+    if( kind == UICollectionElementKindSectionFooter && indexPath.section == 1 )
+    {
+        view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"loadingFooter" forIndexPath:indexPath];
+    }
+    
+    return view;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
+{
+    if( section == 1 && self.hasMoreReviews )
+    {
+        UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
+        
+        return flowLayout.footerReferenceSize;
+    }
+    
+    return CGSizeZero;
+}
+
 - (NSAttributedString *)attributedDishDescriptionTextWithDescription:(NSString *)description
 {
     return [[NSAttributedString alloc] initWithString:description attributes:[DAGlobalDishCollectionViewCell descriptionTextAttributes]];
@@ -406,6 +484,16 @@
     }
 }
 
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+{
+    CGFloat bottomEdge = scrollView.contentOffset.y + scrollView.frame.size.height;
+    
+    if( self.hasMoreReviews && !self.isLoadingMore && bottomEdge >= scrollView.contentSize.height )
+    {
+        [self loadMoreReviews];
+    }
+}
+
 - (void)dealloc
 {
     [self.profileLoadTask cancel];
@@ -427,10 +515,11 @@
     
     [self reloadReviewsWithCompletion:^
     {
+        [self reloadCollectionViewReviewsSectionWithScroll:NO];
         [cell endLoading];
     }];
     
-    [self reloadCollectionViewReviewsSection];
+    [self reloadCollectionViewReviewsSectionWithScroll:YES];
 }
 
 - (void)moreButtonTappedInGradeGraphCollectionViewCell:(DAGradesGraphCollectionViewCell *)cell

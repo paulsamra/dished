@@ -42,5 +42,6 @@ extern NSString *const kDAPGradeAll;
 + (DADishProfile *)profileWithData:(id)data;
 
 - (void)setReviewData:(NSArray *)data forGradeKey:(NSString *)key;
+- (void)addReviewData:(NSArray *)data forGradeKey:(NSString *)key;
 
 @end
