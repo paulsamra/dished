@@ -8,42 +8,109 @@
 
 #import "DADishProfile.h"
 
+NSString *const kDAPGradeA   = @"As";
+NSString *const kDAPGradeB   = @"Bs";
+NSString *const kDAPGradeC   = @"Cs";
+NSString *const kDAPGradeDF  = @"Ds & Fs";
+NSString *const kDAPGradeAll = @"All Grades";
+
+
+@interface DADishProfile()
+
+@property (strong, nonatomic) NSMutableDictionary *mutableReviews;
+
+@end
+
+
 @implementation DADishProfile
 
 + (DADishProfile *)profileWithData:(id)data
 {
-    DADishProfile *profile = [[DADishProfile alloc] init];
-    
-    profile.name            = nilOrJSONObjectForKey( data, kNameKey );
-    profile.desc            = nilOrJSONObjectForKey( data, @"desc" );
-    profile.price           = nilOrJSONObjectForKey( data, kPriceKey );
-    profile.type            = nilOrJSONObjectForKey( data, kTypeKey );
-    profile.loc_name        = nilOrJSONObjectForKey( data, kLocationNameKey );
-    profile.grade           = nilOrJSONObjectForKey( data, kGradeKey );
-    profile.images          = nilOrJSONObjectForKey( data, kImagesKey );
-    profile.num_grades      = nilOrJSONObjectForKey( data, @"num_grades" );
-    
-    profile.dish_id         = [nilOrJSONObjectForKey( data, kIDKey )         integerValue];
-    profile.loc_id          = [nilOrJSONObjectForKey( data, kLocationIDKey ) integerValue];
-    profile.num_yums        = [data[@"num_yums"]   integerValue];
-    profile.num_images      = [data[@"num_images"] integerValue];
-    
-    profile.additional_info = [data[@"additional_info"] boolValue];
-        
-    NSArray *reviews = nilOrJSONObjectForKey( data, kReviewsKey );
-    if( reviews )
+    return [[DADishProfile alloc] initWithData:data];
+}
+
+- (id)initWithData:(id)data
+{
+    if( self = [super init] )
     {
-        NSMutableArray *newReviews = [NSMutableArray array];
+        _name            = nilOrJSONObjectForKey( data, kNameKey );
+        _desc            = nilOrJSONObjectForKey( data, @"desc" );
+        _price           = nilOrJSONObjectForKey( data, kPriceKey );
+        _type            = nilOrJSONObjectForKey( data, kTypeKey );
+        _loc_name        = nilOrJSONObjectForKey( data, kLocationNameKey );
+        _grade           = nilOrJSONObjectForKey( data, kGradeKey );
+        _images          = nilOrJSONObjectForKey( data, kImagesKey );
         
-        for( NSDictionary *review in reviews )
+        NSDictionary *grades = nilOrJSONObjectForKey( data, @"num_grades" );
+        _aGrades  = [grades[@"A"]  integerValue];
+        _bGrades  = [grades[@"B"]  integerValue];
+        _cGrades  = [grades[@"C"]  integerValue];
+        _dfGrades = [grades[@"DF"] integerValue];
+        
+        _dish_id         = [nilOrJSONObjectForKey( data, kIDKey )         integerValue];
+        _loc_id          = [nilOrJSONObjectForKey( data, kLocationIDKey ) integerValue];
+        _num_yums        = [data[@"num_yums"]   integerValue];
+        _num_images      = [data[@"num_images"] integerValue];
+        
+        _additional_info = [data[@"additional_info"] boolValue];
+        
+        NSArray *reviews = nilOrJSONObjectForKey( data, kReviewsKey );
+        if( reviews )
         {
-            [newReviews addObject:[[DAGlobalReview alloc] initWithData:review]];
+            NSMutableArray *aReviews   = [NSMutableArray array];
+            NSMutableArray *bReviews   = [NSMutableArray array];
+            NSMutableArray *cReviews   = [NSMutableArray array];
+            NSMutableArray *dfReviews  = [NSMutableArray array];
+            NSMutableArray *allReviews = [NSMutableArray array];
+            
+            NSMutableDictionary *reviewDict = [NSMutableDictionary dictionary];
+            
+            for( NSDictionary *review in reviews )
+            {
+                DAReview *newReview = [[DAReview alloc] initWithData:review];
+                [allReviews addObject:newReview];
+                
+                switch( [[newReview.grade lowercaseString] characterAtIndex:0] )
+                {
+                    case 'a': [aReviews addObject:newReview]; break;
+                    case 'b': [bReviews addObject:newReview]; break;
+                    case 'c': [cReviews addObject:newReview]; break;
+                    case 'd':
+                    case 'f':
+                        [dfReviews addObject:newReview];
+                        break;
+                }
+            }
+            
+            reviewDict[kDAPGradeA]   = aReviews;
+            reviewDict[kDAPGradeB]   = bReviews;
+            reviewDict[kDAPGradeC]   = cReviews;
+            reviewDict[kDAPGradeDF]  = dfReviews;
+            reviewDict[kDAPGradeAll] = allReviews;
+            
+            _mutableReviews = reviewDict;
         }
-        
-        profile.reviews = newReviews;
     }
     
-    return profile;
+    return self;
+}
+
+- (NSDictionary *)reviews
+{
+    return self.mutableReviews;
+}
+
+- (void)setReviewData:(NSArray *)data forGradeKey:(NSString *)key
+{
+    NSMutableArray *newReviews = [NSMutableArray array];
+    
+    for( NSDictionary *review in data )
+    {
+        DAReview *newReview = [[DAReview alloc] initWithData:review];
+        [newReviews addObject:newReview];
+    }
+    
+    self.mutableReviews[key] = newReviews;
 }
 
 @end

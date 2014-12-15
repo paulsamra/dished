@@ -72,6 +72,7 @@ NSString *const kUserSettingsURL            = @"users/settings";
 NSString *const kReviewDeleteURL            = @"reviews/delete";
 NSString *const kUnfollowUserURL            = @"users/unfollow";
 NSString *const kExploreDishesURL           = @"explore/dishes";
+NSString *const kDishesProfileURL           = @"dishes/profile";
 NSString *const kDeleteCommentURL           = @"comments/delete";
 NSString *const kReviewProfileURL           = @"reviews/profile";
 NSString *const kUserFollowersURL           = @"users/followers";
@@ -87,6 +88,7 @@ NSString *const kRestaurantProfileURL       = @"restaurants/profile";
 NSString *const kEmailAvailabilityURL       = @"users/availability/email";
 NSString *const kPhoneAvailabilityURL       = @"users/availability/phone";
 NSString *const kUserProfileReviewsURL      = @"users/profile/reviews";
+NSString *const kDishesProfileReviewsURL    = @"dishes/profile/reviews";
 NSString *const kRestaurantProfileDishesURL = @"restaurants/profile/dishes";
 
 NSString *const kIDKey           = @"id";

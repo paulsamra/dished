@@ -12,8 +12,5 @@
 
 @interface DAGlobalReview : DAReview
 
-@property (copy, nonatomic) NSString *source;
-
-- (id)initWithData:(id)data;
 
 @end

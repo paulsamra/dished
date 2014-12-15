@@ -80,6 +80,7 @@ extern NSString *const kReportReviewURL;
 extern NSString *const kUnfollowUserURL;
 extern NSString *const kUserSettingsURL;
 extern NSString *const kReviewDeleteURL;
+extern NSString *const kDishesProfileURL;
 extern NSString *const kExploreDishesURL;
 extern NSString *const kDeleteCommentURL;
 extern NSString *const kReviewProfileURL;
@@ -96,6 +97,7 @@ extern NSString *const kRestaurantProfileURL;
 extern NSString *const kEmailAvailabilityURL;
 extern NSString *const kPhoneAvailabilityURL;
 extern NSString *const kUserProfileReviewsURL;
+extern NSString *const kDishesProfileReviewsURL;
 extern NSString *const kRestaurantProfileDishesURL;
 
 extern NSString *const kIDKey;

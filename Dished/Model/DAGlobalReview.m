@@ -11,14 +11,4 @@
 
 @implementation DAGlobalReview
 
-- (id)initWithData:(id)data
-{
-    if( self = [super initWithData:data] )
-    {
-        _source = nilOrJSONObjectForKey( data, @"source" );
-    }
-    
-    return self;
-}
-
 @end

@@ -33,6 +33,7 @@
         _name              = nilOrJSONObjectForKey( data, kNameKey );
         _grade             = nilOrJSONObjectForKey( data, kGradeKey );
         _price             = nilOrJSONObjectForKey( data, kPriceKey );
+        _source            = nilOrJSONObjectForKey( data, @"source" );
         _comment           = nilOrJSONObjectForKey( data, kCommentKey );
         _loc_name          = nilOrJSONObjectForKey( data, kLocationNameKey );
         _img_thumb         = nilOrJSONObjectForKey( data, kImgThumbKey );

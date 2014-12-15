@@ -346,6 +346,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
     else
     {
+        [cell layoutIfNeeded];
         cell.tag = indexPath.section;
         NSURL *dishImageURL = [NSURL URLWithString:item.img];
         

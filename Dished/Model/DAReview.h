@@ -21,6 +21,7 @@
 @property (copy,   nonatomic) NSString *creator_type;
 @property (copy,   nonatomic) NSString *grade;
 @property (copy,   nonatomic) NSString *comment;
+@property (copy,   nonatomic) NSString *source;
 @property (copy,   nonatomic) NSString *price;
 @property (copy,   nonatomic) NSString *img;
 @property (copy,   nonatomic) NSString *img_thumb;

@@ -662,6 +662,9 @@
 		94DCBE4C1A3BEBE8009443FD /* UIViewController+Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE4B1A3BEBE8009443FD /* UIViewController+Alert.m */; };
 		94DCBE4D1A3BEBE8009443FD /* UIViewController+Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE4B1A3BEBE8009443FD /* UIViewController+Alert.m */; };
 		94DCBE4E1A3BEBE8009443FD /* UIViewController+Alert.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE4B1A3BEBE8009443FD /* UIViewController+Alert.m */; };
+		94DCBE511A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE501A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.m */; };
+		94DCBE521A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE501A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.m */; };
+		94DCBE531A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE501A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.m */; };
 		94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9A71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m */; };
 		94DCE9B81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9A91980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m */; };
 		94DCE9B91980ABB100396C0A /* UIAlertView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9AB1980ABB100396C0A /* UIAlertView+AFNetworking.m */; };
@@ -1079,6 +1082,8 @@
 		94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALinkedTextView.m; sourceTree = "<group>"; };
 		94DCBE4A1A3BEBE8009443FD /* UIViewController+Alert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Alert.h"; sourceTree = "<group>"; };
 		94DCBE4B1A3BEBE8009443FD /* UIViewController+Alert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Alert.m"; sourceTree = "<group>"; };
+		94DCBE4F1A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGradesGraphCollectionViewCell.h; sourceTree = "<group>"; };
+		94DCBE501A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGradesGraphCollectionViewCell.m; sourceTree = "<group>"; };
 		94DCE9A61980ABB100396C0A /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
 		94DCE9A71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFNetworkActivityIndicatorManager.m; sourceTree = "<group>"; };
 		94DCE9A81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIActivityIndicatorView+AFNetworking.h"; sourceTree = "<group>"; };
@@ -2014,6 +2019,8 @@
 				D1100DB619AA3DA200C73AC8 /* DAGraphControl.m */,
 				D1100DB819AA3DDB00C73AC8 /* DAGraphControlLayer.h */,
 				D1100DB919AA3DDB00C73AC8 /* DAGraphControlLayer.m */,
+				94DCBE4F1A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.h */,
+				94DCBE501A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.m */,
 			);
 			name = "Global Dish Details";
 			sourceTree = "<group>";
@@ -2391,6 +2398,7 @@
 				9412918C1A1BEED500B7C763 /* DASocialCollectionViewCell.m in Sources */,
 				9412918D1A1BEED500B7C763 /* SWLongPressGestureRecognizer.m in Sources */,
 				9412918E1A1BEED500B7C763 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				94DCBE521A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.m in Sources */,
 				9412918F1A1BEED500B7C763 /* DAAppDelegate.m in Sources */,
 				941291901A1BEED500B7C763 /* DAEditProfileViewController.m in Sources */,
 				941291911A1BEED500B7C763 /* DAMenuViewController.m in Sources */,
@@ -2591,6 +2599,7 @@
 				9412928B1A1C7AD100B7C763 /* DASocialCollectionViewCell.m in Sources */,
 				9412928C1A1C7AD100B7C763 /* SWLongPressGestureRecognizer.m in Sources */,
 				9412928D1A1C7AD100B7C763 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				94DCBE531A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.m in Sources */,
 				9412928E1A1C7AD100B7C763 /* DAAppDelegate.m in Sources */,
 				9412928F1A1C7AD100B7C763 /* DAEditProfileViewController.m in Sources */,
 				941292901A1C7AD100B7C763 /* DAMenuViewController.m in Sources */,
@@ -2791,6 +2800,7 @@
 				D170CA6A19931D3F006D9DCB /* DASocialCollectionViewCell.m in Sources */,
 				94CB03CD19B0EA94009010F6 /* SWLongPressGestureRecognizer.m in Sources */,
 				94CB03CF19B0EA94009010F6 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
+				94DCBE511A3DBFA4009443FD /* DAGradesGraphCollectionViewCell.m in Sources */,
 				941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */,
 				943ECCF819EB19E9009516E8 /* DAEditProfileViewController.m in Sources */,
 				940537A519F27BC600A02088 /* DAMenuViewController.m in Sources */,
