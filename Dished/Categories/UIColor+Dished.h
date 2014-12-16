@@ -15,6 +15,7 @@
 + (UIColor *)commentButtonTextColor;
 + (UIColor *)greenGradeColor;
 + (UIColor *)yellowGradeColor;
++ (UIColor *)orangeGradeColor;
 + (UIColor *)redGradeColor;
 + (UIColor *)unviewedNewsColor;
 + (UIColor *)followButtonColor;

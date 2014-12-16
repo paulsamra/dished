@@ -4373,7 +4373,7 @@
                                                     <state key="normal" backgroundImage="graph_bar_blue">
                                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                                     </state>
-                                                    <state key="selected" backgroundImage="graph_bar_yellow"/>
+                                                    <state key="selected" backgroundImage="graph_bar_orange"/>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kFO-bc-oDR" userLabel="D Button">
                                                     <rect key="frame" x="51" y="160" width="243" height="20"/>
@@ -4689,7 +4689,7 @@
                                     </collectionViewCell>
                                 </cells>
                                 <collectionReusableView key="sectionFooterView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="loadingFooter" id="gWJ-pP-eMW">
-                                    <rect key="frame" x="0.0" y="979" width="600" height="50"/>
+                                    <rect key="frame" x="0.0" y="979" width="600" height="70"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="M6R-Fq-JeT">
@@ -4825,6 +4825,7 @@
         <image name="food_dish_blue" width="17" height="18"/>
         <image name="graph_bar_blue" width="30" height="31"/>
         <image name="graph_bar_green" width="30" height="31"/>
+        <image name="graph_bar_orange" width="30" height="31"/>
         <image name="graph_bar_red" width="30" height="31"/>
         <image name="graph_bar_yellow" width="30" height="31"/>
         <image name="gray_dot" width="6" height="6"/>

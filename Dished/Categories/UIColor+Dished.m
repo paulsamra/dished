@@ -31,6 +31,11 @@
     return [UIColor colorWithRed:0.96 green:0.78 blue:0 alpha:1];
 }
 
++ (UIColor *)orangeGradeColor
+{
+    return [UIColor colorWithRed:0.93 green:0.51 blue:0.16 alpha:1];
+}
+
 + (UIColor *)redGradeColor
 {
     return [UIColor colorWithRed:0.92 green:0 blue:0 alpha:1];

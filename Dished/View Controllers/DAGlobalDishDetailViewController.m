@@ -380,9 +380,13 @@
     {
         return [UIColor greenGradeColor];
     }
-    else if( [grade isEqualToString:@"b"] || [grade isEqualToString:@"c"] )
+    else if( [grade isEqualToString:@"b"] )
     {
         return [UIColor yellowGradeColor];
+    }
+    else if( [grade isEqualToString:@"c"] )
+    {
+        return [UIColor orangeGradeColor];
     }
     else
     {
@@ -542,7 +546,7 @@
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     NSArray *reviews = self.dishProfile.reviews[self.gradeMode];
-    DAReview *review = [reviews objectAtIndex:indexPath.row - 2];
+    DAReview *review = [reviews objectAtIndex:indexPath.row];
     
     [self pushUserProfileWithUsername:review.creator_username];
 }
@@ -551,7 +555,7 @@
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
     NSArray *reviews = self.dishProfile.reviews[self.gradeMode];
-    DAReview *review = [reviews objectAtIndex:indexPath.row - 2];
+    DAReview *review = [reviews objectAtIndex:indexPath.row];
     
     if( review.review_id == self.presentingReviewID )
     {
