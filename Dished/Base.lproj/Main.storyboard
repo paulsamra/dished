@@ -4299,17 +4299,13 @@
                                             <outlet property="yumsNumberButton" destination="Pfp-D6-FHb" id="5JP-dS-PxO"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="gradeGraph" id="Qeu-PH-8nI" userLabel="graphCell" customClass="DAGradesGraphCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="gradeGraph" id="Qeu-PH-8nI" userLabel="graphCell" customClass="DAGradeGraphCollectionViewCell">
                                         <rect key="frame" x="0.0" y="449" width="320" height="32"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="209"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kuy-Wh-egv" customClass="DAGraphControl">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="209"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GLOBAL SCORE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="W5y-K1-VfI">
                                                     <rect key="frame" x="11" y="11" width="120" height="15"/>
                                                     <constraints>
@@ -4476,16 +4472,13 @@
                                             <constraint firstItem="tgr-73-LcA" firstAttribute="top" secondItem="h8F-Bn-jo0" secondAttribute="top" constant="3" id="6lE-ab-eJE"/>
                                             <constraint firstItem="tgr-73-LcA" firstAttribute="bottom" secondItem="h8F-Bn-jo0" secondAttribute="bottom" constant="-3" id="6p6-16-bqz"/>
                                             <constraint firstItem="siX-h2-mqx" firstAttribute="trailing" secondItem="jmH-6g-sJ3" secondAttribute="trailing" constant="18" id="7Lm-rU-UIz"/>
-                                            <constraint firstAttribute="trailing" secondItem="kuy-Wh-egv" secondAttribute="trailing" id="9T9-tr-pvg"/>
                                             <constraint firstItem="hbR-v1-bxU" firstAttribute="bottom" secondItem="rBH-fQ-P4X" secondAttribute="bottom" constant="5" id="CXp-re-eMF"/>
                                             <constraint firstItem="siX-h2-mqx" firstAttribute="top" secondItem="jmH-6g-sJ3" secondAttribute="top" constant="-3" id="Cx7-QN-R0J"/>
                                             <constraint firstItem="BM1-6W-gs4" firstAttribute="leading" secondItem="hbR-v1-bxU" secondAttribute="trailing" id="DNi-vm-DV1"/>
                                             <constraint firstItem="tgr-73-LcA" firstAttribute="leading" secondItem="h8F-Bn-jo0" secondAttribute="leading" id="Dfm-0R-Act"/>
                                             <constraint firstItem="BM1-6W-gs4" firstAttribute="trailing" secondItem="1BK-rb-xQe" secondAttribute="trailing" constant="18" id="GD9-Yo-TAk"/>
-                                            <constraint firstAttribute="bottom" secondItem="kuy-Wh-egv" secondAttribute="bottom" id="Hbk-D3-xdY"/>
                                             <constraint firstItem="rBH-fQ-P4X" firstAttribute="top" secondItem="b28-fG-Vpd" secondAttribute="bottom" constant="1" id="IbT-ab-YLJ"/>
                                             <constraint firstItem="kFO-bc-oDR" firstAttribute="bottom" secondItem="XE5-wc-Kmf" secondAttribute="bottom" constant="3" id="Irs-Mh-hgY"/>
-                                            <constraint firstItem="kuy-Wh-egv" firstAttribute="leading" secondItem="Qeu-PH-8nI" secondAttribute="leading" id="JDk-jJ-GHs"/>
                                             <constraint firstItem="kFO-bc-oDR" firstAttribute="top" secondItem="XE5-wc-Kmf" secondAttribute="top" constant="-3" id="MhE-Kw-Naa"/>
                                             <constraint firstItem="rBH-fQ-P4X" firstAttribute="leading" secondItem="Qeu-PH-8nI" secondAttribute="leading" constant="44" id="NEW-hF-YMX"/>
                                             <constraint firstItem="BM1-6W-gs4" firstAttribute="width" secondItem="rBH-fQ-P4X" secondAttribute="width" constant="-7" id="PwJ-XQ-Emp"/>
@@ -4493,7 +4486,6 @@
                                             <constraint firstItem="2qs-aO-esX" firstAttribute="leading" secondItem="Qeu-PH-8nI" secondAttribute="leading" id="Rjh-ru-oFp"/>
                                             <constraint firstItem="b28-fG-Vpd" firstAttribute="centerY" secondItem="kFO-bc-oDR" secondAttribute="centerY" id="S7v-VQ-qKu"/>
                                             <constraint firstItem="kFO-bc-oDR" firstAttribute="width" secondItem="rBH-fQ-P4X" secondAttribute="width" constant="-7" id="SeM-Bi-h0Z"/>
-                                            <constraint firstItem="kuy-Wh-egv" firstAttribute="top" secondItem="Qeu-PH-8nI" secondAttribute="top" id="U6t-ni-Ue8"/>
                                             <constraint firstItem="hbR-v1-bxU" firstAttribute="leading" secondItem="ZLP-SO-GyK" secondAttribute="trailing" constant="7" id="VeY-0G-iKD"/>
                                             <constraint firstItem="hbR-v1-bxU" firstAttribute="leading" secondItem="b28-fG-Vpd" secondAttribute="trailing" constant="7" id="Vf4-r0-IMP"/>
                                             <constraint firstItem="CJc-tk-Pho" firstAttribute="centerY" secondItem="BM1-6W-gs4" secondAttribute="centerY" constant="1" id="WB9-S6-YHu"/>

@@ -9,7 +9,7 @@
 #import "DAGlobalDishDetailViewController.h"
 #import "DADishProfile.h"
 #import "DAGlobalDishCollectionViewCell.h"
-#import "DAGradesGraphCollectionViewCell.h"
+#import "DAGradeGraphCollectionViewCell.h"
 #import "DAGlobalReviewCollectionViewCell.h"
 #import "UIImageView+WebCache.h"
 #import "NSAttributedString+Dished.h"
@@ -283,7 +283,7 @@
         }
         else if( indexPath.row == 1 )
         {
-            DAGradesGraphCollectionViewCell *graphCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"gradeGraph" forIndexPath:indexPath];
+            DAGradeGraphCollectionViewCell *graphCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"gradeGraph" forIndexPath:indexPath];
             
             DADishProfile *dp = self.dishProfile;
             [graphCell setGradeValuesWithAGrades:dp.aGrades BGrades:dp.bGrades CGrades:dp.cGrades DFGrades:dp.dfGrades];
@@ -504,7 +504,7 @@
     [self.collectionView setDelegate:nil];
 }
 
-- (void)gradeGraphCollectionViewCell:(DAGradesGraphCollectionViewCell *)cell didSelectGradeGraphMode:(eGradeGraphMode)gradeGraphMode
+- (void)gradeGraphCollectionViewCell:(DAGradeGraphCollectionViewCell *)cell didSelectGradeGraphMode:(eGradeGraphMode)gradeGraphMode
 {
     [cell beginLoading];
     
@@ -526,7 +526,7 @@
     [self reloadCollectionViewReviewsSectionWithScroll:YES];
 }
 
-- (void)moreButtonTappedInGradeGraphCollectionViewCell:(DAGradesGraphCollectionViewCell *)cell
+- (void)moreButtonTappedInGradeGraphCollectionViewCell:(DAGradeGraphCollectionViewCell *)cell
 {
     [self shareBarButtonTapped:nil];
 }
