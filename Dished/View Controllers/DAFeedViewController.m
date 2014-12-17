@@ -27,6 +27,16 @@
 static NSString *const kReviewDetailCellIdentifier  = @"reviewDetailCell";
 static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
+typedef enum
+{
+    eFeedCellTypeDish,
+    eFeedCellTypeComment,
+    eFeedCellTypeMoreComments,
+    eFeedCellTypeYums,
+    eFeedCellTypeHashtags,
+    eFeedCellTypeButtons
+} eFeedCellType;
+
 
 @interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate>
 
@@ -35,6 +45,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 @property (strong, nonatomic) NSCache                          *usernameCache;
 @property (strong, nonatomic) NSCache                          *cellSizeCache;
 @property (strong, nonatomic) UIImageView                      *yumTapImageView;
+@property (strong, nonatomic) NSDictionary                     *linkedTextAttributes;
 @property (strong, nonatomic) NSMutableArray                   *sectionChanges;
 @property (strong, nonatomic) NSMutableArray                   *itemChanges;
 @property (strong, nonatomic) DARefreshControl                 *refreshControl;
@@ -58,6 +69,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     [self registerCollectionViewCellNibs];
     [self setupRefreshControl];
     [self setupCaches];
+    
+    self.linkedTextAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
     
     DAFeedCollectionViewFlowLayout *flowLayout = (DAFeedCollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
     flowLayout.navigationBar  = self.navigationController.navigationBar;
@@ -192,7 +205,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     BOOL hasHashtags = feedItem.hashtags.count > 0;
     BOOL hasMoreComments = [feedItem.num_comments integerValue] > 3;
     
-    return numberOfObjects + [feedItem.comments count] + ( hasYums ? 1 : 0 ) + ( hasMoreComments ? 1 : 0 ) + 1;
+    return numberOfObjects + [feedItem.comments count] + ( hasYums ? 1 : 0 ) + ( hasHashtags ? 1 : 0 ) + ( hasMoreComments ? 1 : 0 ) + 1;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -208,15 +221,79 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     return [self numberOfItemsInSection:section];
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+- (eFeedCellType)feedCellTypeForIndexPath:(NSIndexPath *)indexPath
 {
-    UICollectionViewCell *cell = nil;
+    eFeedCellType type = eFeedCellTypeDish;
     NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
     NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+    
     BOOL hasYums = [feedItem.num_yums integerValue] > 0;
+    BOOL hasHashtags = feedItem.hashtags.count > 0;
+    BOOL hasMoreComments = [feedItem.num_comments integerValue] > 3;
+    
+    NSUInteger yumRows = hasYums ? 1 : 0;
+    NSUInteger hashtagRows = hasHashtags ? 1 : 0;
     
     if( indexPath.row == 0 )
+    {
+        type = eFeedCellTypeDish;
+    }
+    else if( indexPath.row == sectionItems - 1 )
+    {
+        type = eFeedCellTypeButtons;
+    }
+    else if( indexPath.row == 1 && hasYums )
+    {
+        type = eFeedCellTypeYums;
+    }
+    else if( indexPath.row == yumRows + 1 && hasHashtags )
+    {
+        type = eFeedCellTypeHashtags;
+    }
+    else if( indexPath.row == yumRows + hashtagRows + 1 )
+    {
+        type = eFeedCellTypeComment;
+    }
+    else if( indexPath.row == yumRows + hashtagRows + 2 && hasMoreComments )
+    {
+        type = eFeedCellTypeMoreComments;
+    }
+    else
+    {
+        type = eFeedCellTypeComment;
+    }
+    
+    return type;
+}
+
+- (NSUInteger)commentIndexForIndexPath:(NSIndexPath *)indexPath
+{
+    NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+    
+    BOOL hasYums = [feedItem.num_yums integerValue] > 0;
+    BOOL hasHashtags = feedItem.hashtags.count > 0;
+    BOOL hasMoreComments = [feedItem.num_comments integerValue] > 3;
+    
+    NSUInteger yumRows = hasYums ? 1 : 0;
+    NSUInteger hashtagRows = hasHashtags ? 1 : 0;
+    
+    NSUInteger commentIndex = indexPath.row - 1 - yumRows - hashtagRows;
+    commentIndex = hasMoreComments && commentIndex > 0 ? commentIndex - 1 : commentIndex;
+    
+    return commentIndex;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    UICollectionViewCell *cell = nil;
+    NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+    
+    eFeedCellType cellType = [self feedCellTypeForIndexPath:indexPath];
+    
+    if( cellType == eFeedCellTypeDish )
     {
         DAFeedCollectionViewCell *feedCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"feedCell" forIndexPath:indexPath];
         
@@ -225,63 +302,72 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         cell = feedCell;
     }
-    else if( hasYums && indexPath.row == 1 )
+    else if( cellType == eFeedCellTypeYums )
     {
         DAReviewDetailCollectionViewCell *yumCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
         
         yumCell.iconImageView.image = [UIImage imageNamed:@"yum_icon"];
         
         NSString *yumsString = [NSString stringWithFormat:@"%d YUMs", (int)[feedItem.num_yums integerValue]];
-        yumCell.textView.attributedText = [[NSAttributedString alloc] initWithString:yumsString attributes:[NSAttributedString linkedTextAttributesWithFontSize:14.0f]];
+        yumCell.textView.attributedText = [[NSAttributedString alloc] initWithString:yumsString attributes:self.linkedTextAttributes];
         
         yumCell.delegate = self;
         
         cell = yumCell;
     }
-    else if( indexPath.row > ( hasYums ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
+    else if( cellType == eFeedCellTypeHashtags )
+    {
+        DAReviewDetailCollectionViewCell *hashtagCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
+        
+        hashtagCell.iconImageView.image = [UIImage imageNamed:@"hashtag_icon"];
+        
+        NSAttributedString *hashtagString = [self hashtagStringForFeedItem:feedItem];
+        [hashtagCell.textView setAttributedText:hashtagString withAttributes:self.linkedTextAttributes knownUsernames:nil];
+        
+        hashtagCell.delegate = self;
+        
+        cell = hashtagCell;
+    }
+    else if( cellType == eFeedCellTypeMoreComments )
     {
         DAReviewDetailCollectionViewCell *commentCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
         
-        BOOL hasMoreComments = [feedItem.num_comments integerValue] > 3;
+        commentCell.iconImageView.hidden = YES;
         
-        if( ( indexPath.row == ( hasYums ? 2 : 1 ) + 1 ) && hasMoreComments )
-        {
-            commentCell.iconImageView.hidden = YES;
-            
-            NSString *commentString = [NSString stringWithFormat:@"View all %d comments...", [feedItem.num_comments intValue] - 1];
-            commentCell.textView.attributedText = [[NSAttributedString alloc] initWithString:commentString attributes:[NSAttributedString linkedTextAttributesWithFontSize:14.0f]];
-            
-            commentCell.delegate = self;
-            
-            cell = commentCell;
-        }
-        else
-        {
-            NSInteger commentIndex = indexPath.row - ( hasYums ? 2 : 1 );
-            commentIndex = hasMoreComments && commentIndex > 0 ? commentIndex - 1 : commentIndex;
-            NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
-            DAManagedComment *comment = comments[commentIndex];
-            
-            commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
-            commentCell.iconImageView.hidden = indexPath.row - ( hasYums ? 2 : 1 ) == 0 ? NO : YES;
-            
-            NSAttributedString *commentString = [self commentStringForComment:comment];
-
-            NSArray *usernameMentions = [self.usernameCache objectForKey:comment.comment];
-            if( !usernameMentions )
-            {
-                usernameMentions = [self usernameStringArrayWithUsernames:comment.usernames creator:comment.creator_username];
-                [self.usernameCache setObject:usernameMentions forKey:comment.comment];
-            }
-            
-            [commentCell.textView setAttributedText:commentString withAttributes:[NSAttributedString linkedTextAttributesWithFontSize:14.0f] delimiter:nil knownUsernames:usernameMentions];
-            
-            commentCell.delegate = self;
-            
-            cell = commentCell;
-        }
+        NSString *commentString = [NSString stringWithFormat:@"View all %d comments...", [feedItem.num_comments intValue] - 1];
+        commentCell.textView.attributedText = [[NSAttributedString alloc] initWithString:commentString attributes:self.linkedTextAttributes];
+        
+        commentCell.delegate = self;
+        
+        cell = commentCell;
     }
-    else if( indexPath.row == sectionItems - 1 )
+    else if( cellType == eFeedCellTypeComment )
+    {
+        DAReviewDetailCollectionViewCell *commentCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
+        
+        NSUInteger commentIndex = [self commentIndexForIndexPath:indexPath];
+        NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
+        DAManagedComment *comment = comments[commentIndex];
+        
+        commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
+        commentCell.iconImageView.hidden = commentIndex == 0 ? NO : YES;
+        
+        NSAttributedString *commentString = [self commentStringForComment:comment];
+
+        NSArray *usernameMentions = [self.usernameCache objectForKey:comment.comment];
+        if( !usernameMentions )
+        {
+            usernameMentions = [self usernameStringArrayWithUsernames:comment.usernames creator:comment.creator_username];
+            [self.usernameCache setObject:usernameMentions forKey:comment.comment];
+        }
+        
+        [commentCell.textView setAttributedText:commentString withAttributes:self.linkedTextAttributes knownUsernames:usernameMentions];
+        
+        commentCell.delegate = self;
+        
+        cell = commentCell;
+    }
+    else if( cellType == eFeedCellTypeButtons )
     {
         DAReviewButtonsCollectionViewCell *buttonCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewButtonsCellIdentifier forIndexPath:indexPath];
         
@@ -317,6 +403,29 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }
     
     return usernameMentions;
+}
+
+- (NSAttributedString *)hashtagStringForFeedItem:(DAFeedItem *)feedItem
+{
+    NSMutableString *string = [[NSMutableString alloc] init];
+    
+    int index = 0;
+    for( DAManagedHashtag *hashtag in feedItem.hashtags )
+    {
+        if( index++ == 0 )
+        {
+            [string appendFormat:@"#%@", hashtag.name];
+        }
+        else
+        {
+            [string appendFormat:@", #%@", hashtag.name];
+        }
+    }
+    
+    NSDictionary *plainTextAttributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14.0f] };
+    NSAttributedString *hashtagString = [[NSAttributedString alloc] initWithString:string attributes:plainTextAttributes];
+    
+    return hashtagString;
 }
 
 - (NSArray *)dateSortedArrayWithFeedComments:(NSSet *)comments
@@ -451,62 +560,75 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGSize itemSize = CGSizeZero;
-    NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
     NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
-    NSInteger num_yums = [feedItem.num_yums integerValue];
     
-    if( indexPath.row == 0 )
+    eFeedCellType cellType = [self feedCellTypeForIndexPath:indexPath];
+    
+    if( cellType == eFeedCellTypeDish )
     {
         UICollectionViewFlowLayout *flowLayout = (UICollectionViewFlowLayout *)collectionView.collectionViewLayout;
         
         itemSize = CGSizeMake( collectionView.frame.size.width, flowLayout.itemSize.height );
     }
-    else if( num_yums > 0 && indexPath.row == 1 )
+    else if( cellType == eFeedCellTypeYums )
     {
         itemSize = CGSizeMake( collectionView.frame.size.width, 18 );
     }
-    else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
+    else if( cellType == eFeedCellTypeMoreComments )
     {
-        if( [feedItem.num_comments integerValue] > 3 && indexPath.row == ( num_yums > 0 ? 2 : 1 ) + 1 )
+        itemSize = CGSizeMake( collectionView.frame.size.width, 18 );
+    }
+    else if( cellType == eFeedCellTypeHashtags || cellType == eFeedCellTypeComment )
+    {
+        static DAReviewDetailCollectionViewCell *sizingCell;
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^
         {
-            itemSize = CGSizeMake( collectionView.frame.size.width, 18 );
+            sizingCell = [DAReviewDetailCollectionViewCell sizingCell];
+        });
+        
+        CGFloat textViewRightMargin = sizingCell.frame.size.width - ( sizingCell.textView.frame.origin.x + sizingCell.textView.frame.size.width );
+        CGFloat textViewWidth = collectionView.frame.size.width - sizingCell.textView.frame.origin.x - textViewRightMargin;
+        CGFloat textViewTopMargin = sizingCell.textView.frame.origin.y;
+        CGFloat textViewBottomMargin = sizingCell.frame.size.height - ( sizingCell.textView.frame.origin.y + sizingCell.textView.frame.size.height );
+        
+        CGSize cellSize = CGSizeZero;
+        cellSize.width = collectionView.frame.size.width;
+        
+        if( cellType == eFeedCellTypeHashtags )
+        {
+            NSAttributedString *hashtagString = [self hashtagStringForFeedItem:feedItem];
+            
+            sizingCell.textView.attributedText = hashtagString;
+            CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
+            CGSize stringSize = [sizingCell.textView sizeThatFits:boundingSize];
+            
+            CGFloat textViewHeight = ceilf( stringSize.height );
+            
+            CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
+            cellSize.height = calculatedHeight;
+            
+            itemSize = cellSize;
         }
-        else
+        else if( cellType == eFeedCellTypeComment )
         {
-            NSInteger commentIndex = indexPath.row - ( num_yums > 0 ? 2 : 1 );
-            commentIndex = [feedItem.num_comments integerValue] > 3 && commentIndex > 0 ? commentIndex - 1 : commentIndex;
+            NSUInteger commentIndex = [self commentIndexForIndexPath:indexPath];
             NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
             DAManagedComment *comment = comments[commentIndex];
             
             NSValue *cachedSize = [self.cellSizeCache objectForKey:comment.comment];
-            
             if( cachedSize )
             {
                 CGSize size = [cachedSize CGSizeValue];
                 return size;
             }
             
-            static DAReviewDetailCollectionViewCell *sizingCell;
-            static dispatch_once_t onceToken;
-            dispatch_once(&onceToken, ^
-            {
-                 sizingCell = [DAReviewDetailCollectionViewCell sizingCell];
-            });
-            
-            CGFloat textViewRightMargin = sizingCell.frame.size.width - ( sizingCell.textView.frame.origin.x + sizingCell.textView.frame.size.width );
-            CGFloat textViewWidth = collectionView.frame.size.width - sizingCell.textView.frame.origin.x - textViewRightMargin;
-            
-            CGSize cellSize = CGSizeZero;
-            cellSize.width = collectionView.frame.size.width;
-            
             NSAttributedString *commentString = [self commentStringForComment:comment];
             sizingCell.textView.attributedText = commentString;
             CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
             CGSize stringSize = [sizingCell.textView sizeThatFits:boundingSize];
             
-            CGFloat textViewTopMargin = sizingCell.textView.frame.origin.y;
-            CGFloat textViewBottomMargin = sizingCell.frame.size.height - ( sizingCell.textView.frame.origin.y + sizingCell.textView.frame.size.height );
             CGFloat textViewHeight = ceilf( stringSize.height );
             
             CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
@@ -517,7 +639,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             [self.cellSizeCache setObject:[NSValue valueWithCGSize:itemSize] forKey:comment.comment];
         }
     }
-    else if( indexPath.row == sectionItems - 1 )
+    else if( cellType == eFeedCellTypeButtons )
     {
         itemSize = CGSizeMake( collectionView.frame.size.width, 65 );
     }
@@ -572,12 +694,12 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (void)textViewTappedOnText:(NSString *)text withTextType:(eLinkedTextType)textType inCell:(DAReviewDetailCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
     NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
-    NSInteger num_yums = [feedItem.num_yums integerValue];
     
-    if( num_yums > 0 && indexPath.row == 1 )
+    eFeedCellType cellType = [self feedCellTypeForIndexPath:indexPath];
+    
+    if( cellType == eFeedCellTypeYums )
     {
         DAUserListViewController *userListViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"userList"];
         userListViewController.listContent = eUserListContentYums;
@@ -585,28 +707,31 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         [self.navigationController pushViewController:userListViewController animated:YES];
     }
-    else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
+    else if( cellType == eFeedCellTypeMoreComments )
     {
-        if( [feedItem.num_comments integerValue] > 3 && indexPath.row == ( num_yums > 0 ? 2 : 1 ) + 1 )
+        NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+        NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
+        DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
+        
+        [self pushCommentsViewWithFeedItem:feedItem showKeyboard:NO];
+    }
+    else if( cellType == eFeedCellTypeHashtags )
+    {
+        DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
+        exploreResultsViewController.searchTerm = text;
+        [self.navigationController pushViewController:exploreResultsViewController animated:YES];
+    }
+    else if( cellType == eFeedCellTypeComment )
+    {
+        if( textType == eLinkedTextTypeHashtag )
         {
-            NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-            NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-            DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
-            
-            [self pushCommentsViewWithFeedItem:feedItem showKeyboard:NO];
+            DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
+            exploreResultsViewController.searchTerm = text;
+            [self.navigationController pushViewController:exploreResultsViewController animated:YES];
         }
-        else
+        else if( textType == eLinkedTextTypeUsername )
         {
-            if( textType == eLinkedTextTypeHashtag )
-            {
-                DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
-                exploreResultsViewController.searchTerm = text;
-                [self.navigationController pushViewController:exploreResultsViewController animated:YES];
-            }
-            else if( textType == eLinkedTextTypeUsername )
-            {                
-                [self pushUserProfileWithUsername:text];
-            }
+            [self pushUserProfileWithUsername:text];
         }
     }
 }

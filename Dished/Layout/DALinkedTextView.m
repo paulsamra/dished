@@ -83,70 +83,7 @@
     self.attributedString = attributedText;
 }
 
-//- (void)setAttributedText:(NSAttributedString *)attributedText withAttributes:(NSDictionary *)attributes delimiter:(NSString *)delimiter knownUsernames:(NSArray *)usernames
-//{
-//    NSAttributedString *cachedString = [[DACacheManager sharedManager] cachedValueForKey:attributedText.string];
-//    
-//    if( cachedString )
-//    {
-//        [super setAttributedText:cachedString];
-//        self.attributedString = cachedString;
-//        return;
-//    }
-//    
-//    NSArray *words = delimiter ? [attributedText.string componentsSeparatedByString:delimiter] : [attributedText.string componentsSeparatedByCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-//    NSMutableAttributedString *linkedText = [attributedText mutableCopy];
-//    NSRange currentRange = NSMakeRange( 0, attributedText.string.length );
-//    
-//    NSCharacterSet *invalidCharacterSet = [[NSCharacterSet alphanumericCharacterSet] invertedSet];
-//
-//    for( NSString *word in words )
-//    {
-//        if( word.length < 2 )
-//        {
-//            continue;
-//        }
-//        
-//        NSRange matchRange = [attributedText.string rangeOfString:word options:0 range:currentRange];
-//        NSInteger newIndex = matchRange.location + matchRange.length;
-//        currentRange = NSMakeRange( newIndex, attributedText.string.length - newIndex );
-//        
-//        if( [word hasPrefix:@"#"] )
-//        {
-//            [linkedText setAttributes:attributes range:matchRange];
-//            [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeHashtag range:matchRange];
-//            NSString *strippedWord = [[word substringFromIndex:1] stringByTrimmingCharactersInSet:invalidCharacterSet];
-//            strippedWord = [NSString stringWithFormat:@"#%@", strippedWord];
-//            [linkedText addAttribute:kLinkedTextKey value:strippedWord range:matchRange];
-//            [DATagManager addHashtagInBackground:[strippedWord substringFromIndex:1]];
-//        }
-//        else if( [word hasPrefix:@"@"] )
-//        {
-//            NSString *strippedWord = [[word substringFromIndex:1] stringByTrimmingCharactersInSet:invalidCharacterSet];
-//            
-//            if( usernames )
-//            {
-//                if( [usernames containsObject:strippedWord] )
-//                {
-//                    [linkedText setAttributes:attributes range:matchRange];
-//                    [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:matchRange];
-//                    [linkedText addAttribute:kLinkedTextKey value:strippedWord range:matchRange];
-//                    [DATagManager addUsernameInBackground:strippedWord];
-//                }
-//            }
-//        }
-//    }
-//    
-//    [super setAttributedText:linkedText];
-//    self.attributedString = linkedText;
-//    
-//    if( usernames )
-//    {
-//        [[DACacheManager sharedManager] setCachedValue:linkedText forKey:attributedText.string];
-//    }
-//}
-
-- (void)setAttributedText:(NSAttributedString *)attributedText withAttributes:(NSDictionary *)attributes delimiter:(NSString *)delimiter knownUsernames:(NSArray *)usernames
+- (void)setAttributedText:(NSAttributedString *)attributedText withAttributes:(NSDictionary *)attributes knownUsernames:(NSArray *)usernames
 {
     NSAttributedString *cachedString = [[DACacheManager sharedManager] cachedValueForKey:attributedText.string];
     
@@ -157,76 +94,105 @@
         return;
     }
     
-    NSString *nextWord = [NSString string];
     NSMutableAttributedString *linkedText = [attributedText mutableCopy];
     
-    NSScanner *scanner = [NSScanner scannerWithString:attributedText.string];
-    scanner.charactersToBeSkipped = nil;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\B[#|@]\\S+\\b" options:0 error:nil];
     
-    NSCharacterSet *symbols = [NSCharacterSet characterSetWithCharactersInString:@"#@"];
-    NSCharacterSet *alphanumericCharacters = [NSCharacterSet alphanumericCharacterSet];
-    
-    [scanner scanUpToCharactersFromSet:symbols intoString:nil];
-    
-    NSUInteger startLocation = 0;
-    NSUInteger length = 0;
-    
-    while( !scanner.isAtEnd )
+    [regex enumerateMatchesInString:attributedText.string options:0 range:NSMakeRange( 0, [attributedText.string length] )
+    usingBlock:^( NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop )
     {
-        char symbol = [scanner.string characterAtIndex:scanner.scanLocation];
+        NSString *resultString = [attributedText.string substringWithRange:result.range];
         
-        if( symbol == '@' )
+        if( [resultString characterAtIndex:0] == '@' )
         {
-            startLocation = scanner.scanLocation++;
-            
-            if( [scanner scanCharactersFromSet:alphanumericCharacters intoString:&nextWord] )
-            {
-                length = scanner.scanLocation - startLocation;
-                
-                if( usernames )
-                {
-                    if( [usernames containsObject:nextWord] )
-                    {
-                        NSRange matchRange = NSMakeRange( startLocation, length );
-                        [linkedText setAttributes:attributes range:matchRange];
-                        [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:matchRange];
-                        [linkedText addAttribute:kLinkedTextKey value:nextWord range:matchRange];
-                        [DATagManager addUsernameInBackground:nextWord];
-                    }
-                }
-            }
+            NSString *username = [resultString substringFromIndex:1];
+            [linkedText setAttributes:attributes range:result.range];
+            [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:result.range];
+            [linkedText addAttribute:kLinkedTextKey value:username range:result.range];
+            [DATagManager addUsernameInBackground:username];
         }
-        else if( symbol == '#' )
+        else if( [resultString characterAtIndex:0] == '#' )
         {
-            startLocation = scanner.scanLocation++;
-            
-            if( [scanner scanCharactersFromSet:alphanumericCharacters intoString:&nextWord] )
-            {
-                length = scanner.scanLocation - startLocation;
-                
-                if( ![scanner isAtEnd] )
-                {
-                    char nextCharacter = [scanner.string characterAtIndex:scanner.scanLocation];
-                    
-                    if( [symbols characterIsMember:nextCharacter] )
-                    {
-                        [scanner scanUpToCharactersFromSet:symbols intoString:nil];
-                        continue;
-                    }
-                }
-                
-                NSRange matchRange = NSMakeRange( startLocation, length );
-                
-                [linkedText setAttributes:attributes range:matchRange];
-                [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeHashtag range:matchRange];
-                NSString *hashtag = [NSString stringWithFormat:@"#%@", nextWord];
-                [linkedText addAttribute:kLinkedTextKey value:hashtag range:matchRange];
-                [DATagManager addHashtagInBackground:nextWord];
-            }
+            [linkedText setAttributes:attributes range:result.range];
+            [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeHashtag range:result.range];
+            [linkedText addAttribute:kLinkedTextKey value:resultString range:result.range];
+            [DATagManager addHashtagInBackground:resultString];
         }
-        
-        [scanner scanUpToCharactersFromSet:symbols intoString:nil];
-    }
+    }];
+    
+//    NSString *nextWord = [NSString string];
+//    //NSMutableAttributedString *linkedText = [attributedText mutableCopy];
+//    
+//    NSScanner *scanner = [NSScanner scannerWithString:attributedText.string];
+//    
+//    scanner.charactersToBeSkipped = nil;
+//    
+//    NSCharacterSet *symbols = [NSCharacterSet characterSetWithCharactersInString:@"#@"];
+//    NSCharacterSet *alphanumericCharacters = [NSCharacterSet alphanumericCharacterSet];
+//    NSMutableCharacterSet *validCharacters = [NSMutableCharacterSet characterSetWithCharactersInString:@"&"];
+//    [validCharacters formUnionWithCharacterSet:alphanumericCharacters];
+//    
+//    [scanner scanUpToCharactersFromSet:symbols intoString:nil];
+//    
+//    NSUInteger startLocation = 0;
+//    NSUInteger length = 0;
+//    
+//    while( !scanner.isAtEnd )
+//    {
+//        char symbol = [scanner.string characterAtIndex:scanner.scanLocation];
+//        
+//        if( symbol == '@' )
+//        {
+//            startLocation = scanner.scanLocation++;
+//            
+//            if( [scanner scanCharactersFromSet:alphanumericCharacters intoString:&nextWord] )
+//            {
+//                length = scanner.scanLocation - startLocation;
+//                
+//                if( usernames )
+//                {
+//                    if( [usernames containsObject:nextWord] )
+//                    {
+//                        NSRange matchRange = NSMakeRange( startLocation, length );
+//                        [linkedText setAttributes:attributes range:matchRange];
+//                        [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:matchRange];
+//                        [linkedText addAttribute:kLinkedTextKey value:nextWord range:matchRange];
+//                        [DATagManager addUsernameInBackground:nextWord];
+//                    }
+//                }
+//            }
+//        }
+//        else if( symbol == '#' )
+//        {
+//            startLocation = scanner.scanLocation++;
+//            
+//            if( [scanner scanCharactersFromSet:validCharacters intoString:&nextWord] )
+//            {
+//                length = scanner.scanLocation - startLocation;
+//                
+//                if( ![scanner isAtEnd] )
+//                {
+//                    char nextCharacter = [scanner.string characterAtIndex:scanner.scanLocation];
+//                    
+//                    if( [symbols characterIsMember:nextCharacter] )
+//                    {
+//                        [scanner scanUpToCharactersFromSet:symbols intoString:nil];
+//                        continue;
+//                    }
+//                }
+//                
+//                NSRange matchRange = NSMakeRange( startLocation, length );
+//                
+//                [linkedText setAttributes:attributes range:matchRange];
+//                [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeHashtag range:matchRange];
+//                NSString *hashtag = [NSString stringWithFormat:@"#%@", nextWord];
+//                [linkedText addAttribute:kLinkedTextKey value:hashtag range:matchRange];
+//                [DATagManager addHashtagInBackground:nextWord];
+//            }
+//        }
+//        
+//        [scanner scanUpToCharactersFromSet:symbols intoString:nil];
+//    }
     
     [linkedText appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
     

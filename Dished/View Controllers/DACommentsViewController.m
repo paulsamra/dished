@@ -68,6 +68,8 @@
 {
     __weak typeof( self ) weakSelf = self;
     
+    self.inputToolbar.contentView.rightBarButtonItem.enabled = NO;
+    
     NSInteger reviewID = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
     NSDictionary *parameters = @{ kIDKey : @(reviewID) };
     parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
@@ -92,6 +94,8 @@
         }
         
         [weakSelf scrollTableViewToBottom];
+        
+        self.inputToolbar.contentView.rightBarButtonItem.enabled = YES;
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
@@ -339,7 +343,7 @@
     NSAttributedString *commentString = [comment attributedCommentStringWithFont:[UIFont fontWithName:kHelveticaNeueLightFont size:14.0f]];
     NSArray *usernameMentions = [comment.usernameMentions arrayByAddingObject:comment.creator_username];
     
-    [cell.commentTextView setAttributedText:commentString withAttributes:self.linkedTextAttributes delimiter:nil knownUsernames:usernameMentions];
+    [cell.commentTextView setAttributedText:commentString withAttributes:self.linkedTextAttributes knownUsernames:usernameMentions];
     
     NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
     [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];
@@ -653,6 +657,7 @@
     newComment.img_thumb = [[DAUserManager sharedManager] img_thumb];
     newComment.creator_type = [[DAUserManager sharedManager] userType];
     newComment.creator_id = [[DAUserManager sharedManager] user_id];
+    newComment.usernameMentions = @[ newComment.creator_username ];
     self.comments = [self.comments arrayByAddingObject:newComment];
     [self.tableView reloadData];
     [self scrollTableViewToBottom];

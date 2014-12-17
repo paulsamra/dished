@@ -32,8 +32,7 @@ typedef enum
     ReviewDetailsItemYums,
     ReviewDetailsItemHashtags,
     ReviewDetailsItemFooter
-}
-ReviewDetailsItem;
+} eReviewDetailsItem;
 
 static NSString *const kReviewDetailCellIdentifier  = @"reviewDetailCell";
 static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
@@ -157,7 +156,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     }];
 }
 
-- (ReviewDetailsItem)itemTypeForIndexPath:(NSIndexPath *)indexPath
+- (eReviewDetailsItem)itemTypeForIndexPath:(NSIndexPath *)indexPath
 {
     NSUInteger yumsRows = self.review.num_yums > 0 ? 1 : 0;
     NSUInteger hashtagsRows = self.review.hashtags.count > 0 ? 1 : 0;
@@ -205,7 +204,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 {
     UICollectionViewCell *cell = nil;
     
-    ReviewDetailsItem itemType = [self itemTypeForIndexPath:indexPath];
+    eReviewDetailsItem itemType = [self itemTypeForIndexPath:indexPath];
     
     if( itemType == ReviewDetailsItemDish )
     {
@@ -280,7 +279,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         {
             NSAttributedString *yumString = [self yumStringWithUsernames:self.review.yums];
             
-            [yumsCell.textView setAttributedText:yumString withAttributes:linkedAttributes delimiter:@", " knownUsernames:[self.review yumsStringArray]];
+            [yumsCell.textView setAttributedText:yumString withAttributes:linkedAttributes knownUsernames:[self.review yumsStringArray]];
         }
         
         yumsCell.delegate = self;
@@ -294,7 +293,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         NSAttributedString *hashtagString = [self hashtagStringWithHashtags:self.review.hashtags];
         NSDictionary *linkedAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
         
-        [tagsCell.textView setAttributedText:hashtagString withAttributes:linkedAttributes delimiter:@", " knownUsernames:nil];
+        [tagsCell.textView setAttributedText:hashtagString withAttributes:linkedAttributes knownUsernames:nil];
         tagsCell.iconImageView.image = [UIImage imageNamed:@"hashtag_icon"];
         
         tagsCell.delegate = self;
@@ -311,7 +310,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         NSDictionary *linkedAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
         NSArray *usernameMentions = [comment.usernameMentions arrayByAddingObject:comment.creator_username];
         
-        [commentCell.textView setAttributedText:commentString withAttributes:linkedAttributes delimiter:nil knownUsernames:usernameMentions];
+        [commentCell.textView setAttributedText:commentString withAttributes:linkedAttributes knownUsernames:usernameMentions];
         commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
         commentCell.iconImageView.hidden = [self commentIndexForIndexPath:indexPath] == 0 ? NO : YES;
         
@@ -478,7 +477,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     
     CGSize itemSize = CGSizeZero;
     
-    ReviewDetailsItem itemType = [self itemTypeForIndexPath:indexPath];
+    eReviewDetailsItem itemType = [self itemTypeForIndexPath:indexPath];
     
     if( itemType == ReviewDetailsItemDish )
     {
@@ -674,6 +673,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         [self unyumCell:cell];
         self.feedItem.caller_yumd = @(NO);
+        self.review.caller_yumd = NO;
         
         [self unyumFeedItemWithReviewID:[self.feedItem.item_id integerValue]];
     }
@@ -681,6 +681,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     {
         [self yumCell:cell];
         self.feedItem.caller_yumd = @(YES);
+        self.review.caller_yumd = YES;
         
         [self yumFeedItemWithReviewID:[self.feedItem.item_id integerValue]];
     }
@@ -689,20 +690,13 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (void)yumFeedItemWithReviewID:(NSInteger)reviewID
 {
     NSDictionary *parameters = @{ kIDKey : @(reviewID) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-     
-    [[DAAPIManager sharedManager] POST:kYumReviewURL parameters:parameters success:nil
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    
+    [[DAAPIManager sharedManager] POSTRequest:kYumReviewURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self yumFeedItemWithReviewID:reviewID];
-                }
-            }];
+            [self yumFeedItemWithReviewID:reviewID];
         }
     }];
 }
@@ -710,20 +704,13 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (void)unyumFeedItemWithReviewID:(NSInteger)reviewID
 {
     NSDictionary *parameters = @{ kIDKey : @(reviewID) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-     
-    [[DAAPIManager sharedManager] POST:kUnyumReviewURL parameters:parameters success:nil
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    
+    [[DAAPIManager sharedManager] POSTRequest:kUnyumReviewURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self unyumFeedItemWithReviewID:reviewID];
-                }
-            }];
+            [self unyumFeedItemWithReviewID:reviewID];
         }
     }];
 }
