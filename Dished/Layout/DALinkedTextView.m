@@ -106,10 +106,17 @@
         if( [resultString characterAtIndex:0] == '@' )
         {
             NSString *username = [resultString substringFromIndex:1];
-            [linkedText setAttributes:attributes range:result.range];
-            [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:result.range];
-            [linkedText addAttribute:kLinkedTextKey value:username range:result.range];
-            [DATagManager addUsernameInBackground:username];
+            
+            if( usernames )
+            {
+                if( [usernames containsObject:username] )
+                {
+                    [linkedText setAttributes:attributes range:result.range];
+                    [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:result.range];
+                    [linkedText addAttribute:kLinkedTextKey value:username range:result.range];
+                    [DATagManager addUsernameInBackground:username];
+                }
+            }
         }
         else if( [resultString characterAtIndex:0] == '#' )
         {
