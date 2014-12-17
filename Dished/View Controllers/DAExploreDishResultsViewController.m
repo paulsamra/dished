@@ -51,7 +51,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (void)createTableViewFooter
 {
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, self.view.frame.size.width, 50 )];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, self.view.frame.size.width, 70 )];
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = footerView.center;

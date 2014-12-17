@@ -76,10 +76,12 @@
         return;
     }
     
-    [CATransaction begin];
-    [CATransaction setValue:(id)kCFBooleanTrue forKey:kCATransactionDisableActions];
+    CABasicAnimation *progressAnimation = [CABasicAnimation animationWithKeyPath:@"bounds.size.width"];
+    progressAnimation.fromValue = @(self.maskLayer.frame.size.width);
+    progressAnimation.toValue   = @(width);
+    progressAnimation.duration  = 0.1;
     self.maskLayer.frame = maskFrame;
-    [CATransaction commit];
+    [self.maskLayer addAnimation:progressAnimation forKey:@"progress"];
 }
 
 @end

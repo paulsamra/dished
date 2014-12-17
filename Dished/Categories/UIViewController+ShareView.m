@@ -72,7 +72,7 @@
     [self.view addSubview:socialViewController.view];
     socialViewController.view.hidden = NO;
     
-    [UIView animateWithDuration:0.2 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
+    [UIView animateWithDuration:0.3 delay:0 options:UIViewAnimationOptionCurveEaseOut animations:^
     {
         dimView.backgroundColor = [UIColor blackColor];
         dimView.alpha = 0.4;

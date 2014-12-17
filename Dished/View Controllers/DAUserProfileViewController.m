@@ -64,6 +64,8 @@ static NSString *const kDishSearchCellID = @"dishCell";
     [self.wineTableView     registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
     
     self.selectedTableView = self.foodTableView;
+    self.cocktailTableView.hidden = YES;
+    self.wineTableView.hidden = YES;
     
     self.userImageView.layer.masksToBounds = YES;
     self.privacyLabel.hidden = YES;
@@ -121,29 +123,13 @@ static NSString *const kDishSearchCellID = @"dishCell";
         
         if( !self.restaurantProfile.is_private && !self.userProfile.is_private )
         {
-            [UIView transitionWithView:self.foodTableView
+            [UIView transitionWithView:self.selectedTableView
                               duration:0.2
                                options:UIViewAnimationOptionTransitionCrossDissolve
                             animations:nil
                             completion:nil];
             
-            self.foodTableView.hidden = hidden;
-            
-            [UIView transitionWithView:self.wineTableView
-                              duration:0.2
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:nil
-                            completion:nil];
-            
-            self.wineTableView.hidden = hidden;
-            
-            [UIView transitionWithView:self.cocktailTableView
-                              duration:0.2
-                               options:UIViewAnimationOptionTransitionCrossDissolve
-                            animations:nil
-                            completion:nil];
-            
-            self.cocktailTableView.hidden = hidden;
+            self.selectedTableView.hidden = hidden;
         }
         else
         {
@@ -171,7 +157,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (void)createFooterForTableView:(UITableView *)tableView
 {
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, self.view.frame.size.width, 50 )];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, self.view.frame.size.width, 70 )];
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = footerView.center;
@@ -785,6 +771,8 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (IBAction)changeDishType
 {
+    self.selectedTableView.hidden = YES;
+
     switch( self.dishTypeChooser.selectedSegmentIndex )
     {
         case 0:
@@ -806,6 +794,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
             break;
     }
     
+    self.selectedTableView.hidden = NO;
     [self.selectedTableView reloadData];
 }
 
