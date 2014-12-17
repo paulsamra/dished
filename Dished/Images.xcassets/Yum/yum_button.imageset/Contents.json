@@ -3,16 +3,17 @@
     {
       "idiom" : "iphone",
       "scale" : "1x",
-      "filename" : "feed_yum.png"
+      "filename" : "yum_button.png"
     },
     {
       "idiom" : "iphone",
       "scale" : "2x",
-      "filename" : "feed_yum@2x.png"
+      "filename" : "yum_button@2x.png"
     },
     {
       "idiom" : "iphone",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "yum_button@3x.png"
     }
   ],
   "info" : {

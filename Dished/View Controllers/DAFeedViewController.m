@@ -504,14 +504,12 @@ typedef enum
 
 - (void)yumCell:(DAReviewButtonsCollectionViewCell *)cell
 {
-    [cell.yumButton setBackgroundImage:[UIImage imageNamed:@"yum_button_background"] forState:UIControlStateNormal];
-    [cell.yumButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    cell.yumButton.selected = YES;
 }
 
 - (void)unyumCell:(DAReviewButtonsCollectionViewCell *)cell
 {
-    [cell.yumButton setBackgroundImage:[UIImage imageNamed:@"unyum_button_background"] forState:UIControlStateNormal];
-    [cell.yumButton setTitleColor:[UIColor commentButtonTextColor] forState:UIControlStateNormal];
+    cell.yumButton.selected = NO;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath

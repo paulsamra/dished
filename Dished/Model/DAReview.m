@@ -12,7 +12,6 @@
 
 @interface DAReview()
 
-@property (strong, nonatomic) NSArray *yumUsernameStrings;
 @property (strong, nonatomic) NSArray *hashtagStrings;
 
 @end
@@ -56,17 +55,13 @@
         if( yums )
         {
             NSMutableArray *newYums = [NSMutableArray array];
-            NSMutableArray *newYumsStrings = [NSMutableArray array];
             
             for( NSDictionary *yum in yums )
             {
-                DAUsername *username = [DAUsername usernameWithData:yum];
-                [newYums addObject:username];
-                [newYumsStrings addObject:username.username];
+                [newYums addObject:nilOrJSONObjectForKey( yum, kUsernameKey )];
             }
             
             _yums = newYums;
-            _yumUsernameStrings = newYumsStrings;
         }
         
         NSArray *comments = nilOrJSONObjectForKey( data, kCommentsKey );
@@ -111,11 +106,6 @@
     }
     
     return self;
-}
-
-- (NSArray *)yumsStringArray
-{
-    return self.yumUsernameStrings;
 }
 
 - (NSArray *)hashtagsStringArray

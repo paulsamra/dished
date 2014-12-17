@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "DAComment.h"
 #import "DAHashtag.h"
-#import "DAUsername.h"
 
 
 @interface DAReview : NSObject
@@ -43,7 +42,6 @@
 + (DAReview *)reviewWithData:(id)data;
 
 - (id)initWithData:(id)data;
-- (NSArray *)yumsStringArray;
 - (NSArray *)hashtagsStringArray;
 
 @end

@@ -23,6 +23,7 @@
 #import "DAUserListViewController.h"
 #import "UIViewController+ShareView.h"
 #import "UIImageView+DishProgress.h"
+#import "DAUserManager.h"
 #import "MRProgress.h"
 
 typedef enum
@@ -278,8 +279,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         else
         {
             NSAttributedString *yumString = [self yumStringWithUsernames:self.review.yums];
-            
-            [yumsCell.textView setAttributedText:yumString withAttributes:linkedAttributes knownUsernames:[self.review yumsStringArray]];
+            [yumsCell.textView setAttributedText:yumString withAttributes:linkedAttributes knownUsernames:self.review.yums];
         }
         
         yumsCell.delegate = self;
@@ -327,14 +327,12 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (void)yumCell:(DAReviewButtonsCollectionViewCell *)cell
 {
-    [cell.yumButton setBackgroundImage:[UIImage imageNamed:@"yum_button_background"] forState:UIControlStateNormal];
-    [cell.yumButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    cell.yumButton.selected = YES;
 }
 
 - (void)unyumCell:(DAReviewButtonsCollectionViewCell *)cell
 {
-    [cell.yumButton setBackgroundImage:[UIImage imageNamed:@"unyum_button_background"] forState:UIControlStateNormal];
-    [cell.yumButton setTitleColor:[UIColor commentButtonTextColor] forState:UIControlStateNormal];
+    cell.yumButton.selected = NO;
 }
 
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment
@@ -403,15 +401,15 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 {
     NSMutableString *string = [[NSMutableString alloc] init];
     
-    [self.review.yums enumerateObjectsUsingBlock:^( DAUsername *username, NSUInteger index, BOOL *stop )
+    [self.review.yums enumerateObjectsUsingBlock:^( NSString *username, NSUInteger index, BOOL *stop )
     {
         if( index == 0 )
         {
-            [string appendString:[NSString stringWithFormat:@"@%@", username.username]];
+            [string appendString:[NSString stringWithFormat:@"@%@", username]];
         }
         else
         {
-            [string appendString:[NSString stringWithFormat:@", @%@", username.username]];
+            [string appendString:[NSString stringWithFormat:@", @%@", username]];
         }
     }];
     
@@ -608,6 +606,11 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     [self pushRestaurantProfileWithLocationID:self.review.loc_id username:self.review.loc_name];
 }
 
+- (void)userImageTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
+{
+    [self pushUserProfileWithUsername:self.review.creator_username];
+}
+
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     UIImage *image = [UIImage imageNamed:@"yum_tap"];
@@ -674,6 +677,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [self unyumCell:cell];
         self.feedItem.caller_yumd = @(NO);
         self.review.caller_yumd = NO;
+        [self removeCurrentUserYumFromReview];
         
         [self unyumFeedItemWithReviewID:[self.feedItem.item_id integerValue]];
     }
@@ -682,9 +686,26 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         [self yumCell:cell];
         self.feedItem.caller_yumd = @(YES);
         self.review.caller_yumd = YES;
+        [self addCurrentUserYumToReview];
         
         [self yumFeedItemWithReviewID:[self.feedItem.item_id integerValue]];
     }
+}
+
+- (void)removeCurrentUserYumFromReview
+{
+    NSMutableArray *yums = [self.review.yums mutableCopy];
+    [yums removeObject:[DAUserManager sharedManager].username];
+    self.review.yums = yums;
+    [self.collectionView reloadData];
+}
+
+- (void)addCurrentUserYumToReview
+{
+    NSMutableArray *yums = [self.review.yums mutableCopy];
+    [yums addObject:[DAUserManager sharedManager].username];
+    self.review.yums = yums;
+    [self.collectionView reloadData];
 }
 
 - (void)yumFeedItemWithReviewID:(NSInteger)reviewID
