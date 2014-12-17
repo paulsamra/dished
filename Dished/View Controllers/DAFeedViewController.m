@@ -147,6 +147,11 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (void)refreshFeed
 {
+    if( self.initialLoadActive )
+    {
+        return;
+    }
+    
     NSInteger limit = self.fetchedResultsController.fetchRequest.fetchLimit;
     
     [self.importer importFeedItemsWithLimit:limit offset:0 completion:^( BOOL success, BOOL hasMoreData )
@@ -183,7 +188,11 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    return numberOfObjects + [feedItem.comments count] + ( [feedItem.num_yums integerValue] > 0 ? 2 : 1 ) + ( [feedItem.num_comments integerValue] > 3 ? 1 : 0 );
+    BOOL hasYums = [feedItem.num_yums integerValue] > 0;
+    BOOL hasHashtags = feedItem.hashtags.count > 0;
+    BOOL hasMoreComments = [feedItem.num_comments integerValue] > 3;
+    
+    return numberOfObjects + [feedItem.comments count] + ( hasYums ? 1 : 0 ) + ( hasMoreComments ? 1 : 0 ) + 1;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -205,7 +214,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
     NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
-    NSInteger num_yums = [feedItem.num_yums integerValue];
+    BOOL hasYums = [feedItem.num_yums integerValue] > 0;
     
     if( indexPath.row == 0 )
     {
@@ -216,7 +225,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         cell = feedCell;
     }
-    else if( num_yums > 0 && indexPath.row == 1 )
+    else if( hasYums && indexPath.row == 1 )
     {
         DAReviewDetailCollectionViewCell *yumCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
         
@@ -229,11 +238,13 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         cell = yumCell;
     }
-    else if( indexPath.row > ( num_yums > 0 ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
+    else if( indexPath.row > ( hasYums ? 1 : 0 ) && indexPath.row < sectionItems - 1 )
     {
         DAReviewDetailCollectionViewCell *commentCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewDetailCellIdentifier forIndexPath:indexPath];
         
-        if( [feedItem.num_comments integerValue] > 3 && indexPath.row == ( num_yums > 0 ? 2 : 1 ) + 1 )
+        BOOL hasMoreComments = [feedItem.num_comments integerValue] > 3;
+        
+        if( ( indexPath.row == ( hasYums ? 2 : 1 ) + 1 ) && hasMoreComments )
         {
             commentCell.iconImageView.hidden = YES;
             
@@ -246,13 +257,13 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         }
         else
         {
-            NSInteger commentIndex = indexPath.row - ( num_yums > 0 ? 2 : 1 );
-            commentIndex = [feedItem.num_comments integerValue] > 3 && commentIndex > 0 ? commentIndex - 1 : commentIndex;
+            NSInteger commentIndex = indexPath.row - ( hasYums ? 2 : 1 );
+            commentIndex = hasMoreComments && commentIndex > 0 ? commentIndex - 1 : commentIndex;
             NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
             DAManagedComment *comment = comments[commentIndex];
             
             commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
-            commentCell.iconImageView.hidden = indexPath.row - ( num_yums > 0 ? 2 : 1 ) == 0 ? NO : YES;
+            commentCell.iconImageView.hidden = indexPath.row - ( hasYums ? 2 : 1 ) == 0 ? NO : YES;
             
             NSAttributedString *commentString = [self commentStringForComment:comment];
 

@@ -18,9 +18,6 @@
 		940363841A25E2560068F61D /* DAManagedComment+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363831A25E2560068F61D /* DAManagedComment+Utility.m */; };
 		940363851A25E2560068F61D /* DAManagedComment+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363831A25E2560068F61D /* DAManagedComment+Utility.m */; };
 		940363861A25E2560068F61D /* DAManagedComment+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363831A25E2560068F61D /* DAManagedComment+Utility.m */; };
-		940363891A25E3210068F61D /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363881A25E3210068F61D /* DAFeedItem.m */; };
-		9403638A1A25E3210068F61D /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363881A25E3210068F61D /* DAFeedItem.m */; };
-		9403638B1A25E3210068F61D /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363881A25E3210068F61D /* DAFeedItem.m */; };
 		940537A519F27BC600A02088 /* DAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537A419F27BC600A02088 /* DAMenuViewController.m */; };
 		940537AC19F4BA0400A02088 /* DAContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537AB19F4BA0400A02088 /* DAContainerViewController.m */; };
 		941291771A1BEED500B7C763 /* STTwitterOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E624B1987362100DF2135 /* STTwitterOAuth.m */; };
@@ -558,6 +555,9 @@
 		944D1E7A19DB8786006F73BF /* DAUserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 944D1E7919DB8786006F73BF /* DAUserListViewController.m */; };
 		945269131A0E244500A56B17 /* UIViewController+ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 945269121A0E244500A56B17 /* UIViewController+ShareView.m */; };
 		945A3B6119A52B4A000D76E3 /* DAFeedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */; };
+		945B6B641A412FF700265451 /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 945B6B631A412FF700265451 /* DAFeedItem.m */; };
+		945B6B651A412FFE00265451 /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 945B6B631A412FF700265451 /* DAFeedItem.m */; };
+		945B6B661A412FFE00265451 /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 945B6B631A412FF700265451 /* DAFeedItem.m */; };
 		945E312019C669CC00C8AA52 /* NSAttributedString+Dished.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E311F19C669CC00C8AA52 /* NSAttributedString+Dished.m */; };
 		945E312319C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E312219C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m */; };
 		945F959319A6646900241D0D /* DACoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F959219A6646900241D0D /* DACoreDataManager.m */; };
@@ -727,8 +727,6 @@
 		9403637B1A25E0850068F61D /* DAManagedComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAManagedComment.m; sourceTree = "<group>"; };
 		940363821A25E2560068F61D /* DAManagedComment+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DAManagedComment+Utility.h"; sourceTree = "<group>"; };
 		940363831A25E2560068F61D /* DAManagedComment+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DAManagedComment+Utility.m"; sourceTree = "<group>"; };
-		940363871A25E3210068F61D /* DAFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedItem.h; sourceTree = "<group>"; };
-		940363881A25E3210068F61D /* DAFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedItem.m; sourceTree = "<group>"; };
 		940537A319F27BC600A02088 /* DAMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAMenuViewController.h; sourceTree = "<group>"; };
 		940537A419F27BC600A02088 /* DAMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAMenuViewController.m; sourceTree = "<group>"; };
 		940537AA19F4BA0400A02088 /* DAContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAContainerViewController.h; sourceTree = "<group>"; };
@@ -888,6 +886,9 @@
 		945269121A0E244500A56B17 /* UIViewController+ShareView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ShareView.m"; sourceTree = "<group>"; };
 		945A3B5F19A52B4A000D76E3 /* DAFeedCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedCollectionViewCell.h; sourceTree = "<group>"; };
 		945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedCollectionViewCell.m; sourceTree = "<group>"; };
+		945B6B611A41298200265451 /* Dished 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Dished 3.xcdatamodel"; sourceTree = "<group>"; };
+		945B6B621A412FF700265451 /* DAFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedItem.h; sourceTree = "<group>"; };
+		945B6B631A412FF700265451 /* DAFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedItem.m; sourceTree = "<group>"; };
 		945E311E19C669CC00C8AA52 /* NSAttributedString+Dished.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSAttributedString+Dished.h"; sourceTree = "<group>"; };
 		945E311F19C669CC00C8AA52 /* NSAttributedString+Dished.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSAttributedString+Dished.m"; sourceTree = "<group>"; };
 		945E312119C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedHeaderCollectionReusableView.h; sourceTree = "<group>"; };
@@ -1523,8 +1524,8 @@
 		945F959419A6736400241D0D /* Core Data */ = {
 			isa = PBXGroup;
 			children = (
-				940363871A25E3210068F61D /* DAFeedItem.h */,
-				940363881A25E3210068F61D /* DAFeedItem.m */,
+				945B6B621A412FF700265451 /* DAFeedItem.h */,
+				945B6B631A412FF700265451 /* DAFeedItem.m */,
 				945F959819A677F900241D0D /* DAFeedItem+Utility.h */,
 				945F959919A677F900241D0D /* DAFeedItem+Utility.m */,
 				9403637A1A25E0850068F61D /* DAManagedComment.h */,
@@ -2362,7 +2363,6 @@
 				9412917E1A1BEED500B7C763 /* DACommentsViewController.m in Sources */,
 				9412917F1A1BEED500B7C763 /* MRNavigationBarProgressView.m in Sources */,
 				941291801A1BEED500B7C763 /* DARatingTableViewCell.m in Sources */,
-				9403638A1A25E3210068F61D /* DAFeedItem.m in Sources */,
 				941291811A1BEED500B7C763 /* DAReviewDetailCollectionViewCell.m in Sources */,
 				941291821A1BEED500B7C763 /* JSQMessagesKeyboardController.m in Sources */,
 				941291841A1BEED500B7C763 /* SDImageCache.m in Sources */,
@@ -2435,6 +2435,7 @@
 				941291C71A1BEED500B7C763 /* DAAddPlaceViewController.m in Sources */,
 				941291C81A1BEED500B7C763 /* DAUserManager.m in Sources */,
 				941291C91A1BEED500B7C763 /* DAReplaceSegue.swift in Sources */,
+				945B6B651A412FFE00265451 /* DAFeedItem.m in Sources */,
 				941291CA1A1BEED500B7C763 /* SDWebImageCompat.m in Sources */,
 				941291CB1A1BEED500B7C763 /* DAExploreViewController.m in Sources */,
 				941291CC1A1BEED500B7C763 /* DAProgressView.m in Sources */,
@@ -2560,7 +2561,6 @@
 				9412927D1A1C7AD100B7C763 /* DACommentsViewController.m in Sources */,
 				9412927E1A1C7AD100B7C763 /* MRNavigationBarProgressView.m in Sources */,
 				9412927F1A1C7AD100B7C763 /* DARatingTableViewCell.m in Sources */,
-				9403638B1A25E3210068F61D /* DAFeedItem.m in Sources */,
 				941292801A1C7AD100B7C763 /* DAReviewDetailCollectionViewCell.m in Sources */,
 				941292811A1C7AD100B7C763 /* JSQMessagesKeyboardController.m in Sources */,
 				941292831A1C7AD100B7C763 /* SDImageCache.m in Sources */,
@@ -2633,6 +2633,7 @@
 				941292C61A1C7AD100B7C763 /* DAAddPlaceViewController.m in Sources */,
 				941292C71A1C7AD100B7C763 /* DAUserManager.m in Sources */,
 				941292C81A1C7AD100B7C763 /* DAReplaceSegue.swift in Sources */,
+				945B6B661A412FFE00265451 /* DAFeedItem.m in Sources */,
 				941292C91A1C7AD100B7C763 /* SDWebImageCompat.m in Sources */,
 				941292CA1A1C7AD100B7C763 /* DAExploreViewController.m in Sources */,
 				941292CB1A1C7AD100B7C763 /* DAProgressView.m in Sources */,
@@ -2758,7 +2759,6 @@
 				94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */,
 				948615CA19FE1C3D002497D0 /* MRNavigationBarProgressView.m in Sources */,
 				94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */,
-				940363891A25E3210068F61D /* DAFeedItem.m in Sources */,
 				D112F41519BE00550059300F /* DAReviewDetailCollectionViewCell.m in Sources */,
 				94CB040719B15FB9009010F6 /* JSQMessagesKeyboardController.m in Sources */,
 				94F2AD9C198C539200450C6F /* SDImageCache.m in Sources */,
@@ -2831,6 +2831,7 @@
 				94DCE9BC1980ABB100396C0A /* UIProgressView+AFNetworking.m in Sources */,
 				94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */,
 				943ECCFB19EB1AD5009516E8 /* DAUserManager.m in Sources */,
+				945B6B641A412FF700265451 /* DAFeedItem.m in Sources */,
 				9443DEFE19D0224300F134BA /* DAReplaceSegue.swift in Sources */,
 				94F2AD9D198C539200450C6F /* SDWebImageCompat.m in Sources */,
 				944689A0195FFA6500FAE288 /* DAExploreViewController.m in Sources */,
@@ -3332,10 +3333,11 @@
 		941538C9193F270A008B3B79 /* Dished.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				945B6B611A41298200265451 /* Dished 3.xcdatamodel */,
 				940363741A2589D30068F61D /* Dished 2.xcdatamodel */,
 				941538CA193F270A008B3B79 /* Dished.xcdatamodel */,
 			);
-			currentVersion = 940363741A2589D30068F61D /* Dished 2.xcdatamodel */;
+			currentVersion = 945B6B611A41298200265451 /* Dished 3.xcdatamodel */;
 			path = Dished.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

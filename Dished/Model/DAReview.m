@@ -69,7 +69,7 @@
             _yumUsernameStrings = newYumsStrings;
         }
         
-        NSArray *comments = nilOrJSONObjectForKey( data, @"comments" );
+        NSArray *comments = nilOrJSONObjectForKey( data, kCommentsKey );
         if( comments )
         {
             NSMutableArray *newComments = [NSMutableArray array];
@@ -82,7 +82,7 @@
             _comments = newComments;
         }
         
-        NSArray *hashtags = nilOrJSONObjectForKey( data, @"hashtags" );
+        NSArray *hashtags = nilOrJSONObjectForKey( data, kHashtagsKey );
         if( hashtags )
         {
             NSMutableArray *newHashtags = [NSMutableArray array];

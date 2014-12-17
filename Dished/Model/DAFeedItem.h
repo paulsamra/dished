@@ -2,14 +2,14 @@
 //  DAFeedItem.h
 //  Dished
 //
-//  Created by Ryan Khalili on 11/26/14.
+//  Created by Ryan Khalili on 12/16/14.
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DAManagedComment;
+@class DAManagedComment, DAManagedHashtag;
 
 @interface DAFeedItem : NSManagedObject
 
@@ -33,6 +33,7 @@
 @property (nonatomic, retain) NSNumber * num_yums;
 @property (nonatomic, retain) NSString * source;
 @property (nonatomic, retain) NSSet *comments;
+@property (nonatomic, retain) NSSet *hashtags;
 @end
 
 @interface DAFeedItem (CoreDataGeneratedAccessors)
@@ -41,5 +42,10 @@
 - (void)removeCommentsObject:(DAManagedComment *)value;
 - (void)addComments:(NSSet *)values;
 - (void)removeComments:(NSSet *)values;
+
+- (void)addHashtagsObject:(DAManagedHashtag *)value;
+- (void)removeHashtagsObject:(DAManagedHashtag *)value;
+- (void)addHashtags:(NSSet *)values;
+- (void)removeHashtags:(NSSet *)values;
 
 @end

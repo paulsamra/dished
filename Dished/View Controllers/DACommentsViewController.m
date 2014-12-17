@@ -307,7 +307,7 @@
     
     if( data )
     {
-        NSArray *commentsData = nilOrJSONObjectForKey( data, @"comments" );
+        NSArray *commentsData = nilOrJSONObjectForKey( data, kCommentsKey );
         
         self.isOwnReview = [nilOrJSONObjectForKey( data, @"is_creator" ) boolValue];
         

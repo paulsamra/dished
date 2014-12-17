@@ -21,6 +21,7 @@
         <attribute name="num_yums" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DAManagedComment" inverseName="feedItem" inverseEntity="DAManagedComment" syncable="YES"/>
+        <relationship name="hashtags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DAManagedHashtag" syncable="YES"/>
     </entity>
     <entity name="DAManagedComment" representedClassName="DAManagedComment" elementID="DAFeedComment" syncable="YES">
         <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
@@ -41,7 +42,7 @@
         <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="DAFeedItem" positionX="-54" positionY="90" width="128" height="345"/>
+        <element name="DAFeedItem" positionX="-54" positionY="90" width="128" height="360"/>
         <element name="DAManagedComment" positionX="-54" positionY="216" width="128" height="193"/>
         <element name="DAManagedHashtag" positionX="-45" positionY="243" width="128" height="60"/>
         <element name="DAManagedUsername" positionX="-45" positionY="243" width="128" height="60"/>

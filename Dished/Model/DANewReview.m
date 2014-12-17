@@ -52,7 +52,7 @@
     if( hashtagString.length > 0 )
     {
         hashtagString = [hashtagString substringToIndex:hashtagString.length - 1];
-        dict[@"hashtags"] = hashtagString;
+        dict[kHashtagsKey] = hashtagString;
     }
     
     if( self.dishID != 0 )

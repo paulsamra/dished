@@ -38,9 +38,14 @@
         
         NSUInteger entityIndex = 0;
         
+        NSArray *data = nilOrJSONObjectForKey( response, kDataKey );
+        
         for( int i = 0; i < itemIDs.count; i++ )
         {
             NSUInteger newItemIndex = i;
+            
+            NSArray *comments = nilOrJSONObjectForKey( data[newItemIndex], kCommentsKey );
+            NSArray *hashtags = nilOrJSONObjectForKey( data[newItemIndex], kHashtagsKey );
             
             if( entityIndex < matchingItems.count)
             {
@@ -55,14 +60,16 @@
                 else if( ![itemIDs[i] isEqualToNumber:managedItem.item_id] )
                 {
                     DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
-                    [newManagedItem configureWithDictionary:response[kDataKey][newItemIndex]];
-                    [self updateFeedItem:newManagedItem withCommentsData:response[kDataKey][newItemIndex][@"comments"]];
+                    [newManagedItem configureWithDictionary:data[newItemIndex]];
+                    [self updateFeedItem:newManagedItem withComments:comments];
+                    [self updateFeedItem:newManagedItem withHashtags:hashtags];
                 }
                 else
                 {
                     managedItem = matchingItems[entityIndex];
-                    [managedItem configureWithDictionary:response[kDataKey][newItemIndex]];
-                    [self updateFeedItem:managedItem withCommentsData:response[kDataKey][newItemIndex][@"comments"]];
+                    [managedItem configureWithDictionary:data[newItemIndex]];
+                    [self updateFeedItem:managedItem withComments:comments];
+                    [self updateFeedItem:managedItem withHashtags:hashtags];
                     
                     entityIndex++;
                 }
@@ -70,8 +77,9 @@
             else
             {
                 DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
-                [newManagedItem configureWithDictionary:response[kDataKey][newItemIndex]];
-                [self updateFeedItem:newManagedItem withCommentsData:response[kDataKey][newItemIndex][@"comments"]];
+                [newManagedItem configureWithDictionary:data[newItemIndex]];
+                [self updateFeedItem:newManagedItem withComments:comments];
+                [self updateFeedItem:newManagedItem withHashtags:hashtags];
             }
         }
         
@@ -118,10 +126,8 @@
     return matchingItems;
 }
 
-- (void)updateFeedItem:(DAFeedItem *)feedItem withCommentsData:(id)data
+- (void)updateFeedItem:(DAFeedItem *)feedItem withComments:(NSArray *)comments
 {
-    NSArray *comments = (NSArray *)data;
-    
     NSSet *existingComments = feedItem.comments;
     
     for( DAManagedComment *comment in existingComments )
@@ -159,6 +165,31 @@
         
         [feedItem addCommentsObject:feedComment];
     }
+}
+
+- (void)updateFeedItem:(DAFeedItem *)feedItem withHashtags:(NSArray *)hashtags
+{
+    feedItem.hashtags = [NSSet set];
+    
+    for( NSString *hashtag in hashtags )
+    {
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%@ == %K", hashtag, kNameKey];
+        NSString *entityName = NSStringFromClass( [DAManagedHashtag class] );
+        
+        NSArray *matches = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate];
+        
+        if( matches.count == 1 )
+        {
+            [feedItem addHashtagsObject:matches[0]];
+        }
+        else
+        {
+            DAManagedHashtag *managedHashtag = (DAManagedHashtag *)[[DACoreDataManager sharedManager] createEntityWithClassName:entityName];
+            managedHashtag.name = hashtag;
+            
+            [feedItem addHashtagsObject:managedHashtag];
+        }
+    }    
 }
 
 - (NSArray *)feedItemsBetweenTimestamps:(NSArray *)timestamps

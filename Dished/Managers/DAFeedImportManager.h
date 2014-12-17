@@ -11,6 +11,7 @@
 #import "DAFeedItem+Utility.h"
 #import "DAManagedComment+Utility.h"
 #import "DAManagedUsername.h"
+#import "DAManagedHashtag.h"
 
 
 @interface DAFeedImportManager : NSObject
