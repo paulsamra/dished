@@ -110,9 +110,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
         parameters[key] = query;
     }
     
-    NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-    
-    weakSelf.searchTask = [[DAAPIManager sharedManager] GETRequest:url withParameters:authParameters
+    weakSelf.searchTask = [[DAAPIManager sharedManager] GETRequest:url withParameters:parameters
     success:^( id response )
     {
         weakSelf.isLoading = NO;

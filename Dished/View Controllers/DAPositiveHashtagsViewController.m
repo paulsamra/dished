@@ -41,13 +41,12 @@ static NSString *const kHashtagCellIdentifier = @"hashtagCell";
     __weak typeof( self ) weakSelf = self;
     
     NSDictionary *parameters = @{ kDishTypeKey : weakSelf.review.type, kHashtagTypeKey : kPositiveHashtags };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] GET:kHashtagsURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] GETRequest:kHashtagsURL withParameters:parameters
+    success:^( id response )
     {
         weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
-        weakSelf.hashtagArray = [weakSelf hashtagsFromResponse:responseObject];
+        weakSelf.hashtagArray = [weakSelf hashtagsFromResponse:response];
         weakSelf.selectedHashtags = [weakSelf.review.hashtags mutableCopy];
         
         if( !weakSelf.selectedHashtags )
@@ -74,17 +73,11 @@ static NSString *const kHashtagCellIdentifier = @"hashtagCell";
         
         weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [weakSelf loadHashtags];
-                }
-            }];
+            [weakSelf loadHashtags];
         }
     }];
 }

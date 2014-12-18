@@ -107,11 +107,9 @@
 }
 
 - (void)logout
-{
-    NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
-     
-    [[DAAPIManager sharedManager] POST:kLogoutURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+{     
+    [[DAAPIManager sharedManager] POSTRequest:kLogoutURL withParameters:nil
+    success:^( id response )
     {
         [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
         {
@@ -119,24 +117,11 @@
             [appDelegate logout];
         }];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self logout];
-                }
-                else
-                {
-                    [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
-                    {
-                        [[[UIAlertView alloc] initWithTitle:@"Failed to Log Out" message:@"There was a problem logging you out. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
-                    }];
-                }
-            }];
+            [self logout];
         }
         else
         {

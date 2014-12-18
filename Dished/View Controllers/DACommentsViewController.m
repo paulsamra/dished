@@ -72,15 +72,14 @@
     
     NSInteger reviewID = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
     NSDictionary *parameters = @{ kIDKey : @(reviewID) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    weakSelf.loadCommentsTask = [[DAAPIManager sharedManager] GET:kCommentsURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    weakSelf.loadCommentsTask = [[DAAPIManager sharedManager] GETRequest:kCommentsURL withParameters:parameters
+    success:^( id response )
     {
         [weakSelf.spinner stopAnimating];
         [weakSelf.spinner removeFromSuperview];
         
-        weakSelf.comments = [weakSelf commentsFromResponse:responseObject];
+        weakSelf.comments = [weakSelf commentsFromResponse:response];
         
         if( !weakSelf.commentsLoaded )
         {
@@ -97,17 +96,11 @@
         
         self.inputToolbar.contentView.rightBarButtonItem.enabled = YES;
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [weakSelf loadComments];
-                }
-            }];
+            [weakSelf loadComments];
         }
     }];
 }
@@ -483,8 +476,7 @@
     __weak typeof( self ) weakSelf = self;
     
     NSDictionary *parameters = @{ kIDKey : @(comment.comment_id) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-     
+    
     [[DAAPIManager sharedManager] POSTRequest:kDeleteCommentURL withParameters:parameters success:nil
     failure:^( NSError *error, BOOL shouldRetry )
     {
@@ -497,20 +489,13 @@
     __weak typeof( self ) weakSelf = self;
     
     NSDictionary *parameters = @{ kIDKey : @(comment.comment_id) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] POST:kFlagCommentURL parameters:parameters success:nil
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    [[DAAPIManager sharedManager] POSTRequest:kFlagCommentURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [weakSelf flagComment:comment];
-                }
-            }];
+            [weakSelf flagComment:comment];
         }
     }];
 }
@@ -674,7 +659,6 @@
     
     NSInteger reviewID = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
     NSDictionary *parameters = @{ kIDKey : @(reviewID), kCommentKey : text };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     [[DAAPIManager sharedManager] POSTRequest:kCommentsURL withParameters:parameters
     success:^( id responseObject )

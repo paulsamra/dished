@@ -50,18 +50,17 @@ static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";
     }
     
     NSDictionary *parameters = @{ kNameKey : query };
-    NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    self.searchTask = [[DAAPIManager sharedManager] GET:kDishSearchURL parameters:authParameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    self.searchTask = [[DAAPIManager sharedManager] GETRequest:kDishSearchURL withParameters:parameters
+    success:^( id response )
     {
-        self.dishSearchResults = [self dishesWithResponse:responseObject];
+        self.dishSearchResults = [self dishesWithResponse:response];
         
         self.hidden = NO;
         
         [self reloadData];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
         self.hidden = YES;
     }];

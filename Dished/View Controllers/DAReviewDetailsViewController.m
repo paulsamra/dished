@@ -86,12 +86,11 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
     
     NSDictionary *parameters = @{ kIDKey : @(reviewID) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-     
-    [[DAAPIManager sharedManager] GET:kReviewProfileURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    
+    [[DAAPIManager sharedManager] GETRequest:kReviewProfileURL withParameters:parameters
+    success:^( id response )
     {
-        self.review = [DAReview reviewWithData:responseObject[kDataKey]];
+        self.review = [DAReview reviewWithData:response[kDataKey]];
         self.review.review_id = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
         [self.collectionView reloadData];
         
@@ -105,17 +104,11 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         self.collectionView.hidden = NO;
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self loadReview];
-                }
-            }];
+            [self loadReview];
         }
     }];
 }
@@ -134,25 +127,18 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
     
     NSDictionary *parameters = @{ kIDKey : @(reviewID) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
      
-    [[DAAPIManager sharedManager] GET:kReviewProfileURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] GETRequest:kReviewProfileURL withParameters:parameters
+    success:^( id response )
     {
-        self.review = [DAReview reviewWithData:responseObject[kDataKey]];
+        self.review = [DAReview reviewWithData:response[kDataKey]];
         [self.collectionView reloadData];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self refreshReviewData];
-                }
-            }];
+            [self refreshReviewData];
         }
     }];
 }
@@ -739,10 +725,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (void)deleteReview
 {
     NSDictionary *parameters = @{ kReviewIDKey : @(self.review.review_id) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] POST:kReviewDeleteURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] POSTRequest:kReviewDeleteURL withParameters:parameters
+    success:^( id response )
     {
         if( self.feedItem )
         {
@@ -783,24 +768,11 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
             }
         }
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self deleteReview];
-                }
-                else
-                {
-                    [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
-                    {
-                        [[[UIAlertView alloc] initWithTitle:@"Error Deleting Review" message:@"There was a problem deleting your review. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
-                    }];
-                }
-            }];
+            [self deleteReview];
         }
         else
         {

@@ -80,7 +80,6 @@
 - (void)loadDishDetails
 {
     NSDictionary *parameters = @{ kIDKey : @(self.dishID), kRowLimitKey : @(kLoadLimit) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     __weak typeof( self ) weakSelf = self;
     

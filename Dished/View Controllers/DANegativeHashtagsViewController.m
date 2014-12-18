@@ -35,12 +35,11 @@
 - (void)loadHashtags
 {
     NSDictionary *parameters = @{ kDishTypeKey : self.review.type, kHashtagTypeKey : kNegativeHashtags };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] GET:kHashtagsURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] GETRequest:kHashtagsURL withParameters:parameters
+    success:^( id response )
     {
-        self.hashtagArray = [self hashtagsFromResponse:responseObject];
+        self.hashtagArray = [self hashtagsFromResponse:response];
         
         for( DAHashtag *tag in self.selectedHashtags )
         {
@@ -59,17 +58,11 @@
         
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self loadHashtags];
-                }
-            }];
+            [self loadHashtags];
         }
     }];
 }

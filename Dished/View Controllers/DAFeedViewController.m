@@ -834,20 +834,13 @@ typedef enum
 - (void)yumFeedItemWithReviewID:(NSInteger)reviewID
 {
     NSDictionary *parameters = @{ kIDKey : @(reviewID) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] POST:kYumReviewURL parameters:parameters success:nil
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    [[DAAPIManager sharedManager] POSTRequest:kYumReviewURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self yumFeedItemWithReviewID:reviewID];
-                }
-            }];
+            [self yumFeedItemWithReviewID:reviewID];
         }
     }];
 }
@@ -855,20 +848,13 @@ typedef enum
 - (void)unyumFeedItemWithReviewID:(NSInteger)reviewID
 {
     NSDictionary *parameters = @{ kIDKey : @(reviewID) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] POST:kUnyumReviewURL parameters:parameters success:nil
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    [[DAAPIManager sharedManager] POSTRequest:kUnyumReviewURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self unyumFeedItemWithReviewID:reviewID];
-                }
-            }];
+            [self unyumFeedItemWithReviewID:reviewID];
         }
     }];
 }

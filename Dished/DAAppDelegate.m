@@ -201,19 +201,17 @@
 
 - (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error
 {
-    // If the session was opened successfully
-    if( !error && state == FBSessionStateOpen )
+    if( state == FBSessionStateOpen )
     {
         NSLog(@"Session opened");
         return;
     }
-    
-    if( state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed )
+    else if( state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed )
     {
         NSLog(@"Session closed");
+        return;
     }
     
-    // Handle errors
     if( error )
     {
         NSLog(@"Error");
@@ -221,11 +219,10 @@
         NSString *alertTitle;
         
         // If the error requires people using an app to make an action outside of the app in order to recover
-        if ([FBErrorUtility shouldNotifyUserForError:error] == YES)
+        if( [FBErrorUtility shouldNotifyUserForError:error] )
         {
             alertTitle = @"Something went wrong";
             alertText = [FBErrorUtility userMessageForError:error];
-            //[self showMessage:alertText withTitle:alertTitle];
         }
         else
         {
@@ -240,26 +237,17 @@
             {
                 alertTitle = @"Session Error";
                 alertText = @"Your current session is no longer valid. Please log in again.";
-                //[self showMessage:alertText withTitle:alertTitle];
-                
-                // Here we will handle all other errors with a generic error message.
-                // We recommend you check our Handling Errors guide for more information
-                // https://developers.facebook.com/docs/ios/errors/
             }
             else
             {
-                //Get more error information from the error
                 NSDictionary *errorInformation = [[[error.userInfo objectForKey:@"com.facebook.sdk:ParsedJSONResponseKey"] objectForKey:@"body"] objectForKey:@"error"];
                 
-                // Show the user an error message
                 alertTitle = @"Something went wrong";
                 alertText = [NSString stringWithFormat:@"Please retry. \n\n If the problem persists contact us and mention this error code: %@", [errorInformation objectForKey:@"message"]];
-                //[self showMessage:alertText withTitle:alertTitle];
             }
         }
         
-        // Clear this token
-        [FBSession.activeSession closeAndClearTokenInformation];        
+        [FBSession.activeSession closeAndClearTokenInformation];
     }
 }
 
@@ -333,20 +321,13 @@
     if( [[DAAPIManager sharedManager] isLoggedIn] )
     {
         NSDictionary *parameters = @{ kTokenKey : hexToken };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
         
-        [[DAAPIManager sharedManager] POST:kUserDeviceTokenURL parameters:parameters success:nil
-        failure:^( NSURLSessionDataTask *task, NSError *error )
+        [[DAAPIManager sharedManager] POSTRequest:kUserDeviceTokenURL withParameters:parameters success:nil
+        failure:^( NSError *error, BOOL shouldRetry )
         {
-            if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+            if( shouldRetry )
             {
-                [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-                {
-                    if( success )
-                    {
-                        [self application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
-                    }
-                }];
+                [self application:application didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
             }
         }];
     }

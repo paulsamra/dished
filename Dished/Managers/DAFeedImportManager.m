@@ -271,7 +271,6 @@
 - (void)getFeedDataWithLimit:(NSInteger)limit offset:(NSInteger)offset success:( void(^)( id response ) )success failure:( void(^)( NSError *error ) )failure
 {
     NSDictionary *parameters = @{ kRowLimitKey : @(limit), kRowOffsetKey : @(offset) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     [[DAAPIManager sharedManager] GETRequest:kFeedURL withParameters:parameters success:^( id response )
     {

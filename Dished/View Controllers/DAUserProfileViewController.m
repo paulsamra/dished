@@ -210,7 +210,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
 - (void)loadRestaurantProfile
 {
     NSDictionary *parameters = self.loc_id == 0 ? @{ kIDKey : @(self.user_id) } : @{ kLocationIDKey : @(self.loc_id) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     self.profileLoadTask = [[DAAPIManager sharedManager] GETRequest:kRestaurantProfileURL withParameters:parameters
     success:^( id response )
@@ -234,7 +233,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
                                   ( self.username ? self.username : @(self.user_id) ) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     self.profileLoadTask = [[DAAPIManager sharedManager] GETRequest:kUserProfileURL withParameters:parameters
     success:^( id response )
@@ -273,7 +271,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     NSDictionary *parameters = @{ kIDKey : @(self.restaurantProfile.user_id), kDishTypeKey : dishType,
                                   kRowLimitKey : @(kRowLimit), kRowOffsetKey : @(offset) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     [[DAAPIManager sharedManager] GETRequest:kRestaurantProfileDishesURL withParameters:parameters
     success:^( id response )
@@ -309,7 +306,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
                                   ( self.username ? self.username : @(self.user_id) ),
                                   kDishTypeKey : dishType,
                                   kRowLimitKey : @(kRowLimit), kRowOffsetKey : @(offset) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     [[DAAPIManager sharedManager] GETRequest:kUserProfileReviewsURL withParameters:parameters
     success:^( id response )
@@ -831,20 +827,13 @@ static NSString *const kDishSearchCellID = @"dishCell";
     [self.spamReportTask cancel];
     
     NSDictionary *parameters = @{ kIDKey : @(self.userProfile.user_id) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    self.spamReportTask = [[DAAPIManager sharedManager] POST:kReportUserURL parameters:parameters success:nil
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    self.spamReportTask = [[DAAPIManager sharedManager] POSTRequest:kReportUserURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self reportUserForSpam];
-                }
-            }];
+            [self reportUserForSpam];
         }
     }];
 }
@@ -915,7 +904,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
     [self setFollowButtonState];
     
     NSDictionary *parameters = @{ kIDKey : @(userID) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     self.followTask = [[DAAPIManager sharedManager] POSTRequest:kFollowUserURL withParameters:parameters
     success:nil failure:^( NSError *error, BOOL shouldRetry )
@@ -938,7 +926,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
     [self setFollowButtonState];
     
     NSDictionary *parameters = @{ kIDKey : @(userID) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     self.followTask = [[DAAPIManager sharedManager] POSTRequest:kUnfollowUserURL withParameters:parameters
     success:nil failure:^( NSError *error, BOOL shouldRetry )

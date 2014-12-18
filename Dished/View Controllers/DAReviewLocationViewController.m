@@ -193,30 +193,23 @@
     
     NSDictionary *parameters = @{ kQueryKey : searchText, kLongitudeKey : @(longitude), kLatitudeKey : @(latitude),
                                   kRadiusKey : @(self.selectedRadius) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     [self.searchSpinner startAnimating];
     self.navigationItem.rightBarButtonItem = self.spinnerBarButton;
     
-    self.searchTask = [[DAAPIManager sharedManager] GET:kExploreLocationsURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    self.searchTask = [[DAAPIManager sharedManager] GETRequest:kExploreLocationsURL withParameters:parameters
+    success:^( id response )
     {
         self.navigationItem.rightBarButtonItem = self.selectLocationBarButton;
         [self.searchSpinner stopAnimating];
-        self.locationData = [DAReviewLocationViewController locationsFromResponse:responseObject];
+        self.locationData = [DAReviewLocationViewController locationsFromResponse:response];
         [self.tableView reloadData];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self searchBar:searchBar textDidChange:searchText];
-                }
-            }];
+            [self searchBar:searchBar textDidChange:searchText];
         }
     }];
 }

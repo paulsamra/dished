@@ -128,11 +128,9 @@
 
 - (void)loadUserSettingsWithCompletion:( void(^)( BOOL success ) )completion
 {
-    NSDictionary *settingsParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
-    
     [self.loadSettingsTask cancel];
     
-    self.loadSettingsTask = [[DAAPIManager sharedManager] GETRequest:kUserSettingsURL withParameters:settingsParameters
+    self.loadSettingsTask = [[DAAPIManager sharedManager] GETRequest:kUserSettingsURL withParameters:nil
     success:^( id response )
     {
         NSDictionary *settings = nilOrJSONObjectForKey( response, kDataKey );
@@ -161,11 +159,9 @@
 
 - (void)loadUserProfileWithCompletion:( void(^)( BOOL success ) )completion
 {
-    NSDictionary *profileParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
-    
     [self.loadProfileTask cancel];
     
-    self.loadProfileTask = [[DAAPIManager sharedManager] GETRequest:kUsersURL withParameters:profileParameters
+    self.loadProfileTask = [[DAAPIManager sharedManager] GETRequest:kUsersURL withParameters:nil
     success:^( id response )
     {
         NSDictionary *profile = nilOrJSONObjectForKey( response, kDataKey );
@@ -335,15 +331,13 @@
 }
 
 - (void)saveSettingsToServerWithParameters:(NSDictionary *)parameters completion:( void(^)( BOOL success ) )completion
-{
-    NSDictionary *authParameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
-    
+{    
     [[self getTaskWithParameters:parameters] cancel];
     
-    NSURLSessionTask *task = [[DAAPIManager sharedManager] POST:kUserSettingsURL parameters:authParameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    NSURLSessionTask *task = [[DAAPIManager sharedManager] POSTRequest:kUserSettingsURL withParameters:parameters
+    success:^( id response )
     {
-        NSDictionary *settings = nilOrJSONObjectForKey( responseObject, kDataKey );
+        NSDictionary *settings = nilOrJSONObjectForKey( response, kDataKey );
         [self setSettingsWithSettingsData:settings];
         [self saveProfile];
         
@@ -352,23 +346,13 @@
             completion( YES );
         }
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
         eErrorType errorType = [DAAPIManager errorTypeForError:error];
         
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self saveSettingsToServerWithParameters:parameters completion:completion];
-                }
-                else
-                {
-                    completion( NO );
-                }
-            }];
+            [self saveSettingsToServerWithParameters:parameters completion:completion];
         }
         else if( errorType != eErrorTypeRequestCancelled )
         {

@@ -277,20 +277,13 @@
 - (void)reportDish
 {
     NSDictionary *parameters = @{ kIDKey : @(self.dishProfile.dish_id) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] POST:kReportDishURL parameters:parameters success:nil
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    [[DAAPIManager sharedManager] POSTRequest:kReportDishURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self reportDish];
-                }
-            }];
+            [self reportDish];
         }
     }];
 }
@@ -298,20 +291,13 @@
 - (void)reportReview
 {
     NSDictionary *parameters = @{ kIDKey : @(self.review.review_id) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    [[DAAPIManager sharedManager] POST:kReportReviewURL parameters:parameters success:nil
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    [[DAAPIManager sharedManager] POSTRequest:kReportReviewURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self reportReview];
-                }
-            }];
+            [self reportReview];
         }
     }];
 }

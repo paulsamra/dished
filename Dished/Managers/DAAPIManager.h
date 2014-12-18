@@ -39,7 +39,6 @@ typedef void(^RequestFailureBlock)( NSError *error, BOOL shouldRetry );
 
 - (BOOL)networkIsReachable;
 - (BOOL)isLoggedIn;
-- (NSDictionary *)authenticatedParametersWithParameters:(NSDictionary *)parameters;
 
 - (NSURLSessionTask *)GETRequest:(NSString *)url
                   withParameters:(NSDictionary *)parameters
@@ -51,10 +50,11 @@ typedef void(^RequestFailureBlock)( NSError *error, BOOL shouldRetry );
                           success:(RequestSuccessBlock)success
                           failure:(RequestFailureBlock)failure;
 
-/*
- * Refreshes authentication tokens with Dished server.
- */
-- (void)refreshAuthenticationWithCompletion:( void(^)( BOOL success ) )completion;
+- (NSURLSessionTask *)POSTRequest:(NSString *)url
+                   withParameters:(NSDictionary *)parameters
+        constructingBodyWithBlock:(void (^)( id <AFMultipartFormData> formData ) )block
+                          success:(RequestSuccessBlock)success
+                          failure:(RequestFailureBlock)failure;
 
 /*
  * Register new Dished user account.

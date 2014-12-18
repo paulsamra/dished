@@ -355,6 +355,44 @@
     }];
 }
 
+- (NSURLSessionTask *)POSTRequest:(NSString *)url
+                   withParameters:(NSDictionary *)parameters
+        constructingBodyWithBlock:(void (^)( id <AFMultipartFormData> formData ) )block
+                          success:(RequestSuccessBlock)success
+                          failure:(RequestFailureBlock)failure
+{
+    parameters = [self authenticatedParametersWithParameters:parameters];
+    
+    return [self POST:url parameters:parameters constructingBodyWithBlock:block
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        if( success )
+        {
+            success( responseObject );
+        }
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        if( [self.class errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        {
+            [self refreshAuthenticationWithCompletion:^( BOOL success )
+            {
+                if( failure )
+                {
+                    failure( error, success );
+                }
+            }];
+        }
+        else
+        {
+            if( failure )
+            {
+                failure( error, NO );
+            }
+        }
+    }];
+}
+
 - (NSDictionary *)authenticatedParametersWithParameters:(NSDictionary *)parameters
 {
     if( ![self isLoggedIn] )

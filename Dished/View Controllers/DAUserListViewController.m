@@ -68,7 +68,6 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     __weak typeof( self ) weakSelf = self;
     
     NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id), kRelationKey : @(YES) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     weakSelf.loadTask = [[DAAPIManager sharedManager] POSTRequest:kUserFollowersURL withParameters:parameters
     success:^( id response )
@@ -90,7 +89,6 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     __weak typeof( self ) weakSelf = self;
     
     NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id), kRelationKey : @(YES) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     weakSelf.loadTask = [[DAAPIManager sharedManager] POSTRequest:kUserFollowingURL withParameters:parameters
     success:^( id response )
@@ -112,7 +110,6 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     __weak typeof( self ) weakSelf = self;
     
     NSDictionary *parameters = @{ kIDKey : @(weakSelf.object_id) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     [[DAAPIManager sharedManager] GETRequest:kReviewYumsURL withParameters:parameters
     success:^( id response )
@@ -252,7 +249,6 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     __weak typeof( self ) weakSelf = self;
     
     NSDictionary *parameters = @{ kIDKey : @(userID) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     [[DAAPIManager sharedManager] POSTRequest:kFollowUserURL withParameters:parameters success:nil
     failure:^( NSError *error, BOOL shouldRetry )
@@ -269,7 +265,6 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     __weak typeof( self ) weakSelf = self;
     
     NSDictionary *parameters = @{ kIDKey : @(userID) };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     [[DAAPIManager sharedManager] POSTRequest:kUnfollowUserURL withParameters:parameters success:nil
     failure:^( NSError *error, BOOL shouldRetry )

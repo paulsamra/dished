@@ -91,29 +91,21 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
 
 - (void)loadExploreContent
 {
-    NSDictionary *parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:nil];
-    
-    [[DAAPIManager sharedManager] GET:kHashtagsExploreURL parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    [[DAAPIManager sharedManager] GETRequest:kHashtagsExploreURL withParameters:nil
+    success:^( id response )
     {
         [self.refreshControl endRefreshing];
         
-        self.imageURLs = [self imageURLsFromResponse:responseObject];
-        self.hashtags  = [self hashtagsFromResponse:responseObject];
+        self.imageURLs = [self imageURLsFromResponse:response];
+        self.hashtags  = [self hashtagsFromResponse:response];
         
         [self.collectionView reloadData];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self loadExploreContent];
-                }
-            }];
+            [self loadExploreContent];
         }
     }];
 }
@@ -266,25 +258,18 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
 - (void)searchWithURL:(NSString *)url query:(NSString *)query queryKey:(NSString *)key resultType:(eExploreSearchResultType)type
 {
     NSDictionary *parameters = @{ key : query };
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
-    self.liveSearchTask = [[DAAPIManager sharedManager] GET:url parameters:parameters
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    self.liveSearchTask = [[DAAPIManager sharedManager] GETRequest:url withParameters:parameters
+    success:^( id response )
     {
-        self.liveSearchResults = [self resultsFromResponse:responseObject withType:type];
+        self.liveSearchResults = [self resultsFromResponse:response withType:type];
         [self.searchDisplayController.searchResultsTableView reloadData];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
-        if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+        if( shouldRetry )
         {
-            [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-            {
-                if( success )
-                {
-                    [self searchWithURL:url query:query queryKey:key resultType:type];
-                }
-            }];
+            [self searchWithURL:url query:query queryKey:key resultType:type];
         }
     }];
 }

@@ -105,30 +105,20 @@
         
         NSDictionary *parameters = @{ kLatitudeKey : @(currentLocation.latitude),
                                       kLongitudeKey : @(currentLocation.longitude) };
-        parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
         
-        [[DAAPIManager sharedManager] GET:kExploreLocationsURL parameters:parameters
-        success:^( NSURLSessionDataTask *task, id responseObject )
+        [[DAAPIManager sharedManager] GETRequest:kExploreLocationsURL withParameters:parameters
+        success:^( id response )
         {
-            self.suggestedLocations = [DAReviewLocationViewController locationsFromResponse:responseObject];
+            self.suggestedLocations = [DAReviewLocationViewController locationsFromResponse:response];
             [[NSNotificationCenter defaultCenter] removeObserver:self name:kLocationUpdateNotificationKey object:nil];
         }
-        failure:^( NSURLSessionDataTask *task, NSError *error )
+        failure:^( NSError *error, BOOL shouldRetry )
         {
-            if( [DAAPIManager errorTypeForError:error] == eErrorTypeExpiredAccessToken )
+            self.searchedForSuggestions = NO;
+            
+            if( shouldRetry )
             {
-                [[DAAPIManager sharedManager] refreshAuthenticationWithCompletion:^( BOOL success )
-                {
-                    if( success )
-                    {
-                        self.searchedForSuggestions = NO;
-                        [self getLocationSuggestions];
-                    }
-                }];
-            }
-            else
-            {
-                self.searchedForSuggestions = NO;
+                [self getLocationSuggestions];
             }
         }];
     }
@@ -833,7 +823,6 @@
     __block NSData *data = nil;
     
     NSDictionary *parameters = [self.review dictionaryRepresentation];
-    parameters = [[DAAPIManager sharedManager] authenticatedParametersWithParameters:parameters];
     
     [[DAAPIManager sharedManager] POST:@"reviews" parameters:parameters constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
     {
