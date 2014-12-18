@@ -105,7 +105,7 @@
                                ( CGRectGetMinY(firstObjectAttrs.frame) - topHeaderHeight) ),
                                ( CGRectGetMaxY(lastObjectAttrs.frame) - bottomHeaderHeight ) );
                         
-            layoutAttributes.transform3D = CATransform3DMakeTranslation( 0, 0, 1 );
+            layoutAttributes.zIndex = 100;
             
             layoutAttributes.frame = (CGRect)
             {

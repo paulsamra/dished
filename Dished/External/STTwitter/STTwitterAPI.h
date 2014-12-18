@@ -23,7 +23,8 @@
 
 NS_ENUM(NSUInteger, STTwitterAPIErrorCode) {
     STTwitterAPICannotPostEmptyStatus,
-    STTwitterAPIMediaDataIsEmpty
+    STTwitterAPIMediaDataIsEmpty,
+    STTwitterAPIEmptyStream
 };
 
 extern NSString *kBaseURLStringAPI_1_1;
@@ -833,6 +834,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
 
 - (void)getFollowersListForUserID:(NSString *)userID
                      orScreenName:(NSString *)screenName
+                            count:(NSString *)count
                            cursor:(NSString *)cursor
                        skipStatus:(NSNumber *)skipStatus
               includeUserEntities:(NSNumber *)includeUserEntities
@@ -936,6 +938,8 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
  Sets one or more hex values that control the color scheme of the authenticating user's profile page on twitter.com. Each parameter's value must be a valid hexidecimal value, and may be either three or six characters (ex: #fff or #ffffff).
  */
 
+// https://twittercommunity.com/t/deprecation-of-account-update-profile-colors/28692
+
 - (void)postAccountUpdateProfileColorsWithBackgroundColor:(NSString *)backgroundColor
                                                 linkColor:(NSString *)linkColor
                                        sidebarBorderColor:(NSString *)sidebarBorderColor
@@ -944,7 +948,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
                                           includeEntities:(NSNumber *)includeEntities
                                                skipStatus:(NSNumber *)skipStatus
                                              successBlock:(void(^)(NSDictionary *profile))successBlock
-                                               errorBlock:(void(^)(NSError *error))errorBlock;
+                                               errorBlock:(void(^)(NSError *error))errorBlock __attribute__((deprecated));
 
 /*
  POST	account/update_profile_image
@@ -1485,6 +1489,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
 
 - (void)getListsMembersForListID:(NSString *)listID
                           cursor:(NSString *)cursor
+                           count:(NSString *)count
                  includeEntities:(NSNumber *)includeEntities
                       skipStatus:(NSNumber *)skipStatus
                     successBlock:(void(^)(NSArray *users, NSString *previousCursor, NSString *nextCursor))successBlock
@@ -1494,6 +1499,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
                ownerScreenName:(NSString *)screenName
                      orOwnerID:(NSString *)ownerID
                         cursor:(NSString *)cursor
+                         count:(NSString *)count
                includeEntities:(NSNumber *)includeEntities
                     skipStatus:(NSNumber *)skipStatus
                   successBlock:(void(^)(NSArray *users, NSString *previousCursor, NSString *nextCursor))successBlock

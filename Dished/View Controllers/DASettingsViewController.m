@@ -107,7 +107,7 @@
 }
 
 - (void)logout
-{     
+{
     [[DAAPIManager sharedManager] POSTRequest:kLogoutURL withParameters:nil
     success:^( id response )
     {

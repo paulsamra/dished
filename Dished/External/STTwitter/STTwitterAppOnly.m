@@ -160,33 +160,25 @@
     
     NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@/%@", baseURLString, resource];
     
-    NSMutableArray *parameters = [NSMutableArray array];
-    
-    [params enumerateKeysAndObjectsUsingBlock:^(id key, id obj, BOOL *stop) {
-        NSString *s = [NSString stringWithFormat:@"%@=%@", key, obj];
-        [parameters addObject:s];
-    }];
-    
-    if([parameters count]) {
-        NSString *parameterString = [parameters componentsJoinedByString:@"&"];
-        
-        [urlString appendFormat:@"?%@", parameterString];
-    }
-    
     //    NSString *requestID = [[NSUUID UUID] UUIDString];
     
+    __weak STHTTPRequest *wr = nil;
     __block STHTTPRequest *r = [STHTTPRequest twitterRequestWithURLString:urlString
                                              stTwitterUploadProgressBlock:nil
                                            stTwitterDownloadProgressBlock:^(id json) {
-                                               if(progressBlock) progressBlock(r, json);
+                                               if(progressBlock) progressBlock(wr, json);
                                            } stTwitterSuccessBlock:^(NSDictionary *requestHeaders, NSDictionary *responseHeaders, id json) {
                                                successBlock(r, requestHeaders, responseHeaders, json);
                                            } stTwitterErrorBlock:^(NSDictionary *requestHeaders, NSDictionary *responseHeaders, NSError *error) {
                                                errorBlock(r, requestHeaders, responseHeaders, error);
                                            }];
+    wr = r;
+    
     if(_bearerToken) {
         [r setHeaderWithName:@"Authorization" value:[NSString stringWithFormat:@"Bearer %@", _bearerToken]];
     }
+
+    r.GETDictionary = params;
     
     [r startAsynchronous];
     

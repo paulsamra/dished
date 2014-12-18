@@ -44,15 +44,15 @@ static NSMutableArray *localCookiesStorage = nil;
 @interface STHTTPRequest ()
 
 @property (nonatomic) NSInteger responseStatus;
-@property (nonatomic, retain) NSURLConnection *connection;
-@property (nonatomic, retain) NSMutableData *responseData;
-@property (nonatomic, retain) NSString *responseStringEncodingName;
-@property (nonatomic, retain) NSDictionary *responseHeaders;
-@property (nonatomic, retain) NSURL *url;
-@property (nonatomic, retain) NSError *error;
-@property (nonatomic, retain) NSMutableArray *filesToUpload; // STHTTPRequestFileUpload instances
-@property (nonatomic, retain) NSMutableArray *dataToUpload; // STHTTPRequestDataUpload instances
-@property (nonatomic, retain) NSURLRequest *request;
+@property (nonatomic, strong) NSURLConnection *connection;
+@property (nonatomic, strong) NSMutableData *responseData;
+@property (nonatomic, strong) NSString *responseStringEncodingName;
+@property (nonatomic, strong) NSDictionary *responseHeaders;
+@property (nonatomic, strong) NSURL *url;
+@property (nonatomic, strong) NSError *error;
+@property (nonatomic, strong) NSMutableArray *filesToUpload; // STHTTPRequestFileUpload instances
+@property (nonatomic, strong) NSMutableArray *dataToUpload; // STHTTPRequestDataUpload instances
+@property (nonatomic, strong) NSURLRequest *request;
 @end
 
 @interface NSData (Base64)
@@ -341,7 +341,32 @@ static NSMutableArray *localCookiesStorage = nil;
     return data;
 }
 
++ (NSURL *)appendURL:(NSURL *)url withGETParameters:(NSDictionary *)parameters {
+    NSMutableString *urlString = [[NSMutableString alloc] initWithString:[url absoluteString]];
+    
+    __block BOOL questionMarkFound = NO;
+    
+    [parameters enumerateKeysAndObjectsUsingBlock:^(NSString *key, NSString *value, BOOL *stop) {
+        
+        if(questionMarkFound == NO) {
+            questionMarkFound = [urlString rangeOfString:@"?"].location != NSNotFound;
+        }
+        
+        [urlString appendString: (questionMarkFound ? @"&" : @"?") ];
+        
+        [urlString appendFormat:@"%@=%@",
+         [key st_stringByAddingRFC3986PercentEscapesUsingEncoding:NSUTF8StringEncoding],
+         [value st_stringByAddingRFC3986PercentEscapesUsingEncoding:NSUTF8StringEncoding]];
+        
+    }];
+    
+    return [NSURL URLWithString:urlString];
+}
+
 - (NSMutableURLRequest *)requestByAddingCredentialsToURL:(BOOL)useCredentialsInURL {
+    
+    NSAssert((self.completionBlock || self.completionDataBlock), @"a completion block is mandatory");
+    NSAssert(self.errorBlock, @"the error block is mandatory");
     
     NSURL *theURL = nil;
     
@@ -353,6 +378,12 @@ static NSMutableArray *localCookiesStorage = nil;
     } else {
         theURL = _url;
     }
+    
+    /**/
+    
+    theURL = [[self class] appendURL:theURL withGETParameters:_GETDictionary];
+    
+    /**/
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:theURL];
     if(_HTTPMethod) [request setHTTPMethod:_HTTPMethod];
@@ -636,6 +667,16 @@ static NSMutableArray *localCookiesStorage = nil;
         }];
         NSString *ss = [postParameters componentsJoinedByString:@"&"];
         [ma addObject:[NSString stringWithFormat:@"-d \"%@\"", ss]];
+    }
+    
+    if(_rawPOSTData) {
+        // try JSON
+        id jsonObject = [NSJSONSerialization JSONObjectWithData:_rawPOSTData options:NSJSONReadingMutableContainers error:nil];
+        if(jsonObject) {
+            NSString *jsonString = [[NSString alloc] initWithData:_rawPOSTData encoding:NSUTF8StringEncoding];
+            [ma addObject:@"-X POST"];
+            [ma addObject:[NSString stringWithFormat:@"-d \'%@\'", jsonString]];
+        }
     }
     
     // -F "coolfiles=@fil1.gif;type=image/gif,fil2.txt,fil3.html"   // file upload

@@ -372,11 +372,11 @@
                         <constraints>
                             <constraint firstItem="hzG-aC-Z0z" firstAttribute="bottom" secondItem="teY-pB-9hY" secondAttribute="bottom" constant="-7" id="3SZ-O8-BeE"/>
                             <constraint firstItem="5Jw-sr-3Ny" firstAttribute="top" secondItem="JyA-Sd-K7n" secondAttribute="bottom" constant="208" id="AOx-7M-5yP"/>
-                            <constraint firstItem="THS-eD-6D3" firstAttribute="top" secondItem="WLj-b6-I1l" secondAttribute="bottom" constant="114" id="GqL-A5-h4w"/>
+                            <constraint firstItem="THS-eD-6D3" firstAttribute="top" secondItem="WLj-b6-I1l" secondAttribute="bottom" constant="70" id="GqL-A5-h4w"/>
                             <constraint firstItem="hzG-aC-Z0z" firstAttribute="trailing" secondItem="teY-pB-9hY" secondAttribute="trailing" constant="-20" id="KWV-hu-IQj"/>
                             <constraint firstItem="JyA-Sd-K7n" firstAttribute="leading" secondItem="i0I-zx-74f" secondAttribute="leading" id="MKc-nK-7un"/>
                             <constraint firstAttribute="trailing" secondItem="JyA-Sd-K7n" secondAttribute="trailing" id="R8k-bg-QWP"/>
-                            <constraint firstItem="MA8-F5-b5O" firstAttribute="top" secondItem="WLj-b6-I1l" secondAttribute="bottom" constant="114" id="Rzl-9C-o9w"/>
+                            <constraint firstItem="MA8-F5-b5O" firstAttribute="top" secondItem="WLj-b6-I1l" secondAttribute="bottom" constant="70" id="Rzl-9C-o9w"/>
                             <constraint firstItem="hzG-aC-Z0z" firstAttribute="top" secondItem="teY-pB-9hY" secondAttribute="top" constant="7" id="XMZ-vB-ytM"/>
                             <constraint firstAttribute="centerX" secondItem="MA8-F5-b5O" secondAttribute="centerX" id="YYT-35-Onl"/>
                             <constraint firstItem="hzG-aC-Z0z" firstAttribute="leading" secondItem="teY-pB-9hY" secondAttribute="leading" constant="20" id="dQZ-Zq-o8o"/>
@@ -481,7 +481,7 @@
                             <constraint firstAttribute="trailing" secondItem="EyG-PF-9cv" secondAttribute="trailing" id="eeX-zA-4hN"/>
                             <constraint firstItem="iOU-OW-UuF" firstAttribute="top" secondItem="8oZ-V4-DRb" secondAttribute="top" constant="-7" id="gIB-O9-nkg"/>
                             <constraint firstItem="EyG-PF-9cv" firstAttribute="top" secondItem="iOU-OW-UuF" secondAttribute="bottom" id="hK6-By-MD2"/>
-                            <constraint firstItem="MYt-73-vzK" firstAttribute="top" secondItem="moW-LQ-1Qi" secondAttribute="bottom" constant="116" id="hL3-gu-kpt"/>
+                            <constraint firstItem="MYt-73-vzK" firstAttribute="top" secondItem="moW-LQ-1Qi" secondAttribute="bottom" constant="72" id="hL3-gu-kpt"/>
                             <constraint firstItem="MYt-73-vzK" firstAttribute="leading" secondItem="j39-rS-TcJ" secondAttribute="leading" id="hdB-xJ-7l2"/>
                             <constraint firstItem="EyG-PF-9cv" firstAttribute="bottom" secondItem="P7O-DU-qqV" secondAttribute="bottom" constant="7" id="lcS-xc-Kce"/>
                             <constraint firstItem="iOU-OW-UuF" firstAttribute="leading" secondItem="j39-rS-TcJ" secondAttribute="leading" id="muX-m8-9f8"/>
@@ -568,7 +568,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" delaysContentTouches="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZsI-AF-9cR" customClass="DACollectionView" customModule="Dished" customModuleProvider="target">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" delaysContentTouches="NO" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="ZsI-AF-9cR" customClass="DACollectionView" customModule="Dished" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" red="0.97647058823529409" green="0.97647058823529409" blue="0.97647058823529409" alpha="1" colorSpace="calibratedRGB"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="5" minimumInteritemSpacing="0.0" id="yI2-8g-oJF" customClass="DAFeedCollectionViewFlowLayout">
@@ -2445,7 +2445,7 @@
         <!--Share Settings-->
         <scene sceneID="FjT-Bh-kkv">
             <objects>
-                <tableViewController id="zaU-hE-bL3" sceneMemberID="viewController">
+                <tableViewController id="zaU-hE-bL3" customClass="DAShareSettingsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="aUQ-ei-Odp">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -2501,11 +2501,60 @@
                             <outlet property="delegate" destination="zaU-hE-bL3" id="qLh-hb-9PE"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Share Settings" id="o6j-fV-1Lw"/>
+                    <navigationItem key="navigationItem" title="Share Settings" id="o6j-fV-1Lw">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="7dR-o7-FNe"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="facebookCell" destination="yXB-5e-8tx" id="ffD-uf-0vA"/>
+                        <outlet property="twitterCell" destination="hyi-Fu-HQg" id="Le6-zU-3jH"/>
+                        <segue destination="za0-WW-ux5" kind="show" identifier="shareLink" id="geg-8u-QMU"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZA6-uw-dKe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2620" y="5914"/>
+        </scene>
+        <!--Share Link Table View Controller-->
+        <scene sceneID="fEG-fK-Gxx">
+            <objects>
+                <tableViewController id="za0-WW-ux5" customClass="DAShareLinkTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="jWo-2x-3rV">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
+                        <sections>
+                            <tableViewSection id="lX0-aj-TYd">
+                                <cells>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" textLabel="Bcz-zM-2yt" style="IBUITableViewCellStyleDefault" id="Sxp-co-DSw">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Sxp-co-DSw" id="yDn-aB-Gfk">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Link" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Bcz-zM-2yt">
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </cells>
+                            </tableViewSection>
+                        </sections>
+                        <connections>
+                            <outlet property="dataSource" destination="za0-WW-ux5" id="pYg-z9-lT3"/>
+                            <outlet property="delegate" destination="za0-WW-ux5" id="NJ6-Al-keX"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="4C5-vG-ZjR"/>
+                    <connections>
+                        <outlet property="linkCell" destination="Sxp-co-DSw" id="rvU-ah-9XJ"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kak-Li-jCW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2620" y="6657"/>
         </scene>
         <!--Notification Settings View Controller-->
         <scene sceneID="Sj9-km-NXk">
@@ -4859,7 +4908,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="wvz-Jp-teY"/>
         <segue reference="DWl-1Z-W5u"/>
-        <segue reference="YE9-MJ-lWu"/>
+        <segue reference="JnL-rD-nNR"/>
         <segue reference="wCN-0l-elF"/>
         <segue reference="X8z-8L-0Ll"/>
     </inferredMetricsTieBreakers>

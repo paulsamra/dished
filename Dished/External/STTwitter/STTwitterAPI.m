@@ -486,7 +486,7 @@ downloadProgressBlock:nil
                        r.errorBlock = ^(NSError *error) {
                            errorBlock(error);
                        };
-
+                       
                        [r startAsynchronous];
                    } errorBlock:^(NSError *error) {
                        errorBlock(error);
@@ -1254,6 +1254,12 @@ downloadProgressBlock:nil
             }
             
         } successBlock:^(NSDictionary *rateLimits, id response) {
+            if([response isKindOfClass:[NSString class]] && [response length] == 0) {
+                NSError *error = [NSError errorWithDomain:NSStringFromClass([self class]) code:STTwitterAPIEmptyStream userInfo:@{NSLocalizedDescriptionKey : @"stream is empty"}];
+                errorBlock(error);
+                return;
+            };
+            
             progressBlock(response);
         } errorBlock:^(NSError *error) {
             errorBlock(error);
@@ -1365,7 +1371,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
     NSString *keywords = [keywordsToTrack componentsJoinedByString:@","];
     NSString *locations = [locationBoundingBoxes componentsJoinedByString:@","];
     
-    if([keywords length]) md[@"keywords"] = keywords;
+    if([keywords length]) md[@"track"] = keywords;
     if([locations length]) md[@"locations"] = locations;
     
     return [self getResource:@"user.json"
@@ -1948,6 +1954,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
 
 - (void)getFollowersListForUserID:(NSString *)userID
                      orScreenName:(NSString *)screenName
+                            count:(NSString *)count
                            cursor:(NSString *)cursor
                        skipStatus:(NSNumber *)skipStatus
               includeUserEntities:(NSNumber *)includeUserEntities
@@ -1959,6 +1966,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
     NSMutableDictionary *md = [NSMutableDictionary dictionary];
     if(userID) md[@"user_id"] = userID;
     if(screenName) md[@"screen_name"] = screenName;
+    if(count) md[@"count"] = count;
     if(cursor) md[@"cursor"] = cursor;
     if(skipStatus) md[@"skip_status"] = [skipStatus boolValue] ? @"1" : @"0";
     if(includeUserEntities) md[@"include_user_entities"] = [includeUserEntities boolValue] ? @"1" : @"0";
@@ -1987,6 +1995,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
     
     [self getFollowersListForUserID:nil
                        orScreenName:screenName
+                              count:nil
                              cursor:nil
                          skipStatus:nil
                 includeUserEntities:nil
@@ -3219,6 +3228,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
 
 - (void)getListsMembersForListID:(NSString *)listID
                           cursor:(NSString *)cursor
+                           count:(NSString *)count
                  includeEntities:(NSNumber *)includeEntities
                       skipStatus:(NSNumber *)skipStatus
                     successBlock:(void(^)(NSArray *users, NSString *previousCursor, NSString *nextCursor))successBlock
@@ -3229,6 +3239,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
     NSMutableDictionary *md = [NSMutableDictionary dictionary];
     md[@"list_id"] = listID;
     if(cursor) md[@"cursor"] = cursor;
+    if(count) md[@"count"] = count;
     if(includeEntities) md[@"include_entities"] = [includeEntities boolValue] ? @"1" : @"0";
     if(skipStatus) md[@"skip_status"] = [skipStatus boolValue] ? @"1" : @"0";
     
@@ -3246,6 +3257,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
                ownerScreenName:(NSString *)ownerScreenName
                      orOwnerID:(NSString *)ownerID
                         cursor:(NSString *)cursor
+                         count:(NSString *)count
                includeEntities:(NSNumber *)includeEntities
                     skipStatus:(NSNumber *)skipStatus
                   successBlock:(void(^)(NSArray *users, NSString *previousCursor, NSString *nextCursor))successBlock
@@ -3260,6 +3272,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
     if(ownerScreenName) md[@"owner_screen_name"] = ownerScreenName;
     if(ownerID) md[@"owner_id"] = ownerID;
     if(cursor) md[@"cursor"] = cursor;
+    if(count) md[@"count"] = count;
     if(includeEntities) md[@"include_entities"] = [includeEntities boolValue] ? @"1" : @"0";
     if(skipStatus) md[@"skip_status"] = [skipStatus boolValue] ? @"1" : @"0";
     
@@ -4354,7 +4367,7 @@ includeMessagesFromFollowedAccounts:(NSNumber *)includeMessagesFromFollowedAccou
 // GET conversation/show/:id.json
 - (void)_getConversationShowWithTweetID:(NSString *)tweetID
                            successBlock:(void(^)(id results))successBlock
-                      errorBlock:(void(^)(NSError *error))errorBlock {
+                             errorBlock:(void(^)(NSError *error))errorBlock {
     
     NSParameterAssert(tweetID);
     

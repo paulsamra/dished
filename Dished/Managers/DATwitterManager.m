@@ -15,6 +15,7 @@
 
 #define kTwitterToken        @"dishedTwitterToken"
 #define kTwitterTokenSecret  @"dishedTwitterTokenSecret"
+#define kTwitterCurrentUser  @"dishedTwitterUsername"
 #define kTwitterTokenAccount @"com.dishedapp.Dished"
 
 
@@ -23,6 +24,7 @@ typedef void ( ^DATwitterSuccessBlock )( BOOL );
 @interface DATwitterManager()
 
 @property (strong, nonatomic) STTwitterAPI *authTwitterAPI;
+@property (strong, nonatomic) NSString *currentUsername;
 @property (strong, nonatomic) NSString *oAuthToken;
 @property (strong, nonatomic) NSString *oAuthTokenSecret;
 
@@ -59,15 +61,18 @@ typedef void ( ^DATwitterSuccessBlock )( BOOL );
         
         if( token && tokenSecret )
         {
-            self.oAuthToken       = token;
-            self.oAuthTokenSecret = tokenSecret;
+            _oAuthToken       = token;
+            _oAuthTokenSecret = tokenSecret;
             
             _authTwitterAPI = [STTwitterAPI twitterAPIWithOAuthConsumerKey:kConsumerKey consumerSecret:kConsumerSecret oauthToken:self.oAuthToken oauthTokenSecret:self.oAuthTokenSecret];
+            
+            _currentUsername = [SSKeychain passwordForService:kTwitterCurrentUser account:kTwitterTokenAccount];
             
             [self verifyStoredTokens];
         }
         else
         {
+            _loggedIn = NO;
             _authTwitterAPI = [STTwitterAPI twitterAPIWithOAuthConsumerKey:kConsumerKey consumerSecret:kConsumerSecret];
         }
     }
@@ -80,15 +85,36 @@ typedef void ( ^DATwitterSuccessBlock )( BOOL );
     return self.loggedIn;
 }
 
+- (NSString *)currentUser
+{
+    return self.currentUsername;
+}
+
+- (void)setCurrentUsername:(NSString *)currentUsername
+{
+    _currentUsername = currentUsername;
+    
+    if( currentUsername )
+    {
+        [SSKeychain setPassword:currentUsername forService:kTwitterCurrentUser account:kTwitterTokenAccount];
+    }
+    else
+    {
+        [SSKeychain deletePasswordForService:kTwitterCurrentUser account:kTwitterTokenAccount];
+    }
+}
+
 - (void)verifyStoredTokens
 {
     [self.authTwitterAPI verifyCredentialsWithSuccessBlock:^( NSString *username )
     {
         self.loggedIn = YES;
+        self.currentUsername = username;
     }
     errorBlock:^( NSError *error )
     {
         self.loggedIn = NO;
+        self.currentUsername = nil;
     }];
 }
 
@@ -105,13 +131,13 @@ typedef void ( ^DATwitterSuccessBlock )( BOOL );
         [self.authTwitterAPI verifyCredentialsWithSuccessBlock:^( NSString *username )
         {
             self.loggedIn = YES;
+            self.currentUsername = username;
             completion( YES );
         }
         errorBlock:^( NSError *error )
         {
             self.loggedIn = NO;
-            self.oAuthToken = nil;
-            self.oAuthTokenSecret = nil;
+            self.currentUsername = nil;
             
             completion( NO );
         }];
@@ -125,10 +151,23 @@ typedef void ( ^DATwitterSuccessBlock )( BOOL );
         [[UIApplication sharedApplication] openURL:url];
     }
     authenticateInsteadOfAuthorize:NO forceLogin:@(YES) screenName:nil oauthCallback:kTwitterCallbackURL
-    errorBlock:^(NSError *error)
+    errorBlock:^( NSError *error )
     {
         completion( NO );
     }];
+}
+
+- (void)logout
+{
+    self.authTwitterAPI = [STTwitterAPI twitterAPIWithOAuthConsumerKey:kConsumerKey consumerSecret:kConsumerSecret];
+
+    [SSKeychain deletePasswordForService:kTwitterToken account:kTwitterTokenAccount];
+    [SSKeychain deletePasswordForService:kTwitterTokenSecret account:kTwitterTokenAccount];
+    
+    self.oAuthToken = nil;
+    self.oAuthTokenSecret = nil;
+    self.currentUsername = nil;
+    self.loggedIn = NO;
 }
 
 - (void)processURL:(NSURL *)url
@@ -156,6 +195,7 @@ typedef void ( ^DATwitterSuccessBlock )( BOOL );
         if( self.currentCallbackBlock )
         {
             self.currentCallbackBlock( NO );
+            self.currentCallbackBlock = nil;
         }
     }
     
@@ -166,6 +206,7 @@ typedef void ( ^DATwitterSuccessBlock )( BOOL );
         self.oAuthTokenSecret = oauthTokenSecret;
         
         self.loggedIn = YES;
+        self.currentUsername = screenName;
         
         [SSKeychain setPassword:oauthToken       forService:kTwitterToken       account:kTwitterTokenAccount];
         [SSKeychain setPassword:oauthTokenSecret forService:kTwitterTokenSecret account:kTwitterTokenAccount];
@@ -173,15 +214,18 @@ typedef void ( ^DATwitterSuccessBlock )( BOOL );
         if( self.currentCallbackBlock )
         {
             self.currentCallbackBlock( YES );
+            self.currentCallbackBlock = nil;
         }
     }
     errorBlock:^( NSError *error )
     {
         self.loggedIn = NO;
+        self.currentUsername = nil;
         
         if( self.currentCallbackBlock )
         {
             self.currentCallbackBlock( NO );
+            self.currentCallbackBlock = nil;
         }
     }];
 }
