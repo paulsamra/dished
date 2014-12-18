@@ -32,6 +32,7 @@ typedef enum
 
 @property (nonatomic, readonly) BOOL         savesDishPhoto;
 @property (nonatomic, readonly) BOOL         publicProfile;
+@property (nonatomic, readonly) BOOL         isFacebookUser;
 @property (nonatomic, readonly) NSInteger    user_id;
 @property (nonatomic, readonly) ePushSetting receivesYumPushNotifications;
 @property (nonatomic, readonly) ePushSetting receivesCommentPushNotifications;

@@ -19,7 +19,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_image_6.png" translatesAutoresizingMaskIntoConstraints="NO" id="3TF-8t-2Jn">
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="3TF-8t-2Jn">
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PO9-DV-aoo">
@@ -304,7 +304,7 @@
                     <connections>
                         <outlet property="activityIndicator" destination="DWn-jC-f5B" id="yaf-Ro-SKP"/>
                         <outlet property="statusLabel" destination="cGr-vh-cpR" id="qaN-rW-JtV"/>
-                        <segue destination="QD2-R5-VPv" kind="show" identifier="goToRegister" id="YE9-MJ-lWu"/>
+                        <segue destination="QD2-R5-VPv" kind="custom" identifier="goToRegister" customClass="DAReplaceSegue" customModule="Dished" customModuleProvider="target" id="YE9-MJ-lWu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AgN-aI-MNo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3399,28 +3399,38 @@
                             </tableViewSection>
                             <tableViewSection id="Cyg-NE-ttH">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" textLabel="7DZ-uQ-RxQ" detailTextLabel="odg-wF-6dL" style="IBUITableViewCellStyleValue1" id="WJZ-FR-CAl">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="WJZ-FR-CAl">
                                         <rect key="frame" x="0.0" y="507" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WJZ-FR-CAl" id="CTe-16-Frc">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Date of Birth" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="7DZ-uQ-RxQ">
-                                                    <rect key="frame" x="15" y="11" width="92" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Date of Bith" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WKo-d8-bDP">
+                                                    <rect key="frame" x="20" y="7" width="100" height="30"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="100" id="BMP-LN-298"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="odg-wF-6dL">
-                                                    <rect key="frame" x="264" y="11" width="41" height="21"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="04/09/1992" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CK7-py-rXn">
+                                                    <rect key="frame" x="493" y="7" width="87" height="30"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
+                                            <constraints>
+                                                <constraint firstItem="WKo-d8-bDP" firstAttribute="leading" secondItem="CTe-16-Frc" secondAttribute="leading" constant="20" id="8RW-et-4Ee"/>
+                                                <constraint firstItem="CK7-py-rXn" firstAttribute="top" secondItem="CTe-16-Frc" secondAttribute="top" constant="7" id="HTW-TL-817"/>
+                                                <constraint firstItem="CK7-py-rXn" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="WKo-d8-bDP" secondAttribute="trailing" constant="8" id="PSR-4Q-uEv"/>
+                                                <constraint firstAttribute="trailing" secondItem="CK7-py-rXn" secondAttribute="trailing" constant="20" id="jT3-7y-ddk"/>
+                                                <constraint firstAttribute="bottom" secondItem="CK7-py-rXn" secondAttribute="bottom" constant="7" id="oHv-Ty-B32"/>
+                                                <constraint firstItem="WKo-d8-bDP" firstAttribute="top" secondItem="CTe-16-Frc" secondAttribute="top" constant="7" id="rtj-LI-7DP"/>
+                                                <constraint firstAttribute="bottom" secondItem="WKo-d8-bDP" secondAttribute="bottom" constant="6.5" id="zQQ-mI-4oa"/>
+                                            </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
                                 </cells>
@@ -3457,6 +3467,7 @@
                         <outlet property="confirmPasswordCell" destination="Fij-oq-qKa" id="8kl-Bk-kMI"/>
                         <outlet property="confirmPasswordField" destination="97s-fZ-nXk" id="MGL-lq-NxC"/>
                         <outlet property="dateOfBirthCell" destination="WJZ-FR-CAl" id="IpM-NY-C52"/>
+                        <outlet property="dateOfBirthLabel" destination="CK7-py-rXn" id="WAy-hA-kyb"/>
                         <outlet property="emailCell" destination="h8m-k6-MXE" id="7iF-em-CJH"/>
                         <outlet property="emailField" destination="4DM-gf-RU0" id="Nwo-F3-t43"/>
                         <outlet property="firstNameCell" destination="1RO-oe-aum" id="J0z-9Q-QC0"/>
@@ -4821,7 +4832,6 @@
         <image name="graph_bar_red" width="30" height="31"/>
         <image name="graph_bar_yellow" width="30" height="31"/>
         <image name="gray_dot" width="6" height="6"/>
-        <image name="launch_image_6.png" width="750" height="1334"/>
         <image name="location_pin" width="8" height="12"/>
         <image name="login" width="320" height="54"/>
         <image name="menu_image_outline" width="102" height="102"/>
@@ -4847,10 +4857,10 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="X8z-8L-0Ll"/>
-        <segue reference="H8g-ev-vZR"/>
-        <segue reference="wCN-0l-elF"/>
-        <segue reference="JnL-rD-nNR"/>
+        <segue reference="wvz-Jp-teY"/>
         <segue reference="DWl-1Z-W5u"/>
+        <segue reference="YE9-MJ-lWu"/>
+        <segue reference="wCN-0l-elF"/>
+        <segue reference="X8z-8L-0Ll"/>
     </inferredMetricsTieBreakers>
 </document>

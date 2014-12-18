@@ -250,6 +250,8 @@ static NSString *kGooglePlacesAPIKey = @"AIzaSyDXXanFsOZUE3ULgpKiNngL-e6B_6TdBfE
         }
     }
     
+    [cell layoutSubviews];
+    
     return cell;
 }
 

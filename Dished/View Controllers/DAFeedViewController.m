@@ -121,6 +121,8 @@ typedef enum
     }
     
     [self.refreshControl shouldRestartAnimation];
+    
+    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 - (void)registerCollectionViewCellNibs
@@ -1084,8 +1086,6 @@ typedef enum
     frame.origin.y = 20;
     [self.navigationController.navigationBar setFrame:frame];
     [self updateNavigationBarToAlpha:1.0f];
-    
-    [self.collectionView.collectionViewLayout invalidateLayout];
 }
 
 @end

@@ -10,6 +10,7 @@
 
 @interface DARegisterViewController : UITableViewController <UITextFieldDelegate>
 
+@property (weak, nonatomic) IBOutlet UILabel            *dateOfBirthLabel;
 @property (weak, nonatomic) IBOutlet UITextField        *firstNameField;
 @property (weak, nonatomic) IBOutlet UITableViewCell    *firstNameCell;
 @property (weak, nonatomic) IBOutlet UITextField        *lastNameField;

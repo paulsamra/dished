@@ -65,12 +65,16 @@
     {
         self.firstNameField.text = self.facebookUserInfo[@"first_name"];
         self.lastNameField.text  = self.facebookUserInfo[@"last_name"];
-        self.emailField.text     = self.facebookUserInfo[@"email"];
+        [self textFieldDidChange:self.firstNameField];
+        [self textFieldDidChange:self.lastNameField];
+        
+        self.emailField.text = self.facebookUserInfo[@"email"];
+        [self textFieldDidEndEditing:self.emailField];
         
         NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
         dateFormatter.dateFormat = @"MM/dd/yyyy";
         self.dateOfBirth = [dateFormatter dateFromString:self.facebookUserInfo[@"birthday"]];
-        self.dateOfBirthCell.detailTextLabel.text = [self.birthDateFormatter stringFromDate:self.dateOfBirth];
+        self.dateOfBirthLabel.text = [self.birthDateFormatter stringFromDate:self.dateOfBirth];
     }
 }
 
@@ -330,7 +334,7 @@
             DADatePickerTableViewCell *cell = (DADatePickerTableViewCell *)[tableView cellForRowAtIndexPath:self.pickerIndexPath];
             UIDatePicker *picker = cell.datePicker;
             self.dateOfBirth = picker.date;
-            self.dateOfBirthCell.detailTextLabel.text = [self.birthDateFormatter stringFromDate:picker.date];
+            self.dateOfBirthLabel.text = [self.birthDateFormatter stringFromDate:picker.date];
         }
     }
     
@@ -347,7 +351,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.section == 5 && indexPath.row == 1 )
+    if( self.pickerIndexPath && [self.pickerIndexPath compare:indexPath] == NSOrderedSame )
     {
         DADatePickerTableViewCell *cell = [[DADatePickerTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"datePickerCell"];
         
@@ -361,12 +365,19 @@
         return cell;
     }
     
-    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    
+    if( self.facebookUserInfo && indexPath.section == 4 )
+    {
+        cell.hidden = YES;
+    }
+    
+    return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if( section == 5 && self.pickerIndexPath )
+    if( self.pickerIndexPath && section == self.pickerIndexPath.section )
     {
         return 2;
     }
@@ -376,9 +387,14 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.section == 5 && indexPath.row == 1 )
+    if( self.pickerIndexPath && [self.pickerIndexPath compare:indexPath] == NSOrderedSame )
     {
         return 162;
+    }
+    
+    if( self.facebookUserInfo && indexPath.section == 4 )
+    {
+        return 0;
     }
     
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
@@ -386,12 +402,22 @@
 
 - (NSInteger)tableView:(UITableView *)tableView indentationLevelForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( indexPath.section == 5  && indexPath.row == 1 )
+    if( self.pickerIndexPath && [self.pickerIndexPath compare:indexPath] == NSOrderedSame )
     {
         return [super tableView:tableView indentationLevelForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]];
     }
     
     return [super tableView:tableView indentationLevelForRowAtIndexPath:indexPath];
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+    if( section == 4 || section == 5 )
+    {
+        return CGFLOAT_MIN;
+    }
+    
+    return [super tableView:tableView heightForHeaderInSection:section];
 }
 
 - (void)toggleDatePicker
@@ -451,17 +477,20 @@
         self.phoneNumberCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
     }
     
-    if( !self.passwordField.text || self.passwordField.text.length < 6 )
+    if( !self.facebookUserInfo )
     {
-        numOfInvalidInputs++;
-        self.passwordCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
-    }
-    
-    NSString *confirmPassword = self.confirmPasswordField.text;
-    if( !confirmPassword || [confirmPassword length] < 6 || ( self.passwordField.text.length >= 6 && ![confirmPassword isEqualToString:self.passwordField.text] ) )
-    {
-        numOfInvalidInputs++;
-        self.confirmPasswordCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+        if( !self.passwordField.text || self.passwordField.text.length < 6 )
+        {
+            numOfInvalidInputs++;
+            self.passwordCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+        }
+        
+        NSString *confirmPassword = self.confirmPasswordField.text;
+        if( !confirmPassword || [confirmPassword length] < 6 || ( self.passwordField.text.length >= 6 && ![confirmPassword isEqualToString:self.passwordField.text] ) )
+        {
+            numOfInvalidInputs++;
+            self.confirmPasswordCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+        }
     }
     
     if( !self.dateOfBirth || [self ageWithDate:self.dateOfBirth] < 13 )
@@ -669,7 +698,7 @@
     UIDatePicker *datePicker = (UIDatePicker *)sender;
     self.dateOfBirth = datePicker.date;
     
-    self.dateOfBirthCell.detailTextLabel.text = [self.birthDateFormatter stringFromDate:datePicker.date];
+    self.dateOfBirthLabel.text = [self.birthDateFormatter stringFromDate:datePicker.date];
     self.dateOfBirthCell.accessoryView = nil;
 }
 

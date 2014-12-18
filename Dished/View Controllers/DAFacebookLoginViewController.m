@@ -47,6 +47,12 @@
     {
         self.shouldLogin = YES;
     }
+    
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake( 50, 200, 200, 200)];
+    [button setTitle:@"Logout" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [button addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:button];
 }
 
 - (void)viewDidAppear:(BOOL)animated

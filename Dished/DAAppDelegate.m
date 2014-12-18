@@ -55,6 +55,10 @@
         [self setupUserVoice];
         [self setRootView];
         
+        
+        
+        
+        
         NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         
         if ( userInfo )
