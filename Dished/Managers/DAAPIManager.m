@@ -11,7 +11,6 @@
 #import "DALocationManager.h"
 #import "DAHashtag.h"
 #import "SSKeychain.h"
-#import "AFOAuth2Manager.h"
 
 #define kClientIDKey     @"client_id"
 #define kClientSecretKey @"client_secret"

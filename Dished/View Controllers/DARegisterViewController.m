@@ -964,6 +964,22 @@
                       cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
 }
 
+- (NSString *)randomAlphanumericStringWithLength:(NSUInteger)length
+{
+    NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
+    
+    NSMutableString *string = [NSMutableString stringWithCapacity:length];
+    
+    for( NSUInteger i = 0U; i < length; i++ )
+    {
+        u_int32_t r = arc4random() % [alphabet length];
+        unichar c = [alphabet characterAtIndex:r];
+        [string appendFormat:@"%C", c];
+    }
+    
+    return string;
+}
+
 - (NSDateFormatter *)birthDateFormatter
 {
     if( !_birthDateFormatter )

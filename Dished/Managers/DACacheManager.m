@@ -51,4 +51,9 @@
     [self.cache setObject:value forKey:key];
 }
 
+- (void)clearCaches
+{
+    [self.cache removeAllObjects];
+}
+
 @end

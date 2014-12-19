@@ -19,8 +19,6 @@
     self.titleButton.titleLabel.minimumScaleFactor = 0.75;
     
     [self.titleButton addTarget:self action:@selector(titleButtonTapped) forControlEvents:UIControlEventTouchUpInside];
-    
-    self.opaque = YES;
 }
 
 - (void)titleButtonTapped

@@ -58,6 +58,8 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     self.collectionView.hidden = YES;
     self.collectionView.alwaysBounceVertical = YES;
     
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    
     [self loadReview];
 }
 
@@ -102,6 +104,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
                         animations:nil
                         completion:nil];
         
+        self.navigationItem.rightBarButtonItem.enabled = YES;
         self.collectionView.hidden = NO;
     }
     failure:^( NSError *error, BOOL shouldRetry )
@@ -796,11 +799,13 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 - (void)socialCollectionViewControllerDidFinish:(DASocialCollectionViewController *)controller
 {
     [self dismissShareView];
+    self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 - (IBAction)shareButtonPressed:(UIBarButtonItem *)sender
 {
     [self showShareViewWithReview:self.review];
+    sender.enabled = NO;
 }
 
 @end

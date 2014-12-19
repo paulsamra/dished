@@ -284,7 +284,7 @@
                                     <constraint firstAttribute="width" constant="320" id="ODP-r9-hNa"/>
                                     <constraint firstAttribute="height" constant="30" id="Wh0-kX-Vfq"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
@@ -4976,7 +4976,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="wvz-Jp-teY"/>
         <segue reference="DWl-1Z-W5u"/>
-        <segue reference="JnL-rD-nNR"/>
+        <segue reference="YE9-MJ-lWu"/>
         <segue reference="wCN-0l-elF"/>
         <segue reference="X8z-8L-0Ll"/>
     </inferredMetricsTieBreakers>

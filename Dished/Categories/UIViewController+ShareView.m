@@ -55,18 +55,18 @@
 
 - (DASocialCollectionViewController *)showShareView
 {
-    UIView *dimView = [[UIView alloc] initWithFrame:self.view.frame];
-    dimView.tag = kDimViewTag;
-    dimView.backgroundColor = [UIColor clearColor];
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissShareView)];
-    [dimView addGestureRecognizer:tapGesture];
-    
     DASocialCollectionViewController *socialViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"social"];
     socialViewController.isReviewPost = NO;
     socialViewController.view.tag = kShareViewTag;
     socialViewController.view.frame = CGRectMake( 0, self.view.frame.size.height, self.view.bounds.size.width, self.view.bounds.size.height );
     socialViewController.delegate = self;
     [self addChildViewController:socialViewController];
+    
+    UIView *dimView = [[UIView alloc] initWithFrame:self.view.frame];
+    dimView.tag = kDimViewTag;
+    dimView.backgroundColor = [UIColor clearColor];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:socialViewController.delegate action:@selector(socialCollectionViewControllerDidFinish:)];
+    [dimView addGestureRecognizer:tapGesture];
     
     [self.view addSubview:dimView];
     [self.view addSubview:socialViewController.view];

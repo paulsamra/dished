@@ -214,7 +214,7 @@ typedef enum
 {
     NSInteger numberOfSections = self.fetchedResultsController.sections.count;
     
-    NSLog(@"%d", (int)numberOfSections);
+    //NSLog(@"%d", (int)numberOfSections);
     return numberOfSections;
 }
 
@@ -543,6 +543,9 @@ typedef enum
     {
         reusableView = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"loadingFooter" forIndexPath:indexPath];
     }
+    
+    reusableView.layer.shouldRasterize = YES;
+    reusableView.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     return reusableView;
 }

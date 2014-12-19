@@ -69,6 +69,7 @@
 - (void)stopUpdatingLocation
 {
     [self.locationManager stopUpdatingLocation];
+    self.currentLocation = CLLocationCoordinate2DMake( 0, 0 );
 }
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error

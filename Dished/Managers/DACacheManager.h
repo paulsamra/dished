@@ -15,5 +15,6 @@
 
 - (id)cachedValueForKey:(NSString *)key;
 - (void)setCachedValue:(id)value forKey:(NSString *)key;
+- (void)clearCaches;
 
 @end

@@ -54,6 +54,8 @@
     self.referenceDishCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"dishCell" forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
     self.referenceReviewCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"reviewCell" forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
     
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    
     [self showSpinner];
 
     [self loadDishDetails];
@@ -100,6 +102,7 @@
                         animations:nil
                         completion:nil];
         
+        weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
         weakSelf.collectionView.hidden = NO;
     }
     failure:^( NSError *error, BOOL shouldRetry )
@@ -569,11 +572,13 @@
 - (void)socialCollectionViewControllerDidFinish:(DASocialCollectionViewController *)controller
 {
     [self dismissShareView];
+    self.navigationItem.rightBarButtonItem.enabled = YES;
 }
 
 - (IBAction)shareBarButtonTapped:(UIBarButtonItem *)sender
 {
     [self showShareViewWithDish:self.dishProfile];
+    sender.enabled = NO;
 }
 
 @end

@@ -18,6 +18,8 @@
 #import "DAContainerViewController.h"
 #import "UserVoice.h"
 #import "DAPushManager.h"
+#import "DALocationManager.h"
+#import "DACacheManager.h"
 
 
 @interface DAAppDelegate() <DAErrorViewDelegate>
@@ -346,6 +348,9 @@
     [[DAAPIManager sharedManager] logout];
     [[DAUserManager sharedManager] deleteLocalUserSettings];
     [[DANewsManager sharedManager] deleteAllNews];
+    [[DATwitterManager sharedManager] logout];
+    [[DALocationManager sharedManager] stopUpdatingLocation];
+    [[DACacheManager sharedManager] clearCaches];
     [[DACoreDataManager sharedManager] resetStore];
     [self setLoginView];
 }
