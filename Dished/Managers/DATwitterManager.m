@@ -230,11 +230,15 @@ typedef void ( ^DATwitterSuccessBlock )( BOOL );
     }];
 }
 
-- (void)postDishReviewTweetWithMessage:(NSString *)message imageURL:(NSString *)imageURL completion:(DATwitterSuccessBlock)completion
+- (void)postDishTweetWithMessage:(NSString *)message imageURL:(NSString *)imageURL completion:(DATwitterSuccessBlock)completion
 {
     if( !self.loggedIn )
     {
-        completion( NO );
+        if( completion )
+        {
+            completion( NO );
+        }
+        
         return;
     }
     
@@ -243,11 +247,17 @@ typedef void ( ^DATwitterSuccessBlock )( BOOL );
     [self.authTwitterAPI postStatusUpdate:message inReplyToStatusID:nil mediaURL:url placeID:nil latitude:nil longitude:nil
     uploadProgressBlock:nil successBlock:^( NSDictionary *status )
     {
-        completion( YES );
+        if( completion )
+        {
+            completion( YES );
+        }
     }
     errorBlock:^( NSError *error )
     {
-        completion( NO );
+        if( completion )
+        {
+            completion( NO );
+        }
     }];
 }
 

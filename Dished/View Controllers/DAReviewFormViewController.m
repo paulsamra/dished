@@ -249,17 +249,17 @@
     self.twitterImage.alpha  = 0.3;
     self.emailImage.alpha    = 0.3;
     
-    if( [self.socialViewController.selectedSharing objectForKey:self.socialViewController.cellLabels[0]] )
+    if( [self.socialViewController socialMediaTypeSelected:eSocialMediaTypeFacebook] )
     {
         self.facebookImage.alpha = 1.0;
     }
     
-    if( [self.socialViewController.selectedSharing objectForKey:self.socialViewController.cellLabels[1]] )
+    if( [self.socialViewController socialMediaTypeSelected:eSocialMediaTypeTwitter] )
     {
         self.twitterImage.alpha = 1.0;
     }
     
-    if( [self.socialViewController.selectedSharing objectForKey:self.socialViewController.cellLabels[2]] )
+    if( [self.socialViewController socialMediaTypeSelected:eSocialMediaTypeEmail] )
     {
         self.emailImage.alpha = 1.0;
     }
@@ -824,7 +824,7 @@
     
     NSDictionary *parameters = [self.review dictionaryRepresentation];
     
-    [[DAAPIManager sharedManager] POST:@"reviews" parameters:parameters constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
+    [[DAAPIManager sharedManager] POSTRequest:@"reviews" withParameters:parameters constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
     {
         if( self.reviewImage )
         {
@@ -837,7 +837,7 @@
                 imageData = UIImageJPEGRepresentation( self.reviewImage, compression );
             }
             
-            if( [self.socialViewController.selectedSharing objectForKey:self.socialViewController.cellLabels[2]] )
+            if( [self.socialViewController socialMediaTypeSelected:eSocialMediaTypeEmail] )
             {
                 data = imageData;
             }
@@ -845,9 +845,9 @@
             [formData appendPartWithFileData:imageData name:@"image" fileName:@"image.jpeg" mimeType:@"image/jpeg"];
         }
     }
-    success:^( NSURLSessionDataTask *task, id responseObject )
+    success:^( id response )
     {
-        NSString *imageAddress = responseObject[kDataKey][kImgKey][@"url"];
+        NSString *imageAddress = response[kDataKey][kImgKey][@"url"];
 
         [self.socialViewController shareReview:self.review imageURL:imageAddress completion:^( BOOL success )
         {
@@ -869,11 +869,18 @@
             }];
         }];
     }
-    failure:^( NSURLSessionDataTask *task, NSError *error )
+    failure:^( NSError *error, BOOL shouldRetry )
     {
         CLSLog( @"Failed to post review: %@\nReview data: %@", error, parameters);
         
-        [self.postFailAlert show];
+        if( shouldRetry )
+        {
+            [self postDish:sender];
+        }
+        else
+        {
+            [self.postFailAlert show];
+        }
     }];
 }
 

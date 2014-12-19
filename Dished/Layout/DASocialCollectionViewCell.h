@@ -13,5 +13,6 @@
 
 @property (weak, nonatomic) IBOutlet UILabel     *socialLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *socialImageView;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *spinner;
 
 @end

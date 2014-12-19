@@ -612,6 +612,27 @@
 		94AAAA3F1A439DE300863E09 /* DAInviteFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA3E1A439DE300863E09 /* DAInviteFriendsViewController.m */; };
 		94AAAA401A43A07B00863E09 /* DAInviteFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA3E1A439DE300863E09 /* DAInviteFriendsViewController.m */; };
 		94AAAA411A43A07B00863E09 /* DAInviteFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA3E1A439DE300863E09 /* DAInviteFriendsViewController.m */; };
+		94AAAA501A43BF1300863E09 /* DEComposeRuledView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA441A43BF1300863E09 /* DEComposeRuledView.m */; };
+		94AAAA511A43BF1300863E09 /* DEComposeRuledView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA441A43BF1300863E09 /* DEComposeRuledView.m */; };
+		94AAAA521A43BF1300863E09 /* DEComposeRuledView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA441A43BF1300863E09 /* DEComposeRuledView.m */; };
+		94AAAA531A43BF1300863E09 /* DEComposeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA461A43BF1300863E09 /* DEComposeTextView.m */; };
+		94AAAA541A43BF1300863E09 /* DEComposeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA461A43BF1300863E09 /* DEComposeTextView.m */; };
+		94AAAA551A43BF1300863E09 /* DEComposeTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA461A43BF1300863E09 /* DEComposeTextView.m */; };
+		94AAAA561A43BF1300863E09 /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA481A43BF1300863E09 /* RECommonFunctions.m */; };
+		94AAAA571A43BF1300863E09 /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA481A43BF1300863E09 /* RECommonFunctions.m */; };
+		94AAAA581A43BF1300863E09 /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA481A43BF1300863E09 /* RECommonFunctions.m */; };
+		94AAAA591A43BF1300863E09 /* REComposeBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4A1A43BF1300863E09 /* REComposeBackgroundView.m */; };
+		94AAAA5A1A43BF1300863E09 /* REComposeBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4A1A43BF1300863E09 /* REComposeBackgroundView.m */; };
+		94AAAA5B1A43BF1300863E09 /* REComposeBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4A1A43BF1300863E09 /* REComposeBackgroundView.m */; };
+		94AAAA5C1A43BF1300863E09 /* REComposeSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4C1A43BF1300863E09 /* REComposeSheetView.m */; };
+		94AAAA5D1A43BF1300863E09 /* REComposeSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4C1A43BF1300863E09 /* REComposeSheetView.m */; };
+		94AAAA5E1A43BF1300863E09 /* REComposeSheetView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4C1A43BF1300863E09 /* REComposeSheetView.m */; };
+		94AAAA5F1A43BF1300863E09 /* REComposeViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 94AAAA4D1A43BF1300863E09 /* REComposeViewController.bundle */; };
+		94AAAA601A43BF1300863E09 /* REComposeViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 94AAAA4D1A43BF1300863E09 /* REComposeViewController.bundle */; };
+		94AAAA611A43BF1300863E09 /* REComposeViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 94AAAA4D1A43BF1300863E09 /* REComposeViewController.bundle */; };
+		94AAAA621A43BF1300863E09 /* REComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4F1A43BF1300863E09 /* REComposeViewController.m */; };
+		94AAAA631A43BF1300863E09 /* REComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4F1A43BF1300863E09 /* REComposeViewController.m */; };
+		94AAAA641A43BF1300863E09 /* REComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4F1A43BF1300863E09 /* REComposeViewController.m */; };
 		94AE445819E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */; };
 		94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */; };
 		94B43AAE19EB6D9500482F52 /* DACollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAD19EB6D9500482F52 /* DACollectionView.swift */; };
@@ -977,6 +998,19 @@
 		94AAAA391A42FDBF00863E09 /* DAShareLinkTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAShareLinkTableViewController.m; sourceTree = "<group>"; };
 		94AAAA3D1A439DE300863E09 /* DAInviteFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAInviteFriendsViewController.h; sourceTree = "<group>"; };
 		94AAAA3E1A439DE300863E09 /* DAInviteFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAInviteFriendsViewController.m; sourceTree = "<group>"; };
+		94AAAA431A43BF1300863E09 /* DEComposeRuledView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeRuledView.h; sourceTree = "<group>"; };
+		94AAAA441A43BF1300863E09 /* DEComposeRuledView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEComposeRuledView.m; sourceTree = "<group>"; };
+		94AAAA451A43BF1300863E09 /* DEComposeTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeTextView.h; sourceTree = "<group>"; };
+		94AAAA461A43BF1300863E09 /* DEComposeTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEComposeTextView.m; sourceTree = "<group>"; };
+		94AAAA471A43BF1300863E09 /* RECommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECommonFunctions.h; sourceTree = "<group>"; };
+		94AAAA481A43BF1300863E09 /* RECommonFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECommonFunctions.m; sourceTree = "<group>"; };
+		94AAAA491A43BF1300863E09 /* REComposeBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeBackgroundView.h; sourceTree = "<group>"; };
+		94AAAA4A1A43BF1300863E09 /* REComposeBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeBackgroundView.m; sourceTree = "<group>"; };
+		94AAAA4B1A43BF1300863E09 /* REComposeSheetView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeSheetView.h; sourceTree = "<group>"; };
+		94AAAA4C1A43BF1300863E09 /* REComposeSheetView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeSheetView.m; sourceTree = "<group>"; };
+		94AAAA4D1A43BF1300863E09 /* REComposeViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = REComposeViewController.bundle; sourceTree = "<group>"; };
+		94AAAA4E1A43BF1300863E09 /* REComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeViewController.h; sourceTree = "<group>"; };
+		94AAAA4F1A43BF1300863E09 /* REComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeViewController.m; sourceTree = "<group>"; };
 		94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAReviewDetailCollectionViewCell.xib; sourceTree = "<group>"; };
 		94B43AAA19EB2BAF00482F52 /* DANotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANotificationSettingsViewController.h; sourceTree = "<group>"; };
 		94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANotificationSettingsViewController.m; sourceTree = "<group>"; };
@@ -1622,6 +1656,7 @@
 		948B7F3E1941B05F005494AA /* External */ = {
 			isa = PBXGroup;
 			children = (
+				94AAAA421A43BF1300863E09 /* REComposeViewController */,
 				948615AA19FE1C3D002497D0 /* MRProgress */,
 				94CB03EA19B146AF009010F6 /* JSQMessagesInputToolbar */,
 				94CB03BE19B0EA94009010F6 /* SWTableViewCell */,
@@ -1695,6 +1730,26 @@
 				94AAAA391A42FDBF00863E09 /* DAShareLinkTableViewController.m */,
 			);
 			name = Settings;
+			sourceTree = "<group>";
+		};
+		94AAAA421A43BF1300863E09 /* REComposeViewController */ = {
+			isa = PBXGroup;
+			children = (
+				94AAAA431A43BF1300863E09 /* DEComposeRuledView.h */,
+				94AAAA441A43BF1300863E09 /* DEComposeRuledView.m */,
+				94AAAA451A43BF1300863E09 /* DEComposeTextView.h */,
+				94AAAA461A43BF1300863E09 /* DEComposeTextView.m */,
+				94AAAA471A43BF1300863E09 /* RECommonFunctions.h */,
+				94AAAA481A43BF1300863E09 /* RECommonFunctions.m */,
+				94AAAA491A43BF1300863E09 /* REComposeBackgroundView.h */,
+				94AAAA4A1A43BF1300863E09 /* REComposeBackgroundView.m */,
+				94AAAA4B1A43BF1300863E09 /* REComposeSheetView.h */,
+				94AAAA4C1A43BF1300863E09 /* REComposeSheetView.m */,
+				94AAAA4D1A43BF1300863E09 /* REComposeViewController.bundle */,
+				94AAAA4E1A43BF1300863E09 /* REComposeViewController.h */,
+				94AAAA4F1A43BF1300863E09 /* REComposeViewController.m */,
+			);
+			path = REComposeViewController;
 			sourceTree = "<group>";
 		};
 		94B553CB1A2C8139002A8546 /* AFOAuth2Manager */ = {
@@ -2206,6 +2261,7 @@
 				941292531A1BEED500B7C763 /* JSQMessagesToolbarContentView.xib in Resources */,
 				941292561A1BEED500B7C763 /* DAFollowListTableViewCell.xib in Resources */,
 				941292571A1BEED500B7C763 /* Images.xcassets in Resources */,
+				94AAAA601A43BF1300863E09 /* REComposeViewController.bundle in Resources */,
 				941292581A1BEED500B7C763 /* Privacy Policy.html in Resources */,
 				941292591A1BEED500B7C763 /* DAMultiNewsTableViewCell.xib in Resources */,
 				9412925A1A1BEED500B7C763 /* Main.storyboard in Resources */,
@@ -2236,6 +2292,7 @@
 				941293521A1C7AD100B7C763 /* JSQMessagesToolbarContentView.xib in Resources */,
 				941293551A1C7AD100B7C763 /* DAFollowListTableViewCell.xib in Resources */,
 				941293561A1C7AD100B7C763 /* Images.xcassets in Resources */,
+				94AAAA611A43BF1300863E09 /* REComposeViewController.bundle in Resources */,
 				941293571A1C7AD100B7C763 /* Privacy Policy.html in Resources */,
 				941293581A1C7AD100B7C763 /* DAMultiNewsTableViewCell.xib in Resources */,
 				941293591A1C7AD100B7C763 /* Main.storyboard in Resources */,
@@ -2256,6 +2313,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94AAAA5F1A43BF1300863E09 /* REComposeViewController.bundle in Resources */,
 				947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */,
 				943ECCF519EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib in Resources */,
 				94E2520C1A08BAF900D6DCE4 /* DAUserNewsTableViewCell.xib in Resources */,
@@ -2349,6 +2407,7 @@
 				941291841A1BEED500B7C763 /* SDImageCache.m in Sources */,
 				941291851A1BEED500B7C763 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				941291861A1BEED500B7C763 /* DADishTableViewCell.m in Sources */,
+				94AAAA631A43BF1300863E09 /* REComposeViewController.m in Sources */,
 				941291871A1BEED500B7C763 /* UIRefreshControl+AFNetworking.m in Sources */,
 				941291881A1BEED500B7C763 /* JSQMessagesInputToolbar.m in Sources */,
 				941291891A1BEED500B7C763 /* UIImage+WebP.m in Sources */,
@@ -2463,16 +2522,20 @@
 				941291F01A1BEED500B7C763 /* DADocumentViewController.m in Sources */,
 				941291F11A1BEED500B7C763 /* SPGooglePlacesAutocompleteQuery.m in Sources */,
 				941291F21A1BEED500B7C763 /* DARegisterViewController.m in Sources */,
+				94AAAA571A43BF1300863E09 /* RECommonFunctions.m in Sources */,
 				941291F31A1BEED500B7C763 /* SWTableViewCell.m in Sources */,
 				941291F41A1BEED500B7C763 /* DACoreDataManager.m in Sources */,
 				941291F51A1BEED500B7C763 /* STTwitterAPI.m in Sources */,
 				941291F61A1BEED500B7C763 /* NSString+STTwitter.m in Sources */,
 				941291F71A1BEED500B7C763 /* UIImage+MRImageEffects.m in Sources */,
 				941291F81A1BEED500B7C763 /* DAUserProfileViewController.m in Sources */,
+				94AAAA511A43BF1300863E09 /* DEComposeRuledView.m in Sources */,
 				941291F91A1BEED500B7C763 /* UIImageView+DishProgress.m in Sources */,
+				94AAAA5D1A43BF1300863E09 /* REComposeSheetView.m in Sources */,
 				941291FA1A1BEED500B7C763 /* UIAlertView+AFNetworking.m in Sources */,
 				941291FB1A1BEED500B7C763 /* DAFeedImportManager.m in Sources */,
 				941291FC1A1BEED500B7C763 /* JSQMessagesToolbarContentView.m in Sources */,
+				94AAAA5A1A43BF1300863E09 /* REComposeBackgroundView.m in Sources */,
 				941291FD1A1BEED500B7C763 /* DAFeedHeaderCollectionReusableView.m in Sources */,
 				941291FE1A1BEED500B7C763 /* UIView+JSQMessages.m in Sources */,
 				941291FF1A1BEED500B7C763 /* SDWebImagePrefetcher.m in Sources */,
@@ -2521,6 +2584,7 @@
 				941292291A1BEED500B7C763 /* DACollectionView.swift in Sources */,
 				9412922A1A1BEED500B7C763 /* DALocationManager.m in Sources */,
 				9488BA001A26AAC20098FE09 /* DATagManager.m in Sources */,
+				94AAAA541A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				9412922B1A1BEED500B7C763 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				9412922C1A1BEED500B7C763 /* DARestaurantProfile.m in Sources */,
 				9412922D1A1BEED500B7C763 /* NSData+ImageContentType.m in Sources */,
@@ -2550,6 +2614,7 @@
 				941292831A1C7AD100B7C763 /* SDImageCache.m in Sources */,
 				941292841A1C7AD100B7C763 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				941292851A1C7AD100B7C763 /* DADishTableViewCell.m in Sources */,
+				94AAAA641A43BF1300863E09 /* REComposeViewController.m in Sources */,
 				941292861A1C7AD100B7C763 /* UIRefreshControl+AFNetworking.m in Sources */,
 				941292871A1C7AD100B7C763 /* JSQMessagesInputToolbar.m in Sources */,
 				941292881A1C7AD100B7C763 /* UIImage+WebP.m in Sources */,
@@ -2664,16 +2729,20 @@
 				941292EF1A1C7AD100B7C763 /* DADocumentViewController.m in Sources */,
 				941292F01A1C7AD100B7C763 /* SPGooglePlacesAutocompleteQuery.m in Sources */,
 				941292F11A1C7AD100B7C763 /* DARegisterViewController.m in Sources */,
+				94AAAA581A43BF1300863E09 /* RECommonFunctions.m in Sources */,
 				941292F21A1C7AD100B7C763 /* SWTableViewCell.m in Sources */,
 				941292F31A1C7AD100B7C763 /* DACoreDataManager.m in Sources */,
 				941292F41A1C7AD100B7C763 /* STTwitterAPI.m in Sources */,
 				941292F51A1C7AD100B7C763 /* NSString+STTwitter.m in Sources */,
 				941292F61A1C7AD100B7C763 /* UIImage+MRImageEffects.m in Sources */,
 				941292F71A1C7AD100B7C763 /* DAUserProfileViewController.m in Sources */,
+				94AAAA521A43BF1300863E09 /* DEComposeRuledView.m in Sources */,
 				941292F81A1C7AD100B7C763 /* UIImageView+DishProgress.m in Sources */,
+				94AAAA5E1A43BF1300863E09 /* REComposeSheetView.m in Sources */,
 				941292F91A1C7AD100B7C763 /* UIAlertView+AFNetworking.m in Sources */,
 				941292FA1A1C7AD100B7C763 /* DAFeedImportManager.m in Sources */,
 				941292FB1A1C7AD100B7C763 /* JSQMessagesToolbarContentView.m in Sources */,
+				94AAAA5B1A43BF1300863E09 /* REComposeBackgroundView.m in Sources */,
 				941292FC1A1C7AD100B7C763 /* DAFeedHeaderCollectionReusableView.m in Sources */,
 				941292FD1A1C7AD100B7C763 /* UIView+JSQMessages.m in Sources */,
 				941292FE1A1C7AD100B7C763 /* SDWebImagePrefetcher.m in Sources */,
@@ -2722,6 +2791,7 @@
 				941293281A1C7AD100B7C763 /* DACollectionView.swift in Sources */,
 				941293291A1C7AD100B7C763 /* DALocationManager.m in Sources */,
 				9488BA011A26AAC20098FE09 /* DATagManager.m in Sources */,
+				94AAAA551A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				9412932A1A1C7AD100B7C763 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				9412932B1A1C7AD100B7C763 /* DARestaurantProfile.m in Sources */,
 				9412932C1A1C7AD100B7C763 /* NSData+ImageContentType.m in Sources */,
@@ -2751,6 +2821,7 @@
 				94F2AD9C198C539200450C6F /* SDImageCache.m in Sources */,
 				94DCE9B81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				D13DB8F51988B221008C86BB /* DADishTableViewCell.m in Sources */,
+				94AAAA621A43BF1300863E09 /* REComposeViewController.m in Sources */,
 				94DCE9BD1980ABB100396C0A /* UIRefreshControl+AFNetworking.m in Sources */,
 				94CB03FD19B146AF009010F6 /* JSQMessagesInputToolbar.m in Sources */,
 				94F2ADA6198C539200450C6F /* UIImage+WebP.m in Sources */,
@@ -2865,16 +2936,20 @@
 				94A8CD2119FF145800AA770D /* DADocumentViewController.m in Sources */,
 				9445C1B6199927B800F3A4F8 /* SPGooglePlacesAutocompleteQuery.m in Sources */,
 				94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */,
+				94AAAA561A43BF1300863E09 /* RECommonFunctions.m in Sources */,
 				94CB03CE19B0EA94009010F6 /* SWTableViewCell.m in Sources */,
 				945F959319A6646900241D0D /* DACoreDataManager.m in Sources */,
 				943E625C1987362100DF2135 /* STTwitterAPI.m in Sources */,
 				943E625A1987362100DF2135 /* NSString+STTwitter.m in Sources */,
 				948615C619FE1C3D002497D0 /* UIImage+MRImageEffects.m in Sources */,
 				944D1E7319DA9868006F73BF /* DAUserProfileViewController.m in Sources */,
+				94AAAA501A43BF1300863E09 /* DEComposeRuledView.m in Sources */,
 				942AA01A19C2655A00D0D77C /* UIImageView+DishProgress.m in Sources */,
+				94AAAA5C1A43BF1300863E09 /* REComposeSheetView.m in Sources */,
 				94DCE9B91980ABB100396C0A /* UIAlertView+AFNetworking.m in Sources */,
 				945F95B119A7B90400241D0D /* DAFeedImportManager.m in Sources */,
 				94CB03FF19B146AF009010F6 /* JSQMessagesToolbarContentView.m in Sources */,
+				94AAAA591A43BF1300863E09 /* REComposeBackgroundView.m in Sources */,
 				945E312319C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m in Sources */,
 				94CB040419B146AF009010F6 /* UIView+JSQMessages.m in Sources */,
 				94F2ADA2198C539200450C6F /* SDWebImagePrefetcher.m in Sources */,
@@ -2923,6 +2998,7 @@
 				94B43AAE19EB6D9500482F52 /* DACollectionView.swift in Sources */,
 				941F3209196FA838000042AE /* DALocationManager.m in Sources */,
 				9488B9FF1A26A86F0098FE09 /* DATagManager.m in Sources */,
+				94AAAA531A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				9473FACF19E63235003A1D1B /* DARestaurantProfile.m in Sources */,
 				94F2AD9B198C539200450C6F /* NSData+ImageContentType.m in Sources */,

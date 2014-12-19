@@ -8,6 +8,7 @@
 
 #import "DASocialCollectionViewController.h"
 #import "DASocialCollectionViewCell.h"
+#import "REComposeViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import <MessageUI/MessageUI.h>
 #import "DAAppDelegate.h"
@@ -15,13 +16,22 @@
 #import <Social/Social.h>
 #import "MRProgress.h"
 
+static NSString *const kFacebookTitle = @"Facebook";
+static NSString *const kTwitterTitle  = @"Twitter";
+static NSString *const kEmailTitle    = @"Email";
+
 
 @interface DASocialCollectionViewController() <UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
 
-@property (strong, nonatomic) UIAlertView *facebookLoginAlert;
-@property (strong, nonatomic) UIAlertView *twitterLoginAlert;
-@property (strong, nonatomic) UIAlertView *emailFailAlert;
-@property (strong, nonatomic) UIAlertView *deleteConfirmAlert;
+@property (strong, nonatomic) NSArray             *cellLabels;
+@property (strong, nonatomic) NSArray             *cellImages;
+@property (strong, nonatomic) UIAlertView         *facebookLoginAlert;
+@property (strong, nonatomic) UIAlertView         *twitterLoginAlert;
+@property (strong, nonatomic) UIAlertView         *emailFailAlert;
+@property (strong, nonatomic) UIAlertView         *deleteConfirmAlert;
+@property (strong, nonatomic) NSMutableDictionary *selectedSharing;
+@property (strong, nonatomic) NSMutableDictionary *cellWaiting;
+
 
 @end
 
@@ -33,6 +43,17 @@
     [super viewDidLoad];
     
     self.selectedSharing = [NSMutableDictionary dictionary];
+    self.cellWaiting = [NSMutableDictionary dictionary];
+}
+
+- (BOOL)socialMediaTypeSelected:(eSocialMediaType)socialMediaType
+{
+    switch( socialMediaType )
+    {
+        case eSocialMediaTypeFacebook: return [[self.selectedSharing objectForKey:kFacebookTitle] boolValue]; break;
+        case eSocialMediaTypeTwitter:  return [[self.selectedSharing objectForKey:kTwitterTitle] boolValue];  break;
+        case eSocialMediaTypeEmail:    return [[self.selectedSharing objectForKey:kEmailTitle] boolValue];    break;
+    }
 }
 
 - (NSInteger)collectionView:(UICollectionView *)view numberOfItemsInSection:(NSInteger)section
@@ -77,6 +98,17 @@
         cell.socialImageView.alpha = 1.0;
         cell.socialLabel.alpha = 1.0;
     }
+    
+    if( [self.cellWaiting objectForKey:self.cellLabels[indexPath.row]] )
+    {
+        [cell.spinner startAnimating];
+        cell.socialImageView.hidden = YES;
+    }
+    else
+    {
+        [cell.spinner stopAnimating];
+        cell.socialImageView.hidden = NO;
+    }
 
 	return cell;
 }
@@ -101,7 +133,7 @@
     return itemSize;
 }
 
-- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if( alertView == self.facebookLoginAlert )
     {
@@ -124,6 +156,7 @@
         }
         else
         {
+            [self.cellWaiting removeObjectForKey:self.cellLabels[1]];
             [self.selectedSharing removeObjectForKey:self.cellLabels[1]];
             [self.collectionView reloadData];
         }
@@ -140,6 +173,11 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
+    if( [self.cellWaiting objectForKey:self.cellLabels[indexPath.row]] )
+    {
+        return;
+    }
+    
     switch( indexPath.row )
     {
         case 0:
@@ -181,36 +219,7 @@
             
         case 1:
         {
-            
-            if (self.isReviewPost)
-            {
-                if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]] )
-                {
-                    [self.selectedSharing removeObjectForKey:self.cellLabels[indexPath.row]];
-                    [self.collectionView reloadData];
-                }
-                else
-                {
-                    [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
-                    [self.collectionView reloadData];
-                    
-                    if( ![[DATwitterManager sharedManager] isLoggedIn] )
-                    {
-                        [self.twitterLoginAlert show];
-                    }
-                }
-
-            }
-            else
-            {
-                if( [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter] )
-                {
-                    SLComposeViewController *tweetSheet = [SLComposeViewController
-                                                           composeViewControllerForServiceType:SLServiceTypeTwitter];
-                    
-                    [self presentViewController:tweetSheet animated:YES completion:nil];
-                }
-            }
+            [self handleTwitterSelectionAtIndexPath:indexPath];
         }
         break;
             
@@ -272,6 +281,73 @@
             [self dismissView];
             break;
     }
+}
+
+- (void)handleTwitterSelectionAtIndexPath:(NSIndexPath *)indexPath
+{
+    if( self.isReviewPost )
+    {
+        if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]] )
+        {
+            [self.selectedSharing removeObjectForKey:self.cellLabels[indexPath.row]];
+        }
+        else
+        {
+            [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
+            
+            if( ![[DATwitterManager sharedManager] isLoggedIn] )
+            {
+                [self.cellWaiting setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
+                [self.twitterLoginAlert show];
+            }
+        }
+        
+        [self.collectionView reloadData];
+    }
+    else
+    {
+        if( ![[DATwitterManager sharedManager] isLoggedIn] )
+        {
+            [self.cellWaiting setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
+            [self.collectionView reloadData];
+            [self.twitterLoginAlert show];
+        }
+        else
+        {
+            [self.cellWaiting removeObjectForKey:self.cellLabels[indexPath.row]];
+            [self presentTwitterComposeView];
+        }
+    }
+}
+
+- (void)presentTwitterComposeView
+{
+    REComposeViewController *composeViewController = [[REComposeViewController alloc] init];
+    composeViewController.hasAttachment = YES;
+    composeViewController.editableAttachmentImage = NO;
+    UIImageView *titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"twitter"]];
+    titleImageView.contentMode = UIViewContentModeCenter;
+    composeViewController.navigationItem.titleView = titleImageView;
+    composeViewController.placeholderText = @"Enter your tweet.";
+    
+    NSURL *image_URL = [NSURL URLWithString:self.review.img];
+    [[SDWebImageManager sharedManager] downloadImageWithURL:image_URL options:0 progress:nil
+    completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
+    {
+        composeViewController.attachmentImage = image;
+    }];
+    
+    composeViewController.completionHandler = ^( REComposeViewController *composeVC, REComposeResult result )
+    {
+        [composeVC dismissViewControllerAnimated:YES completion:nil];
+        
+        if( result == REComposeResultPosted )
+        {
+            [[DATwitterManager sharedManager] postDishTweetWithMessage:composeVC.text imageURL:self.review.img completion:nil];
+        }
+    };
+    
+    [composeViewController presentFromRootViewController];
 }
 
 - (void)reportDish
@@ -424,13 +500,19 @@
         if( success )
         {
             [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[1]];
-            [self.collectionView reloadData];
+            
+            if( !self.isReviewPost )
+            {
+                [self presentTwitterComposeView];
+            }
         }
         else
         {
             [self.selectedSharing removeObjectForKey:self.cellLabels[1]];
-            [self.collectionView reloadData];
         }
+        
+        [self.cellWaiting removeObjectForKey:self.cellLabels[1]];
+        [self.collectionView reloadData];
     }];
 }
 
@@ -438,7 +520,7 @@
 {
     NSString *twitterMessage = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", review.rating, review.title, review.locationName];
     
-    [[DATwitterManager sharedManager] postDishReviewTweetWithMessage:twitterMessage imageURL:imageURL
+    [[DATwitterManager sharedManager] postDishTweetWithMessage:twitterMessage imageURL:imageURL
     completion:^( BOOL success )
     {
         completion( success );
@@ -506,17 +588,17 @@
     {
         if ( self.isReviewPost )
         {
-            _cellLabels = @[ @"Facebook", @"Twitter", @"Email", @"Done" ];
+            _cellLabels = @[ kFacebookTitle, kTwitterTitle, kEmailTitle, @"Done" ];
         }
         else
         {
             if( self.isOwnReview )
             {
-                _cellLabels = @[ @"Facebook", @"Twitter", @"Email", @"Delete", @"Done" ];
+                _cellLabels = @[ kFacebookTitle, kTwitterTitle, kEmailTitle, @"Delete", @"Done" ];
             }
             else
             {
-                _cellLabels = @[ @"Facebook", @"Twitter", @"Email", @"Report", @"Done" ];
+                _cellLabels = @[ kFacebookTitle, kTwitterTitle, kEmailTitle, @"Report", @"Done" ];
             }
         }
     }

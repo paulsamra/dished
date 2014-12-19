@@ -23,6 +23,6 @@ typedef void ( ^DATwitterSuccessBlock )( BOOL );
 - (void)loginWithCompletion:( void(^)( BOOL success ) )completion;
 - (void)logout;
 - (void)processURL:(NSURL *)url;
-- (void)postDishReviewTweetWithMessage:(NSString *)message imageURL:(NSString *)imageURL completion:(DATwitterSuccessBlock)completion;
+- (void)postDishTweetWithMessage:(NSString *)message imageURL:(NSString *)imageURL completion:(DATwitterSuccessBlock)completion;
 
 @end

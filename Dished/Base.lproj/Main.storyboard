@@ -2211,6 +2211,26 @@
                                     <outlet property="delegate" destination="RGM-nP-apk" id="nPp-CK-ohG"/>
                                 </connections>
                             </tableView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Failed to load Contacts" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="4pi-G1-KGn">
+                                <rect key="frame" x="200" y="329" width="200" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Mjd-t8-KL7"/>
+                                    <constraint firstAttribute="width" constant="200" id="k2c-57-uY8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Dished needs permission to access your Contacts." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="QjY-3g-Tfd">
+                                <rect key="frame" x="200" y="329" width="200" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ahJ-OR-HXP"/>
+                                    <constraint firstAttribute="width" constant="200" id="cln-1F-MOH"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="KFe-lu-bli">
                                 <rect key="frame" x="16" y="72" width="568" height="29"/>
                                 <segments>
@@ -2226,19 +2246,25 @@
                         <constraints>
                             <constraint firstItem="KFe-lu-bli" firstAttribute="leading" secondItem="tLl-5x-BCE" secondAttribute="leading" constant="16" id="0XQ-hh-un0"/>
                             <constraint firstAttribute="trailing" secondItem="KFe-lu-bli" secondAttribute="trailing" constant="16" id="55i-56-UXi"/>
+                            <constraint firstItem="4pi-G1-KGn" firstAttribute="centerX" secondItem="vfd-fn-ZsM" secondAttribute="centerX" id="7at-Wf-SpX"/>
                             <constraint firstItem="hCT-Jo-yOh" firstAttribute="top" secondItem="5q1-4V-ikx" secondAttribute="bottom" id="7nT-jd-JhD"/>
                             <constraint firstItem="5q1-4V-ikx" firstAttribute="leading" secondItem="tLl-5x-BCE" secondAttribute="leading" id="Cpi-DQ-JrP"/>
                             <constraint firstAttribute="trailing" secondItem="vfd-fn-ZsM" secondAttribute="trailing" id="DbQ-4u-e5Z"/>
                             <constraint firstAttribute="trailing" secondItem="5q1-4V-ikx" secondAttribute="trailing" id="KbM-U5-07Y"/>
+                            <constraint firstItem="vfd-fn-ZsM" firstAttribute="centerY" secondItem="QjY-3g-Tfd" secondAttribute="centerY" id="Ow3-Ed-nPH"/>
                             <constraint firstItem="vfd-fn-ZsM" firstAttribute="leading" secondItem="tLl-5x-BCE" secondAttribute="leading" id="UOx-id-pve"/>
                             <constraint firstItem="KFe-lu-bli" firstAttribute="top" secondItem="FaY-e7-BZs" secondAttribute="bottom" constant="8" id="cZc-aR-7ya"/>
+                            <constraint firstItem="vfd-fn-ZsM" firstAttribute="centerX" secondItem="QjY-3g-Tfd" secondAttribute="centerX" id="cmE-J7-oaE"/>
                             <constraint firstItem="5q1-4V-ikx" firstAttribute="top" secondItem="KFe-lu-bli" secondAttribute="bottom" constant="8" id="ilE-yD-xnO"/>
                             <constraint firstItem="hCT-Jo-yOh" firstAttribute="top" secondItem="vfd-fn-ZsM" secondAttribute="bottom" id="kC9-yy-sZu"/>
+                            <constraint firstItem="4pi-G1-KGn" firstAttribute="centerY" secondItem="vfd-fn-ZsM" secondAttribute="centerY" id="kjM-lk-fZv"/>
                             <constraint firstItem="vfd-fn-ZsM" firstAttribute="top" secondItem="KFe-lu-bli" secondAttribute="bottom" constant="8" id="nQ8-g6-1j2"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Invite Your Friends" id="Ksv-3E-WA5"/>
                     <connections>
+                        <outlet property="contactsFailureLabel" destination="4pi-G1-KGn" id="IUE-FO-khV"/>
+                        <outlet property="contactsPermissionLabel" destination="QjY-3g-Tfd" id="R9G-ZS-yBC"/>
                         <outlet property="contactsTableView" destination="vfd-fn-ZsM" id="fq8-by-4qE"/>
                         <outlet property="facebookTableView" destination="5q1-4V-ikx" id="pLW-XJ-Qg8"/>
                         <outlet property="sourcePicker" destination="KFe-lu-bli" id="SFZ-k9-Gla"/>
@@ -3788,22 +3814,40 @@
                                     <rect key="frame" x="0.0" y="0.0" width="159" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dom-gS-ayH">
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="dom-gS-ayH">
                                             <rect key="frame" x="20" y="12" width="25" height="25"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="25" id="Xdq-Vh-8rs"/>
+                                                <constraint firstAttribute="height" constant="25" id="sNo-pD-t0v"/>
+                                            </constraints>
                                         </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9k8-cM-Emi">
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9k8-cM-Emi">
                                             <rect key="frame" x="53" y="14" width="100" height="21"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="21" id="EYl-L9-Jie"/>
+                                            </constraints>
                                             <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="PU7-QL-WM4">
+                                            <rect key="frame" x="22" y="15" width="20" height="20"/>
+                                        </activityIndicatorView>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="centerY" secondItem="dom-gS-ayH" secondAttribute="centerY" constant="0.5" id="DJd-k6-yxA"/>
+                                    <constraint firstItem="9k8-cM-Emi" firstAttribute="leading" secondItem="dom-gS-ayH" secondAttribute="trailing" constant="8" id="ICN-f1-4iA"/>
+                                    <constraint firstItem="dom-gS-ayH" firstAttribute="leading" secondItem="cpl-Ad-OcY" secondAttribute="leading" constant="20" id="TZ5-6w-erF"/>
+                                    <constraint firstAttribute="trailing" secondItem="9k8-cM-Emi" secondAttribute="trailing" constant="6" id="Wcp-gn-Qly"/>
+                                    <constraint firstAttribute="centerY" secondItem="9k8-cM-Emi" secondAttribute="centerY" constant="0.5" id="ffP-LB-GIo"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="socialImageView" destination="dom-gS-ayH" id="RYy-rz-HMB"/>
                                     <outlet property="socialLabel" destination="9k8-cM-Emi" id="qgo-mX-IIp"/>
+                                    <outlet property="spinner" destination="PU7-QL-WM4" id="dsp-vm-hTw"/>
                                 </connections>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="doneCell" id="tzZ-wV-N6m">

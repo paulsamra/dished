@@ -11,6 +11,13 @@
 #import "DAReview.h"
 #import "DADishProfile.h"
 
+typedef enum
+{
+    eSocialMediaTypeFacebook,
+    eSocialMediaTypeTwitter,
+    eSocialMediaTypeEmail
+}eSocialMediaType;
+
 @class DASocialCollectionViewController;
 
 
@@ -25,9 +32,6 @@
 
 @interface DASocialCollectionViewController : UICollectionViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
-@property (strong, nonatomic) NSArray             *cellLabels;
-@property (strong, nonatomic) NSArray             *cellImages;
-@property (strong, nonatomic) NSMutableDictionary *selectedSharing;
 @property (weak, nonatomic) id<DASocialCollectionViewControllerDelegate> delegate;
 
 @property (weak, nonatomic) DAReview *review;
@@ -36,6 +40,7 @@
 @property (nonatomic) BOOL isReviewPost;
 @property (nonatomic) BOOL isOwnReview;
 
+- (BOOL)socialMediaTypeSelected:(eSocialMediaType)socialMediaType;
 - (void)shareReview:(DANewReview *)review imageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion;
 
 @end
