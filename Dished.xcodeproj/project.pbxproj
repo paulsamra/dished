@@ -609,6 +609,9 @@
 		94AAAA3A1A42FDBF00863E09 /* DAShareLinkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA391A42FDBF00863E09 /* DAShareLinkTableViewController.m */; };
 		94AAAA3B1A42FFAE00863E09 /* DAShareLinkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA391A42FDBF00863E09 /* DAShareLinkTableViewController.m */; };
 		94AAAA3C1A42FFB000863E09 /* DAShareLinkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA391A42FDBF00863E09 /* DAShareLinkTableViewController.m */; };
+		94AAAA3F1A439DE300863E09 /* DAInviteFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA3E1A439DE300863E09 /* DAInviteFriendsViewController.m */; };
+		94AAAA401A43A07B00863E09 /* DAInviteFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA3E1A439DE300863E09 /* DAInviteFriendsViewController.m */; };
+		94AAAA411A43A07B00863E09 /* DAInviteFriendsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA3E1A439DE300863E09 /* DAInviteFriendsViewController.m */; };
 		94AE445819E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */; };
 		94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */; };
 		94B43AAE19EB6D9500482F52 /* DACollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAD19EB6D9500482F52 /* DACollectionView.swift */; };
@@ -972,6 +975,8 @@
 		94AAAA341A42EBA000863E09 /* DAShareSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAShareSettingsTableViewController.m; sourceTree = "<group>"; };
 		94AAAA381A42FDBF00863E09 /* DAShareLinkTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAShareLinkTableViewController.h; sourceTree = "<group>"; };
 		94AAAA391A42FDBF00863E09 /* DAShareLinkTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAShareLinkTableViewController.m; sourceTree = "<group>"; };
+		94AAAA3D1A439DE300863E09 /* DAInviteFriendsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAInviteFriendsViewController.h; sourceTree = "<group>"; };
+		94AAAA3E1A439DE300863E09 /* DAInviteFriendsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAInviteFriendsViewController.m; sourceTree = "<group>"; };
 		94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAReviewDetailCollectionViewCell.xib; sourceTree = "<group>"; };
 		94B43AAA19EB2BAF00482F52 /* DANotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANotificationSettingsViewController.h; sourceTree = "<group>"; };
 		94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANotificationSettingsViewController.m; sourceTree = "<group>"; };
@@ -1608,6 +1613,8 @@
 				940537A419F27BC600A02088 /* DAMenuViewController.m */,
 				94A8CD1F19FF145800AA770D /* DADocumentViewController.h */,
 				94A8CD2019FF145800AA770D /* DADocumentViewController.m */,
+				94AAAA3D1A439DE300863E09 /* DAInviteFriendsViewController.h */,
+				94AAAA3E1A439DE300863E09 /* DAInviteFriendsViewController.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -2362,6 +2369,7 @@
 				941291951A1BEED500B7C763 /* DAImagePickerController.m in Sources */,
 				941291961A1BEED500B7C763 /* DAFeedCollectionViewCell.m in Sources */,
 				941291971A1BEED500B7C763 /* DANegativeHashtagsViewController.m in Sources */,
+				94AAAA401A43A07B00863E09 /* DAInviteFriendsViewController.m in Sources */,
 				941291981A1BEED500B7C763 /* DADatePickerTableViewCell.swift in Sources */,
 				941291991A1BEED500B7C763 /* DATwitterManager.m in Sources */,
 				9412919A1A1BEED500B7C763 /* SSKeychain.m in Sources */,
@@ -2562,6 +2570,7 @@
 				941292941A1C7AD100B7C763 /* DAImagePickerController.m in Sources */,
 				941292951A1C7AD100B7C763 /* DAFeedCollectionViewCell.m in Sources */,
 				941292961A1C7AD100B7C763 /* DANegativeHashtagsViewController.m in Sources */,
+				94AAAA411A43A07B00863E09 /* DAInviteFriendsViewController.m in Sources */,
 				941292971A1C7AD100B7C763 /* DADatePickerTableViewCell.swift in Sources */,
 				941292981A1C7AD100B7C763 /* DATwitterManager.m in Sources */,
 				941292991A1C7AD100B7C763 /* SSKeychain.m in Sources */,
@@ -2762,6 +2771,7 @@
 				944689A61960130E00FAE288 /* DAImagePickerController.m in Sources */,
 				940363841A25E2560068F61D /* DAManagedComment+Utility.m in Sources */,
 				945A3B6119A52B4A000D76E3 /* DAFeedCollectionViewCell.m in Sources */,
+				94AAAA3F1A439DE300863E09 /* DAInviteFriendsViewController.m in Sources */,
 				9430FDFA196CABDD00C7E997 /* DANegativeHashtagsViewController.m in Sources */,
 				9443DF0019D0236200F134BA /* DADatePickerTableViewCell.swift in Sources */,
 				943E62671987705B00DF2135 /* DATwitterManager.m in Sources */,

@@ -2186,7 +2186,7 @@
         <!--Invite Your Friends-->
         <scene sceneID="xrz-7T-m4Z">
             <objects>
-                <viewController storyboardIdentifier="inviteFriends" automaticallyAdjustsScrollViewInsets="NO" id="RGM-nP-apk" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="inviteFriends" automaticallyAdjustsScrollViewInsets="NO" id="RGM-nP-apk" customClass="DAInviteFriendsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="FaY-e7-BZs"/>
                         <viewControllerLayoutGuide type="bottom" id="hCT-Jo-yOh"/>
@@ -2195,9 +2195,21 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vfd-fn-ZsM">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="vfd-fn-ZsM" userLabel="Contacts Table">
                                 <rect key="frame" x="0.0" y="108" width="600" height="492"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="RGM-nP-apk" id="mVb-Na-XBZ"/>
+                                    <outlet property="delegate" destination="RGM-nP-apk" id="m3g-or-oIh"/>
+                                </connections>
+                            </tableView>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="5q1-4V-ikx" userLabel="Facebook Table">
+                                <rect key="frame" x="0.0" y="108" width="600" height="492"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="RGM-nP-apk" id="3MI-zN-jgl"/>
+                                    <outlet property="delegate" destination="RGM-nP-apk" id="nPp-CK-ohG"/>
+                                </connections>
                             </tableView>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="KFe-lu-bli">
                                 <rect key="frame" x="16" y="72" width="568" height="29"/>
@@ -2205,20 +2217,32 @@
                                     <segment title="Contacts"/>
                                     <segment title="Facebook"/>
                                 </segments>
+                                <connections>
+                                    <action selector="sourcePicked" destination="RGM-nP-apk" eventType="valueChanged" id="0Dh-m9-8C8"/>
+                                </connections>
                             </segmentedControl>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="KFe-lu-bli" firstAttribute="leading" secondItem="tLl-5x-BCE" secondAttribute="leading" constant="16" id="0XQ-hh-un0"/>
                             <constraint firstAttribute="trailing" secondItem="KFe-lu-bli" secondAttribute="trailing" constant="16" id="55i-56-UXi"/>
+                            <constraint firstItem="hCT-Jo-yOh" firstAttribute="top" secondItem="5q1-4V-ikx" secondAttribute="bottom" id="7nT-jd-JhD"/>
+                            <constraint firstItem="5q1-4V-ikx" firstAttribute="leading" secondItem="tLl-5x-BCE" secondAttribute="leading" id="Cpi-DQ-JrP"/>
                             <constraint firstAttribute="trailing" secondItem="vfd-fn-ZsM" secondAttribute="trailing" id="DbQ-4u-e5Z"/>
+                            <constraint firstAttribute="trailing" secondItem="5q1-4V-ikx" secondAttribute="trailing" id="KbM-U5-07Y"/>
                             <constraint firstItem="vfd-fn-ZsM" firstAttribute="leading" secondItem="tLl-5x-BCE" secondAttribute="leading" id="UOx-id-pve"/>
                             <constraint firstItem="KFe-lu-bli" firstAttribute="top" secondItem="FaY-e7-BZs" secondAttribute="bottom" constant="8" id="cZc-aR-7ya"/>
+                            <constraint firstItem="5q1-4V-ikx" firstAttribute="top" secondItem="KFe-lu-bli" secondAttribute="bottom" constant="8" id="ilE-yD-xnO"/>
                             <constraint firstItem="hCT-Jo-yOh" firstAttribute="top" secondItem="vfd-fn-ZsM" secondAttribute="bottom" id="kC9-yy-sZu"/>
                             <constraint firstItem="vfd-fn-ZsM" firstAttribute="top" secondItem="KFe-lu-bli" secondAttribute="bottom" constant="8" id="nQ8-g6-1j2"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Invite Your Friends" id="Ksv-3E-WA5"/>
+                    <connections>
+                        <outlet property="contactsTableView" destination="vfd-fn-ZsM" id="fq8-by-4qE"/>
+                        <outlet property="facebookTableView" destination="5q1-4V-ikx" id="pLW-XJ-Qg8"/>
+                        <outlet property="sourcePicker" destination="KFe-lu-bli" id="SFZ-k9-Gla"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dCP-c0-n1m" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
