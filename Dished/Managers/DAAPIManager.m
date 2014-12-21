@@ -507,6 +507,88 @@
     }];
 }
 
+- (void)requestFacebookAccessTokenWithFacebookID:(NSString *)facebookID completion:( void(^)( BOOL success ) )completion
+{
+    NSDictionary *parameters = @{ kClientIDKey : self.clientID, kClientSecretKey : self.clientSecret,
+                                  @"fb_user_id" : facebookID };
+    
+    [self POST:@"auth/token/facebook" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        self.accessToken  = responseObject[kAccessTokenKey];
+        self.refreshToken = responseObject[kRefreshTokenKey];
+        
+        [SSKeychain setPassword:self.accessToken  forService:kKeychainService account:kAccessTokenKey];
+        [SSKeychain setPassword:self.refreshToken forService:kKeychainService account:kRefreshTokenKey];
+        
+        NSTimeInterval expiresTime = [responseObject[kExpiresKey] doubleValue];
+        NSDate *expirationDate = [NSDate dateWithTimeIntervalSince1970:expiresTime];
+        
+        [[NSUserDefaults standardUserDefaults] setObject:expirationDate forKey:kExpirationDate];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        
+        completion( YES );
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        completion( NO );
+    }];
+}
+
+- (void)loginWithFacebookUserID:(NSString *)facebookID completion:( void(^)( BOOL success, BOOL accountExists ) )completion
+{
+    NSDictionary *parameters = @{ kClientIDKey : self.clientID, @"fb_user_id" : facebookID };
+    
+    [self POST:@"auth/login/facebook" parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        NSString *clientSecret = responseObject[kDataKey][kClientSecretKey];
+        [SSKeychain setPassword:clientSecret forService:kKeychainService account:kClientSecretKey];
+        self.clientSecret = clientSecret;
+        
+        [self requestFacebookAccessTokenWithFacebookID:facebookID completion:^( BOOL success )
+        {
+            completion( success, YES );
+        }];
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        eErrorType errorType = [DAAPIManager errorTypeForError:error];
+        
+        if( errorType == eErrorTypeDataNonexists )
+        {
+            completion( NO, NO );
+        }
+        else
+        {
+            NSLog(@"%@", error);
+            completion( NO, YES );
+        }
+    }];
+}
+
+- (void)registerFacebookUserWithUserID:(NSString *)facebookID Username:(NSString *)username
+                             firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email
+                           phoneNumber:(NSString *)phoneNumber birthday:(NSDate *)birthday
+                            completion:( void(^)( BOOL registered, BOOL loggedIn ) )completion
+{
+    NSNumber *dobTimestamp = @( [birthday timeIntervalSince1970] );
+
+    NSDictionary *parameters = @{ kClientIDKey : self.clientID, @"reg_type" : @"facebook", @"reg_id" : facebookID, @"reg_name" : username,
+                                  kPhoneKey : phoneNumber, kPasswordKey : [self randomAlphanumericStringWithLength:8],
+                                  @"fname" : firstName, @"lname" : lastName, kEmailKey : email, kDateOfBirthKey : dobTimestamp };
+    
+    [self POST:kUsersURL parameters:parameters
+    success:^( NSURLSessionDataTask *task, id responseObject )
+    {
+        
+    }
+    failure:^( NSURLSessionDataTask *task, NSError *error )
+    {
+        
+    }];
+}
+
 - (void)logout
 {
     [SSKeychain deletePasswordForService:kKeychainService account:kClientSecretKey];
@@ -649,6 +731,22 @@
     }
     
     return _clientID;
+}
+
+- (NSString *)randomAlphanumericStringWithLength:(NSUInteger)length
+{
+    NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
+    
+    NSMutableString *string = [NSMutableString stringWithCapacity:length];
+    
+    for( NSUInteger i = 0U; i < length; i++ )
+    {
+        u_int32_t r = arc4random() % [alphabet length];
+        unichar c = [alphabet characterAtIndex:r];
+        [string appendFormat:@"%C", c];
+    }
+    
+    return string;
 }
 
 @end

@@ -33,7 +33,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="goToFacebookLogin" destination="EzC-Jo-EoR" eventType="touchUpInside" id="k8D-WN-ru4"/>
+                                    <action selector="facebookConnect" destination="EzC-Jo-EoR" eventType="touchUpInside" id="dFR-Fz-8tX"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ec-r9-XoO">
@@ -266,7 +266,7 @@
             </objects>
             <point key="canvasLocation" x="1610" y="188"/>
         </scene>
-        <!--Facebook Login View Controller-->
+        <!--Facebook Connect-->
         <scene sceneID="AcO-a5-Hdx">
             <objects>
                 <viewController id="Lf5-YT-KkR" customClass="DAFacebookLoginViewController" sceneMemberID="viewController">
@@ -278,33 +278,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Logging into Facebook..." textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cGr-vh-cpR">
-                                <rect key="frame" x="140" y="176" width="320" height="30"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="320" id="ODP-r9-hNa"/>
-                                    <constraint firstAttribute="height" constant="30" id="Wh0-kX-Vfq"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="DWn-jC-f5B">
-                                <rect key="frame" x="290" y="290" width="20" height="20"/>
+                                <rect key="frame" x="290" y="336" width="20" height="20"/>
                             </activityIndicatorView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="facebook_login" translatesAutoresizingMaskIntoConstraints="NO" id="rda-0X-8ZW">
+                                <rect key="frame" x="270" y="245" width="60" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="9bS-Au-aZS"/>
+                                    <constraint firstAttribute="width" constant="60" id="pxj-6M-adJ"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="DWn-jC-f5B" secondAttribute="centerX" id="HE0-nw-gnR"/>
-                            <constraint firstAttribute="centerY" secondItem="DWn-jC-f5B" secondAttribute="centerY" id="SYE-rB-jb7"/>
-                            <constraint firstAttribute="centerX" secondItem="cGr-vh-cpR" secondAttribute="centerX" id="TNl-6m-wzF"/>
-                            <constraint firstItem="DWn-jC-f5B" firstAttribute="top" secondItem="cGr-vh-cpR" secondAttribute="bottom" constant="84" id="U08-Qe-SjK"/>
+                            <constraint firstItem="DWn-jC-f5B" firstAttribute="top" secondItem="rda-0X-8ZW" secondAttribute="bottom" constant="31" id="JcW-fi-nPv"/>
+                            <constraint firstAttribute="centerY" secondItem="DWn-jC-f5B" secondAttribute="centerY" constant="-46" id="SYE-rB-jb7"/>
+                            <constraint firstAttribute="centerX" secondItem="rda-0X-8ZW" secondAttribute="centerX" id="VlZ-Sm-60m"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="MdG-03-sBF"/>
+                    <navigationItem key="navigationItem" title="Facebook Connect" id="MdG-03-sBF"/>
                     <connections>
                         <outlet property="activityIndicator" destination="DWn-jC-f5B" id="yaf-Ro-SKP"/>
-                        <outlet property="statusLabel" destination="cGr-vh-cpR" id="qaN-rW-JtV"/>
-                        <segue destination="QD2-R5-VPv" kind="custom" identifier="goToRegister" customClass="DAReplaceSegue" customModule="Dished" customModuleProvider="target" id="YE9-MJ-lWu"/>
+                        <segue destination="ibb-xv-e8O" kind="custom" identifier="goToRegister" customClass="DAReplaceSegue" customModule="Dished" customModuleProvider="target" id="lFw-uU-a7X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AgN-aI-MNo" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3897,7 +3893,7 @@
                         <color key="separatorColor" cocoaTouchSystemColor="darkTextColor"/>
                         <inset key="separatorInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="91" id="CPp-to-4WT" customClass="DARatingTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" rowHeight="91" id="CPp-to-4WT" customClass="DARatingTableViewCell" customModule="Dished" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="86" width="320" height="91"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CPp-to-4WT" id="1a7-Qu-LMZ">
@@ -4941,6 +4937,7 @@
         <image name="explore_tab" width="26" height="25"/>
         <image name="facebook" width="21" height="22"/>
         <image name="facebook_connect" width="320" height="53"/>
+        <image name="facebook_login" width="140" height="140"/>
         <image name="feed_tab" width="30" height="24"/>
         <image name="food_dish_blue" width="17" height="18"/>
         <image name="graph_bar_blue" width="30" height="31"/>
@@ -4974,9 +4971,8 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="wvz-Jp-teY"/>
         <segue reference="DWl-1Z-W5u"/>
-        <segue reference="YE9-MJ-lWu"/>
+        <segue reference="lFw-uU-a7X"/>
         <segue reference="wCN-0l-elF"/>
         <segue reference="X8z-8L-0Ll"/>
     </inferredMetricsTieBreakers>

@@ -188,6 +188,7 @@
         DARegisterViewController *dest = segue.destinationViewController;
         
         dest.phoneNumber = self.phoneNumberField.text;
+        dest.facebookUserInfo = self.facebookUserInfo;
     }
 }
 

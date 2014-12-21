@@ -14,6 +14,7 @@
 #define kLinkedTextTypeHashtag  @"linkedTextTypeHashtag"
 #define kLinkedTextTypeUsername @"linkedTextTypeUsername"
 #define kLinkedTextKey          @"linkedText"
+#define kDummy                  @"dummy"
 
 
 @interface DALinkedTextView()
@@ -70,17 +71,24 @@
         if( [self.tapDelegate respondsToSelector:@selector(linkedTextView:tappedOnText:withLinkedTextType:)] )
         {
             NSString *textTapped = [self linkedTextForCharacterAtIndex:characterIndex];
-            eLinkedTextType textTypeTapped = [self linkedTextTypeForCharacterAtIndex:characterIndex];
-            [self.tapDelegate linkedTextView:self tappedOnText:textTapped withLinkedTextType:textTypeTapped];
+            
+            if( ![textTapped isEqualToString:kDummy] )
+            {
+                eLinkedTextType textTypeTapped = [self linkedTextTypeForCharacterAtIndex:characterIndex];
+                [self.tapDelegate linkedTextView:self tappedOnText:textTapped withLinkedTextType:textTypeTapped];
+            }
         }
     }
 }
 
 - (void)setAttributedText:(NSAttributedString *)attributedText
 {
-    [super setAttributedText:attributedText];
+    NSMutableAttributedString *mutable = [attributedText mutableCopy];
+    [mutable appendAttributedString:[[NSAttributedString alloc] initWithString:@" " attributes:@{ kLinkedTextKey : kDummy }]];
+
+    [super setAttributedText:mutable];
     
-    self.attributedString = attributedText;
+    self.attributedString = mutable;
 }
 
 - (void)setAttributedText:(NSAttributedString *)attributedText withAttributes:(NSDictionary *)attributes knownUsernames:(NSArray *)usernames
@@ -127,81 +135,7 @@
         }
     }];
     
-//    NSString *nextWord = [NSString string];
-//    //NSMutableAttributedString *linkedText = [attributedText mutableCopy];
-//    
-//    NSScanner *scanner = [NSScanner scannerWithString:attributedText.string];
-//    
-//    scanner.charactersToBeSkipped = nil;
-//    
-//    NSCharacterSet *symbols = [NSCharacterSet characterSetWithCharactersInString:@"#@"];
-//    NSCharacterSet *alphanumericCharacters = [NSCharacterSet alphanumericCharacterSet];
-//    NSMutableCharacterSet *validCharacters = [NSMutableCharacterSet characterSetWithCharactersInString:@"&"];
-//    [validCharacters formUnionWithCharacterSet:alphanumericCharacters];
-//    
-//    [scanner scanUpToCharactersFromSet:symbols intoString:nil];
-//    
-//    NSUInteger startLocation = 0;
-//    NSUInteger length = 0;
-//    
-//    while( !scanner.isAtEnd )
-//    {
-//        char symbol = [scanner.string characterAtIndex:scanner.scanLocation];
-//        
-//        if( symbol == '@' )
-//        {
-//            startLocation = scanner.scanLocation++;
-//            
-//            if( [scanner scanCharactersFromSet:alphanumericCharacters intoString:&nextWord] )
-//            {
-//                length = scanner.scanLocation - startLocation;
-//                
-//                if( usernames )
-//                {
-//                    if( [usernames containsObject:nextWord] )
-//                    {
-//                        NSRange matchRange = NSMakeRange( startLocation, length );
-//                        [linkedText setAttributes:attributes range:matchRange];
-//                        [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeUsername range:matchRange];
-//                        [linkedText addAttribute:kLinkedTextKey value:nextWord range:matchRange];
-//                        [DATagManager addUsernameInBackground:nextWord];
-//                    }
-//                }
-//            }
-//        }
-//        else if( symbol == '#' )
-//        {
-//            startLocation = scanner.scanLocation++;
-//            
-//            if( [scanner scanCharactersFromSet:validCharacters intoString:&nextWord] )
-//            {
-//                length = scanner.scanLocation - startLocation;
-//                
-//                if( ![scanner isAtEnd] )
-//                {
-//                    char nextCharacter = [scanner.string characterAtIndex:scanner.scanLocation];
-//                    
-//                    if( [symbols characterIsMember:nextCharacter] )
-//                    {
-//                        [scanner scanUpToCharactersFromSet:symbols intoString:nil];
-//                        continue;
-//                    }
-//                }
-//                
-//                NSRange matchRange = NSMakeRange( startLocation, length );
-//                
-//                [linkedText setAttributes:attributes range:matchRange];
-//                [linkedText addAttribute:kLinkedTextTypeKey value:kLinkedTextTypeHashtag range:matchRange];
-//                NSString *hashtag = [NSString stringWithFormat:@"#%@", nextWord];
-//                [linkedText addAttribute:kLinkedTextKey value:hashtag range:matchRange];
-//                [DATagManager addHashtagInBackground:nextWord];
-//            }
-//        }
-//        
-//        [scanner scanUpToCharactersFromSet:symbols intoString:nil];
-//    }
-    
-    [linkedText appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
+    [linkedText appendAttributedString:[[NSAttributedString alloc] initWithString:@" " attributes:@{ kLinkedTextKey : kDummy }]];
     
     [super setAttributedText:linkedText];
     self.attributedString = linkedText;
@@ -240,8 +174,9 @@
 
 - (NSString *)linkedTextForCharacterAtIndex:(NSUInteger)characterIndex
 {
-    NSDictionary *word = [self.attributedString attributesAtIndex:characterIndex effectiveRange:nil];
-    return [word objectForKey:kLinkedTextKey];
+    NSDictionary *wordAttributes = [self.attributedString attributesAtIndex:characterIndex effectiveRange:nil];
+    NSString *word = [wordAttributes objectForKey:kLinkedTextKey];
+    return word ? word : @"";
 }
 
 @end

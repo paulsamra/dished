@@ -8,7 +8,6 @@
 
 #import "DADishSuggestionsTableView.h"
 #import "DAReviewFormViewController.h"
-#import "DADishSuggestionTableViewCell.h"
 
 static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";
 
@@ -33,7 +32,7 @@ static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";
         self.delegate = self;
         self.dataSource	= self;
         
-        UINib *broadcastCellNib = [UINib nibWithNibName:NSStringFromClass( [DADishSuggestionTableViewCell class] ) bundle:nil];
+        UINib *broadcastCellNib = [UINib nibWithNibName:@"DADishSuggestionTableViewCell" bundle:nil];
         [self registerNib:broadcastCellNib forCellReuseIdentifier:kDishSuggestionCellIdentifier];
         
         self.rowHeight = 44.0;

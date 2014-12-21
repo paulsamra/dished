@@ -178,7 +178,17 @@
 
 - (IBAction)goToFacebookLogin
 {
-    [self performSegueWithIdentifier:@"facebookLogin" sender:nil];
+    [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_birthday" ] allowLoginUI:YES
+    completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
+    {
+        if( state == FBSessionStateOpen )
+        {
+            [self performSegueWithIdentifier:@"facebookLogin" sender:nil];
+        }
+        
+        DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+        [appDelegate sessionStateChanged:session state:state error:error];
+    }];
 }
 
 - (IBAction)goToForgotPassword

@@ -33,11 +33,11 @@ class DACommentTableViewCell: SWTableViewCell, DALinkedTextViewDelegate
         commentTextView.textContainerInset = UIEdgeInsetsZero
     }
     
-    func linkedTextView( textView: DALinkedTextView!, tappedOnText text: String?, withLinkedTextType textType: eLinkedTextType )
+    func linkedTextView( textView: DALinkedTextView!, tappedOnText text: String!, withLinkedTextType textType: eLinkedTextType )
     {
         if( text != nil )
         {
-            textViewTapDelegate?.textViewTapped?( text!, textType: textType, inCell: self )
+            textViewTapDelegate?.textViewTapped?( text, textType: textType, inCell: self )
         }
     }
 }

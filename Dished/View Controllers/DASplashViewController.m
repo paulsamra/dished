@@ -7,6 +7,7 @@
 //
 
 #import "DASplashViewController.h"
+#import "DAAppDelegate.h"
 #import "DAPhoneNumberViewController.h"
 
 
@@ -30,19 +31,19 @@
     
     if( IS_IPHONE4 )
     {
-        self.backgroundImageView.image = [UIImage imageNamed:@"launch_image_4"];
+        self.backgroundImageView.image = [UIImage imageNamed:@"LaunchImage-700@2x.png"];
     }
     else if( IS_IPHONE5 )
     {
-        self.backgroundImageView.image = [UIImage imageNamed:@"launch_image_5"];
+        self.backgroundImageView.image = [UIImage imageNamed:@"LaunchImage-700-568h@2x.png"];
     }
     else if( IS_IPHONE6 )
     {
-        self.backgroundImageView.image = [UIImage imageNamed:@"launch_image_6"];
+        self.backgroundImageView.image = [UIImage imageNamed:@"LaunchImage-800-667h@2x.png"];
     }
     else if( IS_IPHONE6_PLUS )
     {
-        self.backgroundImageView.image = [UIImage imageNamed:@"launch_image_6_plus"];
+        self.backgroundImageView.image = [UIImage imageNamed:@"LaunchImage-800-Portrait-736h@3x.png"];
     }
     
     [self setupWelcomeScreens];
@@ -180,9 +181,19 @@
     return UIStatusBarStyleLightContent;
 }
 
-- (IBAction)goToFacebookLogin
-{
-    [self performSegueWithIdentifier:@"facebookLogin" sender:nil];
+- (IBAction)facebookConnect
+{    
+    [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_birthday" ] allowLoginUI:YES
+    completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
+    {
+        if( state == FBSessionStateOpen )
+        {
+            [self performSegueWithIdentifier:@"facebookLogin" sender:nil];
+        }
+        
+        DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
+        [appDelegate sessionStateChanged:session state:state error:error];
+    }];
 }
 
 - (IBAction)goToLogin

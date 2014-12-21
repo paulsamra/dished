@@ -44,22 +44,15 @@
     
     if( FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded )
     {
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile"] allowLoginUI:NO
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"user_friends"] allowLoginUI:NO
         completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
         {
             [self sessionStateChanged:session state:state error:error];
         }];
     }
-    
-    if( [[DAAPIManager sharedManager] isLoggedIn] )
+    else if( [[DAAPIManager sharedManager] isLoggedIn] )
     {
-        [self registerForPushNotifications];
-        [self setupUserVoice];
-        [self setRootView];
-        
-        
-        
-        
+        [self login];
         
         NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         
@@ -203,27 +196,27 @@
 
 - (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error
 {
-    if( state == FBSessionStateOpen )
+    if( !error && state == FBSessionStateOpen )
     {
-        NSLog(@"Session opened");
+        NSLog(@"User logged into Facebook.");
         return;
     }
-    else if( state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed )
+    
+    if( state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed )
     {
-        NSLog(@"Session closed");
-        return;
+        NSLog(@"User not logged out of Facebook.");
     }
     
     if( error )
     {
-        NSLog(@"Error");
+        NSLog(@"Facebook Error");
         NSString *alertText;
         NSString *alertTitle;
         
         // If the error requires people using an app to make an action outside of the app in order to recover
         if( [FBErrorUtility shouldNotifyUserForError:error] )
         {
-            alertTitle = @"Something went wrong";
+            alertTitle = @"Something went wrong.";
             alertText = [FBErrorUtility userMessageForError:error];
         }
         else

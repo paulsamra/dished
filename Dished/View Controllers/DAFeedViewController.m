@@ -20,7 +20,6 @@
 #import "DAFeedCollectionViewFlowLayout.h"
 #import "NSAttributedString+Dished.h"
 #import "DAFeedHeaderCollectionReusableView.h"
-#import "DAReviewDetailCollectionViewCell.h"
 #import "DAReviewButtonsCollectionViewCell.h"
 #import "DAExploreDishResultsViewController.h"
 
@@ -127,7 +126,7 @@ typedef enum
 
 - (void)registerCollectionViewCellNibs
 {
-    UINib *reviewDetailCellNib = [UINib nibWithNibName:NSStringFromClass( [DAReviewDetailCollectionViewCell class] ) bundle:[NSBundle mainBundle]];
+    UINib *reviewDetailCellNib = [UINib nibWithNibName:@"DAReviewDetailCollectionViewCell" bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:reviewDetailCellNib forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
     
     UINib *reviewButtonsCellNib = [UINib nibWithNibName:NSStringFromClass( [DAReviewButtonsCollectionViewCell class] ) bundle:[NSBundle mainBundle]];

@@ -35,7 +35,6 @@ typedef void(^RequestFailureBlock)( NSError *error, BOOL shouldRetry );
 
 + (DAAPIManager *)sharedManager;
 + (eErrorType)errorTypeForError:(NSError *)error;
-+ (NSString *)errorResponseKey;
 
 - (BOOL)networkIsReachable;
 - (BOOL)isLoggedIn;
@@ -59,12 +58,27 @@ typedef void(^RequestFailureBlock)( NSError *error, BOOL shouldRetry );
 /*
  * Register new Dished user account.
  */
-- (void)registerUserWithUsername:(NSString *)username password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email phoneNumber:(NSString *)phoneNumber birthday:(NSDate *)birthday completion:(void(^)( BOOL registered, BOOL loggedIn ) )completion;
+- (void)registerUserWithUsername:(NSString *)username password:(NSString *)password firstName:(NSString *)firstName
+                        lastName:(NSString *)lastName email:(NSString *)email phoneNumber:(NSString *)phoneNumber
+                        birthday:(NSDate *)birthday completion:(void(^)( BOOL registered, BOOL loggedIn ) )completion;
 
 /*
  * User login.
  */
 - (void)loginWithUser:(NSString *)user password:(NSString *)password completion:(void(^)( BOOL success, BOOL wrongUser, BOOL wrongPass ) )completion;
+
+/*
+ * Facebook user login.
+ */
+- (void)loginWithFacebookUserID:(NSString *)facebookID completion:( void(^)( BOOL success, BOOL accountExists ) )completion;
+
+/*
+ * Register new Dished account with Facebook Login
+ */
+- (void)registerFacebookUserWithUserID:(NSString *)facebookID Username:(NSString *)username
+                             firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email
+                           phoneNumber:(NSString *)phoneNumber birthday:(NSDate *)birthday
+                            completion:( void(^)( BOOL registered, BOOL loggedIn ) )completion;
 
 /*
  * User logout.

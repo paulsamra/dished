@@ -29,8 +29,6 @@
 		9412917D1A1BEED500B7C763 /* DADishesMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156419FCC306002497D0 /* DADishesMapViewController.m */; };
 		9412917E1A1BEED500B7C763 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
 		9412917F1A1BEED500B7C763 /* MRNavigationBarProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615B819FE1C3D002497D0 /* MRNavigationBarProgressView.m */; };
-		941291801A1BEED500B7C763 /* DARatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */; };
-		941291811A1BEED500B7C763 /* DAReviewDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */; };
 		941291821A1BEED500B7C763 /* JSQMessagesKeyboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB040619B15FB9009010F6 /* JSQMessagesKeyboardController.m */; };
 		941291841A1BEED500B7C763 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD7E198C539200450C6F /* SDImageCache.m */; };
 		941291851A1BEED500B7C763 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9A91980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m */; };
@@ -48,7 +46,6 @@
 		941291911A1BEED500B7C763 /* DAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537A419F27BC600A02088 /* DAMenuViewController.m */; };
 		941291921A1BEED500B7C763 /* DADish.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A211990AB5900095A70 /* DADish.m */; };
 		941291931A1BEED500B7C763 /* MRStopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615BD19FE1C3D002497D0 /* MRStopButton.m */; };
-		941291941A1BEED500B7C763 /* DADishSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */; };
 		941291951A1BEED500B7C763 /* DAImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 944689A51960130E00FAE288 /* DAImagePickerController.m */; };
 		941291961A1BEED500B7C763 /* DAFeedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */; };
 		941291971A1BEED500B7C763 /* DANegativeHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */; };
@@ -248,8 +245,6 @@
 		9412927C1A1C7AD100B7C763 /* DADishesMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156419FCC306002497D0 /* DADishesMapViewController.m */; };
 		9412927D1A1C7AD100B7C763 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
 		9412927E1A1C7AD100B7C763 /* MRNavigationBarProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615B819FE1C3D002497D0 /* MRNavigationBarProgressView.m */; };
-		9412927F1A1C7AD100B7C763 /* DARatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */; };
-		941292801A1C7AD100B7C763 /* DAReviewDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */; };
 		941292811A1C7AD100B7C763 /* JSQMessagesKeyboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB040619B15FB9009010F6 /* JSQMessagesKeyboardController.m */; };
 		941292831A1C7AD100B7C763 /* SDImageCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD7E198C539200450C6F /* SDImageCache.m */; };
 		941292841A1C7AD100B7C763 /* UIActivityIndicatorView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9A91980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m */; };
@@ -267,7 +262,6 @@
 		941292901A1C7AD100B7C763 /* DAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537A419F27BC600A02088 /* DAMenuViewController.m */; };
 		941292911A1C7AD100B7C763 /* DADish.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A211990AB5900095A70 /* DADish.m */; };
 		941292921A1C7AD100B7C763 /* MRStopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615BD19FE1C3D002497D0 /* MRStopButton.m */; };
-		941292931A1C7AD100B7C763 /* DADishSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */; };
 		941292941A1C7AD100B7C763 /* DAImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 944689A51960130E00FAE288 /* DAImagePickerController.m */; };
 		941292951A1C7AD100B7C763 /* DAFeedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */; };
 		941292961A1C7AD100B7C763 /* DANegativeHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */; };
@@ -564,7 +558,6 @@
 		94756CD31A32FBC6009B6BD6 /* DACacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94756CD01A32FBC1009B6BD6 /* DACacheManager.m */; };
 		947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13411975AC62000553EF /* DADishSuggestionsTableView.m */; };
 		947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */; };
-		947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */; };
 		9486156519FCC306002497D0 /* DADishesMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156419FCC306002497D0 /* DADishesMapViewController.m */; };
 		9486156919FCCE6E002497D0 /* DAMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156819FCCE6E002497D0 /* DAMapAnnotation.m */; };
 		9486156C19FCD97E002497D0 /* DAAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156B19FCD97E002497D0 /* DAAnnotationView.m */; };
@@ -599,7 +592,15 @@
 		949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
 		94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */; };
 		94A027A4196F25B5004D5CD7 /* DARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A3196F25B5004D5CD7 /* DARatingViewController.m */; };
-		94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */; };
+		94A6FE291A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE281A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift */; };
+		94A6FE2A1A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE281A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift */; };
+		94A6FE2B1A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE281A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift */; };
+		94A6FE2D1A46D6DE00AB901F /* DARatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE2C1A46D6DE00AB901F /* DARatingTableViewCell.swift */; };
+		94A6FE2E1A46D6DE00AB901F /* DARatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE2C1A46D6DE00AB901F /* DARatingTableViewCell.swift */; };
+		94A6FE2F1A46D6DE00AB901F /* DARatingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE2C1A46D6DE00AB901F /* DARatingTableViewCell.swift */; };
+		94A6FE311A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE301A46D83000AB901F /* DADishSuggestionTableViewCell.swift */; };
+		94A6FE321A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE301A46D83000AB901F /* DADishSuggestionTableViewCell.swift */; };
+		94A6FE331A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE301A46D83000AB901F /* DADishSuggestionTableViewCell.swift */; };
 		94A8CD1D19FF143300AA770D /* Privacy Policy.html in Resources */ = {isa = PBXBuildFile; fileRef = 94A8CD1B19FF143300AA770D /* Privacy Policy.html */; };
 		94A8CD1E19FF143300AA770D /* Terms & Conditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 94A8CD1C19FF143300AA770D /* Terms & Conditions.html */; };
 		94A8CD2119FF145800AA770D /* DADocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A8CD2019FF145800AA770D /* DADocumentViewController.m */; };
@@ -717,7 +718,6 @@
 		94F2ADA8198C539200450C6F /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD97198C539200450C6F /* UIImageView+WebCache.m */; };
 		94F2ADA9198C539200450C6F /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD99198C539200450C6F /* UIView+WebCacheOperation.m */; };
 		94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FF526A197347F200B97A61 /* DARegisterViewController.m */; };
-		D112F41519BE00550059300F /* DAReviewDetailCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */; };
 		D1236B9619AE7B4B00727447 /* DAReviewDetailsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D1236B9519AE7B4B00727447 /* DAReviewDetailsViewController.m */; };
 		D13DB8F51988B221008C86BB /* DADishTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D13DB8F41988B221008C86BB /* DADishTableViewCell.m */; };
 		D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D170CA661992B7C4006D9DCB /* DASocialCollectionViewController.m */; };
@@ -925,8 +925,6 @@
 		947A13401975AC62000553EF /* DADishSuggestionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishSuggestionsTableView.h; sourceTree = "<group>"; };
 		947A13411975AC62000553EF /* DADishSuggestionsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishSuggestionsTableView.m; sourceTree = "<group>"; };
 		947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DADishSuggestionTableViewCell.xib; sourceTree = "<group>"; };
-		947A13451975D06D000553EF /* DADishSuggestionTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishSuggestionTableViewCell.h; sourceTree = "<group>"; };
-		947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishSuggestionTableViewCell.m; sourceTree = "<group>"; };
 		9486156319FCC306002497D0 /* DADishesMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishesMapViewController.h; sourceTree = "<group>"; };
 		9486156419FCC306002497D0 /* DADishesMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishesMapViewController.m; sourceTree = "<group>"; };
 		9486156719FCCE6E002497D0 /* DAMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAMapAnnotation.h; sourceTree = "<group>"; };
@@ -983,8 +981,9 @@
 		94A027A0196F2571004D5CD7 /* DAAddPlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAAddPlaceViewController.h; sourceTree = "<group>"; };
 		94A027A2196F25B5004D5CD7 /* DARatingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARatingViewController.h; sourceTree = "<group>"; };
 		94A027A3196F25B5004D5CD7 /* DARatingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARatingViewController.m; sourceTree = "<group>"; };
-		94A027A5196F264A004D5CD7 /* DARatingTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARatingTableViewCell.h; sourceTree = "<group>"; };
-		94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARatingTableViewCell.m; sourceTree = "<group>"; };
+		94A6FE281A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAReviewDetailCollectionViewCell.swift; sourceTree = "<group>"; };
+		94A6FE2C1A46D6DE00AB901F /* DARatingTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DARatingTableViewCell.swift; sourceTree = "<group>"; };
+		94A6FE301A46D83000AB901F /* DADishSuggestionTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADishSuggestionTableViewCell.swift; sourceTree = "<group>"; };
 		94A8CD1B19FF143300AA770D /* Privacy Policy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Privacy Policy.html"; sourceTree = "<group>"; };
 		94A8CD1C19FF143300AA770D /* Terms & Conditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Terms & Conditions.html"; sourceTree = "<group>"; };
 		94A8CD1F19FF145800AA770D /* DADocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADocumentViewController.h; sourceTree = "<group>"; };
@@ -1189,8 +1188,6 @@
 		94F2AD99198C539200450C6F /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		94FF5269197347F200B97A61 /* DARegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARegisterViewController.h; sourceTree = "<group>"; };
 		94FF526A197347F200B97A61 /* DARegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARegisterViewController.m; sourceTree = "<group>"; };
-		D112F41319BE00550059300F /* DAReviewDetailCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewDetailCollectionViewCell.h; sourceTree = "<group>"; };
-		D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewDetailCollectionViewCell.m; sourceTree = "<group>"; };
 		D1236B9419AE7B4B00727447 /* DAReviewDetailsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewDetailsViewController.h; sourceTree = "<group>"; };
 		D1236B9519AE7B4B00727447 /* DAReviewDetailsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewDetailsViewController.m; sourceTree = "<group>"; };
 		D13DB8F31988B221008C86BB /* DADishTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishTableViewCell.h; sourceTree = "<group>"; };
@@ -1436,8 +1433,7 @@
 		943ECCF019EA2E84009516E8 /* Reviews */ = {
 			isa = PBXGroup;
 			children = (
-				D112F41319BE00550059300F /* DAReviewDetailCollectionViewCell.h */,
-				D112F41419BE00550059300F /* DAReviewDetailCollectionViewCell.m */,
+				94A6FE281A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift */,
 				94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */,
 				943ECCF119EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.h */,
 				943ECCF219EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.m */,
@@ -2041,12 +2037,10 @@
 		94FD7B5419C83CCE008D60CA /* Add Review */ = {
 			isa = PBXGroup;
 			children = (
-				94A027A5196F264A004D5CD7 /* DARatingTableViewCell.h */,
-				94A027A6196F264A004D5CD7 /* DARatingTableViewCell.m */,
+				94A6FE2C1A46D6DE00AB901F /* DARatingTableViewCell.swift */,
 				947A13401975AC62000553EF /* DADishSuggestionsTableView.h */,
 				947A13411975AC62000553EF /* DADishSuggestionsTableView.m */,
-				947A13451975D06D000553EF /* DADishSuggestionTableViewCell.h */,
-				947A13461975D06D000553EF /* DADishSuggestionTableViewCell.m */,
+				94A6FE301A46D83000AB901F /* DADishSuggestionTableViewCell.swift */,
 				947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */,
 				94D8D69319EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift */,
 			);
@@ -2386,8 +2380,6 @@
 				9412917D1A1BEED500B7C763 /* DADishesMapViewController.m in Sources */,
 				9412917E1A1BEED500B7C763 /* DACommentsViewController.m in Sources */,
 				9412917F1A1BEED500B7C763 /* MRNavigationBarProgressView.m in Sources */,
-				941291801A1BEED500B7C763 /* DARatingTableViewCell.m in Sources */,
-				941291811A1BEED500B7C763 /* DAReviewDetailCollectionViewCell.m in Sources */,
 				941291821A1BEED500B7C763 /* JSQMessagesKeyboardController.m in Sources */,
 				941291841A1BEED500B7C763 /* SDImageCache.m in Sources */,
 				941291851A1BEED500B7C763 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
@@ -2409,7 +2401,6 @@
 				941291921A1BEED500B7C763 /* DADish.m in Sources */,
 				941291931A1BEED500B7C763 /* MRStopButton.m in Sources */,
 				94AAAA361A42FB9300863E09 /* DAShareSettingsTableViewController.m in Sources */,
-				941291941A1BEED500B7C763 /* DADishSuggestionTableViewCell.m in Sources */,
 				941291951A1BEED500B7C763 /* DAImagePickerController.m in Sources */,
 				941291961A1BEED500B7C763 /* DAFeedCollectionViewCell.m in Sources */,
 				941291971A1BEED500B7C763 /* DANegativeHashtagsViewController.m in Sources */,
@@ -2474,6 +2465,7 @@
 				941291D31A1BEED500B7C763 /* DAReviewButtonsCollectionViewCell.m in Sources */,
 				941291D41A1BEED500B7C763 /* AFHTTPRequestOperationManager.m in Sources */,
 				941291D51A1BEED500B7C763 /* DADishSuggestionsTableView.m in Sources */,
+				94A6FE2A1A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift in Sources */,
 				941291D61A1BEED500B7C763 /* SDWebImageDecoder.m in Sources */,
 				9488BA051A26E3AC0098FE09 /* DATagSuggestionTableView.m in Sources */,
 				941291D71A1BEED500B7C763 /* DAUserListViewController.m in Sources */,
@@ -2483,6 +2475,7 @@
 				941291DB1A1BEED500B7C763 /* DAReviewLocationViewController.m in Sources */,
 				941291DC1A1BEED500B7C763 /* DASocialCollectionViewController.m in Sources */,
 				941291DD1A1BEED500B7C763 /* MRProgressOverlayView.m in Sources */,
+				94A6FE321A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */,
 				941291DE1A1BEED500B7C763 /* DACurrentLocationViewController.m in Sources */,
 				941291DF1A1BEED500B7C763 /* UIColor+Dished.m in Sources */,
 				941291E01A1BEED500B7C763 /* SWCellScrollView.m in Sources */,
@@ -2571,6 +2564,7 @@
 				94AAAA541A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				9412922B1A1BEED500B7C763 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				9412922C1A1BEED500B7C763 /* DARestaurantProfile.m in Sources */,
+				94A6FE2E1A46D6DE00AB901F /* DARatingTableViewCell.swift in Sources */,
 				9412922D1A1BEED500B7C763 /* NSData+ImageContentType.m in Sources */,
 				9412922E1A1BEED500B7C763 /* DAFeedItem+Utility.m in Sources */,
 				9412922F1A1BEED500B7C763 /* JSONSyntaxHighlight.m in Sources */,
@@ -2592,8 +2586,6 @@
 				9412927C1A1C7AD100B7C763 /* DADishesMapViewController.m in Sources */,
 				9412927D1A1C7AD100B7C763 /* DACommentsViewController.m in Sources */,
 				9412927E1A1C7AD100B7C763 /* MRNavigationBarProgressView.m in Sources */,
-				9412927F1A1C7AD100B7C763 /* DARatingTableViewCell.m in Sources */,
-				941292801A1C7AD100B7C763 /* DAReviewDetailCollectionViewCell.m in Sources */,
 				941292811A1C7AD100B7C763 /* JSQMessagesKeyboardController.m in Sources */,
 				941292831A1C7AD100B7C763 /* SDImageCache.m in Sources */,
 				941292841A1C7AD100B7C763 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
@@ -2615,7 +2607,6 @@
 				941292911A1C7AD100B7C763 /* DADish.m in Sources */,
 				941292921A1C7AD100B7C763 /* MRStopButton.m in Sources */,
 				94AAAA371A42FB9300863E09 /* DAShareSettingsTableViewController.m in Sources */,
-				941292931A1C7AD100B7C763 /* DADishSuggestionTableViewCell.m in Sources */,
 				941292941A1C7AD100B7C763 /* DAImagePickerController.m in Sources */,
 				941292951A1C7AD100B7C763 /* DAFeedCollectionViewCell.m in Sources */,
 				941292961A1C7AD100B7C763 /* DANegativeHashtagsViewController.m in Sources */,
@@ -2680,6 +2671,7 @@
 				941292D21A1C7AD100B7C763 /* DAReviewButtonsCollectionViewCell.m in Sources */,
 				941292D31A1C7AD100B7C763 /* AFHTTPRequestOperationManager.m in Sources */,
 				941292D41A1C7AD100B7C763 /* DADishSuggestionsTableView.m in Sources */,
+				94A6FE2B1A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift in Sources */,
 				941292D51A1C7AD100B7C763 /* SDWebImageDecoder.m in Sources */,
 				9488BA061A26E3AC0098FE09 /* DATagSuggestionTableView.m in Sources */,
 				941292D61A1C7AD100B7C763 /* DAUserListViewController.m in Sources */,
@@ -2689,6 +2681,7 @@
 				941292DA1A1C7AD100B7C763 /* DAReviewLocationViewController.m in Sources */,
 				941292DB1A1C7AD100B7C763 /* DASocialCollectionViewController.m in Sources */,
 				941292DC1A1C7AD100B7C763 /* MRProgressOverlayView.m in Sources */,
+				94A6FE331A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */,
 				941292DD1A1C7AD100B7C763 /* DACurrentLocationViewController.m in Sources */,
 				941292DE1A1C7AD100B7C763 /* UIColor+Dished.m in Sources */,
 				941292DF1A1C7AD100B7C763 /* SWCellScrollView.m in Sources */,
@@ -2777,6 +2770,7 @@
 				94AAAA551A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				9412932A1A1C7AD100B7C763 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				9412932B1A1C7AD100B7C763 /* DARestaurantProfile.m in Sources */,
+				94A6FE2F1A46D6DE00AB901F /* DARatingTableViewCell.swift in Sources */,
 				9412932C1A1C7AD100B7C763 /* NSData+ImageContentType.m in Sources */,
 				9412932D1A1C7AD100B7C763 /* DAFeedItem+Utility.m in Sources */,
 				9412932E1A1C7AD100B7C763 /* JSONSyntaxHighlight.m in Sources */,
@@ -2798,8 +2792,6 @@
 				9486156519FCC306002497D0 /* DADishesMapViewController.m in Sources */,
 				94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */,
 				948615CA19FE1C3D002497D0 /* MRNavigationBarProgressView.m in Sources */,
-				94A027A7196F264A004D5CD7 /* DARatingTableViewCell.m in Sources */,
-				D112F41519BE00550059300F /* DAReviewDetailCollectionViewCell.m in Sources */,
 				94CB040719B15FB9009010F6 /* JSQMessagesKeyboardController.m in Sources */,
 				94F2AD9C198C539200450C6F /* SDImageCache.m in Sources */,
 				94DCE9B81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
@@ -2821,7 +2813,6 @@
 				94942A221990AB5900095A70 /* DADish.m in Sources */,
 				948615CC19FE1C3D002497D0 /* MRStopButton.m in Sources */,
 				94AAAA351A42EBA000863E09 /* DAShareSettingsTableViewController.m in Sources */,
-				947A13471975D06D000553EF /* DADishSuggestionTableViewCell.m in Sources */,
 				944689A61960130E00FAE288 /* DAImagePickerController.m in Sources */,
 				940363841A25E2560068F61D /* DAManagedComment+Utility.m in Sources */,
 				945A3B6119A52B4A000D76E3 /* DAFeedCollectionViewCell.m in Sources */,
@@ -2886,6 +2877,7 @@
 				94DCE9BE1980ABB100396C0A /* UIWebView+AFNetworking.m in Sources */,
 				943ECCF319EA2EB0009516E8 /* DAReviewButtonsCollectionViewCell.m in Sources */,
 				94E5EF431943472D0021A711 /* AFHTTPRequestOperationManager.m in Sources */,
+				94A6FE291A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift in Sources */,
 				947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */,
 				9488BA041A26B6B10098FE09 /* DATagSuggestionTableView.m in Sources */,
 				94F2AD9E198C539200450C6F /* SDWebImageDecoder.m in Sources */,
@@ -2895,6 +2887,7 @@
 				9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */,
 				D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */,
 				D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */,
+				94A6FE311A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */,
 				948615CB19FE1C3D002497D0 /* MRProgressOverlayView.m in Sources */,
 				D1F17704198844BE006BC6BA /* DACurrentLocationViewController.m in Sources */,
 				945F95A619A7290600241D0D /* UIColor+Dished.m in Sources */,
@@ -2983,6 +2976,7 @@
 				94AAAA531A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */,
 				9473FACF19E63235003A1D1B /* DARestaurantProfile.m in Sources */,
+				94A6FE2D1A46D6DE00AB901F /* DARatingTableViewCell.swift in Sources */,
 				94F2AD9B198C539200450C6F /* NSData+ImageContentType.m in Sources */,
 				945F959A19A677F900241D0D /* DAFeedItem+Utility.m in Sources */,
 				943E62631987362100DF2135 /* JSONSyntaxHighlight.m in Sources */,

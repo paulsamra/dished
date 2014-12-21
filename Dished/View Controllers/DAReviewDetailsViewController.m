@@ -9,15 +9,12 @@
 #import "DAReviewDetailsViewController.h"
 #import "DAFeedCollectionViewCell.h"
 #import "DAReview.h"
-#import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-#import "DAReviewDetailCollectionViewCell.h"
 #import "DAFeedCollectionViewCell.h"
 #import "DACommentsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
 #import "DACoreDataManager.h"
 #import "NSAttributedString+Dished.h"
 #import "DAUserProfileViewController.h"
-#import "DAReviewDetailCollectionViewCell.h"
 #import "DAReviewButtonsCollectionViewCell.h"
 #import "DAExploreDishResultsViewController.h"
 #import "DAUserListViewController.h"
@@ -118,7 +115,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (void)registerCollectionViewCellNibs
 {
-    UINib *reviewDetailCellNib = [UINib nibWithNibName:NSStringFromClass( [DAReviewDetailCollectionViewCell class] ) bundle:[NSBundle mainBundle]];
+    UINib *reviewDetailCellNib = [UINib nibWithNibName:@"DAReviewDetailCollectionViewCell" bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:reviewDetailCellNib forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
     
     UINib *reviewButtonsCellNib = [UINib nibWithNibName:NSStringFromClass( [DAReviewButtonsCollectionViewCell class] ) bundle:[NSBundle mainBundle]];

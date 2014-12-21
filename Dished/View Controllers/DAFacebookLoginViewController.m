@@ -7,14 +7,13 @@
 //
 
 #import "DAFacebookLoginViewController.h"
-#import <FacebookSDK/FacebookSDK.h>
 #import "DAAppDelegate.h"
-#import "DARegisterViewController.h"
+#import "DAAPIManager.h"
+#import "DAUserManager.h"
+#import "DAPhoneNumberViewController.h"
 
 
 @interface DAFacebookLoginViewController()
-
-@property (nonatomic) BOOL shouldLogin;
 
 @end
 
@@ -25,85 +24,71 @@
 {
     [super viewDidLoad];
     
-    self.shouldLogin = NO;
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
     [self.activityIndicator startAnimating];
-    self.logoutButton.hidden = YES;
+    self.navigationItem.leftBarButtonItem = nil;
     
-    if( FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended )
+    [[FBRequest requestForMe] startWithCompletionHandler:
+    ^( FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error )
     {
-        [self.activityIndicator stopAnimating];
-        self.activityIndicator.hidden = YES;
-        self.statusLabel.text = @"Logged into Facebook";
-        self.logoutButton.hidden = NO;
-        self.shouldLogin = NO;
-    }
-    else
-    {
-        self.shouldLogin = YES;
-    }
-    
-    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake( 50, 200, 200, 200)];
-    [button setTitle:@"Logout" forState:UIControlStateNormal];
-    [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [button addTarget:self action:@selector(logout) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:button];
+        if( !error )
+        {
+            [self attemptFacebookLoginWithFacebookUser:user];
+        }
+        else
+        {
+            [self showErrorAlertView];
+        }
+    }];
 }
 
-- (void)viewDidAppear:(BOOL)animated
+- (void)attemptFacebookLoginWithFacebookUser:(NSDictionary<FBGraphUser> *)user
 {
-    [super viewDidAppear:animated];
-    
-    if( self.shouldLogin )
+    [[DAAPIManager sharedManager] loginWithFacebookUserID:user.objectID completion:^( BOOL success, BOOL accountExists )
     {
-        [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_birthday" ] allowLoginUI:YES
-        completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
+        if( success )
         {
-            if( state == FBSessionStateOpen )
+            [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL userLoadSuccess )
             {
-                [[FBRequest requestForMe] startWithCompletionHandler:
-                ^( FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error )
+                if( userLoadSuccess )
                 {
-                    if( !error )
-                    {
-                        self.statusLabel.text = @"Logged into Facebook";
-                        [self.activityIndicator stopAnimating];
-                        self.activityIndicator.hidden = YES;
-                        self.logoutButton.hidden = NO;
-                        
-                        [self performSegueWithIdentifier:@"goToRegister" sender:user];
-                    }
-                }];
+                    DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+                    [delegate login];
+                }
+                else
+                {
+                    [[DAAPIManager sharedManager] logout];
+                    [self showAlertViewWithTitle:@"Failed to Login"
+                                         message:@"There was a problem logging you in. Please try again."];
+                }
+            }];
+        }
+        else
+        {
+            if( !accountExists )
+            {
+                [self performSegueWithIdentifier:@"goToRegister" sender:user];
             }
             else
             {
-                [self.navigationController popViewControllerAnimated:YES];
+                [self showErrorAlertView];
             }
-            
-            DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
-            [appDelegate sessionStateChanged:session state:state error:error];
-        }];        
-    }
+        }
+    }];
+}
+
+- (void)showErrorAlertView
+{
+    [[[UIAlertView alloc] initWithTitle:@"An error occurred." message:@"There was an error logging into Facebook. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if( [segue.identifier isEqualToString:@"goToRegister"] )
     {
-        DARegisterViewController *dest = segue.destinationViewController;
-        dest.facebookUserInfo = (NSDictionary *)sender;
+        DAPhoneNumberViewController *dest = segue.destinationViewController;
+        dest.registrationMode = YES;
+        dest.facebookUserInfo = sender;
     }
-}
-
-- (IBAction)logout
-{
-    [FBSession.activeSession closeAndClearTokenInformation];
-    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 @end

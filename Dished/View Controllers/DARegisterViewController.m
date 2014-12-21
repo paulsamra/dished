@@ -650,13 +650,13 @@
             }
             else
             {
-                [self registerUser];
+                [self registerNormalUser];
             }
         }
     });
 }
 
-- (void)registerUser
+- (void)registerNormalUser
 {
     NSString *firstName = self.firstNameField.text;
     NSString *lastName  = self.lastNameField.text;
@@ -670,7 +670,44 @@
     NSArray  *parts = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
     NSString *decimalString = [[parts componentsJoinedByString:@""] mutableCopy];
     
-    [[DAAPIManager sharedManager] registerUserWithUsername:username password:password firstName:firstName lastName:lastName email:email phoneNumber:decimalString birthday:dateOfBirth completion:^( BOOL registered, BOOL loggedIn )
+    [[DAAPIManager sharedManager] registerUserWithUsername:username password:password firstName:firstName lastName:lastName
+    email:email phoneNumber:decimalString birthday:dateOfBirth completion:^( BOOL registered, BOOL loggedIn )
+    {
+        [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+        {
+            if( !registered )
+            {
+                [self showAlertMessageWithTitle:@"Registration Error" message:@"There was an error registering your account. Please try again."];
+            }
+            else if( registered && !loggedIn )
+            {
+                [self.loginFailAlert show];
+            }
+            else
+            {
+                DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+                [delegate login];
+            }
+        }];
+    }];
+}
+
+- (void)registerFacebookUser
+{
+    NSString *firstName  = self.firstNameField.text;
+    NSString *lastName   = self.lastNameField.text;
+    NSString *username   = [self.usernameField.text substringFromIndex:1];
+    NSString *email      = self.emailField.text;
+    NSString *phone      = self.phoneNumberField.text;
+    NSDate *dateOfBirth  = self.dateOfBirth;
+    NSString *facebookID = self.facebookUserInfo.objectID;
+    
+    NSString *after1 = [phone substringFromIndex:3];
+    NSArray  *parts = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
+    NSString *decimalString = [[parts componentsJoinedByString:@""] mutableCopy];
+    
+    [[DAAPIManager sharedManager] registerFacebookUserWithUserID:facebookID Username:username firstName:firstName
+    lastName:lastName email:email phoneNumber:decimalString birthday:dateOfBirth completion:^( BOOL registered, BOOL loggedIn )
     {
         [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
         {
@@ -962,22 +999,6 @@
 {
     [[[UIAlertView alloc] initWithTitle:title message:message delegate:nil
                       cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
-}
-
-- (NSString *)randomAlphanumericStringWithLength:(NSUInteger)length
-{
-    NSString *alphabet  = @"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXZY0123456789";
-    
-    NSMutableString *string = [NSMutableString stringWithCapacity:length];
-    
-    for( NSUInteger i = 0U; i < length; i++ )
-    {
-        u_int32_t r = arc4random() % [alphabet length];
-        unichar c = [alphabet characterAtIndex:r];
-        [string appendFormat:@"%C", c];
-    }
-    
-    return string;
 }
 
 - (NSDateFormatter *)birthDateFormatter

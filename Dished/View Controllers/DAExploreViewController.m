@@ -596,7 +596,7 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     {
         NSMutableArray *nullArray = [NSMutableArray array];
         
-        for( int i = 0; i < 12; i++ )
+        for( int i = 0; i < self.imageURLs.count; i++ )
         {
             [nullArray addObject:[NSNull null]];
         }
