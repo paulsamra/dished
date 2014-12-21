@@ -72,7 +72,7 @@
 {
     DAReview *review = [self.reviews objectAtIndex:indexPath.row];
     
-    [self pushReviewDetailsWithReviewID:review.review_id];
+    [self pushReviewDetailsViewWithReviewID:review.review_id];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

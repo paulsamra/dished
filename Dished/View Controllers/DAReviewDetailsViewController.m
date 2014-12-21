@@ -13,9 +13,7 @@
 #import "DACommentsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
 #import "DACoreDataManager.h"
-#import "NSAttributedString+Dished.h"
 #import "DAUserProfileViewController.h"
-#import "DAReviewButtonsCollectionViewCell.h"
 #import "DAExploreDishResultsViewController.h"
 #import "DAUserListViewController.h"
 #import "UIViewController+ShareView.h"
@@ -118,7 +116,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     UINib *reviewDetailCellNib = [UINib nibWithNibName:@"DAReviewDetailCollectionViewCell" bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:reviewDetailCellNib forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
     
-    UINib *reviewButtonsCellNib = [UINib nibWithNibName:NSStringFromClass( [DAReviewButtonsCollectionViewCell class] ) bundle:[NSBundle mainBundle]];
+    UINib *reviewButtonsCellNib = [UINib nibWithNibName:@"DAReviewButtonsCollectionViewCell" bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:reviewButtonsCellNib forCellWithReuseIdentifier:kReviewButtonsCellIdentifier];
 }
 
@@ -230,7 +228,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         
         if( self.review.created )
         {
-            dishCell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:self.review.created];
+            dishCell.timeLabel.attributedText = [self.review.created attributedTimeStringWithAttributes:nil];
         }
 
         cell = dishCell;
@@ -534,7 +532,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
-    [self pushGlobalDishWithDishID:self.review.dish_id];
+    [self pushGlobalDishViewWithDishID:self.review.dish_id];
 }
 
 - (void)commentsButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
@@ -551,7 +549,7 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
 
 - (void)moreReviewsButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
 {
-    [self pushGlobalDishWithDishID:self.review.dish_id];
+    [self pushGlobalDishViewWithDishID:self.review.dish_id];
 }
 
 - (void)textViewTappedOnText:(NSString *)text withTextType:(eLinkedTextType)textType inCell:(DAReviewDetailCollectionViewCell *)cell

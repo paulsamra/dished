@@ -7,7 +7,6 @@
 //
 
 #import "DAProgressView.h"
-#import "DADishLayer.h"
 
 
 @interface DAProgressView()

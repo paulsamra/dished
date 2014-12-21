@@ -13,7 +13,6 @@
 #import "DASettingsViewController.h"
 #import "DAReviewDetailsViewController.h"
 #import "DAUserProfileViewController.h"
-#import "NSAttributedString+Dished.h"
 
 #define kUserNewsCellID   @"userNewsCell"
 #define kMultiNewsCellID  @"multiNewsCell"
@@ -436,10 +435,9 @@
     NSAttributedString *newsText = [[NSAttributedString alloc] initWithString:[news formattedString] attributes:self.newsTextAttributes];
     cell.newsTextView.attributedText = newsText;
     
-    cell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:news.created
-                                                                          attributes:self.timeLabelAttributes];
+    cell.timeLabel.attributedText = [news.created attributedTimeStringWithAttributes:self.timeLabelAttributes];
     
-    cell.backgroundColor = !news.viewed ? [UIColor unviewedNewsColor] : [UIColor whiteColor];    
+    cell.backgroundColor = !news.viewed ? [UIColor unreadNewsColor] : [UIColor whiteColor];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -607,7 +605,7 @@
     
     NSInteger reviewID = [[followingNews.reviewIDs objectAtIndex:index] integerValue];
     
-    [self pushReviewDetailsWithReviewID:reviewID];
+    [self pushReviewDetailsViewWithReviewID:reviewID];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -639,7 +637,7 @@
         case eUserNewsNotificationTypeReviewMention:
         case eUserNewsNotificationTypeComment:
         case eUserNewsNotificationTypeCommentMention:
-            [self pushReviewDetailsWithReviewID:news.review_id];
+            [self pushReviewDetailsViewWithReviewID:news.review_id];
             break;
             
         case eUserNewsNotificationTypeUnknown:
@@ -658,7 +656,7 @@
         case eFollowingNewsNotificationTypeCreateReview:
             if( news.review_count == 1 )
             {
-                [self pushReviewDetailsWithReviewID:news.review_id];
+                [self pushReviewDetailsViewWithReviewID:news.review_id];
             }
             break;
             
@@ -675,13 +673,13 @@
         case eFollowingNewsYumNotificationSubtypeSingleUserSingleYum:
         case eFollowingNewsYumNotificationSubtypeMultiUserYum:
         case eFollowingNewsYumNotificationSubtypeTwoUserYum:
-            [self pushReviewDetailsWithReviewID:news.review_id];
+            [self pushReviewDetailsViewWithReviewID:news.review_id];
             break;
             
         case eFollowingNewsYumNotificationSubtypeSingleUserMultiYum:
             if( news.review_count == 1 )
             {
-                [self pushReviewDetailsWithReviewID:news.review_id];
+                [self pushReviewDetailsViewWithReviewID:news.review_id];
             }
             break;
             

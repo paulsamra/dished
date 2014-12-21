@@ -18,9 +18,7 @@
 #import "UIImageView+DishProgress.h"
 #import "DAUserListViewController.h"
 #import "DAFeedCollectionViewFlowLayout.h"
-#import "NSAttributedString+Dished.h"
 #import "DAFeedHeaderCollectionReusableView.h"
-#import "DAReviewButtonsCollectionViewCell.h"
 #import "DAExploreDishResultsViewController.h"
 
 static NSString *const kReviewDetailCellIdentifier  = @"reviewDetailCell";
@@ -129,7 +127,7 @@ typedef enum
     UINib *reviewDetailCellNib = [UINib nibWithNibName:@"DAReviewDetailCollectionViewCell" bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:reviewDetailCellNib forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
     
-    UINib *reviewButtonsCellNib = [UINib nibWithNibName:NSStringFromClass( [DAReviewButtonsCollectionViewCell class] ) bundle:[NSBundle mainBundle]];
+    UINib *reviewButtonsCellNib = [UINib nibWithNibName:@"DAReviewButtonsCollectionViewCell" bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:reviewButtonsCellNib forCellWithReuseIdentifier:kReviewButtonsCellIdentifier];
 }
 
@@ -527,7 +525,7 @@ typedef enum
         NSAttributedString *timeText = [self.attributedStringCache objectForKey:item.created];
         if( !timeText )
         {
-            timeText = [NSAttributedString attributedTimeStringWithDate:item.created];
+            timeText = [item.created attributedTimeStringWithAttributes:nil];
             [self.attributedStringCache setObject:timeText forKey:item.created];
         }
 
@@ -690,7 +688,7 @@ typedef enum
     NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
     DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
     
-    [self pushGlobalDishWithDishID:[feedItem.dish_id integerValue]];
+    [self pushGlobalDishViewWithDishID:[feedItem.dish_id integerValue]];
 }
 
 - (void)textViewTappedOnText:(NSString *)text withTextType:(eLinkedTextType)textType inCell:(DAReviewDetailCollectionViewCell *)cell

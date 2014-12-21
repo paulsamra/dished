@@ -755,13 +755,13 @@ static NSString *const kDishSearchCellID = @"dishCell";
     {
         DADish *dish = [self.selectedDataSource objectAtIndex:indexPath.row];
         
-        [self pushGlobalDishWithDishID:dish.dishID];
+        [self pushGlobalDishViewWithDishID:dish.dishID];
     }
     else
     {
         DAReview *review = [self.selectedDataSource objectAtIndex:indexPath.row];
         
-        [self pushReviewDetailsWithReviewID:review.review_id];
+        [self pushReviewDetailsViewWithReviewID:review.review_id];
     }
 }
 

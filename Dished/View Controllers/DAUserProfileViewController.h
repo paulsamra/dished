@@ -31,7 +31,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView        *userImageView;
 @property (weak, nonatomic) IBOutlet UITableView        *wineTableView;
 @property (weak, nonatomic) IBOutlet UITableView        *cocktailTableView;
-@property (weak, nonatomic) IBOutlet DATouchTableView *foodTableView;
+@property (weak, nonatomic) IBOutlet UITableView        *foodTableView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *descriptionHeightConstraint;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *dishTypeChooser;
 

@@ -7,7 +7,6 @@
 //
 
 #import "DASocialCollectionViewController.h"
-#import "DASocialCollectionViewCell.h"
 #import "REComposeViewController.h"
 #import <FacebookSDK/FacebookSDK.h>
 #import <MessageUI/MessageUI.h>

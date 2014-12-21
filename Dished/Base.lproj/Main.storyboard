@@ -368,11 +368,11 @@
                         <constraints>
                             <constraint firstItem="hzG-aC-Z0z" firstAttribute="bottom" secondItem="teY-pB-9hY" secondAttribute="bottom" constant="-7" id="3SZ-O8-BeE"/>
                             <constraint firstItem="5Jw-sr-3Ny" firstAttribute="top" secondItem="JyA-Sd-K7n" secondAttribute="bottom" constant="208" id="AOx-7M-5yP"/>
-                            <constraint firstItem="THS-eD-6D3" firstAttribute="top" secondItem="WLj-b6-I1l" secondAttribute="bottom" constant="70" id="GqL-A5-h4w"/>
+                            <constraint firstItem="THS-eD-6D3" firstAttribute="top" secondItem="WLj-b6-I1l" secondAttribute="bottom" constant="114" id="GqL-A5-h4w"/>
                             <constraint firstItem="hzG-aC-Z0z" firstAttribute="trailing" secondItem="teY-pB-9hY" secondAttribute="trailing" constant="-20" id="KWV-hu-IQj"/>
                             <constraint firstItem="JyA-Sd-K7n" firstAttribute="leading" secondItem="i0I-zx-74f" secondAttribute="leading" id="MKc-nK-7un"/>
                             <constraint firstAttribute="trailing" secondItem="JyA-Sd-K7n" secondAttribute="trailing" id="R8k-bg-QWP"/>
-                            <constraint firstItem="MA8-F5-b5O" firstAttribute="top" secondItem="WLj-b6-I1l" secondAttribute="bottom" constant="70" id="Rzl-9C-o9w"/>
+                            <constraint firstItem="MA8-F5-b5O" firstAttribute="top" secondItem="WLj-b6-I1l" secondAttribute="bottom" constant="114" id="Rzl-9C-o9w"/>
                             <constraint firstItem="hzG-aC-Z0z" firstAttribute="top" secondItem="teY-pB-9hY" secondAttribute="top" constant="7" id="XMZ-vB-ytM"/>
                             <constraint firstAttribute="centerX" secondItem="MA8-F5-b5O" secondAttribute="centerX" id="YYT-35-Onl"/>
                             <constraint firstItem="hzG-aC-Z0z" firstAttribute="leading" secondItem="teY-pB-9hY" secondAttribute="leading" constant="20" id="dQZ-Zq-o8o"/>
@@ -477,7 +477,7 @@
                             <constraint firstAttribute="trailing" secondItem="EyG-PF-9cv" secondAttribute="trailing" id="eeX-zA-4hN"/>
                             <constraint firstItem="iOU-OW-UuF" firstAttribute="top" secondItem="8oZ-V4-DRb" secondAttribute="top" constant="-7" id="gIB-O9-nkg"/>
                             <constraint firstItem="EyG-PF-9cv" firstAttribute="top" secondItem="iOU-OW-UuF" secondAttribute="bottom" id="hK6-By-MD2"/>
-                            <constraint firstItem="MYt-73-vzK" firstAttribute="top" secondItem="moW-LQ-1Qi" secondAttribute="bottom" constant="72" id="hL3-gu-kpt"/>
+                            <constraint firstItem="MYt-73-vzK" firstAttribute="top" secondItem="moW-LQ-1Qi" secondAttribute="bottom" constant="116" id="hL3-gu-kpt"/>
                             <constraint firstItem="MYt-73-vzK" firstAttribute="leading" secondItem="j39-rS-TcJ" secondAttribute="leading" id="hdB-xJ-7l2"/>
                             <constraint firstItem="EyG-PF-9cv" firstAttribute="bottom" secondItem="P7O-DU-qqV" secondAttribute="bottom" constant="7" id="lcS-xc-Kce"/>
                             <constraint firstItem="iOU-OW-UuF" firstAttribute="leading" secondItem="j39-rS-TcJ" secondAttribute="leading" id="muX-m8-9f8"/>
@@ -867,7 +867,7 @@
                                     <inset key="sectionInset" minX="5" minY="5" maxX="5" maxY="5"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="BPM-7a-Gpz" customClass="DAExploreCollectionViewCell">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="cell" id="BPM-7a-Gpz" customClass="DAExploreCollectionViewCell" customModule="Dished" customModuleProvider="target">
                                         <rect key="frame" x="5" y="5" width="100" height="75"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -1769,7 +1769,7 @@
                                     <outlet property="delegate" destination="0N7-5R-4El" id="cmx-T6-h5S"/>
                                 </connections>
                             </tableView>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vtb-xV-tXd" userLabel="Food Table View" customClass="DATouchTableView" customModule="Dished" customModuleProvider="target">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="Vtb-xV-tXd" userLabel="Food Table View">
                                 <rect key="frame" x="0.0" y="200" width="600" height="400"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -3803,7 +3803,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="socialCell" id="cpl-Ad-OcY" customClass="DASocialCollectionViewCell">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="socialCell" id="cpl-Ad-OcY" customClass="DASocialCollectionViewCell" customModule="Dished" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="0.0" width="159" height="50"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -4974,6 +4974,6 @@
         <segue reference="DWl-1Z-W5u"/>
         <segue reference="lFw-uU-a7X"/>
         <segue reference="wCN-0l-elF"/>
-        <segue reference="X8z-8L-0Ll"/>
+        <segue reference="2MJ-Kr-UF4"/>
     </inferredMetricsTieBreakers>
 </document>

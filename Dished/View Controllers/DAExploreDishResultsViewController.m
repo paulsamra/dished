@@ -259,7 +259,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     DADish *result = [self.searchResults objectAtIndex:indexPath.row];
     
-    [self pushGlobalDishWithDishID:result.dishID];
+    [self pushGlobalDishViewWithDishID:result.dishID];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView

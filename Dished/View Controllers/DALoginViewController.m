@@ -108,8 +108,8 @@
                     else
                     {
                         [[DAAPIManager sharedManager] logout];
-                        [self showAlertViewWithTitle:@"Failed to Login"
-                                             message:@"There was a problem logging you in. Please try again."];
+                        [self showAlertWithTitle:@"Failed to Login"
+                                         message:@"There was a problem logging you in. Please try again."];
                     }
                 }];
             }];
@@ -120,18 +120,18 @@
             {
                 if( wrongUser )
                 {
-                    [self showAlertViewWithTitle:@"Incorrect Username or Email"
-                                         message:@"The email or username you entered does not belong to an account."];
+                    [self showAlertWithTitle:@"Incorrect Username or Email"
+                                     message:@"The email or username you entered does not belong to an account."];
                 }
                 else if( wrongPass )
                 {
-                    [self showAlertViewWithTitle:@"Incorrect Password"
-                                         message:@"The password you entered is incorrect. Please try again."];
+                    [self showAlertWithTitle:@"Incorrect Password"
+                                     message:@"The password you entered is incorrect. Please try again."];
                 }
                 else
                 {
-                    [self showAlertViewWithTitle:@"Failed to Login"
-                                         message:@"There was a problem logging you in. Please try again."];
+                    [self showAlertWithTitle:@"Failed to Login"
+                                     message:@"There was a problem logging you in. Please try again."];
                 }
             }];
         }

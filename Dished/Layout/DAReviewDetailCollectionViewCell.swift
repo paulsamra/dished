@@ -10,7 +10,7 @@ import UIKit
 
 @objc protocol DAReviewDetailCollectionViewCellDelegate
 {
-    optional func textViewTappedOnText( text: String, withTextType: eLinkedTextType, inCell: DAReviewDetailCollectionViewCell )
+    optional func textViewTappedOnText( text: String, withTextType textType: eLinkedTextType, inCell cell: DAReviewDetailCollectionViewCell )
 }
 
 class DAReviewDetailCollectionViewCell: UICollectionViewCell, DALinkedTextViewDelegate

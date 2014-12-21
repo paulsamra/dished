@@ -12,7 +12,6 @@
 #import "DAGradeGraphCollectionViewCell.h"
 #import "DAGlobalReviewCollectionViewCell.h"
 #import "UIImageView+WebCache.h"
-#import "NSAttributedString+Dished.h"
 #import "DAReviewDetailsViewController.h"
 #import "DAUserProfileViewController.h"
 #import "DATabBarController.h"
@@ -331,7 +330,7 @@
             reviewCell.commentTextView.text = review.comment;
             reviewCell.commentTextView.font = [UIFont fontWithName:kHelveticaNeueLightFont size:15];
             
-            reviewCell.timeLabel.attributedText = [NSAttributedString attributedTimeStringWithDate:review.created];
+            reviewCell.timeLabel.attributedText = [review.created attributedTimeStringWithAttributes:nil];
             
             reviewCell.delegate = self;
             
@@ -565,7 +564,7 @@
     }
     else
     {
-        [self pushReviewDetailsWithReviewID:review.review_id];
+        [self pushReviewDetailsViewWithReviewID:review.review_id];
     }
 }
 

@@ -210,7 +210,7 @@
 {
     self.tabBarController.selectedIndex = 3;
     
-    [self.tabBarController.selectedViewController pushReviewDetailsWithReviewID:reviewID];
+    [self.tabBarController.selectedViewController pushReviewDetailsViewWithReviewID:reviewID];
 }
 
 @end

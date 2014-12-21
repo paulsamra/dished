@@ -57,8 +57,8 @@
                 else
                 {
                     [[DAAPIManager sharedManager] logout];
-                    [self showAlertViewWithTitle:@"Failed to Login"
-                                         message:@"There was a problem logging you in. Please try again."];
+                    [self showAlertWithTitle:@"Failed to Login"
+                                     message:@"There was a problem logging you in. Please try again."];
                 }
             }];
         }

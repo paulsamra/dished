@@ -88,7 +88,7 @@
     if( annotation.reviews.count == 1 )
     {
         DAReview *review = [annotation.reviews firstObject];
-        [self pushReviewDetailsWithReviewID:review.review_id];
+        [self pushReviewDetailsViewWithReviewID:review.review_id];
     }
     else
     {
