@@ -5,6 +5,7 @@
 #import "SWTableViewCell.h"
 #import "DALinkedTextView.h"
 #import "DAConstants.h"
+#import "DARefreshControl.h"
 #import "DACommentsViewController.h"
 #import "DAUserProfileViewController.h"
 #import "DAReviewDetailsViewController.h"

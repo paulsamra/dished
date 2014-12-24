@@ -97,7 +97,9 @@ extern NSString *const kRestaurantProfileURL;
 extern NSString *const kEmailAvailabilityURL;
 extern NSString *const kPhoneAvailabilityURL;
 extern NSString *const kUserProfileReviewsURL;
+extern NSString *const kUserContactsInviteURL;
 extern NSString *const kDishesProfileReviewsURL;
+extern NSString *const kUserContactsRegisteredURL;
 extern NSString *const kRestaurantProfileDishesURL;
 
 extern NSString *const kIDKey;
@@ -122,6 +124,7 @@ extern NSString *const kCommentKey;
 extern NSString *const kPushYumKey;
 extern NSString *const kHashtagKey;
 extern NSString *const kExpiresKey;
+extern NSString *const kContactsKey;
 extern NSString *const kCommentsKey;
 extern NSString *const kPasswordKey;
 extern NSString *const kRowLimitKey;

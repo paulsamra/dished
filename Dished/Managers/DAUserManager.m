@@ -380,7 +380,7 @@
     return pushSettingString;
 }
 
-- (void)deleteLocalUserSettings
+- (void)logout
 {
     self.dateOfBirth = nil;
     self.firstName = nil;

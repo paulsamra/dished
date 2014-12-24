@@ -54,6 +54,14 @@
     [super viewWillAppear:animated];
     
     [self.navigationController setNavigationBarHidden:YES animated:animated];
+    
+    [[self transitionCoordinator] notifyWhenInteractionEndsUsingBlock:^( id<UIViewControllerTransitionCoordinatorContext> context )
+    {
+        if( [context isCancelled] )
+        {
+            [self.navigationController setNavigationBarHidden:NO animated:animated];
+        }
+    }];
 }
 
 - (void)setupWelcomeScreens

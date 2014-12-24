@@ -49,6 +49,8 @@
         {
             [self sessionStateChanged:session state:state error:error];
         }];
+        
+        [self login];
     }
     else if( [[DAAPIManager sharedManager] isLoggedIn] )
     {
@@ -204,7 +206,7 @@
     
     if( state == FBSessionStateClosed || state == FBSessionStateClosedLoginFailed )
     {
-        NSLog(@"User not logged out of Facebook.");
+        NSLog(@"User not logged into Facebook.");
     }
     
     if( error )
@@ -243,6 +245,7 @@
         }
         
         [FBSession.activeSession closeAndClearTokenInformation];
+        [self logout];
     }
 }
 
@@ -339,12 +342,13 @@
 - (void)logout
 {
     [[DAAPIManager sharedManager] logout];
-    [[DAUserManager sharedManager] deleteLocalUserSettings];
+    [[DAUserManager sharedManager] logout];
     [[DANewsManager sharedManager] deleteAllNews];
     [[DATwitterManager sharedManager] logout];
     [[DALocationManager sharedManager] stopUpdatingLocation];
     [[DACacheManager sharedManager] clearCaches];
     [[DACoreDataManager sharedManager] resetStore];
+    [FBSession.activeSession closeAndClearTokenInformation];
     [self setLoginView];
 }
 

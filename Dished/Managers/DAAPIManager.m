@@ -569,23 +569,36 @@
 
 - (void)registerFacebookUserWithUserID:(NSString *)facebookID Username:(NSString *)username
                              firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email
-                           phoneNumber:(NSString *)phoneNumber birthday:(NSDate *)birthday
+                           phoneNumber:(NSString *)phoneNumber birthday:(NSDate *)birthday imageURL:(NSString *)imageURL
                             completion:( void(^)( BOOL registered, BOOL loggedIn ) )completion
 {
     NSNumber *dobTimestamp = @( [birthday timeIntervalSince1970] );
 
     NSDictionary *parameters = @{ kClientIDKey : self.clientID, @"reg_type" : @"facebook", @"reg_id" : facebookID, @"reg_name" : username,
-                                  kPhoneKey : phoneNumber, kPasswordKey : [self randomAlphanumericStringWithLength:8],
-                                  @"fname" : firstName, @"lname" : lastName, kEmailKey : email, kDateOfBirthKey : dobTimestamp };
+                                  kUsernameKey : username, kPhoneKey : phoneNumber, @"image_url" : imageURL,
+                                  kPasswordKey : [self randomAlphanumericStringWithLength:8], @"fname" : firstName, @"lname" : lastName,
+                                  kEmailKey : email, kDateOfBirthKey : dobTimestamp };
     
     [self POST:kUsersURL parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )
     {
+        NSString *clientSecret = responseObject[kDataKey][kClientSecretKey];
+        [SSKeychain setPassword:clientSecret forService:kKeychainService account:kClientSecretKey];
+        self.clientSecret = clientSecret;
         
+        [self requestFacebookAccessTokenWithFacebookID:facebookID completion:^( BOOL success )
+        {
+            if( completion )
+            {
+                completion( YES, success );
+            }
+        }];
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )
     {
+        NSLog(@"Error registering with Facebook: %@", error);
         
+        completion( NO, NO );
     }];
 }
 

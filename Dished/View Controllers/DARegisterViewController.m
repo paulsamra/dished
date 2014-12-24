@@ -650,7 +650,14 @@
             }
             else
             {
-                [self registerNormalUser];
+                if( self.facebookUserInfo )
+                {
+                    [self registerFacebookUser];
+                }
+                else
+                {
+                    [self registerNormalUser];
+                }
             }
         }
     });
@@ -700,14 +707,17 @@
     NSString *email      = self.emailField.text;
     NSString *phone      = self.phoneNumberField.text;
     NSDate *dateOfBirth  = self.dateOfBirth;
-    NSString *facebookID = self.facebookUserInfo.objectID;
+    NSString *facebookID = self.facebookUserInfo[kIDKey];
+    
+    BOOL defaultProfilePicture = [self.facebookUserInfo[@"picture"][@"data"][@"is_silhouette"] boolValue];
+    NSString *imageURL = defaultProfilePicture ? @"" : self.facebookUserInfo[@"picture"][@"data"][@"url"];
     
     NSString *after1 = [phone substringFromIndex:3];
     NSArray  *parts = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
     NSString *decimalString = [[parts componentsJoinedByString:@""] mutableCopy];
     
     [[DAAPIManager sharedManager] registerFacebookUserWithUserID:facebookID Username:username firstName:firstName
-    lastName:lastName email:email phoneNumber:decimalString birthday:dateOfBirth completion:^( BOOL registered, BOOL loggedIn )
+    lastName:lastName email:email phoneNumber:decimalString birthday:dateOfBirth imageURL:imageURL completion:^( BOOL registered, BOOL loggedIn )
     {
         [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
         {

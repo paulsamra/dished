@@ -77,7 +77,7 @@ typedef void(^RequestFailureBlock)( NSError *error, BOOL shouldRetry );
  */
 - (void)registerFacebookUserWithUserID:(NSString *)facebookID Username:(NSString *)username
                              firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email
-                           phoneNumber:(NSString *)phoneNumber birthday:(NSDate *)birthday
+                           phoneNumber:(NSString *)phoneNumber birthday:(NSDate *)birthday imageURL:(NSString *)imageURL
                             completion:( void(^)( BOOL registered, BOOL loggedIn ) )completion;
 
 /*

@@ -9,19 +9,19 @@
 import UIKit
 
 
-@objc protocol DAFollowListTableViewCellDelegate
+@objc protocol DAUserListTableViewCellDelegate
 {
-    optional func followButtonTappedOnFollowListTableViewCell( cell: DAFollowListTableViewCell )
+    optional func sideButtonTappedOnFollowListTableViewCell( cell: DAUserListTableViewCell )
 }
 
 
-class DAFollowListTableViewCell: UITableViewCell
+class DAUserListTableViewCell: UITableViewCell
 {
-    weak var delegate: DAFollowListTableViewCellDelegate?
+    weak var delegate: DAUserListTableViewCellDelegate?
     
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var followButton: UIButton!
+    @IBOutlet weak var sideButton: UIButton!
     
     override func awakeFromNib()
     {
@@ -32,7 +32,7 @@ class DAFollowListTableViewCell: UITableViewCell
                 
         self.resetFields()
         
-        followButton.addTarget( self, action: "followButtonTapped", forControlEvents: UIControlEvents.TouchUpInside )
+        sideButton.addTarget( self, action: "followButtonTapped", forControlEvents: UIControlEvents.TouchUpInside )
     }
     
     override func prepareForReuse()
@@ -46,11 +46,11 @@ class DAFollowListTableViewCell: UITableViewCell
     {
         userImageView.image = nil
         usernameLabel.text = ""
-        followButton.setTitle( "", forState: UIControlState.Normal )
+        sideButton.setTitle( "", forState: UIControlState.Normal )
     }
     
     func followButtonTapped()
     {
-        delegate?.followButtonTappedOnFollowListTableViewCell?( self )
+        delegate?.sideButtonTappedOnFollowListTableViewCell?( self )
     }
 }

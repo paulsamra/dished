@@ -15,7 +15,7 @@
 static NSString *const kFollowCellIdentifier = @"followCell";
 
 
-@interface DAUserListViewController() <DAFollowListTableViewCellDelegate>
+@interface DAUserListViewController() <DAUserListTableViewCellDelegate>
 
 @property (strong, nonatomic) NSArray                 *usernameArray;
 @property (strong, nonatomic) NSURLSessionTask        *loadTask;
@@ -30,7 +30,7 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 {
     [super viewDidLoad];
     
-    UINib *searchCellNib = [UINib nibWithNibName:@"DAFollowListTableViewCell" bundle:nil];
+    UINib *searchCellNib = [UINib nibWithNibName:@"DAUserListTableViewCell" bundle:nil];
     [self.tableView registerNib:searchCellNib forCellReuseIdentifier:kFollowCellIdentifier];
     
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -169,7 +169,7 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAFollowListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFollowCellIdentifier];
+    DAUserListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFollowCellIdentifier];
     
     if( self.usernameArray.count == 0 )
     {
@@ -189,12 +189,12 @@ static NSString *const kFollowCellIdentifier = @"followCell";
         
         if( [username.username isEqualToString:[DAUserManager sharedManager].username] || self.listContent == eUserListContentYums )
         {
-            cell.followButton.hidden = YES;
+            cell.sideButton.hidden = YES;
         }
         else
         {
-            cell.followButton.hidden = NO;
-            [self configureFollowButton:cell.followButton withFollowStatus:username.isFollowed];
+            cell.sideButton.hidden = NO;
+            [self configureFollowButton:cell.sideButton withFollowStatus:username.isFollowed];
         }
         
         NSURL *imageURL = [NSURL URLWithString:username.img_thumb];
@@ -234,13 +234,13 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     [followButton setTitleColor:followButtonColor forState:UIControlStateNormal];
 }
 
-- (void)followButtonTappedOnFollowListTableViewCell:(DAFollowListTableViewCell *)cell
+- (void)sideButtonTappedOnFollowListTableViewCell:(DAUserListTableViewCell *)cell
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
     DAUsername *username = [self.usernameArray objectAtIndex:indexPath.row];
     
     username.isFollowed ? [self unfollowUserID:username.user_id] : [self followUserID:username.user_id];
-    [self configureFollowButton:cell.followButton withFollowStatus:!username.isFollowed];
+    [self configureFollowButton:cell.sideButton withFollowStatus:!username.isFollowed];
     username.isFollowed = !username.isFollowed;
 }
 

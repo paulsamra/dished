@@ -47,6 +47,6 @@ typedef enum
 - (void)setYumPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;
 - (void)setCommentPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;
 - (void)setReviewPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;
-- (void)deleteLocalUserSettings;
+- (void)logout;
 
 @end

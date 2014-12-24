@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *resetPasswordLabel;
 @property (weak, nonatomic) IBOutlet UILabel *registerPhoneNumberLabel;
 
-@property (strong, nonatomic) NSDictionary<FBGraphUser> *facebookUserInfo;
+@property (strong, nonatomic) NSDictionary *facebookUserInfo;
 
 @property (nonatomic) BOOL registrationMode;
 

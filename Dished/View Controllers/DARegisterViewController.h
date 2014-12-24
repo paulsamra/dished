@@ -29,6 +29,6 @@
 @property (weak, nonatomic) IBOutlet UIButton           *signInButton;
 
 @property (copy,   nonatomic) NSString *phoneNumber;
-@property (strong, nonatomic) NSDictionary<FBGraphUser> *facebookUserInfo;
+@property (strong, nonatomic) NSDictionary *facebookUserInfo;
 
 @end

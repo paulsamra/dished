@@ -9,11 +9,13 @@
 #import "DAInviteFriendsViewController.h"
 #import <AddressBook/AddressBook.h>
 
+#define kCellIdentifier @"userCell"
 
-@interface DAInviteFriendsViewController()
 
-@property (strong, nonatomic) NSArray     *contactsList;
-@property (strong, nonatomic) UITableView *selectedTableView;
+@interface DAInviteFriendsViewController() <DAUserListTableViewCellDelegate>
+
+@property (strong, nonatomic) UITableView             *selectedTableView;
+@property (strong, nonatomic) NSMutableArray          *registrationData;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
 @property (nonatomic) BOOL contactsFailure;
@@ -46,6 +48,12 @@
     self.spinner.hidesWhenStopped = YES;
     [self.spinner startAnimating];
     [self.view addSubview:self.spinner];
+    
+    self.contactsTableView.rowHeight = 44.0;
+    self.contactsTableView.estimatedRowHeight = 44.0;
+    
+    UINib *searchCellNib = [UINib nibWithNibName:@"DAUserListTableViewCell" bundle:nil];
+    [self.contactsTableView registerNib:searchCellNib forCellReuseIdentifier:kCellIdentifier];
     
     [self loadContacts];
 }
@@ -85,10 +93,8 @@
                 }
                 else
                 {
-                    [self listPeopleInAddressBook:addressBook];
+                    [self getRegistrationStatusForContacts:[self contactsDataWithAddressBook:addressBook]];
                 }
-                
-                [self.contactsTableView reloadData];
                 
                 CFRelease( addressBook );
             });
@@ -97,19 +103,13 @@
     }
     else if( status == kABAuthorizationStatusAuthorized )
     {
-        [self listPeopleInAddressBook:addressBook];
-        [self.contactsTableView reloadData];
-        
-        if( self.selectedTableView == self.contactsTableView )
-        {
-            [self.spinner stopAnimating];
-        }
+        [self getRegistrationStatusForContacts:[self contactsDataWithAddressBook:addressBook]];
 
         CFRelease( addressBook );
     }
 }
 
-- (void)listPeopleInAddressBook:(ABAddressBookRef)addressBook
+- (NSArray *)contactsDataWithAddressBook:(ABAddressBookRef)addressBook
 {
     NSInteger numberOfPeople = ABAddressBookGetPersonCount( addressBook );
     NSArray *allPeople = CFBridgingRelease( ABAddressBookCopyArrayOfAllPeople( addressBook ) );
@@ -138,6 +138,11 @@
                     NSString *phoneNumber = CFBridgingRelease( ABMultiValueCopyValueAtIndex( phoneNumbers, i ) );
                     NSString *number = [[phoneNumber componentsSeparatedByCharactersInSet:decimalCharacters] componentsJoinedByString: @""];
                     
+                    if( number.length != 10 )
+                    {
+                        continue;
+                    }
+                    
                     NSString *firstName = CFBridgingRelease( ABRecordCopyValue( person, kABPersonFirstNameProperty ) );
                     NSString *lastName  = CFBridgingRelease( ABRecordCopyValue( person, kABPersonLastNameProperty  ) );
                     NSString *name = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
@@ -160,8 +165,55 @@
         }
     }
     
-    self.contactsList = contacts;
-    NSLog(@"%@", self.contactsList);
+    return contacts;
+}
+
+- (NSString *)jsonEncodedStringWithArray:(NSArray *)array
+{
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil];
+    NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    
+    return jsonString;
+}
+
+- (void)getRegistrationStatusForContacts:(NSArray *)contacts
+{
+    NSDictionary *parameters = @{ kContactsKey : [self jsonEncodedStringWithArray:contacts] };
+    
+    [[DAAPIManager sharedManager] POSTRequest:kUserContactsRegisteredURL withParameters:parameters
+    success:^( id response )
+    {
+        NSArray *data = nilOrJSONObjectForKey( response, kDataKey );
+        NSMutableArray *contacts = [NSMutableArray array];
+        
+        for( NSDictionary *contact in data )
+        {
+            if( ![contact[@"registered"] boolValue] )
+            {
+                [contacts addObject:contact];
+            }
+        }
+        
+        self.registrationData = contacts;
+    
+        NSLog(@"%@", self.registrationData);
+        [self.contactsTableView reloadData];
+        
+        [self.spinner stopAnimating];
+    }
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
+        {
+            [self getRegistrationStatusForContacts:contacts];
+        }
+        else
+        {
+            self.contactsFailure = YES;
+            [self.contactsTableView reloadData];
+            [self.spinner stopAnimating];
+        }
+    }];
 }
 
 - (NSDictionary *)dictionaryWithName:(NSString *)name number:(NSString *)number email:(NSString *)email
@@ -232,7 +284,7 @@
     
     if( tableView == self.contactsTableView )
     {
-        count = self.contactsList.count;
+        count = self.registrationData.count;
     }
     else if( tableView == self.facebookTableView )
     {
@@ -244,7 +296,60 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [UITableViewCell new];
+    DAUserListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    
+    NSDictionary *contact = self.registrationData[indexPath.row];
+    
+    cell.textLabel.font = [UIFont fontWithName:kHelveticaNeueLightFont size:17.0];
+    cell.textLabel.text = contact[kNameKey];
+    
+    BOOL invited = [contact[@"invited"] boolValue];
+    
+    if( invited )
+    {
+        [cell.sideButton setTitle:@"Invited" forState:UIControlStateNormal];
+        [cell.sideButton setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
+    }
+    else
+    {
+        [cell.sideButton setTitle:@"Invite" forState:UIControlStateNormal];
+        [cell.sideButton setTitleColor:[UIColor followButtonColor] forState:UIControlStateNormal];
+    }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.delegate = self;
+    
+    return cell;
+}
+
+- (void)sideButtonTappedOnFollowListTableViewCell:(DAUserListTableViewCell *)cell
+{
+    NSIndexPath *indexPath = [self.contactsTableView indexPathForCell:cell];
+    NSMutableDictionary *contact = [self.registrationData[indexPath.row] mutableCopy];
+    
+    if( [contact[@"invited"] boolValue] )
+    {
+        return;
+    }
+    
+    [cell.sideButton setTitle:@"Invited" forState:UIControlStateNormal];
+    [cell.sideButton setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
+    
+    NSArray *invites = @[ @{ kPhoneKey : contact[kPhoneKey] } ];
+    
+    NSDictionary *parameters = @{ kContactsKey : [self jsonEncodedStringWithArray:invites] };
+    
+    [[DAAPIManager sharedManager] POSTRequest:kUserContactsInviteURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
+        {
+            [self sideButtonTappedOnFollowListTableViewCell:cell];
+        }
+    }];
+    
+    contact[@"invited"] = @(YES);
+    self.registrationData[indexPath.row] = contact;
 }
 
 - (IBAction)sourcePicked

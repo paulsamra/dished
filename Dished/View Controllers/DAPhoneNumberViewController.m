@@ -16,9 +16,10 @@
 
 @property (copy,   nonatomic) NSString    *verifiedPhoneNumber;
 @property (strong, nonatomic) UIAlertView *sentAlert;
-@property (strong, nonatomic) UIAlertView *errorAlert;
 @property (strong, nonatomic) UIAlertView *enterPinAlert;
-@property (strong, nonatomic) UIAlertView *wrongPinAlert;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomDistanceConstraint;
+
+@property (nonatomic) CGFloat minBottomDistance;
 
 @end
 
@@ -29,19 +30,47 @@
 {
     [super viewDidLoad];
     
+    self.minBottomDistance = self.bottomDistanceConstraint.constant;
+    
     [self setSubmitButtonStatus:NO];
     
     self.registerPhoneNumberLabel.hidden = !self.registrationMode;
     self.resetPasswordLabel.hidden = self.registrationMode;
     
     self.navigationItem.title = self.registrationMode ? @"Enter Phone Number" : @"Forgot Password";
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardUpdate:) name:UIKeyboardWillChangeFrameNotification object:nil];
+}
+
+- (void)keyboardUpdate:(NSNotification *)notification
+{
+    NSDictionary *info  = notification.userInfo;
+    NSValue      *value = info[UIKeyboardFrameEndUserInfoKey];
+    
+    CGRect rawFrame      = [value CGRectValue];
+    CGRect keyboardFrame = [self.view convertRect:rawFrame fromView:nil];
+    
+    if( keyboardFrame.origin.y > self.view.frame.size.height )
+    {
+        return;
+    }
+    
+    CGFloat newDistance = self.view.frame.size.height - keyboardFrame.origin.y;
+    newDistance = newDistance < self.minBottomDistance ? self.minBottomDistance : newDistance;
+    
+    self.bottomDistanceConstraint.constant = newDistance;
+    [self.view setNeedsUpdateConstraints];
+    [self.view layoutIfNeeded];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     
-    [self.phoneNumberField becomeFirstResponder];
+    if( !IS_IPHONE4 )
+    {
+        [self.phoneNumberField becomeFirstResponder];
+    }
 }
 
 - (void)showProgressView
@@ -86,7 +115,7 @@
     {
         [self hideProgressViewWithCompletion:^
         {
-            success ? [self.sentAlert show] : [self.errorAlert show];
+            success ? [self.sentAlert show] : [self showErrorAlert];
         }];
     }];
 }
@@ -105,7 +134,7 @@
     {
         [self hideProgressViewWithCompletion:^
         {
-            [self.errorAlert show];
+            [self showErrorAlert];
         }];
     }];
 }
@@ -165,7 +194,7 @@
     {
         [self hideProgressViewWithCompletion:^
         {
-            [self.wrongPinAlert show];
+            [self showAlertWithTitle:@"Incorrect Code" message:@"The verification code was incorrect. Please try again."];
         }];
     }];
 }
@@ -194,18 +223,20 @@
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
-    [self animateTextField:textField up:YES];
-    
     if( textField.text.length == 0 )
     {
         textField.text = @"+1 ";
     }
 }
 
+- (void)showErrorAlert
+{
+    [self showAlertWithTitle:@"Request Error"
+                     message:@"There was an error requesting a verification code. Please make sure you entered a valid phone number."];
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
-    [self animateTextField:textField up:NO];
-    
     if( textField.text.length == 3 )
     {
         textField.text = @"";
@@ -271,20 +302,6 @@
     self.submitButton.alpha = enabled ? 1 : 0.4;
 }
 
-- (void)animateTextField:(UITextField*)textField up:(BOOL)up
-{
-    const int movementDistance = -25;
-    const float movementDuration = 0.3f;
-    
-    int movement = up ? movementDistance : -movementDistance;
-    
-    [UIView beginAnimations:@"animateTextField" context:nil];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDuration:movementDuration];
-    self.view.frame = CGRectOffset( self.view.frame, 0, movement );
-    [UIView commitAnimations];
-}
-
 - (UIAlertView *)enterPinAlert
 {
     if( !_enterPinAlert )
@@ -306,26 +323,6 @@
     }
     
     return _sentAlert;
-}
-
-- (UIAlertView *)errorAlert
-{
-    if( !_errorAlert )
-    {
-        _errorAlert = [[UIAlertView alloc] initWithTitle:@"Request Error" message:@"There was an error requesting a verification code. Please make sure you entered a valid phone number." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    }
-    
-    return _errorAlert;
-}
-
-- (UIAlertView *)wrongPinAlert
-{
-    if( !_wrongPinAlert )
-    {
-        _wrongPinAlert = [[UIAlertView alloc] initWithTitle:@"Incorrect Code" message:@"The verification code was incorrect. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
-    }
-    
-    return _wrongPinAlert;
 }
 
 @end

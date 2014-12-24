@@ -193,8 +193,7 @@ static NSString *const kEmailTitle    = @"Email";
                     [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
                     [self.collectionView reloadData];
                     
-                    if( FBSession.activeSession.state == FBSessionStateOpen ||
-                       FBSession.activeSession.state == FBSessionStateOpenTokenExtended )
+                    if( FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended )
                     {
                         [self requestFacebookPermissions];
                     }

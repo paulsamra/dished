@@ -25,14 +25,16 @@
     [super viewDidLoad];
     
     [self.activityIndicator startAnimating];
-    self.navigationItem.leftBarButtonItem = nil;
+    self.navigationItem.backBarButtonItem = nil;
     
-    [[FBRequest requestForMe] startWithCompletionHandler:
-    ^( FBRequestConnection *connection, NSDictionary<FBGraphUser> *user, NSError *error )
+    NSDictionary *parameters = @{ @"fields" : @"id,name,first_name,last_name,email,picture.width(400).height(400),birthday" };
+    
+    [FBRequestConnection startWithGraphPath:@"me" parameters:parameters HTTPMethod:@"GET"
+    completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
     {
         if( !error )
         {
-            [self attemptFacebookLoginWithFacebookUser:user];
+            [self attemptFacebookLoginWithFacebookUser:result];
         }
         else
         {
@@ -41,9 +43,9 @@
     }];
 }
 
-- (void)attemptFacebookLoginWithFacebookUser:(NSDictionary<FBGraphUser> *)user
+- (void)attemptFacebookLoginWithFacebookUser:(NSDictionary *)user
 {
-    [[DAAPIManager sharedManager] loginWithFacebookUserID:user.objectID completion:^( BOOL success, BOOL accountExists )
+    [[DAAPIManager sharedManager] loginWithFacebookUserID:user[kIDKey] completion:^( BOOL success, BOOL accountExists )
     {
         if( success )
         {
