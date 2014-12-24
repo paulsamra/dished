@@ -173,7 +173,7 @@
     [self.maskLayer addAnimation:repeatAnimation forKey:@"repeat"];
 }
 
-- (void)startRefreshing
+- (void)startRefreshingAnimated:(BOOL)animated
 {
     UIScrollView *containingScrollView = [self containingScrollView];
     
@@ -182,7 +182,7 @@
 
     CGPoint contentOffset = containingScrollView.contentOffset;
     contentOffset.y -= self.frame.size.height;
-    [containingScrollView setContentOffset:contentOffset animated:YES];
+    [containingScrollView setContentOffset:contentOffset animated:animated];
     
     [self startAnimation];
 }

@@ -43,9 +43,9 @@
     }
     else if( IS_IPHONE6_PLUS )
     {
-        self.backgroundImageView.image = [UIImage imageNamed:@"LaunchImage-800-Portrait-736h@3x.png"];
+        self.backgroundImageView.image = [UIImage imageNamed:@"LaunchImage-800-Portrait-736h@3x"];
     }
-    
+        
     [self setupWelcomeScreens];
 }
 
@@ -191,7 +191,7 @@
 
 - (IBAction)facebookConnect
 {    
-    [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_birthday" ] allowLoginUI:YES
+    [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_birthday", @"user_friends" ] allowLoginUI:YES
     completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
     {
         if( state == FBSessionStateOpen )

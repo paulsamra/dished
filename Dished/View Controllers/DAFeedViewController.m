@@ -111,10 +111,10 @@ typedef enum
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
+        
     if( self.initialLoadActive && ![self.refreshControl isRefreshing] )
     {
-        [self.refreshControl startRefreshing];
+        [self.refreshControl startRefreshingAnimated:NO];
     }
     
     [self.refreshControl shouldRestartAnimation];
@@ -1013,9 +1013,9 @@ typedef enum
     {
         frame.origin.y = MIN( 20, MAX( -size, frame.origin.y - scrollDiff ) );
     }
-    
+        
     [self.navigationController.navigationBar setFrame:frame];
-    [self updateNavigationBarToAlpha:(1 - framePercentageHidden)];
+    [self updateNavigationBarToAlpha:( 1 - framePercentageHidden )];
     self.previousScrollViewYOffset = scrollOffset;
 }
 

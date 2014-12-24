@@ -22,6 +22,7 @@
 @property (copy, nonatomic, readwrite) NSString *firstName;
 @property (copy, nonatomic, readwrite) NSString *img_thumb;
 @property (copy, nonatomic, readwrite) NSString *phoneNumber;
+@property (copy, nonatomic, readwrite) NSString *regType;
 
 @property (strong, nonatomic) NSURLSessionTask *yumPushTask;
 @property (strong, nonatomic) NSURLSessionTask *userImageTask;
@@ -35,6 +36,7 @@
 @property (nonatomic, readwrite) BOOL         userProfileSuccessfullySaved;
 @property (nonatomic, readwrite) BOOL         savesDishPhoto;
 @property (nonatomic, readwrite) BOOL         publicProfile;
+@property (nonatomic, readwrite) BOOL         isFacebookUser;
 @property (nonatomic, readwrite) NSInteger    user_id;
 @property (nonatomic, readwrite) ePushSetting receivesYumPushNotifications;
 @property (nonatomic, readwrite) ePushSetting receivesCommentPushNotifications;
@@ -212,6 +214,7 @@
     
     self.desc        = nilOrJSONObjectForKey( profile, kDescriptionKey );
     self.email       = nilOrJSONObjectForKey( profile, kEmailKey       );
+    self.regType     = nilOrJSONObjectForKey( profile, kRegTypeKey     );
     self.userType    = nilOrJSONObjectForKey( profile, kTypeKey        );
     self.lastName    = nilOrJSONObjectForKey( profile, kLastNameKey    );
     self.username    = nilOrJSONObjectForKey( profile, kUsernameKey    );
@@ -219,7 +222,8 @@
     self.img_thumb   = nilOrJSONObjectForKey( profile, kImgThumbKey    );
     self.phoneNumber = nilOrJSONObjectForKey( profile, kPhoneKey       );
     
-    self.user_id     = [nilOrJSONObjectForKey( profile, kIDKey ) integerValue];
+    self.user_id        = [nilOrJSONObjectForKey( profile, kIDKey ) integerValue];
+    self.isFacebookUser = [self.regType isEqualToString:@"facebook"];
 }
 
 - (ePushSetting)pushSettingForSettingString:(NSString *)setting
@@ -417,6 +421,7 @@
     userProfile[kTypeKey]        = self.userType;
     userProfile[kPhoneKey]       = self.phoneNumber ? self.phoneNumber : @"";
     userProfile[kEmailKey]       = self.email;
+    userProfile[kRegTypeKey]     = self.regType ? self.regType : @"";
     userProfile[kUsernameKey]    = self.username;
     userProfile[kImgThumbKey]    = self.img_thumb ? self.img_thumb : @"";
     userProfile[kLastNameKey]    = self.lastName;

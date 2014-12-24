@@ -39,6 +39,8 @@
         else
         {
             [self showErrorAlertView];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            [FBSession.activeSession closeAndClearTokenInformation];
         }
     }];
 }
@@ -73,6 +75,8 @@
             else
             {
                 [self showErrorAlertView];
+                [self.navigationController popToRootViewControllerAnimated:YES];
+                [FBSession.activeSession closeAndClearTokenInformation];
             }
         }
     }];

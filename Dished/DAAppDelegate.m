@@ -42,9 +42,9 @@
     
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
-    if( FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded )
+    if( FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded && [[DAAPIManager sharedManager] isLoggedIn] )
     {
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"user_friends"] allowLoginUI:NO
+        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"user_friends", @"email", @"user_birthday"] allowLoginUI:NO
         completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
         {
             [self sessionStateChanged:session state:state error:error];
@@ -62,6 +62,10 @@
         {
             [self application:application didReceiveRemoteNotification:userInfo];
         }
+    }
+    else
+    {
+        [FBSession.activeSession closeAndClearTokenInformation];
     }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachable) name:kNetworkReachableKey object:nil];

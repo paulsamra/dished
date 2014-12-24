@@ -43,6 +43,8 @@
     self.errorData  = [[NSMutableDictionary alloc] init];
     self.usernameIsValid = NO;
     
+    self.dateOfBirthLabel.text = @"";
+    
     self.errorIconImage = [UIImage imageNamed:@"invalid_input"];
     self.validIconImage = [UIImage imageNamed:@"valid_input"];
     
@@ -178,7 +180,7 @@
     
     if( textField == self.usernameField )
     {
-        if( [textField.text length] > 1 )
+        if( [textField.text length] > 3 )
         {
             NSString *username = [textField.text substringFromIndex:1];
             
@@ -207,11 +209,13 @@
                     
                     [self showErrorView];
                     self.usernameIsValid = NO;
+                    
+                    self.usernameCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
                 }
                 else if( errorType == eErrorTypeInvalidUsername )
                 {
                     self.errorView.errorTextLabel.text = @"Invalid Username!";
-                    self.errorView.errorTipLabel.text  = @"Your username must only contain letters and numbers.";
+                    self.errorView.errorTipLabel.text  = @"Please choose a different username.";
                     
                     [self showErrorView];
                     self.usernameIsValid = NO;
@@ -802,6 +806,23 @@
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
+    if( textField == self.usernameField )
+    {
+        if( textField.text.length < 4 && textField.text.length != 1 )
+        {
+            self.usernameCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+            
+            self.errorView.errorTextLabel.text = @"Invalid Username!";
+            self.errorView.errorTipLabel.text  = @"Your username must be at least 3 characters long.";
+            
+            [self showErrorView];
+        }
+        else if( textField.text.length == 1 )
+        {
+            textField.text = nil;
+        }
+    }
+    
     if( textField == self.emailField )
     {
         if( ![self stringIsValidEmail:textField.text] )
@@ -1026,7 +1047,7 @@
 {
     if( !_loginFailAlert )
     {
-        _loginFailAlert = [[UIAlertView alloc] initWithTitle:@"Error Logging In" message:@"We were able to register your account, but there was a problem logging in. Please sign in with your username and password." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
+        _loginFailAlert = [[UIAlertView alloc] initWithTitle:@"Error Logging In" message:@"We were able to register your account, but there was a problem logging in. Please sign in from the main page." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil, nil];
     }
     
     return _loginFailAlert;

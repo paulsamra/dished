@@ -16,6 +16,10 @@
 
 @interface DALoginViewController()
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *bottomDistanceConstraint;
+
+@property (nonatomic) CGFloat minBottomDistance;
+
 @end
 
 
@@ -24,6 +28,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.minBottomDistance = self.bottomDistanceConstraint.constant;
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardUpdate:) name:UIKeyboardWillChangeFrameNotification object:nil];
 }
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -53,11 +61,9 @@
         self.loginButton.enabled = NO;
         self.loginButton.alpha = 0.4;
     }
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardOnScreen:) name:UIKeyboardDidShowNotification object:nil];
 }
 
-- (void)keyboardOnScreen:(NSNotification *)notification
+- (void)keyboardUpdate:(NSNotification *)notification
 {
     NSDictionary *info  = notification.userInfo;
     NSValue      *value = info[UIKeyboardFrameEndUserInfoKey];
@@ -70,7 +76,12 @@
         return;
     }
     
-    //self.keyboardFrame = keyboardFrame;
+    CGFloat newDistance = self.view.frame.size.height - keyboardFrame.origin.y;
+    newDistance = newDistance < self.minBottomDistance ? self.minBottomDistance : newDistance;
+    
+    self.bottomDistanceConstraint.constant = newDistance;
+    [self.view setNeedsUpdateConstraints];
+    [self.view layoutIfNeeded];
 }
 
 - (IBAction)textFieldDidChange:(UITextField *)sender
@@ -151,16 +162,6 @@
         self.loginButton.enabled = YES;
     }}
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    [self animateTextField:textField up:YES];
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    [self animateTextField:textField up:NO];
-}
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if( textField == self.usernameField )
@@ -178,7 +179,7 @@
 
 - (IBAction)goToFacebookLogin
 {
-    [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_birthday" ] allowLoginUI:YES
+    [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_birthday", @"user_friends" ] allowLoginUI:YES
     completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
     {
         if( state == FBSessionStateOpen )
@@ -214,20 +215,6 @@
         DAPhoneNumberViewController *dest = segue.destinationViewController;
         dest.registrationMode = NO;
     }
-}
-
-- (void)animateTextField:(UITextField*)textField up:(BOOL)up
-{
-    const int movementDistance = -30;
-    const float movementDuration = 0.3f;
-    
-    int movement = up ? movementDistance : -movementDistance;
-    
-    [UIView beginAnimations:@"animateTextField" context:nil];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    [UIView setAnimationDuration:movementDuration];
-    self.view.frame = CGRectOffset( self.view.frame, 0, movement );
-    [UIView commitAnimations];
 }
 
 @end

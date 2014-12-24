@@ -112,6 +112,7 @@ NSString *const kPublicKey       = @"public";
 NSString *const kCreatedKey      = @"created";
 NSString *const kCommentKey      = @"comment";
 NSString *const kReviewsKey      = @"reviews";
+NSString *const kRegTypeKey      = @"reg_type";
 NSString *const kPushYumKey      = @"push_yum";
 NSString *const kHashtagKey      = @"hashtag";
 NSString *const kExpiresKey      = @"expires";

@@ -9,7 +9,7 @@
 #define IS_IPHONE5      (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
 #define IS_IPHONE4      (([[UIScreen mainScreen] bounds].size.height-480)?NO:YES)
 #define IS_IPHONE6      (([[UIScreen mainScreen] bounds].size.height-667)?NO:YES)
-#define IS_IPHONE6_PLUS (([[UIScreen mainScreen] bounds].size.height-1104)?NO:YES)
+#define IS_IPHONE6_PLUS (([[UIScreen mainScreen] bounds].size.height-736)?NO:YES)
 
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
 
@@ -118,6 +118,7 @@ extern NSString *const kViewedKey;
 extern NSString *const kImagesKey;
 extern NSString *const kPublicKey;
 extern NSString *const kRadiusKey;
+extern NSString *const kRegTypeKey;
 extern NSString *const kReviewsKey;
 extern NSString *const kCreatedKey;
 extern NSString *const kCommentKey;
