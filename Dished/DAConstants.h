@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 Dished. All rights reserved.
 //
 
+
 #define IS_IPHONE5      (([[UIScreen mainScreen] bounds].size.height-568)?NO:YES)
 #define IS_IPHONE4      (([[UIScreen mainScreen] bounds].size.height-480)?NO:YES)
 #define IS_IPHONE6      (([[UIScreen mainScreen] bounds].size.height-667)?NO:YES)
@@ -16,6 +17,17 @@
 #define IS_IOS8 (([[[UIDevice currentDevice] systemVersion] floatValue]>=8.0)?YES:NO)
 
 #define nilOrJSONObjectForKey(JSON_, KEY_) [[JSON_ objectForKey:KEY_] isKindOfClass:[NSNull class]] ? nil : [JSON_ objectForKey:KEY_]
+
+
+typedef enum
+{
+    eSocialMediaTypeFacebook,
+    eSocialMediaTypeTwitter,
+    eSocialMediaTypeEmail,
+    eSocialMediaTypeTumblr,
+    eSocialMediaTypePinterest
+}eSocialMediaType;
+
 
 extern NSString *const kProjectName;
 

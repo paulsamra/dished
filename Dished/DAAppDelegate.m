@@ -249,7 +249,6 @@
         }
         
         [FBSession.activeSession closeAndClearTokenInformation];
-        [self logout];
     }
 }
 
@@ -372,6 +371,24 @@
     }
     
     return _errorView;
+}
+
+- (void)followFacebookFriends
+{
+    [[FBRequest requestForMyFriends] startWithCompletionHandler: ^( FBRequestConnection *connection, NSDictionary* result, NSError *error )
+    {
+        NSArray* friends = [result objectForKey:@"data"];
+        
+        for( NSDictionary<FBGraphUser>* friend in friends )
+        {
+            NSLog(@"%@", friend);
+        }
+    }];
+}
+
+- (void)followContacts
+{
+    
 }
 
 @end

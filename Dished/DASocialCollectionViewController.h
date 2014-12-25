@@ -11,13 +11,6 @@
 #import "DAReview.h"
 #import "DADishProfile.h"
 
-typedef enum
-{
-    eSocialMediaTypeFacebook,
-    eSocialMediaTypeTwitter,
-    eSocialMediaTypeEmail
-}eSocialMediaType;
-
 @class DASocialCollectionViewController;
 
 

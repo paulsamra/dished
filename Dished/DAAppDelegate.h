@@ -21,5 +21,7 @@
 - (void)logout;
 - (void)setRootView;
 - (void)setLoginView;
+- (void)followFacebookFriends;
+- (void)followContacts;
 
 @end

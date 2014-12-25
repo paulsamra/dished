@@ -8,12 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-typedef enum
-{
-    eSocialMediaTypeFacebook,
-    eSocialMediaTypeTwitter
-}eSocialMediaType;
-
 
 @interface DAShareLinkTableViewController : UITableViewController
 

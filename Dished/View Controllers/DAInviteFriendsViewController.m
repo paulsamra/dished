@@ -8,6 +8,7 @@
 
 #import "DAInviteFriendsViewController.h"
 #import <AddressBook/AddressBook.h>
+#import "DAUserManager.h"
 
 #define kCellIdentifier @"userCell"
 
@@ -18,6 +19,9 @@
 @property (strong, nonatomic) NSMutableArray          *registrationData;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
+@property (nonatomic) BOOL isLoadingContacts;
+@property (nonatomic) BOOL isLoadingFacebook;
+@property (nonatomic) BOOL isFacebookUser;
 @property (nonatomic) BOOL contactsFailure;
 @property (nonatomic) BOOL contactsNotPermitted;
 
@@ -42,6 +46,7 @@
     
     self.contactsPermissionLabel.hidden = YES;
     self.contactsFailureLabel.hidden = YES;
+    self.facebookConnectLabel.hidden = YES;
     
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.spinner.center = self.view.center;
@@ -55,16 +60,21 @@
     UINib *searchCellNib = [UINib nibWithNibName:@"DAUserListTableViewCell" bundle:nil];
     [self.contactsTableView registerNib:searchCellNib forCellReuseIdentifier:kCellIdentifier];
     
+    [self loadFacebookFriends];
     [self loadContacts];
 }
 
 - (void)loadContacts
 {
+    self.isLoadingContacts = YES;
+    
     ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
     
     if( status == kABAuthorizationStatusDenied )
     {
         self.contactsNotPermitted = YES;
+        self.isLoadingContacts = NO;
+        [self.spinner stopAnimating];
         return;
     }
     
@@ -74,6 +84,8 @@
     if( error )
     {
         self.contactsFailure = YES;
+        self.isLoadingContacts = NO;
+        [self.spinner stopAnimating];
         return;
     }
     
@@ -86,10 +98,12 @@
                 if( error )
                 {
                     self.contactsFailure = YES;
+                    self.isLoadingContacts = NO;
                 }
                 else if( !granted )
                 {
                     self.contactsNotPermitted = YES;
+                    self.isLoadingContacts = NO;
                 }
                 else
                 {
@@ -168,6 +182,23 @@
     return contacts;
 }
 
+- (void)loadFacebookFriends
+{
+    self.isLoadingFacebook = YES;
+    
+    if( FBSession.activeSession.state != FBSessionStateOpen || ![[DAUserManager sharedManager] isFacebookUser] )
+    {
+        if( self.selectedTableView == self.facebookTableView )
+        {
+            self.facebookConnectLabel.hidden = NO;
+            [self.spinner stopAnimating];
+        }
+        
+        self.isLoadingFacebook = NO;
+        return;
+    }
+}
+
 - (NSString *)jsonEncodedStringWithArray:(NSArray *)array
 {
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:array options:NSJSONWritingPrettyPrinted error:nil];
@@ -196,10 +227,11 @@
         
         self.registrationData = contacts;
     
-        NSLog(@"%@", self.registrationData);
         [self.contactsTableView reloadData];
         
         [self.spinner stopAnimating];
+        
+        self.isLoadingContacts = NO;
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
@@ -212,6 +244,8 @@
             self.contactsFailure = YES;
             [self.contactsTableView reloadData];
             [self.spinner stopAnimating];
+            
+            self.isLoadingContacts = NO;
         }
     }];
 }
@@ -250,18 +284,31 @@
     self.contactsFailureLabel.hidden = !contactsFailure;
 }
 
+- (void)setIsFacebookUser:(BOOL)isFacebookUser
+{
+    _isFacebookUser = isFacebookUser;
+    self.facebookConnectLabel.hidden = isFacebookUser;
+}
+
 - (void)makeTableViewActive:(UITableView *)tableView
 {
     self.selectedTableView.hidden = YES;
+    [self.spinner stopAnimating];
     
     self.selectedTableView = tableView;
     self.selectedTableView.hidden = NO;
     
     self.contactsFailureLabel.hidden = YES;
     self.contactsPermissionLabel.hidden = YES;
+    self.facebookConnectLabel.hidden = YES;
     
     if( tableView == self.contactsTableView )
     {
+        if( self.isLoadingContacts )
+        {
+            [self.spinner startAnimating];
+        }
+        
         if( self.contactsFailure )
         {
             self.contactsFailureLabel.hidden = NO;
@@ -269,6 +316,19 @@
         else if( self.contactsNotPermitted )
         {
             self.contactsPermissionLabel.hidden = NO;
+        }
+    }
+    
+    if( tableView == self.facebookTableView )
+    {
+        if( self.isLoadingFacebook )
+        {
+            [self.spinner startAnimating];
+        }
+        
+        if( !self.isFacebookUser )
+        {
+            self.facebookConnectLabel.hidden = NO;
         }
     }
 }

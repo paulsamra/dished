@@ -56,6 +56,7 @@
                 if( userLoadSuccess )
                 {
                     DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+                    [delegate followFacebookFriends];
                     [delegate login];
                 }
                 else

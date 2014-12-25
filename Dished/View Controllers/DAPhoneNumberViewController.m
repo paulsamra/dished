@@ -169,7 +169,15 @@
         if( buttonIndex != alertView.cancelButtonIndex )
         {
             NSString *codeEntered = [alertView textFieldAtIndex:0].text;
-            [self verifyRegistrationCode:codeEntered];
+            
+            if( codeEntered.length == 0 )
+            {
+                [self showAlertWithTitle:@"Incorrect Code" message:@"The verification code was incorrect. Please try again."];
+            }
+            else
+            {
+                [self verifyRegistrationCode:codeEntered];
+            }
         }
         else
         {

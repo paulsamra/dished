@@ -297,7 +297,7 @@
                                 </constraints>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="DWn-jC-f5B" secondAttribute="centerX" id="HE0-nw-gnR"/>
                             <constraint firstItem="DWn-jC-f5B" firstAttribute="top" secondItem="rda-0X-8ZW" secondAttribute="bottom" constant="31" id="JcW-fi-nPv"/>
@@ -2236,6 +2236,16 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your account is not connected to Facebook." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="lQ2-pB-i7J">
+                                <rect key="frame" x="200" y="329" width="200" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="dIC-vu-rkG"/>
+                                    <constraint firstAttribute="width" constant="200" id="t3O-ag-Rw7"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="KFe-lu-bli">
                                 <rect key="frame" x="16" y="72" width="568" height="29"/>
                                 <segments>
@@ -2251,8 +2261,10 @@
                         <constraints>
                             <constraint firstItem="KFe-lu-bli" firstAttribute="leading" secondItem="tLl-5x-BCE" secondAttribute="leading" constant="16" id="0XQ-hh-un0"/>
                             <constraint firstAttribute="trailing" secondItem="KFe-lu-bli" secondAttribute="trailing" constant="16" id="55i-56-UXi"/>
+                            <constraint firstItem="lQ2-pB-i7J" firstAttribute="centerX" secondItem="5q1-4V-ikx" secondAttribute="centerX" id="65o-7b-V8W"/>
                             <constraint firstItem="4pi-G1-KGn" firstAttribute="centerX" secondItem="vfd-fn-ZsM" secondAttribute="centerX" id="7at-Wf-SpX"/>
                             <constraint firstItem="hCT-Jo-yOh" firstAttribute="top" secondItem="5q1-4V-ikx" secondAttribute="bottom" id="7nT-jd-JhD"/>
+                            <constraint firstItem="lQ2-pB-i7J" firstAttribute="centerY" secondItem="5q1-4V-ikx" secondAttribute="centerY" id="Apy-ke-3OO"/>
                             <constraint firstItem="5q1-4V-ikx" firstAttribute="leading" secondItem="tLl-5x-BCE" secondAttribute="leading" id="Cpi-DQ-JrP"/>
                             <constraint firstAttribute="trailing" secondItem="vfd-fn-ZsM" secondAttribute="trailing" id="DbQ-4u-e5Z"/>
                             <constraint firstAttribute="trailing" secondItem="5q1-4V-ikx" secondAttribute="trailing" id="KbM-U5-07Y"/>
@@ -2271,6 +2283,7 @@
                         <outlet property="contactsFailureLabel" destination="4pi-G1-KGn" id="IUE-FO-khV"/>
                         <outlet property="contactsPermissionLabel" destination="QjY-3g-Tfd" id="R9G-ZS-yBC"/>
                         <outlet property="contactsTableView" destination="vfd-fn-ZsM" id="fq8-by-4qE"/>
+                        <outlet property="facebookConnectLabel" destination="lQ2-pB-i7J" id="EwZ-17-OmT"/>
                         <outlet property="facebookTableView" destination="5q1-4V-ikx" id="pLW-XJ-Qg8"/>
                         <outlet property="sourcePicker" destination="KFe-lu-bli" id="SFZ-k9-Gla"/>
                     </connections>
@@ -2508,21 +2521,21 @@
                         <sections>
                             <tableViewSection headerTitle="Accounts" id="GbM-pM-x9v">
                                 <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="xw5-62-FAL" detailTextLabel="Tmc-wC-J69" style="IBUITableViewCellStyleValue1" id="yXB-5e-8tx">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" textLabel="K7g-cD-VSx" detailTextLabel="bMx-IW-Ruz" style="IBUITableViewCellStyleValue1" id="s23-qM-bJQ">
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yXB-5e-8tx" id="xEd-KK-Swd">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="s23-qM-bJQ" id="Zkh-Fv-wz0">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="xw5-62-FAL">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Facebook" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="K7g-cD-VSx">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Not Connected" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Tmc-wC-J69">
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Not Connected" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bMx-IW-Ruz">
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                                    <color key="textColor" red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <color key="textColor" red="0.5568627451" green="0.5568627451" blue="0.57647058819999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -2560,7 +2573,7 @@
                         <barButtonItem key="backBarButtonItem" title="Back" id="7dR-o7-FNe"/>
                     </navigationItem>
                     <connections>
-                        <outlet property="facebookCell" destination="yXB-5e-8tx" id="ffD-uf-0vA"/>
+                        <outlet property="facebookCell" destination="s23-qM-bJQ" id="prF-Xv-hbj"/>
                         <outlet property="twitterCell" destination="hyi-Fu-HQg" id="Le6-zU-3jH"/>
                         <segue destination="za0-WW-ux5" kind="show" identifier="shareLink" id="geg-8u-QMU"/>
                     </connections>
@@ -4982,7 +4995,7 @@
     <inferredMetricsTieBreakers>
         <segue reference="2MJ-Kr-UF4"/>
         <segue reference="wCN-0l-elF"/>
-        <segue reference="LP4-KR-M1a"/>
+        <segue reference="lFw-uU-a7X"/>
         <segue reference="aNd-9F-Yna"/>
     </inferredMetricsTieBreakers>
 </document>

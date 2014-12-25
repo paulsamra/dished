@@ -34,6 +34,9 @@
             self.navigationItem.title = @"Twitter";
             [self setupForTwitter];
             break;
+            
+        default:
+            break;
     }
 }
 
@@ -62,6 +65,7 @@
     {
         case eSocialMediaTypeFacebook: break;
         case eSocialMediaTypeTwitter:  [self handleTwitterAction]; break;
+        default: break;
     }
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -86,6 +90,7 @@
     {
         case eSocialMediaTypeFacebook: break;
         case eSocialMediaTypeTwitter: [self logoutOfTwitter]; break;
+        default: break;
     }
 }
 

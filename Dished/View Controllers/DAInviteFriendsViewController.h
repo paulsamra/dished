@@ -13,6 +13,7 @@
 
 @property (weak, nonatomic) IBOutlet UILabel     *contactsPermissionLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *contactsFailureLabel;
+@property (weak, nonatomic) IBOutlet UILabel *facebookConnectLabel;
 @property (weak, nonatomic) IBOutlet UITableView *contactsTableView;
 @property (weak, nonatomic) IBOutlet UITableView *facebookTableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *sourcePicker;

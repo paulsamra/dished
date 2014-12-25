@@ -52,6 +52,7 @@ static NSString *const kEmailTitle    = @"Email";
         case eSocialMediaTypeFacebook: return [[self.selectedSharing objectForKey:kFacebookTitle] boolValue]; break;
         case eSocialMediaTypeTwitter:  return [[self.selectedSharing objectForKey:kTwitterTitle] boolValue];  break;
         case eSocialMediaTypeEmail:    return [[self.selectedSharing objectForKey:kEmailTitle] boolValue];    break;
+        default: return NO;
     }
 }
 
@@ -142,6 +143,7 @@ static NSString *const kEmailTitle    = @"Email";
         }
         else
         {
+            [self.cellWaiting removeObjectForKey:self.cellLabels[0]];
             [self.selectedSharing removeObjectForKey:self.cellLabels[0]];
             [self.collectionView reloadData];
         }
@@ -179,48 +181,8 @@ static NSString *const kEmailTitle    = @"Email";
     
     switch( indexPath.row )
     {
-        case 0:
-        {
-            if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]] )
-            {
-                [self.selectedSharing removeObjectForKey:self.cellLabels[indexPath.row]];
-                [self.collectionView reloadData];
-            }
-            else
-            {
-                if( self.isReviewPost )
-                {
-                    [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
-                    [self.collectionView reloadData];
-                    
-                    if( FBSession.activeSession.state == FBSessionStateOpen || FBSession.activeSession.state == FBSessionStateOpenTokenExtended )
-                    {
-                        [self requestFacebookPermissions];
-                    }
-                    else
-                    {
-                        [self.facebookLoginAlert show];
-                    }
-                }
-                else
-                {
-                    if( [SLComposeViewController isAvailableForServiceType:SLServiceTypeFacebook] )
-                    {
-                        SLComposeViewController *controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeFacebook];
-                        
-                        [self presentViewController:controller animated:YES completion:nil];
-                    }
-                }
-            }
-        }
-        break;
-            
-        case 1:
-        {
-            [self handleTwitterSelectionAtIndexPath:indexPath];
-        }
-        break;
-            
+        case 0: [self handleFacebookSelectionAtIndexPath:indexPath]; break;
+        case 1: [self handleTwitterSelectionAtIndexPath:indexPath];  break;
         case 2:
         {
             if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]] )
@@ -281,6 +243,33 @@ static NSString *const kEmailTitle    = @"Email";
     }
 }
 
+- (void)handleFacebookSelectionAtIndexPath:(NSIndexPath *)indexPath
+{
+    if( self.isReviewPost )
+    {
+        if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]] )
+        {
+            [self.selectedSharing removeObjectForKey:self.cellLabels[indexPath.row]];
+        }
+        else
+        {
+            [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
+        }
+    }
+    
+    if( FBSession.activeSession.state != FBSessionStateOpenTokenExtended && FBSession.activeSession.state != FBSessionStateOpen )
+    {
+        [self.cellWaiting setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
+        [self.facebookLoginAlert show];
+    }
+    else
+    {
+        [self openFacebookSession];
+    }
+    
+    [self.collectionView reloadData];
+}
+
 - (void)handleTwitterSelectionAtIndexPath:(NSIndexPath *)indexPath
 {
     if( self.isReviewPost )
@@ -313,39 +302,71 @@ static NSString *const kEmailTitle    = @"Email";
         else
         {
             [self.cellWaiting removeObjectForKey:self.cellLabels[indexPath.row]];
-            [self presentTwitterComposeView];
+            [self presentComposeViewForSocialMediaType:eSocialMediaTypeTwitter];
         }
     }
 }
 
-- (void)presentTwitterComposeView
+- (void)presentComposeViewForSocialMediaType:(eSocialMediaType)socialMediaType
 {
-    REComposeViewController *composeViewController = [[REComposeViewController alloc] init];
-    composeViewController.hasAttachment = YES;
-    composeViewController.editableAttachmentImage = NO;
-    UIImageView *titleImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"twitter"]];
-    titleImageView.contentMode = UIViewContentModeCenter;
-    composeViewController.navigationItem.titleView = titleImageView;
-    composeViewController.placeholderText = @"Enter your tweet.";
-    
-    NSURL *image_URL = [NSURL URLWithString:self.review.img];
-    [[SDWebImageManager sharedManager] downloadImageWithURL:image_URL options:0 progress:nil
-    completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
+    if( socialMediaType == eSocialMediaTypeEmail )
     {
-        composeViewController.attachmentImage = image;
-    }];
-    
-    composeViewController.completionHandler = ^( REComposeViewController *composeVC, REComposeResult result )
+        [self presentEmailComposer];
+    }
+    else
     {
-        [composeVC dismissViewControllerAnimated:YES completion:nil];
+        REComposeViewController *composeViewController = [[REComposeViewController alloc] init];
+        composeViewController.hasAttachment = YES;
+        composeViewController.editableAttachmentImage = NO;
         
-        if( result == REComposeResultPosted )
+        UIImage *image = nil;
+        
+        switch( socialMediaType )
         {
-            [[DATwitterManager sharedManager] postDishTweetWithMessage:composeVC.text imageURL:self.review.img completion:nil];
+            case eSocialMediaTypeFacebook: image = [UIImage imageNamed:@"facebook"]; break;
+            case eSocialMediaTypeTwitter:  image = [UIImage imageNamed:@"twitter"];  break;
+            default: break;
         }
-    };
-    
-    [composeViewController presentFromRootViewController];
+        
+        UIImageView *titleImageView = [[UIImageView alloc] initWithImage:image];
+        titleImageView.contentMode = UIViewContentModeCenter;
+        composeViewController.navigationItem.titleView = titleImageView;
+        composeViewController.placeholderText = @"Enter a message.";
+        
+        NSURL *image_URL = [NSURL URLWithString:self.review.img];
+        [[SDWebImageManager sharedManager] downloadImageWithURL:image_URL options:0 progress:nil
+        completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
+        {
+            composeViewController.attachmentImage = image;
+        }];
+        
+        composeViewController.completionHandler = ^( REComposeViewController *composeVC, REComposeResult result )
+        {
+            [composeVC dismissViewControllerAnimated:YES completion:nil];
+            
+            if( result == REComposeResultPosted )
+            {
+                [[DATwitterManager sharedManager] postDishTweetWithMessage:composeVC.text imageURL:self.review.img completion:nil];
+            }
+        };
+        
+        [composeViewController presentFromRootViewController];
+    }
+}
+
+- (void)presentEmailComposer
+{
+    if( [MFMailComposeViewController canSendMail] )
+    {
+        MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
+        [composeViewController setMailComposeDelegate:self];
+        [composeViewController setSubject:@"Wow this Dish is awesome!"];
+        [self.parentViewController presentViewController:composeViewController animated:YES completion:nil];
+    }
+    else
+    {
+        [self.emailFailAlert show];
+    }
 }
 
 - (void)reportDish
@@ -399,73 +420,27 @@ static NSString *const kEmailTitle    = @"Email";
 
 - (void)openFacebookSession
 {
-    [FBSession openActiveSessionWithReadPermissions:nil allowLoginUI:YES
+    [FBSession openActiveSessionWithReadPermissions:@[ @"publish_actions" ] allowLoginUI:YES
     completionHandler:^( FBSession *session, FBSessionState status, NSError *error )
     {
-        if( status == FBSessionStateOpen || status == FBSessionStateOpenTokenExtended )
-        {
-            [self requestFacebookPermissions];
+        [self.cellWaiting removeObjectForKey:self.cellLabels[0]];
+        
+        if( status == FBSessionStateOpen )
+        {            
+            if( !self.isReviewPost )
+            {
+                [self presentComposeViewForSocialMediaType:eSocialMediaTypeFacebook];
+            }
         }
         else
         {
             [self.selectedSharing removeObjectForKey:self.cellLabels[0]];
-            [self.collectionView reloadData];
         }
-         
+        
+        [self.collectionView reloadData];
+        
         DAAppDelegate* appDelegate = [UIApplication sharedApplication].delegate;
         [appDelegate sessionStateChanged:session state:status error:error];
-    }];
-}
-
-- (void)requestFacebookPermissions
-{
-    NSArray *requestPermissions = @[ @"publish_actions" ];
-    
-    [FBRequestConnection startWithGraphPath:@"/me/permissions"
-    completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
-    {
-        if( !error )
-        {
-            BOOL hasPermission = NO;
-             
-            for( NSDictionary *permission in (NSArray *)[result data] )
-            {
-                if( [[permission objectForKey:@"permission"] isEqualToString:[requestPermissions objectAtIndex:0]] )
-                {
-                    hasPermission = YES;
-                }
-            }
-             
-            if( !hasPermission )
-            {
-                [FBSession.activeSession requestNewPublishPermissions:requestPermissions
-                defaultAudience:FBSessionDefaultAudienceNone completionHandler:^( FBSession *session, NSError *error )
-                {
-                    if( !error )
-                    {
-                        [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[0]];
-                        [self.collectionView reloadData];
-                    }
-                    else
-                    {
-                        [self.selectedSharing removeObjectForKey:self.cellLabels[0]];
-                        [self.collectionView reloadData];
-                    }
-                }];
-            }
-            else
-            {
-                [self.selectedSharing setObject:@(YES) forKey:self.cellLabels[0]];
-                [self.collectionView reloadData];
-            }
-        }
-        else
-        {
-            if( [FBErrorUtility errorCategoryForError:error] == FBErrorCategoryAuthenticationReopenSession )
-            {
-                [self.facebookLoginAlert show];
-            }
-        }
     }];
 }
 
@@ -501,7 +476,7 @@ static NSString *const kEmailTitle    = @"Email";
             
             if( !self.isReviewPost )
             {
-                [self presentTwitterComposeView];
+                [self presentComposeViewForSocialMediaType:eSocialMediaTypeTwitter];
             }
         }
         else

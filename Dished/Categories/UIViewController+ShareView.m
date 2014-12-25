@@ -91,7 +91,10 @@
         
         socialViewController.view.frame = socialViewFrame;
     }
-    completion:nil];
+    completion:^( BOOL finished )
+    {
+        [socialViewController didMoveToParentViewController:self];
+    }];
     
     return socialViewController;
 }
