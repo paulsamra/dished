@@ -33,6 +33,7 @@
 - (void)startCapture;
 - (void)stopCapture;
 - (BOOL)isCapturing;
+- (BOOL)isCaptureConnectionActive;
 - (void)toggleCamera;
 - (void)captureStillImage;
 - (void)enableFlash:(BOOL)enabled;

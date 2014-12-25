@@ -17,7 +17,6 @@
 @property (strong, nonatomic) AVCaptureDevice           *frontCamera;
 @property (strong, nonatomic) AVCaptureDevice           *currentDevice;
 @property (strong, nonatomic) AVCaptureSession          *captureSession;
-@property (strong, nonatomic) AVCaptureConnection       *connection;
 @property (strong, nonatomic) AVCaptureDeviceInput      *videoInput;
 @property (strong, nonatomic) AVCaptureStillImageOutput *stillImageOutput;
 
@@ -109,6 +108,11 @@
 - (BOOL)isCapturing
 {
     return [self.captureSession isRunning];
+}
+
+- (BOOL)isCaptureConnectionActive
+{
+    return [self sessionConnection].active && [self sessionConnection].enabled;
 }
 
 - (void)toggleCamera
@@ -239,14 +243,19 @@ void freePixelBufferDataAfterRelease(void *releaseRefCon, const void *baseAddres
 
 - (void)captureStillImage
 {
-    [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:[self sessionConnection]
-    completionHandler:^( CMSampleBufferRef imageSampleBuffer, NSError *error )
+    AVCaptureConnection *currentConnection = [self sessionConnection];
+    
+    if( currentConnection.enabled && currentConnection.active )
     {
-        if( imageSampleBuffer )
+        [self.stillImageOutput captureStillImageAsynchronouslyFromConnection:[self sessionConnection]
+        completionHandler:^( CMSampleBufferRef imageSampleBuffer, NSError *error )
         {
-            [self receivedSampleBuffer:imageSampleBuffer];
-        }
-    }];
+            if( imageSampleBuffer )
+            {
+                [self receivedSampleBuffer:imageSampleBuffer];
+            }
+        }];
+    }
 }
 
 - (void)receivedSampleBuffer:(CMSampleBufferRef)sampleBuffer

@@ -211,6 +211,8 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     NSDictionary *parameters = self.loc_id == 0 ? @{ kIDKey : @(self.user_id) } : @{ kLocationIDKey : @(self.loc_id) };
     
+    CLSLog( @"Loading restaurant profile with parameters: %@", parameters );
+    
     self.profileLoadTask = [[DAAPIManager sharedManager] GETRequest:kRestaurantProfileURL withParameters:parameters
     success:^( id response )
     {
@@ -233,6 +235,8 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
                                   ( self.username ? self.username : @(self.user_id) ) };
+    
+    CLSLog( @"Loading user profile with parameters: %@", parameters );
     
     self.profileLoadTask = [[DAAPIManager sharedManager] GETRequest:kUserProfileURL withParameters:parameters
     success:^( id response )

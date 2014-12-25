@@ -34,7 +34,7 @@
     
 #if TARGET_IPHONE_SIMULATOR
     NSLog(@"Running in the simulator");
-    self.pictureTaken = [UIImage imageNamed:@"Icon@2x.png"];
+    self.pictureTaken = [UIImage imageNamed:@"facebook_login"];
     [self performSegueWithIdentifier:@"chooseFilter" sender:nil];
 
 #elif TARGET_OS_IPHONE
@@ -53,6 +53,8 @@
     self.view.backgroundColor = [UIColor blackColor];
     self.videoView.hidden = YES;
     
+    self.takePictureButton.enabled = NO;
+    
     dispatch_async( dispatch_get_main_queue(), ^
     {
         self.captureManager = [[DACaptureManager alloc] init];
@@ -68,6 +70,8 @@
         
         [UIView transitionWithView:self.videoView duration:0.3 options:UIViewAnimationOptionTransitionCrossDissolve animations:nil completion:nil];
         self.videoView.hidden = NO;
+        
+        self.takePictureButton.enabled = YES;
         
         [spinner removeFromSuperview];
     });
@@ -134,6 +138,12 @@
 
 - (IBAction)takePicture
 {
+    if( ![self.captureManager isCaptureConnectionActive] )
+    {
+        [self showAlertWithTitle:@"Camera Inactive" message:@"The camera was unable to be initialized. Please make sure you allow Dished to access the camera."];
+        return;
+    }
+    
     self.takePictureButton.enabled = NO;
     self.pictureTaken = nil;
     
