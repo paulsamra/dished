@@ -14,7 +14,6 @@
 @protocol DAFeedCollectionViewCellDelegate <NSObject>
 
 @optional
-- (void)titleButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 - (void)locationButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
 - (void)creatorButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell;
@@ -27,12 +26,10 @@
 
 @property (weak, nonatomic) IBOutlet UILabel     *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel     *gradeLabel;
-@property (weak, nonatomic) IBOutlet UIButton    *titleButton;
 @property (weak, nonatomic) IBOutlet UIButton    *creatorButton;
 @property (weak, nonatomic) IBOutlet UIButton    *locationButton;
 @property (weak, nonatomic) IBOutlet UIImageView *dishImageView;
 @property (weak, nonatomic) IBOutlet UIImageView *userImageView;
-@property (weak, nonatomic) IBOutlet UILabel    *priceLabel;
 
 @property (weak, nonatomic) id<DAFeedCollectionViewCellDelegate> delegate;
 

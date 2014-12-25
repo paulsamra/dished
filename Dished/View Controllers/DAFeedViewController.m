@@ -111,15 +111,20 @@ typedef enum
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-        
-    if( self.initialLoadActive && ![self.refreshControl isRefreshing] )
-    {
-        [self.refreshControl startRefreshingAnimated:NO];
-    }
     
     [self.refreshControl shouldRestartAnimation];
     
     [self.collectionView.collectionViewLayout invalidateLayout];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if( self.initialLoadActive && ![self.refreshControl isRefreshing] )
+    {
+        [self.refreshControl startRefreshingAnimated:YES];
+    }
 }
 
 - (void)registerCollectionViewCellNibs

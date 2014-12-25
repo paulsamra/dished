@@ -16,11 +16,14 @@
 #import "DAUserProfileViewController.h"
 #import "DATabBarController.h"
 #import "UIViewController+ShareView.h"
+#import "DAFeedCollectionViewFlowLayout.h"
 
 #define kLoadLimit 20
 
+static NSString *const kDishHeaderIdentifier = @"titleHeader";
 
-@interface DAGlobalDishDetailViewController() <DAGlobalDishCollectionViewCellDelegate, DAGlobalReviewCollectionViewCellDelegate, DAGradesGraphCollectionViewCellDelegate>
+
+@interface DAGlobalDishDetailViewController() <DAGlobalDishCollectionViewCellDelegate, DAGlobalReviewCollectionViewCellDelegate, DAGradesGraphCollectionViewCellDelegate, DADishHeaderCollectionReusableViewDelegate>
 
 @property (strong, nonatomic) NSString                         *gradeMode;
 @property (strong, nonatomic) DADishProfile                    *dishProfile;
@@ -48,10 +51,16 @@
     self.hasMoreReviews = YES;
     self.isLoadingMore = NO;
     
+    DAFeedCollectionViewFlowLayout *flowLayout = (DAFeedCollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    flowLayout.navigationBar  = self.navigationController.navigationBar;
+    
     self.collectionView.hidden = YES;
     
     self.referenceDishCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"dishCell" forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
     self.referenceReviewCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"reviewCell" forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
+    
+    UINib *headerNib = [UINib nibWithNibName:@"DADishHeaderCollectionReusableView" bundle:[NSBundle mainBundle]];
+    [self.collectionView registerNib:headerNib forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDishHeaderIdentifier];
     
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
@@ -101,7 +110,7 @@
                         animations:nil
                         completion:nil];
         
-        weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
+        weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
         weakSelf.collectionView.hidden = NO;
     }
     failure:^( NSError *error, BOOL shouldRetry )
@@ -255,10 +264,6 @@
             {
                 mainCell.priceLabel.text = [NSString stringWithFormat:@"$%@", self.dishProfile.price];
             }
-            else
-            {
-                mainCell.priceLabel.text = @"";
-            }
             
             [mainCell setPagedImages:self.dishProfile.images];
             
@@ -348,12 +353,42 @@
 {
     UICollectionReusableView *view = nil;
     
-    if( kind == UICollectionElementKindSectionFooter && indexPath.section == 1 )
+    if( kind == UICollectionElementKindSectionHeader )
+    {
+        if( indexPath.section == 0 )
+        {
+            DADishHeaderCollectionReusableView *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kDishHeaderIdentifier forIndexPath:indexPath];
+            
+            [header.titleButton setTitle:self.dishProfile.name forState:UIControlStateNormal];
+            
+            if( self.dishProfile.price && [self.dishProfile.price integerValue] > 0 )
+            {
+                header.sideLabel.text = [NSString stringWithFormat:@"$%@", self.dishProfile.price];
+            }
+            
+            view = header;
+        }
+        else
+        {
+            view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"dummyHeader" forIndexPath:indexPath];
+        }
+    }
+    else if( kind == UICollectionElementKindSectionFooter && indexPath.section == 1 )
     {
         view = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"loadingFooter" forIndexPath:indexPath];
     }
     
     return view;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    if( section == 0 )
+    {
+        return CGSizeMake( self.collectionView.frame.size.height, 40 );
+    }
+    
+    return CGSizeMake( self.collectionView.frame.size.height, 0 );
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionReusableView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="dPd-ij-xcH" customClass="DADishHeaderCollectionReusableView" customModule="Dished" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="40"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="tailTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fXt-Ab-Ytr">
+                    <rect key="frame" x="10" y="0.0" width="281" height="40"/>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="20"/>
+                    <state key="normal" title="No Bake Blueberry Trufle Tartlets">
+                        <color key="titleColor" red="0.37254901959999998" green="0.3921568627" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$16.99" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="13" preferredMaxLayoutWidth="40" translatesAutoresizingMaskIntoConstraints="NO" id="vKk-Yn-bl4">
+                    <rect key="frame" x="544" y="0.0" width="50" height="40"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="50" id="uHV-nx-2fQ"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                    <color key="textColor" red="0.37254901959999998" green="0.3921568627" blue="0.44705882349999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <size key="shadowOffset" width="0.0" height="0.0"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="amY-oM-B8h">
+                    <rect key="frame" x="0.0" y="39" width="599" height="1"/>
+                    <color key="backgroundColor" red="0.83137254900000002" green="0.82352941180000006" blue="0.86274509799999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="cGz-8W-mP7"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="0.94999999999999996" colorSpace="calibratedRGB"/>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="fXt-Ab-Ytr" secondAttribute="bottom" id="B3l-YF-Kty"/>
+                <constraint firstAttribute="bottom" secondItem="vKk-Yn-bl4" secondAttribute="bottom" id="Cj8-lv-aw5"/>
+                <constraint firstItem="fXt-Ab-Ytr" firstAttribute="top" secondItem="dPd-ij-xcH" secondAttribute="top" id="Hiw-2o-Zd2"/>
+                <constraint firstItem="fXt-Ab-Ytr" firstAttribute="leading" secondItem="dPd-ij-xcH" secondAttribute="leading" constant="10" id="IO9-Fy-lgw"/>
+                <constraint firstItem="vKk-Yn-bl4" firstAttribute="top" secondItem="dPd-ij-xcH" secondAttribute="top" id="ItL-2C-wd4"/>
+                <constraint firstAttribute="trailing" secondItem="amY-oM-B8h" secondAttribute="trailing" constant="1" id="SbH-qN-Ox9"/>
+                <constraint firstItem="amY-oM-B8h" firstAttribute="leading" secondItem="dPd-ij-xcH" secondAttribute="leading" id="TVl-Aa-y4g"/>
+                <constraint firstAttribute="trailing" secondItem="vKk-Yn-bl4" secondAttribute="trailing" constant="6" id="eSL-Wz-1zK"/>
+                <constraint firstItem="vKk-Yn-bl4" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="fXt-Ab-Ytr" secondAttribute="trailing" constant="12" id="nv8-o2-paT"/>
+                <constraint firstAttribute="bottom" secondItem="amY-oM-B8h" secondAttribute="bottom" id="xqB-ml-ehP"/>
+            </constraints>
+            <connections>
+                <outlet property="sideLabel" destination="vKk-Yn-bl4" id="uAs-js-up2"/>
+                <outlet property="titleButton" destination="fXt-Ab-Ytr" id="F4O-pg-C9j"/>
+            </connections>
+            <point key="canvasLocation" x="483.5" y="389"/>
+        </collectionReusableView>
+    </objects>
+</document>

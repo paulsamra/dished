@@ -539,6 +539,12 @@
 		947381C91A46F0DD00B1CFC2 /* UIViewController+Dished.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947381C61A46F0DD00B1CFC2 /* UIViewController+Dished.swift */; };
 		9473FACF19E63235003A1D1B /* DARestaurantProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9473FACE19E63235003A1D1B /* DARestaurantProfile.m */; };
 		9473FAD519E636E9003A1D1B /* DAUserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9473FAD419E636E9003A1D1B /* DAUserProfile.m */; };
+		9474828B1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9474828A1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift */; };
+		9474828C1A4C0ECE00831978 /* DADishHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9474828A1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift */; };
+		9474828D1A4C0ECE00831978 /* DADishHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9474828A1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift */; };
+		9474828F1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */; };
+		947482901A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */; };
+		947482911A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */; };
 		94756CCA1A311B6E009B6BD6 /* DAPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94756CC91A311B6E009B6BD6 /* DAPushManager.m */; };
 		94756CCB1A312671009B6BD6 /* DAPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94756CC91A311B6E009B6BD6 /* DAPushManager.m */; };
 		94756CCC1A312672009B6BD6 /* DAPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94756CC91A311B6E009B6BD6 /* DAPushManager.m */; };
@@ -909,6 +915,8 @@
 		9473FACE19E63235003A1D1B /* DARestaurantProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARestaurantProfile.m; sourceTree = "<group>"; };
 		9473FAD319E636E9003A1D1B /* DAUserProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUserProfile.h; sourceTree = "<group>"; };
 		9473FAD419E636E9003A1D1B /* DAUserProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserProfile.m; sourceTree = "<group>"; };
+		9474828A1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADishHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
+		9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DADishHeaderCollectionReusableView.xib; sourceTree = "<group>"; };
 		94756CC81A311B6E009B6BD6 /* DAPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAPushManager.h; sourceTree = "<group>"; };
 		94756CC91A311B6E009B6BD6 /* DAPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAPushManager.m; sourceTree = "<group>"; };
 		94756CCF1A32FBC1009B6BD6 /* DACacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACacheManager.h; sourceTree = "<group>"; };
@@ -1429,6 +1437,8 @@
 				94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */,
 				94A6FE341A46DBD800AB901F /* DAReviewButtonsCollectionViewCell.swift */,
 				943ECCF419EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib */,
+				9474828A1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift */,
+				9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */,
 			);
 			name = Reviews;
 			sourceTree = "<group>";
@@ -2237,6 +2247,7 @@
 				941292681A1BEED500B7C763 /* uv_article@2x.png in Resources */,
 				941292691A1BEED500B7C763 /* UserVoice.strings in Resources */,
 				9412926B1A1BEED500B7C763 /* uv_heart.png in Resources */,
+				947482901A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */,
 				9412926D1A1BEED500B7C763 /* uv_article.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2268,6 +2279,7 @@
 				941293671A1C7AD100B7C763 /* uv_article@2x.png in Resources */,
 				941293681A1C7AD100B7C763 /* UserVoice.strings in Resources */,
 				9412936A1A1C7AD100B7C763 /* uv_heart.png in Resources */,
+				947482911A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */,
 				9412936C1A1C7AD100B7C763 /* uv_article.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2297,6 +2309,7 @@
 				941538D3193F270A008B3B79 /* App.xcassets in Resources */,
 				94D7CB061A1499970065229C /* uv_idea.png in Resources */,
 				943093FC1942638200B1F61F /* DAErrorView.xib in Resources */,
+				9474828F1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */,
 				94D7CB031A1499970065229C /* uv_article@2x.png in Resources */,
 				94D7CB011A1499970065229C /* UserVoice.strings in Resources */,
 				94D7CB041A1499970065229C /* uv_heart.png in Resources */,
@@ -2393,6 +2406,7 @@
 				941291991A1BEED500B7C763 /* DATwitterManager.m in Sources */,
 				9412919A1A1BEED500B7C763 /* SSKeychain.m in Sources */,
 				9412919B1A1BEED500B7C763 /* SPGooglePlacesPlaceDetailQuery.m in Sources */,
+				9474828C1A4C0ECE00831978 /* DADishHeaderCollectionReusableView.swift in Sources */,
 				9412919D1A1BEED500B7C763 /* DAFacebookLoginViewController.m in Sources */,
 				9412919E1A1BEED500B7C763 /* AFURLSessionManager.m in Sources */,
 				9412919F1A1BEED500B7C763 /* DAAnnotationView.m in Sources */,
@@ -2599,6 +2613,7 @@
 				941292981A1C7AD100B7C763 /* DATwitterManager.m in Sources */,
 				941292991A1C7AD100B7C763 /* SSKeychain.m in Sources */,
 				9412929A1A1C7AD100B7C763 /* SPGooglePlacesPlaceDetailQuery.m in Sources */,
+				9474828D1A4C0ECE00831978 /* DADishHeaderCollectionReusableView.swift in Sources */,
 				9412929C1A1C7AD100B7C763 /* DAFacebookLoginViewController.m in Sources */,
 				9412929D1A1C7AD100B7C763 /* AFURLSessionManager.m in Sources */,
 				9412929E1A1C7AD100B7C763 /* DAAnnotationView.m in Sources */,
@@ -2805,6 +2820,7 @@
 				9443DF0019D0236200F134BA /* DADatePickerTableViewCell.swift in Sources */,
 				943E62671987705B00DF2135 /* DATwitterManager.m in Sources */,
 				94E5EF7E1943FD760021A711 /* SSKeychain.m in Sources */,
+				9474828B1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift in Sources */,
 				9445C1B8199927B800F3A4F8 /* SPGooglePlacesPlaceDetailQuery.m in Sources */,
 				94449EDF19481A54008B8881 /* DAFacebookLoginViewController.m in Sources */,
 				94E5EF4A1943472D0021A711 /* AFURLSessionManager.m in Sources */,

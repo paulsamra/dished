@@ -25,10 +25,6 @@
     self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
     self.userImageView.layer.masksToBounds = YES;
     
-    self.titleButton.titleLabel.adjustsFontSizeToFitWidth = YES;
-    self.titleButton.titleLabel.minimumScaleFactor = 0.75;
-    
-    [self.titleButton    addTarget:self action:@selector(titleButtonTapped)    forControlEvents:UIControlEventTouchUpInside];
     [self.locationButton addTarget:self action:@selector(locationButtonTapped) forControlEvents:UIControlEventTouchUpInside];
     [self.creatorButton  addTarget:self action:@selector(creatorButtonTapped)  forControlEvents:UIControlEventTouchUpInside];
     
@@ -55,10 +51,8 @@
     {
         self.userImageView.image = nil;
         self.dishImageView.image = nil;
-        [self.titleButton    setTitle:nil forState:UIControlStateNormal];
         [self.locationButton setTitle:nil forState:UIControlStateNormal];
         [self.creatorButton  setImage:nil forState:UIControlStateNormal];
-        self.priceLabel.text = nil;
         self.timeLabel.text = nil;
         self.tag = -1;
     }
@@ -69,14 +63,6 @@
     if( [self.delegate respondsToSelector:@selector(imageDoubleTappedOnFeedCollectionViewCell:)] )
     {
         [self.delegate imageDoubleTappedOnFeedCollectionViewCell:self];
-    }
-}
-
-- (void)titleButtonTapped
-{
-    if( [self.delegate respondsToSelector:@selector(titleButtonTappedOnFeedCollectionViewCell:)] )
-    {
-        [self.delegate titleButtonTappedOnFeedCollectionViewCell:self];
     }
 }
 

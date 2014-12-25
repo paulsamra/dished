@@ -18,6 +18,7 @@
 #import "DAUserListViewController.h"
 #import "UIViewController+ShareView.h"
 #import "UIImageView+DishProgress.h"
+#import "DAFeedCollectionViewFlowLayout.h"
 #import "DAUserManager.h"
 #import "MRProgress.h"
 
@@ -32,9 +33,10 @@ typedef enum
 
 static NSString *const kReviewDetailCellIdentifier  = @"reviewDetailCell";
 static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
+static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 
 
-@interface DAReviewDetailsViewController() <DAFeedCollectionViewCellDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate>
+@interface DAReviewDetailsViewController() <DAFeedCollectionViewCellDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate, DADishHeaderCollectionReusableViewDelegate>
 
 @property (strong, nonatomic) DAReview *review;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
@@ -49,6 +51,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     [super viewDidLoad];
     
     [self registerCollectionViewCellNibs];
+    
+    DAFeedCollectionViewFlowLayout *flowLayout = (DAFeedCollectionViewFlowLayout *)self.collectionView.collectionViewLayout;
+    flowLayout.navigationBar  = self.navigationController.navigationBar;
     
     self.collectionView.hidden = YES;
     self.collectionView.alwaysBounceVertical = YES;
@@ -118,6 +123,9 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     
     UINib *reviewButtonsCellNib = [UINib nibWithNibName:@"DAReviewButtonsCollectionViewCell" bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:reviewButtonsCellNib forCellWithReuseIdentifier:kReviewButtonsCellIdentifier];
+    
+    UINib *headerNib = [UINib nibWithNibName:@"DADishHeaderCollectionReusableView" bundle:[NSBundle mainBundle]];
+    [self.collectionView registerNib:headerNib forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kReviewHeaderIdentifier];
 }
 
 - (void)refreshReviewData
@@ -205,13 +213,6 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
         }
         
         [dishCell.creatorButton setTitle:usernameString   forState:UIControlStateNormal];
-        [dishCell.titleButton   setTitle:self.review.name forState:UIControlStateNormal];
-        
-        if( [self.review.price floatValue] > 0 )
-        {
-            NSString *priceString = [NSString stringWithFormat:@"$%@", self.review.price];
-            dishCell.priceLabel.text = priceString;
-        }
         
         UIImage *locationIcon = [[UIImage imageNamed:@"dish_location"] imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
         [dishCell.locationButton setTitle:self.review.loc_name forState:UIControlStateNormal];
@@ -307,6 +308,38 @@ static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
     cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     return cell;
+}
+
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
+{
+    if( kind == UICollectionElementKindSectionHeader )
+    {
+        DADishHeaderCollectionReusableView *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:kReviewHeaderIdentifier forIndexPath:indexPath];
+        
+        header.delegate = self;
+        
+        [header.titleButton setTitle:self.review.name forState:UIControlStateNormal];
+        
+        if( [self.review.price floatValue] > 0 )
+        {
+            NSString *priceString = [NSString stringWithFormat:@"$%@", self.review.price];
+            header.sideLabel.text = priceString;
+        }
+        
+        return header;
+    }
+    
+    return nil;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    return CGSizeMake( self.collectionView.frame.size.width, 40 );
+}
+
+- (void)titleButtonTappedOnFeedHeaderCollectionReusableView:(DADishHeaderCollectionReusableView *)cell
+{
+    [self pushGlobalDishViewWithDishID:self.review.dish_id];
 }
 
 - (void)yumCell:(DAReviewButtonsCollectionViewCell *)cell
