@@ -84,17 +84,18 @@
         self.backgroundManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         self.backgroundManagedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
         
-        [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification object:self.backgroundManagedContext queue:nil
-        usingBlock:^( NSNotification *notification )
+        [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification
+        object:self.backgroundManagedContext queue:[NSOperationQueue mainQueue] usingBlock:^( NSNotification *notification )
         {
-            [self performSelectorOnMainThread:@selector(backgroundContextDidSave:) withObject:notification waitUntilDone:NO];
+            [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
+        }];
+        
+        [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification
+        object:self.mainManagedContext queue:nil usingBlock:^( NSNotification *note )
+        {
+            [self.backgroundManagedContext mergeChangesFromContextDidSaveNotification:note];
         }];
     }
-}
-
-- (void)backgroundContextDidSave:(NSNotification *)notification
-{
-    [self.managedObjectContext mergeChangesFromContextDidSaveNotification:notification];
 }
 
 - (NSManagedObjectContext *)mainManagedContext
@@ -107,30 +108,17 @@
     return self.backgroundManagedObjectContext;
 }
 
-- (void)saveDataInManagedContextUsingBlock:( void (^)( BOOL saved, NSError *error ) )savedBlock
-{
-    NSError *saveError = nil;
-    BOOL saveSuccess = [self.managedObjectContext save:&saveError];
-    
-    if( savedBlock )
-    {
-        savedBlock( saveSuccess, saveError );
-    }
-}
-
 - (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate sectionName:(NSString *)sectionName
 {
     return [self fetchedResultsControllerWithEntityName:name sortDescriptors:sortDescriptors predicate:predicate sectionName:sectionName fetchLimit:0];
 }
 
-- (NSArray *)fetchEntitiesWithName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate
+- (NSArray *)fetchEntitiesWithName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate inManagedObjectContext:(NSManagedObjectContext *)context
 {
     NSFetchRequest *fetchRequest = [self fetchRequestWithName:name sortDescriptors:sortDescriptors predicate:predicate fetchLimit:0];
     
     NSError *error  = nil;
-    
-    NSArray *results = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    
+    NSArray *results = [context executeFetchRequest:fetchRequest error:&error];
     return error ? nil : results;
 }
 
@@ -157,14 +145,24 @@
     return fetchRequest;
 }
 
-- (NSManagedObject *)createEntityWithClassName:(NSString *)className
+- (NSManagedObject *)createEntityWithName:(NSString *)name inManagedObjectContext:(NSManagedObjectContext *)context
 {
-    return [NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:self.managedObjectContext];
+    if( !name || !context )
+    {
+        return nil;
+    }
+    
+    return [NSEntityDescription insertNewObjectForEntityForName:name inManagedObjectContext:context];
 }
 
-- (void)deleteEntity:(NSManagedObject *)entity
+- (void)deleteEntity:(NSManagedObject *)entity inManagedObjectContext:(NSManagedObjectContext *)context
 {
-    [self.managedObjectContext deleteObject:entity];
+    if( !entity || !context )
+    {
+        return;
+    }
+    
+    [context deleteObject:entity];
 }
 
 - (void)resetStore

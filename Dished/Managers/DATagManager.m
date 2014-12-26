@@ -22,10 +22,12 @@
 
 + (NSArray *)usernamesForQuery:(NSString *)query
 {
+    NSManagedObjectContext *mainContext = [[DACoreDataManager sharedManager] mainManagedContext];
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[c] %@", kUsernameKey, query];
     NSString *name = NSStringFromClass( [DAManagedUsername class] );
     
-    NSArray *matches = [[DACoreDataManager sharedManager] fetchEntitiesWithName:name sortDescriptors:nil predicate:predicate];
+    NSArray *matches = [[DACoreDataManager sharedManager] fetchEntitiesWithName:name sortDescriptors:nil predicate:predicate inManagedObjectContext:mainContext];
     
     NSMutableArray *array = [NSMutableArray array];
     
@@ -39,10 +41,12 @@
 
 + (NSArray *)hashtagsForQuery:(NSString *)query
 {
+    NSManagedObjectContext *mainContext = [[DACoreDataManager sharedManager] mainManagedContext];
+    
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K BEGINSWITH[c] %@", kNameKey, query];
     NSString *name = NSStringFromClass( [DAManagedHashtag class] );
     
-    NSArray *matches = [[DACoreDataManager sharedManager] fetchEntitiesWithName:name sortDescriptors:nil predicate:predicate];
+    NSArray *matches = [[DACoreDataManager sharedManager] fetchEntitiesWithName:name sortDescriptors:nil predicate:predicate inManagedObjectContext:mainContext];
     
     NSMutableArray *array = [NSMutableArray array];
     

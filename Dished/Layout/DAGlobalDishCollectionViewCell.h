@@ -23,8 +23,6 @@
 @interface DAGlobalDishCollectionViewCell : UICollectionViewCell
 
 @property (weak, nonatomic) IBOutlet UILabel      *gradeLabel;
-@property (weak, nonatomic) IBOutlet UILabel      *titleLabel;
-@property (weak, nonatomic) IBOutlet UILabel      *priceLabel;
 @property (weak, nonatomic) IBOutlet UIButton     *yumsNumberButton;
 @property (weak, nonatomic) IBOutlet UIButton     *locationButton;
 @property (weak, nonatomic) IBOutlet UIButton     *photosNumberButton;

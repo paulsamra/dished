@@ -755,6 +755,8 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 
 - (void)deleteReview
 {
+    NSManagedObjectContext *mainContext = [[DACoreDataManager sharedManager] mainManagedContext];
+    
     NSDictionary *parameters = @{ kReviewIDKey : @(self.review.review_id) };
     
     [[DAAPIManager sharedManager] POSTRequest:kReviewDeleteURL withParameters:parameters
@@ -762,32 +764,30 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     {
         if( self.feedItem )
         {
-            [[DACoreDataManager sharedManager] deleteEntity:self.feedItem];
+            [[DACoreDataManager sharedManager] deleteEntity:self.feedItem inManagedObjectContext:mainContext];
             
-            [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:^( BOOL saved, NSError *error )
+            [[[DACoreDataManager sharedManager] mainManagedContext] save:nil];
+
+            [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
             {
-                [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
-                {
-                    [self.navigationController popToRootViewControllerAnimated:YES];
-                }];
+                [self.navigationController popToRootViewControllerAnimated:YES];
             }];
         }
         else
         {
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"item_id", @(self.reviewID)];
             NSString *entityName = [DAFeedItem entityName];
-            NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate];
+            NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate inManagedObjectContext:mainContext];
             
             if( matchingItems.count > 0 )
             {
-                [[DACoreDataManager sharedManager] deleteEntity:[matchingItems objectAtIndex:0]];
+                [[DACoreDataManager sharedManager] deleteEntity:[matchingItems objectAtIndex:0] inManagedObjectContext:mainContext];
                 
-                [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:^( BOOL saved, NSError *error )
+                [[[DACoreDataManager sharedManager] mainManagedContext] save:nil];
+                
+                [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
                 {
-                    [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
-                    {
-                        [self.navigationController popToRootViewControllerAnimated:YES];
-                    }];
+                    [self.navigationController popToRootViewControllerAnimated:YES];
                 }];
             }
             else

@@ -17,16 +17,31 @@
 - (NSManagedObjectContext *)mainManagedContext;
 - (NSManagedObjectContext *)backgroundManagedContext;
 
-- (void)saveDataInManagedContextUsingBlock:( void (^)( BOOL saved, NSError *error ) )savedBlock;
+- (NSArray *)fetchEntitiesWithName:(NSString *)name
+                   sortDescriptors:(NSArray *)sortDescriptors
+                         predicate:(NSPredicate *)predicate
+            inManagedObjectContext:(NSManagedObjectContext *)context;
 
-- (NSArray *)fetchEntitiesWithName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate;
-- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate sectionName:(NSString *)sectionName;
-- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate sectionName:(NSString *)sectionName fetchLimit:(NSUInteger)limit;
-- (NSFetchRequest *)fetchRequestWithName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate fetchLimit:(NSUInteger)limit;
+- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name
+                                                       sortDescriptors:(NSArray *)sortDescriptors
+                                                             predicate:(NSPredicate *)predicate
+                                                           sectionName:(NSString *)sectionName;
+
+- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name
+                                                       sortDescriptors:(NSArray *)sortDescriptors
+                                                             predicate:(NSPredicate *)predicate
+                                                           sectionName:(NSString *)sectionName
+                                                            fetchLimit:(NSUInteger)limit;
+
+- (NSFetchRequest *)fetchRequestWithName:(NSString *)name
+                         sortDescriptors:(NSArray *)sortDescriptors
+                               predicate:(NSPredicate *)predicate
+                              fetchLimit:(NSUInteger)limit;
 
 
-- (NSManagedObject *)createEntityWithClassName:(NSString *)className;
-- (void)deleteEntity:(NSManagedObject *)entity;
+- (NSManagedObject *)createEntityWithName:(NSString *)name inManagedObjectContext:(NSManagedObjectContext *)context;
+- (void)deleteEntity:(NSManagedObject *)entity inManagedObjectContext:(NSManagedObjectContext *)context;
+
 - (void)resetStore;
 
 @end

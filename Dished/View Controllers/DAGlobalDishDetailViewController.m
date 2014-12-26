@@ -151,6 +151,7 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
     NSArray *reviews = self.dishProfile.reviews[self.gradeMode];
     NSInteger limit = reviews.count ? reviews.count : kLoadLimit;
     NSDictionary *parameters = @{ kIDKey : @(self.dishID), kGradeKey : [self gradeKeyForGradeMode:self.gradeMode], kRowLimitKey : @(limit) };
+    
     [[DAAPIManager sharedManager] GETRequest:kDishesProfileReviewsURL withParameters:parameters
     success:^( id response )
     {
@@ -257,13 +258,6 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
             DAGlobalDishCollectionViewCell *mainCell = [collectionView dequeueReusableCellWithReuseIdentifier:@"dishCell" forIndexPath:indexPath];
             
             mainCell.delegate = self;
-            
-            mainCell.titleLabel.text = self.dishProfile.name;
-            
-            if( self.dishProfile.price && [self.dishProfile.price integerValue] > 0 )
-            {
-                mainCell.priceLabel.text = [NSString stringWithFormat:@"$%@", self.dishProfile.price];
-            }
             
             [mainCell setPagedImages:self.dishProfile.images];
             
@@ -388,7 +382,7 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
         return CGSizeMake( self.collectionView.frame.size.height, 40 );
     }
     
-    return CGSizeMake( self.collectionView.frame.size.height, 0 );
+    return CGSizeZero;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section

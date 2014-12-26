@@ -32,67 +32,75 @@
 {
     [self getFeedDataWithLimit:limit offset:offset success:^( id response )
     {
-        NSArray *itemIDs = [self itemIDsForData:response[kDataKey]];
-        NSArray *timestamps = [self timestampsForData:response[kDataKey]];
-        NSArray *matchingItems = offset == 0 ? [self feedItemsUpToTimestamp:[[timestamps lastObject] doubleValue]] : [self feedItemsBetweenTimestamps:timestamps];
+        NSManagedObjectContext *backgroundContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
         
-        NSUInteger entityIndex = 0;
-        
-        NSArray *data = nilOrJSONObjectForKey( response, kDataKey );
-        
-        for( int i = 0; i < itemIDs.count; i++ )
+        [backgroundContext performBlockAndWait:^
         {
-            NSUInteger newItemIndex = i;
+            NSArray *itemIDs = [self itemIDsForData:response[kDataKey]];
+            NSArray *timestamps = [self timestampsForData:response[kDataKey]];
+            NSArray *matchingItems = offset == 0 ? [self feedItemsUpToTimestamp:[[timestamps lastObject] doubleValue]] : [self feedItemsBetweenTimestamps:timestamps];
             
-            NSArray *comments = nilOrJSONObjectForKey( data[newItemIndex], kCommentsKey );
-            NSArray *hashtags = nilOrJSONObjectForKey( data[newItemIndex], kHashtagsKey );
+            NSUInteger entityIndex = 0;
             
-            if( entityIndex < matchingItems.count)
+            NSArray *data = nilOrJSONObjectForKey( response, kDataKey );
+            
+            for( int i = 0; i < itemIDs.count; i++ )
             {
-                DAFeedItem *managedItem = matchingItems[entityIndex];
+                NSUInteger newItemIndex = i;
                 
-                if( [timestamps[newItemIndex] doubleValue] < [managedItem.created timeIntervalSince1970] )
+                NSArray *comments = nilOrJSONObjectForKey( data[newItemIndex], kCommentsKey );
+                NSArray *hashtags = nilOrJSONObjectForKey( data[newItemIndex], kHashtagsKey );
+                
+                if( entityIndex < matchingItems.count)
                 {
-                    [[DACoreDataManager sharedManager] deleteEntity:managedItem];
-                    entityIndex++;
-                    i--;
+                    DAFeedItem *managedItem = matchingItems[entityIndex];
+                    
+                    if( [timestamps[newItemIndex] doubleValue] < [managedItem.created timeIntervalSince1970] )
+                    {
+                        [[DACoreDataManager sharedManager] deleteEntity:managedItem inManagedObjectContext:backgroundContext];
+                        entityIndex++;
+                        i--;
+                    }
+                    else if( ![itemIDs[i] isEqualToNumber:managedItem.item_id] )
+                    {
+                        DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithName:[DAFeedItem entityName] inManagedObjectContext:backgroundContext];
+                        [newManagedItem configureWithDictionary:data[newItemIndex]];
+                        [self updateFeedItem:newManagedItem withComments:comments];
+                        [self updateFeedItem:newManagedItem withHashtags:hashtags];
+                    }
+                    else
+                    {
+                        managedItem = matchingItems[entityIndex];
+                        [managedItem configureWithDictionary:data[newItemIndex]];
+                        [self updateFeedItem:managedItem withComments:comments];
+                        [self updateFeedItem:managedItem withHashtags:hashtags];
+                        
+                        entityIndex++;
+                    }
                 }
-                else if( ![itemIDs[i] isEqualToNumber:managedItem.item_id] )
+                else
                 {
-                    DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
+                    DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithName:[DAFeedItem entityName] inManagedObjectContext:backgroundContext];
                     [newManagedItem configureWithDictionary:data[newItemIndex]];
                     [self updateFeedItem:newManagedItem withComments:comments];
                     [self updateFeedItem:newManagedItem withHashtags:hashtags];
                 }
+            }
+            
+            NSError *error = nil;
+            [backgroundContext save:&error];
+            
+            dispatch_async( dispatch_get_main_queue(), ^
+            {
+                if( error )
+                {
+                    completion( NO, YES );
+                }
                 else
                 {
-                    managedItem = matchingItems[entityIndex];
-                    [managedItem configureWithDictionary:data[newItemIndex]];
-                    [self updateFeedItem:managedItem withComments:comments];
-                    [self updateFeedItem:managedItem withHashtags:hashtags];
-                    
-                    entityIndex++;
+                    completion( YES, YES );
                 }
-            }
-            else
-            {
-                DAFeedItem *newManagedItem = (DAFeedItem *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAFeedItem entityName]];
-                [newManagedItem configureWithDictionary:data[newItemIndex]];
-                [self updateFeedItem:newManagedItem withComments:comments];
-                [self updateFeedItem:newManagedItem withHashtags:hashtags];
-            }
-        }
-        
-        [[DACoreDataManager sharedManager] saveDataInManagedContextUsingBlock:^( BOOL saved, NSError *error )
-        {
-            if( !saved || error )
-            {
-                completion( NO, YES );
-            }
-            else
-            {
-                completion( YES, YES );
-            }
+            });
         }];
     }
     failure:^( NSError *error )
@@ -110,34 +118,20 @@
     }];
 }
 
-- (NSArray *)test:(NSTimeInterval)timestamp
-{
-    NSDate *toDate = [NSDate dateWithTimeIntervalSince1970:timestamp];
-    
-    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kCreatedKey ascending:NO];
-    NSArray *sortDescriptors = @[ dateSortDescriptor ];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K >= %@", kCreatedKey, toDate];
-    
-    NSString *entityName = [DAFeedItem entityName];
-    NSFetchRequest *fetchRequest = [[DACoreDataManager sharedManager] fetchRequestWithName:entityName sortDescriptors:sortDescriptors predicate:predicate fetchLimit:0];
-    
-    NSArray *matchingItems = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
-    
-    return matchingItems;
-}
-
 - (void)updateFeedItem:(DAFeedItem *)feedItem withComments:(NSArray *)comments
 {
+    NSManagedObjectContext *backgroundContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
+    
     NSSet *existingComments = feedItem.comments;
     
     for( DAManagedComment *comment in existingComments )
     {
-        [[DACoreDataManager sharedManager] deleteEntity:comment];
+        [[DACoreDataManager sharedManager] deleteEntity:comment inManagedObjectContext:backgroundContext];
     }
     
     for( NSDictionary *comment in comments )
     {
-        DAManagedComment *feedComment = (DAManagedComment *)[[DACoreDataManager sharedManager] createEntityWithClassName:[DAManagedComment entityName]];
+        DAManagedComment *feedComment = (DAManagedComment *)[[DACoreDataManager sharedManager] createEntityWithName:[DAManagedComment entityName] inManagedObjectContext:backgroundContext];
         [feedComment configureWithDictionary:comment];
         feedComment.feedItem = feedItem;
         
@@ -145,21 +139,23 @@
         
         for( NSString *username in usernameMentions )
         {
-            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%@ == %K", username, kUsernameKey];
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", kUsernameKey, username];
             NSString *entityName = NSStringFromClass( [DAManagedUsername class] );
             
-            NSArray *matches = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate];
+            NSArray *matches = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate inManagedObjectContext:backgroundContext];
             
-            if( matches.count == 1 )
+            if( matches.count > 0 )
             {
                 [feedComment addUsernamesObject:matches[0]];
             }
             else
             {
-                DAManagedUsername *managedUsername = (DAManagedUsername *)[[DACoreDataManager sharedManager] createEntityWithClassName:entityName];
+                DAManagedUsername *managedUsername = (DAManagedUsername *)[[DACoreDataManager sharedManager] createEntityWithName:entityName inManagedObjectContext:backgroundContext];
                 managedUsername.username = username;
                 
                 [feedComment addUsernamesObject:managedUsername];
+                
+                [[[DACoreDataManager sharedManager] mainManagedContext] save:nil];
             }
         }
         
@@ -169,6 +165,8 @@
 
 - (void)updateFeedItem:(DAFeedItem *)feedItem withHashtags:(NSArray *)hashtags
 {
+    NSManagedObjectContext *backgroundContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
+    
     feedItem.hashtags = [NSSet set];
     
     for( NSString *hashtag in hashtags )
@@ -176,7 +174,7 @@
         NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%@ == %K", hashtag, kNameKey];
         NSString *entityName = NSStringFromClass( [DAManagedHashtag class] );
         
-        NSArray *matches = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate];
+        NSArray *matches = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate inManagedObjectContext:backgroundContext];
         
         if( matches.count == 1 )
         {
@@ -184,7 +182,7 @@
         }
         else
         {
-            DAManagedHashtag *managedHashtag = (DAManagedHashtag *)[[DACoreDataManager sharedManager] createEntityWithClassName:entityName];
+            DAManagedHashtag *managedHashtag = (DAManagedHashtag *)[[DACoreDataManager sharedManager] createEntityWithName:entityName inManagedObjectContext:backgroundContext];
             managedHashtag.name = hashtag;
             
             [feedItem addHashtagsObject:managedHashtag];
@@ -194,6 +192,8 @@
 
 - (NSArray *)feedItemsBetweenTimestamps:(NSArray *)timestamps
 {
+    NSManagedObjectContext *backgroundContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
+    
     NSTimeInterval first = [[timestamps lastObject]  doubleValue];
     NSTimeInterval last  = [[timestamps firstObject] doubleValue];
     
@@ -207,13 +207,15 @@
     
     NSString *entityName = [DAFeedItem entityName];
     
-    NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:sortDescriptors predicate:predicate];
+    NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:sortDescriptors predicate:predicate inManagedObjectContext:backgroundContext];
     
     return matchingItems;
 }
 
 - (NSArray *)feedItemsUpToTimestamp:(NSTimeInterval)timestamp
 {
+    NSManagedObjectContext *backgroundContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
+    
     NSDate *toDate = [NSDate dateWithTimeIntervalSince1970:timestamp];
     
     NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kCreatedKey ascending:NO];
@@ -223,7 +225,7 @@
     
     NSString *entityName = [DAFeedItem entityName];
     
-    NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:sortDescriptors predicate:predicate];
+    NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:sortDescriptors predicate:predicate inManagedObjectContext:backgroundContext];
     
     return matchingItems;
 }
