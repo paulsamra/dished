@@ -755,8 +755,6 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 
 - (void)deleteReview
 {
-    NSManagedObjectContext *mainContext = [[DACoreDataManager sharedManager] mainManagedContext];
-    
     NSDictionary *parameters = @{ kReviewIDKey : @(self.review.review_id) };
     
     [[DAAPIManager sharedManager] POSTRequest:kReviewDeleteURL withParameters:parameters
@@ -764,9 +762,10 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     {
         if( self.feedItem )
         {
-            [[DACoreDataManager sharedManager] deleteEntity:self.feedItem inManagedObjectContext:mainContext];
+            NSManagedObjectContext *backgroundContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
             
-            [[[DACoreDataManager sharedManager] mainManagedContext] save:nil];
+            [[DACoreDataManager sharedManager] deleteEntity:self.feedItem inManagedObjectContext:backgroundContext];
+            [[[DACoreDataManager sharedManager] backgroundManagedContext] save:nil];
 
             [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
             {
@@ -775,6 +774,8 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         }
         else
         {
+            NSManagedObjectContext *mainContext = [[DACoreDataManager sharedManager] mainManagedContext];
+            
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"item_id", @(self.reviewID)];
             NSString *entityName = [DAFeedItem entityName];
             NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate inManagedObjectContext:mainContext];
@@ -782,7 +783,6 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
             if( matchingItems.count > 0 )
             {
                 [[DACoreDataManager sharedManager] deleteEntity:[matchingItems objectAtIndex:0] inManagedObjectContext:mainContext];
-                
                 [[[DACoreDataManager sharedManager] mainManagedContext] save:nil];
                 
                 [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^

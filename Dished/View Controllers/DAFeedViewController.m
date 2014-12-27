@@ -170,9 +170,14 @@ typedef enum
     }
     
     NSInteger limit = self.fetchedResultsController.fetchRequest.fetchLimit;
+    limit = limit > 20 ? 20 : limit;
     
     [self.importer importFeedItemsWithLimit:limit offset:0 completion:^( BOOL success, BOOL hasMoreData )
     {
+        self.fetchedResultsController.fetchRequest.fetchLimit = limit;
+        [self.fetchedResultsController performFetch:nil];
+        [self.collectionView reloadData];
+        
         [self.refreshControl endRefreshing];
         
         self.hasMoreData = hasMoreData;

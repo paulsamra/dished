@@ -22,22 +22,14 @@
                          predicate:(NSPredicate *)predicate
             inManagedObjectContext:(NSManagedObjectContext *)context;
 
-- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name
-                                                       sortDescriptors:(NSArray *)sortDescriptors
-                                                             predicate:(NSPredicate *)predicate
-                                                           sectionName:(NSString *)sectionName;
-
-- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name
-                                                       sortDescriptors:(NSArray *)sortDescriptors
-                                                             predicate:(NSPredicate *)predicate
-                                                           sectionName:(NSString *)sectionName
-                                                            fetchLimit:(NSUInteger)limit;
+- (NSFetchedResultsController *)fetchedResultsControllerWithFetchRequest:(NSFetchRequest *)fetchRequest
+                                                      sectionNameKeyPath:(NSString *)sectionName
+                                                  inManagedObjectContext:(NSManagedObjectContext *)context;
 
 - (NSFetchRequest *)fetchRequestWithName:(NSString *)name
                          sortDescriptors:(NSArray *)sortDescriptors
                                predicate:(NSPredicate *)predicate
                               fetchLimit:(NSUInteger)limit;
-
 
 - (NSManagedObject *)createEntityWithName:(NSString *)name inManagedObjectContext:(NSManagedObjectContext *)context;
 - (void)deleteEntity:(NSManagedObject *)entity inManagedObjectContext:(NSManagedObjectContext *)context;

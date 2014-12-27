@@ -108,9 +108,16 @@
     return self.backgroundManagedObjectContext;
 }
 
-- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate sectionName:(NSString *)sectionName
+- (NSFetchedResultsController *)fetchedResultsControllerWithFetchRequest:(NSFetchRequest *)fetchRequest
+                                                      sectionNameKeyPath:(NSString *)sectionName
+                                                  inManagedObjectContext:(NSManagedObjectContext *)context
 {
-    return [self fetchedResultsControllerWithEntityName:name sortDescriptors:sortDescriptors predicate:predicate sectionName:sectionName fetchLimit:0];
+    NSFetchedResultsController *fetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:context sectionNameKeyPath:sectionName cacheName:nil];
+    
+    NSError *error = nil;
+    BOOL success = [fetchedResultsController performFetch:&error];
+    
+    return success ? fetchedResultsController : nil;
 }
 
 - (NSArray *)fetchEntitiesWithName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate inManagedObjectContext:(NSManagedObjectContext *)context
@@ -120,18 +127,6 @@
     NSError *error  = nil;
     NSArray *results = [context executeFetchRequest:fetchRequest error:&error];
     return error ? nil : results;
-}
-
-- (NSFetchedResultsController *)fetchedResultsControllerWithEntityName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate sectionName:(NSString *)sectionName fetchLimit:(NSUInteger)limit
-{
-    NSFetchRequest *fetchRequest = [self fetchRequestWithName:name sortDescriptors:sortDescriptors predicate:predicate fetchLimit:limit];
-    
-    NSFetchedResultsController *resultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:sectionName cacheName:nil];
-    
-    NSError *error = nil;
-    BOOL success = [resultsController performFetch:&error];
-    
-    return success ? resultsController : nil;
 }
 
 - (NSFetchRequest *)fetchRequestWithName:(NSString *)name sortDescriptors:(NSArray *)sortDescriptors predicate:(NSPredicate *)predicate fetchLimit:(NSUInteger)limit

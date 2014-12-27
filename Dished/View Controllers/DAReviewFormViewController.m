@@ -179,13 +179,18 @@
 {
     [super viewWillDisappear:animated];
     
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-    
-    [self.view endEditing:YES];
     [self.socialViewController.view removeFromSuperview];
     [self.dimView removeFromSuperview];
     
+    [self.view endEditing:YES];
+        
     CLSLog( @"Review form will disappear..." );
+}
+
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
 }
 
 - (void)setupShareView
@@ -343,7 +348,7 @@
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
-{
+{    
     if( textField == self.priceTextField )
     {
         if (textField.text.length == 0 )

@@ -15,6 +15,8 @@
 #import "DAUserManager.h"
 #import "DATagSuggestionTableView.h"
 
+#define kRowLimit 20
+
 
 @interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate, DACommentTableViewCellDelegate, DATagSuggestionsTableViewDelegate>
 
@@ -70,7 +72,7 @@
     self.inputToolbar.contentView.rightBarButtonItem.enabled = NO;
     
     NSInteger reviewID = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
-    NSDictionary *parameters = @{ kIDKey : @(reviewID) };
+    NSDictionary *parameters = @{ kIDKey : @(reviewID), kRowLimitKey : @(kRowLimit) };
     
     weakSelf.loadCommentsTask = [[DAAPIManager sharedManager] GETRequest:kCommentsURL withParameters:parameters
     success:^( id response )
@@ -101,6 +103,24 @@
         {
             [weakSelf loadComments];
         }
+    }];
+}
+
+- (void)loadMoreComments
+{
+    __weak typeof( self ) weakSelf = self;
+    
+    NSInteger reviewID = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
+    NSDictionary *parameters = @{ kIDKey : @(reviewID), kRowOffsetKey : @(weakSelf.comments.count), kRowLimitKey : @(kRowLimit) };
+    
+    weakSelf.loadCommentsTask = [[DAAPIManager sharedManager] GETRequest:kCommentsURL withParameters:parameters
+    success:^( id response )
+    {
+        
+    }
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        
     }];
 }
 
@@ -271,6 +291,7 @@
     if( self.shouldShowKeyboard )
     {
         [self.inputToolbar.contentView.textView becomeFirstResponder];
+        self.shouldShowKeyboard = NO;
     }
 }
 

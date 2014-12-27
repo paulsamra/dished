@@ -20,7 +20,7 @@
                             <constraint firstAttribute="height" constant="23" id="rCY-tp-wcj"/>
                         </constraints>
                     </imageView>
-                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="comment" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Sh-p8-Rj3" customClass="DALinkedTextView">
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" delaysContentTouches="NO" editable="NO" text="comment" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6Sh-p8-Rj3" customClass="DALinkedTextView">
                         <rect key="frame" x="39" y="12" width="273" height="23"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="15"/>

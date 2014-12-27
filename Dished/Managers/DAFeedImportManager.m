@@ -265,9 +265,9 @@
     NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kCreatedKey ascending:NO];
     NSArray *sortDescriptors = @[ dateSortDescriptor ];
     
-    NSFetchedResultsController *fetchedResultsController = [[DACoreDataManager sharedManager] fetchedResultsControllerWithEntityName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil sectionName:kCreatedKey fetchLimit:limit];
+    NSFetchRequest *fetchRequest = [[DACoreDataManager sharedManager] fetchRequestWithName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil fetchLimit:limit];
     
-    return fetchedResultsController;
+    return [[DACoreDataManager sharedManager] fetchedResultsControllerWithFetchRequest:fetchRequest sectionNameKeyPath:kCreatedKey inManagedObjectContext:[[DACoreDataManager sharedManager] backgroundManagedContext]];
 }
 
 - (void)getFeedDataWithLimit:(NSInteger)limit offset:(NSInteger)offset success:( void(^)( id response ) )success failure:( void(^)( NSError *error ) )failure
