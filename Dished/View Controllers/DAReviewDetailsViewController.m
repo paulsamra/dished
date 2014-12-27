@@ -760,11 +760,11 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     [[DAAPIManager sharedManager] POSTRequest:kReviewDeleteURL withParameters:parameters
     success:^( id response )
     {
+        NSManagedObjectContext *mainContext = [[DACoreDataManager sharedManager] mainManagedContext];
+        
         if( self.feedItem )
         {
-            NSManagedObjectContext *backgroundContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
-            
-            [[DACoreDataManager sharedManager] deleteEntity:self.feedItem inManagedObjectContext:backgroundContext];
+            [[DACoreDataManager sharedManager] deleteEntity:self.feedItem inManagedObjectContext:mainContext];
             [[[DACoreDataManager sharedManager] backgroundManagedContext] save:nil];
 
             [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
@@ -774,8 +774,6 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         }
         else
         {
-            NSManagedObjectContext *mainContext = [[DACoreDataManager sharedManager] mainManagedContext];
-            
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"item_id", @(self.reviewID)];
             NSString *entityName = [DAFeedItem entityName];
             NSArray *matchingItems = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate inManagedObjectContext:mainContext];

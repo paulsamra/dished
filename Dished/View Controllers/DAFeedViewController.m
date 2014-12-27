@@ -189,7 +189,6 @@ typedef enum
     self.isLoadingMore = YES;
     
     NSInteger offset = self.fetchedResultsController.fetchRequest.fetchLimit;
-    self.fetchedResultsController.fetchRequest.fetchLimit += 10;
     
     [self.importer importFeedItemsWithLimit:10 offset:offset completion:^( BOOL success, BOOL hasMoreData )
     {
@@ -197,6 +196,10 @@ typedef enum
         
         if( success )
         {
+            self.fetchedResultsController.fetchRequest.fetchLimit += 10;
+            [self.fetchedResultsController performFetch:nil];
+            [self.collectionView reloadData];
+            
             self.isLoadingMore = NO;
         }
     }];

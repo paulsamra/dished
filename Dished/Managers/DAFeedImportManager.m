@@ -34,7 +34,7 @@
     {
         NSManagedObjectContext *backgroundContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
         
-        [backgroundContext performBlockAndWait:^
+        [backgroundContext performBlock:^
         {
             NSArray *itemIDs = [self itemIDsForData:response[kDataKey]];
             NSArray *timestamps = [self timestampsForData:response[kDataKey]];
@@ -267,7 +267,7 @@
     
     NSFetchRequest *fetchRequest = [[DACoreDataManager sharedManager] fetchRequestWithName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil fetchLimit:limit];
     
-    return [[DACoreDataManager sharedManager] fetchedResultsControllerWithFetchRequest:fetchRequest sectionNameKeyPath:kCreatedKey inManagedObjectContext:[[DACoreDataManager sharedManager] backgroundManagedContext]];
+    return [[DACoreDataManager sharedManager] fetchedResultsControllerWithFetchRequest:fetchRequest sectionNameKeyPath:kCreatedKey inManagedObjectContext:[[DACoreDataManager sharedManager] mainManagedContext]];
 }
 
 - (void)getFeedDataWithLimit:(NSInteger)limit offset:(NSInteger)offset success:( void(^)( id response ) )success failure:( void(^)( NSError *error ) )failure
