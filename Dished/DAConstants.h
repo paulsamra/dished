@@ -108,6 +108,7 @@ extern NSString *const kExploreLocationsURL;
 extern NSString *const kRestaurantProfileURL;
 extern NSString *const kEmailAvailabilityURL;
 extern NSString *const kPhoneAvailabilityURL;
+extern NSString *const kUserContactsFollowURL;
 extern NSString *const kUserProfileReviewsURL;
 extern NSString *const kUserContactsInviteURL;
 extern NSString *const kDishesProfileReviewsURL;

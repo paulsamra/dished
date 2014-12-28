@@ -9,6 +9,7 @@
 #import "DAInviteFriendsViewController.h"
 #import <AddressBook/AddressBook.h>
 #import "DAUserManager.h"
+#import "DAAppDelegate.h"
 
 #define kCellIdentifier @"userCell"
 
@@ -61,125 +62,27 @@
     [self.contactsTableView registerNib:searchCellNib forCellReuseIdentifier:kCellIdentifier];
     
     [self loadFacebookFriends];
-    [self loadContacts];
-}
-
-- (void)loadContacts
-{
+    
     self.isLoadingContacts = YES;
-    
-    ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
-    
-    if( status == kABAuthorizationStatusDenied )
+    [DAAppDelegate getContactsAddressBookWithCompletion:^( BOOL granted, ABAddressBookRef addressBook, NSError *error )
     {
-        self.contactsNotPermitted = YES;
-        self.isLoadingContacts = NO;
-        [self.spinner stopAnimating];
-        return;
-    }
-    
-    CFErrorRef error = NULL;
-    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions( nil, &error );
-    
-    if( error )
-    {
-        self.contactsFailure = YES;
-        self.isLoadingContacts = NO;
-        [self.spinner stopAnimating];
-        return;
-    }
-    
-    if( status == kABAuthorizationStatusNotDetermined )
-    {
-        ABAddressBookRequestAccessWithCompletion( addressBook, ^( bool granted, CFErrorRef error )
+        if( error )
         {
-            dispatch_async( dispatch_get_main_queue(), ^
-            {
-                if( error )
-                {
-                    self.contactsFailure = YES;
-                    self.isLoadingContacts = NO;
-                }
-                else if( !granted )
-                {
-                    self.contactsNotPermitted = YES;
-                    self.isLoadingContacts = NO;
-                }
-                else
-                {
-                    [self getRegistrationStatusForContacts:[self contactsDataWithAddressBook:addressBook]];
-                }
-                
-                CFRelease( addressBook );
-            });
-        });
-        
-    }
-    else if( status == kABAuthorizationStatusAuthorized )
-    {
-        [self getRegistrationStatusForContacts:[self contactsDataWithAddressBook:addressBook]];
-
-        CFRelease( addressBook );
-    }
-}
-
-- (NSArray *)contactsDataWithAddressBook:(ABAddressBookRef)addressBook
-{
-    NSInteger numberOfPeople = ABAddressBookGetPersonCount( addressBook );
-    NSArray *allPeople = CFBridgingRelease( ABAddressBookCopyArrayOfAllPeople( addressBook ) );
-    
-    NSMutableArray *contacts = [NSMutableArray array];
-    
-    for( NSInteger i = 0; i < numberOfPeople; i++ )
-    {
-        ABRecordRef person = (__bridge ABRecordRef)allPeople[i];
-        
-        ABMultiValueRef phoneNumbers = ABRecordCopyValue( person, kABPersonPhoneProperty );
-        
-        if( phoneNumbers )
-        {
-            CFIndex numberOfPhoneNumbers = ABMultiValueGetCount( phoneNumbers );
-            
-            NSCharacterSet *decimalCharacters = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
-            
-            for( CFIndex i = 0; i < numberOfPhoneNumbers; i++ )
-            {
-                CFStringRef label = ABMultiValueCopyLabelAtIndex( phoneNumbers, i );
-                NSString *phoneLabel = CFBridgingRelease( ABAddressBookCopyLocalizedLabel( label ) );
-                
-                if( [phoneLabel isEqualToString:@"mobile"] )
-                {
-                    NSString *phoneNumber = CFBridgingRelease( ABMultiValueCopyValueAtIndex( phoneNumbers, i ) );
-                    NSString *number = [[phoneNumber componentsSeparatedByCharactersInSet:decimalCharacters] componentsJoinedByString: @""];
-                    
-                    if( number.length != 10 )
-                    {
-                        continue;
-                    }
-                    
-                    NSString *firstName = CFBridgingRelease( ABRecordCopyValue( person, kABPersonFirstNameProperty ) );
-                    NSString *lastName  = CFBridgingRelease( ABRecordCopyValue( person, kABPersonLastNameProperty  ) );
-                    NSString *name = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-
-                    ABMutableMultiValueRef emailRef  = ABRecordCopyValue( person, kABPersonEmailProperty );
-                    NSString *email = nil;
-                    
-                    if( ABMultiValueGetCount( emailRef ) > 0 )
-                    {
-                        email = CFBridgingRelease( ABMultiValueCopyValueAtIndex( emailRef, 0 ) );
-                    }
-                    
-                    NSDictionary *contactDict = [self dictionaryWithName:name number:number email:email];
-                    
-                    [contacts addObject:contactDict];
-                }
-            }
-            
-            CFRelease( phoneNumbers );
+            self.contactsFailure = YES;
+            [self.spinner stopAnimating];
         }
-    }
-    
-    return contacts;
+        else if( !granted )
+        {
+            self.contactsNotPermitted = YES;
+            [self.spinner stopAnimating];
+        }
+        else
+        {
+            [self getRegistrationStatusForContacts:[DAAppDelegate contactsWithAddressBook:addressBook]];
+        }
+        
+        self.isLoadingContacts = NO;
+    }];
 }
 
 - (void)loadFacebookFriends
@@ -188,6 +91,8 @@
     
     if( FBSession.activeSession.state != FBSessionStateOpen || ![[DAUserManager sharedManager] isFacebookUser] )
     {
+        self.isFacebookUser = NO;
+        
         if( self.selectedTableView == self.facebookTableView )
         {
             self.facebookConnectLabel.hidden = NO;
@@ -196,6 +101,10 @@
         
         self.isLoadingFacebook = NO;
         return;
+    }
+    else
+    {
+        self.isFacebookUser = YES;
     }
 }
 
@@ -226,11 +135,8 @@
         }
         
         self.registrationData = contacts;
-    
         [self.contactsTableView reloadData];
-        
         [self.spinner stopAnimating];
-        
         self.isLoadingContacts = NO;
     }
     failure:^( NSError *error, BOOL shouldRetry )
@@ -284,12 +190,6 @@
     self.contactsFailureLabel.hidden = !contactsFailure;
 }
 
-- (void)setIsFacebookUser:(BOOL)isFacebookUser
-{
-    _isFacebookUser = isFacebookUser;
-    self.facebookConnectLabel.hidden = isFacebookUser;
-}
-
 - (void)makeTableViewActive:(UITableView *)tableView
 {
     self.selectedTableView.hidden = YES;
@@ -329,6 +229,7 @@
         if( !self.isFacebookUser )
         {
             self.facebookConnectLabel.hidden = NO;
+            [self.spinner stopAnimating];
         }
     }
 }

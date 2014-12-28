@@ -42,19 +42,18 @@
     
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
-    if( FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded && [[DAAPIManager sharedManager] isLoggedIn] )
+    if( [[DAAPIManager sharedManager] isLoggedIn] )
     {
-        [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"user_friends", @"email", @"user_birthday"] allowLoginUI:NO
-        completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
-        {
-            [self sessionStateChanged:session state:state error:error];
-        }];
+        [self login];
         
-        [self login];
-    }
-    else if( [[DAAPIManager sharedManager] isLoggedIn] )
-    {
-        [self login];
+        if( FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded )
+        {
+            [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"user_friends", @"email", @"user_birthday"] allowLoginUI:NO
+            completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
+            {
+                [self sessionStateChanged:session state:state error:error];
+            }];
+        }
         
         NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
         
@@ -375,6 +374,11 @@
 
 - (void)followFacebookFriends
 {
+    if( ![[DAAPIManager sharedManager] isLoggedIn] )
+    {
+        return;
+    }
+    
     [[FBRequest requestForMyFriends] startWithCompletionHandler: ^( FBRequestConnection *connection, NSDictionary* result, NSError *error )
     {
         NSArray* friends = [result objectForKey:@"data"];
@@ -388,7 +392,164 @@
 
 - (void)followContacts
 {
+    if( ![[DAAPIManager sharedManager] isLoggedIn] )
+    {
+        return;
+    }
     
+    [DAAppDelegate getContactsAddressBookWithCompletion:^( BOOL granted, ABAddressBookRef addressBook, NSError *error )
+    {
+        if( addressBook )
+        {
+            NSArray *contacts = [DAAppDelegate contactsWithAddressBook:addressBook];
+            NSData *jsonData = [NSJSONSerialization dataWithJSONObject:contacts options:NSJSONWritingPrettyPrinted error:nil];
+            NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+                        
+            NSDictionary *parameters = @{ kContactsKey : jsonString };
+            
+            [[DAAPIManager sharedManager] POSTRequest:kUserContactsFollowURL withParameters:parameters success:nil failure:nil];
+        }
+    }];
+}
+
++ (void)getContactsAddressBookWithCompletion:( void(^)( BOOL granted, ABAddressBookRef addressBook, NSError *error ) )completion
+{
+    ABAuthorizationStatus status = ABAddressBookGetAuthorizationStatus();
+    
+    if( status == kABAuthorizationStatusDenied )
+    {
+        completion( NO, nil, nil );
+    }
+    
+    CFErrorRef error = nil;
+    ABAddressBookRef addressBook = ABAddressBookCreateWithOptions( nil, &error );
+    
+    if( error )
+    {
+        completion( NO, nil, CFBridgingRelease( error ) );
+    }
+    
+    if( status == kABAuthorizationStatusNotDetermined )
+    {
+        ABAddressBookRequestAccessWithCompletion( addressBook, ^( bool granted, CFErrorRef error )
+        {
+            dispatch_async( dispatch_get_main_queue(), ^
+            {
+                if( error )
+                {
+                    completion( NO, nil, CFBridgingRelease( error ) );
+                }
+                else if( !granted )
+                {
+                    completion( NO, nil, nil );
+                }
+                else
+                {
+                    completion( YES, addressBook, nil );
+                    CFRelease( addressBook );
+                }
+            });
+         });
+    }
+    else if( status == kABAuthorizationStatusAuthorized )
+    {
+        completion( YES, addressBook, nil );
+        CFRelease( addressBook );
+    }
+}
+
++ (NSArray *)contactsWithAddressBook:(ABAddressBookRef)addressBook
+{
+    if( !addressBook )
+    {
+        return nil;
+    }
+    
+    NSInteger numberOfPeople = ABAddressBookGetPersonCount( addressBook );
+    NSArray *allPeople = CFBridgingRelease( ABAddressBookCopyArrayOfAllPeople( addressBook ) );
+    
+    NSMutableArray *contacts = [NSMutableArray array];
+    
+    for( NSInteger i = 0; i < numberOfPeople; i++ )
+    {
+        ABRecordRef person = (__bridge ABRecordRef)allPeople[i];
+        ABMultiValueRef phoneNumbers = ABRecordCopyValue( person, kABPersonPhoneProperty );
+        
+        if( phoneNumbers )
+        {
+            CFIndex numberOfPhoneNumbers = ABMultiValueGetCount( phoneNumbers );
+            NSCharacterSet *decimalCharacters = [[NSCharacterSet decimalDigitCharacterSet] invertedSet];
+            
+            for( CFIndex i = 0; i < numberOfPhoneNumbers; i++ )
+            {
+                CFStringRef label = ABMultiValueCopyLabelAtIndex( phoneNumbers, i );
+                NSString *phoneLabel = CFBridgingRelease( ABAddressBookCopyLocalizedLabel( label ) );
+                
+                if( ![phoneLabel isEqualToString:@"home"] )
+                {
+                    NSString *phoneNumber = CFBridgingRelease( ABMultiValueCopyValueAtIndex( phoneNumbers, i ) );
+                    NSString *number = [[phoneNumber componentsSeparatedByCharactersInSet:decimalCharacters] componentsJoinedByString: @""];
+                    
+                    if( number.length > 0 )
+                    {
+                        if( [number characterAtIndex:0] == '1' )
+                        {
+                            number = [number substringFromIndex:1];
+                        }
+                    }
+                    
+                    if( number.length != 10 )
+                    {
+                        continue;
+                    }
+                    
+                    NSString *firstName = CFBridgingRelease( ABRecordCopyValue( person, kABPersonFirstNameProperty ) );
+                    firstName = firstName ? firstName : @"";
+                    NSString *lastName  = CFBridgingRelease( ABRecordCopyValue( person, kABPersonLastNameProperty  ) );
+                    lastName = lastName ? lastName : @"";
+                    NSString *name = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+                    
+                    ABMutableMultiValueRef emailRef  = ABRecordCopyValue( person, kABPersonEmailProperty );
+                    NSString *email = nil;
+                    
+                    if( ABMultiValueGetCount( emailRef ) > 0 )
+                    {
+                        email = CFBridgingRelease( ABMultiValueCopyValueAtIndex( emailRef, 0 ) );
+                    }
+                    
+                    NSDictionary *contactDict = [DAAppDelegate dictionaryWithName:name number:number email:email];
+                    [contacts addObject:contactDict];
+                    break;
+                }
+            }
+            
+            CFRelease( phoneNumbers );
+        }
+    }
+    
+    return contacts;
+}
+
++ (NSDictionary *)dictionaryWithName:(NSString *)name number:(NSString *)number email:(NSString *)email
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    
+    if( name )
+    {
+        dict[kNameKey] = name;
+    }
+    
+    if( number )
+    {
+        dict[kPhoneKey] = number;
+    }
+    
+    if( email )
+    {
+        dict[kEmailKey] = email;
+    }
+    
+    return dict;
 }
 
 @end

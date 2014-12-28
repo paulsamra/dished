@@ -87,6 +87,7 @@ NSString *const kExploreLocationsURL        = @"explore/locations";
 NSString *const kRestaurantProfileURL       = @"restaurants/profile";
 NSString *const kEmailAvailabilityURL       = @"users/availability/email";
 NSString *const kPhoneAvailabilityURL       = @"users/availability/phone";
+NSString *const kUserContactsFollowURL      = @"users/contacts/follow";
 NSString *const kUserContactsInviteURL      = @"users/contacts/invite";
 NSString *const kUserProfileReviewsURL      = @"users/profile/reviews";
 NSString *const kDishesProfileReviewsURL    = @"dishes/profile/reviews";

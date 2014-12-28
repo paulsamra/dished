@@ -7,13 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
-#import <FacebookSDK/FacebookSDK.h>
+#import "DAContact.h"
+#import <AddressBook/AddressBook.h>
 
 
 @interface DAAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
+
++ (void)getContactsAddressBookWithCompletion:( void(^)( BOOL granted, ABAddressBookRef addressBook, NSError *error ) )completion;
++ (NSArray *)contactsWithAddressBook:(ABAddressBookRef)addressBook;
 
 - (void)sessionStateChanged:(FBSession *)session state:(FBSessionState) state error:(NSError *)error;
 

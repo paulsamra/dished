@@ -176,7 +176,11 @@ typedef enum
     {
         self.fetchedResultsController.fetchRequest.fetchLimit = limit;
         [self.fetchedResultsController performFetch:nil];
-        [self.collectionView reloadData];
+        
+        [UIView animateWithDuration:0 animations:^
+        {
+            [self.collectionView reloadData];
+        }];
         
         [self.refreshControl endRefreshing];
         
@@ -198,7 +202,11 @@ typedef enum
         {
             self.fetchedResultsController.fetchRequest.fetchLimit += 10;
             [self.fetchedResultsController performFetch:nil];
-            [self.collectionView reloadData];
+            
+            [UIView animateWithDuration:0 animations:^
+            {
+                [self.collectionView reloadData];
+            }];
             
             self.isLoadingMore = NO;
         }

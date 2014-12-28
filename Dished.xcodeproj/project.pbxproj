@@ -545,6 +545,9 @@
 		9474828F1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */; };
 		947482901A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */; };
 		947482911A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */; };
+		947482CD1A4FF3D300831978 /* DAContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 947482CC1A4FF3D300831978 /* DAContact.m */; };
+		947482CE1A4FF3D300831978 /* DAContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 947482CC1A4FF3D300831978 /* DAContact.m */; };
+		947482CF1A4FF3D300831978 /* DAContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 947482CC1A4FF3D300831978 /* DAContact.m */; };
 		94756CCA1A311B6E009B6BD6 /* DAPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94756CC91A311B6E009B6BD6 /* DAPushManager.m */; };
 		94756CCB1A312671009B6BD6 /* DAPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94756CC91A311B6E009B6BD6 /* DAPushManager.m */; };
 		94756CCC1A312672009B6BD6 /* DAPushManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94756CC91A311B6E009B6BD6 /* DAPushManager.m */; };
@@ -917,6 +920,8 @@
 		9473FAD419E636E9003A1D1B /* DAUserProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserProfile.m; sourceTree = "<group>"; };
 		9474828A1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADishHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
 		9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DADishHeaderCollectionReusableView.xib; sourceTree = "<group>"; };
+		947482CB1A4FF3D300831978 /* DAContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAContact.h; sourceTree = "<group>"; };
+		947482CC1A4FF3D300831978 /* DAContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAContact.m; sourceTree = "<group>"; };
 		94756CC81A311B6E009B6BD6 /* DAPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAPushManager.h; sourceTree = "<group>"; };
 		94756CC91A311B6E009B6BD6 /* DAPushManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAPushManager.m; sourceTree = "<group>"; };
 		94756CCF1A32FBC1009B6BD6 /* DACacheManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACacheManager.h; sourceTree = "<group>"; };
@@ -1701,6 +1706,8 @@
 				9473FAD419E636E9003A1D1B /* DAUserProfile.m */,
 				9486156719FCCE6E002497D0 /* DAMapAnnotation.h */,
 				9486156819FCCE6E002497D0 /* DAMapAnnotation.m */,
+				947482CB1A4FF3D300831978 /* DAContact.h */,
+				947482CC1A4FF3D300831978 /* DAContact.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -2372,6 +2379,7 @@
 				941291791A1BEED500B7C763 /* AFHTTPRequestOperation.m in Sources */,
 				9412917A1A1BEED500B7C763 /* DAGlobalDishCollectionViewCell.m in Sources */,
 				9412917B1A1BEED500B7C763 /* DAPhoneNumberViewController.m in Sources */,
+				947482CE1A4FF3D300831978 /* DAContact.m in Sources */,
 				9412917C1A1BEED500B7C763 /* DALinkedTextView.m in Sources */,
 				940363781A25E0850068F61D /* DAManagedUsername.m in Sources */,
 				9412917D1A1BEED500B7C763 /* DADishesMapViewController.m in Sources */,
@@ -2579,6 +2587,7 @@
 				941292781A1C7AD100B7C763 /* AFHTTPRequestOperation.m in Sources */,
 				941292791A1C7AD100B7C763 /* DAGlobalDishCollectionViewCell.m in Sources */,
 				9412927A1A1C7AD100B7C763 /* DAPhoneNumberViewController.m in Sources */,
+				947482CF1A4FF3D300831978 /* DAContact.m in Sources */,
 				9412927B1A1C7AD100B7C763 /* DALinkedTextView.m in Sources */,
 				940363791A25E0850068F61D /* DAManagedUsername.m in Sources */,
 				9412927C1A1C7AD100B7C763 /* DADishesMapViewController.m in Sources */,
@@ -2786,6 +2795,7 @@
 				94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */,
 				942AA00E19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m in Sources */,
 				94237E5E194A2CF6004DFAB6 /* DAPhoneNumberViewController.m in Sources */,
+				947482CD1A4FF3D300831978 /* DAContact.m in Sources */,
 				94D8D69D19EC8BBE001A9EC3 /* DALinkedTextView.m in Sources */,
 				940363771A25E0850068F61D /* DAManagedUsername.m in Sources */,
 				9486156519FCC306002497D0 /* DADishesMapViewController.m in Sources */,

@@ -698,6 +698,7 @@
             {
                 DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
                 [delegate login];
+                [delegate followContacts];
             }
         }];
     }];
@@ -737,6 +738,8 @@
             {
                 DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
                 [delegate login];
+                [delegate followContacts];
+                [delegate followFacebookFriends];
             }
         }];
     }];
