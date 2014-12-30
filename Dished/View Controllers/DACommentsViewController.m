@@ -15,19 +15,20 @@
 #import "DAUserManager.h"
 #import "DATagSuggestionTableView.h"
 
-#define kRowLimit 20
+#define kRowLimit 10
 
 
 @interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate, DACommentTableViewCellDelegate, DATagSuggestionsTableViewDelegate>
 
-@property (strong, nonatomic) NSArray                       *comments;
 @property (strong, nonatomic) NSDictionary                  *linkedTextAttributes;
+@property (strong, nonatomic) NSMutableArray                *comments;
 @property (strong, nonatomic) NSURLSessionTask              *loadCommentsTask;
 @property (strong, nonatomic) DATagSuggestionTableView      *tagTableView;
 @property (strong, nonatomic) UIActivityIndicatorView       *spinner;
 @property (strong, nonatomic) JSQMessagesKeyboardController *keyboardController;
 
 @property (nonatomic) BOOL commentsLoaded;
+@property (nonatomic) BOOL hasMoreComments;
 @property (nonatomic) BOOL isOwnReview;
 
 @end
@@ -40,7 +41,8 @@
     [super viewDidLoad];
     
     self.commentsLoaded = NO;
-    self.linkedTextAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
+    self.hasMoreComments = NO;
+    self.linkedTextAttributes = [NSAttributedString linkedTextAttributesWithFontSize:15.0f];
     
     self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
     
@@ -72,7 +74,7 @@
     self.inputToolbar.contentView.rightBarButtonItem.enabled = NO;
     
     NSInteger reviewID = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
-    NSDictionary *parameters = @{ kIDKey : @(reviewID), kRowLimitKey : @(kRowLimit) };
+    NSDictionary *parameters = @{ kIDKey : @(reviewID), kRowLimitKey : @(kRowLimit), @"sort_dir" : @"desc" };
     
     weakSelf.loadCommentsTask = [[DAAPIManager sharedManager] GETRequest:kCommentsURL withParameters:parameters
     success:^( id response )
@@ -80,7 +82,9 @@
         [weakSelf.spinner stopAnimating];
         [weakSelf.spinner removeFromSuperview];
         
-        weakSelf.comments = [weakSelf commentsFromResponse:response];
+        weakSelf.comments = [weakSelf commentsFromResponse:response includeFirstComment:YES];
+        
+        weakSelf.hasMoreComments = weakSelf.comments.count - 1 < kRowLimit ? NO : YES;
         
         if( !weakSelf.commentsLoaded )
         {
@@ -95,7 +99,7 @@
         
         [weakSelf scrollTableViewToBottom];
         
-        self.inputToolbar.contentView.rightBarButtonItem.enabled = YES;
+        weakSelf.inputToolbar.contentView.rightBarButtonItem.enabled = YES;
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
@@ -111,16 +115,44 @@
     __weak typeof( self ) weakSelf = self;
     
     NSInteger reviewID = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
-    NSDictionary *parameters = @{ kIDKey : @(reviewID), kRowOffsetKey : @(weakSelf.comments.count), kRowLimitKey : @(kRowLimit) };
+    NSDictionary *parameters = @{ kIDKey : @(reviewID), kRowOffsetKey : @(weakSelf.comments.count - 1),
+                                  kRowLimitKey : @(kRowLimit), @"sort_dir" : @"desc" };
     
     weakSelf.loadCommentsTask = [[DAAPIManager sharedManager] GETRequest:kCommentsURL withParameters:parameters
     success:^( id response )
     {
+        NSArray *newComments = [weakSelf commentsFromResponse:response includeFirstComment:NO];
+        [weakSelf.comments insertObjects:newComments atIndexes:[NSIndexSet indexSetWithIndex:1]];
         
+        UITableViewCell *cell = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
+        UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:99];
+        [spinner stopAnimating];
+
+        self.hasMoreComments = newComments.count - 1 < kRowLimit ? NO : YES;
+        
+        [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
-        
+        if( shouldRetry )
+        {
+            [weakSelf loadMoreComments];
+        }
+        else
+        {
+            UITableViewCell *cell = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
+            UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:99];
+            [spinner stopAnimating];
+            
+            eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+            if( errorType == eErrorTypeDataNonexists )
+            {
+                weakSelf.hasMoreComments = NO;
+            }
+            
+            [weakSelf.tableView reloadData];
+        }
     }];
 }
 
@@ -317,24 +349,34 @@
     [self.view endEditing:YES];
 }
 
-- (NSArray *)commentsFromResponse:(id)response
+- (NSMutableArray *)commentsFromResponse:(id)response includeFirstComment:(BOOL)include
 {
     NSDictionary *data = nilOrJSONObjectForKey( response, kDataKey );
     NSMutableArray *comments = [NSMutableArray array];
     
     if( data )
     {
+        self.isOwnReview = [nilOrJSONObjectForKey( data, @"is_creator" ) boolValue];
+
         NSArray *commentsData = nilOrJSONObjectForKey( data, kCommentsKey );
         
-        self.isOwnReview = [nilOrJSONObjectForKey( data, @"is_creator" ) boolValue];
-        
-        for( NSDictionary *dataObject in commentsData )
+        if( commentsData.count == 0 )
         {
-            [comments addObject:[DAComment commentWithData:dataObject]];
+            return comments;
+        }
+        
+        if( include )
+        {
+            [comments addObject:[DAComment commentWithData:commentsData[0]]];
+        }
+        
+        for( NSInteger i = commentsData.count - 1; i > 0; i-- )
+        {
+            [comments addObject:[DAComment commentWithData:commentsData[i]]];
         }
     }
     
-    return [comments copy];
+    return comments;
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -344,14 +386,25 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.comments count];
+    NSInteger count = self.comments.count;
+    count = self.hasMoreComments ? count + 1 : count;
+    
+    return count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DACommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentCell" forIndexPath:indexPath];
+    DACommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"commentCell"];
     
-    DAComment *comment = [self.comments objectAtIndex:indexPath.row];
+    if( indexPath.row == 1 && self.hasMoreComments )
+    {
+        return [tableView dequeueReusableCellWithIdentifier:@"viewPreviousCell"];
+    }
+    
+    NSInteger realIndex = indexPath.row;
+    realIndex = realIndex == 0 ? realIndex : ( self.hasMoreComments ? realIndex - 1 : realIndex );
+    
+    DAComment *comment = [self.comments objectAtIndex:realIndex];
     
     NSAttributedString *commentString = [comment attributedCommentStringWithFont:[UIFont fontWithName:kHelveticaNeueLightFont size:14.0f]];
     NSArray *usernameMentions = [comment.usernameMentions arrayByAddingObject:comment.creator_username];
@@ -371,7 +424,15 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAComment *comment = [self.comments objectAtIndex:indexPath.row];
+    if( indexPath.row == 1 && self.hasMoreComments )
+    {
+        return 44.0;
+    }
+    
+    NSInteger realIndex = indexPath.row;
+    realIndex = realIndex == 0 ? realIndex : ( self.hasMoreComments ? realIndex - 1 : realIndex );
+    
+    DAComment *comment = [self.comments objectAtIndex:realIndex];
     
     static DACommentTableViewCell *sizingCell;
     static dispatch_once_t onceToken;
@@ -416,7 +477,15 @@
 {
     NSMutableArray *buttons = [NSMutableArray array];
     
-    DAComment *comment = [self.comments objectAtIndex:indexPath.row];
+    if( indexPath.row == 1 && self.hasMoreComments )
+    {
+        return buttons;
+    }
+    
+    NSInteger realIndex = indexPath.row;
+    realIndex = realIndex == 0 ? realIndex : ( self.hasMoreComments ? realIndex - 1 : realIndex );
+    
+    DAComment *comment = [self.comments objectAtIndex:realIndex];
     BOOL ownComment = comment.creator_id == [DAUserManager sharedManager].user_id;
     
     UIImage *deleteImage = [UIImage imageNamed:@"delete_comment"];
@@ -438,6 +507,23 @@
     }
     
     return buttons;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if( indexPath.row == 1 && self.hasMoreComments )
+    {
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
+        
+        UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[[tableView cellForRowAtIndexPath:indexPath] viewWithTag:99];
+        
+        if( !spinner.isAnimating )
+        {
+            [spinner startAnimating];
+            
+            [self loadMoreComments];
+        }
+    }
 }
 
 - (void)textViewTapped:(NSString *)text textType:(eLinkedTextType)textType inCell:(DACommentTableViewCell *)inCell
@@ -497,7 +583,11 @@
     
     NSDictionary *parameters = @{ kIDKey : @(comment.comment_id) };
     
-    [[DAAPIManager sharedManager] POSTRequest:kDeleteCommentURL withParameters:parameters success:nil
+    [[DAAPIManager sharedManager] POSTRequest:kDeleteCommentURL withParameters:parameters
+    success:^( id response )
+    {
+        weakSelf.feedItem.num_comments = @( [weakSelf.feedItem.num_comments integerValue] - 1 );
+    }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         shouldRetry ? [weakSelf deleteComment:comment] : [weakSelf loadComments];
@@ -663,7 +753,7 @@
     newComment.creator_type = [[DAUserManager sharedManager] userType];
     newComment.creator_id = [[DAUserManager sharedManager] user_id];
     newComment.usernameMentions = @[ newComment.creator_username ];
-    self.comments = [self.comments arrayByAddingObject:newComment];
+    [self.comments addObject:newComment];
     [self.tableView reloadData];
     [self scrollTableViewToBottom];
     

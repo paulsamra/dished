@@ -25,12 +25,21 @@ class DACommentTableViewCell: SWTableViewCell, DALinkedTextViewDelegate
     {
         super.awakeFromNib()
         
-        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2;
-        userImageView.layer.masksToBounds = true;
+        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
+        userImageView.layer.masksToBounds = true
         
-        commentTextView.tapDelegate = self;
+        commentTextView.tapDelegate = self
         
         commentTextView.textContainerInset = UIEdgeInsetsZero
+    }
+    
+    override func prepareForReuse()
+    {
+        super.prepareForReuse()
+        
+        userImageView.image = nil
+        commentTextView.attributedText = nil
+        commentTextView.text = nil
     }
     
     func linkedTextView( textView: DALinkedTextView!, tappedOnText text: String!, withLinkedTextType textType: eLinkedTextType )

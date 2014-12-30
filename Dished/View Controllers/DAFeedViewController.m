@@ -171,16 +171,19 @@ typedef enum
     
     NSInteger limit = self.fetchedResultsController.fetchRequest.fetchLimit;
     limit = limit > 20 ? 20 : limit;
+    self.fetchedResultsController.fetchRequest.fetchLimit = limit;
     
     [self.importer importFeedItemsWithLimit:limit offset:0 completion:^( BOOL success, BOOL hasMoreData )
     {
-        self.fetchedResultsController.fetchRequest.fetchLimit = limit;
-        [self.fetchedResultsController performFetch:nil];
-        
-        [UIView animateWithDuration:0 animations:^
+        if( success )
         {
-            [self.collectionView reloadData];
-        }];
+            [self.fetchedResultsController performFetch:nil];
+            
+            [UIView animateWithDuration:0 animations:^
+            {
+                 [self.collectionView reloadData];
+            }];
+        }
         
         [self.refreshControl endRefreshing];
         
@@ -193,6 +196,7 @@ typedef enum
     self.isLoadingMore = YES;
     
     NSInteger offset = self.fetchedResultsController.fetchRequest.fetchLimit;
+    self.fetchedResultsController.fetchRequest.fetchLimit += 10;
     
     [self.importer importFeedItemsWithLimit:10 offset:offset completion:^( BOOL success, BOOL hasMoreData )
     {
@@ -200,16 +204,15 @@ typedef enum
         
         if( success )
         {
-            self.fetchedResultsController.fetchRequest.fetchLimit += 10;
             [self.fetchedResultsController performFetch:nil];
             
             [UIView animateWithDuration:0 animations:^
             {
                 [self.collectionView reloadData];
             }];
-            
-            self.isLoadingMore = NO;
         }
+        
+        self.isLoadingMore = NO;
     }];
 }
 

@@ -80,9 +80,11 @@
     {
         self.managedObjectContext = [[NSManagedObjectContext alloc] init];
         self.managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
+        [self.managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
         
         self.backgroundManagedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSPrivateQueueConcurrencyType];
         self.backgroundManagedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
+        [self.backgroundManagedObjectContext setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
         
         [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification
         object:self.backgroundManagedContext queue:[NSOperationQueue mainQueue] usingBlock:^( NSNotification *notification )

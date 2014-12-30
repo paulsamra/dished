@@ -34,7 +34,7 @@
     {
         NSManagedObjectContext *backgroundContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
         
-        [backgroundContext performBlock:^
+        [backgroundContext performBlockAndWait:^
         {
             NSArray *itemIDs = [self itemIDsForData:response[kDataKey]];
             NSArray *timestamps = [self timestampsForData:response[kDataKey]];
@@ -92,14 +92,7 @@
             
             dispatch_async( dispatch_get_main_queue(), ^
             {
-                if( error )
-                {
-                    completion( NO, YES );
-                }
-                else
-                {
-                    completion( YES, YES );
-                }
+                error ? completion( NO, YES ) : completion( YES, YES );
             });
         }];
     }
@@ -154,8 +147,6 @@
                 managedUsername.username = username;
                 
                 [feedComment addUsernamesObject:managedUsername];
-                
-                [[[DACoreDataManager sharedManager] mainManagedContext] save:nil];
             }
         }
         
