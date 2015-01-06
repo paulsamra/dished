@@ -34,15 +34,17 @@
     {
         NSManagedObjectContext *backgroundContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
         
-        [backgroundContext performBlockAndWait:^
+        [backgroundContext performBlock:^
         {
-            NSArray *itemIDs = [self itemIDsForData:response[kDataKey]];
-            NSArray *timestamps = [self timestampsForData:response[kDataKey]];
+            NSArray *data = nilOrJSONObjectForKey( response, kDataKey );
+            BOOL hasMoreData = data.count < limit;
+            
+            NSArray *itemIDs = [self itemIDsForData:data];
+            NSArray *timestamps = [self timestampsForData:data];
             NSArray *matchingItems = offset == 0 ? [self feedItemsUpToTimestamp:[[timestamps lastObject] doubleValue]] : [self feedItemsBetweenTimestamps:timestamps];
             
             NSUInteger entityIndex = 0;
             
-            NSArray *data = nilOrJSONObjectForKey( response, kDataKey );
             
             for( int i = 0; i < itemIDs.count; i++ )
             {
@@ -92,7 +94,7 @@
             
             dispatch_async( dispatch_get_main_queue(), ^
             {
-                error ? completion( NO, YES ) : completion( YES, YES );
+                error ? completion( NO, hasMoreData ) : completion( YES, hasMoreData );
             });
         }];
     }

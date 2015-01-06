@@ -29,6 +29,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
 @property (weak,   nonatomic) UITableView             *selectedTableView;
 @property (strong, nonatomic) CLPlacemark             *directionsPlacemark;
 @property (strong, nonatomic) NSURLSessionTask        *profileLoadTask;
+@property (strong, nonatomic) NSURLSessionTask        *profileRefreshTask;
 @property (strong, nonatomic) NSURLSessionTask        *followTask;
 @property (strong, nonatomic) NSURLSessionTask        *spamReportTask;
 @property (strong, nonatomic) DAUserProfile           *userProfile;
@@ -217,6 +218,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     success:^( id response )
     {
         self.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( response, kDataKey )];
+        
         [self configureForRestaurantProfile];
         [self hideSpinner];
         [self setMainViewsHidden:NO animated:YES];
@@ -242,10 +244,11 @@ static NSString *const kDishSearchCellID = @"dishCell";
     success:^( id response )
     {
         self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( response, kDataKey )];
+        NSString *idName = [NSString stringWithFormat:@"%d", (int)self.userProfile.user_id];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUserProfile) name:idName object:nil];
+        
         [self configureForUserProfile];
-        
         [self hideSpinner];
-        
         [self setMainViewsHidden:NO animated:YES];
     }
     failure:^( NSError *error, BOOL shouldRetry )
@@ -255,6 +258,37 @@ static NSString *const kDishSearchCellID = @"dishCell";
             [self loadUserProfile];
         }
     }];
+}
+
+- (void)refreshUserProfile
+{
+    NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
+                                  ( self.username ? self.username : @(self.user_id) ) };
+    
+    CLSLog( @"Loading user profile with parameters: %@", parameters );
+    
+    [self.profileRefreshTask cancel];
+    
+    self.profileRefreshTask = [[DAAPIManager sharedManager] GETRequest:kUserProfileURL withParameters:parameters
+    success:^( id response )
+    {
+        self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( response, kDataKey )];
+        [self configureForUserProfile];
+    }
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
+        {
+            [self refreshUserProfile];
+        }
+    }];
+}
+
+- (void)dealloc
+{
+    [self.profileLoadTask cancel];
+    [self.profileRefreshTask cancel];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)loadMoreDishesOfType:(NSString *)dishType

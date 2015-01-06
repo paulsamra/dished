@@ -97,11 +97,12 @@ typedef enum
     [self.importer importFeedItemsWithLimit:10 offset:0 completion:^( BOOL success, BOOL hasMoreData )
     {
         self.hasMoreData = hasMoreData;
+        
         self.initialLoadActive = NO;
         [self.refreshControl endRefreshing];
         
-        self.collectionView.hidden = NO;
         [spinner stopAnimating];
+        self.collectionView.hidden = NO;
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
@@ -345,7 +346,7 @@ typedef enum
         hashtagCell.iconImageView.image = [UIImage imageNamed:@"hashtag_icon"];
         
         NSAttributedString *hashtagString = [self hashtagStringForFeedItem:feedItem];
-        [hashtagCell.textView setAttributedText:hashtagString withAttributes:self.linkedTextAttributes knownUsernames:nil];
+        [hashtagCell.textView setAttributedText:hashtagString withAttributes:self.linkedTextAttributes knownUsernames:nil useCache:YES];
         
         hashtagCell.delegate = self;
         
@@ -384,7 +385,7 @@ typedef enum
             [self.usernameCache setObject:usernameMentions forKey:comment.comment];
         }
         
-        [commentCell.textView setAttributedText:commentString withAttributes:self.linkedTextAttributes knownUsernames:usernameMentions];
+        [commentCell.textView setAttributedText:commentString withAttributes:self.linkedTextAttributes knownUsernames:usernameMentions useCache:YES];
         
         commentCell.delegate = self;
         

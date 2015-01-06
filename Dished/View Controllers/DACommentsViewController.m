@@ -15,7 +15,7 @@
 #import "DAUserManager.h"
 #import "DATagSuggestionTableView.h"
 
-#define kRowLimit 10
+#define kRowLimit 20
 
 
 @interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate, DACommentTableViewCellDelegate, DATagSuggestionsTableViewDelegate>
@@ -122,13 +122,15 @@
     success:^( id response )
     {
         NSArray *newComments = [weakSelf commentsFromResponse:response includeFirstComment:NO];
-        [weakSelf.comments insertObjects:newComments atIndexes:[NSIndexSet indexSetWithIndex:1]];
+        
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange( 1, newComments.count )];
+        [weakSelf.comments insertObjects:newComments atIndexes:indexSet];
         
         UITableViewCell *cell = [weakSelf.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:1]];
         UIActivityIndicatorView *spinner = (UIActivityIndicatorView *)[cell viewWithTag:99];
         [spinner stopAnimating];
 
-        self.hasMoreComments = newComments.count - 1 < kRowLimit ? NO : YES;
+        weakSelf.hasMoreComments = newComments.count < kRowLimit ? NO : YES;
         
         [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
@@ -409,7 +411,7 @@
     NSAttributedString *commentString = [comment attributedCommentStringWithFont:[UIFont fontWithName:kHelveticaNeueLightFont size:14.0f]];
     NSArray *usernameMentions = [comment.usernameMentions arrayByAddingObject:comment.creator_username];
     
-    [cell.commentTextView setAttributedText:commentString withAttributes:self.linkedTextAttributes knownUsernames:usernameMentions];
+    [cell.commentTextView setAttributedText:commentString withAttributes:self.linkedTextAttributes knownUsernames:usernameMentions useCache:NO];
     
     NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
     [cell.userImageView sd_setImageWithURL:userImageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];
@@ -477,7 +479,7 @@
 {
     NSMutableArray *buttons = [NSMutableArray array];
     
-    if( indexPath.row == 1 && self.hasMoreComments )
+    if( indexPath.row == 0 || ( indexPath.row == 1 && self.hasMoreComments ) )
     {
         return buttons;
     }
@@ -490,11 +492,6 @@
     
     UIImage *deleteImage = [UIImage imageNamed:@"delete_comment"];
     UIImage *flagImage   = [UIImage imageNamed:@"flag_comment"];
-    
-    if( comment.comment_id == 0 )
-    {
-        return buttons;
-    }
     
     if( !ownComment )
     {
@@ -543,18 +540,16 @@
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index
 {
     NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    DAComment *comment = [self.comments objectAtIndex:indexPath.row];
+    
+    NSUInteger commentIndex = self.hasMoreComments ? indexPath.row - 1 : indexPath.row;
+    DAComment *comment = [self.comments objectAtIndex:commentIndex];
     
     BOOL ownComment = comment.creator_id == [DAUserManager sharedManager].user_id;
     
     if( ownComment )
     {
         [self deleteComment:comment];
-        
-        NSMutableArray *mutableComments = [self.comments mutableCopy];
-        [mutableComments removeObjectAtIndex:indexPath.row];
-        self.comments = [mutableComments copy];
-        
+        [self.comments removeObjectAtIndex:commentIndex];
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     }
     else
@@ -567,11 +562,7 @@
         else
         {
             [self deleteComment:comment];
-            
-            NSMutableArray *mutableComments = [self.comments mutableCopy];
-            [mutableComments removeObjectAtIndex:indexPath.row];
-            self.comments = [mutableComments copy];
-            
+            [self.comments removeObjectAtIndex:commentIndex];
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
         }
     }
@@ -757,14 +748,14 @@
     [self.tableView reloadData];
     [self scrollTableViewToBottom];
     
-    [self sendCommentWithText:commentText];
+    [self sendCommentWithText:commentText atIndex:self.comments.count - 1];
     
     self.inputToolbar.contentView.textView.text = nil;
     [self.inputToolbar toggleSendButtonEnabled];
 }
 
-- (void)sendCommentWithText:(NSString *)text
-{
+- (void)sendCommentWithText:(NSString *)text atIndex:(NSUInteger)index
+{    
     __weak typeof( self ) weakSelf = self;
     
     NSInteger reviewID = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
@@ -773,13 +764,25 @@
     [[DAAPIManager sharedManager] POSTRequest:kCommentsURL withParameters:parameters
     success:^( id responseObject )
     {
-        [weakSelf loadComments];
+        NSDictionary *createdComment = nilOrJSONObjectForKey( responseObject, kDataKey );
+        DAComment *comment = self.comments[index];
+        NSArray *usernameMentions = nilOrJSONObjectForKey( createdComment, @"usernames" );
+        
+        if( [usernameMentions isKindOfClass:[NSArray class]] )
+        {
+            comment.usernameMentions = usernameMentions;
+        }
+        
+        [self.tableView reloadData];
         
         weakSelf.feedItem.num_comments = @( [weakSelf.feedItem.num_comments integerValue] + 1 );
+        
+        NSString *idName = [NSString stringWithFormat:@"%d", (int)reviewID];
+        [[NSNotificationCenter defaultCenter] postNotificationName:idName object:nil];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
-        shouldRetry ? [weakSelf sendCommentWithText:text] : [weakSelf loadComments];
+        shouldRetry ? [weakSelf sendCommentWithText:text atIndex:index] : [weakSelf loadComments];
     }];
 }
 

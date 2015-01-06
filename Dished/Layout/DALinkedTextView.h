@@ -30,7 +30,11 @@ typedef enum
 
 @property (weak, nonatomic) id<DALinkedTextViewDelegate> tapDelegate;
 
-- (void)setAttributedText:(NSAttributedString *)attributedText withAttributes:(NSDictionary *)attributes knownUsernames:(NSArray *)usernames;
+- (void)setAttributedText:(NSAttributedString *)attributedText
+           withAttributes:(NSDictionary *)attributes
+           knownUsernames:(NSArray *)usernames
+                 useCache:(BOOL)useCache;
+
 - (eLinkedTextType)linkedTextTypeForCharacterAtIndex:(NSUInteger)characterIndex;
 - (NSString *)linkedTextForCharacterAtIndex:(NSUInteger)characterIndex;
 

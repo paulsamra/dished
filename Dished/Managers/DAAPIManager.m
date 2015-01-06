@@ -485,7 +485,10 @@
         
         [self requestAccessTokenWithUsername:username password:password completion:^( BOOL success )
         {
-            completion( success, NO, NO );
+            if( completion )
+            {
+                completion( success, NO, NO );
+            }
         }];
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )

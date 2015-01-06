@@ -39,6 +39,8 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 @interface DAReviewDetailsViewController() <DAFeedCollectionViewCellDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate, DADishHeaderCollectionReusableViewDelegate>
 
 @property (strong, nonatomic) DAReview *review;
+@property (strong, nonatomic) NSURLSessionTask *loadReviewTask;
+@property (strong, nonatomic) NSURLSessionTask *refreshReviewTask;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
 @end
@@ -60,6 +62,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
+    [self showSpinner];
     [self loadReview];
 }
 
@@ -83,8 +86,6 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 
 - (void)loadReview
 {
-    [self showSpinner];
-    
     NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
     
     NSDictionary *parameters = @{ kIDKey : @(reviewID) };
@@ -94,6 +95,10 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     {
         self.review = [DAReview reviewWithData:response[kDataKey]];
         self.review.review_id = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
+        
+        NSString *idName = [NSString stringWithFormat:@"%d", (int)reviewID];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshReview) name:idName object:nil];
+        
         [self.collectionView reloadData];
         
         [self hideSpinner];
@@ -114,6 +119,36 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
             [self loadReview];
         }
     }];
+}
+
+- (void)refreshReview
+{
+    NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
+    
+    NSDictionary *parameters = @{ kIDKey : @(reviewID) };
+    
+    [self.refreshReviewTask cancel];
+    
+    self.refreshReviewTask = [[DAAPIManager sharedManager] GETRequest:kReviewProfileURL withParameters:parameters
+    success:^( id response )
+    {
+        self.review = [DAReview reviewWithData:response[kDataKey]];
+        [self.collectionView reloadData];
+        [self.collectionView.collectionViewLayout invalidateLayout];
+    }
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
+        {
+            [self refreshReview];
+        }
+    }];
+}
+
+- (void)dealloc
+{
+    [self.refreshReviewTask cancel];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)registerCollectionViewCellNibs
@@ -264,7 +299,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         else
         {
             NSAttributedString *yumString = [self yumStringWithUsernames:self.review.yums];
-            [yumsCell.textView setAttributedText:yumString withAttributes:linkedAttributes knownUsernames:self.review.yums];
+            [yumsCell.textView setAttributedText:yumString withAttributes:linkedAttributes knownUsernames:self.review.yums useCache:YES];
         }
         
         yumsCell.delegate = self;
@@ -278,7 +313,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         NSAttributedString *hashtagString = [self hashtagStringWithHashtags:self.review.hashtags];
         NSDictionary *linkedAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
         
-        [tagsCell.textView setAttributedText:hashtagString withAttributes:linkedAttributes knownUsernames:nil];
+        [tagsCell.textView setAttributedText:hashtagString withAttributes:linkedAttributes knownUsernames:nil useCache:YES];
         tagsCell.iconImageView.image = [UIImage imageNamed:@"hashtag_icon"];
         
         tagsCell.delegate = self;
@@ -291,11 +326,14 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 
         DAComment *comment = [self.review.comments objectAtIndex:[self commentIndexForIndexPath:indexPath]];
         
-        NSAttributedString *commentString = [self commentStringForComment:comment];
+        NSAttributedString *commentString = [self commentStringForComment:comment atIndexPath:indexPath];
         NSDictionary *linkedAttributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
         NSArray *usernameMentions = [comment.usernameMentions arrayByAddingObject:comment.creator_username];
         
-        [commentCell.textView setAttributedText:commentString withAttributes:linkedAttributes knownUsernames:usernameMentions];
+        NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
+        BOOL useCache = [[SDWebImageManager sharedManager] cachedImageExistsForURL:userImageURL] ? YES : NO;
+        
+        [commentCell.textView setAttributedText:commentString withAttributes:linkedAttributes knownUsernames:usernameMentions useCache:useCache];
         commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
         commentCell.iconImageView.hidden = [self commentIndexForIndexPath:indexPath] == 0 ? NO : YES;
         
@@ -352,7 +390,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     cell.yumButton.selected = NO;
 }
 
-- (NSAttributedString *)commentStringForComment:(DAComment *)comment
+- (NSAttributedString *)commentStringForComment:(DAComment *)comment atIndexPath:(NSIndexPath *)indexPath
 {
     NSString *usernameString = [NSString stringWithFormat:@"@%@", comment.creator_username];
     NSDictionary *attributes = [NSAttributedString linkedTextAttributesWithFontSize:14.0f];
@@ -377,14 +415,13 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         else
         {
             NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
-            
+
             [[SDWebImageManager sharedManager] downloadImageWithURL:userImageURL options:SDWebImageHighPriority progress:nil
             completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
             {
                 dispatch_async( dispatch_get_main_queue(), ^
                 {
-                    comment.creator_img = image;
-                    [self.collectionView reloadData];
+                    [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
                 });
             }];
             
@@ -546,7 +583,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     {
         NSInteger commentIndex = [self commentIndexForIndexPath:indexPath];
         DAComment *comment = [self.review.comments objectAtIndex:commentIndex];
-        NSAttributedString *commentString = [self commentStringForComment:comment];
+        NSAttributedString *commentString = [self commentStringForComment:comment atIndexPath:indexPath];
         
         sizingCell.textView.attributedText = commentString;
 
@@ -765,7 +802,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         if( self.feedItem )
         {
             [[DACoreDataManager sharedManager] deleteEntity:self.feedItem inManagedObjectContext:mainContext];
-            [[[DACoreDataManager sharedManager] backgroundManagedContext] save:nil];
+            [[[DACoreDataManager sharedManager] mainManagedContext] save:nil];
 
             [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
             {

@@ -250,7 +250,12 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     
     NSDictionary *parameters = @{ kIDKey : @(userID) };
     
-    [[DAAPIManager sharedManager] POSTRequest:kFollowUserURL withParameters:parameters success:nil
+    [[DAAPIManager sharedManager] POSTRequest:kFollowUserURL withParameters:parameters
+    success:^( id response )
+    {
+        NSString *idName = [NSString stringWithFormat:@"%d", (int)weakSelf.object_id];
+        [[NSNotificationCenter defaultCenter] postNotificationName:idName object:nil];
+    }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
@@ -266,7 +271,12 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     
     NSDictionary *parameters = @{ kIDKey : @(userID) };
     
-    [[DAAPIManager sharedManager] POSTRequest:kUnfollowUserURL withParameters:parameters success:nil
+    [[DAAPIManager sharedManager] POSTRequest:kUnfollowUserURL withParameters:parameters
+    success:^( id response )
+    {
+        NSString *idName = [NSString stringWithFormat:@"%d", (int)weakSelf.object_id];
+        [[NSNotificationCenter defaultCenter] postNotificationName:idName object:nil];
+    }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )

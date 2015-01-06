@@ -91,11 +91,14 @@
     self.attributedString = mutable;
 }
 
-- (void)setAttributedText:(NSAttributedString *)attributedText withAttributes:(NSDictionary *)attributes knownUsernames:(NSArray *)usernames
+- (void)setAttributedText:(NSAttributedString *)attributedText
+           withAttributes:(NSDictionary *)attributes
+           knownUsernames:(NSArray *)usernames
+                 useCache:(BOOL)useCache
 {
     NSAttributedString *cachedString = [[DACacheManager sharedManager] cachedValueForKey:attributedText.string];
     
-    if( cachedString )
+    if( cachedString && useCache )
     {
         [super setAttributedText:cachedString];
         self.attributedString = cachedString;
@@ -140,7 +143,7 @@
     [super setAttributedText:linkedText];
     self.attributedString = linkedText;
     
-    if( usernames )
+    if( usernames && useCache )
     {
         [[DACacheManager sharedManager] setCachedValue:linkedText forKey:attributedText.string];
     }
