@@ -17,6 +17,7 @@
 #import "DATabBarController.h"
 #import "UIViewController+ShareView.h"
 #import "DAFeedCollectionViewFlowLayout.h"
+#import "DADishedViewController+Error.h"
 
 #define kLoadLimit 20
 
@@ -66,7 +67,7 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
     
     [self showSpinner];
 
-    [self loadDishDetails];
+    [self loadData];
 }
 
 - (void)showSpinner
@@ -87,7 +88,7 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
     [self.spinner stopAnimating];
 }
 
-- (void)loadDishDetails
+- (void)loadData
 {
     NSDictionary *parameters = @{ kIDKey : @(self.dishID), kRowLimitKey : @(kLoadLimit) };
     
@@ -112,12 +113,19 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
         
         weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
         weakSelf.collectionView.hidden = NO;
+        
+        [weakSelf dataLoaded];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
-            [weakSelf loadDishDetails];
+            [weakSelf loadData];
+        }
+        else
+        {
+            [weakSelf hideSpinner];
+            [weakSelf handleError:error];
         }
     }];
 }
@@ -152,14 +160,16 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
     NSInteger limit = reviews.count ? reviews.count : kLoadLimit;
     NSDictionary *parameters = @{ kIDKey : @(self.dishID), kGradeKey : [self gradeKeyForGradeMode:self.gradeMode], kRowLimitKey : @(limit) };
     
+    __weak typeof( self ) weakSelf = self;
+    
     [[DAAPIManager sharedManager] GETRequest:kDishesProfileReviewsURL withParameters:parameters
     success:^( id response )
     {
         NSDictionary *data = nilOrJSONObjectForKey( response, kDataKey );
-        [self.dishProfile setReviewData:nilOrJSONObjectForKey( data, kReviewsKey ) forGradeKey:self.gradeMode];
+        [weakSelf.dishProfile setReviewData:nilOrJSONObjectForKey( data, kReviewsKey ) forGradeKey:weakSelf.gradeMode];
         
-        NSArray *reviews = self.dishProfile.reviews[self.gradeMode];
-        self.hasMoreReviews = reviews.count >= kLoadLimit;
+        NSArray *reviews = weakSelf.dishProfile.reviews[weakSelf.gradeMode];
+        weakSelf.hasMoreReviews = reviews.count >= kLoadLimit;
         
         completion();
     }
@@ -167,7 +177,7 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
     {
         if( shouldRetry )
         {
-            [self reloadReviewsWithCompletion:completion];
+            [weakSelf reloadReviewsWithCompletion:completion];
         }
         else
         {
@@ -195,24 +205,26 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
     
     self.isLoadingMore = YES;
     
+    __weak typeof( self ) weakSelf = self;
+    
     [[DAAPIManager sharedManager] GETRequest:kDishesProfileReviewsURL withParameters:parameters
     success:^( id response )
     {
         NSDictionary *data = nilOrJSONObjectForKey( response, kDataKey );
         NSArray *newReviews = nilOrJSONObjectForKey( data, kReviewsKey );
-        [self.dishProfile addReviewData:nilOrJSONObjectForKey( data, kReviewsKey ) forGradeKey:self.gradeMode];
+        [weakSelf.dishProfile addReviewData:nilOrJSONObjectForKey( data, kReviewsKey ) forGradeKey:weakSelf.gradeMode];
         
-        self.hasMoreReviews = newReviews.count >= kLoadLimit;
+        weakSelf.hasMoreReviews = newReviews.count >= kLoadLimit;
         
-        [self reloadCollectionViewReviewsSectionWithScroll:NO];
+        [weakSelf reloadCollectionViewReviewsSectionWithScroll:NO];
         
-        self.isLoadingMore = NO;
+        weakSelf.isLoadingMore = NO;
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
-            [self loadMoreReviews];
+            [weakSelf loadMoreReviews];
         }
         else
         {
@@ -220,11 +232,11 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
 
             if( errorType == eErrorTypeDataNonexists )
             {
-                self.hasMoreReviews = NO;
-                [self reloadCollectionViewReviewsSectionWithScroll:NO];
+                weakSelf.hasMoreReviews = NO;
+                [weakSelf reloadCollectionViewReviewsSectionWithScroll:NO];
             }
             
-            self.isLoadingMore = NO;
+            weakSelf.isLoadingMore = NO;
         }
     }];
 }
@@ -531,7 +543,6 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
 - (void)dealloc
 {
     [self.profileLoadTask cancel];
-    [self.collectionView setDelegate:nil];
 }
 
 - (void)gradeGraphCollectionViewCell:(DAGradeGraphCollectionViewCell *)cell didSelectGradeGraphMode:(eGradeGraphMode)gradeGraphMode

@@ -61,7 +61,11 @@
 
 - (id)initWithBaseURL:(NSURL *)url
 {
-    self = [super initWithBaseURL:url];
+    NSURLSessionConfiguration *sessionConfig = [NSURLSessionConfiguration defaultSessionConfiguration];
+    sessionConfig.timeoutIntervalForRequest = 15;
+    sessionConfig.timeoutIntervalForResource = 15;
+    
+    self = [super initWithBaseURL:url sessionConfiguration:sessionConfig];
     
     if( self )
     {
@@ -136,6 +140,11 @@
     if( error.code == NSURLErrorTimedOut )
     {
         return eErrorTypeTimeout;
+    }
+    
+    if( error.code == NSURLErrorNetworkConnectionLost || error.code == NSURLErrorNotConnectedToInternet || error.code == NSURLErrorSecureConnectionFailed || error.code == NSURLErrorCannotConnectToHost )
+    {
+        return eErrorTypeConnection;
     }
     
     eErrorType errorType = eErrorTypeUnknown;

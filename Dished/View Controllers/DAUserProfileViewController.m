@@ -18,6 +18,7 @@
 #import "DARestaurantProfile.h"
 #import "DAEditProfileViewController.h"
 #import "DADishesMapViewController.h"
+#import "DADishedViewController+Error.h"
 
 static NSInteger kRowLimit = 20;
 static NSString *const kDishSearchCellID = @"dishCell";
@@ -91,6 +92,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     [self createFooterForTableView:self.foodTableView];
     [self createFooterForTableView:self.cocktailTableView];
     [self createFooterForTableView:self.wineTableView];
+    [self showSpinner];
     [self loadData];
 }
 
@@ -196,8 +198,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (void)loadData
 {
-    [self showSpinner];
-
     if( self.isRestaurant )
     {
         [self loadRestaurantProfile];
@@ -214,21 +214,30 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     CLSLog( @"Loading restaurant profile with parameters: %@", parameters );
     
+    __weak typeof( self ) weakSelf = self;
+    
     self.profileLoadTask = [[DAAPIManager sharedManager] GETRequest:kRestaurantProfileURL withParameters:parameters
     success:^( id response )
     {
-        self.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( response, kDataKey )];
+        weakSelf.restaurantProfile = [[DARestaurantProfile alloc] initWithData:nilOrJSONObjectForKey( response, kDataKey )];
         
-        [self configureForRestaurantProfile];
-        [self hideSpinner];
-        [self setMainViewsHidden:NO animated:YES];
-        [self loadPlacemark];
+        [weakSelf configureForRestaurantProfile];
+        [weakSelf hideSpinner];
+        [weakSelf setMainViewsHidden:NO animated:YES];
+        [weakSelf loadPlacemark];
+        
+        [weakSelf dataLoaded];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
-            [self loadRestaurantProfile];
+            [weakSelf loadRestaurantProfile];
+        }
+        else
+        {
+            [weakSelf hideSpinner];
+            [weakSelf handleError:error];
         }
     }];
 }
@@ -240,22 +249,31 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     CLSLog( @"Loading user profile with parameters: %@", parameters );
     
+    __weak typeof( self ) weakSelf = self;
+    
     self.profileLoadTask = [[DAAPIManager sharedManager] GETRequest:kUserProfileURL withParameters:parameters
     success:^( id response )
     {
-        self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( response, kDataKey )];
-        NSString *idName = [NSString stringWithFormat:@"%d", (int)self.userProfile.user_id];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshUserProfile) name:idName object:nil];
+        weakSelf.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( response, kDataKey )];
+        NSString *idName = [NSString stringWithFormat:@"%d", (int)weakSelf.userProfile.user_id];
+        [[NSNotificationCenter defaultCenter] addObserver:weakSelf selector:@selector(refreshUserProfile) name:idName object:nil];
         
-        [self configureForUserProfile];
-        [self hideSpinner];
-        [self setMainViewsHidden:NO animated:YES];
+        [weakSelf configureForUserProfile];
+        [weakSelf hideSpinner];
+        [weakSelf setMainViewsHidden:NO animated:YES];
+        
+        [weakSelf dataLoaded];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
-            [self loadUserProfile];
+            [weakSelf loadUserProfile];
+        }
+        else
+        {
+            [weakSelf hideSpinner];
+            [weakSelf handleError:error];
         }
     }];
 }
@@ -269,17 +287,19 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     [self.profileRefreshTask cancel];
     
+    __weak typeof( self ) weakSelf = self;
+    
     self.profileRefreshTask = [[DAAPIManager sharedManager] GETRequest:kUserProfileURL withParameters:parameters
     success:^( id response )
     {
-        self.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( response, kDataKey )];
-        [self configureForUserProfile];
+        weakSelf.userProfile = [[DAUserProfile alloc] initWithData:nilOrJSONObjectForKey( response, kDataKey )];
+        [weakSelf configureForUserProfile];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
-            [self refreshUserProfile];
+            [weakSelf refreshUserProfile];
         }
     }];
 }
@@ -345,6 +365,8 @@ static NSString *const kDishSearchCellID = @"dishCell";
                                   kDishTypeKey : dishType,
                                   kRowLimitKey : @(kRowLimit), kRowOffsetKey : @(offset) };
     
+    __weak typeof( self ) weakSelf = self;
+    
     [[DAAPIManager sharedManager] GETRequest:kUserProfileReviewsURL withParameters:parameters
     success:^( id response )
     {
@@ -352,22 +374,22 @@ static NSString *const kDishSearchCellID = @"dishCell";
         
         if( [dishType isEqualToString:kFood] )
         {
-            [self.userProfile addFoodReviewsWithData:newReviewData];
+            [weakSelf.userProfile addFoodReviewsWithData:newReviewData];
         }
         else if( [dishType isEqualToString:kCocktail] )
         {
-            [self.userProfile addCocktailReviewsWithData:newReviewData];
+            [weakSelf.userProfile addCocktailReviewsWithData:newReviewData];
         }
         else if( [dishType isEqualToString:kWine] )
         {
-            [self.userProfile addWineReviewsWithData:newReviewData];
+            [weakSelf.userProfile addWineReviewsWithData:newReviewData];
         }
          
-        [self finishedLoadingMoreDishesOfType:dishType loadCount:newReviewData.count];
+        [weakSelf finishedLoadingMoreDishesOfType:dishType loadCount:newReviewData.count];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
-        shouldRetry ? [self loadMoreUserReviewsOfType:dishType] : [self loadMoreDishType:dishType failedWithError:error];
+        shouldRetry ? [weakSelf loadMoreUserReviewsOfType:dishType] : [weakSelf loadMoreDishType:dishType failedWithError:error];
     }];
 }
 
@@ -943,17 +965,19 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     NSDictionary *parameters = @{ kIDKey : @(userID) };
     
+    __weak typeof( self ) weakSelf = self;
+    
     self.followTask = [[DAAPIManager sharedManager] POSTRequest:kFollowUserURL withParameters:parameters
     success:nil failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
-            [self followUserID:userID];
+            [weakSelf followUserID:userID];
         }
         else
         {
-            self.restaurantProfile.caller_follows = self.userProfile.caller_follows = NO;
-            [self setFollowButtonState];
+            weakSelf.restaurantProfile.caller_follows = weakSelf.userProfile.caller_follows = NO;
+            [weakSelf setFollowButtonState];
         }
     }];
 }
@@ -965,17 +989,19 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     NSDictionary *parameters = @{ kIDKey : @(userID) };
     
+    __weak typeof( self ) weakSelf = self;
+    
     self.followTask = [[DAAPIManager sharedManager] POSTRequest:kUnfollowUserURL withParameters:parameters
     success:nil failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
-            [self unfollowUserID:userID];
+            [weakSelf unfollowUserID:userID];
         }
         else
         {
-            self.restaurantProfile.caller_follows = self.userProfile.caller_follows = YES;
-            [self setFollowButtonState];
+            weakSelf.restaurantProfile.caller_follows = weakSelf.userProfile.caller_follows = YES;
+            [weakSelf setFollowButtonState];
         }
     }];
 }

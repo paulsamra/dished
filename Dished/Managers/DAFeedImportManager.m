@@ -37,14 +37,13 @@
         [backgroundContext performBlock:^
         {
             NSArray *data = nilOrJSONObjectForKey( response, kDataKey );
-            BOOL hasMoreData = data.count < limit;
+            BOOL hasMoreData = data.count >= limit;
             
             NSArray *itemIDs = [self itemIDsForData:data];
             NSArray *timestamps = [self timestampsForData:data];
             NSArray *matchingItems = offset == 0 ? [self feedItemsUpToTimestamp:[[timestamps lastObject] doubleValue]] : [self feedItemsBetweenTimestamps:timestamps];
             
             NSUInteger entityIndex = 0;
-            
             
             for( int i = 0; i < itemIDs.count; i++ )
             {

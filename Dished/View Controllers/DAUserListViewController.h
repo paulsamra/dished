@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DADishedViewController.h"
 
 typedef enum
 {
@@ -16,7 +17,7 @@ typedef enum
 } eUserListContent;
 
 
-@interface DAUserListViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface DAUserListViewController : DADishedViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 

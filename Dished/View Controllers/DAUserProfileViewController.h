@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DADishedViewController.h"
 
 
-@interface DAUserProfileViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface DAUserProfileViewController : DADishedViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView             *firstButtonSeperator;
 @property (weak, nonatomic) IBOutlet UIView             *secondButtonSeperator;

@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DADishedViewController.h"
 
 
-@interface DAGlobalDishDetailViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface DAGlobalDishDetailViewController : DADishedViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 

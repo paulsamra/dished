@@ -8,9 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import "DAFeedItem+Utility.h"
+#import "DADishedViewController.h"
 
 
-@interface DAReviewDetailsViewController : UIViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
+@interface DAReviewDetailsViewController : DADishedViewController <UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) DAFeedItem *feedItem;

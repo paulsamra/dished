@@ -14,6 +14,7 @@
 #import "DAUserManager.h"
 #import "DAUserManager.h"
 #import "DATagSuggestionTableView.h"
+#import "DADishedViewController+Error.h"
 
 #define kRowLimit 20
 
@@ -64,10 +65,10 @@
     [self.view addSubview:self.spinner];
     [self.spinner startAnimating];
     
-    [self loadComments];
+    [self loadData];
 }
 
-- (void)loadComments
+- (void)loadData
 {
     __weak typeof( self ) weakSelf = self;
     
@@ -100,12 +101,19 @@
         [weakSelf scrollTableViewToBottom];
         
         weakSelf.inputToolbar.contentView.rightBarButtonItem.enabled = YES;
+        
+        [self dataLoaded];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
-            [weakSelf loadComments];
+            [weakSelf loadData];
+        }
+        else
+        {
+            [self.spinner stopAnimating];
+            [weakSelf handleError:error];
         }
     }];
 }
@@ -162,7 +170,7 @@
 {
     [super viewWillAppear:animated];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadComments) name:kNetworkReachableKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadData) name:kNetworkReachableKey object:nil];
 }
 
 - (void)setupTagTableView
@@ -458,7 +466,7 @@
     
     CGFloat textViewTopMargin = textView.frame.origin.y;
     CGFloat textViewBottomMargin = sizingCell.frame.size.height - ( textView.frame.origin.y + textView.frame.size.height );
-    CGFloat textViewHeight = ceilf( stringSize.height );
+    CGFloat textViewHeight = ceilf( stringSize.height ) + 2;
     
     CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
     
@@ -581,7 +589,7 @@
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
-        shouldRetry ? [weakSelf deleteComment:comment] : [weakSelf loadComments];
+        shouldRetry ? [weakSelf deleteComment:comment] : [weakSelf loadData];
     }];
 }
 
@@ -773,7 +781,7 @@
             comment.usernameMentions = usernameMentions;
         }
         
-        [self.tableView reloadData];
+        [weakSelf.tableView reloadData];
         
         weakSelf.feedItem.num_comments = @( [weakSelf.feedItem.num_comments integerValue] + 1 );
         
@@ -782,7 +790,7 @@
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
-        shouldRetry ? [weakSelf sendCommentWithText:text atIndex:index] : [weakSelf loadComments];
+        shouldRetry ? [weakSelf sendCommentWithText:text atIndex:index] : [weakSelf loadData];
     }];
 }
 

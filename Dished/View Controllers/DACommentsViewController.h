@@ -12,9 +12,10 @@
 #import "JSQMessagesToolbarContentView.h"
 #import "JSQMessagesComposerTextView.h"
 #import "JSQMessagesKeyboardController.h"
+#import "DADishedViewController.h"
 
 
-@interface DACommentsViewController : UIViewController <UITableViewDataSource, UITableViewDelegate>
+@interface DACommentsViewController : DADishedViewController <UITableViewDataSource, UITableViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet JSQMessagesInputToolbar *inputToolbar;

@@ -20,6 +20,7 @@ typedef enum
     eErrorTypeInvalidUsername,
     eErrorTypeContentPrivate,
     eErrorTypeTimeout,
+    eErrorTypeConnection,
     eErrorTypeRequestCancelled,
     eErrorTypeExpiredAccessToken,
     eErrorTypeInvalidRefreshToken,

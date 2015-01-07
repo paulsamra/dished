@@ -11,6 +11,7 @@
 #import "UIImageView+WebCache.h"
 #import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
+#import "DADishedViewController+Error.h"
 
 static NSString *const kFollowCellIdentifier = @"followCell";
 
@@ -35,6 +36,11 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     
+    [self loadData];
+}
+
+- (void)loadData
+{
     switch( self.listContent )
     {
         case eUserListContentFollowers:
@@ -74,12 +80,18 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     {
         weakSelf.usernameArray = [weakSelf usernamesWithData:response];
         [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [weakSelf dataLoaded];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
             [weakSelf loadFollowers];
+        }
+        else
+        {
+            [weakSelf handleError:error];
         }
     }];
 }
@@ -95,12 +107,18 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     {
         weakSelf.usernameArray = [weakSelf usernamesWithData:response];
         [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [weakSelf dataLoaded];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
             [weakSelf loadFollowing];
+        }
+        else
+        {
+            [weakSelf handleError:error];
         }
     }];
 }
@@ -116,12 +134,18 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     {
         weakSelf.usernameArray = [weakSelf usernamesWithData:response];
         [weakSelf.tableView reloadSections:[NSIndexSet indexSetWithIndex:0] withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [weakSelf dataLoaded];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
             [weakSelf loadYums];
+        }
+        else
+        {
+            [weakSelf handleError:error];
         }
     }];
 }

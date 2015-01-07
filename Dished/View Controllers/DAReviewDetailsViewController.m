@@ -21,6 +21,7 @@
 #import "DAFeedCollectionViewFlowLayout.h"
 #import "DAUserManager.h"
 #import "MRProgress.h"
+#import "DADishedViewController+Error.h"
 
 typedef enum
 {
@@ -63,7 +64,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
     [self showSpinner];
-    [self loadReview];
+    [self loadData];
 }
 
 - (void)showSpinner
@@ -84,39 +85,48 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     [self.spinner stopAnimating];
 }
 
-- (void)loadReview
+- (void)loadData
 {
     NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
     
     NSDictionary *parameters = @{ kIDKey : @(reviewID) };
     
-    [[DAAPIManager sharedManager] GETRequest:kReviewProfileURL withParameters:parameters
+    __weak typeof( self ) weakSelf = self;
+    
+    self.loadReviewTask = [[DAAPIManager sharedManager] GETRequest:kReviewProfileURL withParameters:parameters
     success:^( id response )
     {
-        self.review = [DAReview reviewWithData:response[kDataKey]];
-        self.review.review_id = self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID;
+        weakSelf.review = [DAReview reviewWithData:response[kDataKey]];
+        weakSelf.review.review_id = weakSelf.feedItem ? [weakSelf.feedItem.item_id integerValue] : weakSelf.reviewID;
         
         NSString *idName = [NSString stringWithFormat:@"%d", (int)reviewID];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshReview) name:idName object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:weakSelf selector:@selector(refreshReview) name:idName object:nil];
         
-        [self.collectionView reloadData];
+        [weakSelf.collectionView reloadData];
         
-        [self hideSpinner];
+        [weakSelf hideSpinner];
         
-        [UIView transitionWithView:self.collectionView
+        [UIView transitionWithView:weakSelf.collectionView
                           duration:0.4
                            options:UIViewAnimationOptionTransitionCrossDissolve
                         animations:nil
                         completion:nil];
         
-        self.navigationItem.rightBarButtonItem.enabled = YES;
-        self.collectionView.hidden = NO;
+        weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+        weakSelf.collectionView.hidden = NO;
+        
+        [weakSelf dataLoaded];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
-            [self loadReview];
+            [weakSelf loadData];
+        }
+        else
+        {
+            [weakSelf hideSpinner];
+            [weakSelf handleError:error];
         }
     }];
 }
@@ -129,24 +139,27 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     
     [self.refreshReviewTask cancel];
     
+    __weak typeof( self ) weakSelf = self;
+    
     self.refreshReviewTask = [[DAAPIManager sharedManager] GETRequest:kReviewProfileURL withParameters:parameters
     success:^( id response )
     {
-        self.review = [DAReview reviewWithData:response[kDataKey]];
-        [self.collectionView reloadData];
-        [self.collectionView.collectionViewLayout invalidateLayout];
+        weakSelf.review = [DAReview reviewWithData:response[kDataKey]];
+        [weakSelf.collectionView reloadData];
+        [weakSelf.collectionView.collectionViewLayout invalidateLayout];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
         if( shouldRetry )
         {
-            [self refreshReview];
+            [weakSelf refreshReview];
         }
     }];
 }
 
 - (void)dealloc
 {
+    [self.loadReviewTask cancel];
     [self.refreshReviewTask cancel];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
