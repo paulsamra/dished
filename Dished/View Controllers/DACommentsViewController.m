@@ -12,7 +12,6 @@
 #import "DAExploreDishResultsViewController.h"
 #import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
-#import "DAUserManager.h"
 #import "DATagSuggestionTableView.h"
 #import "DADishedViewController+Error.h"
 

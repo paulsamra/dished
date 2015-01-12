@@ -177,13 +177,13 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
+    [self.view endEditing:YES];
+    
     [super viewWillDisappear:animated];
     
     [self.socialViewController.view removeFromSuperview];
     [self.dimView removeFromSuperview];
     
-    [self.view endEditing:YES];
-        
     CLSLog( @"Review form will disappear..." );
 }
 

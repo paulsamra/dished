@@ -589,6 +589,12 @@
 		94917FDE1A5D3ACB009FF117 /* DADishedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FDD1A5D3ACB009FF117 /* DADishedViewController.m */; };
 		94917FDF1A5D3ACB009FF117 /* DADishedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FDD1A5D3ACB009FF117 /* DADishedViewController.m */; };
 		94917FE01A5D3ACB009FF117 /* DADishedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FDD1A5D3ACB009FF117 /* DADishedViewController.m */; };
+		94917FE81A5D6DC0009FF117 /* DAModalTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FE71A5D6DC0009FF117 /* DAModalTransitionManager.m */; };
+		94917FE91A5D6DC0009FF117 /* DAModalTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FE71A5D6DC0009FF117 /* DAModalTransitionManager.m */; };
+		94917FEA1A5D6DC0009FF117 /* DAModalTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FE71A5D6DC0009FF117 /* DAModalTransitionManager.m */; };
+		94917FED1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FEC1A5E6D2D009FF117 /* DAPushTransitionManager.m */; };
+		94917FEE1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FEC1A5E6D2D009FF117 /* DAPushTransitionManager.m */; };
+		94917FEF1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FEC1A5E6D2D009FF117 /* DAPushTransitionManager.m */; };
 		949382C919C63C5D003A416C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
 		94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */; };
 		94942A1F1990AB0800095A70 /* DAExploreLiveSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1E1990AB0800095A70 /* DAExploreLiveSearchResult.m */; };
@@ -982,6 +988,10 @@
 		94917FD81A5D29F8009FF117 /* DADishedViewController+Error.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DADishedViewController+Error.m"; sourceTree = "<group>"; };
 		94917FDC1A5D3ACB009FF117 /* DADishedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishedViewController.h; sourceTree = "<group>"; };
 		94917FDD1A5D3ACB009FF117 /* DADishedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishedViewController.m; sourceTree = "<group>"; };
+		94917FE61A5D6DC0009FF117 /* DAModalTransitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAModalTransitionManager.h; sourceTree = "<group>"; };
+		94917FE71A5D6DC0009FF117 /* DAModalTransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAModalTransitionManager.m; sourceTree = "<group>"; };
+		94917FEB1A5E6D2D009FF117 /* DAPushTransitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAPushTransitionManager.h; sourceTree = "<group>"; };
+		94917FEC1A5E6D2D009FF117 /* DAPushTransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAPushTransitionManager.m; sourceTree = "<group>"; };
 		949382C819C63C5D003A416C /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		94942A1519902D1E00095A70 /* DAExploreLiveSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreLiveSearchResult.h; sourceTree = "<group>"; };
 		94942A1B1990A6C700095A70 /* DAExploreDishResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreDishResultsViewController.h; sourceTree = "<group>"; };
@@ -1917,6 +1927,10 @@
 				94756CC91A311B6E009B6BD6 /* DAPushManager.m */,
 				94756CCF1A32FBC1009B6BD6 /* DACacheManager.h */,
 				94756CD01A32FBC1009B6BD6 /* DACacheManager.m */,
+				94917FE61A5D6DC0009FF117 /* DAModalTransitionManager.h */,
+				94917FE71A5D6DC0009FF117 /* DAModalTransitionManager.m */,
+				94917FEB1A5E6D2D009FF117 /* DAPushTransitionManager.h */,
+				94917FEC1A5E6D2D009FF117 /* DAPushTransitionManager.m */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -2438,6 +2452,7 @@
 				941291A21A1BEED500B7C763 /* DATabBarController.m in Sources */,
 				941291A31A1BEED500B7C763 /* STHTTPRequest+STTwitter.m in Sources */,
 				941291A41A1BEED500B7C763 /* DAReviewDetailsViewController.m in Sources */,
+				94917FEE1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */,
 				941291A51A1BEED500B7C763 /* DAPositiveHashtagsViewController.m in Sources */,
 				941291A61A1BEED500B7C763 /* DAContainerViewController.m in Sources */,
 				941291A81A1BEED500B7C763 /* SPGooglePlacesAutocompletePlace.m in Sources */,
@@ -2495,6 +2510,7 @@
 				941291DB1A1BEED500B7C763 /* DAReviewLocationViewController.m in Sources */,
 				947381C41A46EFF800B1CFC2 /* NSAttributedString+Dished.swift in Sources */,
 				94A6FE361A46DBD800AB901F /* DAReviewButtonsCollectionViewCell.swift in Sources */,
+				94917FE91A5D6DC0009FF117 /* DAModalTransitionManager.m in Sources */,
 				9442816A1A46FD4600117E0B /* DAFlowLayout.swift in Sources */,
 				941291DC1A1BEED500B7C763 /* DASocialCollectionViewController.m in Sources */,
 				941291DD1A1BEED500B7C763 /* MRProgressOverlayView.m in Sources */,
@@ -2648,6 +2664,7 @@
 				941292A11A1C7AD100B7C763 /* DATabBarController.m in Sources */,
 				941292A21A1C7AD100B7C763 /* STHTTPRequest+STTwitter.m in Sources */,
 				941292A31A1C7AD100B7C763 /* DAReviewDetailsViewController.m in Sources */,
+				94917FEF1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */,
 				941292A41A1C7AD100B7C763 /* DAPositiveHashtagsViewController.m in Sources */,
 				941292A51A1C7AD100B7C763 /* DAContainerViewController.m in Sources */,
 				941292A71A1C7AD100B7C763 /* SPGooglePlacesAutocompletePlace.m in Sources */,
@@ -2705,6 +2722,7 @@
 				941292DA1A1C7AD100B7C763 /* DAReviewLocationViewController.m in Sources */,
 				947381C51A46EFF800B1CFC2 /* NSAttributedString+Dished.swift in Sources */,
 				94A6FE371A46DBD800AB901F /* DAReviewButtonsCollectionViewCell.swift in Sources */,
+				94917FEA1A5D6DC0009FF117 /* DAModalTransitionManager.m in Sources */,
 				9442816B1A46FD4600117E0B /* DAFlowLayout.swift in Sources */,
 				941292DB1A1C7AD100B7C763 /* DASocialCollectionViewController.m in Sources */,
 				941292DC1A1C7AD100B7C763 /* MRProgressOverlayView.m in Sources */,
@@ -2858,6 +2876,7 @@
 				944D1E7519DB8514006F73BF /* DAUserListTableViewCell.swift in Sources */,
 				944689A31960048500FAE288 /* DATabBarController.m in Sources */,
 				943E625B1987362100DF2135 /* STHTTPRequest+STTwitter.m in Sources */,
+				94917FED1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */,
 				D1236B9619AE7B4B00727447 /* DAReviewDetailsViewController.m in Sources */,
 				9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */,
 				940537AC19F4BA0400A02088 /* DAContainerViewController.m in Sources */,
@@ -2915,6 +2934,7 @@
 				9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */,
 				947381C31A46EEE600B1CFC2 /* NSAttributedString+Dished.swift in Sources */,
 				94A6FE351A46DBD800AB901F /* DAReviewButtonsCollectionViewCell.swift in Sources */,
+				94917FE81A5D6DC0009FF117 /* DAModalTransitionManager.m in Sources */,
 				944281691A46FD4600117E0B /* DAFlowLayout.swift in Sources */,
 				D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */,
 				D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */,

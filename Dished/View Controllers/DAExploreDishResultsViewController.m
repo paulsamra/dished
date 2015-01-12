@@ -11,8 +11,6 @@
 #import "DALocationManager.h"
 #import "DADish.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-#import "DAGlobalDishDetailViewController.h"
-#import "DAUserProfileViewController.h"
 
 #define kRowLimit 20
 

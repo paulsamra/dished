@@ -12,7 +12,6 @@
 #import "DAExploreViewController.h"
 #import "DAExploreLiveSearchResult.h"
 #import "DADishTableViewCell.h"
-#import "DAUserProfileViewController.h"
 #import "DACurrentLocationViewController.h"
 #import "DAExploreDishResultsViewController.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"

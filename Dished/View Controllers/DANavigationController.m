@@ -9,11 +9,6 @@
 #import "DANavigationController.h"
 
 
-@interface DANavigationController()
-
-@end
-
-
 @implementation DANavigationController
 
 - (void)viewDidLoad

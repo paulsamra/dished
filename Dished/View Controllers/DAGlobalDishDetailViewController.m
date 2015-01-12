@@ -12,8 +12,6 @@
 #import "DAGradeGraphCollectionViewCell.h"
 #import "DAGlobalReviewCollectionViewCell.h"
 #import "UIImageView+WebCache.h"
-#import "DAReviewDetailsViewController.h"
-#import "DAUserProfileViewController.h"
 #import "DATabBarController.h"
 #import "UIViewController+ShareView.h"
 #import "DAFeedCollectionViewFlowLayout.h"

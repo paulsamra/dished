@@ -17,6 +17,7 @@
 #import "DAMenuViewController.h"
 #import "DAUserManager.h"
 #import "DAContainerViewController.h"
+#import "DAModalTransitionManager.h"
 
 
 @interface DATabBarController() <UITabBarControllerDelegate, MFMailComposeViewControllerDelegate>
@@ -24,6 +25,7 @@
 @property (strong, nonatomic) UIView   *dimView;
 @property (strong, nonatomic) UIButton *newsBadgeButton;
 @property (strong, nonatomic) DAMenuViewController *menuViewController;
+@property (strong, nonatomic) DAModalTransitionManager *modalTransitionManager;
 
 @end
 
@@ -33,6 +35,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.modalTransitionManager = [DAModalTransitionManager new];
     
     UITabBarItem *addReviewTabItem = [self.tabBar.items objectAtIndex:2];
     
@@ -135,7 +139,9 @@
 {
     if( [viewController.title isEqualToString:@"dummy"] )
     {
-        DAImagePickerController *reviewImagePicker = [self.storyboard instantiateViewControllerWithIdentifier:@"addReview"];
+        UINavigationController *reviewImagePicker = [self.storyboard instantiateViewControllerWithIdentifier:@"addReview"];
+        reviewImagePicker.transitioningDelegate = self.modalTransitionManager;
+        self.modalTransitionManager.transitionType = eTransitionTypeUp;
         [self presentViewController:reviewImagePicker animated:YES completion:nil];
         
         return NO;
@@ -184,6 +190,8 @@
     UINavigationController *addReviewNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"addReview"];
     DAImagePickerController *imagePickerController = [addReviewNavigationController.viewControllers objectAtIndex:0];
     imagePickerController.selectedDish = dishProfile;
+    addReviewNavigationController.transitioningDelegate = self.modalTransitionManager;
+    self.modalTransitionManager.transitionType = eTransitionTypeUp;
     [self presentViewController:addReviewNavigationController animated:YES completion:nil];
 }
 
