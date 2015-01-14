@@ -72,11 +72,6 @@
         
         self.emailField.text = self.facebookUserInfo[@"email"];
         [self textFieldDidEndEditing:self.emailField];
-        
-        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-        dateFormatter.dateFormat = @"MM/dd/yyyy";
-        self.dateOfBirth = [dateFormatter dateFromString:self.facebookUserInfo[@"birthday"]];
-        self.dateOfBirthLabel.text = [self.birthDateFormatter stringFromDate:self.dateOfBirth];
     }
 }
 

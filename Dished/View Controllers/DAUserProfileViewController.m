@@ -856,30 +856,18 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (void)showMoreActionSheet
 {
-    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Block User" otherButtonTitles:@"Report for Spam", nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:nil delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Report for Spam", nil];
     [actionSheet showInView:self.view];
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex
+- (void)actionSheet:(UIActionSheet *)actionSheet willDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if( buttonIndex == actionSheet.cancelButtonIndex )
     {
         return;
     }
     
-    if( buttonIndex == actionSheet.destructiveButtonIndex )
-    {
-        [self blockUser];
-    }
-    else
-    {
-        [self reportUserForSpam];
-    }
-}
-
-- (void)blockUser
-{
-    
+    [self reportUserForSpam];
 }
 
 - (void)reportUserForSpam

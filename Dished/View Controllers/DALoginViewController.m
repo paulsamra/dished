@@ -179,7 +179,7 @@
 
 - (IBAction)goToFacebookLogin
 {
-    [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_birthday", @"user_friends" ] allowLoginUI:YES
+    [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_friends" ] allowLoginUI:YES
     completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
     {
         if( state == FBSessionStateOpen )

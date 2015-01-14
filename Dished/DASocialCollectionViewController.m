@@ -250,6 +250,8 @@ static NSString *const kEmailTitle    = @"Email";
         if( [self.selectedSharing objectForKey:self.cellLabels[indexPath.row]] )
         {
             [self.selectedSharing removeObjectForKey:self.cellLabels[indexPath.row]];
+            [self.collectionView reloadData];
+            return;
         }
         else
         {
@@ -257,14 +259,21 @@ static NSString *const kEmailTitle    = @"Email";
         }
     }
     
-    if( FBSession.activeSession.state != FBSessionStateOpenTokenExtended && FBSession.activeSession.state != FBSessionStateOpen )
+    if( FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded || FBSession.activeSession.state == FBSessionStateOpenTokenExtended )
+    {
+        [self openFacebookSession];
+    }
+    else if( FBSession.activeSession.state != FBSessionStateOpen )
     {
         [self.cellWaiting setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
         [self.facebookLoginAlert show];
     }
     else
     {
-        [self openFacebookSession];
+        if( !self.isReviewPost )
+        {
+            [self presentComposeViewForSocialMediaType:eSocialMediaTypeFacebook];
+        }
     }
     
     [self.collectionView reloadData];
@@ -333,7 +342,10 @@ static NSString *const kEmailTitle    = @"Email";
         composeViewController.navigationItem.titleView = titleImageView;
         composeViewController.placeholderText = @"Enter a message.";
         
-        NSURL *image_URL = [NSURL URLWithString:self.review.img];
+        NSString *imageURL = self.review ? self.review.img : self.dishProfile.images[0];
+        imageURL = imageURL ? imageURL : @"";
+        
+        NSURL *image_URL = [NSURL URLWithString:imageURL];
         [[SDWebImageManager sharedManager] downloadImageWithURL:image_URL options:0 progress:nil
         completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
         {
@@ -346,7 +358,21 @@ static NSString *const kEmailTitle    = @"Email";
             
             if( result == REComposeResultPosted )
             {
-                [[DATwitterManager sharedManager] postDishTweetWithMessage:composeVC.text imageURL:self.review.img completion:nil];
+                
+                switch( socialMediaType )
+                {
+                    case eSocialMediaTypeTwitter:
+                        [[DATwitterManager sharedManager] postDishTweetWithMessage:composeVC.text imageURL:self.review.img completion:nil];
+                        break;
+                        
+                    case eSocialMediaTypeFacebook:
+                        [self shareDishOnFacebookWithMessage:composeVC.text imageURL:imageURL];
+                        break;
+                        
+                    default: break;
+                }
+                
+                [self dismissView];
             }
         };
         
@@ -444,26 +470,81 @@ static NSString *const kEmailTitle    = @"Email";
     }];
 }
 
-- (void)shareReviewOnFacebook:(DANewReview *)review imageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion;
+- (void)shareReviewOnFacebook:(DANewReview *)review withReviewID:(NSInteger)reviewID imageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion;
 {
-    NSString *message = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", review.rating, review.title, review.locationName];
+    NSMutableDictionary<FBOpenGraphObject> *object = [FBGraphObject openGraphObjectForPost];
+
+    object.provisionedForPost = YES;
     
-    NSDictionary *shareParams = @{ @"name" : review.title, @"caption" : message,
-                                   @"description" : review.comment, @"link" : @"http://dishedapp.com",
-                                   @"picture" : imageURL};
+    object[@"title"] = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", review.rating, review.title, review.locationName];
+    object[@"type"] = @"dishedfb:dish";
+    object[@"url"] = [NSString stringWithFormat:@"http://dishedapp.com/review/%ld", reviewID];
+    object[@"image"] = @[ @{ @"url": imageURL, @"user_generated" : @"true" } ];
     
-    [FBRequestConnection startWithGraphPath:@"/me/feed" parameters:shareParams HTTPMethod:@"POST"
+    [FBRequestConnection startForPostOpenGraphObject:object
     completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
     {
         if( !error )
         {
-            completion( YES );
+            NSString *objectId = [result objectForKey:@"id"];
+            
+            id<FBOpenGraphAction> action = (id<FBOpenGraphAction>)[FBGraphObject graphObject];
+            [action setObject:objectId forKey:@"dish"];
+            
+            [FBRequestConnection startForPostWithGraphPath:@"/me/dishedfb:review" graphObject:action
+            completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
+            {
+                if( !error )
+                {
+                    completion( YES );
+                }
+                else
+                {
+                    completion( NO );
+                }
+            }];
         }
         else
         {
             completion( NO );
         }
     }];
+}
+
+- (void)shareDishOnFacebookWithMessage:(NSString *)message imageURL:(NSString *)imageURL;
+{
+    if( !self.dishProfile && !self.review )
+    {
+        return;
+    }
+    
+    NSMutableDictionary<FBOpenGraphObject> *object = [FBGraphObject openGraphObjectForPost];
+    
+    NSString *title = self.review ? self.review.name : self.dishProfile.name;
+    NSString *place = self.review ? self.review.loc_name : self.dishProfile.loc_name;
+    
+    NSInteger itemId = self.review ? self.review.review_id : self.dishProfile.dish_id;
+    NSString *deepLink = [NSString stringWithFormat:@"%@/%ld", self.review ? @"review" : @"dish", itemId];
+    
+    object.provisionedForPost = YES;
+    object[@"title"] = [NSString stringWithFormat:@"%@ from %@\n\n%@", title, place, message];
+    object[@"type"] = @"dishedfb:dish";
+    object[@"url"] = [NSString stringWithFormat:@"http://dishedapp.com/%@", deepLink];
+    object[@"image"] = @[ @{ @"url": imageURL, @"user_generated" : @"true" } ];
+    
+    [FBRequestConnection startForPostOpenGraphObject:object
+    completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
+    {
+        if( !error )
+        {
+            NSString *objectId = [result objectForKey:@"id"];
+             
+            id<FBOpenGraphAction> action = (id<FBOpenGraphAction>)[FBGraphObject graphObject];
+            [action setObject:objectId forKey:@"dish"];
+             
+            [FBRequestConnection startForPostWithGraphPath:@"/me/dishedfb:share" graphObject:action completionHandler:nil];
+         }
+     }];
 }
 
 - (void)loginToTwitter
@@ -500,7 +581,8 @@ static NSString *const kEmailTitle    = @"Email";
     }];
 }
 
-- (void)shareReview:(DANewReview *)review imageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion
+- (void)shareReview:(DANewReview *)review withReviewID:(NSInteger)reviewID imageURL:(NSString *)imageURL
+         completion:( void(^)( BOOL success ) )completion;
 {
     dispatch_group_t group = dispatch_group_create();
     
@@ -510,7 +592,7 @@ static NSString *const kEmailTitle    = @"Email";
     {
         dispatch_group_enter( group );
         
-        [self shareReviewOnFacebook:review imageURL:imageURL completion:^( BOOL successful )
+        [self shareReviewOnFacebook:review withReviewID:reviewID imageURL:imageURL completion:^( BOOL successful )
         {
             success &= successful;
             
@@ -529,9 +611,6 @@ static NSString *const kEmailTitle    = @"Email";
             dispatch_group_leave( group );
         }];
     }
-    
-    dispatch_group_enter( group );
-    dispatch_group_leave( group );
     
     dispatch_group_notify( group, dispatch_get_main_queue(), ^
     {

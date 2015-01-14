@@ -34,6 +34,6 @@
 @property (nonatomic) BOOL isOwnReview;
 
 - (BOOL)socialMediaTypeSelected:(eSocialMediaType)socialMediaType;
-- (void)shareReview:(DANewReview *)review imageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion;
+- (void)shareReview:(DANewReview *)review withReviewID:(NSInteger)reviewID imageURL:(NSString *)imageURL completion:( void(^)( BOOL success ) )completion;
 
 @end

@@ -27,7 +27,7 @@
     [self.activityIndicator startAnimating];
     self.navigationItem.backBarButtonItem = nil;
     
-    NSDictionary *parameters = @{ @"fields" : @"id,name,first_name,last_name,email,picture.width(400).height(400),birthday" };
+    NSDictionary *parameters = @{ @"fields" : @"id,name,first_name,last_name,email,picture.width(400).height(400)" };
     
     [FBRequestConnection startWithGraphPath:@"me" parameters:parameters HTTPMethod:@"GET"
     completionHandler:^( FBRequestConnection *connection, id result, NSError *error )

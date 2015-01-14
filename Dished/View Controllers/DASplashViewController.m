@@ -64,6 +64,13 @@
     }];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [FBSession.activeSession closeAndClearTokenInformation];
+}
+
 - (void)setupWelcomeScreens
 {
     if( ![[NSUserDefaults standardUserDefaults] objectForKey:kFirstLaunchKey] )
@@ -191,7 +198,7 @@
 
 - (IBAction)facebookConnect
 {    
-    [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_birthday", @"user_friends" ] allowLoginUI:YES
+    [FBSession openActiveSessionWithReadPermissions:@[ @"public_profile", @"email", @"user_friends" ] allowLoginUI:YES
     completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
     {
         if( state == FBSessionStateOpen )

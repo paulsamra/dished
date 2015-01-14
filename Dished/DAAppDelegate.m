@@ -48,7 +48,7 @@
         
         if( FBSession.activeSession.state == FBSessionStateCreatedTokenLoaded )
         {
-            [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"user_friends", @"email", @"user_birthday"] allowLoginUI:NO
+            [FBSession openActiveSessionWithReadPermissions:@[@"public_profile", @"user_friends", @"email"] allowLoginUI:NO
             completionHandler:^( FBSession *session, FBSessionState state, NSError *error )
             {
                 [self sessionStateChanged:session state:state error:error];
@@ -145,8 +145,17 @@
     }
     
     if( [[url absoluteString] rangeOfString:@"com.dishedapp.dished"].location == NSNotFound )
-    {
-        BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    {        
+        BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication
+        fallbackHandler:^( FBAppCall *call )
+        {
+            if( [[call appLinkData] targetURL] != nil )
+            {
+                NSString *objectId = [[[call appLinkData] targetURL].path substringFromIndex:1];
+                
+                NSLog(@"FACEBOOK OBJECT ID: %@", objectId);
+            }
+        }];
         
         return wasHandled;
     }

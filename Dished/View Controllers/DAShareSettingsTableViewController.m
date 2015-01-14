@@ -9,6 +9,7 @@
 #import "DAShareSettingsTableViewController.h"
 #import "DAShareLinkTableViewController.h"
 #import "DATwitterManager.h"
+#import "DAUserManager.h"
 
 
 @interface DAShareSettingsTableViewController()
@@ -44,13 +45,30 @@
         self.twitterCell.detailTextLabel.text = @"Not Connected";
         self.twitterCell.detailTextLabel.textColor = [UIColor lightGrayColor];
     }
+    
+    if( [DAUserManager sharedManager].isFacebookUser )
+    {
+        self.facebookCell.detailTextLabel.text = @"Connected";
+        self.facebookCell.detailTextLabel.textColor = [UIColor dishedColor];
+        self.facebookCell.userInteractionEnabled = NO;
+    }
+    if( FBSession.activeSession.state != FBSessionStateOpenTokenExtended && FBSession.activeSession.state != FBSessionStateOpen )
+    {
+        self.facebookCell.detailTextLabel.text = @"Not Connected";
+        self.facebookCell.detailTextLabel.textColor = [UIColor lightGrayColor];
+    }
+    else
+    {
+        self.facebookCell.detailTextLabel.text = @"Connected";
+        self.facebookCell.detailTextLabel.textColor = [UIColor dishedColor];
+        self.facebookCell.userInteractionEnabled = NO;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch( indexPath.row )
     {
-        case 0: [self performSegueWithIdentifier:@"shareLink" sender:@(eSocialMediaTypeFacebook)]; break;
         case 1: [self performSegueWithIdentifier:@"shareLink" sender:@(eSocialMediaTypeTwitter)]; break;
     }
 }

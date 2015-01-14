@@ -848,8 +848,10 @@
     success:^( id response )
     {
         NSString *imageAddress = response[kDataKey][kImgKey][@"url"];
-
-        [self.socialViewController shareReview:self.review imageURL:imageAddress completion:^( BOOL success )
+        NSInteger reviewID = [response[kDataKey][kReviewIDKey] integerValue];
+        
+        [self.socialViewController shareReview:self.review withReviewID:reviewID imageURL:imageAddress
+        completion:^( BOOL success )
         {
             [self hideProgressViewWithCompletion:^
             {

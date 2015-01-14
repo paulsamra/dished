@@ -16,12 +16,11 @@
 
 @interface DAInviteFriendsViewController() <DAUserListTableViewCellDelegate>
 
-@property (strong, nonatomic) UITableView             *selectedTableView;
 @property (strong, nonatomic) NSMutableArray          *registrationData;
+@property (strong, nonatomic) FBLinkShareParams       *facebookShareParams;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
 @property (nonatomic) BOOL isLoadingContacts;
-@property (nonatomic) BOOL isLoadingFacebook;
 @property (nonatomic) BOOL isFacebookUser;
 @property (nonatomic) BOOL contactsFailure;
 @property (nonatomic) BOOL contactsNotPermitted;
@@ -38,12 +37,7 @@
     self.contactsNotPermitted = NO;
     self.contactsFailure = NO;
     self.sourcePicker.tintColor = [UIColor dishedColor];
-    
-    self.selectedTableView = self.contactsTableView;
-    self.facebookTableView.hidden = YES;
-    
     self.contactsTableView.tableFooterView = [UIView new];
-    self.facebookTableView.tableFooterView = [UIView new];
     
     self.contactsPermissionLabel.hidden = YES;
     self.contactsFailureLabel.hidden = YES;
@@ -61,7 +55,7 @@
     UINib *searchCellNib = [UINib nibWithNibName:@"DAUserListTableViewCell" bundle:nil];
     [self.contactsTableView registerNib:searchCellNib forCellReuseIdentifier:kCellIdentifier];
     
-    [self loadFacebookFriends];
+    [self setupFacebook];
     
     self.isLoadingContacts = YES;
     [DAAppDelegate getContactsAddressBookWithCompletion:^( BOOL granted, ABAddressBookRef addressBook, NSError *error )
@@ -85,26 +79,39 @@
     }];
 }
 
-- (void)loadFacebookFriends
+- (void)setupFacebook
 {
-    self.isLoadingFacebook = YES;
-    
-    if( FBSession.activeSession.state != FBSessionStateOpen || ![[DAUserManager sharedManager] isFacebookUser] )
+    if( FBSession.activeSession.state != FBSessionStateOpen )
     {
         self.isFacebookUser = NO;
         
-        if( self.selectedTableView == self.facebookTableView )
+        if( self.sourcePicker.selectedSegmentIndex == 1 )
         {
             self.facebookConnectLabel.hidden = NO;
             [self.spinner stopAnimating];
         }
         
-        self.isLoadingFacebook = NO;
         return;
     }
     else
     {
         self.isFacebookUser = YES;
+        
+        FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
+        
+        params.link    = [NSURL URLWithString:@"https://developers.facebook.com/docs/ios/share/"];
+        params.name    = @"Dished";
+        params.caption = @"Build great social apps that engage your friends.";
+        params.picture = [NSURL URLWithString:@"http://i.imgur.com/g3Qc1HN.png"];
+        params.linkDescription = @"Send links from your app using the iOS SDK.";
+        
+        self.facebookShareParams = params;
+        
+        if( ![FBDialogs canPresentMessageDialogWithParams:params] )
+        {
+            self.isFacebookUser = NO;
+            self.facebookConnectLabel.text = @"You need to have the Facebook app installed on your phone to be able to invite your friends.";
+        }
     }
 }
 
@@ -190,50 +197,6 @@
     self.contactsFailureLabel.hidden = !contactsFailure;
 }
 
-- (void)makeTableViewActive:(UITableView *)tableView
-{
-    self.selectedTableView.hidden = YES;
-    [self.spinner stopAnimating];
-    
-    self.selectedTableView = tableView;
-    self.selectedTableView.hidden = NO;
-    
-    self.contactsFailureLabel.hidden = YES;
-    self.contactsPermissionLabel.hidden = YES;
-    self.facebookConnectLabel.hidden = YES;
-    
-    if( tableView == self.contactsTableView )
-    {
-        if( self.isLoadingContacts )
-        {
-            [self.spinner startAnimating];
-        }
-        
-        if( self.contactsFailure )
-        {
-            self.contactsFailureLabel.hidden = NO;
-        }
-        else if( self.contactsNotPermitted )
-        {
-            self.contactsPermissionLabel.hidden = NO;
-        }
-    }
-    
-    if( tableView == self.facebookTableView )
-    {
-        if( self.isLoadingFacebook )
-        {
-            [self.spinner startAnimating];
-        }
-        
-        if( !self.isFacebookUser )
-        {
-            self.facebookConnectLabel.hidden = NO;
-            [self.spinner stopAnimating];
-        }
-    }
-}
-
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
@@ -246,10 +209,6 @@
     if( tableView == self.contactsTableView )
     {
         count = self.registrationData.count;
-    }
-    else if( tableView == self.facebookTableView )
-    {
-        
     }
     
     return count;
@@ -315,10 +274,41 @@
 
 - (IBAction)sourcePicked
 {
+    [self.spinner stopAnimating];
+    
+    self.contactsFailureLabel.hidden = YES;
+    self.contactsPermissionLabel.hidden = YES;
+    self.facebookConnectLabel.hidden = YES;
+    
     switch( self.sourcePicker.selectedSegmentIndex )
     {
-        case 0: [self makeTableViewActive:self.contactsTableView]; break;
-        case 1: [self makeTableViewActive:self.facebookTableView]; break;
+        case 0:
+            if( self.isLoadingContacts )
+            {
+                [self.spinner startAnimating];
+            }
+            else if( self.contactsFailure )
+            {
+                self.contactsFailureLabel.hidden = NO;
+            }
+            else if( self.contactsNotPermitted )
+            {
+                self.contactsPermissionLabel.hidden = NO;
+            }
+            else
+            {
+                self.contactsTableView.hidden = NO;
+            }
+            break;
+            
+        case 1:
+            self.contactsTableView.hidden = YES;
+            
+            if( !self.isFacebookUser )
+            {
+                self.facebookConnectLabel.hidden = NO;
+            }
+            break;
     }
 }
 

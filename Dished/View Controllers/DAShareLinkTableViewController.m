@@ -96,8 +96,16 @@
 
 - (void)loginToTwitter
 {
+    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    spinner.center = self.tableView.center;
+    spinner.hidesWhenStopped = YES;
+    [spinner startAnimating];
+    [self.view addSubview:spinner];
+    
     [[DATwitterManager sharedManager] loginWithCompletion:^( BOOL success )
     {
+        [spinner stopAnimating];
+        
         if( success )
         {
             [self setupForTwitter];
