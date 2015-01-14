@@ -12,7 +12,7 @@ let IS_IOS8 = ( ( ( UIDevice.currentDevice().systemVersion as NSString ).floatVa
 
 extension UIViewController
 {
-    func showAlertWithTitle( title: String, message: String )
+    func showAlertWithTitle( title: String?, message: String? )
     {
         if IS_IOS8
         {
@@ -24,8 +24,7 @@ extension UIViewController
         }
         else
         {
-            let alertView = UIAlertView( title: title, message: message, delegate: nil, cancelButtonTitle: nil, otherButtonTitles: "OK" )
-            
+            let alertView = UIAlertView( title: title, message: message, delegate: nil, cancelButtonTitle: "OK" )            
             alertView.show()
         }
     }

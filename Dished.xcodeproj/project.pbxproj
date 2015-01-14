@@ -466,6 +466,12 @@
 		94331FFF1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 94331FFE1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
 		943320071995ED57000A8E2B /* DAFeedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943320061995ED57000A8E2B /* DAFeedViewController.m */; };
 		94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94358D7E1960262F00C38A93 /* DACaptureManager.m */; };
+		943883921A63D512008E2AA3 /* FAQ.html in Resources */ = {isa = PBXBuildFile; fileRef = 943883911A63D512008E2AA3 /* FAQ.html */; };
+		943883931A63D69C008E2AA3 /* FAQ.html in Resources */ = {isa = PBXBuildFile; fileRef = 943883911A63D512008E2AA3 /* FAQ.html */; };
+		943883941A63D69C008E2AA3 /* FAQ.html in Resources */ = {isa = PBXBuildFile; fileRef = 943883911A63D512008E2AA3 /* FAQ.html */; };
+		943883961A63D9C6008E2AA3 /* faq_icons.png in Resources */ = {isa = PBXBuildFile; fileRef = 943883951A63D9C6008E2AA3 /* faq_icons.png */; };
+		943883971A63D9C6008E2AA3 /* faq_icons.png in Resources */ = {isa = PBXBuildFile; fileRef = 943883951A63D9C6008E2AA3 /* faq_icons.png */; };
+		943883981A63D9C6008E2AA3 /* faq_icons.png in Resources */ = {isa = PBXBuildFile; fileRef = 943883951A63D9C6008E2AA3 /* faq_icons.png */; };
 		943E62121983A20F00DF2135 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 943E62111983A20F00DF2135 /* AddressBook.framework */; };
 		943E62141983A21300DF2135 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 943E62131983A21300DF2135 /* AssetsLibrary.framework */; };
 		943E62161983A21A00DF2135 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 943E62151983A21A00DF2135 /* Foundation.framework */; };
@@ -820,6 +826,8 @@
 		943320061995ED57000A8E2B /* DAFeedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedViewController.m; sourceTree = "<group>"; };
 		94358D7D1960262F00C38A93 /* DACaptureManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACaptureManager.h; sourceTree = "<group>"; };
 		94358D7E1960262F00C38A93 /* DACaptureManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACaptureManager.m; sourceTree = "<group>"; };
+		943883911A63D512008E2AA3 /* FAQ.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = FAQ.html; sourceTree = "<group>"; };
+		943883951A63D9C6008E2AA3 /* faq_icons.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = faq_icons.png; sourceTree = "<group>"; };
 		943E62111983A20F00DF2135 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		943E62131983A21300DF2135 /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		943E62151983A21A00DF2135 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -1344,6 +1352,8 @@
 				941538C7193F270A008B3B79 /* DAAppDelegate.m */,
 				941810111970EB7700C83034 /* DAConstants.h */,
 				941810121970EB7700C83034 /* DAConstants.m */,
+				943883951A63D9C6008E2AA3 /* faq_icons.png */,
+				943883911A63D512008E2AA3 /* FAQ.html */,
 				94A8CD1B19FF143300AA770D /* Privacy Policy.html */,
 				94A8CD1C19FF143300AA770D /* Terms & Conditions.html */,
 				9443DEF619CFCE9000F134BA /* Dished-Bridging-Header.h */,
@@ -2263,9 +2273,11 @@
 				941292441A1BEED500B7C763 /* DAReviewButtonsCollectionViewCell.xib in Resources */,
 				941292471A1BEED500B7C763 /* DAUserNewsTableViewCell.xib in Resources */,
 				941292481A1BEED500B7C763 /* DACommentTableViewCell.xib in Resources */,
+				943883931A63D69C008E2AA3 /* FAQ.html in Resources */,
 				941292491A1BEED500B7C763 /* DADishTableViewCell.xib in Resources */,
 				9412924C1A1BEED500B7C763 /* DAReviewDetailCollectionViewCell.xib in Resources */,
 				941292521A1BEED500B7C763 /* uv_idea@2x.png in Resources */,
+				943883971A63D9C6008E2AA3 /* faq_icons.png in Resources */,
 				941292531A1BEED500B7C763 /* JSQMessagesToolbarContentView.xib in Resources */,
 				941292561A1BEED500B7C763 /* DAUserListTableViewCell.xib in Resources */,
 				941292571A1BEED500B7C763 /* Images.xcassets in Resources */,
@@ -2295,9 +2307,11 @@
 				941293431A1C7AD100B7C763 /* DAReviewButtonsCollectionViewCell.xib in Resources */,
 				941293461A1C7AD100B7C763 /* DAUserNewsTableViewCell.xib in Resources */,
 				941293471A1C7AD100B7C763 /* DACommentTableViewCell.xib in Resources */,
+				943883941A63D69C008E2AA3 /* FAQ.html in Resources */,
 				941293481A1C7AD100B7C763 /* DADishTableViewCell.xib in Resources */,
 				9412934B1A1C7AD100B7C763 /* DAReviewDetailCollectionViewCell.xib in Resources */,
 				941293511A1C7AD100B7C763 /* uv_idea@2x.png in Resources */,
+				943883981A63D9C6008E2AA3 /* faq_icons.png in Resources */,
 				941293521A1C7AD100B7C763 /* JSQMessagesToolbarContentView.xib in Resources */,
 				941293551A1C7AD100B7C763 /* DAUserListTableViewCell.xib in Resources */,
 				941293561A1C7AD100B7C763 /* Images.xcassets in Resources */,
@@ -2326,12 +2340,14 @@
 				94AAAA5F1A43BF1300863E09 /* REComposeViewController.bundle in Resources */,
 				947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */,
 				943ECCF519EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib in Resources */,
+				943883921A63D512008E2AA3 /* FAQ.html in Resources */,
 				94E2520C1A08BAF900D6DCE4 /* DAUserNewsTableViewCell.xib in Resources */,
 				9443DF0219D026DE00F134BA /* DACommentTableViewCell.xib in Resources */,
 				94F2AD77198C454600450C6F /* DADishTableViewCell.xib in Resources */,
 				94AE445819E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib in Resources */,
 				94D7CB071A1499970065229C /* uv_idea@2x.png in Resources */,
 				94CB040019B146AF009010F6 /* JSQMessagesToolbarContentView.xib in Resources */,
+				943883961A63D9C6008E2AA3 /* faq_icons.png in Resources */,
 				944D1E7719DB853A006F73BF /* DAUserListTableViewCell.xib in Resources */,
 				941293741A1C7B5100B7C763 /* Dished-STAGE-Info.plist in Resources */,
 				94CB03D219B0EECA009010F6 /* Images.xcassets in Resources */,
@@ -3334,7 +3350,7 @@
 					"$(PROJECT_DIR)",
 				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-all_load",
 					"-ObjC",
@@ -3368,7 +3384,7 @@
 					"$(PROJECT_DIR)",
 				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
-				ONLY_ACTIVE_ARCH = NO;
+				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = (
 					"-all_load",
 					"-ObjC",

@@ -1049,7 +1049,7 @@
         <!--Navigation Controller-->
         <scene sceneID="Tt8-nM-5aM">
             <objects>
-                <navigationController storyboardIdentifier="addReview" definesPresentationContext="YES" id="ZWa-ag-Kbq" customClass="DANavigationController" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="addReview" definesPresentationContext="YES" id="ZWa-ag-Kbq" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="aLD-J3-yY4">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

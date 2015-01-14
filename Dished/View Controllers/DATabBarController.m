@@ -225,4 +225,18 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
+- (void)resetToHomeFeed
+{
+    self.selectedIndex = 0;
+    
+    for( UIViewController *viewController in self.viewControllers )
+    {
+        if( [viewController isKindOfClass:[UINavigationController class]] )
+        {
+            UINavigationController *navController = (UINavigationController *)viewController;
+            [navController popToRootViewControllerAnimated:YES];
+        }
+    }
+}
+
 @end

@@ -167,6 +167,7 @@ extern NSString *const kPushCommentKey;
 extern NSString *const kLocationNameKey;
 
 extern NSString *const kErrorKey;
+extern NSString *const kDataExistsError;
 extern NSString *const kEmailExistsError;
 extern NSString *const kPhoneExistsError;
 extern NSString *const kParamsInvalidError;

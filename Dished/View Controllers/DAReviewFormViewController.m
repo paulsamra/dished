@@ -24,9 +24,6 @@
 
 @property (strong, nonatomic) UIView                           *dimView;
 @property (strong, nonatomic) NSArray                          *suggestedLocations;
-@property (strong, nonatomic) UIAlertView                      *postFailAlert;
-@property (strong, nonatomic) UIAlertView                      *twitterLoginFailAlert;
-@property (strong, nonatomic) UIAlertView                      *googleLoginFailAlert;
 @property (strong, nonatomic) NSMutableString                  *dishPrice;
 @property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
 
@@ -177,8 +174,6 @@
 
 - (void)viewWillDisappear:(BOOL)animated
 {
-    [self.view endEditing:YES];
-    
     [super viewWillDisappear:animated];
     
     [self.socialViewController.view removeFromSuperview];
@@ -884,19 +879,19 @@
         }
         else
         {
-            [self.postFailAlert show];
+            [self hideProgressViewWithCompletion:^
+            {
+                if( [DAAPIManager errorTypeForError:error] == eErrorTypeDataExists )
+                {
+                    [[[UIAlertView alloc] initWithTitle:@"You have already reviewed this dish." message:nil delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+                }
+                else
+                {
+                    [[[UIAlertView alloc] initWithTitle:@"Failed to post Dish Review" message:@"There was a problem posting your review. Please try again." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
+                }
+            }];
         }
     }];
-}
-
-- (UIAlertView *)postFailAlert
-{
-    if( !_postFailAlert )
-    {
-        _postFailAlert = [[UIAlertView alloc] initWithTitle:@"Failed to post Dish Review" message:@"There was a problem posting your review. Please try again." delegate:self cancelButtonTitle:nil otherButtonTitles:@"OK", nil];
-    }
-    
-    return _postFailAlert;
 }
 
 @end

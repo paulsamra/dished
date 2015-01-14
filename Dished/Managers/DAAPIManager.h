@@ -14,6 +14,7 @@
 typedef enum
 {
     eErrorTypeDataNonexists,
+    eErrorTypeDataExists,
     eErrorTypeEmailExists,
     eErrorTypePhoneExists,
     eErrorTypeUsernameExists,

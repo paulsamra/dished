@@ -146,6 +146,7 @@ NSString *const kPushCommentKey  = @"push_comment";
 NSString *const kLocationNameKey = @"loc_name";
 
 NSString *const kErrorKey             = @"error";
+NSString *const kDataExistsError      = @"data_exists";
 NSString *const kEmailExistsError     = @"email_exists";
 NSString *const kPhoneExistsError     = @"phone_exists";
 NSString *const kParamsInvalidError   = @"params_invalid";

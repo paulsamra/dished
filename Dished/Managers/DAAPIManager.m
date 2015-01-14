@@ -178,6 +178,10 @@
             {
                 errorType = eErrorTypeDataNonexists;
             }
+            else if( [errorValue isEqualToString:kDataExistsError] )
+            {
+                errorType = eErrorTypeDataExists;
+            }
             else if( [errorValue isEqualToString:kEmailExistsError] )
             {
                 errorType = eErrorTypeEmailExists;

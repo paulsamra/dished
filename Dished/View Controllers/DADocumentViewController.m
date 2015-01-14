@@ -44,8 +44,8 @@
         dispatch_async( dispatch_get_main_queue(), ^
         {
             NSString *htmlFile = [[NSBundle mainBundle] pathForResource:self.documentName ofType:@"html"];
-            NSString* htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
-            [self.webView loadHTMLString:htmlString baseURL:nil];
+            NSString *htmlString = [NSString stringWithContentsOfFile:htmlFile encoding:NSUTF8StringEncoding error:nil];
+            [self.webView loadHTMLString:htmlString baseURL:[[NSBundle mainBundle] bundleURL]];
         });
     }
 }

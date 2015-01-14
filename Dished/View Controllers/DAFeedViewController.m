@@ -94,6 +94,11 @@ typedef enum
     {
         self.hasMoreData = hasMoreData;
         
+        [UIView animateWithDuration:0 animations:^
+        {
+            [self.collectionView reloadData];
+        }];
+        
         self.initialLoadActive = NO;
         [self.refreshControl endRefreshing];
         

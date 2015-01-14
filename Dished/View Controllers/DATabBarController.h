@@ -13,6 +13,7 @@
 
 @interface DATabBarController : UITabBarController
 
+- (void)resetToHomeFeed;
 - (void)startAddReviewProcessWithDishProfile:(DADishProfile *)dishProfile;
 
 @end

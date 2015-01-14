@@ -18,6 +18,7 @@
 #import "DAFeedCollectionViewFlowLayout.h"
 #import "DAUserManager.h"
 #import "MRProgress.h"
+#import "DATabBarController.h"
 #import "DADishedViewController+Error.h"
 
 typedef enum
@@ -816,7 +817,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 
             [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
             {
-                [self.navigationController popToRootViewControllerAnimated:YES];
+                [(DATabBarController *)self.tabBarController resetToHomeFeed];
             }];
         }
         else
@@ -832,14 +833,14 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
                 
                 [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
                 {
-                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    [(DATabBarController *)self.tabBarController resetToHomeFeed];
                 }];
             }
             else
             {
                 [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
                 {
-                    [self.navigationController popToRootViewControllerAnimated:YES];
+                    [(DATabBarController *)self.tabBarController resetToHomeFeed];
                 }];
             }
         }

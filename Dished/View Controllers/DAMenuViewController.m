@@ -121,7 +121,7 @@
              
 - (void)goToFAQ
 {
-    [self goToDocumentViewWithName:@"FAQ" documentURL:@"http://www.dishedapp.com/faq/"];
+    [self goToDocumentViewWithName:@"FAQ" documentURL:nil];
 }
 
 - (void)showTermsOfUse
