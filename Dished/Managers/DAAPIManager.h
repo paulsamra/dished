@@ -10,6 +10,7 @@
 
 #define kNetworkUnreachableKey @"network_unreachable"
 #define kNetworkReachableKey   @"network_reachable"
+#define kForcedLogoutNotificationKey @"forced_logout"
 
 typedef enum
 {
@@ -85,7 +86,12 @@ typedef void(^RequestFailureBlock)( NSError *error, BOOL shouldRetry );
 /*
  * User logout.
  */
-- (void)logout;
+- (void)logoutWithCompletion:( void(^)( BOOL success ) )completion;
+
+/*
+ * Logs out user without notifying Dished API. Use carefully.
+ */
+- (void)forceUserLogout;
 
 /*
  * Request password reset verification code.

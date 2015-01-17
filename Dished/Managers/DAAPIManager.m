@@ -248,6 +248,11 @@
     {
         dispatch_async( dispatch_get_main_queue(), ^
         {
+            if( ![self isLoggedIn] )
+            {
+                return;
+            }
+            
             NSDictionary *parameters = @{ kClientIDKey : self.clientID, kClientSecretKey : self.clientSecret,
                                           kRefreshTokenKey : self.refreshToken };
             
@@ -281,12 +286,26 @@
                 
                 NSLog(@"%@", error);
                 
-                if( completion )
+                eErrorType errorType = [DAAPIManager errorTypeForError:error];
+            
+                if( errorType == eErrorTypeInvalidRefreshToken )
                 {
-                    completion( NO );
+                    [self logoutWithCompletion:^( BOOL success )
+                    {
+                        [self logout];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kForcedLogoutNotificationKey object:nil];
+                        dispatch_semaphore_signal( self.sem );
+                    }];
                 }
-                
-                dispatch_semaphore_signal( self.sem );
+                else
+                {
+                    if( completion )
+                    {
+                        completion( NO );
+                    }
+                    
+                    dispatch_semaphore_signal( self.sem );
+                }
             }];
         });
         
@@ -619,6 +638,28 @@
     }];
 }
 
+- (void)logoutWithCompletion:( void(^)( BOOL success ) )completion
+{
+    [self POSTRequest:kLogoutURL withParameters:nil
+    success:^( id response )
+    {
+        [self logout];
+        
+        completion( YES );
+    }
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
+        {
+            [self logoutWithCompletion:completion];
+        }
+        else
+        {
+            completion( YES );
+        }
+    }];
+}
+
 - (void)logout
 {
     [SSKeychain deletePasswordForService:kKeychainService account:kClientSecretKey];
@@ -628,6 +669,11 @@
     self.accessToken  = nil;
     self.refreshToken = nil;
     self.clientSecret = nil;
+}
+
+- (void)forceUserLogout
+{
+    [self logout];
 }
 
 - (void)requestPasswordResetCodeWithPhoneNumber:(NSString *)phoneNumber completion:(void(^)( BOOL success ))completion

@@ -81,9 +81,7 @@
         {
             DAManagedUsername *managedUsername = (DAManagedUsername *)[NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:[[DACoreDataManager sharedManager] backgroundManagedContext]];
             
-            managedUsername.username = username;
-            
-            [[[DACoreDataManager sharedManager] backgroundManagedContext] save:nil];
+            managedUsername.username = username;            
         }
         
         [[DACacheManager sharedManager] setCachedValue:username forKey:cacheKey];
@@ -114,8 +112,6 @@
             DAManagedHashtag *managedUsername = (DAManagedHashtag *)[NSEntityDescription insertNewObjectForEntityForName:className inManagedObjectContext:[[DACoreDataManager sharedManager] backgroundManagedContext]];
                  
             managedUsername.name = hashtag;
-            
-            [[[DACoreDataManager sharedManager] backgroundManagedContext] save:nil];
         }
         
         [[DACacheManager sharedManager] setCachedValue:hashtag forKey:cacheKey];

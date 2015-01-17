@@ -415,7 +415,7 @@
     
     DAComment *comment = [self.comments objectAtIndex:realIndex];
     
-    NSAttributedString *commentString = [comment attributedCommentStringWithFont:[UIFont fontWithName:kHelveticaNeueLightFont size:14.0f]];
+    NSAttributedString *commentString = [comment attributedCommentStringWithFont:[UIFont fontWithName:kHelveticaNeueLightFont size:15.0f]];
     NSArray *usernameMentions = [comment.usernameMentions arrayByAddingObject:comment.creator_username];
     
     [cell.commentTextView setAttributedText:commentString withAttributes:self.linkedTextAttributes knownUsernames:usernameMentions useCache:NO];

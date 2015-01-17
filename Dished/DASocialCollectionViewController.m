@@ -478,7 +478,7 @@ static NSString *const kEmailTitle    = @"Email";
     
     object[@"title"] = [NSString stringWithFormat:@"I just left an %@ review for %@ at %@.", review.rating, review.title, review.locationName];
     object[@"type"] = @"dishedfb:dish";
-    object[@"url"] = [NSString stringWithFormat:@"http://dishedapp.com/review/%ld", reviewID];
+    object[@"url"] = [NSString stringWithFormat:@"http://dishedapp.com/review/%ld", (long)reviewID];
     object[@"image"] = @[ @{ @"url": imageURL, @"user_generated" : @"true" } ];
     
     [FBRequestConnection startForPostOpenGraphObject:object
@@ -524,7 +524,7 @@ static NSString *const kEmailTitle    = @"Email";
     NSString *place = self.review ? self.review.loc_name : self.dishProfile.loc_name;
     
     NSInteger itemId = self.review ? self.review.review_id : self.dishProfile.dish_id;
-    NSString *deepLink = [NSString stringWithFormat:@"%@/%ld", self.review ? @"review" : @"dish", itemId];
+    NSString *deepLink = [NSString stringWithFormat:@"%@/%ld", self.review ? @"review" : @"dish", (long)itemId];
     
     object.provisionedForPost = YES;
     object[@"title"] = [NSString stringWithFormat:@"%@ from %@\n\n%@", title, place, message];

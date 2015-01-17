@@ -35,7 +35,6 @@ typedef enum
 
 @property (strong, nonatomic) NSCache                          *feedImageCache;
 @property (strong, nonatomic) NSCache                          *attributedStringCache;
-@property (strong, nonatomic) NSCache                          *usernameCache;
 @property (strong, nonatomic) NSCache                          *cellSizeCache;
 @property (strong, nonatomic) UIImageView                      *yumTapImageView;
 @property (strong, nonatomic) NSDictionary                     *linkedTextAttributes;
@@ -94,6 +93,8 @@ typedef enum
     {
         self.hasMoreData = hasMoreData;
         
+        [self.fetchedResultsController performFetch:nil];
+
         [UIView animateWithDuration:0 animations:^
         {
             [self.collectionView reloadData];
@@ -154,9 +155,6 @@ typedef enum
     self.attributedStringCache = [[NSCache alloc] init];
     self.attributedStringCache.name = @"feedAttributedStrings";
     
-    self.usernameCache = [[NSCache alloc] init];
-    self.usernameCache.name = @"feedUsernameStrings";
-    
     self.feedImageCache = [[NSCache alloc] init];
     self.feedImageCache.name = @"feedImageCache";
     
@@ -183,7 +181,7 @@ typedef enum
             
             [UIView animateWithDuration:0 animations:^
             {
-                 [self.collectionView reloadData];
+                [self.collectionView reloadData];
             }];
         }
         
@@ -378,15 +376,10 @@ typedef enum
         commentCell.iconImageView.hidden = commentIndex == 0 ? NO : YES;
         
         NSAttributedString *commentString = [self commentStringForComment:comment];
-
-        NSArray *usernameMentions = [self.usernameCache objectForKey:comment.comment];
-        if( !usernameMentions )
-        {
-            usernameMentions = [self usernameStringArrayWithUsernames:comment.usernames creator:comment.creator_username];
-            [self.usernameCache setObject:usernameMentions forKey:comment.comment];
-        }
         
-        [commentCell.textView setAttributedText:commentString withAttributes:self.linkedTextAttributes knownUsernames:usernameMentions useCache:YES];
+        NSArray *usernameMentions = [self usernameStringArrayWithUsernames:comment.usernames creator:comment.creator_username];
+        
+        [commentCell.textView setAttributedText:commentString withAttributes:self.linkedTextAttributes knownUsernames:usernameMentions useCache:NO];
         
         commentCell.delegate = self;
         
@@ -548,13 +541,7 @@ typedef enum
         
         [header.titleButton setTitle:item.name forState:UIControlStateNormal];
         
-        NSAttributedString *timeText = [self.attributedStringCache objectForKey:item.created];
-        if( !timeText )
-        {
-            timeText = [item.created attributedTimeStringWithAttributes:nil];
-            [self.attributedStringCache setObject:timeText forKey:item.created];
-        }
-
+        NSAttributedString *timeText = [item.created attributedTimeStringWithAttributes:nil];
         header.timeLabel.attributedText = timeText;
         
         header.indexPath = indexPath;
@@ -643,7 +630,7 @@ typedef enum
             NSArray *comments = [self dateSortedArrayWithFeedComments:feedItem.comments];
             DAManagedComment *comment = comments[commentIndex];
             
-            NSValue *cachedSize = [self.cellSizeCache objectForKey:comment.comment];
+            NSValue *cachedSize = [self.cellSizeCache objectForKey:comment.comment_id];
             if( cachedSize )
             {
                 CGSize size = [cachedSize CGSizeValue];
@@ -662,7 +649,7 @@ typedef enum
             
             itemSize = cellSize;
             
-            [self.cellSizeCache setObject:[NSValue valueWithCGSize:itemSize] forKey:comment.comment];
+            [self.cellSizeCache setObject:[NSValue valueWithCGSize:itemSize] forKey:comment.comment_id];
         }
     }
     else if( cellType == eFeedCellTypeButtons )
@@ -899,8 +886,7 @@ typedef enum
     [self.sectionChanges addObject:change];
 }
 
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath
-     forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
 {
     NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
     
@@ -975,7 +961,7 @@ typedef enum
                             break;
                             
                         case NSFetchedResultsChangeUpdate:
-                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:((NSIndexPath *) obj).section]];
+                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:((NSIndexPath *)obj).section]];
                             break;
                             
                         case NSFetchedResultsChangeMove:

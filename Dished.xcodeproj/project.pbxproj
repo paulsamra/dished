@@ -690,6 +690,8 @@
 		94CB040319B146AF009010F6 /* UIImage+JSQMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03F919B146AF009010F6 /* UIImage+JSQMessages.m */; };
 		94CB040419B146AF009010F6 /* UIView+JSQMessages.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03FB19B146AF009010F6 /* UIView+JSQMessages.m */; };
 		94CB040719B15FB9009010F6 /* JSQMessagesKeyboardController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB040619B15FB9009010F6 /* JSQMessagesKeyboardController.m */; };
+		94CBDD021A67700B009C0D05 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94CBDD011A67700B009C0D05 /* CoreTelephony.framework */; };
+		94CBDD041A67A321009C0D05 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 94CBDD031A67A321009C0D05 /* libicucore.dylib */; };
 		94D7CB001A1499970065229C /* libUserVoice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D7CAD21A1499970065229C /* libUserVoice.a */; };
 		94D7CB011A1499970065229C /* UserVoice.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAD91A1499970065229C /* UserVoice.strings */; };
 		94D7CB021A1499970065229C /* uv_article.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAF71A1499970065229C /* uv_article.png */; };
@@ -1090,6 +1092,10 @@
 		94CB03FB19B146AF009010F6 /* UIView+JSQMessages.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+JSQMessages.m"; sourceTree = "<group>"; };
 		94CB040519B15FB9009010F6 /* JSQMessagesKeyboardController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQMessagesKeyboardController.h; sourceTree = "<group>"; };
 		94CB040619B15FB9009010F6 /* JSQMessagesKeyboardController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQMessagesKeyboardController.m; sourceTree = "<group>"; };
+		94CBDD011A67700B009C0D05 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		94CBDD031A67A321009C0D05 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		94CBDD051A67A34C009C0D05 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
+		94CBDE5B1A67A57A009C0D05 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		94D7CAD21A1499970065229C /* libUserVoice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUserVoice.a; sourceTree = "<group>"; };
 		94D7CAD41A1499970065229C /* UserVoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserVoice.h; sourceTree = "<group>"; };
 		94D7CAD51A1499970065229C /* UVConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVConfig.h; sourceTree = "<group>"; };
@@ -1296,18 +1302,20 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				948615A919FE1A83002497D0 /* QuartzCore.framework in Frameworks */,
-				948615A719FE1A6A002497D0 /* Accelerate.framework in Frameworks */,
-				943E62261983A24A00DF2135 /* UIKit.framework in Frameworks */,
-				943E62241983A24500DF2135 /* SystemConfiguration.framework in Frameworks */,
 				943E62221983A23E00DF2135 /* Security.framework in Frameworks */,
+				943E62161983A21A00DF2135 /* Foundation.framework in Frameworks */,
+				943E62261983A24A00DF2135 /* UIKit.framework in Frameworks */,
+				94CBDD041A67A321009C0D05 /* libicucore.dylib in Frameworks */,
+				943E621C1983A22D00DF2135 /* CoreGraphics.framework in Frameworks */,
+				948615A719FE1A6A002497D0 /* Accelerate.framework in Frameworks */,
+				94CBDD021A67700B009C0D05 /* CoreTelephony.framework in Frameworks */,
+				948615A919FE1A83002497D0 /* QuartzCore.framework in Frameworks */,
+				943E62241983A24500DF2135 /* SystemConfiguration.framework in Frameworks */,
 				943E62201983A23A00DF2135 /* MediaPlayer.framework in Frameworks */,
 				943E621E1983A23200DF2135 /* CoreText.framework in Frameworks */,
-				943E621C1983A22D00DF2135 /* CoreGraphics.framework in Frameworks */,
 				946B4FB719BA24040045EB82 /* Crashlytics.framework in Frameworks */,
 				943E621A1983A22700DF2135 /* CoreMotion.framework in Frameworks */,
 				943E62181983A22100DF2135 /* CoreLocation.framework in Frameworks */,
-				943E62161983A21A00DF2135 /* Foundation.framework in Frameworks */,
 				943E62141983A21300DF2135 /* AssetsLibrary.framework in Frameworks */,
 				943E62121983A20F00DF2135 /* AddressBook.framework in Frameworks */,
 				D1C1F6EF1979A2F600A2D652 /* Social.framework in Frameworks */,
@@ -1510,6 +1518,10 @@
 		94449ED71946564B008B8881 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				94CBDE5B1A67A57A009C0D05 /* CFNetwork.framework */,
+				94CBDD051A67A34C009C0D05 /* libicucore.A.dylib */,
+				94CBDD031A67A321009C0D05 /* libicucore.dylib */,
+				94CBDD011A67700B009C0D05 /* CoreTelephony.framework */,
 				94D7CAD11A1499070065229C /* UserVoice */,
 				948615A819FE1A83002497D0 /* QuartzCore.framework */,
 				948615A619FE1A6A002497D0 /* Accelerate.framework */,
@@ -3351,6 +3363,10 @@
 				);
 				MOMC_NO_INVERSE_RELATIONSHIP_WARNINGS = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-all_load",
+					"-ObjC",
+				);
 				"OTHER_LDFLAGS[arch=*]" = (
 					"-all_load",
 					"-ObjC",
@@ -3360,6 +3376,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Dished/Dished-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7s armv7";
 			};
 			name = Debug;
 		};
@@ -3393,6 +3410,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Dished/Dished-Bridging-Header.h";
 				TARGETED_DEVICE_FAMILY = 1;
+				VALID_ARCHS = "arm64 armv7s armv7";
 			};
 			name = Release;
 		};

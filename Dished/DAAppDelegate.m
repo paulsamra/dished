@@ -69,6 +69,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkReachable) name:kNetworkReachableKey object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkUnreachable) name:kNetworkUnreachableKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(forceLogout) name:kForcedLogoutNotificationKey object:nil];
     
     [Crashlytics startWithAPIKey:@"8553c9eeaaf67ce6f513e36c6cd30df3176d0664"];
     
@@ -355,7 +356,12 @@
 
 - (void)logout
 {
-    [[DAAPIManager sharedManager] logout];
+    [self clearAllUserData];
+    [self setLoginView];
+}
+
+- (void)clearAllUserData
+{
     [[DAUserManager sharedManager] logout];
     [[DANewsManager sharedManager] deleteAllNews];
     [[DATwitterManager sharedManager] logout];
@@ -363,7 +369,12 @@
     [[DACacheManager sharedManager] clearCaches];
     [[DACoreDataManager sharedManager] resetStore];
     [FBSession.activeSession closeAndClearTokenInformation];
-    [self setLoginView];
+}
+
+- (void)forceLogout
+{
+    [self logout];
+    [[[UIAlertView alloc] initWithTitle:@"Session Expired" message:@"Please log in again." delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
 }
 
 - (DAErrorView *)errorView

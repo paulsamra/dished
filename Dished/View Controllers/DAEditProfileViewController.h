@@ -10,7 +10,7 @@
 #import "SZTextView.h"
 
 
-@interface DAEditProfileViewController : UITableViewController <UITextFieldDelegate>
+@interface DAEditProfileViewController : UITableViewController <UITextFieldDelegate, UITextViewDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel         *addPhotoLabel;
 @property (weak, nonatomic) IBOutlet UILabel         *usernameLabel;

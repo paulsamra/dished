@@ -53,6 +53,8 @@
     self.titleTextField.delegate  = self;
     self.priceTextField.delegate  = self;
     self.commentTextView.delegate = self;
+    
+    self.titleTextField.keyboardType = UIKeyboardTypeASCIICapable;
 
     [[SZTextView appearance] setPlaceholderTextColor:[UIColor lightGrayColor]];
     self.commentTextView.placeholder = @"Comment";

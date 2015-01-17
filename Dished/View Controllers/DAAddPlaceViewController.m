@@ -29,6 +29,7 @@
     [self.nameTextField becomeFirstResponder];
     
     self.nameTextField.delegate = self;
+    self.nameTextField.keyboardType = UIKeyboardTypeASCIICapable;
     
     self.isCancelled = NO;
 }

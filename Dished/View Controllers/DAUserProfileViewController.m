@@ -697,10 +697,10 @@ static NSString *const kDishSearchCellID = @"dishCell";
         [nameString appendAttributedString:influencerIconString];
     }
     
+    NSDictionary *descriptionAttributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14] };
+
     if( description.length > 0 )
     {
-        NSDictionary *descriptionAttributes = @{ NSFontAttributeName : [UIFont fontWithName:kHelveticaNeueLightFont size:14] };
-        
         NSMutableAttributedString *descriptionString = [[NSMutableAttributedString alloc] initWithString:description attributes:descriptionAttributes];
         
         [nameString appendAttributedString:[[NSAttributedString alloc] initWithString:@" - " attributes:descriptionAttributes]];
@@ -712,8 +712,11 @@ static NSString *const kDishSearchCellID = @"dishCell";
     CGFloat textViewWidth = self.view.frame.size.width;
     CGSize boundingSize = CGSizeMake( textViewWidth, CGFLOAT_MAX );
     CGSize stringSize = [self.descriptionTextView sizeThatFits:boundingSize];
-
+    
     CGFloat heightConstraint = stringSize.height;
+    
+    CGFloat maxHeight = [descriptionAttributes[NSFontAttributeName] lineHeight] * 4;
+    heightConstraint = heightConstraint > maxHeight + 5 ? maxHeight : heightConstraint;
     
     self.descriptionHeightConstraint.constant = heightConstraint;
 }

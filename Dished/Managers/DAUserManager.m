@@ -270,12 +270,6 @@
     [self saveSettingsToServerWithParameters:parameters completion:completion];
 }
 
-- (void)setReviewPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion
-{
-    NSDictionary *parameters = @{ kPushReviewKey : [self pushSettingStringForPushSetting:pushSetting] };
-    [self saveSettingsToServerWithParameters:parameters completion:completion];
-}
-
 - (NSURLSessionTask *)getTaskWithParameters:(NSDictionary *)parameters
 {
     NSURLSessionTask *task = nil;

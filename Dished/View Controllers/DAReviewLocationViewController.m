@@ -37,6 +37,8 @@
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;
     
+    self.searchBar.keyboardType = UIKeyboardTypeASCIICapable;
+    
     self.locationData = self.suggestedLocations;
     
     self.tableView.tableFooterView = [[UIView alloc] init];

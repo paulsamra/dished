@@ -118,7 +118,7 @@
                     }
                     else
                     {
-                        [[DAAPIManager sharedManager] logout];
+                        [[DAAPIManager sharedManager] forceUserLogout];
                         [self showAlertWithTitle:@"Failed to Login"
                                          message:@"There was a problem logging you in. Please try again."];
                     }

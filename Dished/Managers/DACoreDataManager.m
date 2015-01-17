@@ -78,7 +78,7 @@
     }
     else
     {
-        self.managedObjectContext = [[NSManagedObjectContext alloc] init];
+        self.managedObjectContext = [[NSManagedObjectContext alloc] initWithConcurrencyType:NSMainQueueConcurrencyType];
         self.managedObjectContext.persistentStoreCoordinator = self.persistentStoreCoordinator;
         [self.managedObjectContext setMergePolicy:NSMergeByPropertyStoreTrumpMergePolicy];
         
@@ -95,7 +95,10 @@
         [[NSNotificationCenter defaultCenter] addObserverForName:NSManagedObjectContextDidSaveNotification
         object:self.mainManagedContext queue:nil usingBlock:^( NSNotification *note )
         {
-            [self.backgroundManagedContext mergeChangesFromContextDidSaveNotification:note];
+            [self.backgroundManagedContext performBlock:^
+            {
+                [self.backgroundManagedContext mergeChangesFromContextDidSaveNotification:note];
+            }];
         }];
     }
 }

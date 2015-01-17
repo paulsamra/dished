@@ -36,7 +36,6 @@ typedef enum
 @property (nonatomic, readonly) NSInteger    user_id;
 @property (nonatomic, readonly) ePushSetting receivesYumPushNotifications;
 @property (nonatomic, readonly) ePushSetting receivesCommentPushNotifications;
-@property (nonatomic, readonly) ePushSetting receivesReviewPushNotifications;
 
 
 + (DAUserManager *)sharedManager;
@@ -46,7 +45,6 @@ typedef enum
 - (void)savePrivacySetting:(BOOL)privacySetting completion:( void(^)( BOOL success ) )completion;
 - (void)setYumPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;
 - (void)setCommentPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;
-- (void)setReviewPushNotificationSetting:(ePushSetting)pushSetting completion:( void(^)( BOOL success ) )completion;
 - (void)logout;
 
 @end

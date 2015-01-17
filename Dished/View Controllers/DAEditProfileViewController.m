@@ -42,6 +42,7 @@
     self.userImageView.layer.cornerRadius = self.userImageView.frame.size.width / 2;
     self.userImageView.layer.masksToBounds = YES;
     
+    self.descriptionTextView.delegate = self;
     self.descriptionTextView.placeholder = @"Description";
     
     self.imageSeperatorWidthConstraint.constant = 0.5;
@@ -675,6 +676,9 @@
     weakSelf.saveProfileTask = [[DAAPIManager sharedManager] POSTRequest:kUserUpdateURL withParameters:parameters
     success:^( id response )
     {
+        NSString *idName = [NSString stringWithFormat:@"%d", (int)[DAUserManager sharedManager].user_id];
+        [[NSNotificationCenter defaultCenter] postNotificationName:idName object:nil];
+        
         [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
         {
             [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
@@ -875,6 +879,23 @@
         
         textField.text = formattedString;
         
+        return NO;
+    }
+    
+    return YES;
+}
+
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text
+{
+    if( [text isEqualToString:@"\n"] )
+    {
+        return NO;
+    }
+    
+    NSString *newString = [textView.text stringByReplacingCharactersInRange:range withString:text];
+    
+    if( newString.length > 200 )
+    {
         return NO;
     }
     

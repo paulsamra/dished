@@ -36,11 +36,6 @@
         self.title = @"Comment Notifications";
         [self selectRowWithPushSetting:[DAUserManager sharedManager].receivesCommentPushNotifications];
     }
-    else if( [self.notificationType isEqualToString:@"review"] )
-    {
-        self.title = @"New Review Notifications";
-        [self selectRowWithPushSetting:[DAUserManager sharedManager].receivesReviewPushNotifications];
-    }
 }
 
 - (void)selectRowWithPushSetting:(ePushSetting)pushSetting
@@ -88,13 +83,6 @@
     else if( [self.notificationType isEqualToString:@"comment"] )
     {
         [[DAUserManager sharedManager] setCommentPushNotificationSetting:pushSetting completion:^( BOOL success )
-        {
-            [self populateSetting];
-        }];
-    }
-    else if( [self.notificationType isEqualToString:@"review"] )
-    {
-        [[DAUserManager sharedManager] setReviewPushNotificationSetting:pushSetting completion:^( BOOL success )
         {
             [self populateSetting];
         }];

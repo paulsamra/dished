@@ -16,6 +16,7 @@
 #import "UIViewController+ShareView.h"
 #import "DAFeedCollectionViewFlowLayout.h"
 #import "DADishedViewController+Error.h"
+#import "DAImagePickerController.h"
 
 #define kLoadLimit 20
 
@@ -577,8 +578,18 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
 
 - (void)addReviewButtonTappedOnGlobalDishCollectionViewCell:(DAGlobalDishCollectionViewCell *)cell
 {
-    DATabBarController *tabBarController = (DATabBarController *)self.tabBarController;
-    [tabBarController startAddReviewProcessWithDishProfile:self.dishProfile];
+    if( self.tabBarController )
+    {
+        DATabBarController *tabBarController = (DATabBarController *)self.tabBarController;
+        [tabBarController startAddReviewProcessWithDishProfile:self.dishProfile];
+    }
+    else
+    {
+        UINavigationController *addReviewNavigationController = [self.storyboard instantiateViewControllerWithIdentifier:@"addReview"];
+        DAImagePickerController *imagePickerController = [addReviewNavigationController.viewControllers objectAtIndex:0];
+        imagePickerController.selectedDish = self.dishProfile;
+        [self presentViewController:addReviewNavigationController animated:YES completion:nil];
+    }
 }
 
 - (void)usernameButtonTappedOnGlobalReviewCollectionViewCell:(DAGlobalReviewCollectionViewCell *)cell

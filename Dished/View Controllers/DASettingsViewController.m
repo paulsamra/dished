@@ -108,28 +108,20 @@
 
 - (void)logout
 {
-    [[DAAPIManager sharedManager] POSTRequest:kLogoutURL withParameters:nil
-    success:^( id response )
+    [[DAAPIManager sharedManager] logoutWithCompletion:^( BOOL success )
     {
         [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
         {
-            DAAppDelegate *appDelegate = (DAAppDelegate *)[[UIApplication sharedApplication] delegate];
-            [appDelegate logout];
-        }];
-    }
-    failure:^( NSError *error, BOOL shouldRetry )
-    {
-        if( shouldRetry )
-        {
-            [self logout];
-        }
-        else
-        {
-            [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
+            if( success )
+            {
+                DAAppDelegate *appDelegate = (DAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate logout];
+            }
+            else
             {
                 [[[UIAlertView alloc] initWithTitle:@"Failed to Log Out" message:@"There was a problem logging you out. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
-            }];
-        }
+            }
+        }];
     }];
 }
 
@@ -141,7 +133,6 @@
     {
         case 0: notificationType = @"yum";     break;
         case 1: notificationType = @"comment"; break;
-        case 2: notificationType = @"review";  break;
     }
     
     [self performSegueWithIdentifier:@"notifications" sender:notificationType];
