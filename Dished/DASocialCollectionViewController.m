@@ -198,8 +198,21 @@ static NSString *const kEmailTitle    = @"Email";
                     {
                         MFMailComposeViewController *composeViewController = [[MFMailComposeViewController alloc] initWithNibName:nil bundle:nil];
                         [composeViewController setMailComposeDelegate:self];
-                        [composeViewController setSubject:@"Wow this Dish is awesome!"];
-                        [self.parentViewController presentViewController:composeViewController animated:YES completion:nil];
+                        
+                        [self.cellWaiting setObject:@(YES) forKey:self.cellLabels[indexPath.row]];
+                        [self.collectionView reloadData];
+                        
+                        NSURL *url = [NSURL URLWithString:self.review ? self.review.img : self.dishProfile.images[0]];
+                        [[SDWebImageDownloader sharedDownloader] downloadImageWithURL:url options:0 progress:nil
+                        completed:^( UIImage *image, NSData *data, NSError *error, BOOL finished )
+                        {
+                            NSData *imageData = UIImageJPEGRepresentation( image, 0.7 );
+                            [composeViewController addAttachmentData:imageData mimeType:@"image/jpeg" fileName:@"image.jpeg"];
+                            [self.parentViewController presentViewController:composeViewController animated:YES completion:nil];
+                            
+                            [self.cellWaiting removeObjectForKey:self.cellLabels[indexPath.row]];
+                            [self.collectionView reloadData];
+                        }];
                     }
                     else
                     {

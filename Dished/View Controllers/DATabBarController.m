@@ -215,7 +215,8 @@
     
     [composeViewController setMessageBody:emailBody isHTML:YES];
     [composeViewController addAttachmentData:imageData mimeType:@"image/jpeg" fileName:@"image.jpeg"];
-    [self presentViewController:composeViewController animated:YES completion:^{
+    [self presentViewController:composeViewController animated:YES completion:^
+    {
         [MRProgressOverlayView dismissOverlayForView:self.view animated:YES completion:nil];
     }];
 }

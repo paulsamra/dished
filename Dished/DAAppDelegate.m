@@ -20,6 +20,9 @@
 #import "DAPushManager.h"
 #import "DALocationManager.h"
 #import "DACacheManager.h"
+#import "Mixpanel.h"
+
+#define kMixpanelToken @"31ee3d271d65f678f84e52e66a8225b9"
 
 
 @interface DAAppDelegate() <DAErrorViewDelegate>
@@ -72,6 +75,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(forceLogout) name:kForcedLogoutNotificationKey object:nil];
     
     [Crashlytics startWithAPIKey:@"8553c9eeaaf67ce6f513e36c6cd30df3176d0664"];
+    [Mixpanel sharedInstanceWithToken:kMixpanelToken];
     
     return YES;
 }
