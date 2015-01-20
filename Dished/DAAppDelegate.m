@@ -158,7 +158,7 @@
             {
                 NSString *objectId = [[[call appLinkData] targetURL].path substringFromIndex:1];
                 
-                NSLog(@"FACEBOOK OBJECT ID: %@", objectId);
+                [self handleFacebookLink:objectId];
             }
         }];
         
@@ -166,6 +166,27 @@
     }
     
     return YES;
+}
+
+- (void)handleFacebookLink:(NSString *)url
+{
+    if( [[DAAPIManager sharedManager] isLoggedIn] )
+    {
+        NSArray *seperated = [url componentsSeparatedByString:@"/"];
+        
+        DAContainerViewController *rootViewController = (DAContainerViewController *)self.window.rootViewController;
+        
+        if( [seperated[0] isEqualToString:@"review"] )
+        {
+            NSInteger reviewID = [seperated[1] integerValue];
+            [rootViewController openReviewWithReviewID:reviewID];
+        }
+        else if( [seperated[0] isEqualToString:@"dish"] )
+        {
+            NSInteger dishID = [seperated[1] integerValue];
+            [rootViewController openDishWithDishID:dishID];
+        }
+    }
 }
 
 - (void)errorViewDidTapCloseButton:(DAErrorView *)errorView

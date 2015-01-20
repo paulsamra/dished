@@ -976,8 +976,8 @@
                         <outlet property="searchBar" destination="ZUZ-7D-6Aa" id="LIP-Ze-k3h"/>
                         <outlet property="searchDisplayController" destination="k48-DH-csE" id="RPj-hB-NWC"/>
                         <outlet property="tableView" destination="UFy-8r-qIx" id="ySv-it-PQH"/>
-                        <segue destination="ip7-Gm-KZc" kind="show" identifier="dishResults" id="yLK-pf-rXh"/>
                         <segue destination="gcr-dc-GVi" kind="presentation" identifier="currentLocation" id="2MJ-Kr-UF4"/>
+                        <segue destination="yJp-gW-l6x" kind="show" identifier="dishResults" id="bjL-6b-UE6"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AXe-Lj-4GA" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -992,27 +992,6 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="813" y="2630"/>
-        </scene>
-        <!--Explore Dish Results View Controller-->
-        <scene sceneID="T8V-Q3-nBv">
-            <objects>
-                <tableViewController storyboardIdentifier="exploreResults" id="ip7-Gm-KZc" customClass="DAExploreDishResultsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="vgq-L9-vAe" customClass="DATouchTableView" customModule="Dished" customModuleProvider="target">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="ip7-Gm-KZc" id="M0L-km-dpA"/>
-                            <outlet property="delegate" destination="ip7-Gm-KZc" id="Dux-bE-ArH"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" id="MmX-MT-nrB">
-                        <barButtonItem key="backBarButtonItem" title="Back" id="igK-0k-Wsf"/>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="LYX-lK-bhd" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1610" y="2630"/>
         </scene>
         <!--Explore-->
         <scene sceneID="go0-5R-7dS">
@@ -4177,6 +4156,42 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="37q-1z-Sdc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1610" y="1816"/>
+        </scene>
+        <!--Explore Dish Results View Controller-->
+        <scene sceneID="Hci-ft-lua">
+            <objects>
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="yJp-gW-l6x" customClass="DAExploreDishResultsViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="EnF-Js-aGS"/>
+                        <viewControllerLayoutGuide type="bottom" id="evf-cK-hyN"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="RGp-TW-9fE">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="gQT-Dz-8xS">
+                                <rect key="frame" x="0.0" y="64" width="600" height="487"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="gQT-Dz-8xS" secondAttribute="trailing" id="Bey-0f-SS4"/>
+                            <constraint firstItem="gQT-Dz-8xS" firstAttribute="top" secondItem="EnF-Js-aGS" secondAttribute="bottom" id="Cxt-id-tb9"/>
+                            <constraint firstItem="evf-cK-hyN" firstAttribute="top" secondItem="gQT-Dz-8xS" secondAttribute="bottom" id="FCW-wi-qzS"/>
+                            <constraint firstItem="gQT-Dz-8xS" firstAttribute="leading" secondItem="RGp-TW-9fE" secondAttribute="leading" id="j8d-JI-sfb"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="wCG-ak-Dxx">
+                        <barButtonItem key="backBarButtonItem" title="Back" id="azy-dH-C56"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="tableView" destination="gQT-Dz-8xS" id="uZx-ZW-vmJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ee7-0z-p7u" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1610" y="2630"/>
         </scene>
         <!--Dish Details-->
         <scene sceneID="4GJ-Uq-fYG">

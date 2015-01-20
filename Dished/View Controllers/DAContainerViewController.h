@@ -19,6 +19,9 @@
 - (void)handleUserNotificationWithUserID:(NSInteger)userID isRestaurant:(BOOL)isRestaurant;
 - (void)handleReviewNotificationWithReviewID:(NSInteger)reviewID;
 
+- (void)openReviewWithReviewID:(NSInteger)reviewID;
+- (void)openDishWithDishID:(NSInteger)dishID;
+
 @end
 
 

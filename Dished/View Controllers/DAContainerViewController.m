@@ -213,6 +213,20 @@
     [self.tabBarController.selectedViewController pushReviewDetailsViewWithReviewID:reviewID];
 }
 
+- (void)openReviewWithReviewID:(NSInteger)reviewID
+{
+    self.tabBarController.selectedIndex = 1;
+    
+    [self.tabBarController.selectedViewController pushReviewDetailsViewWithReviewID:reviewID];
+}
+
+- (void)openDishWithDishID:(NSInteger)dishID
+{
+    self.tabBarController.selectedIndex = 1;
+
+    [self.tabBarController.selectedViewController pushGlobalDishViewWithDishID:dishID];
+}
+
 @end
 
 

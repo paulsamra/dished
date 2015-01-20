@@ -10,6 +10,7 @@
 #import "DADishTableViewCell.h"
 #import "DALocationManager.h"
 #import "DADish.h"
+#import "DADishedViewController+Error.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 #define kRowLimit 20
@@ -37,6 +38,8 @@ static NSString *const kDishSearchCellID = @"dishCell";
     self.hasMoreData = YES;
     
     self.searchResults = [NSArray array];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     
     UINib *searchCellNib = [UINib nibWithNibName:@"DADishTableViewCell" bundle:nil];
     [self.tableView registerNib:searchCellNib forCellReuseIdentifier:kDishSearchCellID];
@@ -49,7 +52,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (void)createTableViewFooter
 {
-    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, self.view.frame.size.width, 70 )];
+    UIView *footerView = [[UIView alloc] initWithFrame:CGRectMake( 0, 0, self.view.frame.size.width, 30 )];
     
     UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     spinner.center = footerView.center;
@@ -133,6 +136,8 @@ static NSString *const kDishSearchCellID = @"dishCell";
         }
         
         weakSelf.isLoadingMore = NO;
+        
+        [weakSelf dataLoaded];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
@@ -142,9 +147,9 @@ static NSString *const kDishSearchCellID = @"dishCell";
         }
         else
         {
+            [weakSelf handleError:error];
             weakSelf.isLoading = NO;
             weakSelf.isLoadingMore = NO;
-            [weakSelf.tableView reloadData];
         }
     }];
 }
@@ -275,7 +280,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     if( [self.searchResults count] == 0 )
     {
-        return tableView.rowHeight;
+        return 40;
     }
     
     return 97;

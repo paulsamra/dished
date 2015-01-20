@@ -14,7 +14,7 @@
 
 - (void)loadData
 {
-    
+    return;
 }
 
 - (void)dataLoaded

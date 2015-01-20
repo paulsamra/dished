@@ -106,6 +106,9 @@
             [self showErrorViewWithErrorMessageType:eErrorMessageTypeConnectionFailure];
             break;
             
+        case eErrorTypeRequestCancelled:
+            break;
+            
         case eErrorTypeUnknown:
         default:
             [self showErrorViewWithErrorMessageType:eErrorMessageTypeUnknownFailure];

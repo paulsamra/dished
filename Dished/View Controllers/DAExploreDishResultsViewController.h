@@ -13,8 +13,9 @@
 #define kEditorsPicks @"dished_editors_picks"
 
 
-@interface DAExploreDishResultsViewController : UITableViewController
+@interface DAExploreDishResultsViewController : DADishedViewController <UITableViewDataSource, UITableViewDelegate>
 
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSString *searchTerm;
 
 @property (nonatomic) double                 selectedRadius;

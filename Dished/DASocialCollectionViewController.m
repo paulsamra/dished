@@ -503,6 +503,7 @@ static NSString *const kEmailTitle    = @"Email";
             
             id<FBOpenGraphAction> action = (id<FBOpenGraphAction>)[FBGraphObject graphObject];
             [action setObject:objectId forKey:@"dish"];
+            [action setObject:@"true" forKey:@"fb:explicitly_shared"];
             
             [FBRequestConnection startForPostWithGraphPath:@"/me/dishedfb:review" graphObject:action
             completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
@@ -540,10 +541,10 @@ static NSString *const kEmailTitle    = @"Email";
     NSString *deepLink = [NSString stringWithFormat:@"%@/%ld", self.review ? @"review" : @"dish", (long)itemId];
     
     object.provisionedForPost = YES;
-    object[@"title"] = [NSString stringWithFormat:@"%@ from %@\n\n%@", title, place, message];
+    object[@"title"] = [NSString stringWithFormat:@"%@ from %@", title, place];
     object[@"type"] = @"dishedfb:dish";
     object[@"url"] = [NSString stringWithFormat:@"http://dishedapp.com/%@", deepLink];
-    object[@"image"] = @[ @{ @"url": imageURL, @"user_generated" : @"true" } ];
+    object[@"image"] = @[ @{ @"url": imageURL } ];
     
     [FBRequestConnection startForPostOpenGraphObject:object
     completionHandler:^( FBRequestConnection *connection, id result, NSError *error )
@@ -554,7 +555,9 @@ static NSString *const kEmailTitle    = @"Email";
              
             id<FBOpenGraphAction> action = (id<FBOpenGraphAction>)[FBGraphObject graphObject];
             [action setObject:objectId forKey:@"dish"];
-             
+            [action setObject:message forKey:@"message"];
+            [action setObject:@"true" forKey:@"fb:explicitly_shared"];
+            
             [FBRequestConnection startForPostWithGraphPath:@"/me/dishedfb:share" graphObject:action completionHandler:nil];
          }
      }];

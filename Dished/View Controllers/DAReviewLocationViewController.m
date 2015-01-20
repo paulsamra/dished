@@ -213,6 +213,12 @@
         {
             [self searchBar:searchBar textDidChange:searchText];
         }
+        else
+        {
+            self.navigationItem.rightBarButtonItem = self.selectLocationBarButton;
+            [self.searchSpinner stopAnimating];
+            [self.tableView reloadData];
+        }
     }];
 }
 
