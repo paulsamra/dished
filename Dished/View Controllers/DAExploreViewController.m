@@ -77,7 +77,7 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     else
     {
         self.selectedLocationName = @"Current Location";
-        self.selectedRadius = 0;
+        self.selectedRadius = 10;
         
         NSDictionary *locationSettings = @{ @"locationName" : self.selectedLocationName, @"radius" : @(self.selectedRadius) };
         [[NSUserDefaults standardUserDefaults] setObject:locationSettings forKey:@"locationSettings"];
@@ -337,7 +337,7 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
         return [self.liveSearchResults count];
     }
     
-    return 2;
+    return self.rowTitles.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -407,8 +407,9 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     {
         switch( indexPath.row )
         {
-            case 0: [self performSegueWithIdentifier:@"dishResults" sender:kEditorsPicks]; break;
-            case 1: [self performSegueWithIdentifier:@"dishResults" sender:kPopularNow]; break;
+            case 0: [self performSegueWithIdentifier:@"dishResults" sender:kPopularNow]; break;
+            //case 0: [self performSegueWithIdentifier:@"dishResults" sender:kEditorsPicks]; break;
+            //case 1: [self performSegueWithIdentifier:@"dishResults" sender:kPopularNow]; break;
         }
     }
     else
@@ -609,7 +610,8 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
 {
     if( !_rowTitles )
     {
-        _rowTitles = @[ @"Editor's Picks", @"Popular Now" ];
+        //_rowTitles = @[ @"Editor's Picks", @"Popular Now" ];
+        _rowTitles = @[ @"Popular Now" ];
     }
     
     return _rowTitles;

@@ -849,10 +849,10 @@
                                 </connections>
                             </searchBar>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" translatesAutoresizingMaskIntoConstraints="NO" id="UFy-8r-qIx">
-                                <rect key="frame" x="0.0" y="108" width="600" height="88"/>
+                                <rect key="frame" x="0.0" y="108" width="600" height="44"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="88" id="O68-bK-PZL"/>
+                                    <constraint firstAttribute="height" constant="44" id="O68-bK-PZL"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell" textLabel="RVa-Pj-yyF" style="IBUITableViewCellStyleDefault" id="YTZ-vp-gEa">
@@ -879,7 +879,7 @@
                                 </connections>
                             </tableView>
                             <collectionView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" minimumZoomScale="0.0" maximumZoomScale="0.0" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="nmi-qR-Fpu">
-                                <rect key="frame" x="0.0" y="196" width="600" height="355"/>
+                                <rect key="frame" x="0.0" y="152" width="600" height="399"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="4" minimumInteritemSpacing="4" id="cER-M7-H6M">
                                     <size key="itemSize" width="100" height="75"/>
@@ -4160,7 +4160,7 @@
         <!--Explore Dish Results View Controller-->
         <scene sceneID="Hci-ft-lua">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="yJp-gW-l6x" customClass="DAExploreDishResultsViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="exploreResults" automaticallyAdjustsScrollViewInsets="NO" id="yJp-gW-l6x" customClass="DAExploreDishResultsViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="EnF-Js-aGS"/>
                         <viewControllerLayoutGuide type="bottom" id="evf-cK-hyN"/>

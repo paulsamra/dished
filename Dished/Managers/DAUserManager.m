@@ -117,9 +117,12 @@
         
     dispatch_group_notify( group, dispatch_get_main_queue(), ^
     {
-        [self saveProfile];
-            
         self.userProfileSuccessfullySaved = successful;
+        
+        if( successful )
+        {
+            [self saveProfile];
+        }
             
         if( completion )
         {

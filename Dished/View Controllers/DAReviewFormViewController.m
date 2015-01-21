@@ -826,7 +826,8 @@
     
     NSDictionary *parameters = [self.review dictionaryRepresentation];
     
-    [[DAAPIManager sharedManager] POSTRequest:@"reviews" withParameters:parameters constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
+    [[DAAPIManager sharedManager] POSTRequest:@"reviews" withParameters:parameters
+    constructingBodyWithBlock:^( id<AFMultipartFormData> formData )
     {
         if( self.reviewImage )
         {

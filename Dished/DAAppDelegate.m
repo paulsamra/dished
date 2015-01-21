@@ -575,7 +575,10 @@
         }
     }
     
-    return contacts;
+    NSSortDescriptor *descriptor = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES selector:@selector(caseInsensitiveCompare:)];
+    NSArray *sortedContacts = [contacts sortedArrayUsingDescriptors:@[ descriptor ]];
+    
+    return sortedContacts;
 }
 
 + (NSDictionary *)dictionaryWithName:(NSString *)name number:(NSString *)number email:(NSString *)email

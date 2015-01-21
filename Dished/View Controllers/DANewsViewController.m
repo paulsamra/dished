@@ -349,7 +349,6 @@
         case eFollowingNewsNotificationTypeFollow:
         case eFollowingNewsNotificationTypeUnknown:
             cell = [self.followingTableView dequeueReusableCellWithIdentifier:kUserNewsCellID];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             [self configureCell:cell withNews:followingNews];
             break;
             
@@ -650,6 +649,9 @@
     switch( news.notificationType )
     {
         case eFollowingNewsNotificationTypeFollow:
+            [self pushUserProfileWithUserID:news.followed.user_id];
+            break;
+            
         case eFollowingNewsNotificationTypeUnknown:
             break;
             
