@@ -123,7 +123,8 @@
     {
         CLLocation *location = [[CLLocation alloc] initWithLatitude:self.currentLocation.latitude longitude:self.currentLocation.longitude];
         CLGeocoder *geocoder = [[CLGeocoder alloc] init];
-        [geocoder reverseGeocodeLocation:location completionHandler:^(NSArray *placemarks, NSError *error)
+        
+        [geocoder reverseGeocodeLocation:location completionHandler:^( NSArray *placemarks, NSError *error )
         {
             if( error )
             {

@@ -32,6 +32,10 @@
     self.nameTextField.keyboardType = UIKeyboardTypeASCIICapable;
     
     self.isCancelled = NO;
+    
+    self.navigationItem.rightBarButtonItem.enabled = NO;
+    
+    self.tableView.contentInset = UIEdgeInsetsMake( 10, 0, 0, 0 );
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -68,6 +72,8 @@
 
 - (IBAction)save:(id)sender
 {
+    [self hideErrorView];
+    
     self.navigationItem.rightBarButtonItem.enabled = NO;
     
     NSArray *navigationStack = self.navigationController.viewControllers;
@@ -116,7 +122,7 @@
             }
             else
             {
-                [spinner stopAnimating];
+                [self showErrorViewWithErrorMessageType:eErrorMessageTypeUnknownFailure coverNav:NO];
             }
         }
     }];

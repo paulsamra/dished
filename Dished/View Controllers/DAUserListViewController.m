@@ -11,7 +11,6 @@
 #import "UIImageView+WebCache.h"
 #import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
-#import "DADishedViewController+Error.h"
 
 static NSString *const kFollowCellIdentifier = @"followCell";
 

@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DADishedViewController.h"
 
 typedef enum
 {
@@ -16,10 +15,9 @@ typedef enum
     eErrorMessageTypeUnknownFailure
 } eErrorMessageType;
 
-@interface DADishedViewController (Error)
+@interface UIViewController (Error)
 
-- (void)showErrorViewWithErrorMessageType:(eErrorMessageType)type;
+- (void)showErrorViewWithErrorMessageType:(eErrorMessageType)type coverNav:(BOOL)coverNav;
 - (void)hideErrorView;
-- (void)handleError:(NSError *)error;
 
 @end

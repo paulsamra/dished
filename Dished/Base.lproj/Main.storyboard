@@ -4920,9 +4920,9 @@
         <image name="yums_number" width="20" height="20"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="2MJ-Kr-UF4"/>
-        <segue reference="wCN-0l-elF"/>
+        <segue reference="X8z-8L-0Ll"/>
         <segue reference="lFw-uU-a7X"/>
         <segue reference="aNd-9F-Yna"/>
+        <segue reference="wCN-0l-elF"/>
     </inferredMetricsTieBreakers>
 </document>

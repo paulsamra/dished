@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "UIViewController+Error.h"
 
 
 @interface DADishedViewController : UIViewController
 
 - (void)loadData;
 - (void)dataLoaded;
+- (void)handleError:(NSError *)error;
 
 @end

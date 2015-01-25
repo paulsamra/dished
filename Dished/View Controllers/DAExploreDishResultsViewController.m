@@ -10,7 +10,6 @@
 #import "DADishTableViewCell.h"
 #import "DALocationManager.h"
 #import "DADish.h"
-#import "DADishedViewController+Error.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 
 #define kRowLimit 20

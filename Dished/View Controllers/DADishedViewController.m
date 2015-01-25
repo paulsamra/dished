@@ -7,7 +7,6 @@
 //
 
 #import "DADishedViewController.h"
-#import "DADishedViewController+Error.h"
 
 
 @implementation DADishedViewController
@@ -21,5 +20,31 @@
 {
     [self hideErrorView];
 }
+
+- (void)handleError:(NSError *)error
+{
+    eErrorType errorType = [DAAPIManager errorTypeForError:error];
+    
+    switch( errorType )
+    {
+        case eErrorTypeTimeout:
+            [self showErrorViewWithErrorMessageType:eErrorMessageTypeTimeout coverNav:NO];
+            [self loadData];
+            break;
+            
+        case eErrorTypeConnection:
+            [self showErrorViewWithErrorMessageType:eErrorMessageTypeConnectionFailure coverNav:NO];
+            break;
+            
+        case eErrorTypeRequestCancelled:
+            break;
+            
+        case eErrorTypeUnknown:
+        default:
+            [self showErrorViewWithErrorMessageType:eErrorMessageTypeUnknownFailure coverNav:NO];
+            break;
+    }
+}
+
 
 @end

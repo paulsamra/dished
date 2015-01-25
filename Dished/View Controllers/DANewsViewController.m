@@ -56,7 +56,7 @@
     
     [self registerCellNibs];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadNewsTable)      name:kNewsUpdatedNotificationKey object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadNewsTable) name:kNewsUpdatedNotificationKey object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadFollowingTable) name:kFollowingUpdatedNotificationKey object:nil];
     
     self.selectedTableView = self.newsTableView;

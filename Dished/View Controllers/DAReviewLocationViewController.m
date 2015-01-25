@@ -55,6 +55,13 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationUpdated) name:kLocationUpdateNotificationKey object:nil];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [self.searchTask cancel];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -169,6 +176,8 @@
 
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
+    [self hideErrorView];
+
     if( searchText.length == 0 )
     {
         [self.searchTask cancel];
@@ -188,20 +197,26 @@
         return;
     }
     
-    double longitude = self.selectedLocation.longitude;
-    double latitude  = self.selectedLocation.latitude;
-    
     [self.searchTask cancel];
-    
-    NSDictionary *parameters = @{ kQueryKey : searchText, kLongitudeKey : @(longitude), kLatitudeKey : @(latitude),
-                                  kRadiusKey : @(self.selectedRadius) };
     
     [self.searchSpinner startAnimating];
     self.navigationItem.rightBarButtonItem = self.spinnerBarButton;
     
+    [self searchWithQuery:searchText];
+}
+
+- (void)searchWithQuery:(NSString *)query
+{
+    double longitude = self.selectedLocation.longitude;
+    double latitude  = self.selectedLocation.latitude;
+    
+    NSDictionary *parameters = @{ kQueryKey : query, kLongitudeKey : @(longitude), kLatitudeKey : @(latitude),
+                                  kRadiusKey : @(self.selectedRadius) };
+    
     self.searchTask = [[DAAPIManager sharedManager] GETRequest:kExploreLocationsURL withParameters:parameters
     success:^( id response )
     {
+        [self hideErrorView];
         self.navigationItem.rightBarButtonItem = self.selectLocationBarButton;
         [self.searchSpinner stopAnimating];
         self.locationData = [DAReviewLocationViewController locationsFromResponse:response];
@@ -211,9 +226,14 @@
     {
         if( shouldRetry )
         {
-            [self searchBar:searchBar textDidChange:searchText];
+            [self searchWithQuery:query];
         }
-        else
+        else if( [DAAPIManager errorTypeForError:error] == eErrorTypeTimeout )
+        {
+            [self showErrorViewWithErrorMessageType:eErrorMessageTypeTimeout coverNav:YES];
+            [self searchWithQuery:query];
+        }
+        else if( [DAAPIManager errorTypeForError:error] != eErrorTypeRequestCancelled )
         {
             self.navigationItem.rightBarButtonItem = self.selectLocationBarButton;
             [self.searchSpinner stopAnimating];

@@ -19,7 +19,6 @@
 #import "DAUserManager.h"
 #import "MRProgress.h"
 #import "DATabBarController.h"
-#import "DADishedViewController+Error.h"
 
 typedef enum
 {

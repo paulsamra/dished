@@ -13,7 +13,6 @@
 #import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
 #import "DATagSuggestionTableView.h"
-#import "DADishedViewController+Error.h"
 
 #define kRowLimit 20
 

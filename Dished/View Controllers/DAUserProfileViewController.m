@@ -18,7 +18,6 @@
 #import "DARestaurantProfile.h"
 #import "DAEditProfileViewController.h"
 #import "DADishesMapViewController.h"
-#import "DADishedViewController+Error.h"
 
 static NSInteger kRowLimit = 20;
 static NSString *const kDishSearchCellID = @"dishCell";

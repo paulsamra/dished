@@ -807,9 +807,9 @@
 		9489F65419CA568400BEF540 /* DAUserNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9489F65319CA568400BEF540 /* DAUserNews.m */; };
 		948B9A7B19BB3125008BBFCF /* DANavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948B9A7A19BB3125008BBFCF /* DANavigationController.m */; };
 		948EE6A61996FA2E004EC600 /* DANewsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 948EE6A51996FA2E004EC600 /* DANewsViewController.m */; };
-		94917FD91A5D29F8009FF117 /* DADishedViewController+Error.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FD81A5D29F8009FF117 /* DADishedViewController+Error.m */; };
-		94917FDA1A5D29F8009FF117 /* DADishedViewController+Error.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FD81A5D29F8009FF117 /* DADishedViewController+Error.m */; };
-		94917FDB1A5D29F8009FF117 /* DADishedViewController+Error.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FD81A5D29F8009FF117 /* DADishedViewController+Error.m */; };
+		94917FD91A5D29F8009FF117 /* UIViewController+Error.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FD81A5D29F8009FF117 /* UIViewController+Error.m */; };
+		94917FDA1A5D29F8009FF117 /* UIViewController+Error.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FD81A5D29F8009FF117 /* UIViewController+Error.m */; };
+		94917FDB1A5D29F8009FF117 /* UIViewController+Error.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FD81A5D29F8009FF117 /* UIViewController+Error.m */; };
 		94917FDE1A5D3ACB009FF117 /* DADishedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FDD1A5D3ACB009FF117 /* DADishedViewController.m */; };
 		94917FDF1A5D3ACB009FF117 /* DADishedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FDD1A5D3ACB009FF117 /* DADishedViewController.m */; };
 		94917FE01A5D3ACB009FF117 /* DADishedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FDD1A5D3ACB009FF117 /* DADishedViewController.m */; };
@@ -1356,8 +1356,8 @@
 		948B9A7A19BB3125008BBFCF /* DANavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANavigationController.m; sourceTree = "<group>"; };
 		948EE6A41996FA2E004EC600 /* DANewsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANewsViewController.h; sourceTree = "<group>"; };
 		948EE6A51996FA2E004EC600 /* DANewsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANewsViewController.m; sourceTree = "<group>"; };
-		94917FD71A5D29F8009FF117 /* DADishedViewController+Error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DADishedViewController+Error.h"; sourceTree = "<group>"; };
-		94917FD81A5D29F8009FF117 /* DADishedViewController+Error.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DADishedViewController+Error.m"; sourceTree = "<group>"; };
+		94917FD71A5D29F8009FF117 /* UIViewController+Error.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Error.h"; sourceTree = "<group>"; };
+		94917FD81A5D29F8009FF117 /* UIViewController+Error.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Error.m"; sourceTree = "<group>"; };
 		94917FDC1A5D3ACB009FF117 /* DADishedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishedViewController.h; sourceTree = "<group>"; };
 		94917FDD1A5D3ACB009FF117 /* DADishedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishedViewController.m; sourceTree = "<group>"; };
 		94917FE61A5D6DC0009FF117 /* DAModalTransitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAModalTransitionManager.h; sourceTree = "<group>"; };
@@ -2116,8 +2116,8 @@
 				942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */,
 				945269111A0E244500A56B17 /* UIViewController+ShareView.h */,
 				945269121A0E244500A56B17 /* UIViewController+ShareView.m */,
-				94917FD71A5D29F8009FF117 /* DADishedViewController+Error.h */,
-				94917FD81A5D29F8009FF117 /* DADishedViewController+Error.m */,
+				94917FD71A5D29F8009FF117 /* UIViewController+Error.h */,
+				94917FD81A5D29F8009FF117 /* UIViewController+Error.m */,
 			);
 			path = Categories;
 			sourceTree = "<group>";
@@ -3017,7 +3017,7 @@
 				9412918A1A1BEED500B7C763 /* UIButton+WebCache.m in Sources */,
 				9412918B1A1BEED500B7C763 /* DAUserNewsTableViewCell.swift in Sources */,
 				94917FDF1A5D3ACB009FF117 /* DADishedViewController.m in Sources */,
-				94917FDA1A5D29F8009FF117 /* DADishedViewController+Error.m in Sources */,
+				94917FDA1A5D29F8009FF117 /* UIViewController+Error.m in Sources */,
 				9412918D1A1BEED500B7C763 /* SWLongPressGestureRecognizer.m in Sources */,
 				9412918E1A1BEED500B7C763 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				94426C8F1A6A75C000186C35 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
@@ -3299,7 +3299,7 @@
 				941292891A1C7AD100B7C763 /* UIButton+WebCache.m in Sources */,
 				9412928A1A1C7AD100B7C763 /* DAUserNewsTableViewCell.swift in Sources */,
 				94917FE01A5D3ACB009FF117 /* DADishedViewController.m in Sources */,
-				94917FDB1A5D29F8009FF117 /* DADishedViewController+Error.m in Sources */,
+				94917FDB1A5D29F8009FF117 /* UIViewController+Error.m in Sources */,
 				9412928C1A1C7AD100B7C763 /* SWLongPressGestureRecognizer.m in Sources */,
 				9412928D1A1C7AD100B7C763 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				94426C901A6A75C000186C35 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,
@@ -3581,7 +3581,7 @@
 				94F2ADA3198C539200450C6F /* UIButton+WebCache.m in Sources */,
 				94E2520A1A08BAA900D6DCE4 /* DAUserNewsTableViewCell.swift in Sources */,
 				94917FDE1A5D3ACB009FF117 /* DADishedViewController.m in Sources */,
-				94917FD91A5D29F8009FF117 /* DADishedViewController+Error.m in Sources */,
+				94917FD91A5D29F8009FF117 /* UIViewController+Error.m in Sources */,
 				94CB03CD19B0EA94009010F6 /* SWLongPressGestureRecognizer.m in Sources */,
 				94CB03CF19B0EA94009010F6 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
 				94426C8E1A6A75C000186C35 /* MPUIEdgeInsetsToNSDictionaryValueTransformer.m in Sources */,

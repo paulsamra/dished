@@ -6,17 +6,16 @@
 //  Copyright (c) 2015 Dished. All rights reserved.
 //
 
-#import "DADishedViewController+Error.h"
+#import "UIViewController+Error.h"
 
-@implementation DADishedViewController (Error)
+@implementation UIViewController (Error)
 
 - (UIView *)errorViewWithType:(eErrorMessageType)type
 {
-    CGFloat y = self.navigationController ? 0 : -40;
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake( 0, y, self.view.frame.size.width, 70 )];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake( 0, -64, self.view.frame.size.width, 64 )];
     view.tag = 1234;
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake( 0, 0, view.frame.size.width, view.frame.size.height / 2 )];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake( 0, 5, view.frame.size.width, view.frame.size.height / 2 )];
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [UIFont fontWithName:kHelveticaNeueLightFont size:17.0f];
     [view addSubview:label];
@@ -37,31 +36,31 @@
             label.text = @"Failed to connect to network.";
             view.backgroundColor = [UIColor redGradeColor];
             label.textColor = [UIColor whiteColor];
-            view.frame = CGRectMake( 0, y, view.frame.size.width, 40 );
+            view.frame = CGRectMake( 0, -40, view.frame.size.width, 40 );
             break;
             
         case eErrorMessageTypeUnknownFailure:
-            label.text = @"Something went wrong! Tap to reload.";
+            label.text = @"Something went wrong! :(";
             view.backgroundColor = [UIColor redGradeColor];
             label.textColor = [UIColor whiteColor];
-            view.frame = CGRectMake( 0, y, view.frame.size.width, 35 );
+            view.frame = CGRectMake( 0, -35, view.frame.size.width, 35 );
             break;
     }
     
     return view;
 }
 
-- (void)showErrorViewWithErrorMessageType:(eErrorMessageType)type
+- (void)showErrorViewWithErrorMessageType:(eErrorMessageType)type coverNav:(BOOL)coverNav
 {
     [self hideErrorView];
     
     UIView *errorView = [self errorViewWithType:type];
     
-    [self.view addSubview:errorView];
+    coverNav ? [self.navigationController.view addSubview:errorView] : [self.view addSubview:errorView];
     
     CGRect newFrame = errorView.frame;
     CGFloat statusBarHeight = [[UIApplication sharedApplication] statusBarFrame].size.height;
-    newFrame.origin.y = self.navigationController ? self.navigationController.navigationBar.frame.size.height + statusBarHeight : 0;
+    newFrame.origin.y = self.navigationController && !coverNav ? self.navigationController.navigationBar.frame.size.height + statusBarHeight : 0;
     
     [UIView animateWithDuration:0.3 animations:^
     {
@@ -71,7 +70,7 @@
 
 - (void)hideErrorView
 {
-    UIView *errorView = [self.view viewWithTag:1234];
+    UIView *errorView = [self.view viewWithTag:1234] ? [self.view viewWithTag:1234] : [self.navigationController.view viewWithTag:1234];
     
     if( !errorView )
     {
@@ -89,31 +88,6 @@
     {
         [errorView removeFromSuperview];
     }];
-}
-
-- (void)handleError:(NSError *)error
-{
-    eErrorType errorType = [DAAPIManager errorTypeForError:error];
-    
-    switch( errorType )
-    {
-        case eErrorTypeTimeout:
-            [self showErrorViewWithErrorMessageType:eErrorMessageTypeTimeout];
-            [self loadData];
-            break;
-            
-        case eErrorTypeConnection:
-            [self showErrorViewWithErrorMessageType:eErrorMessageTypeConnectionFailure];
-            break;
-            
-        case eErrorTypeRequestCancelled:
-            break;
-            
-        case eErrorTypeUnknown:
-        default:
-            [self showErrorViewWithErrorMessageType:eErrorMessageTypeUnknownFailure];
-            break;
-    }
 }
 
 @end

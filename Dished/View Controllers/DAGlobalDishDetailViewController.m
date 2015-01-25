@@ -15,7 +15,6 @@
 #import "DATabBarController.h"
 #import "UIViewController+ShareView.h"
 #import "DAFeedCollectionViewFlowLayout.h"
-#import "DADishedViewController+Error.h"
 #import "DAImagePickerController.h"
 
 #define kLoadLimit 20
