@@ -345,9 +345,14 @@
 
 - (void)dealloc
 {
+    self.keyboardController.delegate = nil;
+    [self.keyboardController endListeningForKeyboard];
+
+    self.tableView.delegate = nil;
+    self.tableView.dataSource = nil;
+    
     [self.inputToolbar.contentView.textView removeObserver:self forKeyPath:NSStringFromSelector(@selector(contentSize)) context:nil];
     
-    [self.keyboardController endListeningForKeyboard];
     [self.loadCommentsTask cancel];
 }
 
@@ -465,7 +470,7 @@
     
     CGFloat textViewTopMargin = textView.frame.origin.y;
     CGFloat textViewBottomMargin = sizingCell.frame.size.height - ( textView.frame.origin.y + textView.frame.size.height );
-    CGFloat textViewHeight = ceilf( stringSize.height ) + 2;
+    CGFloat textViewHeight = ceilf( stringSize.height ) + 5;
     
     CGFloat calculatedHeight = textViewHeight + textViewTopMargin + textViewBottomMargin;
     
@@ -581,11 +586,7 @@
     
     NSDictionary *parameters = @{ kIDKey : @(comment.comment_id) };
     
-    [[DAAPIManager sharedManager] POSTRequest:kDeleteCommentURL withParameters:parameters
-    success:^( id response )
-    {
-        weakSelf.feedItem.num_comments = @( [weakSelf.feedItem.num_comments integerValue] - 1 );
-    }
+    [[DAAPIManager sharedManager] POSTRequest:kDeleteCommentURL withParameters:parameters success:nil
     failure:^( NSError *error, BOOL shouldRetry )
     {
         shouldRetry ? [weakSelf deleteComment:comment] : [weakSelf loadData];
@@ -781,9 +782,7 @@
         }
         
         [weakSelf.tableView reloadData];
-        
-        weakSelf.feedItem.num_comments = @( [weakSelf.feedItem.num_comments integerValue] + 1 );
-        
+                
         NSString *idName = [NSString stringWithFormat:@"%d", (int)reviewID];
         [[NSNotificationCenter defaultCenter] postNotificationName:idName object:nil];
     }

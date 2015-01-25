@@ -18,5 +18,6 @@
 
 - (void)importFeedItemsWithLimit:(NSUInteger)limit offset:(NSUInteger)offset completion:( void(^)( BOOL success, BOOL hasMoreData ) )completion;
 - (NSFetchedResultsController *)fetchFeedItemsWithLimit:(NSUInteger)limit;
+- (void)fetchFeedItemsInBackgroundWithLimit:(NSUInteger)limit completion:( void(^)( NSArray *feedItems ) )completion;
 
 @end

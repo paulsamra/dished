@@ -281,4 +281,51 @@
     }];
 }
 
+- (void)fetchFeedItemsInBackgroundWithLimit:(NSUInteger)limit completion:( void(^)( NSArray *feedItems ) )completion
+{
+    NSSortDescriptor *dateSortDescriptor = [NSSortDescriptor sortDescriptorWithKey:kCreatedKey ascending:NO];
+    NSArray *sortDescriptors = @[ dateSortDescriptor ];
+    
+    NSFetchRequest *fetchRequest = [[DACoreDataManager sharedManager] fetchRequestWithName:[DAFeedItem entityName] sortDescriptors:sortDescriptors predicate:nil fetchLimit:limit];
+    
+    NSManagedObjectContext *backgroundContext = [[DACoreDataManager sharedManager] backgroundManagedContext];
+    NSManagedObjectContext *mainContext = [[DACoreDataManager sharedManager] mainManagedContext];
+    
+    [backgroundContext performBlock:^
+    {
+        NSError *error;
+        NSArray *objects = [backgroundContext executeFetchRequest:fetchRequest error:&error];
+        
+        if( error )
+        {
+            if( completion )
+            {
+                completion( nil );
+            }
+        }
+        
+        NSMutableArray *objectIDs = [NSMutableArray new];
+        for( NSManagedObject *object in objects )
+        {
+            [objectIDs addObject:object.objectID];
+        }
+        
+        [mainContext performBlock:^
+        {
+            NSMutableArray *feedItems = [NSMutableArray new];
+            
+            for( NSManagedObjectID *objectID in objectIDs )
+            {
+                NSManagedObject *object = [mainContext objectWithID:objectID];
+                [feedItems addObject:object];
+            }
+            
+            if( completion )
+            {
+                completion( feedItems );
+            }
+        }];
+    }];
+}
+
 @end

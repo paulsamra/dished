@@ -541,6 +541,8 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
 
 - (void)dealloc
 {
+    self.collectionView.delegate = nil;
+    self.collectionView.dataSource = nil;
     [self.profileLoadTask cancel];
 }
 

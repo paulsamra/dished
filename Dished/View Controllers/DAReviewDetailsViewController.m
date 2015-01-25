@@ -691,6 +691,8 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     
     [cell.dishImageView addSubview:yumTapImageView];
     
+    BOOL callerYumd = self.feedItem ? [self.feedItem.caller_yumd boolValue] : self.review.caller_yumd;
+
     yumTapImageView.transform = CGAffineTransformMakeScale( 0, 0 );
     
     [UIView animateWithDuration:0.3 animations:^
@@ -707,9 +709,11 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
             }
             completion:^( BOOL finished )
             {
-                if( self.feedItem )
+                if( !callerYumd )
                 {
                     self.feedItem.caller_yumd = @(YES);
+                    self.review.caller_yumd = YES;
+                    [self addCurrentUserYumToReview];
                 }
                   
                 if( finished )
@@ -720,7 +724,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         }
     }];
     
-    if( ![self.feedItem.caller_yumd boolValue] || !self.review.caller_yumd )
+    if( !callerYumd )
     {
         NSInteger row = [self.collectionView numberOfItemsInSection:0] - 1;
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
@@ -737,6 +741,8 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 
 - (void)changeYumStatusForCell:(DAReviewButtonsCollectionViewCell *)cell
 {
+    NSInteger reviewID = self.feedItem ? [self.feedItem.item_id integerValue] : self.review.review_id;
+
     if( [self.feedItem.caller_yumd boolValue] || self.review.caller_yumd )
     {
         [self unyumCell:cell];
@@ -744,7 +750,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         self.review.caller_yumd = NO;
         [self removeCurrentUserYumFromReview];
         
-        [self unyumFeedItemWithReviewID:[self.feedItem.item_id integerValue]];
+        [self unyumFeedItemWithReviewID:reviewID];
     }
     else
     {
@@ -753,7 +759,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         self.review.caller_yumd = YES;
         [self addCurrentUserYumToReview];
         
-        [self yumFeedItemWithReviewID:[self.feedItem.item_id integerValue]];
+        [self yumFeedItemWithReviewID:reviewID];
     }
 }
 
@@ -817,6 +823,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 
             [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
             {
+                [[NSNotificationCenter defaultCenter] postNotificationName:kReviewDeletedNotification object:nil];
                 [(DATabBarController *)self.tabBarController resetToHomeFeed];
             }];
         }
@@ -833,6 +840,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
                 
                 [MRProgressOverlayView dismissOverlayForView:self.view.window animated:YES completion:^
                 {
+                    [[NSNotificationCenter defaultCenter] postNotificationName:kReviewDeletedNotification object:nil];
                     [(DATabBarController *)self.tabBarController resetToHomeFeed];
                 }];
             }

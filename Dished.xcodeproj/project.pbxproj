@@ -450,6 +450,9 @@
 		9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9415F3C31941044000C3A7A1 /* DALoginViewController.m */; };
 		9418100D1970DF7900C83034 /* DAHashtag.m in Sources */ = {isa = PBXBuildFile; fileRef = 9418100C1970DF7900C83034 /* DAHashtag.m */; };
 		941810131970EB7700C83034 /* DAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 941810121970EB7700C83034 /* DAConstants.m */; };
+		941E6DCD1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941E6DCC1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift */; };
+		941E6DCE1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941E6DCC1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift */; };
+		941E6DCF1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941E6DCC1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift */; };
 		941F3209196FA838000042AE /* DALocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F3208196FA838000042AE /* DALocationManager.m */; };
 		941F3215196FCC04000042AE /* DANewReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 941F3214196FCC04000042AE /* DANewReview.m */; };
 		94237E5E194A2CF6004DFAB6 /* DAPhoneNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E5D194A2CF6004DFAB6 /* DAPhoneNumberViewController.m */; };
@@ -1012,6 +1015,7 @@
 		9418100C1970DF7900C83034 /* DAHashtag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAHashtag.m; sourceTree = "<group>"; };
 		941810111970EB7700C83034 /* DAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAConstants.h; sourceTree = "<group>"; };
 		941810121970EB7700C83034 /* DAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAConstants.m; sourceTree = "<group>"; };
+		941E6DCC1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ReloadAnimation.swift"; sourceTree = "<group>"; };
 		941F3207196FA838000042AE /* DALocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALocationManager.h; sourceTree = "<group>"; };
 		941F3208196FA838000042AE /* DALocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALocationManager.m; sourceTree = "<group>"; };
 		941F3213196FCC04000042AE /* DANewReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANewReview.h; sourceTree = "<group>"; };
@@ -2075,6 +2079,7 @@
 				94A6FE411A46E2B800AB901F /* UIColor+Dished.swift */,
 				94A6FE451A46E4C900AB901F /* NSDate+Dished.swift */,
 				947381C21A46EEE600B1CFC2 /* NSAttributedString+Dished.swift */,
+				941E6DCC1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift */,
 				947381C61A46F0DD00B1CFC2 /* UIViewController+Dished.swift */,
 				942AA01819C2655A00D0D77C /* UIImageView+DishProgress.h */,
 				942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */,
@@ -3009,6 +3014,7 @@
 				94426C081A6A75BF00186C35 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				941291AF1A1BEED500B7C763 /* DAResetPasswordViewController.m in Sources */,
 				94426CA11A6A75C000186C35 /* NSData+MPBase64.m in Sources */,
+				941E6DCE1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */,
 				941291B01A1BEED500B7C763 /* AFNetworkReachabilityManager.m in Sources */,
 				94426C0B1A6A75BF00186C35 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
 				94426C381A6A75BF00186C35 /* MPDesignerEventBindingResponseMesssage.m in Sources */,
@@ -3284,6 +3290,7 @@
 				94426C091A6A75BF00186C35 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				941292AE1A1C7AD100B7C763 /* DAResetPasswordViewController.m in Sources */,
 				94426CA21A6A75C000186C35 /* NSData+MPBase64.m in Sources */,
+				941E6DCF1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */,
 				941292AF1A1C7AD100B7C763 /* AFNetworkReachabilityManager.m in Sources */,
 				94426C0C1A6A75BF00186C35 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
 				94426C391A6A75BF00186C35 /* MPDesignerEventBindingResponseMesssage.m in Sources */,
@@ -3559,6 +3566,7 @@
 				94426C071A6A75BF00186C35 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				943093F81942633D00B1F61F /* DAErrorView.m in Sources */,
 				94426CA01A6A75C000186C35 /* NSData+MPBase64.m in Sources */,
+				941E6DCD1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */,
 				94237E72194A318C004DFAB6 /* DAResetPasswordViewController.m in Sources */,
 				94426C0A1A6A75BF00186C35 /* MPABTestDesignerSnapshotResponseMessage.m in Sources */,
 				94426C371A6A75BF00186C35 /* MPDesignerEventBindingResponseMesssage.m in Sources */,

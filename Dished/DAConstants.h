@@ -18,6 +18,8 @@
 
 #define nilOrJSONObjectForKey(JSON_, KEY_) [[JSON_ objectForKey:KEY_] isKindOfClass:[NSNull class]] ? nil : [JSON_ objectForKey:KEY_]
 
+#define kReviewDeletedNotification @"review_deleted"
+
 
 typedef enum
 {

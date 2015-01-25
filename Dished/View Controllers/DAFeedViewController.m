@@ -31,18 +31,16 @@ typedef enum
 } eFeedCellType;
 
 
-@interface DAFeedViewController() <NSFetchedResultsControllerDelegate, DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate>
+@interface DAFeedViewController() <DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate>
 
+@property (strong, nonatomic) NSArray                          *feedItems;
 @property (strong, nonatomic) NSCache                          *feedImageCache;
 @property (strong, nonatomic) NSCache                          *attributedStringCache;
 @property (strong, nonatomic) NSCache                          *cellSizeCache;
 @property (strong, nonatomic) UIImageView                      *yumTapImageView;
 @property (strong, nonatomic) NSDictionary                     *linkedTextAttributes;
-@property (strong, nonatomic) NSMutableArray                   *sectionChanges;
-@property (strong, nonatomic) NSMutableArray                   *itemChanges;
 @property (strong, nonatomic) DARefreshControl                 *refreshControl;
 @property (strong, nonatomic) DAFeedImportManager              *importer;
-@property (strong, nonatomic) NSFetchedResultsController       *fetchedResultsController;
 
 @property (nonatomic) BOOL    initialLoadActive;
 @property (nonatomic) BOOL    hasMoreData;
@@ -79,36 +77,42 @@ typedef enum
     [spinner startAnimating];
     
     self.importer = [[DAFeedImportManager alloc] init];
-    self.fetchedResultsController = [self.importer fetchFeedItemsWithLimit:10];
-    self.fetchedResultsController.delegate = self;
-    
-    if( self.fetchedResultsController.fetchedObjects.count > 0 )
+    [self.importer fetchFeedItemsInBackgroundWithLimit:10 completion:^( NSArray *feedItems )
     {
-        [spinner stopAnimating];
-        self.collectionView.hidden = NO;
-    }
-    
+        if( feedItems.count > 0 )
+        {
+            self.feedItems = feedItems;
+            [spinner stopAnimating];
+            [self.collectionView reloadDataAnimated:YES];
+            self.collectionView.hidden = NO;
+        }
+    }];
+        
     self.initialLoadActive = YES;
     [self.importer importFeedItemsWithLimit:10 offset:0 completion:^( BOOL success, BOOL hasMoreData )
     {
         self.hasMoreData = hasMoreData;
         
-        [self.fetchedResultsController performFetch:nil];
-
-        [UIView animateWithDuration:0 animations:^
+        [self.importer fetchFeedItemsInBackgroundWithLimit:10 completion:^( NSArray *feedItems )
         {
-            [self.collectionView reloadData];
+            if( feedItems.count > 0 )
+            {
+                self.feedItems = feedItems;
+                [spinner stopAnimating];
+                [self.collectionView reloadDataAnimated:NO];
+            }
+            
+            self.initialLoadActive = NO;
+            [self.refreshControl endRefreshing];
+            
+            [spinner stopAnimating];
+            self.collectionView.hidden = NO;
         }];
-        
-        self.initialLoadActive = NO;
-        [self.refreshControl endRefreshing];
-        
-        [spinner stopAnimating];
-        self.collectionView.hidden = NO;
     }];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetNavigationBar) name:UIApplicationDidEnterBackgroundNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reviewDeleted) name:kReviewDeletedNotification object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -169,25 +173,25 @@ typedef enum
         return;
     }
     
-    NSInteger limit = self.fetchedResultsController.fetchRequest.fetchLimit;
+    NSInteger limit = self.feedItems.count;
     limit = limit > 20 ? 20 : limit;
-    self.fetchedResultsController.fetchRequest.fetchLimit = limit;
     
     [self.importer importFeedItemsWithLimit:limit offset:0 completion:^( BOOL success, BOOL hasMoreData )
     {
-        if( success )
+        self.hasMoreData = hasMoreData;
+
+        [self.importer fetchFeedItemsInBackgroundWithLimit:limit completion:^( NSArray *feedItems )
         {
-            [self.fetchedResultsController performFetch:nil];
-            
-            [UIView animateWithDuration:0 animations:^
+            if( feedItems.count > 0 )
             {
-                [self.collectionView reloadData];
-            }];
-        }
+                self.feedItems = feedItems;
+                [self.collectionView reloadDataAnimated:NO];
+            }
+             
+            [self.refreshControl endRefreshing];
+        }];
         
         [self.refreshControl endRefreshing];
-        
-        self.hasMoreData = hasMoreData;
     }];
 }
 
@@ -195,47 +199,53 @@ typedef enum
 {
     self.isLoadingMore = YES;
     
-    NSInteger offset = self.fetchedResultsController.fetchRequest.fetchLimit;
-    self.fetchedResultsController.fetchRequest.fetchLimit += 10;
+    NSInteger offset = self.feedItems.count;
     
     [self.importer importFeedItemsWithLimit:10 offset:offset completion:^( BOOL success, BOOL hasMoreData )
     {
         self.hasMoreData = hasMoreData;
         
-        if( success )
+        [self.importer fetchFeedItemsInBackgroundWithLimit:(offset + 10) completion:^( NSArray *feedItems )
         {
-            [self.fetchedResultsController performFetch:nil];
-            
-            [UIView animateWithDuration:0 animations:^
+            if( feedItems.count > 0 )
             {
-                [self.collectionView reloadData];
-            }];
+                self.feedItems = feedItems;
+                [self.collectionView reloadDataAnimated:NO];
+            }
+             
+            [self.refreshControl endRefreshing];
+            self.isLoadingMore = NO;
+        }];
+    }];
+}
+
+- (void)reviewDeleted
+{
+    [self.importer fetchFeedItemsInBackgroundWithLimit:self.feedItems.count completion:^( NSArray *feedItems )
+    {
+        if( feedItems.count > 0 )
+        {
+            self.feedItems = feedItems;
+            [self.collectionView reloadDataAnimated:NO];
         }
-        
-        self.isLoadingMore = NO;
     }];
 }
 
 - (NSInteger)numberOfItemsInSection:(NSInteger)section
 {
-    id<NSFetchedResultsSectionInfo> resultsSection = self.fetchedResultsController.sections[section];
-    NSInteger numberOfObjects = resultsSection.numberOfObjects;
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:section];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:section];
+
     BOOL hasYums = [feedItem.num_yums integerValue] > 0;
     BOOL hasHashtags = feedItem.hashtags.count > 0;
     BOOL hasMoreComments = [feedItem.num_comments integerValue] > 3;
     
-    return numberOfObjects + [feedItem.comments count] + ( hasYums ? 1 : 0 ) + ( hasHashtags ? 1 : 0 ) + ( hasMoreComments ? 1 : 0 ) + 1;
+    return 1 + [feedItem.comments count] + ( hasYums ? 1 : 0 ) + ( hasHashtags ? 1 : 0 ) + ( hasMoreComments ? 1 : 0 ) + 1;
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
-    NSInteger numberOfSections = self.fetchedResultsController.sections.count;
+    NSInteger numberOfSections = self.feedItems.count;
     
-    //NSLog(@"%d", (int)numberOfSections);
     return numberOfSections;
 }
 
@@ -248,8 +258,7 @@ typedef enum
 {
     eFeedCellType type = eFeedCellTypeDish;
     NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
-    NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
     
     BOOL hasYums = [feedItem.num_yums integerValue] > 0;
     BOOL hasHashtags = feedItem.hashtags.count > 0;
@@ -292,8 +301,7 @@ typedef enum
 
 - (NSUInteger)commentIndexForIndexPath:(NSIndexPath *)indexPath
 {
-    NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
     
     BOOL hasYums = [feedItem.num_yums integerValue] > 0;
     BOOL hasHashtags = feedItem.hashtags.count > 0;
@@ -311,8 +319,7 @@ typedef enum
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     UICollectionViewCell *cell = nil;
-    NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
     
     eFeedCellType cellType = [self feedCellTypeForIndexPath:indexPath];
     
@@ -389,9 +396,6 @@ typedef enum
     {
         DAReviewButtonsCollectionViewCell *buttonCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewButtonsCellIdentifier forIndexPath:indexPath];
         
-        NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-        DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
-        
         NSInteger numComments = [feedItem.num_comments intValue] - 1;
         NSString *format = numComments == 0 ? @" No comments" : numComments == 1 ? @" %d comment" : @" %d comments";
         NSString *commentString = [NSString stringWithFormat:format, numComments];
@@ -456,7 +460,7 @@ typedef enum
 
 - (void)configureCell:(DAFeedCollectionViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    DAFeedItem *item = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    DAFeedItem *item = [self.feedItems objectAtIndex:indexPath.section];
     
     NSString *usernameString = [NSString stringWithFormat:@"@%@", item.creator_username];
     if( [item.creator_type isEqualToString:kInfluencerUserType] )
@@ -537,7 +541,7 @@ typedef enum
     if( kind == UICollectionElementKindSectionHeader )
     {
         DAFeedHeaderCollectionReusableView *header = [collectionView dequeueReusableSupplementaryViewOfKind:kind withReuseIdentifier:@"titleHeader" forIndexPath:indexPath];
-        DAFeedItem *item = [self.fetchedResultsController objectAtIndexPath:indexPath];
+        DAFeedItem *item = [self.feedItems objectAtIndex:indexPath.section];
         
         [header.titleButton setTitle:item.name forState:UIControlStateNormal];
         
@@ -562,7 +566,7 @@ typedef enum
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section
 {
-    if( section != self.fetchedResultsController.sections.count - 1 )
+    if( section != self.feedItems.count - 1 )
     {
         return CGSizeZero;
     }
@@ -573,8 +577,7 @@ typedef enum
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     CGSize itemSize = CGSizeZero;
-    NSIndexPath *feedItemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:feedItemIndexPath];
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
     
     eFeedCellType cellType = [self feedCellTypeForIndexPath:indexPath];
     
@@ -663,16 +666,14 @@ typedef enum
 - (void)titleButtonTappedOnFeedHeaderCollectionReusableView:(DAFeedHeaderCollectionReusableView *)header
 {
     NSIndexPath *indexPath = header.indexPath;
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
     [self performSegueWithIdentifier:@"reviewDetails" sender:feedItem];
 }
 
 - (void)commentsButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
-    
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
     [self pushCommentsViewWithFeedItem:feedItem showKeyboard:YES];
 }
 
@@ -690,25 +691,21 @@ typedef enum
 
 - (void)goToUserProfileAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
     [self pushUserProfileWithUsername:feedItem.creator_username];
 }
 
 - (void)moreReviewsButtonTappedOnReviewButtonsCollectionViewCell:(DAReviewButtonsCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
-    
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
     [self pushGlobalDishViewWithDishID:[feedItem.dish_id integerValue]];
 }
 
 - (void)textViewTappedOnText:(NSString *)text withTextType:(eLinkedTextType)textType inCell:(DAReviewDetailCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
     
     eFeedCellType cellType = [self feedCellTypeForIndexPath:indexPath];
     
@@ -722,10 +719,6 @@ typedef enum
     }
     else if( cellType == eFeedCellTypeMoreComments )
     {
-        NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-        NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-        DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
-        
         [self pushCommentsViewWithFeedItem:feedItem showKeyboard:NO];
     }
     else if( cellType == eFeedCellTypeHashtags )
@@ -752,8 +745,8 @@ typedef enum
 - (void)locationButtonTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
+
     [self pushRestaurantProfileWithLocationID:[feedItem.loc_id integerValue] username:feedItem.loc_name];
 }
 
@@ -765,7 +758,7 @@ typedef enum
 - (void)imageDoubleTappedOnFeedCollectionViewCell:(DAFeedCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
     
     UIImage *image = [UIImage imageNamed:@"yum_tap"];
     UIImageView *yumTapImageView = [[UIImageView alloc] initWithImage:image];
@@ -800,6 +793,7 @@ typedef enum
                 {
                     feedItem.caller_yumd = @(YES);
                     feedItem.num_yums = @([feedItem.num_yums integerValue] + 1);
+                    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] animated:NO];
                 }
                 
                 if( finished )
@@ -823,9 +817,8 @@ typedef enum
 - (void)changeYumStatusForCell:(DAReviewButtonsCollectionViewCell *)cell
 {
     NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
-    NSIndexPath *itemIndexPath = [NSIndexPath indexPathForItem:0 inSection:indexPath.section];
-    DAFeedItem *feedItem = [self.fetchedResultsController objectAtIndexPath:itemIndexPath];
-    
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
+
     if( [feedItem.caller_yumd boolValue] )
     {
         [self unyumCell:cell];
@@ -842,6 +835,8 @@ typedef enum
         
         [self yumFeedItemWithReviewID:[feedItem.item_id integerValue]];
     }
+    
+    [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section] animated:NO];
 }
 
 - (void)yumFeedItemWithReviewID:(NSInteger)reviewID
@@ -869,115 +864,6 @@ typedef enum
         {
             [self unyumFeedItemWithReviewID:reviewID];
         }
-    }];
-}
-
-- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
-{
-    self.itemChanges    = [[NSMutableArray alloc] init];
-    self.sectionChanges = [[NSMutableArray alloc] init];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo
-           atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type
-{
-    NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
-    change[@(type)] = @(sectionIndex);
-    [self.sectionChanges addObject:change];
-}
-
-- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath
-{
-    NSMutableDictionary *change = [[NSMutableDictionary alloc] init];
-    
-    switch( type )
-    {
-        case NSFetchedResultsChangeInsert:
-            change[@(type)] = newIndexPath;
-            break;
-            
-        case NSFetchedResultsChangeDelete:
-            change[@(type)] = indexPath;
-            break;
-            
-        case NSFetchedResultsChangeUpdate:
-            change[@(type)] = indexPath;
-            break;
-            
-        case NSFetchedResultsChangeMove:
-            change[@(type)] = @[indexPath, newIndexPath];
-            break;
-    }
-    
-    [self.itemChanges addObject:change];
-}
-
-- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    [UIView animateWithDuration:0 animations:^
-    {
-        [self.collectionView performBatchUpdates:^
-        {
-            for( NSDictionary *change in self.sectionChanges )
-            {
-                [change enumerateKeysAndObjectsUsingBlock:^( id key, id obj, BOOL *stop )
-                {
-                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                    
-                    switch( type )
-                    {
-                        case NSFetchedResultsChangeInsert:
-                        {
-                            [self.collectionView insertSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                        }
-                        break;
-                            
-                        case NSFetchedResultsChangeDelete:
-                        {
-                            [self.collectionView deleteSections:[NSIndexSet indexSetWithIndex:[obj unsignedIntegerValue]]];
-                        }
-                        break;
-                        
-                        case NSFetchedResultsChangeMove:
-                        case NSFetchedResultsChangeUpdate:
-                            break;
-                    }
-                }];
-            }
-            
-            for( NSDictionary *change in self.itemChanges )
-            {
-                [change enumerateKeysAndObjectsUsingBlock:^( id key, id obj, BOOL *stop )
-                {
-                    NSFetchedResultsChangeType type = [key unsignedIntegerValue];
-                    
-                    switch( type )
-                    {
-                        case NSFetchedResultsChangeInsert:
-                            [self.collectionView insertItemsAtIndexPaths:@[obj]];
-                            break;
-                            
-                        case NSFetchedResultsChangeDelete:
-                            break;
-                            
-                        case NSFetchedResultsChangeUpdate:
-                            [self.collectionView reloadSections:[NSIndexSet indexSetWithIndex:((NSIndexPath *)obj).section]];
-                            break;
-                            
-                        case NSFetchedResultsChangeMove:
-                            [self.collectionView moveItemAtIndexPath:obj[0] toIndexPath:obj[1]];
-                            break;
-                    }
-                }];
-            }
-        }
-        completion:^( BOOL finished )
-        {
-            self.itemChanges    = nil;
-            self.sectionChanges = nil;
-            
-            [self.collectionView.collectionViewLayout invalidateLayout];
-        }];
     }];
 }
 

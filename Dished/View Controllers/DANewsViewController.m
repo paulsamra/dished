@@ -658,7 +658,7 @@
         case eFollowingNewsNotificationTypeCreateReview:
             if( news.review_count == 1 )
             {
-                [self pushReviewDetailsViewWithReviewID:news.review_id];
+                [self pushReviewDetailsViewWithReviewID:[[news.reviewIDs firstObject] integerValue]];
             }
             break;
             
