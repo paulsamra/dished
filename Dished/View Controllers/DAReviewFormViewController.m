@@ -170,8 +170,6 @@
     }
     
     [self updateFields];
-    
-    CLSLog( @"Review form will appear..." );
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -180,8 +178,6 @@
     
     [self.socialViewController.view removeFromSuperview];
     [self.dimView removeFromSuperview];
-    
-    CLSLog( @"Review form will disappear..." );
 }
 
 
@@ -876,7 +872,8 @@
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
-        CLSLog( @"Failed to post review: %@\nReview data: %@", error, parameters);
+        NSString *log = [NSString stringWithFormat:@"Failed to post review: %@\nReview data: %@", error, parameters];
+        [[LELog sharedInstance] log:log];
         
         if( shouldRetry )
         {

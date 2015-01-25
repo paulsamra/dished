@@ -889,6 +889,24 @@
 		94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */; };
 		94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6319BFBE75005071D5 /* DADishProfile.m */; };
 		94BC4F1919C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1819C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m */; };
+		94C18B731A74DC2300016D5F /* LEBackgroundThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B661A74DC2200016D5F /* LEBackgroundThread.m */; };
+		94C18B741A74DC2300016D5F /* lecore.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B681A74DC2200016D5F /* lecore.m */; };
+		94C18B751A74DC2300016D5F /* LELog.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B6C1A74DC2200016D5F /* LELog.m */; };
+		94C18B761A74DC2300016D5F /* LeNetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B6E1A74DC2200016D5F /* LeNetworkStatus.m */; };
+		94C18B771A74DC2300016D5F /* LogFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B701A74DC2300016D5F /* LogFile.m */; };
+		94C18B781A74DC2300016D5F /* LogFiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B721A74DC2300016D5F /* LogFiles.m */; };
+		94C18B791A74DC2600016D5F /* LEBackgroundThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B661A74DC2200016D5F /* LEBackgroundThread.m */; };
+		94C18B7A1A74DC2700016D5F /* LEBackgroundThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B661A74DC2200016D5F /* LEBackgroundThread.m */; };
+		94C18B7B1A74DC2B00016D5F /* lecore.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B681A74DC2200016D5F /* lecore.m */; };
+		94C18B7C1A74DC2C00016D5F /* lecore.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B681A74DC2200016D5F /* lecore.m */; };
+		94C18B7D1A74DC3700016D5F /* LELog.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B6C1A74DC2200016D5F /* LELog.m */; };
+		94C18B7E1A74DC3900016D5F /* LELog.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B6C1A74DC2200016D5F /* LELog.m */; };
+		94C18B7F1A74DC3C00016D5F /* LeNetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B6E1A74DC2200016D5F /* LeNetworkStatus.m */; };
+		94C18B801A74DC3D00016D5F /* LeNetworkStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B6E1A74DC2200016D5F /* LeNetworkStatus.m */; };
+		94C18B811A74DC4000016D5F /* LogFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B701A74DC2300016D5F /* LogFile.m */; };
+		94C18B821A74DC4100016D5F /* LogFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B701A74DC2300016D5F /* LogFile.m */; };
+		94C18B831A74DC4600016D5F /* LogFiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B721A74DC2300016D5F /* LogFiles.m */; };
+		94C18B841A74DC4700016D5F /* LogFiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B721A74DC2300016D5F /* LogFiles.m */; };
 		94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
 		94CB03B019AFD334009010F6 /* DAComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AF19AFD334009010F6 /* DAComment.m */; };
 		94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03C019B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m */; };
@@ -1400,6 +1418,19 @@
 		94B92C6319BFBE75005071D5 /* DADishProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishProfile.m; sourceTree = "<group>"; };
 		94BC4F1719C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		94BC4F1819C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedCollectionViewFlowLayout.m; sourceTree = "<group>"; };
+		94C18B651A74DC2200016D5F /* LEBackgroundThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEBackgroundThread.h; sourceTree = "<group>"; };
+		94C18B661A74DC2200016D5F /* LEBackgroundThread.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LEBackgroundThread.m; sourceTree = "<group>"; };
+		94C18B671A74DC2200016D5F /* lecore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lecore.h; sourceTree = "<group>"; };
+		94C18B681A74DC2200016D5F /* lecore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = lecore.m; sourceTree = "<group>"; };
+		94C18B6A1A74DC2200016D5F /* lelib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lelib.h; sourceTree = "<group>"; };
+		94C18B6B1A74DC2200016D5F /* LELog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LELog.h; sourceTree = "<group>"; };
+		94C18B6C1A74DC2200016D5F /* LELog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LELog.m; sourceTree = "<group>"; };
+		94C18B6D1A74DC2200016D5F /* LeNetworkStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LeNetworkStatus.h; sourceTree = "<group>"; };
+		94C18B6E1A74DC2200016D5F /* LeNetworkStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LeNetworkStatus.m; sourceTree = "<group>"; };
+		94C18B6F1A74DC2200016D5F /* LogFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogFile.h; sourceTree = "<group>"; };
+		94C18B701A74DC2300016D5F /* LogFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogFile.m; sourceTree = "<group>"; };
+		94C18B711A74DC2300016D5F /* LogFiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogFiles.h; sourceTree = "<group>"; };
+		94C18B721A74DC2300016D5F /* LogFiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogFiles.m; sourceTree = "<group>"; };
 		94CB03AB19AFA734009010F6 /* DACommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACommentsViewController.h; sourceTree = "<group>"; };
 		94CB03AC19AFA734009010F6 /* DACommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACommentsViewController.m; sourceTree = "<group>"; };
 		94CB03AE19AFD334009010F6 /* DAComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAComment.h; sourceTree = "<group>"; };
@@ -2178,6 +2209,7 @@
 		948B7F3E1941B05F005494AA /* External */ = {
 			isa = PBXGroup;
 			children = (
+				94C18B641A74DC0400016D5F /* Logentries */,
 				94426B621A6A75BF00186C35 /* Mixpanel */,
 				94AAAA421A43BF1300863E09 /* REComposeViewController */,
 				948615AA19FE1C3D002497D0 /* MRProgress */,
@@ -2274,6 +2306,26 @@
 				94AAAA4F1A43BF1300863E09 /* REComposeViewController.m */,
 			);
 			path = REComposeViewController;
+			sourceTree = "<group>";
+		};
+		94C18B641A74DC0400016D5F /* Logentries */ = {
+			isa = PBXGroup;
+			children = (
+				94C18B651A74DC2200016D5F /* LEBackgroundThread.h */,
+				94C18B661A74DC2200016D5F /* LEBackgroundThread.m */,
+				94C18B671A74DC2200016D5F /* lecore.h */,
+				94C18B681A74DC2200016D5F /* lecore.m */,
+				94C18B6A1A74DC2200016D5F /* lelib.h */,
+				94C18B6B1A74DC2200016D5F /* LELog.h */,
+				94C18B6C1A74DC2200016D5F /* LELog.m */,
+				94C18B6D1A74DC2200016D5F /* LeNetworkStatus.h */,
+				94C18B6E1A74DC2200016D5F /* LeNetworkStatus.m */,
+				94C18B6F1A74DC2200016D5F /* LogFile.h */,
+				94C18B701A74DC2300016D5F /* LogFile.m */,
+				94C18B711A74DC2300016D5F /* LogFiles.h */,
+				94C18B721A74DC2300016D5F /* LogFiles.m */,
+			);
+			name = Logentries;
 			sourceTree = "<group>";
 		};
 		94CB03BE19B0EA94009010F6 /* SWTableViewCell */ = {
@@ -2940,6 +2992,7 @@
 				941291781A1BEED500B7C763 /* DAImageFilterViewController.m in Sources */,
 				941291791A1BEED500B7C763 /* AFHTTPRequestOperation.m in Sources */,
 				94426C9E1A6A75C000186C35 /* MPWebSocket.m in Sources */,
+				94C18B791A74DC2600016D5F /* LEBackgroundThread.m in Sources */,
 				9412917A1A1BEED500B7C763 /* DAGlobalDishCollectionViewCell.m in Sources */,
 				9412917B1A1BEED500B7C763 /* DAPhoneNumberViewController.m in Sources */,
 				94426C981A6A75C000186C35 /* MPUITableViewBinding.m in Sources */,
@@ -3081,6 +3134,7 @@
 				947381C41A46EFF800B1CFC2 /* NSAttributedString+Dished.swift in Sources */,
 				94A6FE361A46DBD800AB901F /* DAReviewButtonsCollectionViewCell.swift in Sources */,
 				94917FE91A5D6DC0009FF117 /* DAModalTransitionManager.m in Sources */,
+				94C18B7F1A74DC3C00016D5F /* LeNetworkStatus.m in Sources */,
 				9442816A1A46FD4600117E0B /* DAFlowLayout.swift in Sources */,
 				941291DC1A1BEED500B7C763 /* DASocialCollectionViewController.m in Sources */,
 				941291DD1A1BEED500B7C763 /* MRProgressOverlayView.m in Sources */,
@@ -3136,13 +3190,16 @@
 				941291FB1A1BEED500B7C763 /* DAFeedImportManager.m in Sources */,
 				94A6FE471A46E4C900AB901F /* NSDate+Dished.swift in Sources */,
 				941291FC1A1BEED500B7C763 /* JSQMessagesToolbarContentView.m in Sources */,
+				94C18B7B1A74DC2B00016D5F /* lecore.m in Sources */,
 				94AAAA5A1A43BF1300863E09 /* REComposeBackgroundView.m in Sources */,
+				94C18B811A74DC4000016D5F /* LogFile.m in Sources */,
 				941291FD1A1BEED500B7C763 /* DAFeedHeaderCollectionReusableView.m in Sources */,
 				941291FE1A1BEED500B7C763 /* UIView+JSQMessages.m in Sources */,
 				94426BF61A6A75BF00186C35 /* MPABTestDesignerClearRequestMessage.m in Sources */,
 				94426C591A6A75BF00186C35 /* MPObjectSerializer.m in Sources */,
 				941291FF1A1BEED500B7C763 /* SDWebImagePrefetcher.m in Sources */,
 				941292001A1BEED500B7C763 /* STTwitterHTML.m in Sources */,
+				94C18B831A74DC4600016D5F /* LogFiles.m in Sources */,
 				941292011A1BEED500B7C763 /* UIImage+JSQMessages.m in Sources */,
 				941292021A1BEED500B7C763 /* UIViewController+ShareView.m in Sources */,
 				941292031A1BEED500B7C763 /* DAConstants.m in Sources */,
@@ -3195,6 +3252,7 @@
 				94426BEA1A6A75BF00186C35 /* Mixpanel.m in Sources */,
 				9412922A1A1BEED500B7C763 /* DALocationManager.m in Sources */,
 				9488BA001A26AAC20098FE09 /* DATagManager.m in Sources */,
+				94C18B7D1A74DC3700016D5F /* LELog.m in Sources */,
 				94426C9B1A6A75C000186C35 /* MPVariant.m in Sources */,
 				94AAAA541A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				9412922B1A1BEED500B7C763 /* NSMutableArray+SWUtilityButtons.m in Sources */,
@@ -3216,6 +3274,7 @@
 				941292771A1C7AD100B7C763 /* DAImageFilterViewController.m in Sources */,
 				941292781A1C7AD100B7C763 /* AFHTTPRequestOperation.m in Sources */,
 				94426C9F1A6A75C000186C35 /* MPWebSocket.m in Sources */,
+				94C18B7A1A74DC2700016D5F /* LEBackgroundThread.m in Sources */,
 				941292791A1C7AD100B7C763 /* DAGlobalDishCollectionViewCell.m in Sources */,
 				9412927A1A1C7AD100B7C763 /* DAPhoneNumberViewController.m in Sources */,
 				94426C991A6A75C000186C35 /* MPUITableViewBinding.m in Sources */,
@@ -3357,6 +3416,7 @@
 				947381C51A46EFF800B1CFC2 /* NSAttributedString+Dished.swift in Sources */,
 				94A6FE371A46DBD800AB901F /* DAReviewButtonsCollectionViewCell.swift in Sources */,
 				94917FEA1A5D6DC0009FF117 /* DAModalTransitionManager.m in Sources */,
+				94C18B801A74DC3D00016D5F /* LeNetworkStatus.m in Sources */,
 				9442816B1A46FD4600117E0B /* DAFlowLayout.swift in Sources */,
 				941292DB1A1C7AD100B7C763 /* DASocialCollectionViewController.m in Sources */,
 				941292DC1A1C7AD100B7C763 /* MRProgressOverlayView.m in Sources */,
@@ -3412,13 +3472,16 @@
 				941292FA1A1C7AD100B7C763 /* DAFeedImportManager.m in Sources */,
 				94A6FE481A46E4C900AB901F /* NSDate+Dished.swift in Sources */,
 				941292FB1A1C7AD100B7C763 /* JSQMessagesToolbarContentView.m in Sources */,
+				94C18B7C1A74DC2C00016D5F /* lecore.m in Sources */,
 				94AAAA5B1A43BF1300863E09 /* REComposeBackgroundView.m in Sources */,
+				94C18B821A74DC4100016D5F /* LogFile.m in Sources */,
 				941292FC1A1C7AD100B7C763 /* DAFeedHeaderCollectionReusableView.m in Sources */,
 				941292FD1A1C7AD100B7C763 /* UIView+JSQMessages.m in Sources */,
 				94426BF71A6A75BF00186C35 /* MPABTestDesignerClearRequestMessage.m in Sources */,
 				94426C5A1A6A75BF00186C35 /* MPObjectSerializer.m in Sources */,
 				941292FE1A1C7AD100B7C763 /* SDWebImagePrefetcher.m in Sources */,
 				941292FF1A1C7AD100B7C763 /* STTwitterHTML.m in Sources */,
+				94C18B841A74DC4700016D5F /* LogFiles.m in Sources */,
 				941293001A1C7AD100B7C763 /* UIImage+JSQMessages.m in Sources */,
 				941293011A1C7AD100B7C763 /* UIViewController+ShareView.m in Sources */,
 				941293021A1C7AD100B7C763 /* DAConstants.m in Sources */,
@@ -3471,6 +3534,7 @@
 				94426BEB1A6A75BF00186C35 /* Mixpanel.m in Sources */,
 				941293291A1C7AD100B7C763 /* DALocationManager.m in Sources */,
 				9488BA011A26AAC20098FE09 /* DATagManager.m in Sources */,
+				94C18B7E1A74DC3900016D5F /* LELog.m in Sources */,
 				94426C9C1A6A75C000186C35 /* MPVariant.m in Sources */,
 				94AAAA551A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				9412932A1A1C7AD100B7C763 /* NSMutableArray+SWUtilityButtons.m in Sources */,
@@ -3492,6 +3556,7 @@
 				949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */,
 				94E5EF421943472D0021A711 /* AFHTTPRequestOperation.m in Sources */,
 				94426C9D1A6A75C000186C35 /* MPWebSocket.m in Sources */,
+				94C18B731A74DC2300016D5F /* LEBackgroundThread.m in Sources */,
 				942AA00E19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m in Sources */,
 				94237E5E194A2CF6004DFAB6 /* DAPhoneNumberViewController.m in Sources */,
 				94426C971A6A75C000186C35 /* MPUITableViewBinding.m in Sources */,
@@ -3633,6 +3698,7 @@
 				947381C31A46EEE600B1CFC2 /* NSAttributedString+Dished.swift in Sources */,
 				94A6FE351A46DBD800AB901F /* DAReviewButtonsCollectionViewCell.swift in Sources */,
 				94917FE81A5D6DC0009FF117 /* DAModalTransitionManager.m in Sources */,
+				94C18B761A74DC2300016D5F /* LeNetworkStatus.m in Sources */,
 				944281691A46FD4600117E0B /* DAFlowLayout.swift in Sources */,
 				D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */,
 				D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */,
@@ -3688,13 +3754,16 @@
 				945F95B119A7B90400241D0D /* DAFeedImportManager.m in Sources */,
 				94A6FE461A46E4C900AB901F /* NSDate+Dished.swift in Sources */,
 				94CB03FF19B146AF009010F6 /* JSQMessagesToolbarContentView.m in Sources */,
+				94C18B741A74DC2300016D5F /* lecore.m in Sources */,
 				94AAAA591A43BF1300863E09 /* REComposeBackgroundView.m in Sources */,
+				94C18B771A74DC2300016D5F /* LogFile.m in Sources */,
 				945E312319C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m in Sources */,
 				94CB040419B146AF009010F6 /* UIView+JSQMessages.m in Sources */,
 				94426BF51A6A75BF00186C35 /* MPABTestDesignerClearRequestMessage.m in Sources */,
 				94426C581A6A75BF00186C35 /* MPObjectSerializer.m in Sources */,
 				94F2ADA2198C539200450C6F /* SDWebImagePrefetcher.m in Sources */,
 				943E625E1987362100DF2135 /* STTwitterHTML.m in Sources */,
+				94C18B781A74DC2300016D5F /* LogFiles.m in Sources */,
 				94CB040319B146AF009010F6 /* UIImage+JSQMessages.m in Sources */,
 				945269131A0E244500A56B17 /* UIViewController+ShareView.m in Sources */,
 				941810131970EB7700C83034 /* DAConstants.m in Sources */,
@@ -3747,6 +3816,7 @@
 				94426BE91A6A75BF00186C35 /* Mixpanel.m in Sources */,
 				941F3209196FA838000042AE /* DALocationManager.m in Sources */,
 				9488B9FF1A26A86F0098FE09 /* DATagManager.m in Sources */,
+				94C18B751A74DC2300016D5F /* LELog.m in Sources */,
 				94426C9A1A6A75C000186C35 /* MPVariant.m in Sources */,
 				94AAAA531A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */,

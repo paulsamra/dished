@@ -93,7 +93,8 @@
         {
             if( addressDictionary )
             {
-                CLSLog( @"Adding new place with address dictionary: %@", addressDictionary );
+                NSString *log = [NSString stringWithFormat:@"Add new place with address dictionary: %@", addressDictionary];
+                [[LELog sharedInstance] log:log];
                 
                 self.review.locationName      = self.nameTextField.text;
                 self.review.locationLatitude  = [[DALocationManager sharedManager] currentLocation].latitude;
@@ -112,12 +113,9 @@
                         [self.navigationController popToViewController:parentController animated:YES];
                     }
                 }
-                
-                CLSLog( @"Adding new place with address dictionary: %@", addressDictionary );
             }
             else
             {
-                CLSLog(@"Address dictionary is null");
                 [spinner stopAnimating];
             }
         }

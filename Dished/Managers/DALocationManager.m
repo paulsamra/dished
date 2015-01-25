@@ -127,7 +127,8 @@
         {
             if( error )
             {
-                NSLog(@"Geocode failed with error: %@", error);
+                NSString *log = [NSString stringWithFormat:@"Geocode failed with error: %@", error];
+                [[LELog sharedInstance] log:log];
                 
                 if( completion )
                 {
@@ -137,7 +138,6 @@
             else if( placemarks && placemarks.count > 0 )
             {
                 CLPlacemark *placemark = placemarks[0];
-                CLSLog( @"number of placemarks returned: %d", (int)placemarks.count );
                 
                 if( completion )
                 {

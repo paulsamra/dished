@@ -26,7 +26,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 @interface DAUserProfileViewController() <UIActionSheetDelegate, UIAlertViewDelegate, DADishTableViewCellDelegate>
 
-@property (weak,   nonatomic) NSArray                 *selectedDataSource;
 @property (weak,   nonatomic) UITableView             *selectedTableView;
 @property (strong, nonatomic) CLPlacemark             *directionsPlacemark;
 @property (strong, nonatomic) NSURLSessionTask        *profileLoadTask;
@@ -212,8 +211,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     NSDictionary *parameters = self.loc_id == 0 ? @{ kIDKey : @(self.user_id) } : @{ kLocationIDKey : @(self.loc_id) };
     
-    CLSLog( @"Loading restaurant profile with parameters: %@", parameters );
-    
     __weak typeof( self ) weakSelf = self;
     
     self.profileLoadTask = [[DAAPIManager sharedManager] GETRequest:kRestaurantProfileURL withParameters:parameters
@@ -246,8 +243,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
                                   ( self.username ? self.username : @(self.user_id) ) };
-    
-    CLSLog( @"Loading user profile with parameters: %@", parameters );
     
     __weak typeof( self ) weakSelf = self;
     
@@ -282,8 +277,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     NSDictionary *parameters = @{ ( self.username ? kUsernameKey : kIDKey ) :
                                   ( self.username ? self.username : @(self.user_id) ) };
-    
-    CLSLog( @"Loading user profile with parameters: %@", parameters );
     
     [self.profileRefreshTask cancel];
     
@@ -397,11 +390,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
 {
     if( [dishType isEqualToString:kFood] )
     {
-        if( self.selectedTableView == self.foodTableView )
-        {
-            self.selectedDataSource = self.userProfile.foodReviews;
-        }
-        
         [self.foodTableView reloadData];
         
         if( count < 20 )
@@ -414,11 +402,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
     }
     else if( [dishType isEqualToString:kCocktail] )
     {
-        if( self.selectedTableView == self.cocktailTableView )
-        {
-            self.selectedDataSource = self.userProfile.cocktailReviews;
-        }
-        
         [self.cocktailTableView reloadData];
         
         if( count < 20 )
@@ -431,11 +414,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
     }
     else if( [dishType isEqualToString:kWine] )
     {
-        if( self.selectedTableView == self.wineTableView )
-        {
-            self.selectedDataSource = self.userProfile.wineReviews;
-        }
-        
         [self.wineTableView reloadData];
         
         if( count < 20 )
@@ -526,8 +504,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
         self.navigationItem.rightBarButtonItem = moreButton;
     }
     
-    self.selectedDataSource = self.restaurantProfile.foodDishes;
-    
     self.numDishesButton.hidden       = YES;
     self.numFollowersButton.hidden    = YES;
     self.numFollowingButton.hidden    = YES;
@@ -609,8 +585,6 @@ static NSString *const kDishSearchCellID = @"dishCell";
         UIBarButtonItem *moreButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"more"] style:UIBarButtonItemStylePlain target:self action:@selector(showMoreActionSheet)];
         self.navigationItem.rightBarButtonItem = moreButton;
     }
-    
-    self.selectedDataSource = self.userProfile.foodReviews;
     
     self.directionsButton.hidden      = YES;
     self.phoneNumberButton.hidden     = YES;
@@ -726,14 +700,38 @@ static NSString *const kDishSearchCellID = @"dishCell";
     return 1;
 }
 
+- (NSArray *)dataSourceForTableView:(UITableView *)tableView
+{
+    NSArray *dataSource = nil;
+    
+    if( tableView == self.foodTableView )
+    {
+        dataSource = self.isRestaurant ? self.restaurantProfile.foodDishes : self.userProfile.foodReviews;
+    }
+    else if( tableView == self.cocktailTableView )
+    {
+        dataSource = self.isRestaurant ? self.restaurantProfile.cocktailDishes : self.userProfile.cocktailReviews;
+    }
+    else if( tableView == self.wineTableView )
+    {
+        dataSource = self.isRestaurant ? self.restaurantProfile.wineDishes : self.userProfile.wineReviews;
+    }
+    
+    return dataSource;
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.selectedDataSource.count == 0 ? 1 : self.selectedDataSource.count;
+    NSInteger count = [self dataSourceForTableView:tableView].count;
+    
+    return count == 0 ? 1 : count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( self.selectedDataSource.count == 0 )
+    NSArray *dataSource = [self dataSourceForTableView:tableView];
+    
+    if( dataSource.count == 0 )
     {
         UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"cell"];
         
@@ -748,7 +746,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     if( self.isRestaurant )
     {
-        DADish *result = [self.selectedDataSource objectAtIndex:indexPath.row];
+        DADish *result = [dataSource objectAtIndex:indexPath.row];
         
         cell.dishNameLabel.text = result.name;
         
@@ -767,7 +765,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     }
     else
     {
-        DAReview *review = [self.selectedDataSource objectAtIndex:indexPath.row];
+        DAReview *review = [dataSource objectAtIndex:indexPath.row];
         
         cell.dishNameLabel.text = review.name;
         
@@ -786,15 +784,19 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (void)locationButtonTappedOnDishTableViewCell:(DADishTableViewCell *)cell
 {
+    NSArray *dataSource = [self dataSourceForTableView:self.selectedTableView];
+    
     NSIndexPath *indexPath = [self.selectedTableView indexPathForCell:cell];
-    DAReview *result = [self.selectedDataSource objectAtIndex:indexPath.row];
+    DAReview *result = [dataSource objectAtIndex:indexPath.row];
     
     [self pushRestaurantProfileWithLocationID:result.loc_id username:result.loc_name];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( self.selectedDataSource.count == 0 )
+    NSInteger count = [self dataSourceForTableView:tableView].count;
+    
+    if( count == 0 )
     {
         return tableView.rowHeight;
     }
@@ -804,7 +806,9 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if( self.selectedDataSource.count == 0 )
+    NSInteger count = [self dataSourceForTableView:tableView].count;
+
+    if( count == 0 )
     {
         return tableView.rowHeight;
     }
@@ -814,16 +818,16 @@ static NSString *const kDishSearchCellID = @"dishCell";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSArray *dataSource = [self dataSourceForTableView:tableView];
+
     if( self.isRestaurant )
     {
-        DADish *dish = [self.selectedDataSource objectAtIndex:indexPath.row];
-        
+        DADish *dish = [dataSource objectAtIndex:indexPath.row];
         [self pushGlobalDishViewWithDishID:dish.dishID];
     }
     else
     {
-        DAReview *review = [self.selectedDataSource objectAtIndex:indexPath.row];
-        
+        DAReview *review = [dataSource objectAtIndex:indexPath.row];
         [self pushReviewDetailsViewWithReviewID:review.review_id];
     }
 }
@@ -837,19 +841,16 @@ static NSString *const kDishSearchCellID = @"dishCell";
         case 0:
             self.selectedTableView = self.foodTableView;
             [self.view bringSubviewToFront:self.foodTableView];
-            self.selectedDataSource = self.isRestaurant ? self.restaurantProfile.foodDishes : self.userProfile.foodReviews;
             break;
             
         case 1:
             self.selectedTableView = self.cocktailTableView;
             [self.view bringSubviewToFront:self.cocktailTableView];
-            self.selectedDataSource = self.isRestaurant ? self.restaurantProfile.cocktailDishes : self.userProfile.cocktailReviews;
             break;
             
         case 2:
             self.selectedTableView = self.wineTableView;
             [self.view bringSubviewToFront:self.wineTableView];
-            self.selectedDataSource = self.isRestaurant ? self.restaurantProfile.wineDishes : self.userProfile.wineReviews;
             break;
     }
     
