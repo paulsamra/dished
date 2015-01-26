@@ -242,6 +242,11 @@
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 44.0;
+}
+
 - (void)sideButtonTappedOnFollowListTableViewCell:(DAUserListTableViewCell *)cell
 {
     NSIndexPath *indexPath = [self.contactsTableView indexPathForCell:cell];
