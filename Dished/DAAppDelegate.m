@@ -431,10 +431,19 @@
     {
         NSArray* friends = [result objectForKey:@"data"];
         
+        NSMutableArray *friendsToFollow = [NSMutableArray new];
+        
         for( NSDictionary<FBGraphUser>* friend in friends )
         {
-            NSLog(@"%@", friend);
+            NSDictionary *dict = @{ @"fb_id" : friend.objectID };
+            [friendsToFollow addObject:dict];
         }
+        
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject:friendsToFollow options:NSJSONWritingPrettyPrinted error:nil];
+        NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+        NSDictionary *parameters = @{ kContactsKey : jsonString };
+
+        [[DAAPIManager sharedManager] POSTRequest:kUserContactsFollowURL withParameters:parameters success:nil failure:nil];
     }];
 }
 

@@ -409,6 +409,11 @@
         [self toggleDatePicker];
     }
     
+    if( indexPath.section == 7 )
+    {
+        [[[UIAlertView alloc] initWithTitle:@"Coming Soon" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
+    }
+    
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
@@ -428,7 +433,14 @@
         return cell;
     }
     
-    return [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
+    
+    if( [[DAUserManager sharedManager] isFacebookUser] && indexPath.section == 5 )
+    {
+        cell.hidden = YES;
+    }
+    
+    return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -446,6 +458,11 @@
     if( indexPath.section == 6 && indexPath.row == 1 )
     {
         return 175;
+    }
+    
+    if( [[DAUserManager sharedManager] isFacebookUser] && indexPath.section == 5 )
+    {
+        return 0;
     }
     
     return [super tableView:tableView heightForRowAtIndexPath:indexPath];
