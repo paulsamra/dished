@@ -142,8 +142,6 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     success:^( id response )
     {
         weakSelf.review = [DAReview reviewWithData:response[kDataKey]];
-        [weakSelf.collectionView reloadData];
-        [weakSelf.collectionView.collectionViewLayout invalidateLayout];
     }
     failure:^( NSError *error, BOOL shouldRetry )
     {
@@ -152,6 +150,16 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
             [weakSelf refreshReview];
         }
     }];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if( self.review )
+    {
+        [self.collectionView reloadData];
+    }
 }
 
 - (void)dealloc
