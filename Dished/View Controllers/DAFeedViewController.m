@@ -417,7 +417,11 @@ typedef enum
 - (NSArray *)usernameStringArrayWithUsernames:(NSSet *)usernames creator:(NSString *)creator
 {
     NSMutableArray *usernameMentions = [NSMutableArray array];
-    [usernameMentions addObject:creator];
+    
+    if( creator )
+    {
+        [usernameMentions addObject:creator];
+    }
     
     for( DAManagedUsername *managedUsername in usernames )
     {

@@ -105,6 +105,11 @@
         return;
     }
     
+    if( !attributedText.string )
+    {
+        return;
+    }
+    
     NSMutableAttributedString *linkedText = [attributedText mutableCopy];
     
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\B[#|@]\\S+\\b" options:0 error:nil];
