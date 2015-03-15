@@ -7,11 +7,16 @@
 //
 
 #import "DAFeedImportManager.h"
+#import "DALocationManager.h"
 
+
+typedef void(^GetFeedDataBlock)();
 
 @interface DAFeedImportManager()
 
+@property (strong, nonatomic) DALocationManager *locationManager;
 @property (weak, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (copy, nonatomic) GetFeedDataBlock feedDataBlock;
 
 @end
 
@@ -22,7 +27,11 @@
 {
     if( self = [super init] )
     {
-        self.managedObjectContext = [[DACoreDataManager sharedManager] mainManagedContext];
+        _locationManager = [[DALocationManager alloc] init];
+        [_locationManager startUpdatingLocation];
+        _managedObjectContext = [[DACoreDataManager sharedManager] mainManagedContext];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationUpdated) name:kLocationUpdateNotificationKey object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(locationDenied) name:kLocationServicesDeniedKey object:nil];
     }
     
     return self;
@@ -258,27 +267,52 @@
     return [[DACoreDataManager sharedManager] fetchedResultsControllerWithFetchRequest:fetchRequest sectionNameKeyPath:kCreatedKey inManagedObjectContext:[[DACoreDataManager sharedManager] mainManagedContext]];
 }
 
+- (void)locationDenied
+{
+    if( self.feedDataBlock )
+    {
+        self.feedDataBlock();
+        self.feedDataBlock = nil;
+    }
+}
+
+- (void)locationUpdated
+{
+    if( self.feedDataBlock )
+    {
+        self.feedDataBlock();
+        self.feedDataBlock = nil;
+    }
+}
+
 - (void)getFeedDataWithLimit:(NSInteger)limit offset:(NSInteger)offset success:( void(^)( id response ) )success failure:( void(^)( NSError *error ) )failure
 {
-    NSDictionary *parameters = @{ kRowLimitKey : @(limit), kRowOffsetKey : @(offset) };
+    GetFeedDataBlock block = ^
+    {
+        double longitude = self.locationManager.currentLocation.longitude;
+        double latitude = self.locationManager.currentLocation.latitude;
+        NSDictionary *parameters = @{ kRowLimitKey : @(limit), kRowOffsetKey : @(offset), kLongitudeKey : @(longitude), kLatitudeKey : @(latitude) };
+        
+        [[DAAPIManager sharedManager] GETRequest:kFeedURL withParameters:parameters success:^( id response )
+        {
+            success( response );
+        }
+        failure:^( NSError *error, BOOL shouldRetry )
+        {
+            if( shouldRetry )
+            {
+                [self getFeedDataWithLimit:limit offset:offset success:success failure:failure];
+            }
+            else
+            {
+                CLSLog(@"Error getting feed: %@", error);
+                NSLog(@"Error getting feed: %@", error);
+                failure( error );
+            }
+        }];
+    };
     
-    [[DAAPIManager sharedManager] GETRequest:kFeedURL withParameters:parameters success:^( id response )
-    {
-        success( response );
-    }
-    failure:^( NSError *error, BOOL shouldRetry )
-    {
-        if( shouldRetry )
-        {
-            [self getFeedDataWithLimit:limit offset:offset success:success failure:failure];
-        }
-        else
-        {
-            CLSLog(@"Error getting feed: %@", error);
-            NSLog(@"Error getting feed: %@", error);
-            failure( error );
-        }
-    }];
+    self.feedDataBlock = block;
 }
 
 - (void)fetchFeedItemsInBackgroundWithLimit:(NSUInteger)limit completion:( void(^)( NSArray *feedItems ) )completion
