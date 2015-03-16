@@ -8,33 +8,13 @@
 
 import UIKit
 
-class DAUserListTableViewCell: UITableViewCell
+class DAUserListTableViewCell: DATableViewCell
 {
     var userImageView: UIImageView!
     var usernameLabel: UILabel!
     var sideButton: UIButton!
     
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupViews()
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        setupViews()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupViews()
-    }
-    
-    override init() {
-        super.init()
-        setupViews()
-    }
-    
-    private func setupViews() {
+    override func setupViews() {
         userImageView = UIImageView()
         userImageView.layer.masksToBounds = true
         let userImageSize = CGSizeMake(27.0, 27.0)

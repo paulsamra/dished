@@ -206,7 +206,6 @@
 		9412923F1A1BEED500B7C763 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C1F6EE1979A2F600A2D652 /* Social.framework */; };
 		941292401A1BEED500B7C763 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
 		941292411A1BEED500B7C763 /* libUserVoice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D7CAD21A1499970065229C /* libUserVoice.a */; };
-		941292431A1BEED500B7C763 /* DADishSuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */; };
 		941292441A1BEED500B7C763 /* DAReviewButtonsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943ECCF419EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib */; };
 		941292471A1BEED500B7C763 /* DAUserNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E2520B1A08BAF900D6DCE4 /* DAUserNewsTableViewCell.xib */; };
 		941292481A1BEED500B7C763 /* DACommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */; };
@@ -414,7 +413,6 @@
 		9412933E1A1C7AD100B7C763 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C1F6EE1979A2F600A2D652 /* Social.framework */; };
 		9412933F1A1C7AD100B7C763 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
 		941293401A1C7AD100B7C763 /* libUserVoice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D7CAD21A1499970065229C /* libUserVoice.a */; };
-		941293421A1C7AD100B7C763 /* DADishSuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */; };
 		941293431A1C7AD100B7C763 /* DAReviewButtonsCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943ECCF419EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib */; };
 		941293461A1C7AD100B7C763 /* DAUserNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E2520B1A08BAF900D6DCE4 /* DAUserNewsTableViewCell.xib */; };
 		941293471A1C7AD100B7C763 /* DACommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */; };
@@ -469,6 +467,9 @@
 		942AA01A19C2655A00D0D77C /* UIImageView+DishProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */; };
 		942CC23819BDB21700BDBB75 /* DAReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23719BDB21700BDBB75 /* DAReview.m */; };
 		942CC23B19BDBCCF00BDBB75 /* DAUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23A19BDBCCF00BDBB75 /* DAUsername.m */; };
+		943050301AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
+		943050311AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
+		943050321AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
 		943093F81942633D00B1F61F /* DAErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 943093F71942633D00B1F61F /* DAErrorView.m */; };
 		943093FC1942638200B1F61F /* DAErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943093FB1942638200B1F61F /* DAErrorView.xib */; };
 		9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */; };
@@ -785,7 +786,6 @@
 		94756CD21A32FBC6009B6BD6 /* DACacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94756CD01A32FBC1009B6BD6 /* DACacheManager.m */; };
 		94756CD31A32FBC6009B6BD6 /* DACacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94756CD01A32FBC1009B6BD6 /* DACacheManager.m */; };
 		947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 947A13411975AC62000553EF /* DADishSuggestionsTableView.m */; };
-		947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */; };
 		9486156519FCC306002497D0 /* DADishesMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156419FCC306002497D0 /* DADishesMapViewController.m */; };
 		9486156919FCCE6E002497D0 /* DAMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156819FCCE6E002497D0 /* DAMapAnnotation.m */; };
 		9486156C19FCD97E002497D0 /* DAAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156B19FCD97E002497D0 /* DAAnnotationView.m */; };
@@ -1067,6 +1067,7 @@
 		942CC23719BDB21700BDBB75 /* DAReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReview.m; sourceTree = "<group>"; };
 		942CC23919BDBCCF00BDBB75 /* DAUsername.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUsername.h; sourceTree = "<group>"; };
 		942CC23A19BDBCCF00BDBB75 /* DAUsername.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUsername.m; sourceTree = "<group>"; };
+		9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATableViewCell.swift; sourceTree = "<group>"; };
 		943093F61942633D00B1F61F /* DAErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAErrorView.h; sourceTree = "<group>"; };
 		943093F71942633D00B1F61F /* DAErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAErrorView.m; sourceTree = "<group>"; };
 		943093FB1942638200B1F61F /* DAErrorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAErrorView.xib; sourceTree = "<group>"; };
@@ -1326,7 +1327,6 @@
 		94756CD01A32FBC1009B6BD6 /* DACacheManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACacheManager.m; sourceTree = "<group>"; };
 		947A13401975AC62000553EF /* DADishSuggestionsTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishSuggestionsTableView.h; sourceTree = "<group>"; };
 		947A13411975AC62000553EF /* DADishSuggestionsTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishSuggestionsTableView.m; sourceTree = "<group>"; };
-		947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DADishSuggestionTableViewCell.xib; sourceTree = "<group>"; };
 		9486156319FCC306002497D0 /* DADishesMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishesMapViewController.h; sourceTree = "<group>"; };
 		9486156419FCC306002497D0 /* DADishesMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishesMapViewController.m; sourceTree = "<group>"; };
 		9486156719FCCE6E002497D0 /* DAMapAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAMapAnnotation.h; sourceTree = "<group>"; };
@@ -2661,7 +2661,6 @@
 				947A13401975AC62000553EF /* DADishSuggestionsTableView.h */,
 				947A13411975AC62000553EF /* DADishSuggestionsTableView.m */,
 				94A6FE301A46D83000AB901F /* DADishSuggestionTableViewCell.swift */,
-				947A13431975CE12000553EF /* DADishSuggestionTableViewCell.xib */,
 				94D8D69319EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift */,
 			);
 			name = "Add Review";
@@ -2670,6 +2669,7 @@
 		94FE15E119411F3000FE00EA /* Layout */ = {
 			isa = PBXGroup;
 			children = (
+				9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */,
 				943ECCF019EA2E84009516E8 /* Reviews */,
 				943ECCEE19EA2507009516E8 /* Comments */,
 				9443DEF319CFC7A400F134BA /* News */,
@@ -2846,7 +2846,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				941292431A1BEED500B7C763 /* DADishSuggestionTableViewCell.xib in Resources */,
 				941292441A1BEED500B7C763 /* DAReviewButtonsCollectionViewCell.xib in Resources */,
 				94426BE71A6A75BF00186C35 /* Media.xcassets in Resources */,
 				94426C321A6A75BF00186C35 /* MPCloseBtn@2x.png in Resources */,
@@ -2886,7 +2885,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				941293421A1C7AD100B7C763 /* DADishSuggestionTableViewCell.xib in Resources */,
 				941293431A1C7AD100B7C763 /* DAReviewButtonsCollectionViewCell.xib in Resources */,
 				94426BE81A6A75BF00186C35 /* Media.xcassets in Resources */,
 				94426C331A6A75BF00186C35 /* MPCloseBtn@2x.png in Resources */,
@@ -2927,7 +2925,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				94AAAA5F1A43BF1300863E09 /* REComposeViewController.bundle in Resources */,
-				947A13441975CE12000553EF /* DADishSuggestionTableViewCell.xib in Resources */,
 				943ECCF519EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib in Resources */,
 				943883921A63D512008E2AA3 /* FAQ.html in Resources */,
 				94E2520C1A08BAF900D6DCE4 /* DAUserNewsTableViewCell.xib in Resources */,
@@ -3191,6 +3188,7 @@
 				941291EC1A1BEED500B7C763 /* UIImage+MultiFormat.m in Sources */,
 				941291ED1A1BEED500B7C763 /* UIImageView+HighlightedWebCache.m in Sources */,
 				941291EE1A1BEED500B7C763 /* DAExploreDishResultsViewController.m in Sources */,
+				943050311AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
 				941291EF1A1BEED500B7C763 /* UIView+WebCacheOperation.m in Sources */,
 				94426C441A6A75BF00186C35 /* MPNotification.m in Sources */,
 				941291F01A1BEED500B7C763 /* DADocumentViewController.m in Sources */,
@@ -3476,6 +3474,7 @@
 				941292EB1A1C7AD100B7C763 /* UIImage+MultiFormat.m in Sources */,
 				941292EC1A1C7AD100B7C763 /* UIImageView+HighlightedWebCache.m in Sources */,
 				941292ED1A1C7AD100B7C763 /* DAExploreDishResultsViewController.m in Sources */,
+				943050321AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
 				941292EE1A1C7AD100B7C763 /* UIView+WebCacheOperation.m in Sources */,
 				94426C451A6A75BF00186C35 /* MPNotification.m in Sources */,
 				941292EF1A1C7AD100B7C763 /* DADocumentViewController.m in Sources */,
@@ -3761,6 +3760,7 @@
 				94F2ADA5198C539200450C6F /* UIImage+MultiFormat.m in Sources */,
 				94F2ADA7198C539200450C6F /* UIImageView+HighlightedWebCache.m in Sources */,
 				94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */,
+				943050301AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
 				94F2ADA9198C539200450C6F /* UIView+WebCacheOperation.m in Sources */,
 				94426C431A6A75BF00186C35 /* MPNotification.m in Sources */,
 				94A8CD2119FF145800AA770D /* DADocumentViewController.m in Sources */,
