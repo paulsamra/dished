@@ -14,7 +14,7 @@
 #define kCellIdentifier @"userCell"
 
 
-@interface DAInviteFriendsViewController() <DAUserListTableViewCellDelegate>
+@interface DAInviteFriendsViewController()
 
 @property (strong, nonatomic) NSMutableArray          *registrationData;
 @property (strong, nonatomic) FBLinkShareParams       *facebookShareParams;
@@ -52,8 +52,7 @@
     self.contactsTableView.rowHeight = 44.0;
     self.contactsTableView.estimatedRowHeight = 44.0;
     
-    UINib *searchCellNib = [UINib nibWithNibName:@"DAUserListTableViewCell" bundle:nil];
-    [self.contactsTableView registerNib:searchCellNib forCellReuseIdentifier:kCellIdentifier];
+    [self.contactsTableView registerClass:[DAUserListTableViewCell class] forCellReuseIdentifier:kCellIdentifier];
     
     [self setupFacebook];
     
@@ -236,8 +235,8 @@
         [cell.sideButton setTitleColor:[UIColor followButtonColor] forState:UIControlStateNormal];
     }
     
+    [cell.sideButton addTarget:self action:@selector(inviteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.delegate = self;
     
     return cell;
 }
@@ -247,9 +246,11 @@
     return 44.0;
 }
 
-- (void)sideButtonTappedOnFollowListTableViewCell:(DAUserListTableViewCell *)cell
+- (void)inviteButtonTapped:(UIButton *)inviteButton
 {
-    NSIndexPath *indexPath = [self.contactsTableView indexPathForCell:cell];
+    CGPoint buttonPosition = [inviteButton convertPoint:CGPointZero toView:self.contactsTableView];
+    NSIndexPath *indexPath = [self.contactsTableView indexPathForRowAtPoint:buttonPosition];
+    
     NSMutableDictionary *contact = [self.registrationData[indexPath.row] mutableCopy];
     
     if( [contact[@"invited"] boolValue] )
@@ -257,8 +258,8 @@
         return;
     }
     
-    [cell.sideButton setTitle:@"Invited" forState:UIControlStateNormal];
-    [cell.sideButton setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
+    [inviteButton setTitle:@"Invited" forState:UIControlStateNormal];
+    [inviteButton setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
     
     NSArray *invites = @[ @{ kPhoneKey : contact[kPhoneKey] } ];
     
@@ -269,7 +270,7 @@
     {
         if( shouldRetry )
         {
-            [self sideButtonTappedOnFollowListTableViewCell:cell];
+            [self inviteButtonTapped:inviteButton];
         }
     }];
     

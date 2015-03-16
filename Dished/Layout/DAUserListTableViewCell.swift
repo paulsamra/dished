@@ -8,37 +8,62 @@
 
 import UIKit
 
-
-@objc protocol DAUserListTableViewCellDelegate
-{
-    optional func sideButtonTappedOnFollowListTableViewCell( cell: DAUserListTableViewCell )
-}
-
-
 class DAUserListTableViewCell: UITableViewCell
 {
-    weak var delegate: DAUserListTableViewCellDelegate?
+    var userImageView: UIImageView!
+    var usernameLabel: UILabel!
+    var sideButton: UIButton!
     
-    @IBOutlet weak var userImageView: UIImageView!
-    @IBOutlet weak var usernameLabel: UILabel!
-    @IBOutlet weak var sideButton: UIButton!
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        setupViews()
+    }
     
-    override func awakeFromNib()
-    {
-        super.awakeFromNib()
-                
-        userImageView.layer.cornerRadius = userImageView.frame.size.width / 2;
-        userImageView.layer.masksToBounds = true;
-                
-        self.resetFields()
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupViews()
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupViews()
+    }
+    
+    override init() {
+        super.init()
+        setupViews()
+    }
+    
+    private func setupViews() {
+        userImageView = UIImageView()
+        userImageView.layer.masksToBounds = true
+        let userImageSize = CGSizeMake(27.0, 27.0)
+        userImageView.layer.cornerRadius = userImageSize.width / 2
+        addSubview(userImageView)
+        userImageView.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 15.0)
+        userImageView.autoSetDimensionsToSize(userImageSize)
+        userImageView.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
         
-        sideButton.addTarget( self, action: "followButtonTapped", forControlEvents: UIControlEvents.TouchUpInside )
+        sideButton = UIButton()
+        sideButton.titleLabel?.font = UIFont(name: kHelveticaNeueLightFont, size: 17.0)
+        sideButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right;
+        addSubview(sideButton)
+        sideButton.autoPinEdgeToSuperviewEdge(ALEdge.Right, withInset: 8)
+        sideButton.autoSetDimensionsToSize(CGSizeMake(64, 27))
+        sideButton.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
+        
+        usernameLabel = UILabel()
+        usernameLabel.font = UIFont(name: kHelveticaNeueLightFont, size: 17.0)
+        addSubview(usernameLabel)
+        usernameLabel.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
+        usernameLabel.autoSetDimension(ALDimension.Height, toSize: 21)
+        usernameLabel.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Right, ofView: userImageView, withOffset: 8)
+        usernameLabel.autoPinEdge(ALEdge.Right, toEdge: ALEdge.Left, ofView: sideButton, withOffset: 7, relation: NSLayoutRelation.GreaterThanOrEqual)
     }
     
     override func prepareForReuse()
     {
         super.prepareForReuse()
-        
         self.resetFields()
     }
     
@@ -47,10 +72,5 @@ class DAUserListTableViewCell: UITableViewCell
         userImageView.image = nil
         usernameLabel.text = ""
         sideButton.setTitle( "", forState: UIControlState.Normal )
-    }
-    
-    func followButtonTapped()
-    {
-        delegate?.sideButtonTappedOnFollowListTableViewCell?( self )
     }
 }

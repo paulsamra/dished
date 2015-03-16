@@ -214,7 +214,6 @@
 		9412924C1A1BEED500B7C763 /* DAReviewDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */; };
 		941292521A1BEED500B7C763 /* uv_idea@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAFC1A1499970065229C /* uv_idea@2x.png */; };
 		941292531A1BEED500B7C763 /* JSQMessagesToolbarContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94CB03F319B146AF009010F6 /* JSQMessagesToolbarContentView.xib */; };
-		941292561A1BEED500B7C763 /* DAUserListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 944D1E7619DB853A006F73BF /* DAUserListTableViewCell.xib */; };
 		941292571A1BEED500B7C763 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94CB03D119B0EECA009010F6 /* Images.xcassets */; };
 		941292581A1BEED500B7C763 /* Privacy Policy.html in Resources */ = {isa = PBXBuildFile; fileRef = 94A8CD1B19FF143300AA770D /* Privacy Policy.html */; };
 		941292591A1BEED500B7C763 /* DAMultiNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9414CB2B1A09919100D8B09B /* DAMultiNewsTableViewCell.xib */; };
@@ -423,7 +422,6 @@
 		9412934B1A1C7AD100B7C763 /* DAReviewDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */; };
 		941293511A1C7AD100B7C763 /* uv_idea@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAFC1A1499970065229C /* uv_idea@2x.png */; };
 		941293521A1C7AD100B7C763 /* JSQMessagesToolbarContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94CB03F319B146AF009010F6 /* JSQMessagesToolbarContentView.xib */; };
-		941293551A1C7AD100B7C763 /* DAUserListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 944D1E7619DB853A006F73BF /* DAUserListTableViewCell.xib */; };
 		941293561A1C7AD100B7C763 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94CB03D119B0EECA009010F6 /* Images.xcassets */; };
 		941293571A1C7AD100B7C763 /* Privacy Policy.html in Resources */ = {isa = PBXBuildFile; fileRef = 94A8CD1B19FF143300AA770D /* Privacy Policy.html */; };
 		941293581A1C7AD100B7C763 /* DAMultiNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9414CB2B1A09919100D8B09B /* DAMultiNewsTableViewCell.xib */; };
@@ -752,7 +750,6 @@
 		94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */ = {isa = PBXBuildFile; fileRef = 94479D6419502E2F0071EF6A /* JSONResponseSerializerWithData.m */; };
 		944D1E7319DA9868006F73BF /* DAUserProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 944D1E7219DA9868006F73BF /* DAUserProfileViewController.m */; };
 		944D1E7519DB8514006F73BF /* DAUserListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944D1E7419DB8514006F73BF /* DAUserListTableViewCell.swift */; };
-		944D1E7719DB853A006F73BF /* DAUserListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 944D1E7619DB853A006F73BF /* DAUserListTableViewCell.xib */; };
 		944D1E7A19DB8786006F73BF /* DAUserListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 944D1E7919DB8786006F73BF /* DAUserListViewController.m */; };
 		945269131A0E244500A56B17 /* UIViewController+ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 945269121A0E244500A56B17 /* UIViewController+ShareView.m */; };
 		945A3B6119A52B4A000D76E3 /* DAFeedCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 945A3B6019A52B4A000D76E3 /* DAFeedCollectionViewCell.m */; };
@@ -1295,7 +1292,6 @@
 		944D1E7119DA9868006F73BF /* DAUserProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUserProfileViewController.h; sourceTree = "<group>"; };
 		944D1E7219DA9868006F73BF /* DAUserProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserProfileViewController.m; sourceTree = "<group>"; };
 		944D1E7419DB8514006F73BF /* DAUserListTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAUserListTableViewCell.swift; sourceTree = "<group>"; };
-		944D1E7619DB853A006F73BF /* DAUserListTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAUserListTableViewCell.xib; sourceTree = "<group>"; };
 		944D1E7819DB8786006F73BF /* DAUserListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUserListViewController.h; sourceTree = "<group>"; };
 		944D1E7919DB8786006F73BF /* DAUserListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserListViewController.m; sourceTree = "<group>"; };
 		945269111A0E244500A56B17 /* UIViewController+ShareView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ShareView.h"; sourceTree = "<group>"; };
@@ -2696,7 +2692,6 @@
 				942AA01519C23F8D00D0D77C /* DAProgressView.h */,
 				942AA01619C23F8D00D0D77C /* DAProgressView.m */,
 				944D1E7419DB8514006F73BF /* DAUserListTableViewCell.swift */,
-				944D1E7619DB853A006F73BF /* DAUserListTableViewCell.xib */,
 				94B43AAD19EB6D9500482F52 /* DACollectionView.swift */,
 				94D8D69B19EC8BBE001A9EC3 /* DALinkedTextView.h */,
 				94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */,
@@ -2863,7 +2858,6 @@
 				941292521A1BEED500B7C763 /* uv_idea@2x.png in Resources */,
 				943883971A63D9C6008E2AA3 /* faq_icons.png in Resources */,
 				941292531A1BEED500B7C763 /* JSQMessagesToolbarContentView.xib in Resources */,
-				941292561A1BEED500B7C763 /* DAUserListTableViewCell.xib in Resources */,
 				941292571A1BEED500B7C763 /* Images.xcassets in Resources */,
 				94AAAA601A43BF1300863E09 /* REComposeViewController.bundle in Resources */,
 				941292581A1BEED500B7C763 /* Privacy Policy.html in Resources */,
@@ -2904,7 +2898,6 @@
 				941293511A1C7AD100B7C763 /* uv_idea@2x.png in Resources */,
 				943883981A63D9C6008E2AA3 /* faq_icons.png in Resources */,
 				941293521A1C7AD100B7C763 /* JSQMessagesToolbarContentView.xib in Resources */,
-				941293551A1C7AD100B7C763 /* DAUserListTableViewCell.xib in Resources */,
 				941293561A1C7AD100B7C763 /* Images.xcassets in Resources */,
 				94AAAA611A43BF1300863E09 /* REComposeViewController.bundle in Resources */,
 				941293571A1C7AD100B7C763 /* Privacy Policy.html in Resources */,
@@ -2945,7 +2938,6 @@
 				94D7CB071A1499970065229C /* uv_idea@2x.png in Resources */,
 				94CB040019B146AF009010F6 /* JSQMessagesToolbarContentView.xib in Resources */,
 				943883961A63D9C6008E2AA3 /* faq_icons.png in Resources */,
-				944D1E7719DB853A006F73BF /* DAUserListTableViewCell.xib in Resources */,
 				941293741A1C7B5100B7C763 /* Dished-STAGE-Info.plist in Resources */,
 				94CB03D219B0EECA009010F6 /* Images.xcassets in Resources */,
 				94426C2E1A6A75BF00186C35 /* MPCloseBtn.png in Resources */,
