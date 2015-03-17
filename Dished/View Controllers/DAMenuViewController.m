@@ -144,7 +144,7 @@
 
 - (void)goToInviteFriends
 {
-    DAGetSocialViewController *getSocialVC = [[DAGetSocialViewController alloc] init];
+    DAGetSocialViewController *getSocialVC = [[DAGetSocialViewController alloc] initWithShowSkipButton:NO];
     [self.navigationController pushViewController:getSocialVC animated:YES];
     //[self performSegueWithIdentifier:@"inviteFriends" sender:nil];
 }

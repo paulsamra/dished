@@ -11,11 +11,21 @@ import UIKit
 class DAGetSocialViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
 
     var getSocialView = DAGetSocialView()
+    private var showSkipButton = false
     
     let cellTitles = [
         "Find Friends from Contacts",
         "Active Foodies in your Area"
     ]
+    
+    init(showSkipButton: Bool) {
+        super.init(nibName: nil, bundle: nil)
+        self.showSkipButton = showSkipButton
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,6 +33,12 @@ class DAGetSocialViewController: UIViewController, UITableViewDataSource, UITabl
         navigationItem.title = "Get Social"
         getSocialView.tableView.delegate = self
         getSocialView.tableView.dataSource = self
+        
+        getSocialView.skipButton.hidden = !showSkipButton
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
@@ -52,7 +68,9 @@ class DAGetSocialViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     private func showFindFriends() {
-        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let findFriendsViewController = storyboard.instantiateViewControllerWithIdentifier("inviteFriends") as UIViewController
+        navigationController?.pushViewController(findFriendsViewController, animated: true)
     }
     
     private func showActiveFoodies() {

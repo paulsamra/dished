@@ -36,7 +36,6 @@
     
     self.contactsNotPermitted = NO;
     self.contactsFailure = NO;
-    self.sourcePicker.tintColor = [UIColor dishedColor];
     self.contactsTableView.tableFooterView = [UIView new];
     
     self.contactsPermissionLabel.hidden = YES;
@@ -53,8 +52,6 @@
     self.contactsTableView.estimatedRowHeight = 44.0;
     
     [self.contactsTableView registerClass:[DAUserListTableViewCell class] forCellReuseIdentifier:kCellIdentifier];
-    
-    [self setupFacebook];
     
     self.isLoadingContacts = YES;
     [DAAppDelegate getContactsAddressBookWithCompletion:^( BOOL granted, ABAddressBookRef addressBook, NSError *error )
@@ -76,42 +73,6 @@
         
         self.isLoadingContacts = NO;
     }];
-}
-
-- (void)setupFacebook
-{
-    if( FBSession.activeSession.state != FBSessionStateOpen )
-    {
-        self.isFacebookUser = NO;
-        
-        if( self.sourcePicker.selectedSegmentIndex == 1 )
-        {
-            self.facebookConnectLabel.hidden = NO;
-            [self.spinner stopAnimating];
-        }
-        
-        return;
-    }
-    else
-    {
-        self.isFacebookUser = YES;
-        
-        FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
-        
-        params.link    = [NSURL URLWithString:@"https://developers.facebook.com/docs/ios/share/"];
-        params.name    = @"Dished";
-        params.caption = @"Build great social apps that engage your friends.";
-        params.picture = [NSURL URLWithString:@"http://i.imgur.com/g3Qc1HN.png"];
-        params.linkDescription = @"Send links from your app using the iOS SDK.";
-        
-        self.facebookShareParams = params;
-        
-        if( ![FBDialogs canPresentMessageDialogWithParams:params] )
-        {
-            self.isFacebookUser = NO;
-            self.facebookConnectLabel.text = @"You need to have the Facebook app installed on your phone to be able to invite your friends.";
-        }
-    }
 }
 
 - (NSString *)jsonEncodedStringWithArray:(NSArray *)array
@@ -276,46 +237,6 @@
     
     contact[@"invited"] = @(YES);
     self.registrationData[indexPath.row] = contact;
-}
-
-- (IBAction)sourcePicked
-{
-    [self.spinner stopAnimating];
-    
-    self.contactsFailureLabel.hidden = YES;
-    self.contactsPermissionLabel.hidden = YES;
-    self.facebookConnectLabel.hidden = YES;
-    
-    switch( self.sourcePicker.selectedSegmentIndex )
-    {
-        case 0:
-            if( self.isLoadingContacts )
-            {
-                [self.spinner startAnimating];
-            }
-            else if( self.contactsFailure )
-            {
-                self.contactsFailureLabel.hidden = NO;
-            }
-            else if( self.contactsNotPermitted )
-            {
-                self.contactsPermissionLabel.hidden = NO;
-            }
-            else
-            {
-                self.contactsTableView.hidden = NO;
-            }
-            break;
-            
-        case 1:
-            self.contactsTableView.hidden = YES;
-            
-            if( !self.isFacebookUser )
-            {
-                self.facebookConnectLabel.hidden = NO;
-            }
-            break;
-    }
 }
 
 @end
