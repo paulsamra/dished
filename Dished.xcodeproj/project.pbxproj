@@ -470,6 +470,18 @@
 		943050301AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
 		943050311AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
 		943050321AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
+		943050341AB6E946008DDCB3 /* DADishMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050331AB6E946008DDCB3 /* DADishMapViewController.swift */; };
+		943050351AB6E946008DDCB3 /* DADishMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050331AB6E946008DDCB3 /* DADishMapViewController.swift */; };
+		943050361AB6E946008DDCB3 /* DADishMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050331AB6E946008DDCB3 /* DADishMapViewController.swift */; };
+		943050411AB7FA14008DDCB3 /* DAGetSocialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050401AB7FA14008DDCB3 /* DAGetSocialViewController.swift */; };
+		943050421AB7FA14008DDCB3 /* DAGetSocialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050401AB7FA14008DDCB3 /* DAGetSocialViewController.swift */; };
+		943050431AB7FA14008DDCB3 /* DAGetSocialViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050401AB7FA14008DDCB3 /* DAGetSocialViewController.swift */; };
+		943050461AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050451AB7FA6A008DDCB3 /* DAGetSocialView.swift */; };
+		943050471AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050451AB7FA6A008DDCB3 /* DAGetSocialView.swift */; };
+		943050481AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050451AB7FA6A008DDCB3 /* DAGetSocialView.swift */; };
+		9430504A1AB7FAC8008DDCB3 /* DAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050491AB7FAC8008DDCB3 /* DAView.swift */; };
+		9430504B1AB7FAC8008DDCB3 /* DAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050491AB7FAC8008DDCB3 /* DAView.swift */; };
+		9430504C1AB7FAC8008DDCB3 /* DAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050491AB7FAC8008DDCB3 /* DAView.swift */; };
 		943093F81942633D00B1F61F /* DAErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 943093F71942633D00B1F61F /* DAErrorView.m */; };
 		943093FC1942638200B1F61F /* DAErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943093FB1942638200B1F61F /* DAErrorView.xib */; };
 		9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */; };
@@ -1068,6 +1080,10 @@
 		942CC23919BDBCCF00BDBB75 /* DAUsername.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUsername.h; sourceTree = "<group>"; };
 		942CC23A19BDBCCF00BDBB75 /* DAUsername.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUsername.m; sourceTree = "<group>"; };
 		9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATableViewCell.swift; sourceTree = "<group>"; };
+		943050331AB6E946008DDCB3 /* DADishMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADishMapViewController.swift; sourceTree = "<group>"; };
+		943050401AB7FA14008DDCB3 /* DAGetSocialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAGetSocialViewController.swift; sourceTree = "<group>"; };
+		943050451AB7FA6A008DDCB3 /* DAGetSocialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAGetSocialView.swift; sourceTree = "<group>"; };
+		943050491AB7FAC8008DDCB3 /* DAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAView.swift; sourceTree = "<group>"; };
 		943093F61942633D00B1F61F /* DAErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAErrorView.h; sourceTree = "<group>"; };
 		943093F71942633D00B1F61F /* DAErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAErrorView.m; sourceTree = "<group>"; };
 		943093FB1942638200B1F61F /* DAErrorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAErrorView.xib; sourceTree = "<group>"; };
@@ -1818,6 +1834,15 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
+		943050441AB7FA55008DDCB3 /* Get Social */ = {
+			isa = PBXGroup;
+			children = (
+				943050401AB7FA14008DDCB3 /* DAGetSocialViewController.swift */,
+				943050451AB7FA6A008DDCB3 /* DAGetSocialView.swift */,
+			);
+			name = "Get Social";
+			sourceTree = "<group>";
+		};
 		943320041995ED04000A8E2B /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -2165,6 +2190,7 @@
 				943F90BD1A11E8F6008D07FC /* DAReviewListViewController.m */,
 				943ECCF619EB19E9009516E8 /* DAEditProfileViewController.h */,
 				943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */,
+				943050331AB6E946008DDCB3 /* DADishMapViewController.swift */,
 			);
 			name = "User Profiles";
 			sourceTree = "<group>";
@@ -2226,6 +2252,7 @@
 		9489F64E19CA293800BEF540 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				943050441AB7FA55008DDCB3 /* Get Social */,
 				940537A319F27BC600A02088 /* DAMenuViewController.h */,
 				940537A419F27BC600A02088 /* DAMenuViewController.m */,
 				94A8CD1F19FF145800AA770D /* DADocumentViewController.h */,
@@ -2670,6 +2697,7 @@
 			isa = PBXGroup;
 			children = (
 				9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */,
+				943050491AB7FAC8008DDCB3 /* DAView.swift */,
 				943ECCF019EA2E84009516E8 /* Reviews */,
 				943ECCEE19EA2507009516E8 /* Comments */,
 				9443DEF319CFC7A400F134BA /* News */,
@@ -3153,7 +3181,9 @@
 				941291D61A1BEED500B7C763 /* SDWebImageDecoder.m in Sources */,
 				9488BA051A26E3AC0098FE09 /* DATagSuggestionTableView.m in Sources */,
 				941291D71A1BEED500B7C763 /* DAUserListViewController.m in Sources */,
+				943050421AB7FA14008DDCB3 /* DAGetSocialViewController.swift in Sources */,
 				94426C7A1A6A75BF00186C35 /* MPSwizzler.m in Sources */,
+				9430504B1AB7FAC8008DDCB3 /* DAView.swift in Sources */,
 				941291D81A1BEED500B7C763 /* UIButton+AFNetworking.m in Sources */,
 				941291D91A1BEED500B7C763 /* DANews.m in Sources */,
 				941291DA1A1BEED500B7C763 /* DAGlobalReview.m in Sources */,
@@ -3258,6 +3288,7 @@
 				941292161A1BEED500B7C763 /* DAFeedCollectionViewFlowLayout.m in Sources */,
 				941292171A1BEED500B7C763 /* DASplashViewController.m in Sources */,
 				941292191A1BEED500B7C763 /* DASettingsViewController.m in Sources */,
+				943050471AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */,
 				9412921A1A1BEED500B7C763 /* main.m in Sources */,
 				9412921B1A1BEED500B7C763 /* DAUserNews.m in Sources */,
 				9412921C1A1BEED500B7C763 /* DACommentTableViewCell.swift in Sources */,
@@ -3278,6 +3309,7 @@
 				941292281A1BEED500B7C763 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
 				941292291A1BEED500B7C763 /* DACollectionView.swift in Sources */,
 				94426BEA1A6A75BF00186C35 /* Mixpanel.m in Sources */,
+				943050351AB6E946008DDCB3 /* DADishMapViewController.swift in Sources */,
 				9412922A1A1BEED500B7C763 /* DALocationManager.m in Sources */,
 				9488BA001A26AAC20098FE09 /* DATagManager.m in Sources */,
 				94C18B7D1A74DC3700016D5F /* LELog.m in Sources */,
@@ -3439,7 +3471,9 @@
 				941292D51A1C7AD100B7C763 /* SDWebImageDecoder.m in Sources */,
 				9488BA061A26E3AC0098FE09 /* DATagSuggestionTableView.m in Sources */,
 				941292D61A1C7AD100B7C763 /* DAUserListViewController.m in Sources */,
+				943050431AB7FA14008DDCB3 /* DAGetSocialViewController.swift in Sources */,
 				94426C7B1A6A75BF00186C35 /* MPSwizzler.m in Sources */,
+				9430504C1AB7FAC8008DDCB3 /* DAView.swift in Sources */,
 				941292D71A1C7AD100B7C763 /* UIButton+AFNetworking.m in Sources */,
 				941292D81A1C7AD100B7C763 /* DANews.m in Sources */,
 				941292D91A1C7AD100B7C763 /* DAGlobalReview.m in Sources */,
@@ -3544,6 +3578,7 @@
 				941293151A1C7AD100B7C763 /* DAFeedCollectionViewFlowLayout.m in Sources */,
 				941293161A1C7AD100B7C763 /* DASplashViewController.m in Sources */,
 				941293181A1C7AD100B7C763 /* DASettingsViewController.m in Sources */,
+				943050481AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */,
 				941293191A1C7AD100B7C763 /* main.m in Sources */,
 				9412931A1A1C7AD100B7C763 /* DAUserNews.m in Sources */,
 				9412931B1A1C7AD100B7C763 /* DACommentTableViewCell.swift in Sources */,
@@ -3564,6 +3599,7 @@
 				941293271A1C7AD100B7C763 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
 				941293281A1C7AD100B7C763 /* DACollectionView.swift in Sources */,
 				94426BEB1A6A75BF00186C35 /* Mixpanel.m in Sources */,
+				943050361AB6E946008DDCB3 /* DADishMapViewController.swift in Sources */,
 				941293291A1C7AD100B7C763 /* DALocationManager.m in Sources */,
 				9488BA011A26AAC20098FE09 /* DATagManager.m in Sources */,
 				94C18B7E1A74DC3900016D5F /* LELog.m in Sources */,
@@ -3725,7 +3761,9 @@
 				947A13421975AC62000553EF /* DADishSuggestionsTableView.m in Sources */,
 				9488BA041A26B6B10098FE09 /* DATagSuggestionTableView.m in Sources */,
 				94F2AD9E198C539200450C6F /* SDWebImageDecoder.m in Sources */,
+				943050411AB7FA14008DDCB3 /* DAGetSocialViewController.swift in Sources */,
 				94426C791A6A75BF00186C35 /* MPSwizzler.m in Sources */,
+				9430504A1AB7FAC8008DDCB3 /* DAView.swift in Sources */,
 				944D1E7A19DB8786006F73BF /* DAUserListViewController.m in Sources */,
 				94DCE9BA1980ABB100396C0A /* UIButton+AFNetworking.m in Sources */,
 				9443DF0A19D0EFBC00F134BA /* DANews.m in Sources */,
@@ -3830,6 +3868,7 @@
 				94BC4F1919C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m in Sources */,
 				941538F819401A14008B3B79 /* DASplashViewController.m in Sources */,
 				9401F92E19E496360037812B /* DASettingsViewController.m in Sources */,
+				943050461AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */,
 				941538C5193F270A008B3B79 /* main.m in Sources */,
 				9489F65419CA568400BEF540 /* DAUserNews.m in Sources */,
 				9443DF0419D0295E00F134BA /* DACommentTableViewCell.swift in Sources */,
@@ -3850,6 +3889,7 @@
 				9445C1B7199927B800F3A4F8 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
 				94B43AAE19EB6D9500482F52 /* DACollectionView.swift in Sources */,
 				94426BE91A6A75BF00186C35 /* Mixpanel.m in Sources */,
+				943050341AB6E946008DDCB3 /* DADishMapViewController.swift in Sources */,
 				941F3209196FA838000042AE /* DALocationManager.m in Sources */,
 				9488B9FF1A26A86F0098FE09 /* DATagManager.m in Sources */,
 				94C18B751A74DC2300016D5F /* LELog.m in Sources */,

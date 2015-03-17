@@ -312,7 +312,14 @@ typedef void(^GetFeedDataBlock)();
         }];
     };
     
-    self.feedDataBlock = block;
+    if( ![self.locationManager locationServicesEnabled] )
+    {
+        block();
+    }
+    else
+    {
+        self.feedDataBlock = block;
+    }
 }
 
 - (void)fetchFeedItemsInBackgroundWithLimit:(NSUInteger)limit completion:( void(^)( NSArray *feedItems ) )completion
