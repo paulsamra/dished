@@ -128,7 +128,6 @@
 		941291ED1A1BEED500B7C763 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD95198C539200450C6F /* UIImageView+HighlightedWebCache.m */; };
 		941291EE1A1BEED500B7C763 /* DAExploreDishResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */; };
 		941291EF1A1BEED500B7C763 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD99198C539200450C6F /* UIView+WebCacheOperation.m */; };
-		941291F01A1BEED500B7C763 /* DADocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A8CD2019FF145800AA770D /* DADocumentViewController.m */; };
 		941291F11A1BEED500B7C763 /* SPGooglePlacesAutocompleteQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 9445C1B0199927B800F3A4F8 /* SPGooglePlacesAutocompleteQuery.m */; };
 		941291F21A1BEED500B7C763 /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FF526A197347F200B97A61 /* DARegisterViewController.m */; };
 		941291F31A1BEED500B7C763 /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03C619B0EA94009010F6 /* SWTableViewCell.m */; };
@@ -335,7 +334,6 @@
 		941292EC1A1C7AD100B7C763 /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD95198C539200450C6F /* UIImageView+HighlightedWebCache.m */; };
 		941292ED1A1C7AD100B7C763 /* DAExploreDishResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */; };
 		941292EE1A1C7AD100B7C763 /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD99198C539200450C6F /* UIView+WebCacheOperation.m */; };
-		941292EF1A1C7AD100B7C763 /* DADocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A8CD2019FF145800AA770D /* DADocumentViewController.m */; };
 		941292F01A1C7AD100B7C763 /* SPGooglePlacesAutocompleteQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 9445C1B0199927B800F3A4F8 /* SPGooglePlacesAutocompleteQuery.m */; };
 		941292F11A1C7AD100B7C763 /* DARegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94FF526A197347F200B97A61 /* DARegisterViewController.m */; };
 		941292F21A1C7AD100B7C763 /* SWTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03C619B0EA94009010F6 /* SWTableViewCell.m */; };
@@ -876,7 +874,6 @@
 		94A6FE481A46E4C900AB901F /* NSDate+Dished.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE451A46E4C900AB901F /* NSDate+Dished.swift */; };
 		94A8CD1D19FF143300AA770D /* Privacy Policy.html in Resources */ = {isa = PBXBuildFile; fileRef = 94A8CD1B19FF143300AA770D /* Privacy Policy.html */; };
 		94A8CD1E19FF143300AA770D /* Terms & Conditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 94A8CD1C19FF143300AA770D /* Terms & Conditions.html */; };
-		94A8CD2119FF145800AA770D /* DADocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A8CD2019FF145800AA770D /* DADocumentViewController.m */; };
 		94AAAA351A42EBA000863E09 /* DAShareSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA341A42EBA000863E09 /* DAShareSettingsTableViewController.m */; };
 		94AAAA361A42FB9300863E09 /* DAShareSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA341A42EBA000863E09 /* DAShareSettingsTableViewController.m */; };
 		94AAAA371A42FB9300863E09 /* DAShareSettingsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA341A42EBA000863E09 /* DAShareSettingsTableViewController.m */; };
@@ -1425,8 +1422,6 @@
 		94A6FE451A46E4C900AB901F /* NSDate+Dished.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Dished.swift"; sourceTree = "<group>"; };
 		94A8CD1B19FF143300AA770D /* Privacy Policy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Privacy Policy.html"; sourceTree = "<group>"; };
 		94A8CD1C19FF143300AA770D /* Terms & Conditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Terms & Conditions.html"; sourceTree = "<group>"; };
-		94A8CD1F19FF145800AA770D /* DADocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADocumentViewController.h; sourceTree = "<group>"; };
-		94A8CD2019FF145800AA770D /* DADocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADocumentViewController.m; sourceTree = "<group>"; };
 		94AAAA331A42EBA000863E09 /* DAShareSettingsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAShareSettingsTableViewController.h; sourceTree = "<group>"; };
 		94AAAA341A42EBA000863E09 /* DAShareSettingsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAShareSettingsTableViewController.m; sourceTree = "<group>"; };
 		94AAAA381A42FDBF00863E09 /* DAShareLinkTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAShareLinkTableViewController.h; sourceTree = "<group>"; };
@@ -2273,8 +2268,6 @@
 				943050441AB7FA55008DDCB3 /* Get Social */,
 				940537A319F27BC600A02088 /* DAMenuViewController.h */,
 				940537A419F27BC600A02088 /* DAMenuViewController.m */,
-				94A8CD1F19FF145800AA770D /* DADocumentViewController.h */,
-				94A8CD2019FF145800AA770D /* DADocumentViewController.m */,
 				94AAAA3D1A439DE300863E09 /* DAInviteFriendsViewController.h */,
 				94AAAA3E1A439DE300863E09 /* DAInviteFriendsViewController.m */,
 			);
@@ -3240,7 +3233,6 @@
 				943050311AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
 				941291EF1A1BEED500B7C763 /* UIView+WebCacheOperation.m in Sources */,
 				94426C441A6A75BF00186C35 /* MPNotification.m in Sources */,
-				941291F01A1BEED500B7C763 /* DADocumentViewController.m in Sources */,
 				94426BFC1A6A75BF00186C35 /* MPABTestDesignerConnection.m in Sources */,
 				941291F11A1BEED500B7C763 /* SPGooglePlacesAutocompleteQuery.m in Sources */,
 				94426C2C1A6A75BF00186C35 /* MPClassDescription.m in Sources */,
@@ -3532,7 +3524,6 @@
 				943050321AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
 				941292EE1A1C7AD100B7C763 /* UIView+WebCacheOperation.m in Sources */,
 				94426C451A6A75BF00186C35 /* MPNotification.m in Sources */,
-				941292EF1A1C7AD100B7C763 /* DADocumentViewController.m in Sources */,
 				94426BFD1A6A75BF00186C35 /* MPABTestDesignerConnection.m in Sources */,
 				941292F01A1C7AD100B7C763 /* SPGooglePlacesAutocompleteQuery.m in Sources */,
 				94426C2D1A6A75BF00186C35 /* MPClassDescription.m in Sources */,
@@ -3824,7 +3815,6 @@
 				943050301AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
 				94F2ADA9198C539200450C6F /* UIView+WebCacheOperation.m in Sources */,
 				94426C431A6A75BF00186C35 /* MPNotification.m in Sources */,
-				94A8CD2119FF145800AA770D /* DADocumentViewController.m in Sources */,
 				94426BFB1A6A75BF00186C35 /* MPABTestDesignerConnection.m in Sources */,
 				9445C1B6199927B800F3A4F8 /* SPGooglePlacesAutocompleteQuery.m in Sources */,
 				94426C2B1A6A75BF00186C35 /* MPClassDescription.m in Sources */,
