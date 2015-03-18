@@ -2218,28 +2218,16 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Your account is not connected to Facebook." textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="8" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="lQ2-pB-i7J">
-                                <rect key="frame" x="200" y="307" width="200" height="50"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="50" id="dIC-vu-rkG"/>
-                                    <constraint firstAttribute="width" constant="200" id="t3O-ag-Rw7"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="4pi-G1-KGn" firstAttribute="centerX" secondItem="vfd-fn-ZsM" secondAttribute="centerX" id="7at-Wf-SpX"/>
-                            <constraint firstItem="vfd-fn-ZsM" firstAttribute="centerX" secondItem="lQ2-pB-i7J" secondAttribute="centerX" id="7qH-Rl-tDg"/>
                             <constraint firstAttribute="trailing" secondItem="vfd-fn-ZsM" secondAttribute="trailing" id="DbQ-4u-e5Z"/>
                             <constraint firstItem="vfd-fn-ZsM" firstAttribute="centerY" secondItem="QjY-3g-Tfd" secondAttribute="centerY" id="Ow3-Ed-nPH"/>
                             <constraint firstItem="vfd-fn-ZsM" firstAttribute="leading" secondItem="tLl-5x-BCE" secondAttribute="leading" id="UOx-id-pve"/>
                             <constraint firstItem="vfd-fn-ZsM" firstAttribute="centerX" secondItem="QjY-3g-Tfd" secondAttribute="centerX" id="cmE-J7-oaE"/>
                             <constraint firstItem="hCT-Jo-yOh" firstAttribute="top" secondItem="vfd-fn-ZsM" secondAttribute="bottom" id="kC9-yy-sZu"/>
                             <constraint firstItem="4pi-G1-KGn" firstAttribute="centerY" secondItem="vfd-fn-ZsM" secondAttribute="centerY" id="kjM-lk-fZv"/>
-                            <constraint firstItem="vfd-fn-ZsM" firstAttribute="centerY" secondItem="lQ2-pB-i7J" secondAttribute="centerY" id="oFy-1b-Ysv"/>
                             <constraint firstItem="vfd-fn-ZsM" firstAttribute="top" secondItem="FaY-e7-BZs" secondAttribute="bottom" id="teW-3M-0jQ"/>
                         </constraints>
                     </view>
@@ -2248,7 +2236,6 @@
                         <outlet property="contactsFailureLabel" destination="4pi-G1-KGn" id="IUE-FO-khV"/>
                         <outlet property="contactsPermissionLabel" destination="QjY-3g-Tfd" id="R9G-ZS-yBC"/>
                         <outlet property="contactsTableView" destination="vfd-fn-ZsM" id="fq8-by-4qE"/>
-                        <outlet property="facebookConnectLabel" destination="lQ2-pB-i7J" id="EwZ-17-OmT"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dCP-c0-n1m" userLabel="First Responder" sceneMemberID="firstResponder"/>

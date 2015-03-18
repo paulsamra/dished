@@ -17,11 +17,9 @@
 @interface DAInviteFriendsViewController()
 
 @property (strong, nonatomic) NSMutableArray          *registrationData;
-@property (strong, nonatomic) FBLinkShareParams       *facebookShareParams;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
 @property (nonatomic) BOOL isLoadingContacts;
-@property (nonatomic) BOOL isFacebookUser;
 @property (nonatomic) BOOL contactsFailure;
 @property (nonatomic) BOOL contactsNotPermitted;
 
@@ -40,7 +38,6 @@
     
     self.contactsPermissionLabel.hidden = YES;
     self.contactsFailureLabel.hidden = YES;
-    self.facebookConnectLabel.hidden = YES;
     
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.spinner.center = self.view.center;
