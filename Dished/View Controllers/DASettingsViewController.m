@@ -12,7 +12,6 @@
 #import "DAEditProfileViewController.h"
 #import "DAAppDelegate.h"
 #import "MRProgress.h"
-#import "DADocumentViewController.h"
 
 
 @interface DASettingsViewController() <UIActionSheetDelegate>
@@ -142,16 +141,16 @@
 {
     switch( row )
     {
-        case 0: [self goToDocumentViewWithName:@"Privacy Policy"]; break;
-        case 1: [self goToDocumentViewWithName:@"Terms & Conditions"]; break;
+        case 0: [self goToDocumentViewWithName:kPrivacyPolicy]; break;
+        case 1: [self goToDocumentViewWithName:kTermsAndConditions]; break;
     }
 }
 
 - (void)goToDocumentViewWithName:(NSString *)documentName
 {
-    DADocumentViewController *documentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"document"];
-    documentViewController.documentName = documentName;
-    [self.navigationController pushViewController:documentViewController animated:YES];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:documentName ofType:@"html"];
+    DADocViewController *docVC = [[DADocViewController alloc] initWithFilePath:filePath title:documentName];
+    [self.navigationController pushViewController:docVC animated:YES];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

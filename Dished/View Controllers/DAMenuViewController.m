@@ -12,7 +12,6 @@
 #import "DAContainerViewController.h"
 #import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
-#import "DADocumentViewController.h"
 #import "UserVoice.h"
 
 
@@ -93,53 +92,35 @@
     
     switch( indexPath.row )
     {
-        case 0:
-            [self goToInviteFriends];
-            break;
-            
-        case 1:
-            [self goToSettings];
-            break;
-            
-        case 2:
-            [self goToFAQ];
-            break;
-            
-        case 3:
-            [self showTermsOfUse];
-            break;
-        
-        case 4:
-            [self showPrivacyPolicy];
-            break;
-            
-        case 5:
-            [UserVoice presentUserVoiceContactUsFormForParentViewController:self];
-            break;
+        case 0: [self goToInviteFriends]; break;
+        case 1: [self goToSettings]; break;
+        case 2: [self goToFAQ]; break;
+        case 3: [self showTermsOfUse]; break;
+        case 4: [self showPrivacyPolicy]; break;
+        case 5: [UserVoice presentUserVoiceContactUsFormForParentViewController:self]; break;
     }
 }
              
 - (void)goToFAQ
 {
-    [self goToDocumentViewWithName:@"FAQ" documentURL:nil];
+    [self goToDocumentViewWithName:@"FAQ"];
 }
 
 - (void)showTermsOfUse
 {
-    [self goToDocumentViewWithName:kTermsAndConditions documentURL:nil];
+    [self goToDocumentViewWithName:kTermsAndConditions];
 }
 
 - (void)showPrivacyPolicy
 {
-    [self goToDocumentViewWithName:kPrivacyPolicy documentURL:nil];
+    [self goToDocumentViewWithName:kPrivacyPolicy];
 }
 
-- (void)goToDocumentViewWithName:(NSString *)documentName documentURL:(NSString *)url
+- (void)goToDocumentViewWithName:(NSString *)documentName
 {
-    DADocumentViewController *documentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"document"];
-    documentViewController.documentName = documentName;
-    documentViewController.documentURL = url;
-    [self.navigationController pushViewController:documentViewController animated:YES];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:documentName ofType:@"html"];
+    DADocViewController *docVC = [[DADocViewController alloc] initWithFilePath:filePath title:documentName];
+    [self.navigationController pushViewController:docVC animated:YES];
 }
 
 - (void)goToInviteFriends

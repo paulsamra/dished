@@ -30,11 +30,8 @@ class DAGetSocialViewController: UIViewController, UITableViewDataSource, UITabl
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.title = "Get Social"
         getSocialView.tableView.delegate = self
         getSocialView.tableView.dataSource = self
-        
-        getSocialView.skipButton.hidden = !showSkipButton
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -78,11 +75,15 @@ class DAGetSocialViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     override func loadView() {
-        view = UIView()
-        view.addSubview(getSocialView)
-        getSocialView.autoPinToTopLayoutGuideOfViewController(self, withInset: 0)
-        getSocialView.autoPinToBottomLayoutGuideOfViewController(self, withInset: 0)
-        getSocialView.autoPinEdgeToSuperviewEdge(ALEdge.Left)
-        getSocialView.autoPinEdgeToSuperviewEdge(ALEdge.Right)
+        view = getSocialView
+        
+        if navigationController?.navigationBar != nil {
+            let navigationBarFrame = navigationController!.navigationBar.bounds
+            let tableViewInset = UIApplication.sharedApplication().statusBarFrame.size.height + navigationBarFrame.size.height
+            getSocialView.tableView.contentInset = UIEdgeInsetsMake(tableViewInset, 0, 0, 0)
+        }
+        
+        navigationItem.title = "Get Social"
+        getSocialView.skipButton.hidden = !showSkipButton
     }
 }

@@ -10,7 +10,6 @@
 #import "DAErrorView.h"
 #import "MRProgress.h"
 #import "DAAppDelegate.h"
-#import "DADocumentViewController.h"
 
 
 @interface DARegisterViewController() <DAErrorViewDelegate, UIAlertViewDelegate>
@@ -766,21 +765,20 @@
         }
         else if( [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:kTermsAndConditions] )
         {
-            [self goToDocumentViewWithName:kTermsAndConditions documentURL:nil];
+            [self goToDocumentViewWithName:kTermsAndConditions];
         }
         else if( [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:kPrivacyPolicy] )
         {
-            [self goToDocumentViewWithName:kPrivacyPolicy documentURL:nil];
+            [self goToDocumentViewWithName:kPrivacyPolicy];
         }
     }
 }
 
-- (void)goToDocumentViewWithName:(NSString *)documentName documentURL:(NSString *)url
+- (void)goToDocumentViewWithName:(NSString *)documentName
 {
-    DADocumentViewController *documentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"document"];
-    documentViewController.documentName = documentName;
-    documentViewController.documentURL = url;
-    [self.navigationController pushViewController:documentViewController animated:YES];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:documentName ofType:@"html"];
+    DADocViewController *docVC = [[DADocViewController alloc] initWithFilePath:filePath title:documentName];
+    [self.navigationController pushViewController:docVC animated:YES];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField

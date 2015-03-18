@@ -524,6 +524,12 @@
 		943ECCF819EB19E9009516E8 /* DAEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */; };
 		943ECCFB19EB1AD5009516E8 /* DAUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCFA19EB1AD5009516E8 /* DAUserManager.m */; };
 		943F90BE1A11E8F6008D07FC /* DAReviewListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943F90BD1A11E8F6008D07FC /* DAReviewListViewController.m */; };
+		94424CB01AB9802E00222641 /* DADocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94424CAF1AB9802E00222641 /* DADocViewController.swift */; };
+		94424CB11AB9802E00222641 /* DADocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94424CAF1AB9802E00222641 /* DADocViewController.swift */; };
+		94424CB21AB9802E00222641 /* DADocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94424CAF1AB9802E00222641 /* DADocViewController.swift */; };
+		94424CB41AB9856800222641 /* DADocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94424CB31AB9856800222641 /* DADocumentView.swift */; };
+		94424CB51AB9856800222641 /* DADocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94424CB31AB9856800222641 /* DADocumentView.swift */; };
+		94424CB61AB9856800222641 /* DADocumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94424CB31AB9856800222641 /* DADocumentView.swift */; };
 		94426BE01A6A75BF00186C35 /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 94426B641A6A75BF00186C35 /* _MPTweakBindObserver.m */; };
 		94426BE11A6A75BF00186C35 /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 94426B641A6A75BF00186C35 /* _MPTweakBindObserver.m */; };
 		94426BE21A6A75BF00186C35 /* _MPTweakBindObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 94426B641A6A75BF00186C35 /* _MPTweakBindObserver.m */; };
@@ -1147,6 +1153,8 @@
 		943ECCFA19EB1AD5009516E8 /* DAUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserManager.m; sourceTree = "<group>"; };
 		943F90BC1A11E8F6008D07FC /* DAReviewListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewListViewController.h; sourceTree = "<group>"; };
 		943F90BD1A11E8F6008D07FC /* DAReviewListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewListViewController.m; sourceTree = "<group>"; };
+		94424CAF1AB9802E00222641 /* DADocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADocViewController.swift; sourceTree = "<group>"; };
+		94424CB31AB9856800222641 /* DADocumentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADocumentView.swift; sourceTree = "<group>"; };
 		94426B631A6A75BF00186C35 /* _MPTweakBindObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _MPTweakBindObserver.h; sourceTree = "<group>"; };
 		94426B641A6A75BF00186C35 /* _MPTweakBindObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _MPTweakBindObserver.m; sourceTree = "<group>"; };
 		94426B651A6A75BF00186C35 /* libMPCategoryHelpers.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libMPCategoryHelpers.a; sourceTree = "<group>"; };
@@ -1923,6 +1931,15 @@
 			name = Reviews;
 			sourceTree = "<group>";
 		};
+		94424CAE1AB97FE800222641 /* Document Viewer */ = {
+			isa = PBXGroup;
+			children = (
+				94424CAF1AB9802E00222641 /* DADocViewController.swift */,
+				94424CB31AB9856800222641 /* DADocumentView.swift */,
+			);
+			name = "Document Viewer";
+			sourceTree = "<group>";
+		};
 		94426B621A6A75BF00186C35 /* Mixpanel */ = {
 			isa = PBXGroup;
 			children = (
@@ -2252,6 +2269,7 @@
 		9489F64E19CA293800BEF540 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				94424CAE1AB97FE800222641 /* Document Viewer */,
 				943050441AB7FA55008DDCB3 /* Get Social */,
 				940537A319F27BC600A02088 /* DAMenuViewController.h */,
 				940537A419F27BC600A02088 /* DAMenuViewController.m */,
@@ -3078,6 +3096,7 @@
 				9412918F1A1BEED500B7C763 /* DAAppDelegate.m in Sources */,
 				941291901A1BEED500B7C763 /* DAEditProfileViewController.m in Sources */,
 				941291911A1BEED500B7C763 /* DAMenuViewController.m in Sources */,
+				94424CB11AB9802E00222641 /* DADocViewController.swift in Sources */,
 				94426C351A6A75BF00186C35 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				9403637D1A25E0850068F61D /* DAManagedComment.m in Sources */,
 				94426C051A6A75BF00186C35 /* MPABTestDesignerDisconnectMessage.m in Sources */,
@@ -3291,6 +3310,7 @@
 				943050471AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */,
 				9412921A1A1BEED500B7C763 /* main.m in Sources */,
 				9412921B1A1BEED500B7C763 /* DAUserNews.m in Sources */,
+				94424CB51AB9856800222641 /* DADocumentView.swift in Sources */,
 				9412921C1A1BEED500B7C763 /* DACommentTableViewCell.swift in Sources */,
 				9412921D1A1BEED500B7C763 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				9412921E1A1BEED500B7C763 /* MRBlurView.m in Sources */,
@@ -3368,6 +3388,7 @@
 				9412928E1A1C7AD100B7C763 /* DAAppDelegate.m in Sources */,
 				9412928F1A1C7AD100B7C763 /* DAEditProfileViewController.m in Sources */,
 				941292901A1C7AD100B7C763 /* DAMenuViewController.m in Sources */,
+				94424CB21AB9802E00222641 /* DADocViewController.swift in Sources */,
 				94426C361A6A75BF00186C35 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				9403637E1A25E0850068F61D /* DAManagedComment.m in Sources */,
 				94426C061A6A75BF00186C35 /* MPABTestDesignerDisconnectMessage.m in Sources */,
@@ -3581,6 +3602,7 @@
 				943050481AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */,
 				941293191A1C7AD100B7C763 /* main.m in Sources */,
 				9412931A1A1C7AD100B7C763 /* DAUserNews.m in Sources */,
+				94424CB61AB9856800222641 /* DADocumentView.swift in Sources */,
 				9412931B1A1C7AD100B7C763 /* DACommentTableViewCell.swift in Sources */,
 				9412931C1A1C7AD100B7C763 /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				9412931D1A1C7AD100B7C763 /* MRBlurView.m in Sources */,
@@ -3658,6 +3680,7 @@
 				941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */,
 				943ECCF819EB19E9009516E8 /* DAEditProfileViewController.m in Sources */,
 				940537A519F27BC600A02088 /* DAMenuViewController.m in Sources */,
+				94424CB01AB9802E00222641 /* DADocViewController.swift in Sources */,
 				94426C341A6A75BF00186C35 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
 				9403637C1A25E0850068F61D /* DAManagedComment.m in Sources */,
 				94426C041A6A75BF00186C35 /* MPABTestDesignerDisconnectMessage.m in Sources */,
@@ -3871,6 +3894,7 @@
 				943050461AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */,
 				941538C5193F270A008B3B79 /* main.m in Sources */,
 				9489F65419CA568400BEF540 /* DAUserNews.m in Sources */,
+				94424CB41AB9856800222641 /* DADocumentView.swift in Sources */,
 				9443DF0419D0295E00F134BA /* DACommentTableViewCell.swift in Sources */,
 				94331FFF1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */,
 				948615C519FE1C3D002497D0 /* MRBlurView.m in Sources */,

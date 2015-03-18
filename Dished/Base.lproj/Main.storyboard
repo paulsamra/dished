@@ -4832,39 +4832,6 @@
             </objects>
             <point key="canvasLocation" x="-1783" y="4250"/>
         </scene>
-        <!--Document View Controller-->
-        <scene sceneID="d9R-Nq-BiD">
-            <objects>
-                <viewController storyboardIdentifier="document" id="0VK-pk-UPT" customClass="DADocumentViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="tj5-WZ-Iw2"/>
-                        <viewControllerLayoutGuide type="bottom" id="Jpq-1x-XLZ"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="TVR-V7-3lJ">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5d7-hL-CAy">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </webView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="5d7-hL-CAy" firstAttribute="top" secondItem="TVR-V7-3lJ" secondAttribute="top" id="ALM-kJ-ns4"/>
-                            <constraint firstItem="5d7-hL-CAy" firstAttribute="leading" secondItem="TVR-V7-3lJ" secondAttribute="leading" id="Mdn-8a-mvn"/>
-                            <constraint firstAttribute="bottom" secondItem="5d7-hL-CAy" secondAttribute="bottom" id="PEv-Li-5xs"/>
-                            <constraint firstAttribute="trailing" secondItem="5d7-hL-CAy" secondAttribute="trailing" id="gIC-zz-5rm"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="webView" destination="5d7-hL-CAy" id="Ggn-lH-df8"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="tX7-cS-pRN" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1783" y="5167"/>
-        </scene>
     </scenes>
     <resources>
         <image name="add_place" width="13" height="13"/>
