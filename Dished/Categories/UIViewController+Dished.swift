@@ -116,4 +116,13 @@ extension UIViewController
     {
         return self.storyboard?.instantiateViewControllerWithIdentifier( storyboardID ) as UIViewController
     }
+    
+    func adjustInsetsForScrollView(scrollView: UIScrollView) {
+        if navigationController?.navigationBar != nil {
+            let navigationBarFrame = navigationController!.navigationBar.bounds
+            let tableViewInset = UIApplication.sharedApplication().statusBarFrame.size.height + navigationBarFrame.size.height
+            scrollView.contentInset = UIEdgeInsetsMake(tableViewInset, 0, 0, 0)
+            scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(tableViewInset, 0, 0, 0)
+        }
+    }
 }

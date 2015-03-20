@@ -65,9 +65,6 @@ class DAGetSocialViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     private func showFindFriends() {
-//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-//        let findFriendsViewController = storyboard.instantiateViewControllerWithIdentifier("inviteFriends") as UIViewController
-//        navigationController?.pushViewController(findFriendsViewController, animated: true)
         let findFriendsViewController = DAFindFriendsViewController()
         navigationController?.pushViewController(findFriendsViewController, animated: true)
     }
@@ -79,12 +76,7 @@ class DAGetSocialViewController: UIViewController, UITableViewDataSource, UITabl
     override func loadView() {
         view = getSocialView
         
-        if navigationController?.navigationBar != nil {
-            let navigationBarFrame = navigationController!.navigationBar.bounds
-            let tableViewInset = UIApplication.sharedApplication().statusBarFrame.size.height + navigationBarFrame.size.height
-            getSocialView.tableView.contentInset = UIEdgeInsetsMake(tableViewInset, 0, 0, 0)
-        }
-        
+        adjustInsetsForScrollView(getSocialView.tableView)
         navigationItem.title = "Get Social"
         getSocialView.skipButton.hidden = !showSkipButton
     }

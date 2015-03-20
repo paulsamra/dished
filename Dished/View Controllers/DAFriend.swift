@@ -10,8 +10,7 @@ import UIKit
 
 class DAFriend: NSObject {
     
-    var firstName: String = ""
-    var lastName: String = ""
+    var name: String = ""
     var username: String = ""
     var userID: Int = 0
     var registered: Bool = false

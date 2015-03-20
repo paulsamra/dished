@@ -36,6 +36,8 @@ class DAView: UIView {
     }
     
     func setupViews() {
+        backgroundColor = UIColor.whiteColor()
+        
         spinner.hidesWhenStopped = true
         addSubview(spinner)
         spinner.autoCenterInSuperview()

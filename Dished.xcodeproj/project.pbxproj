@@ -20,6 +20,48 @@
 		940363861A25E2560068F61D /* DAManagedComment+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363831A25E2560068F61D /* DAManagedComment+Utility.m */; };
 		940537A519F27BC600A02088 /* DAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537A419F27BC600A02088 /* DAMenuViewController.m */; };
 		940537AC19F4BA0400A02088 /* DAContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537AB19F4BA0400A02088 /* DAContainerViewController.m */; };
+		9409855D1ABC0B8C009F20FF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409854E1ABC0B8C009F20FF /* Array.swift */; };
+		9409855E1ABC0B8C009F20FF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409854E1ABC0B8C009F20FF /* Array.swift */; };
+		9409855F1ABC0B8C009F20FF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409854E1ABC0B8C009F20FF /* Array.swift */; };
+		940985601ABC0B8C009F20FF /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409854F1ABC0B8C009F20FF /* Bool.swift */; };
+		940985611ABC0B8C009F20FF /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409854F1ABC0B8C009F20FF /* Bool.swift */; };
+		940985621ABC0B8C009F20FF /* Bool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409854F1ABC0B8C009F20FF /* Bool.swift */; };
+		940985631ABC0B8C009F20FF /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985501ABC0B8C009F20FF /* Character.swift */; };
+		940985641ABC0B8C009F20FF /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985501ABC0B8C009F20FF /* Character.swift */; };
+		940985651ABC0B8C009F20FF /* Character.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985501ABC0B8C009F20FF /* Character.swift */; };
+		940985661ABC0B8C009F20FF /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985511ABC0B8C009F20FF /* Dictionary.swift */; };
+		940985671ABC0B8C009F20FF /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985511ABC0B8C009F20FF /* Dictionary.swift */; };
+		940985681ABC0B8C009F20FF /* Dictionary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985511ABC0B8C009F20FF /* Dictionary.swift */; };
+		940985691ABC0B8C009F20FF /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985521ABC0B8C009F20FF /* Double.swift */; };
+		9409856A1ABC0B8C009F20FF /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985521ABC0B8C009F20FF /* Double.swift */; };
+		9409856B1ABC0B8C009F20FF /* Double.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985521ABC0B8C009F20FF /* Double.swift */; };
+		9409856C1ABC0B8C009F20FF /* ExSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985541ABC0B8C009F20FF /* ExSwift.swift */; };
+		9409856D1ABC0B8C009F20FF /* ExSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985541ABC0B8C009F20FF /* ExSwift.swift */; };
+		9409856E1ABC0B8C009F20FF /* ExSwift.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985541ABC0B8C009F20FF /* ExSwift.swift */; };
+		9409856F1ABC0B8C009F20FF /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985551ABC0B8C009F20FF /* Float.swift */; };
+		940985701ABC0B8C009F20FF /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985551ABC0B8C009F20FF /* Float.swift */; };
+		940985711ABC0B8C009F20FF /* Float.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985551ABC0B8C009F20FF /* Float.swift */; };
+		940985721ABC0B8C009F20FF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940985561ABC0B8C009F20FF /* Info.plist */; };
+		940985731ABC0B8C009F20FF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940985561ABC0B8C009F20FF /* Info.plist */; };
+		940985741ABC0B8C009F20FF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 940985561ABC0B8C009F20FF /* Info.plist */; };
+		940985751ABC0B8C009F20FF /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985571ABC0B8C009F20FF /* Int.swift */; };
+		940985761ABC0B8C009F20FF /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985571ABC0B8C009F20FF /* Int.swift */; };
+		940985771ABC0B8C009F20FF /* Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985571ABC0B8C009F20FF /* Int.swift */; };
+		940985781ABC0B8C009F20FF /* NSArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985581ABC0B8C009F20FF /* NSArray.swift */; };
+		940985791ABC0B8C009F20FF /* NSArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985581ABC0B8C009F20FF /* NSArray.swift */; };
+		9409857A1ABC0B8C009F20FF /* NSArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985581ABC0B8C009F20FF /* NSArray.swift */; };
+		9409857B1ABC0B8C009F20FF /* NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985591ABC0B8C009F20FF /* NSDate.swift */; };
+		9409857C1ABC0B8C009F20FF /* NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985591ABC0B8C009F20FF /* NSDate.swift */; };
+		9409857D1ABC0B8C009F20FF /* NSDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940985591ABC0B8C009F20FF /* NSDate.swift */; };
+		9409857E1ABC0B8C009F20FF /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855A1ABC0B8C009F20FF /* Range.swift */; };
+		9409857F1ABC0B8C009F20FF /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855A1ABC0B8C009F20FF /* Range.swift */; };
+		940985801ABC0B8C009F20FF /* Range.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855A1ABC0B8C009F20FF /* Range.swift */; };
+		940985811ABC0B8C009F20FF /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855B1ABC0B8C009F20FF /* Sequence.swift */; };
+		940985821ABC0B8C009F20FF /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855B1ABC0B8C009F20FF /* Sequence.swift */; };
+		940985831ABC0B8C009F20FF /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855B1ABC0B8C009F20FF /* Sequence.swift */; };
+		940985841ABC0B8C009F20FF /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855C1ABC0B8C009F20FF /* String.swift */; };
+		940985851ABC0B8C009F20FF /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855C1ABC0B8C009F20FF /* String.swift */; };
+		940985861ABC0B8C009F20FF /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855C1ABC0B8C009F20FF /* String.swift */; };
 		941291771A1BEED500B7C763 /* STTwitterOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E624B1987362100DF2135 /* STTwitterOAuth.m */; };
 		941291781A1BEED500B7C763 /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
 		941291791A1BEED500B7C763 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF301943472D0021A711 /* AFHTTPRequestOperation.m */; };
@@ -1065,6 +1107,21 @@
 		940537A419F27BC600A02088 /* DAMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAMenuViewController.m; sourceTree = "<group>"; };
 		940537AA19F4BA0400A02088 /* DAContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAContainerViewController.h; sourceTree = "<group>"; };
 		940537AB19F4BA0400A02088 /* DAContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAContainerViewController.m; sourceTree = "<group>"; };
+		9409854E1ABC0B8C009F20FF /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
+		9409854F1ABC0B8C009F20FF /* Bool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bool.swift; sourceTree = "<group>"; };
+		940985501ABC0B8C009F20FF /* Character.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Character.swift; sourceTree = "<group>"; };
+		940985511ABC0B8C009F20FF /* Dictionary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Dictionary.swift; sourceTree = "<group>"; };
+		940985521ABC0B8C009F20FF /* Double.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Double.swift; sourceTree = "<group>"; };
+		940985531ABC0B8C009F20FF /* ExSwift.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExSwift.h; sourceTree = "<group>"; };
+		940985541ABC0B8C009F20FF /* ExSwift.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExSwift.swift; sourceTree = "<group>"; };
+		940985551ABC0B8C009F20FF /* Float.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Float.swift; sourceTree = "<group>"; };
+		940985561ABC0B8C009F20FF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		940985571ABC0B8C009F20FF /* Int.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Int.swift; sourceTree = "<group>"; };
+		940985581ABC0B8C009F20FF /* NSArray.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSArray.swift; sourceTree = "<group>"; };
+		940985591ABC0B8C009F20FF /* NSDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NSDate.swift; sourceTree = "<group>"; };
+		9409855A1ABC0B8C009F20FF /* Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
+		9409855B1ABC0B8C009F20FF /* Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
+		9409855C1ABC0B8C009F20FF /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		941292721A1BEED500B7C763 /* Dished-DEV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dished-DEV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		941292731A1BEED500B7C763 /* Dished-DEV-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Dished-DEV-Info.plist"; path = "/Users/Ryan/Documents/Swipe/Dished/Dished/Dished-DEV-Info.plist"; sourceTree = "<absolute>"; };
 		941293711A1C7AD100B7C763 /* Dished-STAGE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dished-STAGE.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1784,6 +1841,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9409854D1ABC0B8C009F20FF /* ExSwift */ = {
+			isa = PBXGroup;
+			children = (
+				9409854E1ABC0B8C009F20FF /* Array.swift */,
+				9409854F1ABC0B8C009F20FF /* Bool.swift */,
+				940985501ABC0B8C009F20FF /* Character.swift */,
+				940985511ABC0B8C009F20FF /* Dictionary.swift */,
+				940985521ABC0B8C009F20FF /* Double.swift */,
+				940985531ABC0B8C009F20FF /* ExSwift.h */,
+				940985541ABC0B8C009F20FF /* ExSwift.swift */,
+				940985551ABC0B8C009F20FF /* Float.swift */,
+				940985561ABC0B8C009F20FF /* Info.plist */,
+				940985571ABC0B8C009F20FF /* Int.swift */,
+				940985581ABC0B8C009F20FF /* NSArray.swift */,
+				940985591ABC0B8C009F20FF /* NSDate.swift */,
+				9409855A1ABC0B8C009F20FF /* Range.swift */,
+				9409855B1ABC0B8C009F20FF /* Sequence.swift */,
+				9409855C1ABC0B8C009F20FF /* String.swift */,
+			);
+			path = ExSwift;
+			sourceTree = "<group>";
+		};
 		9413A9861AB6CECA00D70B72 /* PureLayout */ = {
 			isa = PBXGroup;
 			children = (
@@ -2322,6 +2401,7 @@
 		948B7F3E1941B05F005494AA /* External */ = {
 			isa = PBXGroup;
 			children = (
+				9409854D1ABC0B8C009F20FF /* ExSwift */,
 				949921501ABB360000A247B0 /* SwiftAddressBook */,
 				9413A9861AB6CECA00D70B72 /* PureLayout */,
 				94C18B641A74DC0400016D5F /* Logentries */,
@@ -2964,6 +3044,7 @@
 				943883931A63D69C008E2AA3 /* FAQ.html in Resources */,
 				941292491A1BEED500B7C763 /* DADishTableViewCell.xib in Resources */,
 				9412924C1A1BEED500B7C763 /* DAReviewDetailCollectionViewCell.xib in Resources */,
+				940985731ABC0B8C009F20FF /* Info.plist in Resources */,
 				941292521A1BEED500B7C763 /* uv_idea@2x.png in Resources */,
 				943883971A63D9C6008E2AA3 /* faq_icons.png in Resources */,
 				941292531A1BEED500B7C763 /* JSQMessagesToolbarContentView.xib in Resources */,
@@ -3003,6 +3084,7 @@
 				943883941A63D69C008E2AA3 /* FAQ.html in Resources */,
 				941293481A1C7AD100B7C763 /* DADishTableViewCell.xib in Resources */,
 				9412934B1A1C7AD100B7C763 /* DAReviewDetailCollectionViewCell.xib in Resources */,
+				940985741ABC0B8C009F20FF /* Info.plist in Resources */,
 				941293511A1C7AD100B7C763 /* uv_idea@2x.png in Resources */,
 				943883981A63D9C6008E2AA3 /* faq_icons.png in Resources */,
 				941293521A1C7AD100B7C763 /* JSQMessagesToolbarContentView.xib in Resources */,
@@ -3044,6 +3126,7 @@
 				94AE445819E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib in Resources */,
 				94D7CB071A1499970065229C /* uv_idea@2x.png in Resources */,
 				94CB040019B146AF009010F6 /* JSQMessagesToolbarContentView.xib in Resources */,
+				940985721ABC0B8C009F20FF /* Info.plist in Resources */,
 				943883961A63D9C6008E2AA3 /* faq_icons.png in Resources */,
 				941293741A1C7B5100B7C763 /* Dished-STAGE-Info.plist in Resources */,
 				94CB03D219B0EECA009010F6 /* Images.xcassets in Resources */,
@@ -3128,7 +3211,9 @@
 				94426C9E1A6A75C000186C35 /* MPWebSocket.m in Sources */,
 				94C18B791A74DC2600016D5F /* LEBackgroundThread.m in Sources */,
 				9412917A1A1BEED500B7C763 /* DAGlobalDishCollectionViewCell.m in Sources */,
+				940985761ABC0B8C009F20FF /* Int.swift in Sources */,
 				9412917B1A1BEED500B7C763 /* DAPhoneNumberViewController.m in Sources */,
+				940985791ABC0B8C009F20FF /* NSArray.swift in Sources */,
 				94426C981A6A75C000186C35 /* MPUITableViewBinding.m in Sources */,
 				94426C891A6A75C000186C35 /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				947482CE1A4FF3D300831978 /* DAContact.m in Sources */,
@@ -3152,6 +3237,7 @@
 				9412918B1A1BEED500B7C763 /* DAUserNewsTableViewCell.swift in Sources */,
 				94917FDF1A5D3ACB009FF117 /* DADishedViewController.m in Sources */,
 				9413A9971AB6CED400D70B72 /* NSLayoutConstraint+PureLayout.m in Sources */,
+				940985821ABC0B8C009F20FF /* Sequence.swift in Sources */,
 				94917FDA1A5D29F8009FF117 /* UIViewController+Error.m in Sources */,
 				9412918D1A1BEED500B7C763 /* SWLongPressGestureRecognizer.m in Sources */,
 				9412918E1A1BEED500B7C763 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
@@ -3178,8 +3264,10 @@
 				9412919A1A1BEED500B7C763 /* SSKeychain.m in Sources */,
 				9412919B1A1BEED500B7C763 /* SPGooglePlacesPlaceDetailQuery.m in Sources */,
 				9474828C1A4C0ECE00831978 /* DADishHeaderCollectionReusableView.swift in Sources */,
+				940985701ABC0B8C009F20FF /* Float.swift in Sources */,
 				9412919D1A1BEED500B7C763 /* DAFacebookLoginViewController.m in Sources */,
 				94426C651A6A75BF00186C35 /* MPPropertyDescription.m in Sources */,
+				9409856A1ABC0B8C009F20FF /* Double.swift in Sources */,
 				9412919E1A1BEED500B7C763 /* AFURLSessionManager.m in Sources */,
 				94426C4A1A6A75BF00186C35 /* MPNotificationViewController.m in Sources */,
 				9412919F1A1BEED500B7C763 /* DAAnnotationView.m in Sources */,
@@ -3203,6 +3291,7 @@
 				9499214E1ABB2E9700A247B0 /* DAFindFriendsController.swift in Sources */,
 				94426C8C1A6A75C000186C35 /* MPUIControlBinding.m in Sources */,
 				94426C081A6A75BF00186C35 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
+				940985671ABC0B8C009F20FF /* Dictionary.swift in Sources */,
 				941291AF1A1BEED500B7C763 /* DAResetPasswordViewController.m in Sources */,
 				94426CA11A6A75C000186C35 /* NSData+MPBase64.m in Sources */,
 				941E6DCE1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */,
@@ -3215,6 +3304,7 @@
 				94426C1A1A6A75BF00186C35 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				941291B21A1BEED500B7C763 /* DAReview.m in Sources */,
 				941291B31A1BEED500B7C763 /* DAReviewFormViewController.m in Sources */,
+				9409855E1ABC0B8C009F20FF /* Array.swift in Sources */,
 				941291B41A1BEED500B7C763 /* DAMultiNewsTableViewCell.swift in Sources */,
 				941291B51A1BEED500B7C763 /* SDWebImageManager.m in Sources */,
 				941291B61A1BEED500B7C763 /* DASingleNewsTableViewCell.swift in Sources */,
@@ -3248,6 +3338,7 @@
 				945B6B651A412FFE00265451 /* DAFeedItem.m in Sources */,
 				941291CA1A1BEED500B7C763 /* SDWebImageCompat.m in Sources */,
 				941291CB1A1BEED500B7C763 /* DAExploreViewController.m in Sources */,
+				940985641ABC0B8C009F20FF /* Character.swift in Sources */,
 				941291CC1A1BEED500B7C763 /* DAProgressView.m in Sources */,
 				94426C6B1A6A75BF00186C35 /* MPSurvey.m in Sources */,
 				941291CD1A1BEED500B7C763 /* DAUsername.m in Sources */,
@@ -3279,6 +3370,7 @@
 				94C18B7F1A74DC3C00016D5F /* LeNetworkStatus.m in Sources */,
 				9442816A1A46FD4600117E0B /* DAFlowLayout.swift in Sources */,
 				941291DC1A1BEED500B7C763 /* DASocialCollectionViewController.m in Sources */,
+				940985611ABC0B8C009F20FF /* Bool.swift in Sources */,
 				941291DD1A1BEED500B7C763 /* MRProgressOverlayView.m in Sources */,
 				94A6FE321A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */,
 				941291DE1A1BEED500B7C763 /* DACurrentLocationViewController.m in Sources */,
@@ -3343,6 +3435,7 @@
 				94426C591A6A75BF00186C35 /* MPObjectSerializer.m in Sources */,
 				941291FF1A1BEED500B7C763 /* SDWebImagePrefetcher.m in Sources */,
 				941292001A1BEED500B7C763 /* STTwitterHTML.m in Sources */,
+				9409856D1ABC0B8C009F20FF /* ExSwift.swift in Sources */,
 				94C18B831A74DC4600016D5F /* LogFiles.m in Sources */,
 				941292011A1BEED500B7C763 /* UIImage+JSQMessages.m in Sources */,
 				941292021A1BEED500B7C763 /* UIViewController+ShareView.m in Sources */,
@@ -3377,6 +3470,7 @@
 				941292151A1BEED500B7C763 /* AFSecurityPolicy.m in Sources */,
 				941292161A1BEED500B7C763 /* DAFeedCollectionViewFlowLayout.m in Sources */,
 				941292171A1BEED500B7C763 /* DASplashViewController.m in Sources */,
+				9409857C1ABC0B8C009F20FF /* NSDate.swift in Sources */,
 				941292191A1BEED500B7C763 /* DASettingsViewController.m in Sources */,
 				943050471AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */,
 				9412921A1A1BEED500B7C763 /* main.m in Sources */,
@@ -3403,11 +3497,13 @@
 				94426BEA1A6A75BF00186C35 /* Mixpanel.m in Sources */,
 				943050351AB6E946008DDCB3 /* DADishMapViewController.swift in Sources */,
 				9412922A1A1BEED500B7C763 /* DALocationManager.m in Sources */,
+				9409857F1ABC0B8C009F20FF /* Range.swift in Sources */,
 				9488BA001A26AAC20098FE09 /* DATagManager.m in Sources */,
 				94C18B7D1A74DC3700016D5F /* LELog.m in Sources */,
 				94426C9B1A6A75C000186C35 /* MPVariant.m in Sources */,
 				94AAAA541A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				9412922B1A1BEED500B7C763 /* NSMutableArray+SWUtilityButtons.m in Sources */,
+				940985851ABC0B8C009F20FF /* String.swift in Sources */,
 				9412922C1A1BEED500B7C763 /* DARestaurantProfile.m in Sources */,
 				94A6FE2E1A46D6DE00AB901F /* DARatingTableViewCell.swift in Sources */,
 				9412922D1A1BEED500B7C763 /* NSData+ImageContentType.m in Sources */,
@@ -3430,7 +3526,9 @@
 				94426C9F1A6A75C000186C35 /* MPWebSocket.m in Sources */,
 				94C18B7A1A74DC2700016D5F /* LEBackgroundThread.m in Sources */,
 				941292791A1C7AD100B7C763 /* DAGlobalDishCollectionViewCell.m in Sources */,
+				940985771ABC0B8C009F20FF /* Int.swift in Sources */,
 				9412927A1A1C7AD100B7C763 /* DAPhoneNumberViewController.m in Sources */,
+				9409857A1ABC0B8C009F20FF /* NSArray.swift in Sources */,
 				94426C991A6A75C000186C35 /* MPUITableViewBinding.m in Sources */,
 				94426C8A1A6A75C000186C35 /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				947482CF1A4FF3D300831978 /* DAContact.m in Sources */,
@@ -3454,6 +3552,7 @@
 				9412928A1A1C7AD100B7C763 /* DAUserNewsTableViewCell.swift in Sources */,
 				94917FE01A5D3ACB009FF117 /* DADishedViewController.m in Sources */,
 				9413A9981AB6CED400D70B72 /* NSLayoutConstraint+PureLayout.m in Sources */,
+				940985831ABC0B8C009F20FF /* Sequence.swift in Sources */,
 				94917FDB1A5D29F8009FF117 /* UIViewController+Error.m in Sources */,
 				9412928C1A1C7AD100B7C763 /* SWLongPressGestureRecognizer.m in Sources */,
 				9412928D1A1C7AD100B7C763 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
@@ -3480,8 +3579,10 @@
 				941292991A1C7AD100B7C763 /* SSKeychain.m in Sources */,
 				9412929A1A1C7AD100B7C763 /* SPGooglePlacesPlaceDetailQuery.m in Sources */,
 				9474828D1A4C0ECE00831978 /* DADishHeaderCollectionReusableView.swift in Sources */,
+				940985711ABC0B8C009F20FF /* Float.swift in Sources */,
 				9412929C1A1C7AD100B7C763 /* DAFacebookLoginViewController.m in Sources */,
 				94426C661A6A75BF00186C35 /* MPPropertyDescription.m in Sources */,
+				9409856B1ABC0B8C009F20FF /* Double.swift in Sources */,
 				9412929D1A1C7AD100B7C763 /* AFURLSessionManager.m in Sources */,
 				94426C4B1A6A75BF00186C35 /* MPNotificationViewController.m in Sources */,
 				9412929E1A1C7AD100B7C763 /* DAAnnotationView.m in Sources */,
@@ -3505,6 +3606,7 @@
 				9499214F1ABB2E9700A247B0 /* DAFindFriendsController.swift in Sources */,
 				94426C8D1A6A75C000186C35 /* MPUIControlBinding.m in Sources */,
 				94426C091A6A75BF00186C35 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
+				940985681ABC0B8C009F20FF /* Dictionary.swift in Sources */,
 				941292AE1A1C7AD100B7C763 /* DAResetPasswordViewController.m in Sources */,
 				94426CA21A6A75C000186C35 /* NSData+MPBase64.m in Sources */,
 				941E6DCF1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */,
@@ -3517,6 +3619,7 @@
 				94426C1B1A6A75BF00186C35 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				941292B11A1C7AD100B7C763 /* DAReview.m in Sources */,
 				941292B21A1C7AD100B7C763 /* DAReviewFormViewController.m in Sources */,
+				9409855F1ABC0B8C009F20FF /* Array.swift in Sources */,
 				941292B31A1C7AD100B7C763 /* DAMultiNewsTableViewCell.swift in Sources */,
 				941292B41A1C7AD100B7C763 /* SDWebImageManager.m in Sources */,
 				941292B51A1C7AD100B7C763 /* DASingleNewsTableViewCell.swift in Sources */,
@@ -3550,6 +3653,7 @@
 				945B6B661A412FFE00265451 /* DAFeedItem.m in Sources */,
 				941292C91A1C7AD100B7C763 /* SDWebImageCompat.m in Sources */,
 				941292CA1A1C7AD100B7C763 /* DAExploreViewController.m in Sources */,
+				940985651ABC0B8C009F20FF /* Character.swift in Sources */,
 				941292CB1A1C7AD100B7C763 /* DAProgressView.m in Sources */,
 				94426C6C1A6A75BF00186C35 /* MPSurvey.m in Sources */,
 				941292CC1A1C7AD100B7C763 /* DAUsername.m in Sources */,
@@ -3581,6 +3685,7 @@
 				94C18B801A74DC3D00016D5F /* LeNetworkStatus.m in Sources */,
 				9442816B1A46FD4600117E0B /* DAFlowLayout.swift in Sources */,
 				941292DB1A1C7AD100B7C763 /* DASocialCollectionViewController.m in Sources */,
+				940985621ABC0B8C009F20FF /* Bool.swift in Sources */,
 				941292DC1A1C7AD100B7C763 /* MRProgressOverlayView.m in Sources */,
 				94A6FE331A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */,
 				941292DD1A1C7AD100B7C763 /* DACurrentLocationViewController.m in Sources */,
@@ -3645,6 +3750,7 @@
 				94426C5A1A6A75BF00186C35 /* MPObjectSerializer.m in Sources */,
 				941292FE1A1C7AD100B7C763 /* SDWebImagePrefetcher.m in Sources */,
 				941292FF1A1C7AD100B7C763 /* STTwitterHTML.m in Sources */,
+				9409856E1ABC0B8C009F20FF /* ExSwift.swift in Sources */,
 				94C18B841A74DC4700016D5F /* LogFiles.m in Sources */,
 				941293001A1C7AD100B7C763 /* UIImage+JSQMessages.m in Sources */,
 				941293011A1C7AD100B7C763 /* UIViewController+ShareView.m in Sources */,
@@ -3679,6 +3785,7 @@
 				941293141A1C7AD100B7C763 /* AFSecurityPolicy.m in Sources */,
 				941293151A1C7AD100B7C763 /* DAFeedCollectionViewFlowLayout.m in Sources */,
 				941293161A1C7AD100B7C763 /* DASplashViewController.m in Sources */,
+				9409857D1ABC0B8C009F20FF /* NSDate.swift in Sources */,
 				941293181A1C7AD100B7C763 /* DASettingsViewController.m in Sources */,
 				943050481AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */,
 				941293191A1C7AD100B7C763 /* main.m in Sources */,
@@ -3705,11 +3812,13 @@
 				94426BEB1A6A75BF00186C35 /* Mixpanel.m in Sources */,
 				943050361AB6E946008DDCB3 /* DADishMapViewController.swift in Sources */,
 				941293291A1C7AD100B7C763 /* DALocationManager.m in Sources */,
+				940985801ABC0B8C009F20FF /* Range.swift in Sources */,
 				9488BA011A26AAC20098FE09 /* DATagManager.m in Sources */,
 				94C18B7E1A74DC3900016D5F /* LELog.m in Sources */,
 				94426C9C1A6A75C000186C35 /* MPVariant.m in Sources */,
 				94AAAA551A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				9412932A1A1C7AD100B7C763 /* NSMutableArray+SWUtilityButtons.m in Sources */,
+				940985861ABC0B8C009F20FF /* String.swift in Sources */,
 				9412932B1A1C7AD100B7C763 /* DARestaurantProfile.m in Sources */,
 				94A6FE2F1A46D6DE00AB901F /* DARatingTableViewCell.swift in Sources */,
 				9412932C1A1C7AD100B7C763 /* NSData+ImageContentType.m in Sources */,
@@ -3732,7 +3841,9 @@
 				94426C9D1A6A75C000186C35 /* MPWebSocket.m in Sources */,
 				94C18B731A74DC2300016D5F /* LEBackgroundThread.m in Sources */,
 				942AA00E19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m in Sources */,
+				940985751ABC0B8C009F20FF /* Int.swift in Sources */,
 				94237E5E194A2CF6004DFAB6 /* DAPhoneNumberViewController.m in Sources */,
+				940985781ABC0B8C009F20FF /* NSArray.swift in Sources */,
 				94426C971A6A75C000186C35 /* MPUITableViewBinding.m in Sources */,
 				94426C881A6A75C000186C35 /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				947482CD1A4FF3D300831978 /* DAContact.m in Sources */,
@@ -3756,6 +3867,7 @@
 				94E2520A1A08BAA900D6DCE4 /* DAUserNewsTableViewCell.swift in Sources */,
 				94917FDE1A5D3ACB009FF117 /* DADishedViewController.m in Sources */,
 				9413A9921AB6CECA00D70B72 /* NSLayoutConstraint+PureLayout.m in Sources */,
+				940985811ABC0B8C009F20FF /* Sequence.swift in Sources */,
 				94917FD91A5D29F8009FF117 /* UIViewController+Error.m in Sources */,
 				94CB03CD19B0EA94009010F6 /* SWLongPressGestureRecognizer.m in Sources */,
 				94CB03CF19B0EA94009010F6 /* SWUtilityButtonTapGestureRecognizer.m in Sources */,
@@ -3782,8 +3894,10 @@
 				943E62671987705B00DF2135 /* DATwitterManager.m in Sources */,
 				94E5EF7E1943FD760021A711 /* SSKeychain.m in Sources */,
 				9474828B1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift in Sources */,
+				9409856F1ABC0B8C009F20FF /* Float.swift in Sources */,
 				9445C1B8199927B800F3A4F8 /* SPGooglePlacesPlaceDetailQuery.m in Sources */,
 				94426C641A6A75BF00186C35 /* MPPropertyDescription.m in Sources */,
+				940985691ABC0B8C009F20FF /* Double.swift in Sources */,
 				94449EDF19481A54008B8881 /* DAFacebookLoginViewController.m in Sources */,
 				94426C491A6A75BF00186C35 /* MPNotificationViewController.m in Sources */,
 				94E5EF4A1943472D0021A711 /* AFURLSessionManager.m in Sources */,
@@ -3807,6 +3921,7 @@
 				9499214D1ABB2E9700A247B0 /* DAFindFriendsController.swift in Sources */,
 				94426C8B1A6A75C000186C35 /* MPUIControlBinding.m in Sources */,
 				94426C071A6A75BF00186C35 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
+				940985661ABC0B8C009F20FF /* Dictionary.swift in Sources */,
 				943093F81942633D00B1F61F /* DAErrorView.m in Sources */,
 				94426CA01A6A75C000186C35 /* NSData+MPBase64.m in Sources */,
 				941E6DCD1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */,
@@ -3819,6 +3934,7 @@
 				94426C191A6A75BF00186C35 /* MPCATransform3DToNSDictionaryValueTransformer.m in Sources */,
 				943E62581987362100DF2135 /* NSDateFormatter+STTwitter.m in Sources */,
 				942CC23819BDB21700BDBB75 /* DAReview.m in Sources */,
+				9409855D1ABC0B8C009F20FF /* Array.swift in Sources */,
 				D17487C9196DE8BC00D83993 /* DAReviewFormViewController.m in Sources */,
 				9414CB2A1A0990FE00D8B09B /* DAMultiNewsTableViewCell.swift in Sources */,
 				94F2ADA1198C539200450C6F /* SDWebImageManager.m in Sources */,
@@ -3852,6 +3968,7 @@
 				945B6B641A412FF700265451 /* DAFeedItem.m in Sources */,
 				9443DEFE19D0224300F134BA /* DAReplaceSegue.swift in Sources */,
 				94F2AD9D198C539200450C6F /* SDWebImageCompat.m in Sources */,
+				940985631ABC0B8C009F20FF /* Character.swift in Sources */,
 				944689A0195FFA6500FAE288 /* DAExploreViewController.m in Sources */,
 				94426C6A1A6A75BF00186C35 /* MPSurvey.m in Sources */,
 				942AA01719C23F8D00D0D77C /* DAProgressView.m in Sources */,
@@ -3883,6 +4000,7 @@
 				94C18B761A74DC2300016D5F /* LeNetworkStatus.m in Sources */,
 				944281691A46FD4600117E0B /* DAFlowLayout.swift in Sources */,
 				D17487CB196DE8BC00D83993 /* DAReviewLocationViewController.m in Sources */,
+				940985601ABC0B8C009F20FF /* Bool.swift in Sources */,
 				D170CA671992B7C4006D9DCB /* DASocialCollectionViewController.m in Sources */,
 				94A6FE311A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */,
 				948615CB19FE1C3D002497D0 /* MRProgressOverlayView.m in Sources */,
@@ -3947,6 +4065,7 @@
 				94426C581A6A75BF00186C35 /* MPObjectSerializer.m in Sources */,
 				94F2ADA2198C539200450C6F /* SDWebImagePrefetcher.m in Sources */,
 				943E625E1987362100DF2135 /* STTwitterHTML.m in Sources */,
+				9409856C1ABC0B8C009F20FF /* ExSwift.swift in Sources */,
 				94C18B781A74DC2300016D5F /* LogFiles.m in Sources */,
 				94CB040319B146AF009010F6 /* UIImage+JSQMessages.m in Sources */,
 				945269131A0E244500A56B17 /* UIViewController+ShareView.m in Sources */,
@@ -3981,6 +4100,7 @@
 				94E5EF461943472D0021A711 /* AFSecurityPolicy.m in Sources */,
 				94BC4F1919C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m in Sources */,
 				941538F819401A14008B3B79 /* DASplashViewController.m in Sources */,
+				9409857B1ABC0B8C009F20FF /* NSDate.swift in Sources */,
 				9401F92E19E496360037812B /* DASettingsViewController.m in Sources */,
 				943050461AB7FA6B008DDCB3 /* DAGetSocialView.swift in Sources */,
 				941538C5193F270A008B3B79 /* main.m in Sources */,
@@ -4007,11 +4127,13 @@
 				94426BE91A6A75BF00186C35 /* Mixpanel.m in Sources */,
 				943050341AB6E946008DDCB3 /* DADishMapViewController.swift in Sources */,
 				941F3209196FA838000042AE /* DALocationManager.m in Sources */,
+				9409857E1ABC0B8C009F20FF /* Range.swift in Sources */,
 				9488B9FF1A26A86F0098FE09 /* DATagManager.m in Sources */,
 				94C18B751A74DC2300016D5F /* LELog.m in Sources */,
 				94426C9A1A6A75C000186C35 /* MPVariant.m in Sources */,
 				94AAAA531A43BF1300863E09 /* DEComposeTextView.m in Sources */,
 				94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */,
+				940985841ABC0B8C009F20FF /* String.swift in Sources */,
 				9473FACF19E63235003A1D1B /* DARestaurantProfile.m in Sources */,
 				94A6FE2D1A46D6DE00AB901F /* DARatingTableViewCell.swift in Sources */,
 				94F2AD9B198C539200450C6F /* NSData+ImageContentType.m in Sources */,
