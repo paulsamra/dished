@@ -65,8 +65,10 @@ class DAGetSocialViewController: UIViewController, UITableViewDataSource, UITabl
     }
     
     private func showFindFriends() {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let findFriendsViewController = storyboard.instantiateViewControllerWithIdentifier("inviteFriends") as UIViewController
+//        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//        let findFriendsViewController = storyboard.instantiateViewControllerWithIdentifier("inviteFriends") as UIViewController
+//        navigationController?.pushViewController(findFriendsViewController, animated: true)
+        let findFriendsViewController = DAFindFriendsViewController()
         navigationController?.pushViewController(findFriendsViewController, animated: true)
     }
     

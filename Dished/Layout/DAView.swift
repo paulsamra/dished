@@ -9,6 +9,8 @@
 import UIKit
 
 class DAView: UIView {
+    
+    var spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
 
     override init() {
         super.init()
@@ -25,7 +27,18 @@ class DAView: UIView {
         setupViews()
     }
     
-    func setupViews() {
+    func showSpinner() {
+        spinner.startAnimating()
+    }
     
+    func hideSpinner() {
+        spinner.stopAnimating()
+    }
+    
+    func setupViews() {
+        spinner.hidesWhenStopped = true
+        addSubview(spinner)
+        spinner.autoCenterInSuperview()
+        spinner.autoSetDimensionsToSize(spinner.bounds.size)
     }
 }
