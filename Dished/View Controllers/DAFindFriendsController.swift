@@ -9,39 +9,53 @@
 import UIKit
 import AddressBook
 
-class DAFindFriendsController: NSObject {
+class DAFindFriendsController {
     
     var friends = [DAFriend]()
-    
+    var registerDataTask: NSURLSessionTask? = nil
+
     func getFriends(completion: (Bool) -> ()) {
-        friends.removeAll(keepCapacity: false)
-        
         swiftAddressBook?.requestAccessWithCompletion {
             granted, error in
-            
-            if !granted {
-                completion(false)
-                return
-            }
-            
+
             let mobileContacts = self.mobileContactsWithContacts(swiftAddressBook?.allPeople)
             self.getRegisterStatusForContacts(mobileContacts, completion: {
-                success in
-                completion(success)
+                friends in
+                
+                if friends == nil {
+                    completion(false)
+                    return
+                }
+                
+                self.friends = friends!
+                self.friends.sort() {
+                    $0.name < $1.name
+                }
+                
+                completion(true)
             })
         }
     }
     
-    func getRegisterStatusForContacts(contacts: [[String:String]], completion: (Bool) -> ()) {
+    private func getRegisterStatusForContacts(contacts: [[String:String]], completion: ([DAFriend]?) -> ()) {
         let options = NSJSONWritingOptions.PrettyPrinted
-        if let jsonData = NSJSONSerialization.dataWithJSONObject(contacts, options: options, error: nil) {
-            let jsonString = NSString(data: jsonData, encoding: NSUTF8StringEncoding) as String
+        let jsonData = NSJSONSerialization.dataWithJSONObject(contacts, options: options, error: nil)
+        
+        if jsonData != nil {
+            registerDataTask?.cancel()
+
+            let jsonString = NSString(data: jsonData!, encoding: NSUTF8StringEncoding) as String
             
+            let apiManager = DAAPIManager.sharedManager()
+            let url = kUserContactsRegisteredURL
             let parameters = [kContactsKey: jsonString]
-            DAAPIManager.sharedManager().POSTRequest(kUserContactsRegisteredURL, withParameters: parameters, success: {
+            
+            registerDataTask = apiManager.POSTRequest(url, withParameters: parameters, success: {
                 response in
                 
                 let results = response.objectForKey(kDataKey) as [NSDictionary]
+                var friends = [DAFriend]()
+                
                 for contact in results {
                     let friend = DAFriend()
                     friend.name = contact[kNameKey] as String
@@ -55,35 +69,48 @@ class DAFindFriendsController: NSObject {
                         friend.invited = contact["invited"] as Bool
                     }
                     
-                    self.friends.append(friend)
+                    friends.append(friend)
                 }
                 
-                completion(true)
+                completion(friends)
             },
             failure: {
                 error, retry in
                 println(error)
-                completion(false)
+                completion(nil)
             })
+        }
+        else {
+            completion(nil)
         }
     }
     
     private func mobileContactsWithContacts(contacts: [SwiftAddressBookPerson]?) -> [[String:String]] {
-        var mobileContacts = [Dictionary<String,String>]()
+        var mobileContacts = [[String:String]]()
+        
+        var unifiedContacts = NSMutableSet()
         
         if let people = swiftAddressBook?.allPeople {
             for person in people {
-                if let numbers = person.phoneNumbers {
-                    for number in numbers {
-                        let options = NSStringCompareOptions.CaseInsensitiveSearch
-                        if number.label?.rangeOfString("Mobile", options: options, range: nil, locale: nil) != nil {
-                            mobileContacts.append(processContact(person, phoneNumber: number.value as String))
-                            break
-                        }
-                        else if number.label?.rangeOfString("iPhone", options: options, range: nil, locale: nil) != nil {
-                            mobileContacts.append(processContact(person, phoneNumber: number.value as String))
-                            break
-                        }
+                var set = NSMutableSet()
+                set.addObject(person.internalRecord)
+                
+                let linked = person.allLinkedPeople ?? [SwiftAddressBookPerson]()
+                
+                for link in linked {
+                    set.addObject(link.internalRecord)
+                }
+                
+                unifiedContacts.addObject(set)
+            }
+        }
+        
+        for person in unifiedContacts {
+            for record: ABRecord in person as NSSet {
+                if let abPerson = SwiftAddressBookRecord(record: record).convertToPerson() {
+                    if let contact = contactForPerson(abPerson) {
+                        mobileContacts.append(contact)
+                        break
                     }
                 }
             }
@@ -92,7 +119,28 @@ class DAFindFriendsController: NSObject {
         return mobileContacts
     }
     
-    func processContact(person: SwiftAddressBookPerson, phoneNumber: String) -> [String:String] {
+    private func contactForPerson(person: SwiftAddressBookPerson) -> [String:String]? {
+        var contact: [String:String]?
+        
+        if person.phoneNumbers == nil {
+            return nil
+        }
+        
+        for number in person.phoneNumbers! {
+            let options = NSStringCompareOptions.CaseInsensitiveSearch
+            let label = number.label ?? ""
+            let iphone = label.rangeOfString("iphone", options: options, range: nil, locale: nil)
+            let mobile = label.rangeOfString("mobile", options: options, range: nil, locale: nil)
+            
+            if mobile != nil || iphone != nil {
+                contact = processContact(person, phoneNumber: number.value as String)
+            }
+        }
+        
+        return contact
+    }
+    
+    private func processContact(person: SwiftAddressBookPerson, phoneNumber: String) -> [String:String] {
         let name = person.compositeName as String?
         let email = person.emails?[0].value as String?
         var number = phoneNumber

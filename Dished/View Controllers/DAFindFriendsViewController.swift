@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MessageUI
 
 class DAFindFriendsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
@@ -22,7 +23,12 @@ class DAFindFriendsViewController: UIViewController, UITableViewDelegate, UITabl
         findFriendsView.tableView.delegate = self
         findFriendsView.tableView.dataSource = self
         
+        loadContacts()
+    }
+    
+    private func loadContacts() {
         findFriendsView.showSpinner()
+        
         friendsController.getFriends({
             success in
             
@@ -39,7 +45,7 @@ class DAFindFriendsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friendsController.friends.count
+        return friendsController.friends.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -49,6 +55,7 @@ class DAFindFriendsViewController: UIViewController, UITableViewDelegate, UITabl
         
         cell.textLabel?.font = UIFont(name: kHelveticaNeueLightFont, size: 17.0)
         cell.textLabel?.text = friend.name
+        cell.sideButton.addTarget(self, action: "sideButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
         
         if friend.registered {
             cell.sideButton.setTitle("Unfollow", forState: UIControlState.Normal)
@@ -66,6 +73,32 @@ class DAFindFriendsViewController: UIViewController, UITableViewDelegate, UITabl
         cell.selectionStyle = UITableViewCellSelectionStyle.None
         
         return cell
+    }
+    
+    func sideButtonPressed(button: UIButton) {
+        let tableView = findFriendsView.tableView
+        var buttonPosition: CGPoint = button.convertPoint(CGPointZero, toView: tableView)
+        var indexPath: NSIndexPath = tableView.indexPathForRowAtPoint(buttonPosition)!
+        let friend = friendsController.friends[indexPath.row]
+        
+        if friend.registered {
+            
+        }
+        else if friend.invited {
+            
+        }
+        else {
+            showMessageControllerForFriend(friend)
+        }
+    }
+    
+    func showMessageControllerForFriend(friend: DAFriend) {
+        let recipients = [friend.phoneNumber]
+        
+        let messageController = MFMessageComposeViewController()
+        messageController.recipients = recipients
+        
+        presentViewController(messageController, animated: true, completion: nil)
     }
     
     override func loadView() {
