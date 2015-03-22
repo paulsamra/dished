@@ -1000,9 +1000,9 @@
 		94C97EFB1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */; };
 		94C97EFC1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */; };
 		94C97EFD1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */; };
-		94C97EFF1ABE53E20066C808 /* DAErrorView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView2.swift */; };
-		94C97F001ABE53E20066C808 /* DAErrorView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView2.swift */; };
-		94C97F011ABE53E20066C808 /* DAErrorView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView2.swift */; };
+		94C97EFF1ABE53E20066C808 /* DAErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView.swift */; };
+		94C97F001ABE53E20066C808 /* DAErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView.swift */; };
+		94C97F011ABE53E20066C808 /* DAErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView.swift */; };
 		94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
 		94CB03B019AFD334009010F6 /* DAComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AF19AFD334009010F6 /* DAComment.m */; };
 		94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03C019B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m */; };
@@ -1563,7 +1563,7 @@
 		94C18B711A74DC2300016D5F /* LogFiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogFiles.h; sourceTree = "<group>"; };
 		94C18B721A74DC2300016D5F /* LogFiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogFiles.m; sourceTree = "<group>"; };
 		94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFoodieTableViewCell.swift; sourceTree = "<group>"; };
-		94C97EFE1ABE53E20066C808 /* DAErrorView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAErrorView2.swift; sourceTree = "<group>"; };
+		94C97EFE1ABE53E20066C808 /* DAErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAErrorView.swift; sourceTree = "<group>"; };
 		94CB03AB19AFA734009010F6 /* DACommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACommentsViewController.h; sourceTree = "<group>"; };
 		94CB03AC19AFA734009010F6 /* DACommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACommentsViewController.m; sourceTree = "<group>"; };
 		94CB03AE19AFD334009010F6 /* DAComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAComment.h; sourceTree = "<group>"; };
@@ -2868,7 +2868,7 @@
 				94FD7B4619C818CF008D60CA /* Explore */,
 				9443DEFB19D020F500F134BA /* DATouchTableView.swift */,
 				9443DEFF19D0236200F134BA /* DADatePickerTableViewCell.swift */,
-				94C97EFE1ABE53E20066C808 /* DAErrorView2.swift */,
+				94C97EFE1ABE53E20066C808 /* DAErrorView.swift */,
 				9443DEFD19D0224300F134BA /* DAReplaceSegue.swift */,
 				94A6FE3C1A46E06D00AB901F /* DASocialCollectionViewCell.swift */,
 				D13DB8F31988B221008C86BB /* DADishTableViewCell.h */,
@@ -3460,7 +3460,7 @@
 				94A6FE431A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921651ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
 				941292121A1BEED500B7C763 /* SSKeychainQuery.m in Sources */,
-				94C97F001ABE53E20066C808 /* DAErrorView2.swift in Sources */,
+				94C97F001ABE53E20066C808 /* DAErrorView.swift in Sources */,
 				941292131A1BEED500B7C763 /* MRMessageInterceptor.m in Sources */,
 				941292141A1BEED500B7C763 /* DANewsViewController.m in Sources */,
 				941292151A1BEED500B7C763 /* AFSecurityPolicy.m in Sources */,
@@ -3776,7 +3776,7 @@
 				94A6FE441A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921661ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
 				941293111A1C7AD100B7C763 /* SSKeychainQuery.m in Sources */,
-				94C97F011ABE53E20066C808 /* DAErrorView2.swift in Sources */,
+				94C97F011ABE53E20066C808 /* DAErrorView.swift in Sources */,
 				941293121A1C7AD100B7C763 /* MRMessageInterceptor.m in Sources */,
 				941293131A1C7AD100B7C763 /* DANewsViewController.m in Sources */,
 				941293141A1C7AD100B7C763 /* AFSecurityPolicy.m in Sources */,
@@ -4092,7 +4092,7 @@
 				94A6FE421A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921641ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
 				94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */,
-				94C97EFF1ABE53E20066C808 /* DAErrorView2.swift in Sources */,
+				94C97EFF1ABE53E20066C808 /* DAErrorView.swift in Sources */,
 				948615CD19FE1C3D002497D0 /* MRMessageInterceptor.m in Sources */,
 				948EE6A61996FA2E004EC600 /* DANewsViewController.m in Sources */,
 				94E5EF461943472D0021A711 /* AFSecurityPolicy.m in Sources */,
