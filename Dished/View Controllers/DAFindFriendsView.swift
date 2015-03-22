@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DAFindFriendsView: DAView {
+class DAFindFriendsView: DALoadingView {
     
     var tableView = UITableView()
     var errorLabel = UILabel()
