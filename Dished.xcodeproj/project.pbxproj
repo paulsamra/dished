@@ -1003,6 +1003,9 @@
 		94C18B821A74DC4100016D5F /* LogFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B701A74DC2300016D5F /* LogFile.m */; };
 		94C18B831A74DC4600016D5F /* LogFiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B721A74DC2300016D5F /* LogFiles.m */; };
 		94C18B841A74DC4700016D5F /* LogFiles.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B721A74DC2300016D5F /* LogFiles.m */; };
+		94C97EFB1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */; };
+		94C97EFC1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */; };
+		94C97EFD1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */; };
 		94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
 		94CB03B019AFD334009010F6 /* DAComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AF19AFD334009010F6 /* DAComment.m */; };
 		94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03C019B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m */; };
@@ -1565,6 +1568,7 @@
 		94C18B701A74DC2300016D5F /* LogFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogFile.m; sourceTree = "<group>"; };
 		94C18B711A74DC2300016D5F /* LogFiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogFiles.h; sourceTree = "<group>"; };
 		94C18B721A74DC2300016D5F /* LogFiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogFiles.m; sourceTree = "<group>"; };
+		94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFoodieTableViewCell.swift; sourceTree = "<group>"; };
 		94CB03AB19AFA734009010F6 /* DACommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACommentsViewController.h; sourceTree = "<group>"; };
 		94CB03AC19AFA734009010F6 /* DACommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACommentsViewController.m; sourceTree = "<group>"; };
 		94CB03AE19AFD334009010F6 /* DAComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAComment.h; sourceTree = "<group>"; };
@@ -2889,6 +2893,7 @@
 				9486156B19FCD97E002497D0 /* DAAnnotationView.m */,
 				9488BA021A26B6B10098FE09 /* DATagSuggestionTableView.h */,
 				9488BA031A26B6B10098FE09 /* DATagSuggestionTableView.m */,
+				94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -3386,6 +3391,7 @@
 				941291E71A1BEED500B7C763 /* JSONResponseSerializerWithData.m in Sources */,
 				9488BA121A270D160098FE09 /* DAManagedHashtag.m in Sources */,
 				94A6FE3A1A46DFB800AB901F /* DAExploreCollectionViewCell.swift in Sources */,
+				94C97EFC1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */,
 				949921621ABB360000A247B0 /* SwiftAddressBookPerson.swift in Sources */,
 				940363851A25E2560068F61D /* DAManagedComment+Utility.m in Sources */,
 				94426C951A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
@@ -3701,6 +3707,7 @@
 				941292E61A1C7AD100B7C763 /* JSONResponseSerializerWithData.m in Sources */,
 				9488BA131A270D160098FE09 /* DAManagedHashtag.m in Sources */,
 				94A6FE3B1A46DFB800AB901F /* DAExploreCollectionViewCell.swift in Sources */,
+				94C97EFD1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */,
 				949921631ABB360000A247B0 /* SwiftAddressBookPerson.swift in Sources */,
 				940363861A25E2560068F61D /* DAManagedComment+Utility.m in Sources */,
 				94426C961A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
@@ -4016,6 +4023,7 @@
 				94F2AD9A198C539200450C6F /* MKAnnotationView+WebCache.m in Sources */,
 				9488BA111A270D160098FE09 /* DAManagedHashtag.m in Sources */,
 				94A6FE391A46DFB800AB901F /* DAExploreCollectionViewCell.swift in Sources */,
+				94C97EFB1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */,
 				949921611ABB360000A247B0 /* SwiftAddressBookPerson.swift in Sources */,
 				94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */,
 				94426C941A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,

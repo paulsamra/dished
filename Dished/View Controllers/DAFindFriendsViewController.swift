@@ -55,7 +55,7 @@ class DAFindFriendsViewController: UIViewController, UITableViewDelegate, UITabl
         
         cell.textLabel?.font = UIFont(name: kHelveticaNeueLightFont, size: 17.0)
         cell.textLabel?.text = friend.name
-        cell.sideButton.addTarget(self, action: "sideButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
+        cell.sideButton.addTarget(self, action: "sideButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         
         if friend.registered {
             cell.sideButton.setTitle("Unfollow", forState: UIControlState.Normal)
@@ -93,6 +93,10 @@ class DAFindFriendsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func showMessageControllerForFriend(friend: DAFriend) {
+        if !MFMessageComposeViewController.canSendText() {
+            return
+        }
+        
         let recipients = [friend.phoneNumber]
         
         let messageController = MFMessageComposeViewController()
