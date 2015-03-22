@@ -17,12 +17,10 @@ class DAView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
     }
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupViews()
     }
     
     func setupViews() {

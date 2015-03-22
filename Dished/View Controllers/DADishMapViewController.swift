@@ -7,17 +7,16 @@
 //
 
 import UIKit
-import MapKit
 
 class DADishMapViewController: UIViewController {
 
-    var mapView = MKMapView()
-
+    var dishMapView = DADishMapView()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     override func loadView() {
-        view = mapView
+        view = dishMapView
     }
 }
