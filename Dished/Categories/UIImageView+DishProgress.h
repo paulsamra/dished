@@ -9,7 +9,6 @@
 #import <UIKit/UIKit.h>
 #import "UIImageView+WebCache.h"
 #import "SDImageCache.h"
-#import "DAProgressView.h"
 
 
 @interface UIImageView (DishProgress)

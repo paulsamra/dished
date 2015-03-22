@@ -137,7 +137,6 @@
 		941291C91A1BEED500B7C763 /* DAReplaceSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFD19D0224300F134BA /* DAReplaceSegue.swift */; };
 		941291CA1A1BEED500B7C763 /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD80198C539200450C6F /* SDWebImageCompat.m */; };
 		941291CB1A1BEED500B7C763 /* DAExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9446899F195FFA6500FAE288 /* DAExploreViewController.m */; };
-		941291CC1A1BEED500B7C763 /* DAProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01619C23F8D00D0D77C /* DAProgressView.m */; };
 		941291CD1A1BEED500B7C763 /* DAUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23A19BDBCCF00BDBB75 /* DAUsername.m */; };
 		941291CE1A1BEED500B7C763 /* DARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A3196F25B5004D5CD7 /* DARatingViewController.m */; };
 		941291D01A1BEED500B7C763 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF3B1943472D0021A711 /* AFURLConnectionOperation.m */; };
@@ -341,7 +340,6 @@
 		941292C81A1C7AD100B7C763 /* DAReplaceSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFD19D0224300F134BA /* DAReplaceSegue.swift */; };
 		941292C91A1C7AD100B7C763 /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD80198C539200450C6F /* SDWebImageCompat.m */; };
 		941292CA1A1C7AD100B7C763 /* DAExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9446899F195FFA6500FAE288 /* DAExploreViewController.m */; };
-		941292CB1A1C7AD100B7C763 /* DAProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01619C23F8D00D0D77C /* DAProgressView.m */; };
 		941292CC1A1C7AD100B7C763 /* DAUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23A19BDBCCF00BDBB75 /* DAUsername.m */; };
 		941292CD1A1C7AD100B7C763 /* DARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A3196F25B5004D5CD7 /* DARatingViewController.m */; };
 		941292CF1A1C7AD100B7C763 /* AFURLConnectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF3B1943472D0021A711 /* AFURLConnectionOperation.m */; };
@@ -499,7 +497,6 @@
 		94237E5E194A2CF6004DFAB6 /* DAPhoneNumberViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E5D194A2CF6004DFAB6 /* DAPhoneNumberViewController.m */; };
 		94237E72194A318C004DFAB6 /* DAResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */; };
 		942AA00E19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */; };
-		942AA01719C23F8D00D0D77C /* DAProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01619C23F8D00D0D77C /* DAProgressView.m */; };
 		942AA01A19C2655A00D0D77C /* UIImageView+DishProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */; };
 		942CC23819BDB21700BDBB75 /* DAReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23719BDB21700BDBB75 /* DAReview.m */; };
 		942CC23B19BDBCCF00BDBB75 /* DAUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23A19BDBCCF00BDBB75 /* DAUsername.m */; };
@@ -1003,6 +1000,9 @@
 		94C97EFF1ABE53E20066C808 /* DAErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView.swift */; };
 		94C97F001ABE53E20066C808 /* DAErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView.swift */; };
 		94C97F011ABE53E20066C808 /* DAErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView.swift */; };
+		94C97F031ABE632F0066C808 /* DAProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97F021ABE632F0066C808 /* DAProgressView.swift */; };
+		94C97F041ABE632F0066C808 /* DAProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97F021ABE632F0066C808 /* DAProgressView.swift */; };
+		94C97F051ABE632F0066C808 /* DAProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97F021ABE632F0066C808 /* DAProgressView.swift */; };
 		94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
 		94CB03B019AFD334009010F6 /* DAComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AF19AFD334009010F6 /* DAComment.m */; };
 		94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03C019B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m */; };
@@ -1164,8 +1164,6 @@
 		94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAResetPasswordViewController.m; sourceTree = "<group>"; };
 		942AA00C19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGlobalDishCollectionViewCell.h; sourceTree = "<group>"; };
 		942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGlobalDishCollectionViewCell.m; sourceTree = "<group>"; };
-		942AA01519C23F8D00D0D77C /* DAProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAProgressView.h; sourceTree = "<group>"; };
-		942AA01619C23F8D00D0D77C /* DAProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAProgressView.m; sourceTree = "<group>"; };
 		942AA01819C2655A00D0D77C /* UIImageView+DishProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+DishProgress.h"; sourceTree = "<group>"; };
 		942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+DishProgress.m"; sourceTree = "<group>"; };
 		942CC23619BDB21700BDBB75 /* DAReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReview.h; sourceTree = "<group>"; };
@@ -1564,6 +1562,7 @@
 		94C18B721A74DC2300016D5F /* LogFiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogFiles.m; sourceTree = "<group>"; };
 		94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFoodieTableViewCell.swift; sourceTree = "<group>"; };
 		94C97EFE1ABE53E20066C808 /* DAErrorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAErrorView.swift; sourceTree = "<group>"; };
+		94C97F021ABE632F0066C808 /* DAProgressView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAProgressView.swift; sourceTree = "<group>"; };
 		94CB03AB19AFA734009010F6 /* DACommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACommentsViewController.h; sourceTree = "<group>"; };
 		94CB03AC19AFA734009010F6 /* DACommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACommentsViewController.m; sourceTree = "<group>"; };
 		94CB03AE19AFD334009010F6 /* DAComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAComment.h; sourceTree = "<group>"; };
@@ -2876,8 +2875,7 @@
 				94F2AD76198C454600450C6F /* DADishTableViewCell.xib */,
 				94EA2D5519AA820B00ABE3B7 /* DARefreshControl.h */,
 				94EA2D5619AA820B00ABE3B7 /* DARefreshControl.m */,
-				942AA01519C23F8D00D0D77C /* DAProgressView.h */,
-				942AA01619C23F8D00D0D77C /* DAProgressView.m */,
+				94C97F021ABE632F0066C808 /* DAProgressView.swift */,
 				944D1E7419DB8514006F73BF /* DAUserListTableViewCell.swift */,
 				94B43AAD19EB6D9500482F52 /* DACollectionView.swift */,
 				94D8D69B19EC8BBE001A9EC3 /* DALinkedTextView.h */,
@@ -3333,7 +3331,6 @@
 				941291CA1A1BEED500B7C763 /* SDWebImageCompat.m in Sources */,
 				941291CB1A1BEED500B7C763 /* DAExploreViewController.m in Sources */,
 				940985641ABC0B8C009F20FF /* Character.swift in Sources */,
-				941291CC1A1BEED500B7C763 /* DAProgressView.m in Sources */,
 				94426C6B1A6A75BF00186C35 /* MPSurvey.m in Sources */,
 				941291CD1A1BEED500B7C763 /* DAUsername.m in Sources */,
 				94426C801A6A75C000186C35 /* MPTweakInline.m in Sources */,
@@ -3343,6 +3340,7 @@
 				94426C1D1A6A75BF00186C35 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
 				941291D01A1BEED500B7C763 /* AFURLConnectionOperation.m in Sources */,
 				94426C201A6A75BF00186C35 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
+				94C97F041ABE632F0066C808 /* DAProgressView.swift in Sources */,
 				941291D11A1BEED500B7C763 /* DAComment.m in Sources */,
 				941291D21A1BEED500B7C763 /* UIWebView+AFNetworking.m in Sources */,
 				941291D41A1BEED500B7C763 /* AFHTTPRequestOperationManager.m in Sources */,
@@ -3649,7 +3647,6 @@
 				941292C91A1C7AD100B7C763 /* SDWebImageCompat.m in Sources */,
 				941292CA1A1C7AD100B7C763 /* DAExploreViewController.m in Sources */,
 				940985651ABC0B8C009F20FF /* Character.swift in Sources */,
-				941292CB1A1C7AD100B7C763 /* DAProgressView.m in Sources */,
 				94426C6C1A6A75BF00186C35 /* MPSurvey.m in Sources */,
 				941292CC1A1C7AD100B7C763 /* DAUsername.m in Sources */,
 				94426C811A6A75C000186C35 /* MPTweakInline.m in Sources */,
@@ -3659,6 +3656,7 @@
 				94426C1E1A6A75BF00186C35 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
 				941292CF1A1C7AD100B7C763 /* AFURLConnectionOperation.m in Sources */,
 				94426C211A6A75BF00186C35 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
+				94C97F051ABE632F0066C808 /* DAProgressView.swift in Sources */,
 				941292D01A1C7AD100B7C763 /* DAComment.m in Sources */,
 				941292D11A1C7AD100B7C763 /* UIWebView+AFNetworking.m in Sources */,
 				941292D31A1C7AD100B7C763 /* AFHTTPRequestOperationManager.m in Sources */,
@@ -3967,7 +3965,6 @@
 				940985631ABC0B8C009F20FF /* Character.swift in Sources */,
 				944689A0195FFA6500FAE288 /* DAExploreViewController.m in Sources */,
 				94426C6A1A6A75BF00186C35 /* MPSurvey.m in Sources */,
-				942AA01719C23F8D00D0D77C /* DAProgressView.m in Sources */,
 				94426C7F1A6A75C000186C35 /* MPTweakInline.m in Sources */,
 				94426C851A6A75C000186C35 /* MPTypeDescription.m in Sources */,
 				942CC23B19BDBCCF00BDBB75 /* DAUsername.m in Sources */,
@@ -3975,6 +3972,7 @@
 				94426C1C1A6A75BF00186C35 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
 				94A027A4196F25B5004D5CD7 /* DARatingViewController.m in Sources */,
 				94426C1F1A6A75BF00186C35 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
+				94C97F031ABE632F0066C808 /* DAProgressView.swift in Sources */,
 				94E5EF471943472D0021A711 /* AFURLConnectionOperation.m in Sources */,
 				94CB03B019AFD334009010F6 /* DAComment.m in Sources */,
 				94DCE9BE1980ABB100396C0A /* UIWebView+AFNetworking.m in Sources */,
