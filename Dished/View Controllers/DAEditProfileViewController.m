@@ -9,16 +9,15 @@
 #import "DAEditProfileViewController.h"
 #import "DAUserManager.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-#import "DAErrorView.h"
 #import "MRProgress.h"
 
 
-@interface DAEditProfileViewController() <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, DAErrorViewDelegate, UIAlertViewDelegate>
+@interface DAEditProfileViewController() <UIActionSheetDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, UIAlertViewDelegate>
 
 @property (copy,   nonatomic) NSDate          *dateOfBirth;
 @property (strong, nonatomic) UIImage         *selectedImage;
-@property (strong, nonatomic) DAErrorView     *errorView;
 @property (strong, nonatomic) NSIndexPath     *pickerIndexPath;
+@property (strong, nonatomic) DAErrorView     *errorView;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @property (strong, nonatomic) NSURLSessionTask *saveProfileTask;
@@ -72,8 +71,8 @@
     [super viewWillAppear:animated];
     
     self.errorView = [[DAErrorView alloc] initWithFrame:[self invisibleErrorFrame]];
+    [self.errorView.closeButton addTarget:self action:@selector(errorViewDidTapCloseButton:) forControlEvents:UIControlEventTouchUpInside];
     [[[UIApplication sharedApplication] keyWindow] addSubview:self.errorView];
-    self.errorView.delegate = self;
     self.errorVisible = NO;
 }
 
@@ -191,8 +190,8 @@
 {
     if( !self.firstNameField.text || self.firstNameField.text.length == 0 )
     {
-        self.errorView.errorTextLabel.text = @"Invalid First Name";
-        self.errorView.errorTipLabel.text  = @"Please enter your first name.";
+        self.errorView.messageLabel.text = @"Invalid First Name";
+        self.errorView.tipLabel.text  = @"Please enter your first name.";
         
         [self showErrorView];
         return;
@@ -200,8 +199,8 @@
     
     if( !self.lastNameField.text || self.lastNameField.text.length == 0 )
     {
-        self.errorView.errorTextLabel.text = @"Invalid Last Name";
-        self.errorView.errorTipLabel.text  = @"Please enter your last name.";
+        self.errorView.messageLabel.text = @"Invalid Last Name";
+        self.errorView.tipLabel.text  = @"Please enter your last name.";
         
         [self showErrorView];
         return;
@@ -209,8 +208,8 @@
     
     if( !self.emailField.text || ![self stringIsValidEmail:self.emailField.text] )
     {
-        self.errorView.errorTextLabel.text = @"Invalid Email Address";
-        self.errorView.errorTipLabel.text  = @"Please enter a valid email address.";
+        self.errorView.messageLabel.text = @"Invalid Email Address";
+        self.errorView.tipLabel.text  = @"Please enter a valid email address.";
         
         [self showErrorView];
         return;
@@ -218,8 +217,8 @@
     
     if( !self.phoneNumberField.text || ![self phoneNumberIsValid:self.phoneNumberField.text] )
     {
-        self.errorView.errorTextLabel.text = @"Invalid Phone Number";
-        self.errorView.errorTipLabel.text  = @"Please enter a valid phone number.";
+        self.errorView.messageLabel.text = @"Invalid Phone Number";
+        self.errorView.tipLabel.text  = @"Please enter a valid phone number.";
         
         [self showErrorView];
         return;
@@ -229,8 +228,8 @@
     {
         if( !self.passwordField.text || self.passwordField.text.length < 6 )
         {
-            self.errorView.errorTextLabel.text = @"Invalid Password";
-            self.errorView.errorTipLabel.text  = @"Your password must be at least 6 characters.";
+            self.errorView.messageLabel.text = @"Invalid Password";
+            self.errorView.tipLabel.text  = @"Your password must be at least 6 characters.";
             
             [self showErrorView];
             return;
@@ -239,8 +238,8 @@
         NSString *confirmPassword = self.confirmPasswordField.text;
         if( !confirmPassword || [confirmPassword length] < 6 || ( self.passwordField.text.length >= 6 && ![confirmPassword isEqualToString:self.passwordField.text] ) )
         {
-            self.errorView.errorTextLabel.text = @"Invalid Password";
-            self.errorView.errorTipLabel.text  = @"Your passwords must match.";
+            self.errorView.messageLabel.text = @"Invalid Password";
+            self.errorView.tipLabel.text  = @"Your passwords must match.";
             
             [self showErrorView];
             return;
@@ -249,8 +248,8 @@
 
     if( !self.dateOfBirth || [self ageWithDate:self.dateOfBirth] < 13 )
     {
-        self.errorView.errorTextLabel.text = @"You're too young!";
-        self.errorView.errorTipLabel.text  = @"You must be 13 years or older to be signed up with Dished.";
+        self.errorView.messageLabel.text = @"You're too young!";
+        self.errorView.tipLabel.text  = @"You must be 13 years or older to be signed up with Dished.";
         
         [self showErrorView];
         return;

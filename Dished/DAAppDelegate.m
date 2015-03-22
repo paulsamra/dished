@@ -10,7 +10,6 @@
 #import "AFNetworkActivityIndicatorManager.h"
 #import "SSKeychain.h"
 #import "DATwitterManager.h"
-#import "DAErrorView.h"
 #import <Crashlytics/Crashlytics.h>
 #import "DAUserManager.h"
 #import "DACoreDataManager.h"
@@ -25,7 +24,7 @@
 #define kMixpanelToken @"31ee3d271d65f678f84e52e66a8225b9"
 
 
-@interface DAAppDelegate() <DAErrorViewDelegate>
+@interface DAAppDelegate()
 
 @property (strong, nonatomic) DAErrorView *errorView;
 
@@ -202,8 +201,8 @@
 
 - (void)showErrorViewWithTitle:(NSString *)title subtitle:(NSString *)subtitle;
 {
-    self.errorView.errorTextLabel.text = title;
-    self.errorView.errorTipLabel.text  = subtitle;
+    self.errorView.messageLabel.text = title;
+    self.errorView.tipLabel.text  = subtitle;
     
     CGRect  statusBarRect = [[UIApplication sharedApplication] statusBarFrame];
     CGPoint location = statusBarRect.origin;
@@ -225,7 +224,7 @@
 - (void)networkUnreachable
 {
     NSString *message = @"Unable to connect to network.";
-    NSString *detail  = @"Please check your internet connection";
+    NSString *detail  = @"Please check your internet connection.";
     
     [self showErrorViewWithTitle:message subtitle:detail];
 }
@@ -413,7 +412,7 @@
         CGRect  hiddenFrame = CGRectMake( location.x, location.y - 100, size.width, size.height);
         
         _errorView = [[DAErrorView alloc] initWithFrame:hiddenFrame];
-        _errorView.delegate = self;
+        [_errorView.closeButton addTarget:self action:@selector(errorViewDidTapCloseButton:) forControlEvents:UIControlEventTouchUpInside];
         [self.window addSubview:_errorView];
     }
     

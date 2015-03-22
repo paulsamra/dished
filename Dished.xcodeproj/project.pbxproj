@@ -108,7 +108,6 @@
 		941291AB1A1BEED500B7C763 /* DAMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156819FCCE6E002497D0 /* DAMapAnnotation.m */; };
 		941291AC1A1BEED500B7C763 /* DAUserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9473FAD419E636E9003A1D1B /* DAUserProfile.m */; };
 		941291AD1A1BEED500B7C763 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF341943472D0021A711 /* AFHTTPSessionManager.m */; };
-		941291AE1A1BEED500B7C763 /* DAErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 943093F71942633D00B1F61F /* DAErrorView.m */; };
 		941291AF1A1BEED500B7C763 /* DAResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */; };
 		941291B01A1BEED500B7C763 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF371943472D0021A711 /* AFNetworkReachabilityManager.m */; };
 		941291B11A1BEED500B7C763 /* NSDateFormatter+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E623C1987362100DF2135 /* NSDateFormatter+STTwitter.m */; };
@@ -263,7 +262,6 @@
 		941292601A1BEED500B7C763 /* uv_heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAFA1A1499970065229C /* uv_heart@2x.png */; };
 		941292631A1BEED500B7C763 /* App.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 941538D2193F270A008B3B79 /* App.xcassets */; };
 		941292651A1BEED500B7C763 /* uv_idea.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAFB1A1499970065229C /* uv_idea.png */; };
-		941292661A1BEED500B7C763 /* DAErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943093FB1942638200B1F61F /* DAErrorView.xib */; };
 		941292681A1BEED500B7C763 /* uv_article@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAF81A1499970065229C /* uv_article@2x.png */; };
 		941292691A1BEED500B7C763 /* UserVoice.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAD91A1499970065229C /* UserVoice.strings */; };
 		9412926B1A1BEED500B7C763 /* uv_heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAF91A1499970065229C /* uv_heart.png */; };
@@ -314,7 +312,6 @@
 		941292AA1A1C7AD100B7C763 /* DAMapAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 9486156819FCCE6E002497D0 /* DAMapAnnotation.m */; };
 		941292AB1A1C7AD100B7C763 /* DAUserProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9473FAD419E636E9003A1D1B /* DAUserProfile.m */; };
 		941292AC1A1C7AD100B7C763 /* AFHTTPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF341943472D0021A711 /* AFHTTPSessionManager.m */; };
-		941292AD1A1C7AD100B7C763 /* DAErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 943093F71942633D00B1F61F /* DAErrorView.m */; };
 		941292AE1A1C7AD100B7C763 /* DAResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */; };
 		941292AF1A1C7AD100B7C763 /* AFNetworkReachabilityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF371943472D0021A711 /* AFNetworkReachabilityManager.m */; };
 		941292B01A1C7AD100B7C763 /* NSDateFormatter+STTwitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E623C1987362100DF2135 /* NSDateFormatter+STTwitter.m */; };
@@ -469,7 +466,6 @@
 		9412935F1A1C7AD100B7C763 /* uv_heart@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAFA1A1499970065229C /* uv_heart@2x.png */; };
 		941293621A1C7AD100B7C763 /* App.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 941538D2193F270A008B3B79 /* App.xcassets */; };
 		941293641A1C7AD100B7C763 /* uv_idea.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAFB1A1499970065229C /* uv_idea.png */; };
-		941293651A1C7AD100B7C763 /* DAErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943093FB1942638200B1F61F /* DAErrorView.xib */; };
 		941293671A1C7AD100B7C763 /* uv_article@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAF81A1499970065229C /* uv_article@2x.png */; };
 		941293681A1C7AD100B7C763 /* UserVoice.strings in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAD91A1499970065229C /* UserVoice.strings */; };
 		9412936A1A1C7AD100B7C763 /* uv_heart.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAF91A1499970065229C /* uv_heart.png */; };
@@ -522,8 +518,6 @@
 		9430504A1AB7FAC8008DDCB3 /* DAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050491AB7FAC8008DDCB3 /* DAView.swift */; };
 		9430504B1AB7FAC8008DDCB3 /* DAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050491AB7FAC8008DDCB3 /* DAView.swift */; };
 		9430504C1AB7FAC8008DDCB3 /* DAView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 943050491AB7FAC8008DDCB3 /* DAView.swift */; };
-		943093F81942633D00B1F61F /* DAErrorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 943093F71942633D00B1F61F /* DAErrorView.m */; };
-		943093FC1942638200B1F61F /* DAErrorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 943093FB1942638200B1F61F /* DAErrorView.xib */; };
 		9430FDEC196956BD00C7E997 /* DAPositiveHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */; };
 		9430FDFA196CABDD00C7E997 /* DANegativeHashtagsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9430FDF9196CABDD00C7E997 /* DANegativeHashtagsViewController.m */; };
 		94331FFF1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 94331FFE1995C926000A8E2B /* UIImageView+UIActivityIndicatorForSDWebImage.m */; };
@@ -1006,6 +1000,9 @@
 		94C97EFB1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */; };
 		94C97EFC1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */; };
 		94C97EFD1ABE52C30066C808 /* DAFoodieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */; };
+		94C97EFF1ABE53E20066C808 /* DAErrorView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView2.swift */; };
+		94C97F001ABE53E20066C808 /* DAErrorView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView2.swift */; };
+		94C97F011ABE53E20066C808 /* DAErrorView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94C97EFE1ABE53E20066C808 /* DAErrorView2.swift */; };
 		94CB03AD19AFA734009010F6 /* DACommentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AC19AFA734009010F6 /* DACommentsViewController.m */; };
 		94CB03B019AFD334009010F6 /* DAComment.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03AF19AFD334009010F6 /* DAComment.m */; };
 		94CB03CB19B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03C019B0EA94009010F6 /* NSMutableArray+SWUtilityButtons.m */; };
@@ -1180,9 +1177,6 @@
 		943050401AB7FA14008DDCB3 /* DAGetSocialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAGetSocialViewController.swift; sourceTree = "<group>"; };
 		943050451AB7FA6A008DDCB3 /* DAGetSocialView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAGetSocialView.swift; sourceTree = "<group>"; };
 		943050491AB7FAC8008DDCB3 /* DAView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAView.swift; sourceTree = "<group>"; };
-		943093F61942633D00B1F61F /* DAErrorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAErrorView.h; sourceTree = "<group>"; };
-		943093F71942633D00B1F61F /* DAErrorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAErrorView.m; sourceTree = "<group>"; };
-		943093FB1942638200B1F61F /* DAErrorView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAErrorView.xib; sourceTree = "<group>"; };
 		9430FDEA196956BD00C7E997 /* DAPositiveHashtagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAPositiveHashtagsViewController.h; sourceTree = "<group>"; };
 		9430FDEB196956BD00C7E997 /* DAPositiveHashtagsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAPositiveHashtagsViewController.m; sourceTree = "<group>"; };
 		9430FDF8196CABDD00C7E997 /* DANegativeHashtagsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANegativeHashtagsViewController.h; sourceTree = "<group>"; };
@@ -1569,6 +1563,7 @@
 		94C18B711A74DC2300016D5F /* LogFiles.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogFiles.h; sourceTree = "<group>"; };
 		94C18B721A74DC2300016D5F /* LogFiles.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogFiles.m; sourceTree = "<group>"; };
 		94C97EFA1ABE52C30066C808 /* DAFoodieTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFoodieTableViewCell.swift; sourceTree = "<group>"; };
+		94C97EFE1ABE53E20066C808 /* DAErrorView2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAErrorView2.swift; sourceTree = "<group>"; };
 		94CB03AB19AFA734009010F6 /* DACommentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACommentsViewController.h; sourceTree = "<group>"; };
 		94CB03AC19AFA734009010F6 /* DACommentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DACommentsViewController.m; sourceTree = "<group>"; };
 		94CB03AE19AFD334009010F6 /* DAComment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAComment.h; sourceTree = "<group>"; };
@@ -2873,9 +2868,7 @@
 				94FD7B4619C818CF008D60CA /* Explore */,
 				9443DEFB19D020F500F134BA /* DATouchTableView.swift */,
 				9443DEFF19D0236200F134BA /* DADatePickerTableViewCell.swift */,
-				943093F61942633D00B1F61F /* DAErrorView.h */,
-				943093F71942633D00B1F61F /* DAErrorView.m */,
-				943093FB1942638200B1F61F /* DAErrorView.xib */,
+				94C97EFE1ABE53E20066C808 /* DAErrorView2.swift */,
 				9443DEFD19D0224300F134BA /* DAReplaceSegue.swift */,
 				94A6FE3C1A46E06D00AB901F /* DASocialCollectionViewCell.swift */,
 				D13DB8F31988B221008C86BB /* DADishTableViewCell.h */,
@@ -3067,7 +3060,6 @@
 				94426C2F1A6A75BF00186C35 /* MPCloseBtn.png in Resources */,
 				941292631A1BEED500B7C763 /* App.xcassets in Resources */,
 				941292651A1BEED500B7C763 /* uv_idea.png in Resources */,
-				941292661A1BEED500B7C763 /* DAErrorView.xib in Resources */,
 				941292681A1BEED500B7C763 /* uv_article@2x.png in Resources */,
 				941292691A1BEED500B7C763 /* UserVoice.strings in Resources */,
 				9412926B1A1BEED500B7C763 /* uv_heart.png in Resources */,
@@ -3107,7 +3099,6 @@
 				94426C301A6A75BF00186C35 /* MPCloseBtn.png in Resources */,
 				941293621A1C7AD100B7C763 /* App.xcassets in Resources */,
 				941293641A1C7AD100B7C763 /* uv_idea.png in Resources */,
-				941293651A1C7AD100B7C763 /* DAErrorView.xib in Resources */,
 				941293671A1C7AD100B7C763 /* uv_article@2x.png in Resources */,
 				941293681A1C7AD100B7C763 /* UserVoice.strings in Resources */,
 				9412936A1A1C7AD100B7C763 /* uv_heart.png in Resources */,
@@ -3146,7 +3137,6 @@
 				941538D3193F270A008B3B79 /* App.xcassets in Resources */,
 				94426C311A6A75BF00186C35 /* MPCloseBtn@2x.png in Resources */,
 				94D7CB061A1499970065229C /* uv_idea.png in Resources */,
-				943093FC1942638200B1F61F /* DAErrorView.xib in Resources */,
 				9474828F1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */,
 				94D7CB031A1499970065229C /* uv_article@2x.png in Resources */,
 				94426C6D1A6A75BF00186C35 /* MPSurvey.storyboard in Resources */,
@@ -3292,7 +3282,6 @@
 				94426CAD1A6A75C000186C35 /* UIColor+MPColor.m in Sources */,
 				941291AC1A1BEED500B7C763 /* DAUserProfile.m in Sources */,
 				941291AD1A1BEED500B7C763 /* AFHTTPSessionManager.m in Sources */,
-				941291AE1A1BEED500B7C763 /* DAErrorView.m in Sources */,
 				9499214E1ABB2E9700A247B0 /* DAFindFriendsController.swift in Sources */,
 				94426C8C1A6A75C000186C35 /* MPUIControlBinding.m in Sources */,
 				94426C081A6A75BF00186C35 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
@@ -3471,6 +3460,7 @@
 				94A6FE431A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921651ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
 				941292121A1BEED500B7C763 /* SSKeychainQuery.m in Sources */,
+				94C97F001ABE53E20066C808 /* DAErrorView2.swift in Sources */,
 				941292131A1BEED500B7C763 /* MRMessageInterceptor.m in Sources */,
 				941292141A1BEED500B7C763 /* DANewsViewController.m in Sources */,
 				941292151A1BEED500B7C763 /* AFSecurityPolicy.m in Sources */,
@@ -3608,7 +3598,6 @@
 				94426CAE1A6A75C000186C35 /* UIColor+MPColor.m in Sources */,
 				941292AB1A1C7AD100B7C763 /* DAUserProfile.m in Sources */,
 				941292AC1A1C7AD100B7C763 /* AFHTTPSessionManager.m in Sources */,
-				941292AD1A1C7AD100B7C763 /* DAErrorView.m in Sources */,
 				9499214F1ABB2E9700A247B0 /* DAFindFriendsController.swift in Sources */,
 				94426C8D1A6A75C000186C35 /* MPUIControlBinding.m in Sources */,
 				94426C091A6A75BF00186C35 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
@@ -3787,6 +3776,7 @@
 				94A6FE441A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921661ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
 				941293111A1C7AD100B7C763 /* SSKeychainQuery.m in Sources */,
+				94C97F011ABE53E20066C808 /* DAErrorView2.swift in Sources */,
 				941293121A1C7AD100B7C763 /* MRMessageInterceptor.m in Sources */,
 				941293131A1C7AD100B7C763 /* DANewsViewController.m in Sources */,
 				941293141A1C7AD100B7C763 /* AFSecurityPolicy.m in Sources */,
@@ -3929,7 +3919,6 @@
 				94426C8B1A6A75C000186C35 /* MPUIControlBinding.m in Sources */,
 				94426C071A6A75BF00186C35 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
 				940985661ABC0B8C009F20FF /* Dictionary.swift in Sources */,
-				943093F81942633D00B1F61F /* DAErrorView.m in Sources */,
 				94426CA01A6A75C000186C35 /* NSData+MPBase64.m in Sources */,
 				941E6DCD1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */,
 				94237E72194A318C004DFAB6 /* DAResetPasswordViewController.m in Sources */,
@@ -4103,6 +4092,7 @@
 				94A6FE421A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921641ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
 				94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */,
+				94C97EFF1ABE53E20066C808 /* DAErrorView2.swift in Sources */,
 				948615CD19FE1C3D002497D0 /* MRMessageInterceptor.m in Sources */,
 				948EE6A61996FA2E004EC600 /* DANewsViewController.m in Sources */,
 				94E5EF461943472D0021A711 /* AFSecurityPolicy.m in Sources */,
