@@ -16,6 +16,29 @@ class DALoginView: DAView {
     var facebookButton: UIButton!
     var registerButton: UIButton!
     var forgotPasswordButton: UIButton!
+    var orLabel: UILabel!
+    
+    var signInButtonBottomConstraint: NSLayoutConstraint!
+    
+    func updateSignInButtonToHeight(height: CGFloat) {
+        let bottomSignInY = signInButton.frame.origin.y + signInButton.frame.size.height
+        
+        if height >= bottomSignInY {
+            return
+        }
+        
+        let difference = height - bottomSignInY
+        
+        signInButtonBottomConstraint.constant -= -difference
+        setNeedsUpdateConstraints()
+        layoutIfNeeded()
+    }
+    
+    func resetSignInButtonBottomConstraint() {
+        signInButtonBottomConstraint.constant = -13.0
+        setNeedsUpdateConstraints()
+        layoutIfNeeded()
+    }
     
     override func setupViews() {
         let grayValue = CGFloat( 249.0 / 255.0 )
@@ -60,7 +83,7 @@ class DALoginView: DAView {
         facebookButton.autoPinEdgeToSuperviewEdge(ALEdge.Right, withInset: 0)
         facebookButton.autoSetDimension(ALDimension.Height, toSize: 53.0)
         
-        let orLabel = UILabel()
+        orLabel = UILabel()
         orLabel.font = UIFont.systemFontOfSize(18.0)
         orLabel.textColor = UIColor.darkGrayColor()
         orLabel.text = "OR"
@@ -77,10 +100,10 @@ class DALoginView: DAView {
         signInButton.setTitleColor(blueTextColor, forState: UIControlState.Normal)
         signInButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Highlighted)
         addSubview(signInButton)
-        signInButton.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Top, ofView: orLabel, withOffset: -13.0)
+        signInButtonBottomConstraint = signInButton.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Top, ofView: orLabel, withOffset: -13.0)
         signInButton.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 0)
         signInButton.autoPinEdgeToSuperviewEdge(ALEdge.Right, withInset: 0)
-        signInButton.autoSetDimension(ALDimension.Height, toSize: 53.0)
+        signInButton.autoSetDimension(ALDimension.Height, toSize: 54.0)
         
         let passwordBackground = UIImageView()
         passwordBackground.image = UIImage(named: "password")
@@ -88,7 +111,7 @@ class DALoginView: DAView {
         passwordBackground.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Top, ofView: signInButton)
         passwordBackground.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 0)
         passwordBackground.autoPinEdgeToSuperviewEdge(ALEdge.Right, withInset: 0)
-        passwordBackground.autoSetDimension(ALDimension.Height, toSize: 53.0)
+        passwordBackground.autoSetDimension(ALDimension.Height, toSize: 44.0)
         
         let usernameBackground = UIImageView()
         usernameBackground.image = UIImage(named: "username")
@@ -96,6 +119,24 @@ class DALoginView: DAView {
         usernameBackground.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Top, ofView: passwordBackground)
         usernameBackground.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 0)
         usernameBackground.autoPinEdgeToSuperviewEdge(ALEdge.Right, withInset: 0)
-        usernameBackground.autoSetDimension(ALDimension.Height, toSize: 53.0)
+        usernameBackground.autoSetDimension(ALDimension.Height, toSize: 44.0)
+        
+        usernameField = UITextField()
+        usernameField.placeholder = "Username or Email"
+        usernameField.font = DAConstants.primaryFontWithSize(18.0)
+        addSubview(usernameField)
+        usernameField.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Left, ofView: usernameBackground, withOffset: 20.0)
+        usernameField.autoPinEdge(ALEdge.Right, toEdge: ALEdge.Right, ofView: usernameBackground, withOffset: -20.0)
+        usernameField.autoPinEdge(ALEdge.Top, toEdge: ALEdge.Top, ofView: usernameBackground, withOffset: 7.0)
+        usernameField.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Bottom, ofView: usernameBackground, withOffset: -7.0)
+        
+        passwordField = UITextField()
+        passwordField.placeholder = "Password"
+        passwordField.font = DAConstants.primaryFontWithSize(18.0)
+        addSubview(passwordField)
+        passwordField.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Left, ofView: passwordBackground, withOffset: 20.0)
+        passwordField.autoPinEdge(ALEdge.Right, toEdge: ALEdge.Right, ofView: passwordBackground, withOffset: -20.0)
+        passwordField.autoPinEdge(ALEdge.Top, toEdge: ALEdge.Top, ofView: passwordBackground, withOffset: 7.0)
+        passwordField.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Bottom, ofView: passwordBackground, withOffset: -7.0)
     }
 }

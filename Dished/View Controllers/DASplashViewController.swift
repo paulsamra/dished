@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DASplashViewController2: UIViewController {
+class DASplashViewController2: UIViewController, DAWelcomeViewDelegate {
 
     var splashView: DASplashView!
     
@@ -23,7 +23,7 @@ class DASplashViewController2: UIViewController {
         let firstLaunch = userDefaults.objectForKey(kFirstLaunchKey) as? String
         if firstLaunch == nil {
             splashView.showWelcomeView()
-            //userDefaults.setObject("firstLaunch", forKey: kFirstLaunchKey)
+            userDefaults.setObject("firstLaunch", forKey: kFirstLaunchKey)
         }
     }
     
@@ -44,6 +44,10 @@ class DASplashViewController2: UIViewController {
     override func viewWillDisappear(animated: Bool) {
         navigationController?.setNavigationBarHidden(false, animated: animated)
         super.viewWillDisappear(animated)
+    }
+    
+    func welcomeViewDidFinish(welcomeView: DAWelcomeView) {
+        setNeedsStatusBarAppearanceUpdate()
     }
     
     func signInButtonTapped() {
@@ -76,6 +80,7 @@ class DASplashViewController2: UIViewController {
 
     override func loadView() {
         splashView = DASplashView()
+        splashView.welcomeView.delegate = self
         view = splashView
         
         splashView.signInButton.addTarget(self, action: "signInButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)

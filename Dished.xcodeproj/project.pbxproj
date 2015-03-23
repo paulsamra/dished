@@ -487,6 +487,9 @@
 		9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9415F3C31941044000C3A7A1 /* DALoginViewController.m */; };
 		9418100D1970DF7900C83034 /* DAHashtag.m in Sources */ = {isa = PBXBuildFile; fileRef = 9418100C1970DF7900C83034 /* DAHashtag.m */; };
 		941810131970EB7700C83034 /* DAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 941810121970EB7700C83034 /* DAConstants.m */; };
+		941B511B1ABF98A700B80F83 /* DALoginKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941B511A1ABF98A700B80F83 /* DALoginKeyboardManager.swift */; };
+		941B511C1ABF98A700B80F83 /* DALoginKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941B511A1ABF98A700B80F83 /* DALoginKeyboardManager.swift */; };
+		941B511D1ABF98A700B80F83 /* DALoginKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941B511A1ABF98A700B80F83 /* DALoginKeyboardManager.swift */; };
 		941E6DCD1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941E6DCC1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift */; };
 		941E6DCE1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941E6DCC1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift */; };
 		941E6DCF1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941E6DCC1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift */; };
@@ -1183,6 +1186,7 @@
 		9418100C1970DF7900C83034 /* DAHashtag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAHashtag.m; sourceTree = "<group>"; };
 		941810111970EB7700C83034 /* DAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAConstants.h; sourceTree = "<group>"; };
 		941810121970EB7700C83034 /* DAConstants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAConstants.m; sourceTree = "<group>"; };
+		941B511A1ABF98A700B80F83 /* DALoginKeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DALoginKeyboardManager.swift; sourceTree = "<group>"; };
 		941E6DCC1A70788800B3E944 /* UICollectionView+ReloadAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UICollectionView+ReloadAnimation.swift"; sourceTree = "<group>"; };
 		941F3207196FA838000042AE /* DALocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALocationManager.h; sourceTree = "<group>"; };
 		941F3208196FA838000042AE /* DALocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALocationManager.m; sourceTree = "<group>"; };
@@ -2002,6 +2006,7 @@
 			children = (
 				94230ACA1ABEC8C000A4D50A /* DALoginView.swift */,
 				94230ACE1ABECC4500A4D50A /* DALoginViewController.swift */,
+				941B511A1ABF98A700B80F83 /* DALoginKeyboardManager.swift */,
 			);
 			name = "Login View";
 			sourceTree = "<group>";
@@ -3287,6 +3292,7 @@
 				940985761ABC0B8C009F20FF /* Int.swift in Sources */,
 				9412917B1A1BEED500B7C763 /* DAPhoneNumberViewController.m in Sources */,
 				940985791ABC0B8C009F20FF /* NSArray.swift in Sources */,
+				941B511C1ABF98A700B80F83 /* DALoginKeyboardManager.swift in Sources */,
 				94426C981A6A75C000186C35 /* MPUITableViewBinding.m in Sources */,
 				94426C891A6A75C000186C35 /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				946B49D11ABE712A008BECAB /* UIImage+Dished.swift in Sources */,
@@ -3613,6 +3619,7 @@
 				940985771ABC0B8C009F20FF /* Int.swift in Sources */,
 				9412927A1A1C7AD100B7C763 /* DAPhoneNumberViewController.m in Sources */,
 				9409857A1ABC0B8C009F20FF /* NSArray.swift in Sources */,
+				941B511D1ABF98A700B80F83 /* DALoginKeyboardManager.swift in Sources */,
 				94426C991A6A75C000186C35 /* MPUITableViewBinding.m in Sources */,
 				94426C8A1A6A75C000186C35 /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				946B49D21ABE712A008BECAB /* UIImage+Dished.swift in Sources */,
@@ -3939,6 +3946,7 @@
 				940985751ABC0B8C009F20FF /* Int.swift in Sources */,
 				94237E5E194A2CF6004DFAB6 /* DAPhoneNumberViewController.m in Sources */,
 				940985781ABC0B8C009F20FF /* NSArray.swift in Sources */,
+				941B511B1ABF98A700B80F83 /* DALoginKeyboardManager.swift in Sources */,
 				94426C971A6A75C000186C35 /* MPUITableViewBinding.m in Sources */,
 				94426C881A6A75C000186C35 /* MPUIColorToNSStringValueTransformer.m in Sources */,
 				946B49D01ABE712A008BECAB /* UIImage+Dished.swift in Sources */,
