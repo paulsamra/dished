@@ -249,8 +249,8 @@
                             <constraint firstItem="hET-Pb-Yd0" firstAttribute="leading" secondItem="9SR-b2-ty6" secondAttribute="leading" id="hwb-cs-SSE"/>
                             <constraint firstItem="Tt2-ow-Hta" firstAttribute="leading" secondItem="AL5-Rd-uRI" secondAttribute="leading" constant="20" id="iJs-an-iIT"/>
                             <constraint firstAttribute="centerX" secondItem="eYg-7v-LfO" secondAttribute="centerX" constant="-93" id="kDA-15-wlk"/>
-                            <constraint firstItem="Ca0-3h-dku" firstAttribute="top" secondItem="8eC-Cy-RcM" secondAttribute="bottom" constant="13" id="lxE-t1-So4"/>
                             <constraint firstItem="hET-Pb-Yd0" firstAttribute="top" secondItem="AL5-Rd-uRI" secondAttribute="bottom" id="mww-j2-yA2"/>
+                            <constraint firstItem="PK3-dF-Eof" firstAttribute="top" secondItem="8eC-Cy-RcM" secondAttribute="bottom" constant="186" id="pw1-T4-A0i"/>
                             <constraint firstItem="Tt2-ow-Hta" firstAttribute="top" secondItem="AL5-Rd-uRI" secondAttribute="top" constant="7" id="vfp-8b-T7x"/>
                             <constraint firstItem="eLv-E7-LCm" firstAttribute="top" secondItem="hET-Pb-Yd0" secondAttribute="top" constant="7" id="wrB-xw-6Dh"/>
                             <constraint firstItem="AL5-Rd-uRI" firstAttribute="leading" secondItem="9SR-b2-ty6" secondAttribute="leading" id="xSs-wC-JWf"/>
@@ -258,6 +258,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Sign In" id="tFa-PL-TMj"/>
                     <connections>
+                        <outlet property="bottomDistanceConstraint" destination="pw1-T4-A0i" id="ScC-sf-iTC"/>
                         <outlet property="facebookConnectButton" destination="na0-Zk-BCM" id="I0v-Wc-XEP"/>
                         <outlet property="loginButton" destination="8eC-Cy-RcM" id="CYI-Ok-JSY"/>
                         <outlet property="passwordField" destination="eLv-E7-LCm" id="KXQ-5h-9ty"/>

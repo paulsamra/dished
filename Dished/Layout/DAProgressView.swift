@@ -10,7 +10,7 @@ import UIKit
 
 class DAProgressView: DAView {
     
-    private var maskLayer: CALayer!
+    private var maskLayer: CALayer?
     private var grayDishLayer: CALayer!
     private var blueDishLayer: CALayer!
 
@@ -36,21 +36,25 @@ class DAProgressView: DAView {
         layer.addSublayer(blueDishLayer)
         
         maskLayer = CALayer()
-        maskLayer.anchorPoint = CGPointZero
-        maskLayer.frame = CGRectMake(0, 0, 0, blueDishLayer.frame.size.height)
-        maskLayer.backgroundColor = UIColor.blackColor().CGColor
-        blueDishLayer.mask = maskLayer
+        maskLayer!.anchorPoint = CGPointZero
+        maskLayer!.frame = CGRectMake(0, 0, 0, blueDishLayer.frame.size.height)
+        maskLayer!.backgroundColor = UIColor.blackColor().CGColor
+        blueDishLayer.mask = maskLayer!
     }
     
     func animateToPercentage(percentage: Float) {
-        maskLayer.removeAllAnimations()
+        if maskLayer == nil {
+            return
+        }
+        
+        maskLayer!.removeAllAnimations()
         
         if percentage.isNaN {
             return
         }
         
         let width = Float(blueDishLayer.frame.size.width) * percentage
-        var maskFrame = maskLayer.frame
+        var maskFrame = maskLayer!.frame
         maskFrame.size.width = CGFloat(width)
         
         if width.isNaN {
@@ -58,10 +62,10 @@ class DAProgressView: DAView {
         }
         
         let animation = CABasicAnimation(keyPath: "bounds.size.width")
-        animation.fromValue = maskLayer.frame.size.width
+        animation.fromValue = maskLayer!.frame.size.width
         animation.toValue = width
         animation.duration = 0.1
-        maskLayer.frame = maskFrame
-        maskLayer.addAnimation(animation, forKey: "progress")
+        maskLayer!.frame = maskFrame
+        maskLayer!.addAnimation(animation, forKey: "progress")
     }
 }
