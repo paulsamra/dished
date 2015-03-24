@@ -30,7 +30,7 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 {
     [super viewDidLoad];
     
-    [self.tableView registerClass:[DAUserListTableViewCell class] forCellReuseIdentifier:kFollowCellIdentifier];
+    [self.tableView registerClass:[DAUserTableViewCell class] forCellReuseIdentifier:kFollowCellIdentifier];
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     [self loadData];
 }
@@ -189,11 +189,11 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAUserListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFollowCellIdentifier];
+    DAUserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFollowCellIdentifier];
     
     if( self.usernameArray.count == 0 )
     {
-        cell.usernameLabel.text = @"Loading...";
+        cell.nameLabel.text = @"Loading...";
         
         cell.accessoryView = self.spinner;
         cell.userInteractionEnabled = NO;
@@ -203,7 +203,7 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     {
         DAUsername *username = [self.usernameArray objectAtIndex:indexPath.row];
         
-        cell.usernameLabel.text = [NSString stringWithFormat:@"@%@", username.username];
+        cell.nameLabel.text = [NSString stringWithFormat:@"@%@", username.username];
         cell.userInteractionEnabled = YES;
         cell.accessoryView = nil;
         

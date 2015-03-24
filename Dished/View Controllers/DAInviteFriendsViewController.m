@@ -48,7 +48,7 @@
     self.contactsTableView.rowHeight = 44.0;
     self.contactsTableView.estimatedRowHeight = 44.0;
     
-    [self.contactsTableView registerClass:[DAUserListTableViewCell class] forCellReuseIdentifier:kCellIdentifier];
+    [self.contactsTableView registerClass:[DAUserTableViewCell class] forCellReuseIdentifier:kCellIdentifier];
     
     self.isLoadingContacts = YES;
     [DAAppDelegate getContactsAddressBookWithCompletion:^( BOOL granted, ABAddressBookRef addressBook, NSError *error )
@@ -173,7 +173,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAUserListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    DAUserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     
     NSDictionary *contact = self.registrationData[indexPath.row];
     

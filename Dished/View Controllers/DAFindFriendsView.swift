@@ -13,6 +13,12 @@ class DAFindFriendsView: DALoadingView {
     var tableView = UITableView()
     var errorLabel = UILabel()
     
+    func showErrorWithMessage(message: String) {
+        errorLabel.text = message
+        tableView.hidden = true
+        errorLabel.hidden = false
+    }
+    
     override func showSpinner() {
         super.showSpinner()
         tableView.hidden = true

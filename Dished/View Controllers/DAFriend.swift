@@ -18,4 +18,20 @@ class DAFriend: NSObject {
     var following: Bool = false
     var image: String = ""
     var phoneNumber: String = ""
+    
+    func formattedPhoneNumber() -> String {
+        if countElements(phoneNumber) != 10 {
+            return phoneNumber
+        }
+        
+        let areaCode = phoneNumber[0...2]!
+        let firstThree = phoneNumber[3...5]!
+        let lastFour = phoneNumber[6...9]!
+        
+        return "(\(areaCode)) \(firstThree)-\(lastFour)"
+    }
+    
+    func formattedUsername() -> String {
+        return "@\(username)"
+    }
 }

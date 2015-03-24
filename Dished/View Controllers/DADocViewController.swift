@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DADocViewController: UIViewController, UIWebViewDelegate {
+class DADocViewController: DAViewController, UIWebViewDelegate {
     
     var documentView = DADocumentView()
     var documentURL: NSURL?
@@ -27,7 +27,7 @@ class DADocViewController: UIViewController, UIWebViewDelegate {
         documentTitle = title
     }
 
-    required init(coder aDecoder: NSCoder) {
+    required override init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 

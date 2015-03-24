@@ -8,25 +8,15 @@
 
 import UIKit
 
-class DAGetSocialViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+class DAGetSocialViewController: DAViewController, UITableViewDataSource, UITableViewDelegate {
 
     var getSocialView = DAGetSocialView()
-    private var showSkipButton = false
     
     let cellTitles = [
         "Find Friends from Contacts",
         "Active Foodies in your Area"
     ]
-    
-    init(showSkipButton: Bool) {
-        super.init(nibName: nil, bundle: nil)
-        self.showSkipButton = showSkipButton
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -76,8 +66,7 @@ class DAGetSocialViewController: UIViewController, UITableViewDataSource, UITabl
     override func loadView() {
         view = getSocialView
         
-        adjustInsetsForScrollView(getSocialView.tableView)
         navigationItem.title = "Get Social"
-        getSocialView.skipButton.hidden = !showSkipButton
+        getSocialView.skipButton.hidden = true
     }
 }

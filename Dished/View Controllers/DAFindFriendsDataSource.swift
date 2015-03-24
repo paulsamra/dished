@@ -9,12 +9,28 @@
 import UIKit
 import AddressBook
 
-class DAFindFriendsController {
+protocol DAFindFriendsDataSourceDelegate: class {
+    func findFriendsDataSourceDidFinishLoadingFriends(dataSource: DAFindFriendsDataSource)
+    func findFriendsDataSourceDidFailToLoadFriends(dataSource: DAFindFriendsDataSource)
+}
+
+class DAFindFriendsDataSource {
     
     var friends = [DAFriend]()
     var registerDataTask: NSURLSessionTask? = nil
+    weak var delegate: DAFindFriendsDataSourceDelegate? = nil
 
-    func getFriends(completion: (Bool) -> ()) {
+    func contactsAccessAllowed() -> Bool {
+        let status = SwiftAddressBook.authorizationStatus()
+        
+        if status == ABAuthorizationStatus.Authorized {
+            return true
+        }
+        
+        return false
+    }
+
+    func loadFriends() {
         swiftAddressBook?.requestAccessWithCompletion {
             granted, error in
 
@@ -23,7 +39,7 @@ class DAFindFriendsController {
                 friends in
                 
                 if friends == nil {
-                    completion(false)
+                    self.delegate?.findFriendsDataSourceDidFailToLoadFriends(self)
                     return
                 }
                 
@@ -32,7 +48,7 @@ class DAFindFriendsController {
                     $0.name < $1.name
                 }
                 
-                completion(true)
+                self.delegate?.findFriendsDataSourceDidFinishLoadingFriends(self)
             })
         }
     }
@@ -58,15 +74,15 @@ class DAFindFriendsController {
                 
                 for contact in results {
                     let friend = DAFriend()
-                    friend.name = contact[kNameKey] as String
-                    friend.phoneNumber = contact[kPhoneKey] as String
-                    friend.registered = contact["registered"] as Bool
+                    friend.name = contact[kNameKey] as? String ?? ""
+                    friend.phoneNumber = contact[kPhoneKey] as? String ?? ""
+                    friend.registered = contact["registered"] as? Bool ?? false
                     
                     if friend.registered {
-                        friend.username = contact[kUsernameKey] as String
+                        friend.username = contact[kUsernameKey] as? String ?? ""
                     }
                     else {
-                        friend.invited = contact["invited"] as Bool
+                        friend.invited = contact["invited"] as? Bool ?? false
                     }
                     
                     friends.append(friend)
@@ -140,7 +156,7 @@ class DAFindFriendsController {
         return contact
     }
     
-    private func processContact(person: SwiftAddressBookPerson, phoneNumber: String) -> [String:String] {
+    private func processContact(person: SwiftAddressBookPerson, phoneNumber: String) -> [String:String]? {
         let name = person.compositeName as String?
         let email = person.emails?[0].value as String?
         var number = phoneNumber
@@ -154,7 +170,7 @@ class DAFindFriendsController {
         }
         
         if countElements(number) != 10 {
-            number = ""
+            return nil
         }
         
         return dictionaryWithName(name, number: number, email: email)

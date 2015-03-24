@@ -17,12 +17,10 @@ class DATableViewCell: UITableViewCell {
     
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        setupViews()
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
     }
     
     override init() {

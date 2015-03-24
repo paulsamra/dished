@@ -9,65 +9,74 @@
 import UIKit
 import MessageUI
 
-class DAFindFriendsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
-
+class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource, DAFindFriendsDataSourceDelegate, MFMessageComposeViewControllerDelegate
+{
     var findFriendsView = DAFindFriendsView()
-    var friendsController = DAFindFriendsController()
+    var friendsDataSource = DAFindFriendsDataSource()
     let cellIdentifier = "cell"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        findFriendsView.tableView.registerClass(DAUserListTableViewCell.classForCoder(), forCellReuseIdentifier: cellIdentifier)
+        findFriendsView.tableView.registerClass(DAUserTableViewCell.classForCoder(), forCellReuseIdentifier: cellIdentifier)
         
         findFriendsView.tableView.delegate = self
         findFriendsView.tableView.dataSource = self
+        friendsDataSource.delegate = self
+        
+        navigationItem.title = "Find Friends"
         
         loadContacts()
     }
     
     private func loadContacts() {
         findFriendsView.showSpinner()
+        friendsDataSource.loadFriends()
+    }
+    
+    func findFriendsDataSourceDidFailToLoadFriends(dataSource: DAFindFriendsDataSource) {
+        findFriendsView.hideSpinner()
         
-        friendsController.getFriends({
-            success in
-            
-            if success {
-                self.findFriendsView.tableView.reloadData()
-            }
-            else {
-                self.findFriendsView.tableView.hidden = true
-                self.findFriendsView.errorLabel.text = "Failed to load contacts."
-            }
-            
-            self.findFriendsView.hideSpinner()
-        })
+        if friendsDataSource.contactsAccessAllowed() {
+            findFriendsView.showErrorWithMessage("Failed to load contacts.")
+        }
+        else {
+            findFriendsView.showErrorWithMessage("Dished needs your permission\nto access your contacts.")
+        }
+    }
+    
+    func findFriendsDataSourceDidFinishLoadingFriends(dataSource: DAFindFriendsDataSource) {
+        findFriendsView.tableView.reloadData()
+        findFriendsView.hideSpinner()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friendsController.friends.count ?? 0
+        return friendsDataSource.friends.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as DAUserListTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as DAUserTableViewCell
         
-        let friend = friendsController.friends[indexPath.row]
+        let friend = friendsDataSource.friends[indexPath.row]
         
-        cell.textLabel?.font = UIFont(name: kHelveticaNeueLightFont, size: 17.0)
-        cell.textLabel?.text = friend.name
+        cell.nameLabel.text = friend.name
         cell.sideButton.addTarget(self, action: "sideButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         
         if friend.registered {
-            cell.sideButton.setTitle("Unfollow", forState: UIControlState.Normal)
-            cell.sideButton.setTitleColor(UIColor.redColor(), forState: UIControlState.Normal)
-        }
-        else if friend.invited {
-            cell.sideButton.setTitle("Invited", forState: UIControlState.Normal)
-            cell.sideButton.setTitleColor(UIColor.dishedColor(), forState: UIControlState.Normal)
+            cell.style = DAUserTableViewCellStyle.UsernameSubtitle
+            cell.subtitleLabel?.text = friend.formattedUsername()
+            let buttonTitle = friend.following ? "Unfollow" : "Follow"
+            let buttonColor = friend.following ? UIColor.redColor() : UIColor.followButtonColor()
+            cell.sideButton.setTitle(buttonTitle, forState: UIControlState.Normal)
+            cell.sideButton.setTitleColor(buttonColor, forState: UIControlState.Normal)
         }
         else {
-            cell.sideButton.setTitle("Invite", forState: UIControlState.Normal)
-            cell.sideButton.setTitleColor(UIColor.followButtonColor(), forState: UIControlState.Normal)
+            cell.style = DAUserTableViewCellStyle.ContactSubtitle
+            cell.subtitleLabel?.text = friend.formattedPhoneNumber()
+            let buttonTitle = friend.invited ? "Invited" : "Invite"
+            let buttonColor = friend.invited ? UIColor.dishedColor() : UIColor.followButtonColor()
+            cell.sideButton.setTitle(buttonTitle, forState: UIControlState.Normal)
+            cell.sideButton.setTitleColor(buttonColor, forState: UIControlState.Normal)
         }
         
         cell.selectionStyle = UITableViewCellSelectionStyle.None
@@ -79,15 +88,12 @@ class DAFindFriendsViewController: UIViewController, UITableViewDelegate, UITabl
         let tableView = findFriendsView.tableView
         var buttonPosition: CGPoint = button.convertPoint(CGPointZero, toView: tableView)
         var indexPath: NSIndexPath = tableView.indexPathForRowAtPoint(buttonPosition)!
-        let friend = friendsController.friends[indexPath.row]
+        let friend = friendsDataSource.friends[indexPath.row]
         
         if friend.registered {
             
         }
-        else if friend.invited {
-            
-        }
-        else {
+        else if !friend.invited {
             showMessageControllerForFriend(friend)
         }
     }
@@ -98,11 +104,20 @@ class DAFindFriendsViewController: UIViewController, UITableViewDelegate, UITabl
         }
         
         let recipients = [friend.phoneNumber]
-        
         let messageController = MFMessageComposeViewController()
         messageController.recipients = recipients
         
         presentViewController(messageController, animated: true, completion: nil)
+    }
+    
+    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult)
+    {
+        switch result.value {
+        case MessageComposeResultFailed.value: break
+        case MessageComposeResultCancelled.value: break
+        case MessageComposeResultSent.value: break
+        default: break
+        }
     }
     
     override func loadView() {
