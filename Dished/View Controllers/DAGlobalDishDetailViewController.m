@@ -58,8 +58,7 @@ static NSString *const kDishHeaderIdentifier = @"titleHeader";
     self.referenceDishCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"dishCell" forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
     self.referenceReviewCell = [self.collectionView dequeueReusableCellWithReuseIdentifier:@"reviewCell" forIndexPath:[NSIndexPath indexPathForItem:0 inSection:0]];
     
-    UINib *headerNib = [UINib nibWithNibName:@"DADishHeaderCollectionReusableView" bundle:[NSBundle mainBundle]];
-    [self.collectionView registerNib:headerNib forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDishHeaderIdentifier];
+    [self.collectionView registerClass:[DADishHeaderCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kDishHeaderIdentifier];
     
     self.navigationItem.rightBarButtonItem.enabled = NO;
     

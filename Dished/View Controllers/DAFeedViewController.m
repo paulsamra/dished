@@ -136,8 +136,7 @@ typedef enum
 
 - (void)registerCollectionViewCellNibs
 {
-    UINib *reviewDetailCellNib = [UINib nibWithNibName:@"DAReviewDetailCollectionViewCell" bundle:[NSBundle mainBundle]];
-    [self.collectionView registerNib:reviewDetailCellNib forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
+    [self.collectionView registerClass:[DAReviewDetailCollectionViewCell class] forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
     
     UINib *reviewButtonsCellNib = [UINib nibWithNibName:@"DAReviewButtonsCollectionViewCell" bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:reviewButtonsCellNib forCellWithReuseIdentifier:kReviewButtonsCellIdentifier];

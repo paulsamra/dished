@@ -9,10 +9,8 @@
 import UIKit
 
 
-class DACollectionView: UICollectionView
-{
-    override func touchesShouldCancelInContentView(view: UIView!) -> Bool
-    {
+class DACollectionView: UICollectionView {
+    override func touchesShouldCancelInContentView(view: UIView!) -> Bool {
         return true;
     }
 }

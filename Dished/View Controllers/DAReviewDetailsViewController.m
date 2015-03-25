@@ -171,14 +171,12 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 
 - (void)registerCollectionViewCellNibs
 {
-    UINib *reviewDetailCellNib = [UINib nibWithNibName:@"DAReviewDetailCollectionViewCell" bundle:[NSBundle mainBundle]];
-    [self.collectionView registerNib:reviewDetailCellNib forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
+    [self.collectionView registerClass:[DAReviewDetailCollectionViewCell class] forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
     
     UINib *reviewButtonsCellNib = [UINib nibWithNibName:@"DAReviewButtonsCollectionViewCell" bundle:[NSBundle mainBundle]];
     [self.collectionView registerNib:reviewButtonsCellNib forCellWithReuseIdentifier:kReviewButtonsCellIdentifier];
     
-    UINib *headerNib = [UINib nibWithNibName:@"DADishHeaderCollectionReusableView" bundle:[NSBundle mainBundle]];
-    [self.collectionView registerNib:headerNib forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kReviewHeaderIdentifier];
+    [self.collectionView registerClass:[DADishHeaderCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kReviewHeaderIdentifier];
 }
 
 - (void)refreshReviewData

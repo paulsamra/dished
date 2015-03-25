@@ -248,7 +248,6 @@
 		941292471A1BEED500B7C763 /* DAUserNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E2520B1A08BAF900D6DCE4 /* DAUserNewsTableViewCell.xib */; };
 		941292481A1BEED500B7C763 /* DACommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */; };
 		941292491A1BEED500B7C763 /* DADishTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F2AD76198C454600450C6F /* DADishTableViewCell.xib */; };
-		9412924C1A1BEED500B7C763 /* DAReviewDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */; };
 		941292521A1BEED500B7C763 /* uv_idea@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAFC1A1499970065229C /* uv_idea@2x.png */; };
 		941292531A1BEED500B7C763 /* JSQMessagesToolbarContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94CB03F319B146AF009010F6 /* JSQMessagesToolbarContentView.xib */; };
 		941292571A1BEED500B7C763 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94CB03D119B0EECA009010F6 /* Images.xcassets */; };
@@ -450,7 +449,6 @@
 		941293461A1C7AD100B7C763 /* DAUserNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E2520B1A08BAF900D6DCE4 /* DAUserNewsTableViewCell.xib */; };
 		941293471A1C7AD100B7C763 /* DACommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */; };
 		941293481A1C7AD100B7C763 /* DADishTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F2AD76198C454600450C6F /* DADishTableViewCell.xib */; };
-		9412934B1A1C7AD100B7C763 /* DAReviewDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */; };
 		941293511A1C7AD100B7C763 /* uv_idea@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAFC1A1499970065229C /* uv_idea@2x.png */; };
 		941293521A1C7AD100B7C763 /* JSQMessagesToolbarContentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94CB03F319B146AF009010F6 /* JSQMessagesToolbarContentView.xib */; };
 		941293561A1C7AD100B7C763 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94CB03D119B0EECA009010F6 /* Images.xcassets */; };
@@ -836,6 +834,9 @@
 		946B49D11ABE712A008BECAB /* UIImage+Dished.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946B49CF1ABE712A008BECAB /* UIImage+Dished.swift */; };
 		946B49D21ABE712A008BECAB /* UIImage+Dished.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946B49CF1ABE712A008BECAB /* UIImage+Dished.swift */; };
 		946B4FB719BA24040045EB82 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 946B4FB619BA24040045EB82 /* Crashlytics.framework */; };
+		946CE2C81AC2965A004D4843 /* DACollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946CE2C71AC2965A004D4843 /* DACollectionViewCell.swift */; };
+		946CE2C91AC2965B004D4843 /* DACollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946CE2C71AC2965A004D4843 /* DACollectionViewCell.swift */; };
+		946CE2CA1AC2965B004D4843 /* DACollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 946CE2C71AC2965A004D4843 /* DACollectionViewCell.swift */; };
 		947381C31A46EEE600B1CFC2 /* NSAttributedString+Dished.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947381C21A46EEE600B1CFC2 /* NSAttributedString+Dished.swift */; };
 		947381C41A46EFF800B1CFC2 /* NSAttributedString+Dished.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947381C21A46EEE600B1CFC2 /* NSAttributedString+Dished.swift */; };
 		947381C51A46EFF800B1CFC2 /* NSAttributedString+Dished.swift in Sources */ = {isa = PBXBuildFile; fileRef = 947381C21A46EEE600B1CFC2 /* NSAttributedString+Dished.swift */; };
@@ -847,9 +848,6 @@
 		9474828B1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9474828A1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift */; };
 		9474828C1A4C0ECE00831978 /* DADishHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9474828A1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift */; };
 		9474828D1A4C0ECE00831978 /* DADishHeaderCollectionReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9474828A1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift */; };
-		9474828F1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */; };
-		947482901A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */; };
-		947482911A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */; };
 		947482CD1A4FF3D300831978 /* DAContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 947482CC1A4FF3D300831978 /* DAContact.m */; };
 		947482CE1A4FF3D300831978 /* DAContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 947482CC1A4FF3D300831978 /* DAContact.m */; };
 		947482CF1A4FF3D300831978 /* DAContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 947482CC1A4FF3D300831978 /* DAContact.m */; };
@@ -994,7 +992,6 @@
 		94AAAA621A43BF1300863E09 /* REComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4F1A43BF1300863E09 /* REComposeViewController.m */; };
 		94AAAA631A43BF1300863E09 /* REComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4F1A43BF1300863E09 /* REComposeViewController.m */; };
 		94AAAA641A43BF1300863E09 /* REComposeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA4F1A43BF1300863E09 /* REComposeViewController.m */; };
-		94AE445819E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */; };
 		94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */; };
 		94B43AAE19EB6D9500482F52 /* DACollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAD19EB6D9500482F52 /* DACollectionView.swift */; };
 		94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */; };
@@ -1468,6 +1465,7 @@
 		945F95B019A7B90400241D0D /* DAFeedImportManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedImportManager.m; sourceTree = "<group>"; };
 		946B49CF1ABE712A008BECAB /* UIImage+Dished.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIImage+Dished.swift"; sourceTree = "<group>"; };
 		946B4FB619BA24040045EB82 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		946CE2C71AC2965A004D4843 /* DACollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DACollectionViewCell.swift; sourceTree = "<group>"; };
 		947381C21A46EEE600B1CFC2 /* NSAttributedString+Dished.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Dished.swift"; sourceTree = "<group>"; };
 		947381C61A46F0DD00B1CFC2 /* UIViewController+Dished.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Dished.swift"; sourceTree = "<group>"; };
 		9473FACD19E63235003A1D1B /* DARestaurantProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARestaurantProfile.h; sourceTree = "<group>"; };
@@ -1475,7 +1473,6 @@
 		9473FAD319E636E9003A1D1B /* DAUserProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUserProfile.h; sourceTree = "<group>"; };
 		9473FAD419E636E9003A1D1B /* DAUserProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserProfile.m; sourceTree = "<group>"; };
 		9474828A1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADishHeaderCollectionReusableView.swift; sourceTree = "<group>"; };
-		9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DADishHeaderCollectionReusableView.xib; sourceTree = "<group>"; };
 		947482CB1A4FF3D300831978 /* DAContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAContact.h; sourceTree = "<group>"; };
 		947482CC1A4FF3D300831978 /* DAContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAContact.m; sourceTree = "<group>"; };
 		94756CC81A311B6E009B6BD6 /* DAPushManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAPushManager.h; sourceTree = "<group>"; };
@@ -1586,7 +1583,6 @@
 		94AAAA4D1A43BF1300863E09 /* REComposeViewController.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = REComposeViewController.bundle; sourceTree = "<group>"; };
 		94AAAA4E1A43BF1300863E09 /* REComposeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = REComposeViewController.h; sourceTree = "<group>"; };
 		94AAAA4F1A43BF1300863E09 /* REComposeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = REComposeViewController.m; sourceTree = "<group>"; };
-		94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DAReviewDetailCollectionViewCell.xib; sourceTree = "<group>"; };
 		94B43AAA19EB2BAF00482F52 /* DANotificationSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DANotificationSettingsViewController.h; sourceTree = "<group>"; };
 		94B43AAB19EB2BAF00482F52 /* DANotificationSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DANotificationSettingsViewController.m; sourceTree = "<group>"; };
 		94B43AAD19EB6D9500482F52 /* DACollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DACollectionView.swift; sourceTree = "<group>"; };
@@ -2112,11 +2108,9 @@
 			isa = PBXGroup;
 			children = (
 				94A6FE281A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift */,
-				94AE445719E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib */,
 				94A6FE341A46DBD800AB901F /* DAReviewButtonsCollectionViewCell.swift */,
 				943ECCF419EA2EC5009516E8 /* DAReviewButtonsCollectionViewCell.xib */,
 				9474828A1A4C0ECA00831978 /* DADishHeaderCollectionReusableView.swift */,
-				9474828E1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib */,
 			);
 			name = Reviews;
 			sourceTree = "<group>";
@@ -2968,6 +2962,7 @@
 				94FBA80A1ABE674A008F6670 /* DALoadingView.swift */,
 				9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */,
 				94B43AAD19EB6D9500482F52 /* DACollectionView.swift */,
+				946CE2C71AC2965A004D4843 /* DACollectionViewCell.swift */,
 				94FBA8091ABE672F008F6670 /* Table View Cells */,
 				941B511F1ABFC71A00B80F83 /* Buttons */,
 				943ECCF019EA2E84009516E8 /* Reviews */,
@@ -3147,7 +3142,6 @@
 				941292481A1BEED500B7C763 /* DACommentTableViewCell.xib in Resources */,
 				943883931A63D69C008E2AA3 /* FAQ.html in Resources */,
 				941292491A1BEED500B7C763 /* DADishTableViewCell.xib in Resources */,
-				9412924C1A1BEED500B7C763 /* DAReviewDetailCollectionViewCell.xib in Resources */,
 				940985731ABC0B8C009F20FF /* Info.plist in Resources */,
 				941292521A1BEED500B7C763 /* uv_idea@2x.png in Resources */,
 				943883971A63D9C6008E2AA3 /* faq_icons.png in Resources */,
@@ -3169,7 +3163,6 @@
 				941292681A1BEED500B7C763 /* uv_article@2x.png in Resources */,
 				941292691A1BEED500B7C763 /* UserVoice.strings in Resources */,
 				9412926B1A1BEED500B7C763 /* uv_heart.png in Resources */,
-				947482901A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */,
 				9412926D1A1BEED500B7C763 /* uv_article.png in Resources */,
 				94426CAA1A6A75C000186C35 /* test_variant.json in Resources */,
 			);
@@ -3186,7 +3179,6 @@
 				941293471A1C7AD100B7C763 /* DACommentTableViewCell.xib in Resources */,
 				943883941A63D69C008E2AA3 /* FAQ.html in Resources */,
 				941293481A1C7AD100B7C763 /* DADishTableViewCell.xib in Resources */,
-				9412934B1A1C7AD100B7C763 /* DAReviewDetailCollectionViewCell.xib in Resources */,
 				940985741ABC0B8C009F20FF /* Info.plist in Resources */,
 				941293511A1C7AD100B7C763 /* uv_idea@2x.png in Resources */,
 				943883981A63D9C6008E2AA3 /* faq_icons.png in Resources */,
@@ -3208,7 +3200,6 @@
 				941293671A1C7AD100B7C763 /* uv_article@2x.png in Resources */,
 				941293681A1C7AD100B7C763 /* UserVoice.strings in Resources */,
 				9412936A1A1C7AD100B7C763 /* uv_heart.png in Resources */,
-				947482911A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */,
 				9412936C1A1C7AD100B7C763 /* uv_article.png in Resources */,
 				94426CAB1A6A75C000186C35 /* test_variant.json in Resources */,
 			);
@@ -3225,7 +3216,6 @@
 				9443DF0219D026DE00F134BA /* DACommentTableViewCell.xib in Resources */,
 				94F2AD77198C454600450C6F /* DADishTableViewCell.xib in Resources */,
 				94426CA61A6A75C000186C35 /* snapshot_config.json in Resources */,
-				94AE445819E9FD830008C64F /* DAReviewDetailCollectionViewCell.xib in Resources */,
 				94D7CB071A1499970065229C /* uv_idea@2x.png in Resources */,
 				94CB040019B146AF009010F6 /* JSQMessagesToolbarContentView.xib in Resources */,
 				940985721ABC0B8C009F20FF /* Info.plist in Resources */,
@@ -3243,7 +3233,6 @@
 				941538D3193F270A008B3B79 /* App.xcassets in Resources */,
 				94426C311A6A75BF00186C35 /* MPCloseBtn@2x.png in Resources */,
 				94D7CB061A1499970065229C /* uv_idea.png in Resources */,
-				9474828F1A4C0EF900831978 /* DADishHeaderCollectionReusableView.xib in Resources */,
 				94D7CB031A1499970065229C /* uv_article@2x.png in Resources */,
 				94426C6D1A6A75BF00186C35 /* MPSurvey.storyboard in Resources */,
 				94426BE61A6A75BF00186C35 /* Media.xcassets in Resources */,
@@ -3571,6 +3560,7 @@
 				9412920F1A1BEED500B7C763 /* JSQMessagesComposerTextView.m in Sources */,
 				9499216B1ABB360000A247B0 /* SwiftAddressBookWrapper.swift in Sources */,
 				94230AD41ABECCDD00A4D50A /* DASplashNavigator.swift in Sources */,
+				946CE2C91AC2965B004D4843 /* DACollectionViewCell.swift in Sources */,
 				941292101A1BEED500B7C763 /* NSError+STTwitter.m in Sources */,
 				941292111A1BEED500B7C763 /* DAAPIManager.m in Sources */,
 				94A6FE431A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
@@ -3901,6 +3891,7 @@
 				9412930E1A1C7AD100B7C763 /* JSQMessagesComposerTextView.m in Sources */,
 				9499216C1ABB360000A247B0 /* SwiftAddressBookWrapper.swift in Sources */,
 				94230AD51ABECCDD00A4D50A /* DASplashNavigator.swift in Sources */,
+				946CE2CA1AC2965B004D4843 /* DACollectionViewCell.swift in Sources */,
 				9412930F1A1C7AD100B7C763 /* NSError+STTwitter.m in Sources */,
 				941293101A1C7AD100B7C763 /* DAAPIManager.m in Sources */,
 				94A6FE441A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
@@ -4231,6 +4222,7 @@
 				94CB03FC19B146AF009010F6 /* JSQMessagesComposerTextView.m in Sources */,
 				9499216A1ABB360000A247B0 /* SwiftAddressBookWrapper.swift in Sources */,
 				94230AD31ABECCDD00A4D50A /* DASplashNavigator.swift in Sources */,
+				946CE2C81AC2965A004D4843 /* DACollectionViewCell.swift in Sources */,
 				943E62591987362100DF2135 /* NSError+STTwitter.m in Sources */,
 				94E5EF4E194348380021A711 /* DAAPIManager.m in Sources */,
 				94A6FE421A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
