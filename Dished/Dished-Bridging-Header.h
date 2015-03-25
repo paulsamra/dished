@@ -6,6 +6,7 @@
 #import "DAAppDelegate.h"
 #import "DAAPIManager.h"
 #import "PureLayout.h"
+#import "UIImageView+WebCache.h"
 #import "SWTableViewCell.h"
 #import "DALinkedTextView.h"
 #import "DAConstants.h"

@@ -77,9 +77,12 @@ class DAFindFriendsDataSource {
                     friend.name = contact[kNameKey] as? String ?? ""
                     friend.phoneNumber = contact[kPhoneKey] as? String ?? ""
                     friend.registered = contact["registered"] as? Bool ?? false
+                    friend.image = contact["img_thumb"] as? String ?? ""
                     
                     if friend.registered {
                         friend.username = contact[kUsernameKey] as? String ?? ""
+                        friend.following = contact["follows"] as? Bool ?? false
+                        friend.userID = ( contact[kIDKey] as? String ?? "" ).toInt() ?? 0
                     }
                     else {
                         friend.invited = contact["invited"] as? Bool ?? false

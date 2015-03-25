@@ -16,10 +16,12 @@ enum DAUserTableViewCellStyle {
 
 class DAUserTableViewCell: DATableViewCell
 {
-    var userImageView: UIImageView?
+    var userImageView: UIImageView!
     var nameLabel: UILabel!
     var sideButton: UIButton!
-    var subtitleLabel: UILabel?
+    var subtitleLabel: UILabel!
+    
+    let userImageSize = CGSizeMake(27.0, 27.0)
     
     private var nameLabelLeftConstraint: NSLayoutConstraint!
     private var nameLabelVerticalConstraint: NSLayoutConstraint!
@@ -35,70 +37,69 @@ class DAUserTableViewCell: DATableViewCell
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        if style == DAUserTableViewCellStyle.Default {
-            createImageView()
-            subtitleLabel?.removeFromSuperview()
-            subtitleLabel = nil
+        let userImageSize = CGSizeMake(27.0, 27.0)
+        userImageView.layer.cornerRadius = userImageSize.width / 2
+
+        if style == DAUserTableViewCellStyle.Default || style == DAUserTableViewCellStyle.UsernameSubtitle {
+            setupImageView()
             
             removeConstraint(nameLabelLeftConstraint)
-            nameLabelLeftConstraint = nameLabel.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Right, ofView: userImageView!, withOffset: 8.0)
+            nameLabelLeftConstraint = nameLabel.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Right, ofView: userImageView, withOffset: 8.0)
             
             nameLabelVerticalConstraint.constant = 0.0
-            
-            return
+        }
+        else {
+            userImageView?.removeFromSuperview()
+            removeConstraint(nameLabelLeftConstraint)
+            nameLabelLeftConstraint = nameLabel.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 15.0)
         }
         
-        userImageView?.removeFromSuperview()
-        userImageView = nil
-        
-        removeConstraint(nameLabelLeftConstraint)
-        nameLabelLeftConstraint = nameLabel.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 15.0)
-        
-        createSubtitleLabel()
-        nameLabelVerticalConstraint.constant = -9.0
+        if style != DAUserTableViewCellStyle.Default {
+            setupSubtitleLabel()
+            nameLabelVerticalConstraint.constant = -9.0
+        }
+        else {
+            subtitleLabel.removeFromSuperview()
+        }
     }
     
-    private func createSubtitleLabel() {
-        if subtitleLabel != nil {
-            return
+    private func setupSubtitleLabel() {
+        if subtitleLabel == nil {
+            subtitleLabel = UILabel()
+            subtitleLabel.font = UIFont(name: kHelveticaNeueLightFont, size: 12.0)
         }
         
-        subtitleLabel = UILabel()
-        subtitleLabel!.font = UIFont(name: kHelveticaNeueLightFont, size: 12.0)
-        addSubview(subtitleLabel!)
-        subtitleLabel!.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Left, ofView: nameLabel)
-        subtitleLabel!.autoSetDimension(ALDimension.Height, toSize: 14.0)
-        subtitleLabel!.autoPinEdge(ALEdge.Right, toEdge: ALEdge.Left, ofView: sideButton, withOffset: 7.0, relation: NSLayoutRelation.GreaterThanOrEqual)
-        subtitleLabel!.autoPinEdge(ALEdge.Top, toEdge: ALEdge.Bottom, ofView: nameLabel, withOffset:2.0)
+        addSubview(subtitleLabel)
+        subtitleLabel.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Left, ofView: nameLabel)
+        subtitleLabel.autoSetDimension(ALDimension.Height, toSize: 14.0)
+        subtitleLabel.autoPinEdge(ALEdge.Right, toEdge: ALEdge.Left, ofView: sideButton, withOffset: 7.0, relation: NSLayoutRelation.GreaterThanOrEqual)
+        subtitleLabel.autoPinEdge(ALEdge.Top, toEdge: ALEdge.Bottom, ofView: nameLabel, withOffset:2.0)
     }
     
-    private func createImageView() {
-        if userImageView != nil {
-            return
+    private func setupImageView() {
+        if userImageView == nil {
+            userImageView = UIImageView()
+            userImageView.contentMode = UIViewContentMode.ScaleAspectFill
+            userImageView.layer.masksToBounds = true
         }
         
-        userImageView = UIImageView()
-        userImageView!.contentMode = UIViewContentMode.ScaleAspectFill
-        userImageView!.layer.masksToBounds = true
-        let userImageSize = CGSizeMake(27.0, 27.0)
-        userImageView!.layer.cornerRadius = userImageSize.width / 2
-        addSubview(userImageView!)
-        userImageView!.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 15.0)
-        userImageView!.autoSetDimensionsToSize(userImageSize)
-        userImageView!.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
+        addSubview(userImageView)
+        userImageView.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 15.0)
+        userImageView.autoSetDimensionsToSize(userImageSize)
+        userImageView.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
     }
     
     override func setupViews() {
         layer.masksToBounds = true
         
-        createImageView()
+        setupImageView()
         
         sideButton = UIButton()
-        sideButton.titleLabel?.font = UIFont(name: kHelveticaNeueLightFont, size: 17.0)
+        sideButton.titleLabel?.font = UIFont(name: kHelveticaNeueLightFont, size: 18.0)
         sideButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right;
         addSubview(sideButton)
         sideButton.autoPinEdgeToSuperviewEdge(ALEdge.Right, withInset: 8)
-        sideButton.autoSetDimensionsToSize(CGSizeMake(64, 27))
+        sideButton.autoSetDimensionsToSize(CGSizeMake(70, 27))
         sideButton.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
         
         nameLabel = UILabel()
@@ -106,10 +107,10 @@ class DAUserTableViewCell: DATableViewCell
         addSubview(nameLabel)
         nameLabelVerticalConstraint = nameLabel.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
         nameLabel.autoSetDimension(ALDimension.Height, toSize: 20.0)
-        nameLabelLeftConstraint = nameLabel.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Right, ofView: userImageView!, withOffset: 8)
+        nameLabelLeftConstraint = nameLabel.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Right, ofView: userImageView, withOffset: 8)
         nameLabel.autoPinEdge(ALEdge.Right, toEdge: ALEdge.Left, ofView: sideButton, withOffset: 7, relation: NSLayoutRelation.GreaterThanOrEqual)
         
-        createSubtitleLabel()
+        setupSubtitleLabel()
     }
     
     override func prepareForReuse()

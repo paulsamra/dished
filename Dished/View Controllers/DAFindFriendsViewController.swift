@@ -9,11 +9,15 @@
 import UIKit
 import MessageUI
 
-class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource, DAFindFriendsDataSourceDelegate, MFMessageComposeViewControllerDelegate
-{
-    var findFriendsView = DAFindFriendsView()
-    var friendsDataSource = DAFindFriendsDataSource()
+class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource, DAFindFriendsDataSourceDelegate, DAFindFriendsInteractorDelegate {
+    
+    let findFriendsView = DAFindFriendsView()
+    let friendsDataSource = DAFindFriendsDataSource()
     let cellIdentifier = "cell"
+    
+    lazy var findFriendsInteractor: DAFindFriendsInteractor = {
+        return DAFindFriendsInteractor(delegate: self)
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,7 +64,7 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         let friend = friendsDataSource.friends[indexPath.row]
         
         cell.nameLabel.text = friend.name
-        cell.sideButton.addTarget(self, action: "sideButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        cell.sideButton.addTarget(self, action: "cellButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         
         if friend.registered {
             cell.style = DAUserTableViewCellStyle.UsernameSubtitle
@@ -69,6 +73,10 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
             let buttonColor = friend.following ? UIColor.redColor() : UIColor.followButtonColor()
             cell.sideButton.setTitle(buttonTitle, forState: UIControlState.Normal)
             cell.sideButton.setTitleColor(buttonColor, forState: UIControlState.Normal)
+            
+            let url = NSURL(string: friend.image)
+            let placeholder = UIImage(named: "profile_image")
+            cell.userImageView?.sd_setImageWithURL(url, placeholderImage: placeholder)
         }
         else {
             cell.style = DAUserTableViewCellStyle.ContactSubtitle
@@ -84,40 +92,28 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         return cell
     }
     
-    func sideButtonPressed(button: UIButton) {
-        let tableView = findFriendsView.tableView
-        var buttonPosition: CGPoint = button.convertPoint(CGPointZero, toView: tableView)
-        var indexPath: NSIndexPath = tableView.indexPathForRowAtPoint(buttonPosition)!
-        let friend = friendsDataSource.friends[indexPath.row]
-        
-        if friend.registered {
-            
-        }
-        else if !friend.invited {
-            showMessageControllerForFriend(friend)
-        }
-    }
-    
-    func showMessageControllerForFriend(friend: DAFriend) {
-        if !MFMessageComposeViewController.canSendText() {
+    func cellButtonPressed(button: UIButton) {
+        let indexPath = findFriendsView.tableView.indexPathForView(button)
+        if indexPath == nil {
             return
         }
         
-        let recipients = [friend.phoneNumber]
-        let messageController = MFMessageComposeViewController()
-        messageController.recipients = recipients
+        let friend = friendsDataSource.friends[indexPath!.row]
         
-        presentViewController(messageController, animated: true, completion: nil)
+        if friend.registered {
+            findFriendsInteractor.doFollowInteractionForFriend(friend)
+            findFriendsView.tableView.reloadData()
+        }
+        else if !friend.invited {
+            if let composer = findFriendsInteractor.messageComposerForFriend(friend) {
+                presentViewController(composer, animated: true, completion: nil)
+            }
+        }
     }
     
-    func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult)
-    {
-        switch result.value {
-        case MessageComposeResultFailed.value: break
-        case MessageComposeResultCancelled.value: break
-        case MessageComposeResultSent.value: break
-        default: break
-        }
+    func findFriendsInteractorDidFinishSendingMessage(interactor: DAFindFriendsInteractor) {
+        dismissViewControllerAnimated(true, completion: nil)
+        findFriendsView.tableView.reloadData()
     }
     
     override func loadView() {

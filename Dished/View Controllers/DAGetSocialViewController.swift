@@ -26,6 +26,7 @@ class DAGetSocialViewController: DAViewController, UITableViewDataSource, UITabl
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
+        getSocialView.tableView.deselectSelectedIndexPath()
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
