@@ -172,10 +172,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 - (void)registerCollectionViewCellNibs
 {
     [self.collectionView registerClass:[DAReviewDetailCollectionViewCell class] forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
-    
-    UINib *reviewButtonsCellNib = [UINib nibWithNibName:@"DAReviewButtonsCollectionViewCell" bundle:[NSBundle mainBundle]];
-    [self.collectionView registerNib:reviewButtonsCellNib forCellWithReuseIdentifier:kReviewButtonsCellIdentifier];
-    
+    [self.collectionView registerClass:[DAReviewButtonsCollectionViewCell class] forCellWithReuseIdentifier:kReviewButtonsCellIdentifier];
     [self.collectionView registerClass:[DADishHeaderCollectionReusableView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:kReviewHeaderIdentifier];
 }
 
@@ -292,11 +289,8 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         footerCell.delegate = self;
         
         NSInteger numComments = self.review.num_comments - 1;
-        NSString *commentFormat = numComments == 0 ? @" No comments" : numComments == 1 ? @" %d comment" : @" %d comments";
-        NSString *commentString = [NSString stringWithFormat:commentFormat, numComments];
-        [footerCell.commentsButton setTitle:commentString forState:UIControlStateNormal];
-        
-        self.review.caller_yumd ? [self yumCell:footerCell] : [self unyumCell:footerCell];
+        [footerCell setNumberOfComments:numComments];
+        self.review.caller_yumd ? [footerCell setYummed] : [footerCell setUnyummed];
         
         cell = footerCell;
     }
@@ -394,16 +388,6 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 - (void)titleButtonTappedOnFeedHeaderCollectionReusableView:(DADishHeaderCollectionReusableView *)cell
 {
     [self pushGlobalDishViewWithDishID:self.review.dish_id];
-}
-
-- (void)yumCell:(DAReviewButtonsCollectionViewCell *)cell
-{
-    cell.yumButton.selected = YES;
-}
-
-- (void)unyumCell:(DAReviewButtonsCollectionViewCell *)cell
-{
-    cell.yumButton.selected = NO;
 }
 
 - (NSAttributedString *)commentStringForComment:(DAComment *)comment atIndexPath:(NSIndexPath *)indexPath
@@ -734,7 +718,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         NSInteger row = [self.collectionView numberOfItemsInSection:0] - 1;
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:0];
         DAReviewButtonsCollectionViewCell *buttonCell = (DAReviewButtonsCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:indexPath];
-        [self yumCell:buttonCell];
+        [buttonCell setYummed];
         [self yumFeedItemWithReviewID:self.feedItem ? [self.feedItem.item_id integerValue] : self.reviewID];
     }
 }
@@ -750,7 +734,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 
     if( [self.feedItem.caller_yumd boolValue] || self.review.caller_yumd )
     {
-        [self unyumCell:cell];
+        [cell setUnyummed];
         self.feedItem.caller_yumd = @(NO);
         self.review.caller_yumd = NO;
         [self removeCurrentUserYumFromReview];
@@ -759,7 +743,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
     }
     else
     {
-        [self yumCell:cell];
+        [cell setYummed];
         self.feedItem.caller_yumd = @(YES);
         self.review.caller_yumd = YES;
         [self addCurrentUserYumToReview];

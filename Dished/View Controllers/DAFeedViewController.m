@@ -137,9 +137,7 @@ typedef enum
 - (void)registerCollectionViewCellNibs
 {
     [self.collectionView registerClass:[DAReviewDetailCollectionViewCell class] forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
-    
-    UINib *reviewButtonsCellNib = [UINib nibWithNibName:@"DAReviewButtonsCollectionViewCell" bundle:[NSBundle mainBundle]];
-    [self.collectionView registerNib:reviewButtonsCellNib forCellWithReuseIdentifier:kReviewButtonsCellIdentifier];
+    [self.collectionView registerClass:[DAReviewButtonsCollectionViewCell class] forCellWithReuseIdentifier:kReviewButtonsCellIdentifier];
 }
 
 - (void)setupRefreshControl
@@ -396,12 +394,8 @@ typedef enum
         DAReviewButtonsCollectionViewCell *buttonCell = [collectionView dequeueReusableCellWithReuseIdentifier:kReviewButtonsCellIdentifier forIndexPath:indexPath];
         
         NSInteger numComments = [feedItem.num_comments intValue] - 1;
-        NSString *format = numComments == 0 ? @" No comments" : numComments == 1 ? @" %d comment" : @" %d comments";
-        NSString *commentString = [NSString stringWithFormat:format, numComments];
-        [buttonCell.commentsButton setTitle:commentString forState:UIControlStateNormal];
-        
-        [feedItem.caller_yumd boolValue] ? [self yumCell:buttonCell] : [self unyumCell:buttonCell];
-        
+        [buttonCell setNumberOfComments:numComments];
+        [feedItem.caller_yumd boolValue] ? [buttonCell setYummed] : [buttonCell setUnyummed];
         buttonCell.delegate = self;
         
         cell = buttonCell;
@@ -525,16 +519,6 @@ typedef enum
     [self.attributedStringCache setObject:commentString forKey:comment.comment];
     
     return commentString;
-}
-
-- (void)yumCell:(DAReviewButtonsCollectionViewCell *)cell
-{
-    cell.yumButton.selected = YES;
-}
-
-- (void)unyumCell:(DAReviewButtonsCollectionViewCell *)cell
-{
-    cell.yumButton.selected = NO;
 }
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath
@@ -812,7 +796,7 @@ typedef enum
         NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
         NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForItem:sectionItems - 1 inSection:indexPath.section];
         DAReviewButtonsCollectionViewCell *buttonCell = (DAReviewButtonsCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:buttonIndexPath];
-        [self yumCell:buttonCell];
+        [buttonCell setYummed];
         [self yumFeedItemWithReviewID:[feedItem.item_id integerValue]];
     }
 }
@@ -824,7 +808,7 @@ typedef enum
 
     if( [feedItem.caller_yumd boolValue] )
     {
-        [self unyumCell:cell];
+        [cell setUnyummed];
         feedItem.caller_yumd = @(NO);
         feedItem.num_yums = @([feedItem.num_yums integerValue] - 1);
         
@@ -832,7 +816,7 @@ typedef enum
     }
     else
     {
-        [self yumCell:cell];
+        [cell setYummed];
         feedItem.caller_yumd = @(YES);
         feedItem.num_yums = @([feedItem.num_yums integerValue] + 1);
         
