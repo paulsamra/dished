@@ -88,7 +88,9 @@ class DAFindFriendsDataSource {
                         friend.invited = contact["invited"] as? Bool ?? false
                     }
                     
-                    friends.append(friend)
+                    if friend.username != DAUserManager.sharedManager().username {
+                        friends.append(friend)
+                    }
                 }
                 
                 completion(friends)

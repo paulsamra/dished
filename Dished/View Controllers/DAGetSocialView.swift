@@ -15,19 +15,30 @@ class DAGetSocialView: DAView {
     
     override func setupViews() {
         tableView = UITableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
-        let headerImage = UIImage(named: "get_social")
-        tableView.tableHeaderView = tableHeaderView(headerImage!)
+        tableView.tableHeaderView = tableHeaderView()
         tableView.tableFooterView = tableFooterView()
         addSubview(tableView)
         tableView.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsZero)
     }
     
-    private func tableHeaderView(image: UIImage) -> UIView {
-        let backgroundImageView = UIImageView(image: image)
+    private func tableHeaderView() -> UIView {
+        let backgroundImage = UIImage(named: "get_social")!
+        
+        let backgroundImageView = UIImageView(image: backgroundImage)
         backgroundImageView.contentMode = UIViewContentMode.ScaleAspectFill
         backgroundImageView.clipsToBounds = true
-        let imageSize = image.size
+        let imageSize = backgroundImage.size
         backgroundImageView.frame = CGRectMake(0, 0, imageSize.width, imageSize.height)
+        
+        let dishLogo = UIImage(named: "dish_white")!
+        let dishLogoView = UIImageView(image: dishLogo)
+        dishLogoView.contentMode = UIViewContentMode.ScaleAspectFill
+        dishLogoView.clipsToBounds = true
+        backgroundImageView.addSubview(dishLogoView)
+        let dishLogoSize = CGSizeMake(dishLogo.size.width / 2, dishLogo.size.height / 2)
+        dishLogoView.autoSetDimensionsToSize(dishLogoSize)
+        dishLogoView.autoAlignAxisToSuperviewAxis(ALAxis.Vertical)
+        dishLogoView.autoAlignAxis(ALAxis.Horizontal, toSameAxisOfView: backgroundImageView, withOffset: -30.0)
         
         let label = UILabel()
         label.text = "The more friends you have joining you on this\nculinary journey, the better your\nrecommendations will be."
