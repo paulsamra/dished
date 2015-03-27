@@ -1118,9 +1118,6 @@
 		94F4140F1AC5430A005C40CC /* DADataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4140E1AC5430A005C40CC /* DADataSource.swift */; };
 		94F414101AC5430A005C40CC /* DADataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4140E1AC5430A005C40CC /* DADataSource.swift */; };
 		94F414111AC5430A005C40CC /* DADataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4140E1AC5430A005C40CC /* DADataSource.swift */; };
-		94F414131AC55186005C40CC /* DATableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F414121AC55186005C40CC /* DATableViewController.swift */; };
-		94F414141AC55186005C40CC /* DATableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F414121AC55186005C40CC /* DATableViewController.swift */; };
-		94F414151AC55186005C40CC /* DATableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F414121AC55186005C40CC /* DATableViewController.swift */; };
 		94FBA80B1ABE674A008F6670 /* DALoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBA80A1ABE674A008F6670 /* DALoadingView.swift */; };
 		94FBA80C1ABE674A008F6670 /* DALoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBA80A1ABE674A008F6670 /* DALoadingView.swift */; };
 		94FBA80D1ABE674A008F6670 /* DALoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBA80A1ABE674A008F6670 /* DALoadingView.swift */; };
@@ -1800,7 +1797,6 @@
 		94F414061AC3FF6F005C40CC /* DAFoodieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFoodieView.swift; sourceTree = "<group>"; };
 		94F4140A1AC400A2005C40CC /* FoodieView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FoodieView.xib; sourceTree = "<group>"; };
 		94F4140E1AC5430A005C40CC /* DADataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADataSource.swift; sourceTree = "<group>"; };
-		94F414121AC55186005C40CC /* DATableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATableViewController.swift; sourceTree = "<group>"; };
 		94FBA80A1ABE674A008F6670 /* DALoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DALoadingView.swift; sourceTree = "<group>"; };
 		94FBA8101ABE68BF008F6670 /* DADishMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADishMapView.swift; sourceTree = "<group>"; };
 		94FBA8151ABE6CC7008F6670 /* DASplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASplashViewController.swift; sourceTree = "<group>"; };
@@ -2019,7 +2015,6 @@
 				94F4140E1AC5430A005C40CC /* DADataSource.swift */,
 				94502A7F1ABE775500810FBA /* DANavigationController.swift */,
 				941B51201ABFDC5400B80F83 /* DAViewController.swift */,
-				94F414121AC55186005C40CC /* DATableViewController.swift */,
 				94AAAA321A42EA5800863E09 /* Settings */,
 				9486156619FCC325002497D0 /* User Profiles */,
 				94F2AD69198B2D5E00450C6F /* Login & Register */,
@@ -3447,7 +3442,6 @@
 				941291BB1A1BEED500B7C763 /* MRIconView.m in Sources */,
 				941291BC1A1BEED500B7C763 /* Dished.xcdatamodeld in Sources */,
 				941291BD1A1BEED500B7C763 /* AFURLResponseSerialization.m in Sources */,
-				94F414141AC55186005C40CC /* DATableViewController.swift in Sources */,
 				941291BE1A1BEED500B7C763 /* STHTTPRequest.m in Sources */,
 				9413A9931AB6CECE00D70B72 /* ALView+PureLayout.m in Sources */,
 				941291BF1A1BEED500B7C763 /* STTwitterOS.m in Sources */,
@@ -3783,7 +3777,6 @@
 				941292BA1A1C7AD100B7C763 /* MRIconView.m in Sources */,
 				941292BB1A1C7AD100B7C763 /* Dished.xcdatamodeld in Sources */,
 				941292BC1A1C7AD100B7C763 /* AFURLResponseSerialization.m in Sources */,
-				94F414151AC55186005C40CC /* DATableViewController.swift in Sources */,
 				941292BD1A1C7AD100B7C763 /* STHTTPRequest.m in Sources */,
 				9413A9941AB6CECF00D70B72 /* ALView+PureLayout.m in Sources */,
 				941292BE1A1C7AD100B7C763 /* STTwitterOS.m in Sources */,
@@ -4119,7 +4112,6 @@
 				94F2AD9F198C539200450C6F /* SDWebImageDownloader.m in Sources */,
 				948615C919FE1C3D002497D0 /* MRIconView.m in Sources */,
 				941538CB193F270A008B3B79 /* Dished.xcdatamodeld in Sources */,
-				94F414131AC55186005C40CC /* DATableViewController.swift in Sources */,
 				94E5EF491943472D0021A711 /* AFURLResponseSerialization.m in Sources */,
 				9413A9901AB6CECA00D70B72 /* ALView+PureLayout.m in Sources */,
 				943E62641987362100DF2135 /* STHTTPRequest.m in Sources */,
