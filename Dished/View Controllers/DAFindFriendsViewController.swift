@@ -35,7 +35,7 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
     
     private func loadContacts() {
         findFriendsView.showSpinner()
-        friendsDataSource.loadFriends()
+        friendsDataSource.loadData()
     }
     
     func findFriendsDataSourceDidFailToLoadFriends(dataSource: DAFindFriendsDataSource) {

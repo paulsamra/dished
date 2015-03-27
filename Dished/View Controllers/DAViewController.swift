@@ -10,9 +10,15 @@ import UIKit
 
 class DAViewController: UIViewController {
 
+    var dataSource: DADataSource?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackNavigationItem()
+    }
+    
+    deinit {
+        dataSource?.cancelLoadingData()
     }
     
     private func setupBackNavigationItem() {

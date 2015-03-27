@@ -14,11 +14,11 @@ protocol DAFindFriendsDataSourceDelegate: class {
     func findFriendsDataSourceDidFailToLoadFriends(dataSource: DAFindFriendsDataSource)
 }
 
-class DAFindFriendsDataSource {
+class DAFindFriendsDataSource: DADataSource {
     
     var friends = [DAFriend]()
-    var registerDataTask: NSURLSessionTask? = nil
     weak var delegate: DAFindFriendsDataSourceDelegate? = nil
+    private var registerDataTask: NSURLSessionTask? = nil
 
     func contactsAccessAllowed() -> Bool {
         let status = SwiftAddressBook.authorizationStatus()
@@ -30,7 +30,7 @@ class DAFindFriendsDataSource {
         return false
     }
 
-    func loadFriends() {
+    func loadData() {
         swiftAddressBook?.requestAccessWithCompletion {
             granted, error in
 
@@ -51,6 +51,10 @@ class DAFindFriendsDataSource {
                 self.delegate?.findFriendsDataSourceDidFinishLoadingFriends(self)
             })
         }
+    }
+    
+    func cancelLoadingData() {
+        registerDataTask?.cancel()
     }
     
     private func getRegisterStatusForContacts(contacts: [[String:String]], completion: ([DAFriend]?) -> ()) {
@@ -97,8 +101,8 @@ class DAFindFriendsDataSource {
             },
             failure: {
                 error, retry in
-                println(error)
                 completion(nil)
+                return
             })
         }
         else {
