@@ -12,6 +12,7 @@ class DAView: UIView {
 
     override init() {
         super.init()
+        backgroundColor = UIColor.whiteColor()
         setupViews()
     }
     
@@ -24,6 +25,6 @@ class DAView: UIView {
     }
     
     func setupViews() {
-        backgroundColor = UIColor.whiteColor()
+        
     }
 }

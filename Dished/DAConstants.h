@@ -76,6 +76,7 @@ extern NSString *const kUsersNewsURL;
 extern NSString *const kUserImageURL;
 extern NSString *const kYumReviewURL;
 extern NSString *const kAuthTokenURL;
+extern NSString *const kUsersFindURL;
 extern NSString *const kFollowUserURL;
 extern NSString *const kDishSearchURL;
 extern NSString *const kUserUpdateURL;

@@ -10,8 +10,14 @@ import Foundation
 
 let IS_IOS8 = ( ( ( UIDevice.currentDevice().systemVersion as NSString ).floatValue >= 8.0 ) ? true : false )
 
-extension UIViewController
-{
+extension UIViewController {
+    
+    var mainStoryboard: UIStoryboard? {
+        get {
+            return UIStoryboard(name: "Main", bundle: nil)
+        }
+    }
+    
     func showAlertWithTitle( title: String?, message: String? )
     {
         if IS_IOS8
@@ -106,15 +112,13 @@ extension UIViewController
         target()?.pushViewController( commentsViewController, animated: true )
     }
     
-    func pushSettingsView()
-    {
+    func pushSettingsView() {
         let settingsViewController = viewControllerWithStoryboardID( kSettingsViewID )
         target()?.pushViewController( settingsViewController, animated: true )
     }
     
-    private func viewControllerWithStoryboardID( storyboardID: String ) -> UIViewController!
-    {
-        return self.storyboard?.instantiateViewControllerWithIdentifier( storyboardID ) as UIViewController
+    private func viewControllerWithStoryboardID(storyboardID: String) -> UIViewController! {
+        return self.mainStoryboard?.instantiateViewControllerWithIdentifier( storyboardID ) as UIViewController
     }
     
     func adjustInsetsForScrollView(scrollView: UIScrollView) {

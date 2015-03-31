@@ -8,36 +8,36 @@
 
 import Foundation
 
-extension UICollectionView
-{
-    func reloadDataAnimated( animated: Bool )
-    {
-        if !animated
-        {
+extension UICollectionView {
+    
+    func indexPathForView(view: UIView) -> NSIndexPath? {
+        var buttonPosition: CGPoint = view.convertPoint(CGPointZero, toView: self)
+        var indexPath: NSIndexPath? = indexPathForItemAtPoint(buttonPosition)
+        return indexPath
+    }
+
+    func reloadDataAnimated(animated: Bool) {
+        if !animated {
             CATransaction.begin()
-            CATransaction.setValue( kCFBooleanTrue, forKey: kCATransactionDisableActions )
+            CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
         }
         
         self.reloadData()
         
-        if !animated
-        {
+        if !animated {
             CATransaction.commit()
         }
     }
     
-    func reloadSections( sections: NSIndexSet, animated: Bool )
-    {
-        if !animated
-        {
+    func reloadSections(sections: NSIndexSet, animated: Bool) {
+        if !animated {
             CATransaction.begin()
-            CATransaction.setValue( kCFBooleanTrue, forKey: kCATransactionDisableActions )
+            CATransaction.setValue(kCFBooleanTrue, forKey: kCATransactionDisableActions)
         }
         
         self.reloadSections( sections )
         
-        if !animated
-        {
+        if !animated {
             CATransaction.commit()
         }
     }

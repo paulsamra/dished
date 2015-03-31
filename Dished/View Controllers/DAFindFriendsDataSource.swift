@@ -9,15 +9,16 @@
 import UIKit
 import AddressBook
 
-protocol DAFindFriendsDataSourceDelegate: class {
-    func findFriendsDataSourceDidFinishLoadingFriends(dataSource: DAFindFriendsDataSource)
-    func findFriendsDataSourceDidFailToLoadFriends(dataSource: DAFindFriendsDataSource)
-}
-
 class DAFindFriendsDataSource: DADataSource {
     
-    var friends = [DAFriend]()
-    weak var delegate: DAFindFriendsDataSourceDelegate? = nil
+    var data: [AnyObject] {
+        get {
+            return self.friends
+        }
+    }
+    
+    private var friends = [DAFriend]()
+    weak var delegate: DADataSourceDelegate? = nil
     private var registerDataTask: NSURLSessionTask? = nil
 
     func contactsAccessAllowed() -> Bool {
@@ -39,7 +40,7 @@ class DAFindFriendsDataSource: DADataSource {
                 friends in
                 
                 if friends == nil {
-                    self.delegate?.findFriendsDataSourceDidFailToLoadFriends(self)
+                    self.delegate?.dataSourceDidFailToLoadData(self, withError: nil)
                     return
                 }
                 
@@ -48,7 +49,7 @@ class DAFindFriendsDataSource: DADataSource {
                     $0.name < $1.name
                 }
                 
-                self.delegate?.findFriendsDataSourceDidFinishLoadingFriends(self)
+                self.delegate?.dataSourceDidFinishLoadingData(self)
             })
         }
     }

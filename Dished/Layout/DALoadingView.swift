@@ -10,22 +10,29 @@ import UIKit
 
 class DALoadingView: DAView {
 
-    var spinner = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+    var spinner: UIActivityIndicatorView?
+
+    private func newSpinner() -> UIActivityIndicatorView {
+        let indicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+        indicator.hidesWhenStopped = true
+        return indicator
+    }
+    
+    private func layoutSpinner(spinner: UIActivityIndicatorView) {
+        addSubview(spinner)
+        spinner.autoCenterInSuperview()
+        setNeedsUpdateConstraints()
+        layoutIfNeeded()
+    }
     
     func showSpinner() {
-        spinner.startAnimating()
+        spinner = newSpinner()
+        layoutSpinner(spinner!)
+        spinner?.startAnimating()
     }
     
     func hideSpinner() {
-        spinner.stopAnimating()
-    }
-    
-    override func setupViews() {
-        backgroundColor = UIColor.whiteColor()
-        
-        spinner.hidesWhenStopped = true
-        addSubview(spinner)
-        spinner.autoCenterInSuperview()
-        spinner.autoSetDimensionsToSize(spinner.bounds.size)
+        spinner?.stopAnimating()
+        spinner?.removeFromSuperview()
     }
 }

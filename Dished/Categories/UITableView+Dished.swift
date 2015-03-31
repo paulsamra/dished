@@ -17,7 +17,7 @@ extension UITableView {
     
     func indexPathForView(view: UIView) -> NSIndexPath? {
         var buttonPosition: CGPoint = view.convertPoint(CGPointZero, toView: self)
-        var indexPath: NSIndexPath = indexPathForRowAtPoint(buttonPosition)!
+        var indexPath: NSIndexPath? = indexPathForRowAtPoint(buttonPosition)
         return indexPath
     }
 }

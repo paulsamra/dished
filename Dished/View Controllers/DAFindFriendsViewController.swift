@@ -9,12 +9,12 @@
 import UIKit
 import MessageUI
 
-class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource, DAFindFriendsDataSourceDelegate, DAFindFriendsInteractorDelegate {
+class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource, DADataSourceDelegate, DAFindFriendsInteractorDelegate {
     
     let findFriendsView = DAFindFriendsView()
     let friendsDataSource = DAFindFriendsDataSource()
     let cellIdentifier = "cell"
-    
+        
     lazy var findFriendsInteractor: DAFindFriendsInteractor = {
         return DAFindFriendsInteractor(delegate: self)
     }()
@@ -38,7 +38,7 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         friendsDataSource.loadData()
     }
     
-    func findFriendsDataSourceDidFailToLoadFriends(dataSource: DAFindFriendsDataSource) {
+    func dataSourceDidFailToLoadData(dataSource: DADataSource, withError error: NSError?) {
         findFriendsView.hideSpinner()
         
         if friendsDataSource.contactsAccessAllowed() {
@@ -49,19 +49,19 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         }
     }
     
-    func findFriendsDataSourceDidFinishLoadingFriends(dataSource: DAFindFriendsDataSource) {
+    func dataSourceDidFinishLoadingData(dataSource: DADataSource) {
         findFriendsView.tableView.reloadData()
         findFriendsView.hideSpinner()
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friendsDataSource.friends.count ?? 0
+        return friendsDataSource.data.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as DAUserTableViewCell
         
-        let friend = friendsDataSource.friends[indexPath.row]
+        let friend = friendsDataSource.data[indexPath.row] as DAFriend
         
         cell.nameLabel.text = friend.name
         cell.sideButton.addTarget(self, action: "cellButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
@@ -98,7 +98,7 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
             return
         }
         
-        let friend = friendsDataSource.friends[indexPath!.row]
+        let friend = friendsDataSource.data[indexPath!.row] as DAFriend
         
         if friend.registered {
             findFriendsInteractor.doFollowInteractionForFriend(friend)
@@ -118,6 +118,5 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
     
     override func loadView() {
         view = findFriendsView
-        adjustInsetsForScrollView(findFriendsView.tableView)
     }
 }

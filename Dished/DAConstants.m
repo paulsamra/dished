@@ -53,6 +53,7 @@ NSString *const kUsersNewsURL               = @"users/news";
 NSString *const kUserImageURL               = @"users/image";
 NSString *const kYumReviewURL               = @"reviews/yum";
 NSString *const kAuthTokenURL               = @"auth/token";
+NSString *const kUsersFindURL               = @"users/find";
 NSString *const kFollowUserURL              = @"users/follow";
 NSString *const kDishSearchURL              = @"dishes/search";
 NSString *const kUserUpdateURL              = @"users/update";

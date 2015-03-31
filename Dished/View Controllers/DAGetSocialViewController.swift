@@ -61,7 +61,8 @@ class DAGetSocialViewController: DAViewController, UITableViewDataSource, UITabl
     }
     
     private func showActiveFoodies() {
-        
+        let activeFoodiesViewController = DAActiveFoodiesViewController()
+        navigationController?.pushViewController(activeFoodiesViewController, animated: true)
     }
     
     override func loadView() {

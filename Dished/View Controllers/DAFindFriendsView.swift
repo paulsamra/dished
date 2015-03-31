@@ -26,20 +26,19 @@ class DAFindFriendsView: DALoadingView {
     }
     
     override func hideSpinner() {
-        super.showSpinner()
+        super.hideSpinner()
         tableView.hidden = false
         errorLabel.hidden = false
     }
     
     override func setupViews() {
-        super.setupViews()
+        addSubview(tableView)
+        tableView.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsZero)
+        
         errorLabel.font = UIFont(name: kHelveticaNeueLightFont, size: 17.0)
         errorLabel.numberOfLines = 0
         errorLabel.textAlignment = NSTextAlignment.Center
         addSubview(errorLabel)
         errorLabel.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsZero)
-        
-        addSubview(tableView)
-        tableView.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsZero)
     }
 }

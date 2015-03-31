@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		9400E9C71AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */; };
+		9400E9C81AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */; };
+		9400E9C91AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */; };
+		9400E9CB1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9CA1AC93EA3001C8E08 /* DADataSourceDelegate.swift */; };
+		9400E9CC1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9CA1AC93EA3001C8E08 /* DADataSourceDelegate.swift */; };
+		9400E9CD1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9CA1AC93EA3001C8E08 /* DADataSourceDelegate.swift */; };
 		9401F92E19E496360037812B /* DASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9401F92D19E496360037812B /* DASettingsViewController.m */; };
 		9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 9402317419C18B6E003B3017 /* DAGlobalReview.m */; };
 		940363771A25E0850068F61D /* DAManagedUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363761A25E0850068F61D /* DAManagedUsername.m */; };
@@ -1109,15 +1115,15 @@
 		94F414031AC3FF1B005C40CC /* DAActiveFoodiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F414021AC3FF1B005C40CC /* DAActiveFoodiesView.swift */; };
 		94F414041AC3FF1B005C40CC /* DAActiveFoodiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F414021AC3FF1B005C40CC /* DAActiveFoodiesView.swift */; };
 		94F414051AC3FF1B005C40CC /* DAActiveFoodiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F414021AC3FF1B005C40CC /* DAActiveFoodiesView.swift */; };
-		94F414071AC3FF6F005C40CC /* DAFoodieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F414061AC3FF6F005C40CC /* DAFoodieView.swift */; };
-		94F414081AC3FF6F005C40CC /* DAFoodieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F414061AC3FF6F005C40CC /* DAFoodieView.swift */; };
-		94F414091AC3FF6F005C40CC /* DAFoodieView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F414061AC3FF6F005C40CC /* DAFoodieView.swift */; };
-		94F4140B1AC400A2005C40CC /* FoodieView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F4140A1AC400A2005C40CC /* FoodieView.xib */; };
-		94F4140C1AC400A2005C40CC /* FoodieView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F4140A1AC400A2005C40CC /* FoodieView.xib */; };
-		94F4140D1AC400A2005C40CC /* FoodieView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F4140A1AC400A2005C40CC /* FoodieView.xib */; };
 		94F4140F1AC5430A005C40CC /* DADataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4140E1AC5430A005C40CC /* DADataSource.swift */; };
 		94F414101AC5430A005C40CC /* DADataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4140E1AC5430A005C40CC /* DADataSource.swift */; };
 		94F414111AC5430A005C40CC /* DADataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4140E1AC5430A005C40CC /* DADataSource.swift */; };
+		94F4141C1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4141B1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift */; };
+		94F4141D1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4141B1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift */; };
+		94F4141E1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4141B1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift */; };
+		94F414201AC76357005C40CC /* DAFoodie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4141F1AC76357005C40CC /* DAFoodie.swift */; };
+		94F414211AC76357005C40CC /* DAFoodie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4141F1AC76357005C40CC /* DAFoodie.swift */; };
+		94F414221AC76357005C40CC /* DAFoodie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4141F1AC76357005C40CC /* DAFoodie.swift */; };
 		94FBA80B1ABE674A008F6670 /* DALoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBA80A1ABE674A008F6670 /* DALoadingView.swift */; };
 		94FBA80C1ABE674A008F6670 /* DALoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBA80A1ABE674A008F6670 /* DALoadingView.swift */; };
 		94FBA80D1ABE674A008F6670 /* DALoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBA80A1ABE674A008F6670 /* DALoadingView.swift */; };
@@ -1143,6 +1149,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAActiveFoodiesDataSource.swift; sourceTree = "<group>"; };
+		9400E9CA1AC93EA3001C8E08 /* DADataSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADataSourceDelegate.swift; sourceTree = "<group>"; };
 		9401F92C19E496360037812B /* DASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DASettingsViewController.h; sourceTree = "<group>"; };
 		9401F92D19E496360037812B /* DASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DASettingsViewController.m; sourceTree = "<group>"; };
 		9402317319C18B6E003B3017 /* DAGlobalReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGlobalReview.h; sourceTree = "<group>"; };
@@ -1794,9 +1802,9 @@
 		94F2AD99198C539200450C6F /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
 		94F413FE1AC3FF04005C40CC /* DAActiveFoodiesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAActiveFoodiesViewController.swift; sourceTree = "<group>"; };
 		94F414021AC3FF1B005C40CC /* DAActiveFoodiesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAActiveFoodiesView.swift; sourceTree = "<group>"; };
-		94F414061AC3FF6F005C40CC /* DAFoodieView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFoodieView.swift; sourceTree = "<group>"; };
-		94F4140A1AC400A2005C40CC /* FoodieView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FoodieView.xib; sourceTree = "<group>"; };
 		94F4140E1AC5430A005C40CC /* DADataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADataSource.swift; sourceTree = "<group>"; };
+		94F4141B1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFoodieCollectionViewCell.swift; sourceTree = "<group>"; };
+		94F4141F1AC76357005C40CC /* DAFoodie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFoodie.swift; sourceTree = "<group>"; };
 		94FBA80A1ABE674A008F6670 /* DALoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DALoadingView.swift; sourceTree = "<group>"; };
 		94FBA8101ABE68BF008F6670 /* DADishMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADishMapView.swift; sourceTree = "<group>"; };
 		94FBA8151ABE6CC7008F6670 /* DASplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASplashViewController.swift; sourceTree = "<group>"; };
@@ -2013,6 +2021,7 @@
 				944689A11960048500FAE288 /* DATabBarController.h */,
 				944689A21960048500FAE288 /* DATabBarController.m */,
 				94F4140E1AC5430A005C40CC /* DADataSource.swift */,
+				9400E9CA1AC93EA3001C8E08 /* DADataSourceDelegate.swift */,
 				94502A7F1ABE775500810FBA /* DANavigationController.swift */,
 				941B51201ABFDC5400B80F83 /* DAViewController.swift */,
 				94AAAA321A42EA5800863E09 /* Settings */,
@@ -2913,10 +2922,20 @@
 		94F413FD1AC3FEDB005C40CC /* Active Foodies */ = {
 			isa = PBXGroup;
 			children = (
+				94F4141F1AC76357005C40CC /* DAFoodie.swift */,
 				94F414021AC3FF1B005C40CC /* DAActiveFoodiesView.swift */,
+				9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */,
 				94F413FE1AC3FF04005C40CC /* DAActiveFoodiesViewController.swift */,
 			);
 			name = "Active Foodies";
+			sourceTree = "<group>";
+		};
+		94F4141A1AC65FF9005C40CC /* Collection View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				94F4141B1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift */,
+			);
+			name = "Collection View Cells";
 			sourceTree = "<group>";
 		};
 		94FBA8091ABE672F008F6670 /* Table View Cells */ = {
@@ -2990,6 +3009,7 @@
 				94B43AAD19EB6D9500482F52 /* DACollectionView.swift */,
 				946CE2C71AC2965A004D4843 /* DACollectionViewCell.swift */,
 				94FBA8091ABE672F008F6670 /* Table View Cells */,
+				94F4141A1AC65FF9005C40CC /* Collection View Cells */,
 				941B511F1ABFC71A00B80F83 /* Buttons */,
 				943ECCF019EA2E84009516E8 /* Reviews */,
 				943ECCEE19EA2507009516E8 /* Comments */,
@@ -3003,8 +3023,6 @@
 				9443DEFD19D0224300F134BA /* DAReplaceSegue.swift */,
 				94A6FE3C1A46E06D00AB901F /* DASocialCollectionViewCell.swift */,
 				94C97F021ABE632F0066C808 /* DAProgressView.swift */,
-				94F414061AC3FF6F005C40CC /* DAFoodieView.swift */,
-				94F4140A1AC400A2005C40CC /* FoodieView.xib */,
 				D13DB8F31988B221008C86BB /* DADishTableViewCell.h */,
 				D13DB8F41988B221008C86BB /* DADishTableViewCell.m */,
 				94F2AD76198C454600450C6F /* DADishTableViewCell.xib */,
@@ -3189,7 +3207,6 @@
 				941292651A1BEED500B7C763 /* uv_idea.png in Resources */,
 				941292681A1BEED500B7C763 /* uv_article@2x.png in Resources */,
 				941292691A1BEED500B7C763 /* UserVoice.strings in Resources */,
-				94F4140C1AC400A2005C40CC /* FoodieView.xib in Resources */,
 				9412926B1A1BEED500B7C763 /* uv_heart.png in Resources */,
 				9412926D1A1BEED500B7C763 /* uv_article.png in Resources */,
 				94426CAA1A6A75C000186C35 /* test_variant.json in Resources */,
@@ -3226,7 +3243,6 @@
 				941293641A1C7AD100B7C763 /* uv_idea.png in Resources */,
 				941293671A1C7AD100B7C763 /* uv_article@2x.png in Resources */,
 				941293681A1C7AD100B7C763 /* UserVoice.strings in Resources */,
-				94F4140D1AC400A2005C40CC /* FoodieView.xib in Resources */,
 				9412936A1A1C7AD100B7C763 /* uv_heart.png in Resources */,
 				9412936C1A1C7AD100B7C763 /* uv_article.png in Resources */,
 				94426CAB1A6A75C000186C35 /* test_variant.json in Resources */,
@@ -3239,7 +3255,6 @@
 			files = (
 				94AAAA5F1A43BF1300863E09 /* REComposeViewController.bundle in Resources */,
 				943883921A63D512008E2AA3 /* FAQ.html in Resources */,
-				94F4140B1AC400A2005C40CC /* FoodieView.xib in Resources */,
 				94E2520C1A08BAF900D6DCE4 /* DAUserNewsTableViewCell.xib in Resources */,
 				9443DF0219D026DE00F134BA /* DACommentTableViewCell.xib in Resources */,
 				94F2AD77198C454600450C6F /* DADishTableViewCell.xib in Resources */,
@@ -3349,6 +3364,7 @@
 				941291821A1BEED500B7C763 /* JSQMessagesKeyboardController.m in Sources */,
 				941291841A1BEED500B7C763 /* SDImageCache.m in Sources */,
 				94F414041AC3FF1B005C40CC /* DAActiveFoodiesView.swift in Sources */,
+				94F414211AC76357005C40CC /* DAFoodie.swift in Sources */,
 				941291851A1BEED500B7C763 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				941291861A1BEED500B7C763 /* DADishTableViewCell.m in Sources */,
 				94AAAA631A43BF1300863E09 /* REComposeViewController.m in Sources */,
@@ -3445,7 +3461,6 @@
 				941291BE1A1BEED500B7C763 /* STHTTPRequest.m in Sources */,
 				9413A9931AB6CECE00D70B72 /* ALView+PureLayout.m in Sources */,
 				941291BF1A1BEED500B7C763 /* STTwitterOS.m in Sources */,
-				94F414081AC3FF6F005C40CC /* DAFoodieView.swift in Sources */,
 				94426C921A6A75C000186C35 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				941291C01A1BEED500B7C763 /* AFURLRequestSerialization.m in Sources */,
 				941291C11A1BEED500B7C763 /* UIImage+GIF.m in Sources */,
@@ -3534,6 +3549,7 @@
 				941291F21A1BEED500B7C763 /* DARegisterViewController.m in Sources */,
 				94426BF91A6A75BF00186C35 /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				94426C621A6A75BF00186C35 /* MPPassThroughValueTransformer.m in Sources */,
+				9400E9CC1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */,
 				94426C4D1A6A75BF00186C35 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				94426BE11A6A75BF00186C35 /* _MPTweakBindObserver.m in Sources */,
 				94AAAA571A43BF1300863E09 /* RECommonFunctions.m in Sources */,
@@ -3579,6 +3595,7 @@
 				94426C411A6A75BF00186C35 /* MPEventBinding.m in Sources */,
 				94426C681A6A75BF00186C35 /* MPSequenceGenerator.m in Sources */,
 				9412920A1A1BEED500B7C763 /* STTwitterOSRequest.m in Sources */,
+				9400E9C81AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */,
 				94426C771A6A75BF00186C35 /* MPSurveyQuestionViewController.m in Sources */,
 				9412920B1A1BEED500B7C763 /* UIImageView+WebCache.m in Sources */,
 				9412920C1A1BEED500B7C763 /* DARefreshControl.m in Sources */,
@@ -3600,6 +3617,7 @@
 				941292121A1BEED500B7C763 /* SSKeychainQuery.m in Sources */,
 				94C97F001ABE53E20066C808 /* DAErrorView.swift in Sources */,
 				94EB61E31ABEE0AF0063328A /* DAFacebookConnectButton.swift in Sources */,
+				94F4141D1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift in Sources */,
 				941292131A1BEED500B7C763 /* MRMessageInterceptor.m in Sources */,
 				941292141A1BEED500B7C763 /* DANewsViewController.m in Sources */,
 				941292151A1BEED500B7C763 /* AFSecurityPolicy.m in Sources */,
@@ -3684,6 +3702,7 @@
 				941292811A1C7AD100B7C763 /* JSQMessagesKeyboardController.m in Sources */,
 				941292831A1C7AD100B7C763 /* SDImageCache.m in Sources */,
 				94F414051AC3FF1B005C40CC /* DAActiveFoodiesView.swift in Sources */,
+				94F414221AC76357005C40CC /* DAFoodie.swift in Sources */,
 				941292841A1C7AD100B7C763 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				941292851A1C7AD100B7C763 /* DADishTableViewCell.m in Sources */,
 				94AAAA641A43BF1300863E09 /* REComposeViewController.m in Sources */,
@@ -3780,7 +3799,6 @@
 				941292BD1A1C7AD100B7C763 /* STHTTPRequest.m in Sources */,
 				9413A9941AB6CECF00D70B72 /* ALView+PureLayout.m in Sources */,
 				941292BE1A1C7AD100B7C763 /* STTwitterOS.m in Sources */,
-				94F414091AC3FF6F005C40CC /* DAFoodieView.swift in Sources */,
 				94426C931A6A75C000186C35 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				941292BF1A1C7AD100B7C763 /* AFURLRequestSerialization.m in Sources */,
 				941292C01A1C7AD100B7C763 /* UIImage+GIF.m in Sources */,
@@ -3869,6 +3887,7 @@
 				941292F11A1C7AD100B7C763 /* DARegisterViewController.m in Sources */,
 				94426BFA1A6A75BF00186C35 /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				94426C631A6A75BF00186C35 /* MPPassThroughValueTransformer.m in Sources */,
+				9400E9CD1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */,
 				94426C4E1A6A75BF00186C35 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				94426BE21A6A75BF00186C35 /* _MPTweakBindObserver.m in Sources */,
 				94AAAA581A43BF1300863E09 /* RECommonFunctions.m in Sources */,
@@ -3914,6 +3933,7 @@
 				94426C421A6A75BF00186C35 /* MPEventBinding.m in Sources */,
 				94426C691A6A75BF00186C35 /* MPSequenceGenerator.m in Sources */,
 				941293091A1C7AD100B7C763 /* STTwitterOSRequest.m in Sources */,
+				9400E9C91AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */,
 				94426C781A6A75BF00186C35 /* MPSurveyQuestionViewController.m in Sources */,
 				9412930A1A1C7AD100B7C763 /* UIImageView+WebCache.m in Sources */,
 				9412930B1A1C7AD100B7C763 /* DARefreshControl.m in Sources */,
@@ -3935,6 +3955,7 @@
 				941293111A1C7AD100B7C763 /* SSKeychainQuery.m in Sources */,
 				94C97F011ABE53E20066C808 /* DAErrorView.swift in Sources */,
 				94EB61E41ABEE0AF0063328A /* DAFacebookConnectButton.swift in Sources */,
+				94F4141E1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift in Sources */,
 				941293121A1C7AD100B7C763 /* MRMessageInterceptor.m in Sources */,
 				941293131A1C7AD100B7C763 /* DANewsViewController.m in Sources */,
 				941293141A1C7AD100B7C763 /* AFSecurityPolicy.m in Sources */,
@@ -4019,6 +4040,7 @@
 				94CB040719B15FB9009010F6 /* JSQMessagesKeyboardController.m in Sources */,
 				94F2AD9C198C539200450C6F /* SDImageCache.m in Sources */,
 				94F414031AC3FF1B005C40CC /* DAActiveFoodiesView.swift in Sources */,
+				94F414201AC76357005C40CC /* DAFoodie.swift in Sources */,
 				94DCE9B81980ABB100396C0A /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				D13DB8F51988B221008C86BB /* DADishTableViewCell.m in Sources */,
 				94AAAA621A43BF1300863E09 /* REComposeViewController.m in Sources */,
@@ -4115,7 +4137,6 @@
 				94E5EF491943472D0021A711 /* AFURLResponseSerialization.m in Sources */,
 				9413A9901AB6CECA00D70B72 /* ALView+PureLayout.m in Sources */,
 				943E62641987362100DF2135 /* STHTTPRequest.m in Sources */,
-				94F414071AC3FF6F005C40CC /* DAFoodieView.swift in Sources */,
 				94426C911A6A75C000186C35 /* MPUIFontToNSDictionaryValueTransformer.m in Sources */,
 				943E62601987362100DF2135 /* STTwitterOS.m in Sources */,
 				94E5EF481943472D0021A711 /* AFURLRequestSerialization.m in Sources */,
@@ -4204,6 +4225,7 @@
 				94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */,
 				94426BF81A6A75BF00186C35 /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				94426C611A6A75BF00186C35 /* MPPassThroughValueTransformer.m in Sources */,
+				9400E9CB1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */,
 				94426C4C1A6A75BF00186C35 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				94426BE01A6A75BF00186C35 /* _MPTweakBindObserver.m in Sources */,
 				94AAAA561A43BF1300863E09 /* RECommonFunctions.m in Sources */,
@@ -4249,6 +4271,7 @@
 				94426C401A6A75BF00186C35 /* MPEventBinding.m in Sources */,
 				94426C671A6A75BF00186C35 /* MPSequenceGenerator.m in Sources */,
 				943E62611987362100DF2135 /* STTwitterOSRequest.m in Sources */,
+				9400E9C71AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */,
 				94426C761A6A75BF00186C35 /* MPSurveyQuestionViewController.m in Sources */,
 				94F2ADA8198C539200450C6F /* UIImageView+WebCache.m in Sources */,
 				94EA2D5719AA820B00ABE3B7 /* DARefreshControl.m in Sources */,
@@ -4270,6 +4293,7 @@
 				94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */,
 				94C97EFF1ABE53E20066C808 /* DAErrorView.swift in Sources */,
 				94EB61E21ABEE0AF0063328A /* DAFacebookConnectButton.swift in Sources */,
+				94F4141C1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift in Sources */,
 				948615CD19FE1C3D002497D0 /* MRMessageInterceptor.m in Sources */,
 				948EE6A61996FA2E004EC600 /* DANewsViewController.m in Sources */,
 				94E5EF461943472D0021A711 /* AFSecurityPolicy.m in Sources */,

@@ -52,8 +52,14 @@ typedef void(^GetFeedDataBlock)();
             
             NSUInteger entityIndex = 0;
             
-            for( int i = 0; i < itemIDs.count; i++ )
+            for( int i = 0; i < timestamps.count; i++ )
             {
+                NSString *content = data[i][@"content"];
+                if( [content isEqualToString:@"user_sug"] )
+                {
+                    continue;
+                }
+                
                 NSUInteger newItemIndex = i;
                 
                 NSArray *comments = nilOrJSONObjectForKey( data[newItemIndex], kCommentsKey );
@@ -251,7 +257,10 @@ typedef void(^GetFeedDataBlock)();
     {
         NSNumber *itemID = item[kCreatedKey];
         
-        [timestamps addObject:itemID];
+        if( itemID )
+        {
+            [timestamps addObject:itemID];
+        }
     }
     
     return timestamps;

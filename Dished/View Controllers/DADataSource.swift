@@ -9,6 +9,9 @@
 import Foundation
 
 protocol DADataSource {
+    var data: [AnyObject] { get }
+    weak var delegate: DADataSourceDelegate? { get set }
+    
     func loadData()
     func cancelLoadingData()
 }
