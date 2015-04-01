@@ -20,8 +20,8 @@ class DAActiveFoodiesDataSource: DADataSource {
     weak var delegate: DADataSourceDelegate?
     private var foodiesRequest: NSURLSessionTask?
     
-    init() {
-        
+    init(delegate: DADataSourceDelegate?) {
+        self.delegate = delegate
     }
     
     func loadData() {
@@ -39,12 +39,12 @@ class DAActiveFoodiesDataSource: DADataSource {
                             continue
                         }
                         
-                        var reviews = [String]()
+                        var reviews: [(reviewID: Int, image: String)] = []
                         
                         for review in userReviews {
-                            if let image = review[kImgThumbKey] as? String {
-                                reviews.append(image)
-                            }
+                            let reviewID = ( review[kIDKey] as? String ?? "" ).toInt() ?? 0
+                            let image = review[kImgThumbKey] as? String ?? ""
+                            reviews.append(reviewID: reviewID, image: image)
                         }
                         
                         foodie.reviews = reviews

@@ -8,6 +8,10 @@
 
 import UIKit
 
+protocol DAFoodieCollectionViewCellDelegate: class {
+    func didTapImageAtIndex(index: Int, inFoodieCollectionViewCell cell: DAFoodieCollectionViewCell)
+}
+
 class DAFoodieCollectionViewCell: DACollectionViewCell {
     
     var userImageView: UIImageView!
@@ -15,6 +19,23 @@ class DAFoodieCollectionViewCell: DACollectionViewCell {
     var followButton: UIButton!
     var descriptionLabel: UILabel!
     var reviewImageViews: [UIImageView]!
+    
+    weak var delegate: DAFoodieCollectionViewCellDelegate?
+    
+    func configureWithFoodie(foodie: DAFoodie) {
+        usernameButton.setTitle("@\(foodie.username)", forState: UIControlState.Normal)
+        descriptionLabel.text = foodie.description
+        
+        let url = NSURL(string: foodie.image)
+        userImageView.sd_setImageWithURL(url)
+        
+        for (index, review) in enumerate(foodie.reviews) {
+            if index < reviewImageViews.count {
+                let url = NSURL(string: review.image)
+                reviewImageViews[index].sd_setImageWithURL(url)
+            }
+        }
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -39,6 +60,15 @@ class DAFoodieCollectionViewCell: DACollectionViewCell {
         
         for imageView in reviewImageViews {
             imageView.image = nil
+        }
+    }
+    
+    func didTapImageView(tapGesture: UITapGestureRecognizer) {
+        let imageView = tapGesture.view as UIImageView
+        if imageView.image != nil {
+            if let index = find(reviewImageViews, imageView) {
+                delegate?.didTapImageAtIndex(index, inFoodieCollectionViewCell: self)
+            }
         }
     }
     
@@ -95,6 +125,11 @@ class DAFoodieCollectionViewCell: DACollectionViewCell {
             let imageView = UIImageView()
             imageView.contentMode = UIViewContentMode.ScaleAspectFill
             imageView.clipsToBounds = true
+            imageView.userInteractionEnabled = true
+            
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: "didTapImageView:")
+            tapRecognizer.numberOfTapsRequired = 1
+            imageView.addGestureRecognizer(tapRecognizer)
             reviewImageViews.append(imageView)
         }
     }

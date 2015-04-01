@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSource, DADataSourceDelegate {
+class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSource, DADataSourceDelegate, DAFoodieCollectionViewCellDelegate {
 
     let cellIdentifier = "activeFoodieCell"
     var activeFoodiesView: DAActiveFoodiesView!
@@ -20,9 +20,7 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
         
         activeFoodiesView.collectionView.registerClass(DAFoodieCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
         
-        dataSource = DAActiveFoodiesDataSource()
-        dataSource?.delegate = self
-        
+        dataSource = DAActiveFoodiesDataSource(delegate: self)
         activeFoodiesView.showSpinner()
         dataSource?.loadData()
     }
@@ -49,22 +47,29 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
         
         let foodie = dataSource?.data[indexPath.row] as DAFoodie
         
-        cell.usernameButton.setTitle("@\(foodie.username)", forState: UIControlState.Normal)
-        cell.descriptionLabel.text = foodie.description
-        cell.followButton.setTitle("Follow", forState: UIControlState.Normal)
+        cell.configureWithFoodie(foodie)
         cell.usernameButton.addTarget(self, action: "usernameTapped:", forControlEvents: UIControlEvents.TouchUpInside)
-        
-        let url = NSURL(string: foodie.image)
-        cell.userImageView.sd_setImageWithURL(url)
-        
-        for (index, review) in enumerate(foodie.reviews) {
-            if index < cell.reviewImageViews.count {
-                let url = NSURL(string: review)
-                cell.reviewImageViews[index].sd_setImageWithURL(url)
-            }
-        }
+        cell.delegate = self
         
         return cell
+    }
+    
+    func followButtonTapped(button: UIButton) {
+        let indexPath = activeFoodiesView.collectionView.indexPathForView(button)
+        if indexPath == nil {
+            return
+        }
+        
+        let foodie = dataSource?.data[indexPath!.row] as DAFoodie
+        
+    }
+    
+    func didTapImageAtIndex(index: Int, inFoodieCollectionViewCell cell: DAFoodieCollectionViewCell) {
+        if let indexPath = activeFoodiesView.collectionView.indexPathForCell(cell) {
+            let foodie = dataSource?.data[indexPath.row] as DAFoodie
+            let review = foodie.reviews[index]
+            pushReviewDetailsViewWithReviewID(review.reviewID)
+        }
     }
     
     func usernameTapped(button: UIButton) {
@@ -73,10 +78,8 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
             return
         }
         
-        if let foodie = dataSource?.data[indexPath!.row] as? DAFoodie {
-            goToFoodieProfile(foodie)
-            println(foodie.username)
-        }
+        let foodie = dataSource?.data[indexPath!.row] as DAFoodie
+        goToFoodieProfile(foodie)
     }
     
     private func goToFoodieProfile(foodie: DAFoodie) {
