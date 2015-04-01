@@ -11,6 +11,10 @@ import UIKit
 class DAActiveFoodiesView: DALoadingView, UICollectionViewDelegateFlowLayout {
     
     var collectionView: UICollectionView!
+    var searchBar: UISearchBar!
+    
+    private let searchBarHeight: CGFloat = 44.0
+    private var topSearchBarConstraint: NSLayoutConstraint!
     
     override func showSpinner() {
         super.showSpinner()
@@ -20,6 +24,12 @@ class DAActiveFoodiesView: DALoadingView, UICollectionViewDelegateFlowLayout {
     override func hideSpinner() {
         super.hideSpinner()
         collectionView.hidden = false
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        topSearchBarConstraint.constant = collectionView.contentInset.top - searchBarHeight
+        setNeedsUpdateConstraints()
     }
     
     override func setupViews() {        
@@ -32,6 +42,21 @@ class DAActiveFoodiesView: DALoadingView, UICollectionViewDelegateFlowLayout {
         collectionView.alwaysBounceVertical = true
         addSubview(collectionView)
         collectionView.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsZero)
+        
+        searchBar = UISearchBar()
+        searchBar.tintColor = UIColor(r: 242, g: 242, b: 242, a: 255)
+        searchBar.placeholder = "Search for a user"
+        addSubview(searchBar)
+        topSearchBarConstraint = searchBar.autoPinEdgeToSuperviewEdge(ALEdge.Top)
+        searchBar.autoPinEdgeToSuperviewEdge(ALEdge.Leading)
+        searchBar.autoPinEdgeToSuperviewEdge(ALEdge.Trailing)
+        searchBar.autoSetDimension(ALDimension.Height, toSize: searchBarHeight)
+        
+        collectionView.contentInset = UIEdgeInsetsMake(searchBarHeight, 0, 0, 0)
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        endEditing(true)
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {

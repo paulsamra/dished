@@ -11,15 +11,13 @@ import AddressBook
 
 class DAFindFriendsDataSource: DADataSource {
     
-    var data: [AnyObject] {
-        get {
-            return self.friends
-        }
-    }
-    
-    private var friends = [DAFriend]()
+    var friends = [DAFriend]()
     weak var delegate: DADataSourceDelegate? = nil
     private var registerDataTask: NSURLSessionTask? = nil
+    
+    init(delegate: DADataSourceDelegate) {
+        self.delegate = delegate
+    }
 
     func contactsAccessAllowed() -> Bool {
         let status = SwiftAddressBook.authorizationStatus()
@@ -78,20 +76,7 @@ class DAFindFriendsDataSource: DADataSource {
                 var friends = [DAFriend]()
                 
                 for contact in results {
-                    let friend = DAFriend()
-                    friend.name = contact[kNameKey] as? String ?? ""
-                    friend.phoneNumber = contact[kPhoneKey] as? String ?? ""
-                    friend.registered = contact["registered"] as? Bool ?? false
-                    friend.image = contact["img_thumb"] as? String ?? ""
-                    
-                    if friend.registered {
-                        friend.username = contact[kUsernameKey] as? String ?? ""
-                        friend.following = contact["follows"] as? Bool ?? false
-                        friend.userID = ( contact[kIDKey] as? String ?? "" ).toInt() ?? 0
-                    }
-                    else {
-                        friend.invited = contact["invited"] as? Bool ?? false
-                    }
+                    let friend = self.processFriendData(contact)
                     
                     if friend.username != DAUserManager.sharedManager().username {
                         friends.append(friend)
@@ -109,6 +94,25 @@ class DAFindFriendsDataSource: DADataSource {
         else {
             completion(nil)
         }
+    }
+    
+    private func processFriendData(data: NSDictionary) -> DAFriend {
+        let friend = DAFriend()
+        friend.name = data[kNameKey] as? String ?? ""
+        friend.phoneNumber = data[kPhoneKey] as? String ?? ""
+        friend.registered = data["registered"] as? Bool ?? false
+        friend.image = data[kImgThumbKey] as? String ?? ""
+        
+        if friend.registered {
+            friend.username = data[kUsernameKey] as? String ?? ""
+            friend.following = data["follows"] as? Bool ?? false
+            friend.userID = ( data[kIDKey] as? String ?? "" ).toInt() ?? 0
+        }
+        else {
+            friend.invited = data["invited"] as? Bool ?? false
+        }
+        
+        return friend
     }
     
     private func mobileContactsWithContacts(contacts: [SwiftAddressBookPerson]?) -> [[String:String]] {

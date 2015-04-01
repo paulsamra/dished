@@ -27,7 +27,8 @@ class DAFoodieCollectionViewCell: DACollectionViewCell {
         descriptionLabel.text = foodie.description
         
         let url = NSURL(string: foodie.image)
-        userImageView.sd_setImageWithURL(url)
+        let placeholder = UIImage(named: "profile_image")
+        userImageView.sd_setImageWithURL(url, placeholderImage: placeholder)
         
         for (index, review) in enumerate(foodie.reviews) {
             if index < reviewImageViews.count {

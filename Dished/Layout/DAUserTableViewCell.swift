@@ -34,6 +34,33 @@ class DAUserTableViewCell: DATableViewCell
         }
     }
     
+    func configureWithFriend(friend: DAFriend) {
+        nameLabel.text = friend.name
+        
+        if friend.registered {
+            style = DAUserTableViewCellStyle.UsernameSubtitle
+            subtitleLabel?.text = friend.formattedUsername()
+            let buttonTitle = friend.following ? "Unfollow" : "Follow"
+            let buttonColor = friend.following ? UIColor.redColor() : UIColor.followButtonColor()
+            sideButton.setTitle(buttonTitle, forState: UIControlState.Normal)
+            sideButton.setTitleColor(buttonColor, forState: UIControlState.Normal)
+            
+            let url = NSURL(string: friend.image)
+            let placeholder = UIImage(named: "profile_image")
+            userImageView?.sd_setImageWithURL(url, placeholderImage: placeholder)
+        }
+        else {
+            style = DAUserTableViewCellStyle.ContactSubtitle
+            subtitleLabel?.text = friend.formattedPhoneNumber()
+            let buttonTitle = friend.invited ? "Invited" : "Invite"
+            let buttonColor = friend.invited ? UIColor.dishedColor() : UIColor.followButtonColor()
+            sideButton.setTitle(buttonTitle, forState: UIControlState.Normal)
+            sideButton.setTitleColor(buttonColor, forState: UIControlState.Normal)
+        }
+        
+        selectionStyle = UITableViewCellSelectionStyle.None
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         

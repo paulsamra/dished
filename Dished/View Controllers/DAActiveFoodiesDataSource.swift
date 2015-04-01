@@ -10,13 +10,7 @@ import Foundation
 
 class DAActiveFoodiesDataSource: DADataSource {
     
-    var data: [AnyObject] {
-        get {
-            return self.foodies
-        }
-    }
-    
-    private var foodies = [DAFoodie]()
+    var foodies = [DAFoodie]()
     weak var delegate: DADataSourceDelegate?
     private var foodiesRequest: NSURLSessionTask?
     
@@ -32,34 +26,11 @@ class DAActiveFoodiesDataSource: DADataSource {
                 var foodies = [DAFoodie]()
                 
                 for user in users {
-                    let foodie = DAFoodie()
+                    let foodie = self.processFoodieData(user)
                     
-                    if let userReviews = user[kReviewsKey] as? NSArray {
-                        if userReviews.count == 0 {
-                            continue
-                        }
-                        
-                        var reviews: [(reviewID: Int, image: String)] = []
-                        
-                        for review in userReviews {
-                            let reviewID = ( review[kIDKey] as? String ?? "" ).toInt() ?? 0
-                            let image = review[kImgThumbKey] as? String ?? ""
-                            reviews.append(reviewID: reviewID, image: image)
-                        }
-                        
-                        foodie.reviews = reviews
+                    if foodie.reviews.count == 0 {
+                        continue
                     }
-                    
-                    foodie.username = user[kUsernameKey] as? String ?? ""
-                    foodie.description = user[kDescriptionKey] as? String ?? ""
-                    foodie.userID = ( user[kIDKey] as? String ?? "" ).toInt() ?? 0
-                    foodie.image = user[kImgThumbKey] as? String ?? ""
-                    
-                    let firstName = user[kFirstNameKey] as? String ?? ""
-                    let lastName = user[kLastNameKey] as? String ?? ""
-                    foodie.name = "\(firstName) \(lastName)"
-                    
-                    foodie.type = user[kTypeKey] as? String ?? ""
                     
                     foodies.append(foodie)
                 }
@@ -80,6 +51,35 @@ class DAActiveFoodiesDataSource: DADataSource {
             
             self.delegate?.dataSourceDidFailToLoadData(self, withError: error)
         })
+    }
+    
+    private func processFoodieData(data: NSDictionary) -> DAFoodie {
+        let foodie = DAFoodie()
+        
+        if let userReviews = data[kReviewsKey] as? NSArray {
+            var reviews: [(reviewID: Int, image: String)] = []
+            
+            for review in userReviews {
+                let reviewID = ( review[kIDKey] as? String ?? "" ).toInt() ?? 0
+                let image = review[kImgThumbKey] as? String ?? ""
+                reviews.append(reviewID: reviewID, image: image)
+            }
+            
+            foodie.reviews = reviews
+        }
+        
+        foodie.username = data[kUsernameKey] as? String ?? ""
+        foodie.description = data[kDescriptionKey] as? String ?? ""
+        foodie.userID = ( data[kIDKey] as? String ?? "" ).toInt() ?? 0
+        foodie.image = data[kImgThumbKey] as? String ?? ""
+        
+        let firstName = data[kFirstNameKey] as? String ?? ""
+        let lastName = data[kLastNameKey] as? String ?? ""
+        foodie.name = "\(firstName) \(lastName)"
+        
+        foodie.type = data[kTypeKey] as? String ?? ""
+        
+        return foodie
     }
     
     func cancelLoadingData() {
