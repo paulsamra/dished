@@ -28,28 +28,82 @@ class DAFindFriendsDataSource: DADataSource {
         
         return false
     }
+    
+    func getAddressBook() -> APAddressBook {
+        let addressBook = APAddressBook()
+        addressBook.fieldsMask = APContactField.PhonesWithLabels | APContactField.CompositeName | APContactField.Emails
+        
+        addressBook.filterBlock = {
+            var isMobile = false
+            
+            for phoneWithLabel in $0.phonesWithLabels as [APPhoneWithLabel] {
+                let options = NSStringCompareOptions.CaseInsensitiveSearch
+                let label = phoneWithLabel.label
+                let iphone = label.rangeOfString("iphone", options: options, range: nil, locale: nil) != nil
+                let mobile = label.rangeOfString("mobile", options: options, range: nil, locale: nil) != nil
+                
+                isMobile |= iphone || mobile
+            }
+            
+            return isMobile
+        }
+        
+        addressBook.sortDescriptors = [
+            NSSortDescriptor(key: "compositeName", ascending: true)
+        ]
+        
+        return addressBook
+    }
 
     func loadData() {
-        swiftAddressBook?.requestAccessWithCompletion {
-            granted, error in
-
-            let mobileContacts = self.mobileContactsWithContacts(swiftAddressBook?.allPeople)
-            self.getRegisterStatusForContacts(mobileContacts, completion: {
-                friends in
-                
-                if friends == nil {
-                    self.delegate?.dataSourceDidFailToLoadData(self, withError: nil)
-                    return
-                }
-                
-                self.friends = friends!
-                self.friends.sort() {
-                    $0.name < $1.name
-                }
-                
-                self.delegate?.dataSourceDidFinishLoadingData(self)
-            })
-        }
+        let addressBook = getAddressBook()
+        
+        addressBook.loadContacts({
+            contacts, error in
+            
+            if error != nil {
+                self.delegate?.dataSourceDidFailToLoadData(self, withError: error)
+            }
+            else {
+                let mobileContacts = self.mobileContactsWithContacts2(contacts as [APContact])
+                self.getRegisterStatusForContacts(mobileContacts, completion: {
+                    friends in
+                    
+                    if friends == nil {
+                        self.delegate?.dataSourceDidFailToLoadData(self, withError: nil)
+                        return
+                    }
+                    
+                    self.friends = friends!
+                    self.friends.sort() {
+                        $0.name < $1.name
+                    }
+                    
+                    self.delegate?.dataSourceDidFinishLoadingData(self)
+                })
+            }
+        })
+        
+//        SwiftAddressBook.sharedInstance()?.requestAccessWithCompletion {
+//            granted, error in
+//
+//            let mobileContacts = self.mobileContactsWithContacts(SwiftAddressBook.sharedInstance()?.allPeople)
+//            self.getRegisterStatusForContacts(mobileContacts, completion: {
+//                friends in
+//                
+//                if friends == nil {
+//                    self.delegate?.dataSourceDidFailToLoadData(self, withError: nil)
+//                    return
+//                }
+//                
+//                self.friends = friends!
+//                self.friends.sort() {
+//                    $0.name < $1.name
+//                }
+//                
+//                self.delegate?.dataSourceDidFinishLoadingData(self)
+//            })
+//        }
     }
     
     func cancelLoadingData() {
@@ -115,12 +169,52 @@ class DAFindFriendsDataSource: DADataSource {
         return friend
     }
     
+    private func mobileContactsWithContacts2(contacts: [APContact]) -> [[String:String]] {
+        var mobileContacts = [[String:String]]()
+        
+        var unifiedContacts = [String:[String:String]]()
+        
+        for contact in contacts {
+            var attributes = unifiedContacts[contact.compositeName] ?? [String:String]()
+            
+            for phoneWithLabel in contact.phonesWithLabels as [APPhoneWithLabel] {
+                attributes[phoneWithLabel.label] = phoneWithLabel.phone
+            }
+            
+            if contact.emails.count > 0 {
+                attributes["email"] = contact.emails.first as? String
+            }
+            
+            unifiedContacts[contact.compositeName] = attributes
+        }
+        
+        for (contact, attributes) in unifiedContacts {
+            var number: String?
+            
+            if let iphone = attributes["iPhone"] {
+                number = processPhoneNumber(iphone)
+            }
+            else if let mobile = attributes["mobile"] {
+                number = processPhoneNumber(mobile)
+            }
+            
+            if number == nil {
+                continue
+            }
+            
+            let dict = dictionaryWithName(contact, number: number, email: attributes["email"])
+            mobileContacts.append(dict)
+        }
+        
+        return mobileContacts
+    }
+    
     private func mobileContactsWithContacts(contacts: [SwiftAddressBookPerson]?) -> [[String:String]] {
         var mobileContacts = [[String:String]]()
         
         var unifiedContacts = NSMutableSet()
         
-        if let people = swiftAddressBook?.allPeople {
+        if let people = SwiftAddressBook.sharedInstance()?.allPeople {
             for person in people {
                 var set = NSMutableSet()
                 set.addObject(person.internalRecord)
@@ -168,6 +262,22 @@ class DAFindFriendsDataSource: DADataSource {
         }
         
         return contact
+    }
+    
+    private func processPhoneNumber(number: String) -> String? {
+        let nonDecimalSet = NSCharacterSet.decimalDigitCharacterSet().invertedSet
+        let decimals = number.componentsSeparatedByCharactersInSet(nonDecimalSet)
+        var strippedNumber = "".join(decimals)
+        
+        if strippedNumber[0] == "1" {
+            strippedNumber = strippedNumber.substringFromIndex(advance(strippedNumber.startIndex, 1))
+        }
+        
+        if countElements(strippedNumber) != 10 {
+            return nil
+        }
+        
+        return strippedNumber
     }
     
     private func processContact(person: SwiftAddressBookPerson, phoneNumber: String) -> [String:String]? {

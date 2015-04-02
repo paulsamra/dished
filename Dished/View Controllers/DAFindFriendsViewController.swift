@@ -67,6 +67,7 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as DAUserTableViewCell
         
         let friend = friendsDataSource.friends[indexPath.row]
+        cell.configureWithFriend(friend)
         cell.sideButton.addTarget(self, action: "cellButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
         
         return cell
