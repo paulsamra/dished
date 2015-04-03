@@ -17,9 +17,3 @@
 #import "DAReviewDetailsViewController.h"
 #import "DAGlobalDishDetailViewController.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
-
-#import "APAddressBook.h"
-#import "APContact.h"
-#import "APSocialProfile.h"
-#import "APAddress.h"
-#import "APPhoneWithLabel.h"

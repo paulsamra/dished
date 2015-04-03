@@ -487,21 +487,6 @@
 		941538D3193F270A008B3B79 /* App.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 941538D2193F270A008B3B79 /* App.xcassets */; };
 		941538F819401A14008B3B79 /* DASplashViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538F719401A14008B3B79 /* DASplashViewController.m */; };
 		9415F3C41941044000C3A7A1 /* DALoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9415F3C31941044000C3A7A1 /* DALoginViewController.m */; };
-		9416BB9C1ACC9DC20081E4F7 /* APAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB921ACC9DC20081E4F7 /* APAddress.m */; };
-		9416BB9D1ACC9DC20081E4F7 /* APAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB921ACC9DC20081E4F7 /* APAddress.m */; };
-		9416BB9E1ACC9DC20081E4F7 /* APAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB921ACC9DC20081E4F7 /* APAddress.m */; };
-		9416BB9F1ACC9DC20081E4F7 /* APAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB941ACC9DC20081E4F7 /* APAddressBook.m */; };
-		9416BBA01ACC9DC20081E4F7 /* APAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB941ACC9DC20081E4F7 /* APAddressBook.m */; };
-		9416BBA11ACC9DC20081E4F7 /* APAddressBook.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB941ACC9DC20081E4F7 /* APAddressBook.m */; };
-		9416BBA21ACC9DC20081E4F7 /* APContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB961ACC9DC20081E4F7 /* APContact.m */; };
-		9416BBA31ACC9DC20081E4F7 /* APContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB961ACC9DC20081E4F7 /* APContact.m */; };
-		9416BBA41ACC9DC20081E4F7 /* APContact.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB961ACC9DC20081E4F7 /* APContact.m */; };
-		9416BBA51ACC9DC20081E4F7 /* APPhoneWithLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB981ACC9DC20081E4F7 /* APPhoneWithLabel.m */; };
-		9416BBA61ACC9DC20081E4F7 /* APPhoneWithLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB981ACC9DC20081E4F7 /* APPhoneWithLabel.m */; };
-		9416BBA71ACC9DC20081E4F7 /* APPhoneWithLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB981ACC9DC20081E4F7 /* APPhoneWithLabel.m */; };
-		9416BBA81ACC9DC20081E4F7 /* APSocialProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB9A1ACC9DC20081E4F7 /* APSocialProfile.m */; };
-		9416BBA91ACC9DC20081E4F7 /* APSocialProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB9A1ACC9DC20081E4F7 /* APSocialProfile.m */; };
-		9416BBAA1ACC9DC20081E4F7 /* APSocialProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 9416BB9A1ACC9DC20081E4F7 /* APSocialProfile.m */; };
 		9418100D1970DF7900C83034 /* DAHashtag.m in Sources */ = {isa = PBXBuildFile; fileRef = 9418100C1970DF7900C83034 /* DAHashtag.m */; };
 		941810131970EB7700C83034 /* DAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 941810121970EB7700C83034 /* DAConstants.m */; };
 		941B511B1ABF98A700B80F83 /* DALoginKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 941B511A1ABF98A700B80F83 /* DALoginKeyboardManager.swift */; };
@@ -1223,17 +1208,6 @@
 		941538F719401A14008B3B79 /* DASplashViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DASplashViewController.m; sourceTree = "<group>"; };
 		9415F3C21941044000C3A7A1 /* DALoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALoginViewController.h; sourceTree = "<group>"; };
 		9415F3C31941044000C3A7A1 /* DALoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALoginViewController.m; sourceTree = "<group>"; };
-		9416BB911ACC9DC20081E4F7 /* APAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APAddress.h; sourceTree = "<group>"; };
-		9416BB921ACC9DC20081E4F7 /* APAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APAddress.m; sourceTree = "<group>"; };
-		9416BB931ACC9DC20081E4F7 /* APAddressBook.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APAddressBook.h; sourceTree = "<group>"; };
-		9416BB941ACC9DC20081E4F7 /* APAddressBook.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APAddressBook.m; sourceTree = "<group>"; };
-		9416BB951ACC9DC20081E4F7 /* APContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APContact.h; sourceTree = "<group>"; };
-		9416BB961ACC9DC20081E4F7 /* APContact.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APContact.m; sourceTree = "<group>"; };
-		9416BB971ACC9DC20081E4F7 /* APPhoneWithLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APPhoneWithLabel.h; sourceTree = "<group>"; };
-		9416BB981ACC9DC20081E4F7 /* APPhoneWithLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APPhoneWithLabel.m; sourceTree = "<group>"; };
-		9416BB991ACC9DC20081E4F7 /* APSocialProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APSocialProfile.h; sourceTree = "<group>"; };
-		9416BB9A1ACC9DC20081E4F7 /* APSocialProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = APSocialProfile.m; sourceTree = "<group>"; };
-		9416BB9B1ACC9DC20081E4F7 /* APTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = APTypes.h; sourceTree = "<group>"; };
 		9418100B1970DF7900C83034 /* DAHashtag.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAHashtag.h; sourceTree = "<group>"; };
 		9418100C1970DF7900C83034 /* DAHashtag.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAHashtag.m; sourceTree = "<group>"; };
 		941810111970EB7700C83034 /* DAConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAConstants.h; sourceTree = "<group>"; };
@@ -2062,24 +2036,6 @@
 			path = "View Controllers";
 			sourceTree = "<group>";
 		};
-		9416BB901ACC9DC20081E4F7 /* APAddressBook */ = {
-			isa = PBXGroup;
-			children = (
-				9416BB911ACC9DC20081E4F7 /* APAddress.h */,
-				9416BB921ACC9DC20081E4F7 /* APAddress.m */,
-				9416BB931ACC9DC20081E4F7 /* APAddressBook.h */,
-				9416BB941ACC9DC20081E4F7 /* APAddressBook.m */,
-				9416BB951ACC9DC20081E4F7 /* APContact.h */,
-				9416BB961ACC9DC20081E4F7 /* APContact.m */,
-				9416BB971ACC9DC20081E4F7 /* APPhoneWithLabel.h */,
-				9416BB981ACC9DC20081E4F7 /* APPhoneWithLabel.m */,
-				9416BB991ACC9DC20081E4F7 /* APSocialProfile.h */,
-				9416BB9A1ACC9DC20081E4F7 /* APSocialProfile.m */,
-				9416BB9B1ACC9DC20081E4F7 /* APTypes.h */,
-			);
-			path = APAddressBook;
-			sourceTree = "<group>";
-		};
 		941B511F1ABFC71A00B80F83 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
@@ -2539,7 +2495,6 @@
 		948B7F3E1941B05F005494AA /* External */ = {
 			isa = PBXGroup;
 			children = (
-				9416BB901ACC9DC20081E4F7 /* APAddressBook */,
 				9409854D1ABC0B8C009F20FF /* ExSwift */,
 				949921501ABB360000A247B0 /* SwiftAddressBook */,
 				9413A9861AB6CECA00D70B72 /* PureLayout */,
@@ -3432,7 +3387,6 @@
 				94502A811ABE775500810FBA /* DANavigationController.swift in Sources */,
 				94424CB11AB9802E00222641 /* DADocViewController.swift in Sources */,
 				94426C351A6A75BF00186C35 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
-				9416BB9D1ACC9DC20081E4F7 /* APAddress.m in Sources */,
 				9403637D1A25E0850068F61D /* DAManagedComment.m in Sources */,
 				94426C051A6A75BF00186C35 /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				941291921A1BEED500B7C763 /* DADish.m in Sources */,
@@ -3525,7 +3479,6 @@
 				941291CA1A1BEED500B7C763 /* SDWebImageCompat.m in Sources */,
 				941291CB1A1BEED500B7C763 /* DAExploreViewController.m in Sources */,
 				940985641ABC0B8C009F20FF /* Character.swift in Sources */,
-				9416BBA61ACC9DC20081E4F7 /* APPhoneWithLabel.m in Sources */,
 				94426C6B1A6A75BF00186C35 /* MPSurvey.m in Sources */,
 				941291CD1A1BEED500B7C763 /* DAUsername.m in Sources */,
 				94426C801A6A75C000186C35 /* MPTweakInline.m in Sources */,
@@ -3584,7 +3537,6 @@
 				94756CCB1A312671009B6BD6 /* DAPushManager.m in Sources */,
 				941291EB1A1BEED500B7C763 /* DANewsTableViewCell.swift in Sources */,
 				941291EC1A1BEED500B7C763 /* UIImage+MultiFormat.m in Sources */,
-				9416BBA91ACC9DC20081E4F7 /* APSocialProfile.m in Sources */,
 				941291ED1A1BEED500B7C763 /* UIImageView+HighlightedWebCache.m in Sources */,
 				941291EE1A1BEED500B7C763 /* DAExploreDishResultsViewController.m in Sources */,
 				943050311AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
@@ -3626,7 +3578,6 @@
 				941291FD1A1BEED500B7C763 /* DAFeedHeaderCollectionReusableView.m in Sources */,
 				941291FE1A1BEED500B7C763 /* UIView+JSQMessages.m in Sources */,
 				94426BF61A6A75BF00186C35 /* MPABTestDesignerClearRequestMessage.m in Sources */,
-				9416BBA01ACC9DC20081E4F7 /* APAddressBook.m in Sources */,
 				94426C591A6A75BF00186C35 /* MPObjectSerializer.m in Sources */,
 				941291FF1A1BEED500B7C763 /* SDWebImagePrefetcher.m in Sources */,
 				941292001A1BEED500B7C763 /* STTwitterHTML.m in Sources */,
@@ -3640,7 +3591,6 @@
 				941292061A1BEED500B7C763 /* DAGlobalReviewCollectionViewCell.m in Sources */,
 				941292081A1BEED500B7C763 /* DAFollowingNews.m in Sources */,
 				941292091A1BEED500B7C763 /* JSQMessagesToolbarButtonFactory.m in Sources */,
-				9416BBA31ACC9DC20081E4F7 /* APContact.m in Sources */,
 				949921681ABB360000A247B0 /* SwiftAddressBookSource.swift in Sources */,
 				94426C411A6A75BF00186C35 /* MPEventBinding.m in Sources */,
 				94426C681A6A75BF00186C35 /* MPSequenceGenerator.m in Sources */,
@@ -3775,7 +3725,6 @@
 				94502A821ABE775500810FBA /* DANavigationController.swift in Sources */,
 				94424CB21AB9802E00222641 /* DADocViewController.swift in Sources */,
 				94426C361A6A75BF00186C35 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
-				9416BB9E1ACC9DC20081E4F7 /* APAddress.m in Sources */,
 				9403637E1A25E0850068F61D /* DAManagedComment.m in Sources */,
 				94426C061A6A75BF00186C35 /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				941292911A1C7AD100B7C763 /* DADish.m in Sources */,
@@ -3868,7 +3817,6 @@
 				941292C91A1C7AD100B7C763 /* SDWebImageCompat.m in Sources */,
 				941292CA1A1C7AD100B7C763 /* DAExploreViewController.m in Sources */,
 				940985651ABC0B8C009F20FF /* Character.swift in Sources */,
-				9416BBA71ACC9DC20081E4F7 /* APPhoneWithLabel.m in Sources */,
 				94426C6C1A6A75BF00186C35 /* MPSurvey.m in Sources */,
 				941292CC1A1C7AD100B7C763 /* DAUsername.m in Sources */,
 				94426C811A6A75C000186C35 /* MPTweakInline.m in Sources */,
@@ -3927,7 +3875,6 @@
 				94756CCC1A312672009B6BD6 /* DAPushManager.m in Sources */,
 				941292EA1A1C7AD100B7C763 /* DANewsTableViewCell.swift in Sources */,
 				941292EB1A1C7AD100B7C763 /* UIImage+MultiFormat.m in Sources */,
-				9416BBAA1ACC9DC20081E4F7 /* APSocialProfile.m in Sources */,
 				941292EC1A1C7AD100B7C763 /* UIImageView+HighlightedWebCache.m in Sources */,
 				941292ED1A1C7AD100B7C763 /* DAExploreDishResultsViewController.m in Sources */,
 				943050321AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
@@ -3969,7 +3916,6 @@
 				941292FC1A1C7AD100B7C763 /* DAFeedHeaderCollectionReusableView.m in Sources */,
 				941292FD1A1C7AD100B7C763 /* UIView+JSQMessages.m in Sources */,
 				94426BF71A6A75BF00186C35 /* MPABTestDesignerClearRequestMessage.m in Sources */,
-				9416BBA11ACC9DC20081E4F7 /* APAddressBook.m in Sources */,
 				94426C5A1A6A75BF00186C35 /* MPObjectSerializer.m in Sources */,
 				941292FE1A1C7AD100B7C763 /* SDWebImagePrefetcher.m in Sources */,
 				941292FF1A1C7AD100B7C763 /* STTwitterHTML.m in Sources */,
@@ -3983,7 +3929,6 @@
 				941293051A1C7AD100B7C763 /* DAGlobalReviewCollectionViewCell.m in Sources */,
 				941293071A1C7AD100B7C763 /* DAFollowingNews.m in Sources */,
 				941293081A1C7AD100B7C763 /* JSQMessagesToolbarButtonFactory.m in Sources */,
-				9416BBA41ACC9DC20081E4F7 /* APContact.m in Sources */,
 				949921691ABB360000A247B0 /* SwiftAddressBookSource.swift in Sources */,
 				94426C421A6A75BF00186C35 /* MPEventBinding.m in Sources */,
 				94426C691A6A75BF00186C35 /* MPSequenceGenerator.m in Sources */,
@@ -4118,7 +4063,6 @@
 				94502A801ABE775500810FBA /* DANavigationController.swift in Sources */,
 				94424CB01AB9802E00222641 /* DADocViewController.swift in Sources */,
 				94426C341A6A75BF00186C35 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
-				9416BB9C1ACC9DC20081E4F7 /* APAddress.m in Sources */,
 				9403637C1A25E0850068F61D /* DAManagedComment.m in Sources */,
 				94426C041A6A75BF00186C35 /* MPABTestDesignerDisconnectMessage.m in Sources */,
 				94942A221990AB5900095A70 /* DADish.m in Sources */,
@@ -4211,7 +4155,6 @@
 				9443DEFE19D0224300F134BA /* DAReplaceSegue.swift in Sources */,
 				94F2AD9D198C539200450C6F /* SDWebImageCompat.m in Sources */,
 				940985631ABC0B8C009F20FF /* Character.swift in Sources */,
-				9416BBA51ACC9DC20081E4F7 /* APPhoneWithLabel.m in Sources */,
 				944689A0195FFA6500FAE288 /* DAExploreViewController.m in Sources */,
 				94426C6A1A6A75BF00186C35 /* MPSurvey.m in Sources */,
 				94426C7F1A6A75C000186C35 /* MPTweakInline.m in Sources */,
@@ -4270,7 +4213,6 @@
 				94756CCA1A311B6E009B6BD6 /* DAPushManager.m in Sources */,
 				94E2520E1A08CB8400D6DCE4 /* DANewsTableViewCell.swift in Sources */,
 				94F2ADA5198C539200450C6F /* UIImage+MultiFormat.m in Sources */,
-				9416BBA81ACC9DC20081E4F7 /* APSocialProfile.m in Sources */,
 				94F2ADA7198C539200450C6F /* UIImageView+HighlightedWebCache.m in Sources */,
 				94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */,
 				943050301AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
@@ -4312,7 +4254,6 @@
 				945E312319C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m in Sources */,
 				94CB040419B146AF009010F6 /* UIView+JSQMessages.m in Sources */,
 				94426BF51A6A75BF00186C35 /* MPABTestDesignerClearRequestMessage.m in Sources */,
-				9416BB9F1ACC9DC20081E4F7 /* APAddressBook.m in Sources */,
 				94426C581A6A75BF00186C35 /* MPObjectSerializer.m in Sources */,
 				94F2ADA2198C539200450C6F /* SDWebImagePrefetcher.m in Sources */,
 				943E625E1987362100DF2135 /* STTwitterHTML.m in Sources */,
@@ -4326,7 +4267,6 @@
 				94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */,
 				9443DF0719D0EF9D00F134BA /* DAFollowingNews.m in Sources */,
 				94CB03FE19B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m in Sources */,
-				9416BBA21ACC9DC20081E4F7 /* APContact.m in Sources */,
 				949921671ABB360000A247B0 /* SwiftAddressBookSource.swift in Sources */,
 				94426C401A6A75BF00186C35 /* MPEventBinding.m in Sources */,
 				94426C671A6A75BF00186C35 /* MPSequenceGenerator.m in Sources */,
