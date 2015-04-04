@@ -68,6 +68,14 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
     func followButtonTapped(button: UIButton) {
         if let indexPath = activeFoodiesView.collectionView.indexPathForView(button) {
             let foodie = foodiesDataSource.foodies[indexPath.row]
+            
+            if foodie.following {
+                DAAPIManager.unfollowUserID(foodie.userID)
+            }
+            else {
+                DAAPIManager.followUserID(foodie.userID)
+            }
+            
             foodie.following = !foodie.following
             activeFoodiesView.collectionView.reloadItemsAtIndexPaths([indexPath])
         }

@@ -43,16 +43,12 @@ class DAFindFriendsInteractor: NSObject, MFMessageComposeViewControllerDelegate 
             return
         }
         
-        let url = friend.following ? kUnfollowUserURL : kFollowUserURL
-        let parameters = [kIDKey: friend.userID]
-        friend.following = !friend.following
-        
-        DAAPIManager.sharedManager().POSTRequest(url, withParameters: parameters, success: nil, failure: {
-            error, shouldRetry in
-            if shouldRetry {
-                self.doFollowInteractionForFriend(friend)
-            }
-        })
+        if friend.following {
+            DAAPIManager.unfollowUserID(friend.userID)
+        }
+        else {
+            DAAPIManager.followUserID(friend.userID)
+        }
     }
     
     func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {

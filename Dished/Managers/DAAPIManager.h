@@ -109,4 +109,7 @@ typedef void(^RequestFailureBlock)( NSError *error, BOOL shouldRetry );
  */
 - (NSURLSessionTask *)exploreDishAndLocationSuggestionsTaskWithQuery:(NSString *)query longitude:(double)longitude latitude:(double)latitude radius:(double)radius completion:( void(^)( id response, NSError *error ) )completion;
 
++ (void)followUserID:(NSInteger)userID;
++ (void)unfollowUserID:(NSInteger)userID;
+
 @end

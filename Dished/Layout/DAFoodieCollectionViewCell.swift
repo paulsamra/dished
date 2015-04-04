@@ -13,7 +13,7 @@ protocol DAFoodieCollectionViewCellDelegate: class {
     func cellDidSwipeAway(cell: DAFoodieCollectionViewCell)
 }
 
-class DAFoodieCollectionViewCell: DACollectionViewCell {
+class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDelegate {
     
     var userImageView: UIImageView!
     var usernameButton: UIButton!
@@ -112,6 +112,10 @@ class DAFoodieCollectionViewCell: DACollectionViewCell {
         }
     }
     
+    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
+    
     override func setupViews() {
         backgroundColor = UIColor(r: 249, g: 249, b: 249, a: 255)
         
@@ -172,6 +176,7 @@ class DAFoodieCollectionViewCell: DACollectionViewCell {
         }
         
         let panRecognizer = UIPanGestureRecognizer(target: self, action: "cellPanned:")
+        panRecognizer.delegate = self
         addGestureRecognizer(panRecognizer)
     }
 }
