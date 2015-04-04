@@ -14,43 +14,80 @@ class DAActiveFoodiesDataSource: DADataSource {
     weak var delegate: DADataSourceDelegate?
     private var foodiesRequest: NSURLSessionTask?
     
+    private var initialData: [DAFoodie]?
+    
     init(delegate: DADataSourceDelegate?) {
         self.delegate = delegate
     }
     
     func loadData() {
+        foodiesRequest?.cancel()
+        
+        if initialData != nil {
+            foodies = initialData!
+            delegate?.dataSourceDidFinishLoadingData(self)
+            return
+        }
+        
         foodiesRequest = DAAPIManager.sharedManager().GETRequest(kUsersFindURL, withParameters: nil, success: {
             response in
-            
-            if let users = response.objectForKey(kDataKey) as? [NSDictionary] {
-                var foodies = [DAFoodie]()
-                
-                for user in users {
-                    let foodie = self.processFoodieData(user)
-                    
-                    if foodie.reviews.count == 0 {
-                        continue
-                    }
-                    
-                    foodies.append(foodie)
-                }
-                
-                self.foodies = foodies
-            }
-            
-            self.delegate?.dataSourceDidFinishLoadingData(self)
-            return
+            self.receivedResponse(response)
         },
         failure: {
             error, shouldRetry in
-            
+                
             if shouldRetry {
                 self.loadData()
                 return
             }
             
             self.delegate?.dataSourceDidFailToLoadData(self, withError: error)
+    })
+    }
+    
+    func reloadDataWithQuery(query: String) {
+        if query.isEmpty {
+            loadData()
+            return
+        }
+        
+        foodiesRequest?.cancel()
+        let parameters = ["search": query]
+        
+        foodiesRequest = DAAPIManager.sharedManager().GETRequest(kUsersFindURL, withParameters: parameters, success: {
+            response in
+            self.receivedResponse(response)
+        },
+        failure: {
+            error, shouldRetry in
+                
+            if shouldRetry {
+                self.reloadDataWithQuery(query)
+                return
+            }
+            
+            self.delegate?.dataSourceDidFailToLoadData(self, withError: error)
         })
+    }
+    
+    private func receivedResponse(response: AnyObject) {
+        if let users = response.objectForKey(kDataKey) as? [NSDictionary] {
+            var foodies = [DAFoodie]()
+            
+            for user in users {
+                let foodie = self.processFoodieData(user)
+                
+                if foodie.reviews.count == 0 {
+                    continue
+                }
+                
+                foodies.append(foodie)
+            }
+            
+            self.foodies = foodies
+        }
+        
+        self.delegate?.dataSourceDidFinishLoadingData(self)
     }
     
     private func processFoodieData(data: NSDictionary) -> DAFoodie {

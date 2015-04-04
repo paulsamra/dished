@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSource, DADataSourceDelegate, DAFoodieCollectionViewCellDelegate {
+class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSource, DADataSourceDelegate, DAFoodieCollectionViewCellDelegate, UISearchBarDelegate {
 
     let cellIdentifier = "activeFoodieCell"
     var activeFoodiesView: DAActiveFoodiesView!
@@ -23,6 +23,7 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
         
         activeFoodiesView.collectionView.registerClass(DAFoodieCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
         
+        activeFoodiesView.searchBar.delegate = self
         loadFoodies()
     }
     
@@ -63,6 +64,14 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
         cell.delegate = self
         
         return cell
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        foodiesDataSource.reloadDataWithQuery(searchText)
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        view.endEditing(true)
     }
     
     func followButtonTapped(button: UIButton) {
