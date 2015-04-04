@@ -73,6 +73,14 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         return cell
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let friend = friendsDataSource.friends[indexPath.row]
+        
+        if friend.registered {
+            pushUserProfileWithUserID(friend.userID)
+        }
+    }
+    
     func cellButtonPressed(button: UIButton) {
         if let indexPath = findFriendsView.tableView.indexPathForView(button) {
             let friend = friendsDataSource.friends[indexPath.row]

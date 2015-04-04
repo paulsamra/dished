@@ -68,6 +68,13 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
     func followButtonTapped(button: UIButton) {
         if let indexPath = activeFoodiesView.collectionView.indexPathForView(button) {
             let foodie = foodiesDataSource.foodies[indexPath.row]
+            foodie.following = !foodie.following
+            activeFoodiesView.collectionView.reloadItemsAtIndexPaths([indexPath])
+        }
+    }
+    
+    func cellDidSwipeAway(cell: DAFoodieCollectionViewCell) {
+        if let indexPath = activeFoodiesView.collectionView.indexPathForCell(cell) {
             activeFoodiesView.collectionView.performBatchUpdates({
                 self.foodiesDataSource.foodies.removeAtIndex(indexPath.row)
                 self.activeFoodiesView.collectionView.deleteItemsAtIndexPaths([indexPath])

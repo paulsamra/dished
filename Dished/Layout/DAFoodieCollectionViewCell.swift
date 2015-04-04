@@ -10,6 +10,7 @@ import UIKit
 
 protocol DAFoodieCollectionViewCellDelegate: class {
     func didTapImageAtIndex(index: Int, inFoodieCollectionViewCell cell: DAFoodieCollectionViewCell)
+    func cellDidSwipeAway(cell: DAFoodieCollectionViewCell)
 }
 
 class DAFoodieCollectionViewCell: DACollectionViewCell {
@@ -35,6 +36,15 @@ class DAFoodieCollectionViewCell: DACollectionViewCell {
                 let url = NSURL(string: review.image)
                 reviewImageViews[index].sd_setImageWithURL(url)
             }
+        }
+        
+        if foodie.following {
+            followButton.setTitle("Unfollow", forState: UIControlState.Normal)
+            followButton.setTitleColor(UIColor.redColor(), forState: UIControlState.Normal)
+        }
+        else {
+            followButton.setTitle("Follow", forState: UIControlState.Normal)
+            followButton.setTitleColor(UIColor.followButtonColor(), forState: UIControlState.Normal)
         }
     }
 
@@ -73,6 +83,35 @@ class DAFoodieCollectionViewCell: DACollectionViewCell {
         }
     }
     
+    func cellPanned(gesture: UIPanGestureRecognizer) {
+        if gesture.state == UIGestureRecognizerState.Ended {
+            if alpha <= 0.5 {
+                delegate?.cellDidSwipeAway(self)
+                return
+            }
+            
+            var rect = frame
+            rect.origin.x = 0.0
+            
+            UIView.animateWithDuration(0.2, animations: {
+                self.frame = rect
+                self.alpha = 1.0
+            })
+        }
+        else if gesture.state == UIGestureRecognizerState.Changed {
+            let translation = gesture.translationInView(self)
+            
+            if translation.x < 0 {
+                var rect = frame
+                rect.origin.x = translation.x
+                frame = rect
+                
+                let percentage = -translation.x / frame.width
+                alpha = 1 - percentage
+            }
+        }
+    }
+    
     override func setupViews() {
         backgroundColor = UIColor(r: 249, g: 249, b: 249, a: 255)
         
@@ -87,8 +126,6 @@ class DAFoodieCollectionViewCell: DACollectionViewCell {
         followButton = UIButton()
         followButton.titleLabel?.font = DAConstants.primaryFontWithSize(17.0)
         followButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
-        followButton.setTitle("Follow", forState: UIControlState.Normal)
-        followButton.setTitleColor(UIColor.followButtonColor(), forState: UIControlState.Normal)
         addSubview(followButton)
         followButton.autoPinEdgeToSuperviewEdge(ALEdge.Trailing, withInset: 15.0)
         followButton.autoPinEdgeToSuperviewEdge(ALEdge.Top, withInset: 17.0)
@@ -133,5 +170,8 @@ class DAFoodieCollectionViewCell: DACollectionViewCell {
             imageView.addGestureRecognizer(tapRecognizer)
             reviewImageViews.append(imageView)
         }
+        
+        let panRecognizer = UIPanGestureRecognizer(target: self, action: "cellPanned:")
+        addGestureRecognizer(panRecognizer)
     }
 }

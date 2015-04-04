@@ -48,6 +48,8 @@ class DAUserTableViewCell: DATableViewCell
             let url = NSURL(string: friend.image)
             let placeholder = UIImage(named: "profile_image")
             userImageView?.sd_setImageWithURL(url, placeholderImage: placeholder)
+            
+            selectionStyle = UITableViewCellSelectionStyle.Default
         }
         else {
             style = DAUserTableViewCellStyle.ContactSubtitle
@@ -56,9 +58,9 @@ class DAUserTableViewCell: DATableViewCell
             let buttonColor = friend.invited ? UIColor.dishedColor() : UIColor.followButtonColor()
             sideButton.setTitle(buttonTitle, forState: UIControlState.Normal)
             sideButton.setTitleColor(buttonColor, forState: UIControlState.Normal)
+            
+            selectionStyle = UITableViewCellSelectionStyle.None
         }
-        
-        selectionStyle = UITableViewCellSelectionStyle.None
     }
     
     override func layoutSubviews() {

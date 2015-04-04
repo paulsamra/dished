@@ -34,7 +34,8 @@ class DAFindFriendsDataSource: DADataSource {
             granted, error in
             
             if error == nil {
-                let mobileContacts = self.mobileContactsWithContacts(swiftAddressBook?.allPeople)
+                let contacts = swiftAddressBook?.allPeople
+                let mobileContacts = self.mobileContactsWithContacts(contacts)
                 self.getRegisterStatusForContacts(mobileContacts)
             }
             else {
