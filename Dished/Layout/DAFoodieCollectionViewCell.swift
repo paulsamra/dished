@@ -27,7 +27,17 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
     
     func configureWithFoodie(foodie: DAFoodie) {
         usernameButton.setTitle("@\(foodie.username)", forState: UIControlState.Normal)
-        descriptionLabel.text = foodie.description
+        
+        let nameAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(14.0)]
+        let nameString = NSMutableAttributedString(string: foodie.name, attributes: nameAttributes)
+        
+        if !foodie.description.isEmpty {
+            let descriptionAttributes = [NSFontAttributeName: DAConstants.primaryFontWithSize(14.0)]
+            let descriptionString = NSAttributedString(string: " - \(foodie.description)", attributes: descriptionAttributes)
+            nameString.appendAttributedString(descriptionString)
+        }
+        
+        descriptionLabel.attributedText = nameString
         
         let url = NSURL(string: foodie.image)
         let placeholder = UIImage(named: "profile_image")
@@ -167,7 +177,7 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         addSubview(descriptionLabel)
         descriptionLabel.autoPinEdge(ALEdge.Top, toEdge: ALEdge.Bottom, ofView: usernameButton, withOffset: 4.0)
         descriptionLabel.autoPinEdge(ALEdge.Leading, toEdge: ALEdge.Trailing, ofView: userImageView, withOffset: 8.0)
-        descriptionLabel.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Bottom, ofView: userImageView, withOffset: 2.0, relation: NSLayoutRelation.GreaterThanOrEqual)
+        descriptionLabel.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Bottom, ofView: userImageView, withOffset: 2.0, relation: NSLayoutRelation.LessThanOrEqual)
         descriptionLabel.autoPinEdge(ALEdge.Trailing, toEdge: ALEdge.Trailing, ofView: followButton)
         
         let separatorView = UIView()

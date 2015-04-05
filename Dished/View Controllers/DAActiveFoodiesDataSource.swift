@@ -32,6 +32,7 @@ class DAActiveFoodiesDataSource: DADataSource {
         foodiesRequest = DAAPIManager.sharedManager().GETRequest(kUsersFindURL, withParameters: nil, success: {
             response in
             self.receivedResponse(response)
+            self.initialData = self.foodies
         },
         failure: {
             error, shouldRetry in

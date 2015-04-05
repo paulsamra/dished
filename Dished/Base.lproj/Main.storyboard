@@ -4804,7 +4804,7 @@
         <!--Navigation Controller-->
         <scene sceneID="gLo-F8-w68">
             <objects>
-                <navigationController storyboardIdentifier="menuNav" automaticallyAdjustsScrollViewInsets="NO" id="cTj-DI-kOG" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="menuNav" automaticallyAdjustsScrollViewInsets="NO" id="cTj-DI-kOG" customClass="DANavigationController" customModule="Dished" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="uhT-8b-5Ko">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

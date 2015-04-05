@@ -18,11 +18,13 @@ class DAActiveFoodiesView: DALoadingView, UICollectionViewDelegateFlowLayout {
     
     override func showSpinner() {
         super.showSpinner()
+        searchBar.hidden = true
         collectionView.hidden = true
     }
     
     override func hideSpinner() {
         super.hideSpinner()
+        searchBar.hidden = false
         collectionView.hidden = false
     }
     
@@ -44,8 +46,10 @@ class DAActiveFoodiesView: DALoadingView, UICollectionViewDelegateFlowLayout {
         collectionView.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsZero)
         
         searchBar = UISearchBar()
-        searchBar.tintColor = UIColor(r: 242, g: 242, b: 242, a: 255)
+        searchBar.barTintColor = UIColor(r: 242, g: 242, b: 242, a: 255)
         searchBar.placeholder = "Search for a user"
+        searchBar.layer.borderWidth = 1
+        searchBar.layer.borderColor = UIColor(r: 220, g: 220, b: 220, a: 255).CGColor
         addSubview(searchBar)
         topSearchBarConstraint = searchBar.autoPinEdgeToSuperviewEdge(ALEdge.Top)
         searchBar.autoPinEdgeToSuperviewEdge(ALEdge.Leading)
