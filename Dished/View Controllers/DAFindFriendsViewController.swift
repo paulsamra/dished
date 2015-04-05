@@ -34,6 +34,12 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         loadContacts()
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        findFriendsView.tableView.deselectSelectedIndexPath()
+    }
+    
     private func loadContacts() {
         findFriendsView.showSpinner()
         friendsDataSource.loadData()
@@ -59,22 +65,41 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         findFriendsView.hideSpinner()
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return friendsDataSource.sections.count
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return friendsDataSource.friends.count ?? 0
+        let sectionIndex = friendsDataSource.sections[section]
+        return friendsDataSource.friends[sectionIndex]?.count ?? 0
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as DAUserTableViewCell
         
-        let friend = friendsDataSource.friends[indexPath.row]
+        let sectionIndex = friendsDataSource.sections[indexPath.section]
+        let friend = friendsDataSource.friendForIndexPath(indexPath)
+        
         cell.configureWithFriend(friend)
         cell.sideButton.addTarget(self, action: "cellButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        if tableView.contentSize.height > view.frame.size.height {
+            cell.showsSectionTitle = true
+        }
         
         return cell
     }
     
+    func sectionIndexTitlesForTableView(tableView: UITableView) -> [AnyObject]! {
+        if tableView.contentSize.height > view.frame.size.height {
+            return friendsDataSource.sections
+        }
+        
+        return []
+    }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let friend = friendsDataSource.friends[indexPath.row]
+        let friend = friendsDataSource.friendForIndexPath(indexPath)
         
         if friend.registered {
             pushUserProfileWithUserID(friend.userID)
@@ -83,7 +108,7 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
     
     func cellButtonPressed(button: UIButton) {
         if let indexPath = findFriendsView.tableView.indexPathForView(button) {
-            let friend = friendsDataSource.friends[indexPath.row]
+            let friend = friendsDataSource.friendForIndexPath(indexPath)
             
             if friend.registered {
                 findFriendsInteractor.doFollowInteractionForFriend(friend)

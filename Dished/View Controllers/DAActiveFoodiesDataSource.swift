@@ -42,7 +42,7 @@ class DAActiveFoodiesDataSource: DADataSource {
             }
             
             self.delegate?.dataSourceDidFailToLoadData(self, withError: error)
-    })
+        })
     }
     
     func reloadDataWithQuery(query: String) {

@@ -11,7 +11,8 @@ import AddressBook
 
 class DAFindFriendsDataSource: DADataSource {
     
-    var friends = [DAFriend]()
+    var friends = [String:[DAFriend]]()
+    var sections = [String]()
     weak var delegate: DADataSourceDelegate? = nil
     private var registerDataTask: NSURLSessionTask? = nil
     
@@ -27,6 +28,11 @@ class DAFindFriendsDataSource: DADataSource {
         }
         
         return false
+    }
+    
+    func friendForIndexPath(indexPath: NSIndexPath) -> DAFriend {
+        let sectionIndex = sections[indexPath.section]
+        return friends[sectionIndex]?[indexPath.row] ?? DAFriend()
     }
 
     func loadData() {
@@ -65,19 +71,27 @@ class DAFindFriendsDataSource: DADataSource {
                 response in
                 
                 let results = response.objectForKey(kDataKey) as [NSDictionary]
-                var friends = [DAFriend]()
+                var friendList = [DAFriend]()
                 
                 for contact in results {
                     let friend = self.processFriendData(contact)
                     
                     if friend.username != DAUserManager.sharedManager().username {
-                        friends.append(friend)
+                        friendList.append(friend)
                     }
                 }
                 
-                self.friends = friends
-                self.friends.sort() {
-                    $0.name < $1.name
+                friendList.sort() {
+                    $0.name.capitalizedString < $1.name.capitalizedString
+                }
+                
+                let friendDict = friendList.groupBy(groupingFunction: {
+                    $0.name[0]?.capitalizedString ?? ""
+                })
+                
+                self.friends = friendDict
+                self.sections = self.friends.keys.array.sorted() {
+                    $0 < $1
                 }
                 
                 self.delegate?.dataSourceDidFinishLoadingData(self)

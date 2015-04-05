@@ -25,10 +25,19 @@ class DAUserTableViewCell: DATableViewCell
     
     private var nameLabelLeftConstraint: NSLayoutConstraint!
     private var nameLabelVerticalConstraint: NSLayoutConstraint!
+    private var rightSideConstraint: NSLayoutConstraint!
     
     var style: DAUserTableViewCellStyle = DAUserTableViewCellStyle.Default {
         didSet {
             if oldValue != style {
+                setNeedsLayout()
+            }
+        }
+    }
+    
+    var showsSectionTitle: Bool = false {
+        didSet {
+            if oldValue != showsSectionTitle {
                 setNeedsLayout()
             }
         }
@@ -90,6 +99,8 @@ class DAUserTableViewCell: DATableViewCell
         else {
             subtitleLabel.removeFromSuperview()
         }
+        
+        rightSideConstraint.constant = showsSectionTitle ? -20.0 : -8.0
     }
     
     private func setupSubtitleLabel() {
@@ -127,7 +138,7 @@ class DAUserTableViewCell: DATableViewCell
         sideButton.titleLabel?.font = UIFont(name: kHelveticaNeueLightFont, size: 18.0)
         sideButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right;
         addSubview(sideButton)
-        sideButton.autoPinEdgeToSuperviewEdge(ALEdge.Right, withInset: 8)
+        rightSideConstraint = sideButton.autoPinEdgeToSuperviewEdge(ALEdge.Right, withInset: 8.0)
         sideButton.autoSetDimensionsToSize(CGSizeMake(70, 27))
         sideButton.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
         
