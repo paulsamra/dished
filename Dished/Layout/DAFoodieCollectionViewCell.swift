@@ -23,6 +23,8 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
     
     weak var delegate: DAFoodieCollectionViewCellDelegate?
     
+    private var panGesture: UIPanGestureRecognizer!
+    
     func configureWithFoodie(foodie: DAFoodie) {
         usernameButton.setTitle("@\(foodie.username)", forState: UIControlState.Normal)
         descriptionLabel.text = foodie.description
@@ -112,7 +114,21 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         }
     }
     
+    override func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if gestureRecognizer == panGesture {
+            let translation = panGesture.translationInView(panGesture.view!)
+            return fabs(translation.y) <= fabs(translation.x)
+        }
+        
+        return true
+    }
+    
     func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let panGesture = gestureRecognizer as? UIPanGestureRecognizer {
+            let yVelocity = panGesture.velocityInView(self).y
+            return fabs(yVelocity) <= 0.25
+        }
+        
         return true
     }
     
@@ -128,12 +144,12 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         userImageView.autoSetDimensionsToSize(CGSizeMake(60.0, 60.0))
         
         followButton = UIButton()
-        followButton.titleLabel?.font = DAConstants.primaryFontWithSize(17.0)
+        followButton.titleLabel?.font = DAConstants.primaryFontWithSize(18.0)
         followButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
         addSubview(followButton)
         followButton.autoPinEdgeToSuperviewEdge(ALEdge.Trailing, withInset: 15.0)
         followButton.autoPinEdgeToSuperviewEdge(ALEdge.Top, withInset: 17.0)
-        followButton.autoSetDimensionsToSize(CGSizeMake(63.0, 20.0))
+        followButton.autoSetDimensionsToSize(CGSizeMake(68.0, 20.0))
         
         usernameButton = UIButton()
         usernameButton.titleLabel?.font = DAConstants.primaryFontWithSize(17.0)
@@ -175,8 +191,9 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
             reviewImageViews.append(imageView)
         }
         
-        let panRecognizer = UIPanGestureRecognizer(target: self, action: "cellPanned:")
-        panRecognizer.delegate = self
-        addGestureRecognizer(panRecognizer)
+        panGesture = UIPanGestureRecognizer(target: self, action: "cellPanned:")
+        panGesture.cancelsTouchesInView = false
+        panGesture.delegate = self
+        addGestureRecognizer(panGesture)
     }
 }
