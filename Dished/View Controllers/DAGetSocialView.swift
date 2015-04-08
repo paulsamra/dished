@@ -14,7 +14,7 @@ class DAGetSocialView: DAView {
     var skipButton: UIButton!
     
     override func setupViews() {
-        tableView = UITableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
+        tableView = DATouchTableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
         tableView.tableHeaderView = tableHeaderView()
         tableView.tableFooterView = tableFooterView()
         addSubview(tableView)
@@ -59,6 +59,7 @@ class DAGetSocialView: DAView {
     
     private func tableFooterView() -> UIView {
         let footerView = UIView()
+        footerView.clipsToBounds = true
         
         let label = UILabel()
         label.textColor = UIColor.grayColor()
@@ -73,18 +74,22 @@ class DAGetSocialView: DAView {
         label.autoPinEdgeToSuperviewEdge(ALEdge.Right)
         label.autoSetDimension(ALDimension.Height, toSize: label.frame.size.height)
         
-        skipButton = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        skipButton = UIButton()
         skipButton.setTitle("Skip", forState: UIControlState.Normal)
         skipButton.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 18.0)
+        skipButton.setTitleColor(UIColor.dishedColor(), forState: UIControlState.Normal)
         skipButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Center
         skipButton.sizeToFit()
         footerView.addSubview(skipButton)
         skipButton.autoPinEdgeToSuperviewEdge(ALEdge.Left)
         skipButton.autoPinEdgeToSuperviewEdge(ALEdge.Right)
-        skipButton.autoPinEdge(ALEdge.Top, toEdge: ALEdge.Bottom, ofView: label, withOffset: 10)
+        skipButton.autoPinEdge(ALEdge.Top, toEdge: ALEdge.Bottom, ofView: label, withOffset: 10.0)
         skipButton.autoSetDimension(ALDimension.Height, toSize: skipButton.frame.size.height)
         
-        footerView.sizeToFit()
+        let footerHeight = label.frame.size.height + 10.0 + skipButton.frame.size.height
+        var footerFrame = footerView.frame
+        footerFrame.size.height = footerHeight
+        footerView.frame = footerFrame
         
         return footerView
     }

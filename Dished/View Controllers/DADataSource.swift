@@ -8,6 +8,11 @@
 
 import Foundation
 
+protocol DADataSourceDelegate: class {
+    func dataSourceDidFinishLoadingData(dataSource: DADataSource)
+    func dataSourceDidFailToLoadData(dataSource: DADataSource, withError error: NSError?)
+}
+
 protocol DADataSource {
     weak var delegate: DADataSourceDelegate? { get set }
     

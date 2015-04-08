@@ -16,6 +16,12 @@ class DAGetSocialViewController: DAViewController, UITableViewDataSource, UITabl
         "Find Friends from Contacts",
         "Active Foodies in your Area"
     ]
+    
+    var showsSkipButton: Bool = false {
+        didSet {
+            getSocialView.skipButton.hidden = !showsSkipButton
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,10 +71,15 @@ class DAGetSocialViewController: DAViewController, UITableViewDataSource, UITabl
         navigationController?.pushViewController(activeFoodiesViewController, animated: true)
     }
     
+    func skipButtonPressed() {
+        dismissViewControllerAnimated(true, completion: nil)
+    }
+    
     override func loadView() {
         view = getSocialView
         
         navigationItem.title = "Get Social"
-        getSocialView.skipButton.hidden = true
+        getSocialView.skipButton.hidden = !showsSkipButton
+        getSocialView.skipButton.addTarget(self, action: "skipButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
     }
 }

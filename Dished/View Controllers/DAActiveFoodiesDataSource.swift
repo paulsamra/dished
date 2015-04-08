@@ -16,8 +16,8 @@ class DAActiveFoodiesDataSource: DADataSource {
     
     private var initialData: [DAFoodie]?
     
-    init(delegate: DADataSourceDelegate?) {
-        self.delegate = delegate
+    init() {
+        
     }
     
     func loadData() {

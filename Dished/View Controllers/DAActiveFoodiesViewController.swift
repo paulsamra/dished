@@ -12,10 +12,8 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
 
     let cellIdentifier = "activeFoodieCell"
     var activeFoodiesView: DAActiveFoodiesView!
-    lazy var foodiesDataSource: DAActiveFoodiesDataSource = {
-        return DAActiveFoodiesDataSource(delegate: self)
-    }()
-    
+    var foodiesDataSource = DAActiveFoodiesDataSource()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -23,6 +21,7 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
         
         activeFoodiesView.collectionView.registerClass(DAFoodieCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
         
+        foodiesDataSource.delegate = self
         activeFoodiesView.searchBar.delegate = self
         loadFoodies()
     }

@@ -10,9 +10,6 @@
 		9400E9C71AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */; };
 		9400E9C81AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */; };
 		9400E9C91AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */; };
-		9400E9CB1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9CA1AC93EA3001C8E08 /* DADataSourceDelegate.swift */; };
-		9400E9CC1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9CA1AC93EA3001C8E08 /* DADataSourceDelegate.swift */; };
-		9400E9CD1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9CA1AC93EA3001C8E08 /* DADataSourceDelegate.swift */; };
 		9401F92E19E496360037812B /* DASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9401F92D19E496360037812B /* DASettingsViewController.m */; };
 		9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 9402317419C18B6E003B3017 /* DAGlobalReview.m */; };
 		940363771A25E0850068F61D /* DAManagedUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363761A25E0850068F61D /* DAManagedUsername.m */; };
@@ -1150,7 +1147,6 @@
 
 /* Begin PBXFileReference section */
 		9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAActiveFoodiesDataSource.swift; sourceTree = "<group>"; };
-		9400E9CA1AC93EA3001C8E08 /* DADataSourceDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADataSourceDelegate.swift; sourceTree = "<group>"; };
 		9401F92C19E496360037812B /* DASettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DASettingsViewController.h; sourceTree = "<group>"; };
 		9401F92D19E496360037812B /* DASettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DASettingsViewController.m; sourceTree = "<group>"; };
 		9402317319C18B6E003B3017 /* DAGlobalReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGlobalReview.h; sourceTree = "<group>"; };
@@ -2021,7 +2017,6 @@
 				944689A11960048500FAE288 /* DATabBarController.h */,
 				944689A21960048500FAE288 /* DATabBarController.m */,
 				94F4140E1AC5430A005C40CC /* DADataSource.swift */,
-				9400E9CA1AC93EA3001C8E08 /* DADataSourceDelegate.swift */,
 				94502A7F1ABE775500810FBA /* DANavigationController.swift */,
 				941B51201ABFDC5400B80F83 /* DAViewController.swift */,
 				94AAAA321A42EA5800863E09 /* Settings */,
@@ -3549,7 +3544,6 @@
 				941291F21A1BEED500B7C763 /* DARegisterViewController.m in Sources */,
 				94426BF91A6A75BF00186C35 /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				94426C621A6A75BF00186C35 /* MPPassThroughValueTransformer.m in Sources */,
-				9400E9CC1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */,
 				94426C4D1A6A75BF00186C35 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				94426BE11A6A75BF00186C35 /* _MPTweakBindObserver.m in Sources */,
 				94AAAA571A43BF1300863E09 /* RECommonFunctions.m in Sources */,
@@ -3887,7 +3881,6 @@
 				941292F11A1C7AD100B7C763 /* DARegisterViewController.m in Sources */,
 				94426BFA1A6A75BF00186C35 /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				94426C631A6A75BF00186C35 /* MPPassThroughValueTransformer.m in Sources */,
-				9400E9CD1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */,
 				94426C4E1A6A75BF00186C35 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				94426BE21A6A75BF00186C35 /* _MPTweakBindObserver.m in Sources */,
 				94AAAA581A43BF1300863E09 /* RECommonFunctions.m in Sources */,
@@ -4225,7 +4218,6 @@
 				94FF526B197347F200B97A61 /* DARegisterViewController.m in Sources */,
 				94426BF81A6A75BF00186C35 /* MPABTestDesignerClearResponseMessage.m in Sources */,
 				94426C611A6A75BF00186C35 /* MPPassThroughValueTransformer.m in Sources */,
-				9400E9CB1AC93EA3001C8E08 /* DADataSourceDelegate.swift in Sources */,
 				94426C4C1A6A75BF00186C35 /* MPNSAttributedStringToNSDictionaryValueTransformer.m in Sources */,
 				94426BE01A6A75BF00186C35 /* _MPTweakBindObserver.m in Sources */,
 				94AAAA561A43BF1300863E09 /* RECommonFunctions.m in Sources */,

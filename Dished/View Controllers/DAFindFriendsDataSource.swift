@@ -16,8 +16,8 @@ class DAFindFriendsDataSource: DADataSource {
     weak var delegate: DADataSourceDelegate? = nil
     private var registerDataTask: NSURLSessionTask? = nil
     
-    init(delegate: DADataSourceDelegate) {
-        self.delegate = delegate
+    init() {
+        
     }
 
     func contactsAccessAllowed() -> Bool {

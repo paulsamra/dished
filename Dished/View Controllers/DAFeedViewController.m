@@ -113,6 +113,24 @@ typedef enum
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshFeed) name:kNetworkReachableKey object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(resetNavigationBar) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reviewDeleted) name:kReviewDeletedNotification object:nil];
+    
+    [self showGetSocialView];
+}
+
+- (void)showGetSocialView
+{
+    int launches = [[[NSUserDefaults standardUserDefaults] objectForKey:@"launches"] intValue];
+    
+    if( launches == 0 || launches == 2 || launches == 6 || launches == 10 || launches == 20 || launches == 30 )
+    {
+        DAGetSocialViewController *socialViewController = [[DAGetSocialViewController alloc] init];
+        socialViewController.showsSkipButton = YES;
+        UINavigationController *socialNav = [[UINavigationController alloc] initWithRootViewController:socialViewController];
+        [self presentViewController:socialNav animated:YES completion:nil];
+    }
+    
+    launches++;
+    [[NSUserDefaults standardUserDefaults] setObject:@(launches) forKey:@"launches"];
 }
 
 - (void)viewWillAppear:(BOOL)animated

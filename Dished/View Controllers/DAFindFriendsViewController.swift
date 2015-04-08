@@ -18,9 +18,7 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         return DAFindFriendsInteractor(delegate: self)
     }()
     
-    lazy var friendsDataSource: DAFindFriendsDataSource = {
-        return DAFindFriendsDataSource(delegate: self)
-    }()
+    var friendsDataSource = DAFindFriendsDataSource()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,12 +29,12 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         
         navigationItem.title = "Find Friends"
         
+        friendsDataSource.delegate = self
         loadContacts()
     }
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        
         findFriendsView.tableView.deselectSelectedIndexPath()
     }
     
