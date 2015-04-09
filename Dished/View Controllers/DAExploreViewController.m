@@ -213,38 +213,22 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
 {
     if( searchText.length > 0 )
     {
-        if( self.liveSearchTask )
-        {
-            [self.liveSearchTask cancel];
-        }
+        [self.liveSearchTask cancel];
         
-        if( [searchText characterAtIndex:0] == '#' && searchText.length > 1 )
+        NSDictionary *parameters = @{ kQueryKey : searchText };
+        
+        [[DAAPIManager sharedManager] GETRequest:kExploreAllURL withParameters:parameters success:^( id response )
         {
-            NSString *query = [searchText substringFromIndex:1];
-            
-            [self searchWithURL:kHashtagsURL query:query queryKey:kNameKey resultType:eHashtagSearchResult];
+            self.liveSearchResults = [self resultsFromResponse:response];
+            [self.searchDisplayController.searchResultsTableView reloadData];
         }
-        else if( [searchText characterAtIndex:0] == '@' && searchText.length > 1 )
+        failure:^( NSError *error, BOOL shouldRetry )
         {
-            NSString *query = [searchText substringFromIndex:1];
-            
-            [self searchWithURL:kExploreUsernamesURL query:query queryKey:kUsernameKey resultType:eUsernameSearchResult];
-        }
-        else
-        {
-            NSString *query = searchText;
-            
-            self.liveSearchTask = [[DAAPIManager sharedManager] exploreDishAndLocationSuggestionsTaskWithQuery:query
-            longitude:self.selectedLocation.longitude latitude:self.selectedLocation.latitude radius:self.selectedRadius
-            completion:^( id response, NSError *error )
+            if( shouldRetry )
             {
-                NSArray *dishes    = [self resultsFromResponse:response withType:eDishSearchResult];
-                NSArray *locations = [self resultsFromResponse:response withType:eLocationSearchResult];
-                self.liveSearchResults = [dishes arrayByAddingObjectsFromArray:locations];
-                
-                [self.searchDisplayController.searchResultsTableView reloadData];
-            }];
-        }
+                [self searchBar:searchBar textDidChange:searchText];
+            }
+        }];
     }
     else
     {
@@ -253,67 +237,34 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     }
 }
 
-- (void)searchWithURL:(NSString *)url query:(NSString *)query queryKey:(NSString *)key resultType:(eExploreSearchResultType)type
+- (NSArray *)resultsFromResponse:(id)response
 {
-    NSDictionary *parameters = @{ key : query };
-    
-    self.liveSearchTask = [[DAAPIManager sharedManager] GETRequest:url withParameters:parameters
-    success:^( id response )
-    {
-        self.liveSearchResults = [self resultsFromResponse:response withType:type];
-        [self.searchDisplayController.searchResultsTableView reloadData];
-    }
-    failure:^( NSError *error, BOOL shouldRetry )
-    {
-        if( shouldRetry )
-        {
-            [self searchWithURL:url query:query queryKey:key resultType:type];
-        }
-    }];
-}
-
-- (NSArray *)resultsFromResponse:(id)response withType:(eExploreSearchResultType)type
-{
-    NSArray *results = nil;
     NSMutableArray *searchResults = [NSMutableArray array];
+    DAExploreLiveSearchResult *searchResult = nil;
     
-    switch( type )
+    for( NSDictionary *result in response[kDataKey] )
     {
-        case eUsernameSearchResult:
-        case eHashtagSearchResult:
-            results = nilOrJSONObjectForKey( response, kDataKey );
-            break;
-            
-        case eDishSearchResult:
+        NSString *content = result[kContentKey];
+        
+        if( [content isEqualToString:@"loc"] )
         {
-            NSDictionary *dishData = nilOrJSONObjectForKey( response, kDataKey );
-            if( dishData )
-            {
-                results = nilOrJSONObjectForKey( dishData, @"dishes" );
-            }
+            searchResult = [DAExploreLiveSearchResult liveSearchResultWithData:result type:eLocationSearchResult];
+            [searchResults addObject:searchResult];
         }
-        break;
-            
-        case eLocationSearchResult:
+        else if( [content isEqualToString:@"dish"] )
         {
-            NSDictionary *locationData = nilOrJSONObjectForKey( response, kDataKey );
-            if( locationData )
-            {
-                results = nilOrJSONObjectForKey( locationData, @"locations" );
-            }
+            searchResult = [DAExploreLiveSearchResult liveSearchResultWithData:result type:eDishSearchResult];
+            [searchResults addObject:searchResult];
         }
-        break;
-            
-        default:
-            results = nilOrJSONObjectForKey( response, kDataKey );
-            break;
-    }
-    
-    if( results )
-    {
-        for( NSDictionary *result in results )
+        else if( [content isEqualToString:@"tag"] )
         {
-            [searchResults addObject:[DAExploreLiveSearchResult liveSearchResultWithData:result type:type]];
+            searchResult = [DAExploreLiveSearchResult liveSearchResultWithData:result type:eHashtagSearchResult];
+            [searchResults addObject:searchResult];
+        }
+        else if( [content isEqualToString:@"user"] )
+        {
+            searchResult = [DAExploreLiveSearchResult liveSearchResultWithData:result type:eUsernameSearchResult];
+            [searchResults addObject:searchResult];
         }
     }
     
@@ -365,8 +316,11 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
                 break;
                 
             case eUsernameSearchResult:
+//                [cell.imageView sd_setImageWithURL:[NSURL URLWithString:searchResult.img_thumb] placeholderImage:[UIImage imageNamed:@"user_search_result"]];
+//                cell.imageView.layer.cornerRadius = cell.imageView.frame.size.width / 2.0;
+//                cell.imageView.layer.masksToBounds = YES;
                 cell.imageView.image = [UIImage imageNamed:@"user_search_result"];
-                cell.textLabel.text  = [NSString stringWithFormat:@"@%@", searchResult.name];
+                cell.textLabel.text  = [NSString stringWithFormat:@"@%@", searchResult.username];
                 break;
                 
             case eLocationSearchResult:
