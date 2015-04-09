@@ -1121,6 +1121,9 @@
 		94F414201AC76357005C40CC /* DAFoodie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4141F1AC76357005C40CC /* DAFoodie.swift */; };
 		94F414211AC76357005C40CC /* DAFoodie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4141F1AC76357005C40CC /* DAFoodie.swift */; };
 		94F414221AC76357005C40CC /* DAFoodie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F4141F1AC76357005C40CC /* DAFoodie.swift */; };
+		94FB4E951AD6610900590F53 /* DAExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FB4E941AD6610900590F53 /* DAExploreTableViewCell.swift */; };
+		94FB4E961AD6610900590F53 /* DAExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FB4E941AD6610900590F53 /* DAExploreTableViewCell.swift */; };
+		94FB4E971AD6610900590F53 /* DAExploreTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FB4E941AD6610900590F53 /* DAExploreTableViewCell.swift */; };
 		94FBA80B1ABE674A008F6670 /* DALoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBA80A1ABE674A008F6670 /* DALoadingView.swift */; };
 		94FBA80C1ABE674A008F6670 /* DALoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBA80A1ABE674A008F6670 /* DALoadingView.swift */; };
 		94FBA80D1ABE674A008F6670 /* DALoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FBA80A1ABE674A008F6670 /* DALoadingView.swift */; };
@@ -1801,6 +1804,7 @@
 		94F4140E1AC5430A005C40CC /* DADataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADataSource.swift; sourceTree = "<group>"; };
 		94F4141B1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFoodieCollectionViewCell.swift; sourceTree = "<group>"; };
 		94F4141F1AC76357005C40CC /* DAFoodie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFoodie.swift; sourceTree = "<group>"; };
+		94FB4E941AD6610900590F53 /* DAExploreTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAExploreTableViewCell.swift; sourceTree = "<group>"; };
 		94FBA80A1ABE674A008F6670 /* DALoadingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DALoadingView.swift; sourceTree = "<group>"; };
 		94FBA8101ABE68BF008F6670 /* DADishMapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADishMapView.swift; sourceTree = "<group>"; };
 		94FBA8151ABE6CC7008F6670 /* DASplashViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASplashViewController.swift; sourceTree = "<group>"; };
@@ -2938,6 +2942,7 @@
 			children = (
 				9443DEFF19D0236200F134BA /* DADatePickerTableViewCell.swift */,
 				944D1E7419DB8514006F73BF /* DAUserTableViewCell.swift */,
+				94FB4E941AD6610900590F53 /* DAExploreTableViewCell.swift */,
 			);
 			name = "Table View Cells";
 			sourceTree = "<group>";
@@ -3636,6 +3641,7 @@
 				94426C501A6A75BF00186C35 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				94426C021A6A75BF00186C35 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				941292241A1BEED500B7C763 /* UIColor+JSQMessages.m in Sources */,
+				94FB4E961AD6610900590F53 /* DAExploreTableViewCell.swift in Sources */,
 				941292251A1BEED500B7C763 /* SDWebImageDownloaderOperation.m in Sources */,
 				941292261A1BEED500B7C763 /* BAVPlistNode.m in Sources */,
 				941292271A1BEED500B7C763 /* UIImageView+AFNetworking.m in Sources */,
@@ -3973,6 +3979,7 @@
 				94426C511A6A75BF00186C35 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				94426C031A6A75BF00186C35 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				941293231A1C7AD100B7C763 /* UIColor+JSQMessages.m in Sources */,
+				94FB4E971AD6610900590F53 /* DAExploreTableViewCell.swift in Sources */,
 				941293241A1C7AD100B7C763 /* SDWebImageDownloaderOperation.m in Sources */,
 				941293251A1C7AD100B7C763 /* BAVPlistNode.m in Sources */,
 				941293261A1C7AD100B7C763 /* UIImageView+AFNetworking.m in Sources */,
@@ -4310,6 +4317,7 @@
 				94426C4F1A6A75BF00186C35 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				94426C011A6A75BF00186C35 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				94CB040219B146AF009010F6 /* UIColor+JSQMessages.m in Sources */,
+				94FB4E951AD6610900590F53 /* DAExploreTableViewCell.swift in Sources */,
 				94F2ADA0198C539200450C6F /* SDWebImageDownloaderOperation.m in Sources */,
 				943E62621987362100DF2135 /* BAVPlistNode.m in Sources */,
 				94DCE9BB1980ABB100396C0A /* UIImageView+AFNetworking.m in Sources */,

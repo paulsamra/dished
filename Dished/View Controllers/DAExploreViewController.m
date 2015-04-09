@@ -58,6 +58,8 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     
     self.searchBar.layer.borderWidth = 1;
     self.searchBar.layer.borderColor = self.searchBar.barTintColor.CGColor;
+    
+    [self.searchDisplayController.searchResultsTableView registerClass:[DAExploreTableViewCell class] forCellReuseIdentifier:kSearchResultCellIdentifier];
 }
 
 - (void)loadLocationSettings
@@ -217,7 +219,8 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
         
         NSDictionary *parameters = @{ kQueryKey : searchText };
         
-        [[DAAPIManager sharedManager] GETRequest:kExploreAllURL withParameters:parameters success:^( id response )
+        self.liveSearchTask = [[DAAPIManager sharedManager] GETRequest:kExploreAllURL withParameters:parameters
+        success:^( id response )
         {
             self.liveSearchResults = [self resultsFromResponse:response];
             [self.searchDisplayController.searchResultsTableView reloadData];
@@ -299,49 +302,42 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     {
         DAExploreLiveSearchResult *searchResult = [self.liveSearchResults objectAtIndex:indexPath.row];
         
-        cell = [tableView dequeueReusableCellWithIdentifier:kSearchResultCellIdentifier];
-        
-        if( !cell )
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kSearchResultCellIdentifier];
-        }
-        
-        cell.textLabel.font = [UIFont fontWithName:kHelveticaNeueLightFont size:17];
+        DAExploreTableViewCell *exploreCell = [tableView dequeueReusableCellWithIdentifier:kSearchResultCellIdentifier];
+        cell = exploreCell;
+        exploreCell.iconImageView.contentMode = UIViewContentModeCenter;
         
         switch( searchResult.resultType )
         {
             case eHashtagSearchResult:
-                cell.imageView.image = nil;
-                cell.textLabel.text  = [NSString stringWithFormat:@"#%@", searchResult.name];
+                exploreCell.iconImageView.image = [UIImage imageNamed:@"hashtag_icon"];
+                exploreCell.nameLabel.text  = [NSString stringWithFormat:@"#%@", searchResult.name];
                 break;
                 
             case eUsernameSearchResult:
-//                [cell.imageView sd_setImageWithURL:[NSURL URLWithString:searchResult.img_thumb] placeholderImage:[UIImage imageNamed:@"user_search_result"]];
-//                cell.imageView.layer.cornerRadius = cell.imageView.frame.size.width / 2.0;
-//                cell.imageView.layer.masksToBounds = YES;
-                cell.imageView.image = [UIImage imageNamed:@"user_search_result"];
-                cell.textLabel.text  = [NSString stringWithFormat:@"@%@", searchResult.username];
+                [exploreCell.iconImageView sd_setImageWithURL:[NSURL URLWithString:searchResult.img_thumb] placeholderImage:[UIImage imageNamed:@"user_search_result"]];
+                exploreCell.iconImageView.contentMode = UIViewContentModeScaleAspectFill;
+                exploreCell.nameLabel.text  = [NSString stringWithFormat:@"@%@ - %@", searchResult.username, searchResult.name];
                 break;
                 
             case eLocationSearchResult:
-                cell.imageView.image = [UIImage imageNamed:@"dish_location"];
-                cell.textLabel.text  = searchResult.name;
+                exploreCell.iconImageView.image = [UIImage imageNamed:@"dish_location"];
+                exploreCell.nameLabel.text  = searchResult.name;
                 break;
                 
             case eDishSearchResult:
-                cell.textLabel.text = searchResult.name;
+                exploreCell.nameLabel.text = searchResult.name;
                 
                 if( [searchResult.dishType isEqualToString:kFood] )
                 {
-                    cell.imageView.image = [UIImage imageNamed:@"food_dish_gray"];
+                    exploreCell.iconImageView.image = [UIImage imageNamed:@"food_dish_gray"];
                 }
                 else if( [searchResult.dishType isEqualToString:kCocktail] )
                 {
-                    cell.imageView.image = [UIImage imageNamed:@"cocktail_dish_gray"];
+                    exploreCell.iconImageView.image = [UIImage imageNamed:@"cocktail_dish_gray"];
                 }
                 else if( [searchResult.dishType isEqualToString:kWine] )
                 {
-                    cell.imageView.image = [UIImage imageNamed:@"wine_dish_gray"];
+                    exploreCell.iconImageView.image = [UIImage imageNamed:@"wine_dish_gray"];
                 }
                 break;
         }
@@ -395,7 +391,7 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
 {
     if( searchResult.resultType == eUsernameSearchResult )
     {
-        [self pushUserProfileWithUsername:searchResult.name];
+        [self pushUserProfileWithUsername:searchResult.username];
     }
     else if( searchResult.resultType == eLocationSearchResult )
     {
