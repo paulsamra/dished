@@ -217,7 +217,12 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     {
         [self.liveSearchTask cancel];
         
-        NSDictionary *parameters = @{ kQueryKey : searchText };
+        double longitude = self.selectedLocation.longitude;
+        double latitude = self.selectedLocation.latitude;
+        double radius = self.selectedRadius;
+        
+        NSDictionary *parameters = @{ kQueryKey : searchText, kLongitudeKey : @(longitude), kLatitudeKey : @(latitude),
+           kRadiusKey : @(radius) };
         
         self.liveSearchTask = [[DAAPIManager sharedManager] GETRequest:kExploreAllURL withParameters:parameters
         success:^( id response )
