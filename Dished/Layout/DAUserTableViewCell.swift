@@ -100,7 +100,7 @@ class DAUserTableViewCell: DATableViewCell
             subtitleLabel.removeFromSuperview()
         }
         
-        rightSideConstraint.constant = showsSectionTitle ? -20.0 : -8.0
+        rightSideConstraint.constant = showsSectionTitle ? -25.0 : -8.0
     }
     
     private func setupSubtitleLabel() {
