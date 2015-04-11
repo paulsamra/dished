@@ -87,7 +87,7 @@ class DAFindFriendsInteractor: NSObject, MFMessageComposeViewControllerDelegate 
             return
         }
         
-        let jsonString = NSString(data: jsonData!, encoding: NSUTF8StringEncoding) as String
+        let jsonString = NSString(data: jsonData!, encoding: NSUTF8StringEncoding) as! String
         let parameters = [kContactsKey: jsonString]
         
         DAAPIManager.sharedManager().POSTRequest(kUserContactsInviteURL, withParameters: parameters, success: nil,

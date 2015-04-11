@@ -42,7 +42,7 @@ extension UIViewController {
     
     func pushRestaurantProfileWithLocationID( locationID: Int, username: String? )
     {
-        let userProfileViewController = viewControllerWithStoryboardID( kUserProfileID ) as DAUserProfileViewController
+        let userProfileViewController = viewControllerWithStoryboardID( kUserProfileID ) as! DAUserProfileViewController
         userProfileViewController.loc_id = locationID
         userProfileViewController.username = username
         userProfileViewController.isRestaurant = true
@@ -52,7 +52,7 @@ extension UIViewController {
     
     func pushrestaurantProfileWithUserID( userID: Int, username: String? )
     {
-        let userProfileViewController = viewControllerWithStoryboardID( kUserProfileID ) as DAUserProfileViewController
+        let userProfileViewController = viewControllerWithStoryboardID( kUserProfileID ) as! DAUserProfileViewController
         userProfileViewController.user_id = userID
         userProfileViewController.username = username
         userProfileViewController.isRestaurant = true
@@ -62,7 +62,7 @@ extension UIViewController {
     
     func pushUserProfileWithUsername( username: String )
     {
-        let userProfileViewController = viewControllerWithStoryboardID( kUserProfileID ) as DAUserProfileViewController
+        let userProfileViewController = viewControllerWithStoryboardID( kUserProfileID ) as! DAUserProfileViewController
         userProfileViewController.username = username
         userProfileViewController.isRestaurant = false
         
@@ -71,7 +71,7 @@ extension UIViewController {
     
     func pushUserProfileWithUserID( userID: Int )
     {
-        let userProfileViewController = viewControllerWithStoryboardID( kUserProfileID ) as DAUserProfileViewController
+        let userProfileViewController = viewControllerWithStoryboardID( kUserProfileID ) as! DAUserProfileViewController
         userProfileViewController.user_id = userID
         userProfileViewController.isRestaurant = false
         
@@ -80,7 +80,7 @@ extension UIViewController {
     
     func pushReviewDetailsViewWithReviewID( reviewID: Int )
     {
-        let reviewDetailsViewController = viewControllerWithStoryboardID( kReviewDetailsID ) as DAReviewDetailsViewController
+        let reviewDetailsViewController = viewControllerWithStoryboardID( kReviewDetailsID ) as! DAReviewDetailsViewController
         reviewDetailsViewController.reviewID = reviewID
         
         target()?.pushViewController( reviewDetailsViewController, animated: true )
@@ -88,7 +88,7 @@ extension UIViewController {
     
     func pushGlobalDishViewWithDishID( dishID: Int )
     {
-        let globalDishViewController = viewControllerWithStoryboardID( kGlobalDishID ) as DAGlobalDishDetailViewController
+        let globalDishViewController = viewControllerWithStoryboardID( kGlobalDishID ) as! DAGlobalDishDetailViewController
         globalDishViewController.dishID = dishID
         
         target()?.pushViewController( globalDishViewController, animated: true )
@@ -96,7 +96,7 @@ extension UIViewController {
     
     func pushCommentsViewWithFeedItem( feedItem: DAFeedItem, showKeyboard: Bool )
     {
-        let commentsViewController = viewControllerWithStoryboardID( kCommentsViewID ) as DACommentsViewController
+        let commentsViewController = viewControllerWithStoryboardID( kCommentsViewID ) as! DACommentsViewController
         commentsViewController.feedItem = feedItem
         commentsViewController.shouldShowKeyboard = showKeyboard
         
@@ -105,7 +105,7 @@ extension UIViewController {
     
     func pushCommentsViewWithReviewID( reviewID: Int, showKeyboard: Bool )
     {
-        let commentsViewController = viewControllerWithStoryboardID( kCommentsViewID ) as DACommentsViewController
+        let commentsViewController = viewControllerWithStoryboardID( kCommentsViewID ) as! DACommentsViewController
         commentsViewController.reviewID = reviewID
         commentsViewController.shouldShowKeyboard = showKeyboard
         
@@ -118,7 +118,7 @@ extension UIViewController {
     }
     
     private func viewControllerWithStoryboardID(storyboardID: String) -> UIViewController! {
-        return self.mainStoryboard?.instantiateViewControllerWithIdentifier( storyboardID ) as UIViewController
+        return self.mainStoryboard?.instantiateViewControllerWithIdentifier( storyboardID ) as! UIViewController
     }
     
     func adjustInsetsForScrollView(scrollView: UIScrollView) {

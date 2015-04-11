@@ -17,7 +17,7 @@ class DAErrorView: DAView {
     override func setupViews() {
         backgroundColor = UIColor(red: (218.0 / 255.0), green: 0, blue: 0, alpha: 1)
         
-        closeButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        closeButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         closeButton.setImage(UIImage(named: "error_close"), forState: UIControlState.Normal)
         addSubview(closeButton)
         closeButton.autoSetDimensionsToSize(CGSizeMake(30.0, 30.0))

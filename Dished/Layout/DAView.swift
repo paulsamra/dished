@@ -10,18 +10,16 @@ import UIKit
 
 class DAView: UIView {
 
-    override init() {
-        super.init()
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         backgroundColor = UIColor.whiteColor()
         setupViews()
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-    }
-    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+        backgroundColor = UIColor.whiteColor()
+        setupViews()
     }
     
     func setupViews() {

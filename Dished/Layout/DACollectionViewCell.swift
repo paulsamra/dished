@@ -9,11 +9,6 @@
 import UIKit
 
 class DACollectionViewCell: UICollectionViewCell {
-    
-    override init() {
-        super.init()
-        setupViews()
-    }
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)

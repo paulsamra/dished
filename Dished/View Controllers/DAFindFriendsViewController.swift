@@ -73,7 +73,7 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as DAUserTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! DAUserTableViewCell
         
         let sectionIndex = friendsDataSource.sections[indexPath.section]
         let friend = friendsDataSource.friendForIndexPath(indexPath)

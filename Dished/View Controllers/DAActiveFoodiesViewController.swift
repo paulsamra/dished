@@ -53,7 +53,7 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellIdentifier, forIndexPath: indexPath) as DAFoodieCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellIdentifier, forIndexPath: indexPath) as! DAFoodieCollectionViewCell
         
         let foodie = foodiesDataSource.foodies[indexPath.row]
         

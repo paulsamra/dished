@@ -15,7 +15,7 @@ class DAFlowLayout: UICollectionViewFlowLayout
     
     override func layoutAttributesForElementsInRect( rect: CGRect ) -> [AnyObject]?
     {
-        var answer = super.layoutAttributesForElementsInRect( rect ) as [UICollectionViewLayoutAttributes]
+        var answer = super.layoutAttributesForElementsInRect( rect ) as! [UICollectionViewLayoutAttributes]
         let collectionView = self.collectionView
         let contentOffset = collectionView?.contentOffset
         

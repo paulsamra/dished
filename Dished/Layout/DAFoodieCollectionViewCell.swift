@@ -87,7 +87,7 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
     }
     
     func didTapImageView(tapGesture: UITapGestureRecognizer) {
-        let imageView = tapGesture.view as UIImageView
+        let imageView = tapGesture.view as! UIImageView
         if imageView.image != nil {
             if let index = find(reviewImageViews, imageView) {
                 delegate?.didTapImageAtIndex(index, inFoodieCollectionViewCell: self)

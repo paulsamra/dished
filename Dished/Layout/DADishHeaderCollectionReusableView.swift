@@ -20,11 +20,6 @@ class DADishHeaderCollectionReusableView: UICollectionReusableView {
     var titleButton: UIButton!
     var sideLabel: UILabel!
     
-    override init() {
-        super.init()
-        setupViews()
-    }
-    
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setupViews()

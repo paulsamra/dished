@@ -93,20 +93,20 @@ public class SwiftAddressBook {
     
     public var allPeople : [SwiftAddressBookPerson]? {
         get {
-            return convertRecordsToPersons(ABAddressBookCopyArrayOfAllPeople(internalAddressBook).takeRetainedValue())
+            return convertRecordsToPersons(ABAddressBookCopyArrayOfAllPeople(internalAddressBook).takeRetainedValue() as [ABRecord])
         }
     }
     
     public func allPeopleInSource(source : SwiftAddressBookSource) -> [SwiftAddressBookPerson]? {
-        return convertRecordsToPersons(ABAddressBookCopyArrayOfAllPeopleInSource(internalAddressBook, source.internalRecord).takeRetainedValue())
+        return convertRecordsToPersons(ABAddressBookCopyArrayOfAllPeopleInSource(internalAddressBook, source.internalRecord).takeRetainedValue() as [ABRecord])
     }
     
     public func allPeopleInSourceWithSortOrdering(source : SwiftAddressBookSource, ordering : SwiftAddressBookOrdering) -> [SwiftAddressBookPerson]? {
-        return convertRecordsToPersons(ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(internalAddressBook, source.internalRecord, ordering.abPersonSortOrderingValue).takeRetainedValue())
+        return convertRecordsToPersons(ABAddressBookCopyArrayOfAllPeopleInSourceWithSortOrdering(internalAddressBook, source.internalRecord, ordering.abPersonSortOrderingValue).takeRetainedValue() as [ABRecord])
     }
 	
 	public func peopleWithName(name : String) -> [SwiftAddressBookPerson]? {
-		return convertRecordsToPersons(ABAddressBookCopyPeopleWithName(internalAddressBook, name).takeRetainedValue())
+		return convertRecordsToPersons(ABAddressBookCopyPeopleWithName(internalAddressBook, name).takeRetainedValue() as [ABRecord])
 	}
 
 
@@ -124,12 +124,12 @@ public class SwiftAddressBook {
     
     public var arrayOfAllGroups : [SwiftAddressBookGroup]? {
         get {
-            return convertRecordsToGroups(ABAddressBookCopyArrayOfAllGroups(internalAddressBook).takeRetainedValue())
+            return convertRecordsToGroups(ABAddressBookCopyArrayOfAllGroups(internalAddressBook).takeRetainedValue() as [ABRecord])
         }
     }
     
     public func allGroupsInSource(source : SwiftAddressBookSource) -> [SwiftAddressBookGroup]? {
-        return convertRecordsToGroups(ABAddressBookCopyArrayOfAllGroupsInSource(internalAddressBook, source.internalRecord).takeRetainedValue())
+        return convertRecordsToGroups(ABAddressBookCopyArrayOfAllGroupsInSource(internalAddressBook, source.internalRecord).takeRetainedValue() as [ABRecord])
     }
     
     
@@ -147,7 +147,7 @@ public class SwiftAddressBook {
     
     public var allSources : [SwiftAddressBookSource]? {
         get {
-            return convertRecordsToSources(ABAddressBookCopyArrayOfAllSources(internalAddressBook).takeRetainedValue())
+            return convertRecordsToSources(ABAddressBookCopyArrayOfAllSources(internalAddressBook).takeRetainedValue() as [ABRecord])
         }
     }
     

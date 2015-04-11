@@ -73,7 +73,7 @@ class DASplashViewController2: UIViewController, DAWelcomeViewDelegate {
                 self.splashNavigator.navigateToFacebookView()
             }
             
-            let appDelegate = UIApplication.sharedApplication().delegate as DAAppDelegate
+            let appDelegate = UIApplication.sharedApplication().delegate as! DAAppDelegate
             appDelegate.sessionStateChanged(session, state: state, error: error)
         })
     }

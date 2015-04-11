@@ -10,11 +10,6 @@ import UIKit
 
 class DAFacebookConnectButton: UIButton {
 
-    override init() {
-        super.init()
-        setupView()
-    }
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
     }

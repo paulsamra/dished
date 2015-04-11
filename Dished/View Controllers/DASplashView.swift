@@ -32,7 +32,7 @@ class DASplashView: DAView {
         let blueBackgroundColor = UIColor(red: 0.16, green: 0.45, blue: 0.71, alpha: 1.0)
         let blueTextColor = UIColor(red: 0, green: 0.48, blue: 1.0, alpha: 1.0)
         
-        registerButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        registerButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         registerButton.setBackgroundImage(UIImage.imageWithColor(grayBackgroundColor), forState: UIControlState.Normal)
         registerButton.setTitle("Register", forState: UIControlState.Normal)
         registerButton.titleLabel?.font = UIFont(name: kHelveticaNeueLightFont, size: 23.0)
@@ -54,7 +54,7 @@ class DASplashView: DAView {
         orLabel.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Top, ofView: registerButton, withOffset: -20.0)
         orLabel.autoAlignAxisToSuperviewAxis(ALAxis.Vertical)
         
-        signInButton = UIButton.buttonWithType(UIButtonType.Custom) as UIButton
+        signInButton = UIButton.buttonWithType(UIButtonType.Custom) as! UIButton
         signInButton.setBackgroundImage(UIImage.imageWithColor(grayBackgroundColor), forState: UIControlState.Normal)
         signInButton.setTitle("Sign In", forState: UIControlState.Normal)
         signInButton.titleLabel?.font = UIFont(name: kHelveticaNeueLightFont, size: 23.0)

@@ -19,7 +19,7 @@ class DALoginViewController2: UIViewController {
         navigationItem.title = "Sign In"
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
+    override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
         super.touchesBegan(touches, withEvent: event)
         loginView.endEditing(true)
     }

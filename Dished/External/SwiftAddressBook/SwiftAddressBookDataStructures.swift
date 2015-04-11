@@ -111,30 +111,35 @@ public enum SwiftAddressBookSocialProfileProperty {
 	case url, service, username, userIdentifier
 
 	init(property : String) {
-		switch property {
-		case kABPersonSocialProfileURLKey :
-			self = .url
-		case kABPersonSocialProfileServiceKey :
-			self = .service
-		case kABPersonSocialProfileUsernameKey :
-			self = .username
-		case kABPersonSocialProfileUserIdentifierKey :
-			self = .userIdentifier
-		default :
-			self = .url
-		}
+        let url = kABPersonSocialProfileURLKey as String
+        let service = kABPersonSocialProfileServiceKey as String
+        let username = kABPersonSocialProfileUsernameKey as String
+        let userIdentifier = kABPersonSocialProfileUserIdentifierKey as String
+        
+        switch property {
+        case url:
+            self = .url
+        case service:
+            self = .service
+        case username:
+            self = .username
+        case userIdentifier:
+            self = .userIdentifier
+        default:
+            self = .url
+        }
 	}
 
 	public var abSocialProfileProperty : String {
 		switch self {
 		case .url :
-			return kABPersonSocialProfileURLKey
+			return kABPersonSocialProfileURLKey as String
 		case .service :
-			return kABPersonSocialProfileServiceKey
+			return kABPersonSocialProfileServiceKey as String
 		case .username :
-			return kABPersonSocialProfileUsernameKey
+			return kABPersonSocialProfileUsernameKey as String
 		case .userIdentifier :
-			return kABPersonSocialProfileUserIdentifierKey
+			return kABPersonSocialProfileUserIdentifierKey as String
 		}
 	}
 }
@@ -143,10 +148,13 @@ public enum SwiftAddressBookInstantMessagingProperty {
 	case service, username
 
 	init(property : String) {
+        let service = kABPersonInstantMessageServiceKey as String
+        let username = kABPersonInstantMessageUsernameKey as String
+        
 		switch property {
-		case kABPersonInstantMessageServiceKey :
+		case service:
 			self = .service
-		case kABPersonInstantMessageUsernameKey :
+		case username :
 			self = .username
 		default :
 			self = .service
@@ -156,9 +164,9 @@ public enum SwiftAddressBookInstantMessagingProperty {
 	public var abInstantMessageProperty : String {
 		switch self {
 		case .service :
-			return kABPersonInstantMessageServiceKey
+			return kABPersonInstantMessageServiceKey as String
 		case .username :
-			return kABPersonInstantMessageUsernameKey
+			return kABPersonInstantMessageUsernameKey as String
 		}
 	}
 }
@@ -198,18 +206,25 @@ public enum SwiftAddressBookAddressProperty {
 	case street, city, state, zip, country, countryCode
 
 	init(property : String) {
+        let street = kABPersonAddressStreetKey as String
+        let city = kABPersonAddressCityKey as String
+        let state = kABPersonAddressStateKey as String
+        let zip = kABPersonAddressZIPKey as String
+        let country = kABPersonAddressCountryKey as String
+        let countryCode = kABPersonAddressCountryCodeKey as String
+        
 		switch property {
-		case kABPersonAddressStreetKey:
+		case street:
 			self = .street
-		case kABPersonAddressCityKey:
+		case city:
 			self = .city
-		case kABPersonAddressStateKey:
+		case state:
 			self = .state
-		case kABPersonAddressZIPKey:
+		case zip:
 			self = .zip
-		case kABPersonAddressCountryKey:
+		case country:
 			self = .country
-		case kABPersonAddressCountryCodeKey:
+		case countryCode:
 			self = .countryCode
 		default:
 			self = .street
@@ -220,19 +235,19 @@ public enum SwiftAddressBookAddressProperty {
 		get {
 			switch self {
 			case .street :
-				return kABPersonAddressStreetKey
+				return kABPersonAddressStreetKey as String
 			case .city :
-				return kABPersonAddressCityKey
+				return kABPersonAddressCityKey as String
 			case .state :
-				return kABPersonAddressStateKey
+				return kABPersonAddressStateKey as String
 			case .zip :
-				return kABPersonAddressZIPKey
+				return kABPersonAddressZIPKey as String
 			case .country :
-				return kABPersonAddressCountryKey
+				return kABPersonAddressCountryKey as String
 			case .countryCode :
-				return kABPersonAddressCountryCodeKey
+				return kABPersonAddressCountryCodeKey as String
 			default:
-				return kABPersonAddressStreetKey
+				return kABPersonAddressStreetKey as String
 			}
 		}
 	}

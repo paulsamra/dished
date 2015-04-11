@@ -16,7 +16,7 @@ public class SwiftAddressBookSource : SwiftAddressBookRecord {
 
 	public var sourceType : SwiftAddressBookSourceType {
 		get {
-			let sourceType : CFNumber = ABRecordCopyValue(internalRecord, kABSourceTypeProperty).takeRetainedValue() as CFNumber
+			let sourceType : CFNumber = ABRecordCopyValue(internalRecord, kABSourceTypeProperty).takeRetainedValue() as! CFNumber
 			var rawSourceType : Int32? = nil
 			CFNumberGetValue(sourceType, CFNumberGetType(sourceType), &rawSourceType)
 			return SwiftAddressBookSourceType(abSourceType: rawSourceType!)
@@ -25,7 +25,7 @@ public class SwiftAddressBookSource : SwiftAddressBookRecord {
 
 	public var searchable : Bool {
 		get {
-			let sourceType : CFNumber = ABRecordCopyValue(internalRecord, kABSourceTypeProperty).takeRetainedValue() as CFNumber
+			let sourceType : CFNumber = ABRecordCopyValue(internalRecord, kABSourceTypeProperty).takeRetainedValue() as! CFNumber
 			var rawSourceType : Int32? = nil
 			CFNumberGetValue(sourceType, CFNumberGetType(sourceType), &rawSourceType)
 			let andResult = kABSourceTypeSearchableMask & rawSourceType!
@@ -37,7 +37,7 @@ public class SwiftAddressBookSource : SwiftAddressBookRecord {
 		get {
 			let value: AnyObject? = ABRecordCopyValue(internalRecord, kABSourceNameProperty)?.takeRetainedValue()
 			if value != nil {
-				return value as CFString
+				return value as! CFString as String
 			}
 			else {
 				return nil

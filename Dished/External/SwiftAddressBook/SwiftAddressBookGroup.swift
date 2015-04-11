@@ -15,9 +15,9 @@ public class SwiftAddressBookGroup : SwiftAddressBookRecord {
 
 	public var name : String? {
 		get {
-			let value: AnyObject? = ABRecordCopyValue(internalRecord, kABGroupNameProperty)?.takeRetainedValue() as CFString
+			let value: AnyObject? = ABRecordCopyValue(internalRecord, kABGroupNameProperty)?.takeRetainedValue() as! CFString
 			if value != nil {
-				return value as CFString
+				return value as! CFString as String
 			}
 			else {
 				return nil
@@ -38,12 +38,13 @@ public class SwiftAddressBookGroup : SwiftAddressBookRecord {
 
 	public var allMembers : [SwiftAddressBookPerson]? {
 		get {
-			return convertRecordsToPersons(ABGroupCopyArrayOfAllMembers(internalRecord)?.takeRetainedValue())
+            let groupCopy = ABGroupCopyArrayOfAllMembers(internalRecord)?.takeRetainedValue() as? [AnyObject]
+			return convertRecordsToPersons(groupCopy)
 		}
 	}
 
 	public func allMembersWithSortOrdering(ordering : SwiftAddressBookOrdering) -> [SwiftAddressBookPerson]? {
-		return convertRecordsToPersons(ABGroupCopyArrayOfAllMembersWithSortOrdering(internalRecord, ordering.abPersonSortOrderingValue).takeRetainedValue())
+		return convertRecordsToPersons(ABGroupCopyArrayOfAllMembersWithSortOrdering(internalRecord, ordering.abPersonSortOrderingValue).takeRetainedValue() as [ABRecord])
 	}
 
 	public func addMember(person : SwiftAddressBookPerson) -> CFError? {

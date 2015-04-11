@@ -20,7 +20,7 @@ class DAFriend: NSObject {
     var phoneNumber: String = ""
     
     func formattedPhoneNumber() -> String {
-        if countElements(phoneNumber) != 10 {
+        if count(phoneNumber) != 10 {
             return phoneNumber
         }
         

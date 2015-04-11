@@ -27,7 +27,7 @@ class DADocViewController: DAViewController, UIWebViewDelegate {
         documentTitle = title
     }
 
-    required override init(coder aDecoder: NSCoder) {
+    required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
 

@@ -61,7 +61,7 @@ class DAFindFriendsDataSource: DADataSource {
         if jsonData != nil {
             registerDataTask?.cancel()
 
-            let jsonString = NSString(data: jsonData!, encoding: NSUTF8StringEncoding) as String
+            let jsonString = NSString(data: jsonData!, encoding: NSUTF8StringEncoding) as! String
             
             let apiManager = DAAPIManager.sharedManager()
             let url = kUserContactsRegisteredURL
@@ -70,7 +70,7 @@ class DAFindFriendsDataSource: DADataSource {
             registerDataTask = apiManager.POSTRequest(url, withParameters: parameters, success: {
                 response in
                 
-                let results = response.objectForKey(kDataKey) as [NSDictionary]
+                let results = response.objectForKey(kDataKey) as! [NSDictionary]
                 var friendList = [DAFriend]()
                 
                 for contact in results {
@@ -147,7 +147,7 @@ class DAFindFriendsDataSource: DADataSource {
         }
         
         for person in unifiedContacts {
-            for record: ABRecord in person as NSSet {
+            for record: ABRecord in person as! NSSet {
                 if let abPerson = SwiftAddressBookRecord(record: record).convertToPerson() {
                     if let contact = contactForPerson(abPerson) {
                         mobileContacts.append(contact)
@@ -194,7 +194,7 @@ class DAFindFriendsDataSource: DADataSource {
             number = number.substringFromIndex(advance(number.startIndex, 1))
         }
         
-        if countElements(number) != 10 {
+        if count(number) != 10 {
             return nil
         }
         
