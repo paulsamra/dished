@@ -74,10 +74,7 @@
 
 - (void)locationManager:(CLLocationManager *)manager didFailWithError:(NSError *)error
 {
-    if( error.code == kCLErrorDenied )
-    {
-        [[NSNotificationCenter defaultCenter] postNotificationName:kLocationServicesDeniedKey object:nil];
-    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kLocationServicesDeniedKey object:nil];
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status

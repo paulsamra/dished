@@ -15,7 +15,7 @@
 static NSString *const kFollowCellIdentifier = @"followCell";
 
 
-@interface DAUserListViewController() <DAUserListTableViewCellDelegate>
+@interface DAUserListViewController()
 
 @property (strong, nonatomic) NSArray                 *usernameArray;
 @property (strong, nonatomic) NSURLSessionTask        *loadTask;
@@ -30,11 +30,8 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 {
     [super viewDidLoad];
     
-    UINib *searchCellNib = [UINib nibWithNibName:@"DAUserListTableViewCell" bundle:nil];
-    [self.tableView registerNib:searchCellNib forCellReuseIdentifier:kFollowCellIdentifier];
-    
+    [self.tableView registerClass:[DAUserTableViewCell class] forCellReuseIdentifier:kFollowCellIdentifier];
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    
     [self loadData];
 }
 
@@ -192,11 +189,11 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAUserListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFollowCellIdentifier];
+    DAUserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kFollowCellIdentifier];
     
     if( self.usernameArray.count == 0 )
     {
-        cell.usernameLabel.text = @"Loading...";
+        cell.nameLabel.text = @"Loading...";
         
         cell.accessoryView = self.spinner;
         cell.userInteractionEnabled = NO;
@@ -206,9 +203,11 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     {
         DAUsername *username = [self.usernameArray objectAtIndex:indexPath.row];
         
-        cell.usernameLabel.text = [NSString stringWithFormat:@"@%@", username.username];
+        cell.nameLabel.text = [NSString stringWithFormat:@"@%@", username.username];
         cell.userInteractionEnabled = YES;
         cell.accessoryView = nil;
+        
+        [cell.sideButton addTarget:self action:@selector(followButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
         if( [username.username isEqualToString:[DAUserManager sharedManager].username] || self.listContent == eUserListContentYums )
         {
@@ -221,12 +220,21 @@ static NSString *const kFollowCellIdentifier = @"followCell";
         }
         
         NSURL *imageURL = [NSURL URLWithString:username.img_thumb];
-        [cell.userImageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];
-        
-        cell.delegate = self;
+        [cell.userImageView sd_setImageWithURL:imageURL placeholderImage:[UIImage imageNamed:@"profile_image"]];        
     }
     
     return cell;
+}
+
+- (void)followButtonTapped:(UIButton *)followButton
+{
+    CGPoint buttonPosition = [followButton convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    
+    DAUsername *username = [self.usernameArray objectAtIndex:indexPath.row];
+    username.isFollowed ? [self unfollowUserID:username.user_id] : [self followUserID:username.user_id];
+    [self configureFollowButton:followButton withFollowStatus:!username.isFollowed];
+    username.isFollowed = !username.isFollowed;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -255,16 +263,6 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     
     [followButton setTitle:followButtonText forState:UIControlStateNormal];
     [followButton setTitleColor:followButtonColor forState:UIControlStateNormal];
-}
-
-- (void)sideButtonTappedOnFollowListTableViewCell:(DAUserListTableViewCell *)cell
-{
-    NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
-    DAUsername *username = [self.usernameArray objectAtIndex:indexPath.row];
-    
-    username.isFollowed ? [self unfollowUserID:username.user_id] : [self followUserID:username.user_id];
-    [self configureFollowButton:cell.sideButton withFollowStatus:!username.isFollowed];
-    username.isFollowed = !username.isFollowed;
 }
 
 - (void)followUserID:(NSInteger)userID

@@ -7,21 +7,19 @@
 //
 
 #import "DARegisterViewController.h"
-#import "DAErrorView.h"
 #import "MRProgress.h"
 #import "DAAppDelegate.h"
-#import "DADocumentViewController.h"
 
 
-@interface DARegisterViewController() <DAErrorViewDelegate, UIAlertViewDelegate>
+@interface DARegisterViewController() <UIAlertViewDelegate>
 
 @property (strong, nonatomic) NSDate               *dateOfBirth;
 @property (strong, nonatomic) UIImage              *errorIconImage;
 @property (strong, nonatomic) UIImage              *validIconImage;
-@property (strong, nonatomic) DAErrorView          *errorView;
 @property (strong, nonatomic) NSIndexPath          *pickerIndexPath;
 @property (strong, nonatomic) UIAlertView          *loginFailAlert;
 @property (strong, nonatomic) UIAlertView          *termsAlertView;
+@property (strong, nonatomic) DAErrorView          *errorView;
 @property (strong, nonatomic) NSDateFormatter      *birthDateFormatter;
 @property (strong, nonatomic) NSMutableDictionary  *errorData;
 @property (strong, nonatomic) NSURLSessionDataTask *usernameCheckTask;
@@ -80,8 +78,8 @@
     [super viewDidAppear:animated];
     
     self.errorView = [[DAErrorView alloc] initWithFrame:[self invisibleErrorFrame]];
+    [self.errorView.closeButton addTarget:self action:@selector(errorViewDidTapCloseButton:) forControlEvents:UIControlEventTouchUpInside];
     [[[UIApplication sharedApplication] keyWindow] addSubview:self.errorView];
-    self.errorView.delegate = self;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -199,8 +197,8 @@
                 
                 if( errorType == eErrorTypeUsernameExists )
                 {
-                    self.errorView.errorTextLabel.text = @"Username unavailable!";
-                    self.errorView.errorTipLabel.text  = @"Please choose a different username.";
+                    self.errorView.messageLabel.text = @"Username unavailable!";
+                    self.errorView.tipLabel.text  = @"Please choose a different username.";
                     
                     [self showErrorView];
                     self.usernameIsValid = NO;
@@ -209,8 +207,8 @@
                 }
                 else if( errorType == eErrorTypeInvalidUsername )
                 {
-                    self.errorView.errorTextLabel.text = @"Invalid Username!";
-                    self.errorView.errorTipLabel.text  = @"Please choose a different username.";
+                    self.errorView.messageLabel.text = @"Invalid Username!";
+                    self.errorView.tipLabel.text  = @"Please choose a different username.";
                     
                     [self showErrorView];
                     self.usernameIsValid = NO;
@@ -506,8 +504,8 @@
     
     if( numOfInvalidInputs == 1 && tooYoung )
     {
-        self.errorView.errorTextLabel.text = @"You're too young!";
-        self.errorView.errorTipLabel.text  = @"You must be 13 years or older to sign up for Dished.";
+        self.errorView.messageLabel.text = @"You're too young!";
+        self.errorView.tipLabel.text  = @"You must be 13 years or older to sign up for Dished.";
         
         [self showErrorView];
         
@@ -516,8 +514,8 @@
     
     if( numOfInvalidInputs > 0 )
     {
-        self.errorView.errorTextLabel.text = [NSString stringWithFormat:@"%d fields are invalid.", numOfInvalidInputs];
-        self.errorView.errorTipLabel.text  = @"Please correct the fields marked red before registering.";
+        self.errorView.messageLabel.text = [NSString stringWithFormat:@"%d fields are invalid.", numOfInvalidInputs];
+        self.errorView.tipLabel.text  = @"Please correct the fields marked red before registering.";
         
         [self showErrorView];
         
@@ -766,21 +764,20 @@
         }
         else if( [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:kTermsAndConditions] )
         {
-            [self goToDocumentViewWithName:kTermsAndConditions documentURL:nil];
+            [self goToDocumentViewWithName:kTermsAndConditions];
         }
         else if( [[alertView buttonTitleAtIndex:buttonIndex] isEqualToString:kPrivacyPolicy] )
         {
-            [self goToDocumentViewWithName:kPrivacyPolicy documentURL:nil];
+            [self goToDocumentViewWithName:kPrivacyPolicy];
         }
     }
 }
 
-- (void)goToDocumentViewWithName:(NSString *)documentName documentURL:(NSString *)url
+- (void)goToDocumentViewWithName:(NSString *)documentName
 {
-    DADocumentViewController *documentViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"document"];
-    documentViewController.documentName = documentName;
-    documentViewController.documentURL = url;
-    [self.navigationController pushViewController:documentViewController animated:YES];
+    NSString *filePath = [[NSBundle mainBundle] pathForResource:documentName ofType:@"html"];
+    DADocViewController *docVC = [[DADocViewController alloc] initWithFilePath:filePath title:documentName];
+    [self.navigationController pushViewController:docVC animated:YES];
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
@@ -810,8 +807,8 @@
         {
             self.usernameCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
             
-            self.errorView.errorTextLabel.text = @"Invalid Username!";
-            self.errorView.errorTipLabel.text  = @"Your username must be at least 3 characters long.";
+            self.errorView.messageLabel.text = @"Invalid Username!";
+            self.errorView.tipLabel.text  = @"Your username must be at least 3 characters long.";
             
             [self showErrorView];
         }
@@ -827,8 +824,8 @@
         {
             if( !self.errorVisible && [textField.text length] > 0 )
             {
-                self.errorView.errorTextLabel.text = @"Invalid Email Address!";
-                self.errorView.errorTipLabel.text  = @"Please enter a valid email address.";
+                self.errorView.messageLabel.text = @"Invalid Email Address!";
+                self.errorView.tipLabel.text  = @"Please enter a valid email address.";
                 
                 [self.errorData setObject:@"error" forKey:@"Email"];
                 [self showErrorView];
@@ -858,8 +855,8 @@
         {
             if( !self.errorVisible && [textField.text length] > 0 )
             {
-                self.errorView.errorTextLabel.text = @"Invalid Phone Number!";
-                self.errorView.errorTipLabel.text  = @"Please enter a 7 digit phone number, with area code first.";
+                self.errorView.messageLabel.text = @"Invalid Phone Number!";
+                self.errorView.tipLabel.text  = @"Please enter a 7 digit phone number, with area code first.";
                 
                 [self.errorData setObject:@"error" forKey:@"Phone Number"];
                 [self showErrorView];
@@ -885,8 +882,8 @@
             {
                 if( !self.errorVisible && [textField.text length] > 0 )
                 {
-                    self.errorView.errorTextLabel.text = @"Invalid Password!";
-                    self.errorView.errorTipLabel.text  = @"Your password must be at least 6 characters.";
+                    self.errorView.messageLabel.text = @"Invalid Password!";
+                    self.errorView.tipLabel.text  = @"Your password must be at least 6 characters.";
                     
                     self.passwordCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
                     [self showErrorView];
@@ -907,8 +904,8 @@
             {
                 if( !self.errorVisible && [textField.text length] > 0 && [firstPassword length] > 0 )
                 {
-                    self.errorView.errorTextLabel.text = @"Invalid Password!";
-                    self.errorView.errorTipLabel.text  = @"Your passwords must match.";
+                    self.errorView.messageLabel.text = @"Invalid Password!";
+                    self.errorView.tipLabel.text  = @"Your passwords must match.";
                     
                     self.confirmPasswordCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
                     [self showErrorView];

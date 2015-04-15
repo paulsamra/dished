@@ -24,12 +24,6 @@ class DADatePickerTableViewCell: UITableViewCell
         setupDatePicker()
     }
     
-    override init( frame: CGRect )
-    {
-        super.init( frame: frame )
-        setupDatePicker()
-    }
-    
     func setupDatePicker()
     {
         let frame = CGRectMake( 0, -25, self.frame.size.width, 162 )

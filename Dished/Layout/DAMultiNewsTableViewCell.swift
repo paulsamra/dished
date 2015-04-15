@@ -64,7 +64,7 @@ class DAMultiNewsTableViewCell: DANewsTableViewCell, UICollectionViewDelegate, U
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell
     {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier( "cell", forIndexPath: indexPath ) as DAMultiNewsCollectionViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier( "cell", forIndexPath: indexPath ) as! DAMultiNewsCollectionViewCell
         
         let imageURL = reviews[indexPath.row]
         
@@ -84,29 +84,17 @@ class DAMultiNewsCollectionViewCell: UICollectionViewCell
 {
     var imageView: UIImageView!
     
-    override init()
-    {
-        super.init()
-        
-        commonInit()
-    }
-    
-    override init( frame: CGRect )
-    {
-        super.init( frame: frame )
-        
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         commonInit();
     }
     
-    required init( coder aDecoder: NSCoder )
-    {
-        super.init( coder: aDecoder )
-        
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
         commonInit()
     }
     
-    func commonInit()
-    {
+    func commonInit() {
         imageView = UIImageView( frame: self.contentView.frame )
         imageView.contentMode = UIViewContentMode.ScaleAspectFill
         imageView.layer.masksToBounds = true

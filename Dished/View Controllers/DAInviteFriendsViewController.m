@@ -14,14 +14,12 @@
 #define kCellIdentifier @"userCell"
 
 
-@interface DAInviteFriendsViewController() <DAUserListTableViewCellDelegate>
+@interface DAInviteFriendsViewController()
 
 @property (strong, nonatomic) NSMutableArray          *registrationData;
-@property (strong, nonatomic) FBLinkShareParams       *facebookShareParams;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
 @property (nonatomic) BOOL isLoadingContacts;
-@property (nonatomic) BOOL isFacebookUser;
 @property (nonatomic) BOOL contactsFailure;
 @property (nonatomic) BOOL contactsNotPermitted;
 
@@ -36,12 +34,10 @@
     
     self.contactsNotPermitted = NO;
     self.contactsFailure = NO;
-    self.sourcePicker.tintColor = [UIColor dishedColor];
     self.contactsTableView.tableFooterView = [UIView new];
     
     self.contactsPermissionLabel.hidden = YES;
     self.contactsFailureLabel.hidden = YES;
-    self.facebookConnectLabel.hidden = YES;
     
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     self.spinner.center = self.view.center;
@@ -52,10 +48,7 @@
     self.contactsTableView.rowHeight = 44.0;
     self.contactsTableView.estimatedRowHeight = 44.0;
     
-    UINib *searchCellNib = [UINib nibWithNibName:@"DAUserListTableViewCell" bundle:nil];
-    [self.contactsTableView registerNib:searchCellNib forCellReuseIdentifier:kCellIdentifier];
-    
-    [self setupFacebook];
+    [self.contactsTableView registerClass:[DAUserTableViewCell class] forCellReuseIdentifier:kCellIdentifier];
     
     self.isLoadingContacts = YES;
     [DAAppDelegate getContactsAddressBookWithCompletion:^( BOOL granted, ABAddressBookRef addressBook, NSError *error )
@@ -77,42 +70,6 @@
         
         self.isLoadingContacts = NO;
     }];
-}
-
-- (void)setupFacebook
-{
-    if( FBSession.activeSession.state != FBSessionStateOpen )
-    {
-        self.isFacebookUser = NO;
-        
-        if( self.sourcePicker.selectedSegmentIndex == 1 )
-        {
-            self.facebookConnectLabel.hidden = NO;
-            [self.spinner stopAnimating];
-        }
-        
-        return;
-    }
-    else
-    {
-        self.isFacebookUser = YES;
-        
-        FBLinkShareParams *params = [[FBLinkShareParams alloc] init];
-        
-        params.link    = [NSURL URLWithString:@"https://developers.facebook.com/docs/ios/share/"];
-        params.name    = @"Dished";
-        params.caption = @"Build great social apps that engage your friends.";
-        params.picture = [NSURL URLWithString:@"http://i.imgur.com/g3Qc1HN.png"];
-        params.linkDescription = @"Send links from your app using the iOS SDK.";
-        
-        self.facebookShareParams = params;
-        
-        if( ![FBDialogs canPresentMessageDialogWithParams:params] )
-        {
-            self.isFacebookUser = NO;
-            self.facebookConnectLabel.text = @"You need to have the Facebook app installed on your phone to be able to invite your friends.";
-        }
-    }
 }
 
 - (NSString *)jsonEncodedStringWithArray:(NSArray *)array
@@ -216,7 +173,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    DAUserListTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
+    DAUserTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
     
     NSDictionary *contact = self.registrationData[indexPath.row];
     
@@ -236,8 +193,8 @@
         [cell.sideButton setTitleColor:[UIColor followButtonColor] forState:UIControlStateNormal];
     }
     
+    [cell.sideButton addTarget:self action:@selector(inviteButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.delegate = self;
     
     return cell;
 }
@@ -247,9 +204,11 @@
     return 44.0;
 }
 
-- (void)sideButtonTappedOnFollowListTableViewCell:(DAUserListTableViewCell *)cell
+- (void)inviteButtonTapped:(UIButton *)inviteButton
 {
-    NSIndexPath *indexPath = [self.contactsTableView indexPathForCell:cell];
+    CGPoint buttonPosition = [inviteButton convertPoint:CGPointZero toView:self.contactsTableView];
+    NSIndexPath *indexPath = [self.contactsTableView indexPathForRowAtPoint:buttonPosition];
+    
     NSMutableDictionary *contact = [self.registrationData[indexPath.row] mutableCopy];
     
     if( [contact[@"invited"] boolValue] )
@@ -257,8 +216,8 @@
         return;
     }
     
-    [cell.sideButton setTitle:@"Invited" forState:UIControlStateNormal];
-    [cell.sideButton setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
+    [inviteButton setTitle:@"Invited" forState:UIControlStateNormal];
+    [inviteButton setTitleColor:[UIColor dishedColor] forState:UIControlStateNormal];
     
     NSArray *invites = @[ @{ kPhoneKey : contact[kPhoneKey] } ];
     
@@ -269,52 +228,12 @@
     {
         if( shouldRetry )
         {
-            [self sideButtonTappedOnFollowListTableViewCell:cell];
+            [self inviteButtonTapped:inviteButton];
         }
     }];
     
     contact[@"invited"] = @(YES);
     self.registrationData[indexPath.row] = contact;
-}
-
-- (IBAction)sourcePicked
-{
-    [self.spinner stopAnimating];
-    
-    self.contactsFailureLabel.hidden = YES;
-    self.contactsPermissionLabel.hidden = YES;
-    self.facebookConnectLabel.hidden = YES;
-    
-    switch( self.sourcePicker.selectedSegmentIndex )
-    {
-        case 0:
-            if( self.isLoadingContacts )
-            {
-                [self.spinner startAnimating];
-            }
-            else if( self.contactsFailure )
-            {
-                self.contactsFailureLabel.hidden = NO;
-            }
-            else if( self.contactsNotPermitted )
-            {
-                self.contactsPermissionLabel.hidden = NO;
-            }
-            else
-            {
-                self.contactsTableView.hidden = NO;
-            }
-            break;
-            
-        case 1:
-            self.contactsTableView.hidden = YES;
-            
-            if( !self.isFacebookUser )
-            {
-                self.facebookConnectLabel.hidden = NO;
-            }
-            break;
-    }
 }
 
 @end

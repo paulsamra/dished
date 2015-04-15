@@ -9,20 +9,18 @@
 import UIKit
 
 
-@objc protocol DACommentTableViewCellDelegate
-{
+@objc protocol DACommentTableViewCellDelegate {
     optional func textViewTapped( text: String, textType: eLinkedTextType, inCell: DACommentTableViewCell )
 }
 
-class DACommentTableViewCell: SWTableViewCell, DALinkedTextViewDelegate
-{
+class DACommentTableViewCell: SWTableViewCell, DALinkedTextViewDelegate {
+    
     var textViewTapDelegate: DACommentTableViewCellDelegate?
     
     @IBOutlet weak var userImageView: UIImageView!
     @IBOutlet weak var commentTextView: DALinkedTextView!
     
-    override func awakeFromNib()
-    {
+    override func awakeFromNib() {
         super.awakeFromNib()
         
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
@@ -33,8 +31,7 @@ class DACommentTableViewCell: SWTableViewCell, DALinkedTextViewDelegate
         commentTextView.textContainerInset = UIEdgeInsetsZero
     }
     
-    override func prepareForReuse()
-    {
+    override func prepareForReuse() {
         super.prepareForReuse()
         
         userImageView.image = nil
@@ -42,10 +39,8 @@ class DACommentTableViewCell: SWTableViewCell, DALinkedTextViewDelegate
         commentTextView.text = nil
     }
     
-    func linkedTextView( textView: DALinkedTextView!, tappedOnText text: String!, withLinkedTextType textType: eLinkedTextType )
-    {
-        if( text != nil )
-        {
+    func linkedTextView( textView: DALinkedTextView!, tappedOnText text: String!, withLinkedTextType textType: eLinkedTextType ) {
+        if text != nil {
             textViewTapDelegate?.textViewTapped?( text, textType: textType, inCell: self )
         }
     }

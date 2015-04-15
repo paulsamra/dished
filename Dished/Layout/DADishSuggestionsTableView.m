@@ -32,9 +32,7 @@ static NSString *const kDishSuggestionCellIdentifier = @"suggestionCell";
         self.delegate = self;
         self.dataSource	= self;
         
-        UINib *broadcastCellNib = [UINib nibWithNibName:@"DADishSuggestionTableViewCell" bundle:nil];
-        [self registerNib:broadcastCellNib forCellReuseIdentifier:kDishSuggestionCellIdentifier];
-        
+        [self registerClass:[DADishSuggestionTableViewCell class] forCellReuseIdentifier:kDishSuggestionCellIdentifier];
         self.rowHeight = 44.0;
     }
     

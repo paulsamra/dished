@@ -742,6 +742,34 @@
     }];
 }
 
++ (void)followUserID:(NSInteger)userID
+{
+    NSDictionary *parameters = @{ kIDKey : @(userID) };
+    
+    [[DAAPIManager sharedManager] POSTRequest:kFollowUserURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
+        {
+            [DAAPIManager followUserID:userID];
+        }
+    }];
+}
+
++ (void)unfollowUserID:(NSInteger)userID
+{
+    NSDictionary *parameters = @{ kIDKey : @(userID) };
+    
+    [[DAAPIManager sharedManager] POSTRequest:kUnfollowUserURL withParameters:parameters success:nil
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
+        {
+            [DAAPIManager unfollowUserID:userID];
+        }
+    }];
+}
+
 - (BOOL)isLoggedIn
 {
     if( [self accessToken] )

@@ -15,18 +15,27 @@
 {
     DAExploreLiveSearchResult *searchResult = [[DAExploreLiveSearchResult alloc] init];
     
-    searchResult.name       = type == eUsernameSearchResult ? nilOrJSONObjectForKey( data, kUsernameKey ) : nilOrJSONObjectForKey( data, kNameKey );
+    if( type == eUsernameSearchResult )
+    {
+        searchResult.username = nilOrJSONObjectForKey( data, kUsernameKey );
+        
+        NSString *firstName = nilOrJSONObjectForKey( data, kFirstNameKey );
+        NSString *lastName  = nilOrJSONObjectForKey( data, kLastNameKey  );
+        searchResult.name = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
+        
+        searchResult.img_thumb  = nilOrJSONObjectForKey( data, kImgThumbKey );
+    }
+    else
+    {
+        searchResult.name = nilOrJSONObjectForKey( data, kNameKey );
+    }
+    
     searchResult.resultID   = [data[kIDKey] integerValue];
     searchResult.resultType = type;
     
     if( type == eDishSearchResult )
     {
         searchResult.dishType = data[kTypeKey];
-    }
-    
-    if( type == eUsernameSearchResult )
-    {
-        searchResult.img_thumb  = nilOrJSONObjectForKey( data, kImgThumbKey );
     }
     
     return searchResult;

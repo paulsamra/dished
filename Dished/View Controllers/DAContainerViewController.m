@@ -68,6 +68,7 @@
         return;
     }
     
+    self.tabBarController.view.hidden = NO;
     self.menuIsMainView = NO;
     self.menuIsShowing = YES;
     self.menuViewController.view.hidden = NO;
@@ -90,6 +91,7 @@
         return;
     }
     
+    self.tabBarController.view.hidden = NO;
     self.menuIsShowing = NO;
     
     [self removeGestureRecognizers];
@@ -189,7 +191,9 @@
         [self.menuViewController.view layoutIfNeeded];
         self.tabBarController.view.frame = CGRectMake( -self.view.frame.size.width, 0, self.view.frame.size.width, self.view.frame.size.height );
     }
-    completion:nil];
+    completion:^( BOOL finished ) {
+        self.tabBarController.view.hidden = YES;
+    }];
 }
 
 - (void)handleUserNotificationWithUserID:(NSInteger)userID isRestaurant:(BOOL)isRestaurant

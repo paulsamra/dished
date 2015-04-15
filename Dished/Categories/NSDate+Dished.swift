@@ -10,7 +10,7 @@ import Foundation
 
 extension NSDate
 {
-    func attributedTimeStringWithAttributes( attributes: NSDictionary? ) -> NSAttributedString
+    func attributedTimeStringWithAttributes( attributes: [NSObject:AnyObject]? ) -> NSAttributedString
     {
         let currentDate = NSDate()
         let calendar = NSCalendar.currentCalendar()
@@ -55,7 +55,7 @@ extension NSDate
         
         let clockAttachment = NSTextAttachment()
         clockAttachment.image = UIImage( named: "clock" )
-        var clockString = NSAttributedString( attachment: clockAttachment ).mutableCopy() as NSMutableAttributedString
+        var clockString = NSAttributedString( attachment: clockAttachment ).mutableCopy() as! NSMutableAttributedString
         clockString.appendAttributedString( attributedTimeString )
         
         return clockString
