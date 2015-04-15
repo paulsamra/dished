@@ -72,6 +72,20 @@ class DAUserTableViewCell: DATableViewCell
         }
     }
     
+    func configureWithFoodie(foodie: DAFoodie) {
+        style = DAUserTableViewCellStyle.UsernameSubtitle
+        nameLabel.text = foodie.username
+        subtitleLabel.text = foodie.name
+        let buttonTitle = foodie.following ? "Unfollow" : "Follow"
+        let buttonColor = foodie.following ? UIColor.redColor() : UIColor.followButtonColor()
+        sideButton.setTitle(buttonTitle, forState: UIControlState.Normal)
+        sideButton.setTitleColor(buttonColor, forState: UIControlState.Normal)
+        
+        let url = NSURL(string: foodie.image)
+        let placeholder = UIImage(named: "profile_image")
+        userImageView?.sd_setImageWithURL(url, placeholderImage: placeholder)
+    }
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         
@@ -81,14 +95,14 @@ class DAUserTableViewCell: DATableViewCell
         if style == DAUserTableViewCellStyle.Default || style == DAUserTableViewCellStyle.UsernameSubtitle {
             setupImageView()
             
-            removeConstraint(nameLabelLeftConstraint)
+            contentView.removeConstraint(nameLabelLeftConstraint)
             nameLabelLeftConstraint = nameLabel.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Right, ofView: userImageView, withOffset: 8.0)
             
             nameLabelVerticalConstraint.constant = 0.0
         }
         else {
             userImageView?.removeFromSuperview()
-            removeConstraint(nameLabelLeftConstraint)
+            contentView.removeConstraint(nameLabelLeftConstraint)
             nameLabelLeftConstraint = nameLabel.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 15.0)
         }
         
@@ -109,7 +123,11 @@ class DAUserTableViewCell: DATableViewCell
             subtitleLabel.font = UIFont(name: kHelveticaNeueLightFont, size: 12.0)
         }
         
-        addSubview(subtitleLabel)
+        if subtitleLabel.superview != nil {
+            return
+        }
+        
+        contentView.addSubview(subtitleLabel)
         subtitleLabel.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Left, ofView: nameLabel)
         subtitleLabel.autoSetDimension(ALDimension.Height, toSize: 14.0)
         subtitleLabel.autoPinEdge(ALEdge.Right, toEdge: ALEdge.Left, ofView: sideButton, withOffset: 7.0, relation: NSLayoutRelation.GreaterThanOrEqual)
@@ -123,7 +141,11 @@ class DAUserTableViewCell: DATableViewCell
             userImageView.layer.masksToBounds = true
         }
         
-        addSubview(userImageView)
+        if userImageView.superview != nil {
+            return
+        }
+        
+        contentView.addSubview(userImageView)
         userImageView.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 15.0)
         userImageView.autoSetDimensionsToSize(userImageSize)
         userImageView.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
@@ -137,18 +159,18 @@ class DAUserTableViewCell: DATableViewCell
         sideButton = UIButton()
         sideButton.titleLabel?.font = UIFont(name: kHelveticaNeueLightFont, size: 18.0)
         sideButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right;
-        addSubview(sideButton)
-        rightSideConstraint = sideButton.autoPinEdgeToSuperviewEdge(ALEdge.Right, withInset: 8.0)
+        contentView.addSubview(sideButton)
         sideButton.autoSetDimensionsToSize(CGSizeMake(70, 27))
         sideButton.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
+        rightSideConstraint = sideButton.autoPinEdgeToSuperviewEdge(ALEdge.Trailing, withInset: 8.0)
         
         nameLabel = UILabel()
         nameLabel.font = UIFont(name: kHelveticaNeueLightFont, size: 17.0)
-        addSubview(nameLabel)
+        contentView.addSubview(nameLabel)
         nameLabelVerticalConstraint = nameLabel.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
         nameLabel.autoSetDimension(ALDimension.Height, toSize: 20.0)
-        nameLabelLeftConstraint = nameLabel.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Right, ofView: userImageView, withOffset: 8)
-        nameLabel.autoPinEdge(ALEdge.Right, toEdge: ALEdge.Left, ofView: sideButton, withOffset: 7, relation: NSLayoutRelation.GreaterThanOrEqual)
+        nameLabelLeftConstraint = nameLabel.autoPinEdge(ALEdge.Leading, toEdge: ALEdge.Trailing, ofView: userImageView, withOffset: 8)
+        nameLabel.autoPinEdge(ALEdge.Trailing, toEdge: ALEdge.Leading, ofView: sideButton, withOffset: 7.0, relation: NSLayoutRelation.GreaterThanOrEqual)
         
         setupSubtitleLabel()
     }

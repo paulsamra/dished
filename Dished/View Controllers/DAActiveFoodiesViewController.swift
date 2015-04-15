@@ -8,11 +8,12 @@
 
 import UIKit
 
-class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSource, DADataSourceDelegate, DAFoodieCollectionViewCellDelegate, UISearchBarDelegate {
+class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, DADataSourceDelegate, DAFoodieCollectionViewCellDelegate, UISearchBarDelegate, UITableViewDataSource, UITableViewDelegate {
 
     let cellIdentifier = "activeFoodieCell"
     var activeFoodiesView: DAActiveFoodiesView!
     var foodiesDataSource = DAActiveFoodiesDataSource()
+    var searchController: UISearchDisplayController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +21,9 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
         navigationItem.title = "Active Foodies"
         
         activeFoodiesView.collectionView.registerClass(DAFoodieCollectionViewCell.self, forCellWithReuseIdentifier: cellIdentifier)
+        activeFoodiesView.collectionView.registerClass(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: "searchHeader")
+        
+        searchController.searchResultsTableView.registerClass(DAUserTableViewCell.self, forCellReuseIdentifier: "userCell")
         
         foodiesDataSource.delegate = self
         activeFoodiesView.searchBar.delegate = self
@@ -49,7 +53,7 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return foodiesDataSource.foodies.count ?? 0
+        return foodiesDataSource.foodies.count
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
@@ -65,12 +69,79 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
         return cell
     }
     
+    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+        
+        let reusableView = collectionView.dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: "searchHeader", forIndexPath: indexPath) as! UICollectionReusableView
+        
+        if let searchBar = searchDisplayController?.searchBar {
+            searchBar.sizeToFit()
+            reusableView.addSubview(searchBar)
+            reusableView.sizeToFit()
+        }
+        
+        return reusableView
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSizeMake(view.frame.size.width, 44.0)
+    }
+    
+    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+        
+        return CGSizeMake(view.frame.size.width, 175.0)
+    }
+    
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 1
+    }
+    
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return foodiesDataSource.users.count
+    }
+    
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("userCell") as! DAUserTableViewCell
+        
+        let foodie = foodiesDataSource.users[indexPath.row]
+        cell.configureWithFoodie(foodie)
+        cell.sideButton.addTarget(self, action: "cellButtonPressed:", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let foodie = foodiesDataSource.users[indexPath.row]
+        pushUserProfileWithUserID(foodie.userID)
+    }
+    
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        foodiesDataSource.reloadDataWithQuery(searchText)
+        foodiesDataSource.loadUsersWithQuery(searchText, completion: {
+            self.searchController.searchResultsTableView.reloadData()
+        })
+    }
+    
+    func cellButtonPressed(button: UIButton) {
+        if let indexPath = searchController.searchResultsTableView.indexPathForView(button) {
+            let foodie = foodiesDataSource.users[indexPath.row]
+            
+            if foodie.following {
+                DAAPIManager.unfollowUserID(foodie.userID)
+            }
+            else {
+                DAAPIManager.followUserID(foodie.userID)
+            }
+            
+            foodie.following = !foodie.following
+            searchController.searchResultsTableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
+        }
     }
     
     func searchBarSearchButtonClicked(searchBar: UISearchBar) {
         view.endEditing(true)
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        foodiesDataSource.resetUsersData()
     }
     
     func followButtonTapped(button: UIButton) {
@@ -120,7 +191,11 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
     override func loadView() {
         activeFoodiesView = DAActiveFoodiesView()
         activeFoodiesView.collectionView.dataSource = self
+        activeFoodiesView.collectionView.delegate = self
         
         view = activeFoodiesView
+        searchController = UISearchDisplayController(searchBar: activeFoodiesView.searchBar, contentsController: self)
+        searchController.searchResultsDelegate = self
+        searchController.searchResultsDataSource = self
     }
 }

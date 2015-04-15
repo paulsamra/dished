@@ -10,29 +10,22 @@ import Foundation
 
 class DAActiveFoodiesDataSource: DADataSource {
     
+    var users = [DAFoodie]()
     var foodies = [DAFoodie]()
     weak var delegate: DADataSourceDelegate?
     private var foodiesRequest: NSURLSessionTask?
+    private var usersRequest: NSURLSessionTask?
     
-    private var initialData: [DAFoodie]?
     
     init() {
         
     }
     
     func loadData() {
-        foodiesRequest?.cancel()
-        
-        if initialData != nil {
-            foodies = initialData!
-            delegate?.dataSourceDidFinishLoadingData(self)
-            return
-        }
-        
         foodiesRequest = DAAPIManager.sharedManager().GETRequest(kUsersFindURL, withParameters: nil, success: {
             response in
-            self.receivedResponse(response)
-            self.initialData = self.foodies
+            self.foodies = self.foodiesFromResponse(response, excludeEmptyReviews: true)
+            self.delegate?.dataSourceDidFinishLoadingData(self)
         },
         failure: {
             error, shouldRetry in
@@ -46,49 +39,56 @@ class DAActiveFoodiesDataSource: DADataSource {
         })
     }
     
-    func reloadDataWithQuery(query: String) {
+    func loadUsersWithQuery(query: String, completion: () -> () ) {
+        usersRequest?.cancel()
+        
         if query.isEmpty {
-            loadData()
+            users = [DAFoodie]()
+            completion()
             return
         }
         
-        foodiesRequest?.cancel()
         let parameters = ["search": query]
         
-        foodiesRequest = DAAPIManager.sharedManager().GETRequest(kUsersFindURL, withParameters: parameters, success: {
+        usersRequest = DAAPIManager.sharedManager().GETRequest(kUsersFindURL, withParameters: parameters, success: {
             response in
-            self.receivedResponse(response)
+            self.users = self.foodiesFromResponse(response, excludeEmptyReviews: false)
+            completion()
         },
         failure: {
             error, shouldRetry in
                 
             if shouldRetry {
-                self.reloadDataWithQuery(query)
+                self.loadUsersWithQuery(query, completion: completion)
                 return
             }
             
-            self.delegate?.dataSourceDidFailToLoadData(self, withError: error)
+            self.users = [DAFoodie]()
+            completion()
         })
     }
     
-    private func receivedResponse(response: AnyObject) {
+    private func foodiesFromResponse(response: AnyObject, excludeEmptyReviews: Bool) -> [DAFoodie] {
+        var foodies = [DAFoodie]()
+        
         if let users = response.objectForKey(kDataKey) as? [NSDictionary] {
-            var foodies = [DAFoodie]()
-            
             for user in users {
                 let foodie = self.processFoodieData(user)
                 
-                if foodie.reviews.count == 0 {
+                if excludeEmptyReviews && foodie.reviews.count == 0 {
                     continue
                 }
                 
                 foodies.append(foodie)
             }
-            
-            self.foodies = foodies
         }
         
-        self.delegate?.dataSourceDidFinishLoadingData(self)
+        return foodies
+    }
+    
+    func resetUsersData() {
+        users = [DAFoodie]()
+        usersRequest?.cancel()
     }
     
     private func processFoodieData(data: NSDictionary) -> DAFoodie {
@@ -122,5 +122,6 @@ class DAActiveFoodiesDataSource: DADataSource {
     
     func cancelLoadingData() {
         foodiesRequest?.cancel()
+        usersRequest?.cancel()
     }
 }

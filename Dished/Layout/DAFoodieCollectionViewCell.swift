@@ -72,6 +72,8 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
             addSubview(imageView)
             x += 74.0
         }
+        
+        layoutIfNeeded()
     }
     
     override func prepareForReuse() {

@@ -52,7 +52,7 @@
 - (int)currentWidth
 {
     UIScreen *screen = [UIScreen mainScreen];
-    return (!UIDeviceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) ? screen.bounds.size.width : screen.bounds.size.height;
+    return (!UIInterfaceOrientationIsLandscape([[UIApplication sharedApplication] statusBarOrientation])) ? screen.bounds.size.width : screen.bounds.size.height;
 }
 
 - (void)loadView

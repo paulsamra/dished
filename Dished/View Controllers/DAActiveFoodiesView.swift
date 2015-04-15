@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DAActiveFoodiesView: DALoadingView, UICollectionViewDelegateFlowLayout {
+class DAActiveFoodiesView: DALoadingView {
     
     var collectionView: UICollectionView!
     var searchBar: UISearchBar!
@@ -28,18 +28,11 @@ class DAActiveFoodiesView: DALoadingView, UICollectionViewDelegateFlowLayout {
         collectionView.hidden = false
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        topSearchBarConstraint.constant = collectionView.contentInset.top - searchBarHeight
-        setNeedsUpdateConstraints()
-    }
-    
     override func setupViews() {        
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.minimumInteritemSpacing = 0.0
         flowLayout.minimumLineSpacing = 0.0
         collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: flowLayout)
-        collectionView.delegate = self
         collectionView.backgroundColor = UIColor(r: 249, g: 249, b: 249, a: 255)
         collectionView.alwaysBounceVertical = true
         addSubview(collectionView)
@@ -50,21 +43,5 @@ class DAActiveFoodiesView: DALoadingView, UICollectionViewDelegateFlowLayout {
         searchBar.placeholder = "Search for a user"
         searchBar.layer.borderWidth = 1
         searchBar.layer.borderColor = UIColor(r: 220, g: 220, b: 220, a: 255).CGColor
-        addSubview(searchBar)
-        topSearchBarConstraint = searchBar.autoPinEdgeToSuperviewEdge(ALEdge.Top)
-        searchBar.autoPinEdgeToSuperviewEdge(ALEdge.Leading)
-        searchBar.autoPinEdgeToSuperviewEdge(ALEdge.Trailing)
-        searchBar.autoSetDimension(ALDimension.Height, toSize: searchBarHeight)
-        
-        collectionView.contentInset = UIEdgeInsetsMake(searchBarHeight, 0, 0, 0)
-    }
-    
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        endEditing(true)
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        
-        return CGSizeMake(frame.size.width, 175.0)
     }
 }
