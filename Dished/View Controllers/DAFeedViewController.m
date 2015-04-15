@@ -17,8 +17,9 @@
 #import "DAFeedHeaderCollectionReusableView.h"
 #import "DAExploreDishResultsViewController.h"
 
-static NSString *const kReviewDetailCellIdentifier  = @"reviewDetailCell";
-static NSString *const kReviewButtonsCellIdentifier = @"reviewButtonsCell";
+static NSString *const kReviewDetailCellIdentifier   = @"reviewDetailCell";
+static NSString *const kReviewButtonsCellIdentifier  = @"reviewButtonsCell";
+static NSString *const kUserSuggestionCellIdentifier = @"userSuggestionCell";
 
 typedef enum
 {
@@ -27,7 +28,8 @@ typedef enum
     eFeedCellTypeMoreComments,
     eFeedCellTypeYums,
     eFeedCellTypeHashtags,
-    eFeedCellTypeButtons
+    eFeedCellTypeButtons,
+    eFeedCellTypeUserSuggestion
 } eFeedCellType;
 
 
@@ -175,6 +177,7 @@ typedef enum
 {
     [self.collectionView registerClass:[DAReviewDetailCollectionViewCell class] forCellWithReuseIdentifier:kReviewDetailCellIdentifier];
     [self.collectionView registerClass:[DAReviewButtonsCollectionViewCell class] forCellWithReuseIdentifier:kReviewButtonsCellIdentifier];
+    [self.collectionView registerClass:[DAFoodieCollectionViewCell class] forCellWithReuseIdentifier:kUserSuggestionCellIdentifier];
 }
 
 - (void)setupRefreshControl
@@ -272,8 +275,9 @@ typedef enum
     BOOL hasYums = [feedItem.num_yums integerValue] > 0;
     BOOL hasHashtags = feedItem.hashtags.count > 0;
     BOOL hasMoreComments = [feedItem.num_comments integerValue] > 3;
+    BOOL hasUserSuggestion = feedItem.user_suggestion != nil;
     
-    return 1 + [feedItem.comments count] + ( hasYums ? 1 : 0 ) + ( hasHashtags ? 1 : 0 ) + ( hasMoreComments ? 1 : 0 ) + 1;
+    return 1 + [feedItem.comments count] + ( hasYums ? 1 : 0 ) + ( hasHashtags ? 1 : 0 ) + ( hasMoreComments ? 1 : 0 ) + 1 + ( hasUserSuggestion ? 1 : 0 );
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -297,17 +301,23 @@ typedef enum
     BOOL hasYums = [feedItem.num_yums integerValue] > 0;
     BOOL hasHashtags = feedItem.hashtags.count > 0;
     BOOL hasMoreComments = [feedItem.num_comments integerValue] > 3;
+    BOOL hasUserSuggestion = feedItem.user_suggestion != nil;
     
     NSUInteger yumRows = hasYums ? 1 : 0;
     NSUInteger hashtagRows = hasHashtags ? 1 : 0;
+    NSUInteger userSuggestions = hasUserSuggestion ? 1 : 0;
     
     if( indexPath.row == 0 )
     {
         type = eFeedCellTypeDish;
     }
-    else if( indexPath.row == sectionItems - 1 )
+    else if( indexPath.row == sectionItems - 1 - userSuggestions )
     {
         type = eFeedCellTypeButtons;
+    }
+    else if( indexPath.row == sectionItems - 1 && hasUserSuggestion )
+    {
+        type = eFeedCellTypeUserSuggestion;
     }
     else if( indexPath.row == 1 && hasYums )
     {
@@ -436,6 +446,15 @@ typedef enum
         buttonCell.delegate = self;
         
         cell = buttonCell;
+    }
+    else if( cellType == eFeedCellTypeUserSuggestion )
+    {
+        DAFoodieCollectionViewCell *foodieCell = [collectionView dequeueReusableCellWithReuseIdentifier:kUserSuggestionCellIdentifier forIndexPath:indexPath];
+        
+        DAManagedUserSuggestion *userSuggestion = feedItem.user_suggestion;
+        [foodieCell configureWithUserSuggestion:userSuggestion];
+        
+        cell = foodieCell;
     }
     
     cell.layer.shouldRasterize = YES;
@@ -681,10 +700,29 @@ typedef enum
     }
     else if( cellType == eFeedCellTypeButtons )
     {
-        itemSize = CGSizeMake( collectionView.frame.size.width, 65 );
+        CGFloat height = feedItem.user_suggestion != nil ? 70.0 : 40.0;
+        itemSize = CGSizeMake( collectionView.frame.size.width, height );
+    }
+    else if( cellType == eFeedCellTypeUserSuggestion )
+    {
+        itemSize = CGSizeMake( collectionView.frame.size.width, 175.0 );
     }
     
     return itemSize;
+}
+
+- (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout insetForSectionAtIndex:(NSInteger)section
+{
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:section];
+    
+    if( feedItem.user_suggestion != nil )
+    {
+        return UIEdgeInsetsMake(0, 0, 40.0, 0);
+    }
+    else
+    {
+        return UIEdgeInsetsMake(0, 0, 25.0, 0);
+    }
 }
 
 - (void)titleButtonTappedOnFeedHeaderCollectionReusableView:(DAFeedHeaderCollectionReusableView *)header

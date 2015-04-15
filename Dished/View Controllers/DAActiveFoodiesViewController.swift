@@ -160,7 +160,7 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
         }
     }
     
-    func cellDidSwipeAway(cell: DAFoodieCollectionViewCell) {
+    func didDismissCell(cell: DAFoodieCollectionViewCell) {
         if let indexPath = activeFoodiesView.collectionView.indexPathForCell(cell) {
             activeFoodiesView.collectionView.performBatchUpdates({
                 self.foodiesDataSource.foodies.removeAtIndex(indexPath.row)

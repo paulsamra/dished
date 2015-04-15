@@ -12,6 +12,7 @@
 #import "DALinkedTextView.h"
 #import "DAConstants.h"
 #import "DARefreshControl.h"
+#import "DAManagedUserSuggestion+Utility.h"
 #import "DACommentsViewController.h"
 #import "DAUserProfileViewController.h"
 #import "DAReviewDetailsViewController.h"

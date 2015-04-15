@@ -10,7 +10,12 @@ import UIKit
 
 protocol DAFoodieCollectionViewCellDelegate: class {
     func didTapImageAtIndex(index: Int, inFoodieCollectionViewCell cell: DAFoodieCollectionViewCell)
-    func cellDidSwipeAway(cell: DAFoodieCollectionViewCell)
+    func didDismissCell(cell: DAFoodieCollectionViewCell)
+}
+
+private enum DAFoodieCollectionViewCellState {
+    case DismissHidden
+    case DismissVisible
 }
 
 class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDelegate {
@@ -20,24 +25,33 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
     var followButton: UIButton!
     var descriptionLabel: UILabel!
     var reviewImageViews: [UIImageView]!
+    var dismissButton: UIButton!
+    
+    private var mainView: UIView!
+    private let dismissButtonWidth = CGFloat(100.0)
+    private var state = DAFoodieCollectionViewCellState.DismissHidden
+    private var lastX: CGFloat = 0.0
     
     weak var delegate: DAFoodieCollectionViewCellDelegate?
     
     private var panGesture: UIPanGestureRecognizer!
     
-    func configureWithFoodie(foodie: DAFoodie) {
-        usernameButton.setTitle("@\(foodie.username)", forState: UIControlState.Normal)
-        
+    private func descriptionWithName(name: String, description: String) -> NSAttributedString {
         let nameAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(14.0)]
-        let nameString = NSMutableAttributedString(string: foodie.name, attributes: nameAttributes)
+        let nameString = NSMutableAttributedString(string: name, attributes: nameAttributes)
         
-        if !foodie.description.isEmpty {
+        if !description.isEmpty {
             let descriptionAttributes = [NSFontAttributeName: DAConstants.primaryFontWithSize(14.0)]
-            let descriptionString = NSAttributedString(string: " - \(foodie.description)", attributes: descriptionAttributes)
+            let descriptionString = NSAttributedString(string: " - \(description)", attributes: descriptionAttributes)
             nameString.appendAttributedString(descriptionString)
         }
         
-        descriptionLabel.attributedText = nameString
+        return nameString
+    }
+    
+    func configureWithFoodie(foodie: DAFoodie) {
+        usernameButton.setTitle("@\(foodie.username)", forState: UIControlState.Normal)
+        descriptionLabel.attributedText = descriptionWithName(foodie.name, description: foodie.description)
         
         let url = NSURL(string: foodie.image)
         let placeholder = UIImage(named: "profile_image")
@@ -59,21 +73,44 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
             followButton.setTitleColor(UIColor.followButtonColor(), forState: UIControlState.Normal)
         }
     }
+    
+    func configureWithUserSuggestion(userSuggestion: DAManagedUserSuggestion) {
+        usernameButton.setTitle(userSuggestion.username, forState: UIControlState.Normal)
+        
+        let name = "\(userSuggestion.first_name) \(userSuggestion.last_name)"
+        descriptionLabel.attributedText = descriptionWithName(name, description: userSuggestion.desc)
+        
+        let url = NSURL(string: userSuggestion.img_thumb)
+        let placeholder = UIImage(named: "profile_image")
+        userImageView.sd_setImageWithURL(url, placeholderImage: placeholder)
+        
+        if let reviews = userSuggestion.reviews as? [NSDictionary] {
+            for (index, review) in enumerate(reviews) {
+                if index < reviewImageViews.count {
+                    let url = NSURL(string: review.objectForKey(kImgThumbKey) as! String)
+                    reviewImageViews[index].sd_setImageWithURL(url)
+                }
+            }
+        }
+
+        followButton.setTitle("Follow", forState: UIControlState.Normal)
+        followButton.setTitleColor(UIColor.followButtonColor(), forState: UIControlState.Normal)
+    }
 
     override func layoutSubviews() {
         super.layoutSubviews()
         
         userImageView.layer.cornerRadius = userImageView.frame.size.width / 2
         
-        var x = (frame.size.width - (70.0 * 4) - (4.0 * 4)) / 2
+        var x = (mainView.frame.size.width - (70.0 * 4) - (4.0 * 4)) / 2
         let y = userImageView.frame.origin.y + userImageView.frame.size.height + 12.0
         for imageView in reviewImageViews {
             imageView.frame = CGRectMake(x, y, 70.0, 70.0)
-            addSubview(imageView)
+            mainView.addSubview(imageView)
             x += 74.0
         }
         
-        layoutIfNeeded()
+        //contentViewlayoutIfNeeded()
     }
     
     override func prepareForReuse() {
@@ -97,32 +134,40 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         }
     }
     
+    func dismissButtonPressed() {
+        delegate?.didDismissCell(self)
+    }
+    
     func cellPanned(gesture: UIPanGestureRecognizer) {
         if gesture.state == UIGestureRecognizerState.Ended {
-            if alpha <= 0.5 {
-                delegate?.cellDidSwipeAway(self)
-                return
+            var rect = mainView.frame
+            var velocity = gesture.velocityInView(gesture.view)
+            
+            if velocity.x < 0.0 {
+                rect.origin.x = -dismissButtonWidth
+            }
+            else {
+                rect.origin.x = 0.0
             }
             
-            var rect = frame
-            rect.origin.x = 0.0
-            
             UIView.animateWithDuration(0.2, animations: {
-                self.frame = rect
-                self.alpha = 1.0
+                self.mainView.frame = rect
+                self.state = DAFoodieCollectionViewCellState.DismissVisible
             })
         }
         else if gesture.state == UIGestureRecognizerState.Changed {
             let translation = gesture.translationInView(self)
             
-            if translation.x < 0 {
-                var rect = frame
-                rect.origin.x = translation.x
-                frame = rect
-                
-                let percentage = -translation.x / frame.width
-                alpha = 1 - percentage
+            if translation.x > 0.0 && mainView.frame.origin.x >= 0.0 {
+                return
             }
+            
+            var rect = mainView.frame
+            rect.origin.x = lastX + translation.x
+            mainView.frame = rect
+        }
+        else if gesture.state == UIGestureRecognizerState.Began {
+            lastX = mainView.frame.origin.x
         }
     }
     
@@ -147,10 +192,46 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
     override func setupViews() {
         backgroundColor = UIColor(r: 249, g: 249, b: 249, a: 255)
         
+        dismissButton = UIButton()
+        let backgroundImage = UIImage.imageWithColor(UIColor.redColor())
+        dismissButton.setBackgroundImage(backgroundImage, forState: UIControlState.Normal)
+        dismissButton.setTitle("Dismiss", forState: UIControlState.Normal)
+        dismissButton.titleLabel?.font = DAConstants.primaryFontWithSize(18.0)
+        dismissButton.addTarget(self, action: "dismissButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
+        contentView.addSubview(dismissButton)
+        dismissButton.autoPinEdgeToSuperviewEdge(ALEdge.Top)
+        dismissButton.autoPinEdgeToSuperviewEdge(ALEdge.Bottom)
+        dismissButton.autoPinEdgeToSuperviewEdge(ALEdge.Trailing)
+        dismissButton.autoSetDimension(ALDimension.Width, toSize: dismissButtonWidth)
+        
+        let bottomSeparator = UIView()
+        bottomSeparator.backgroundColor = UIColor(r: 174, g: 174, b: 174, a: 255)
+        contentView.addSubview(bottomSeparator)
+        bottomSeparator.autoSetDimension(ALDimension.Height, toSize: 0.5)
+        bottomSeparator.autoPinEdgeToSuperviewEdge(ALEdge.Leading)
+        bottomSeparator.autoPinEdgeToSuperviewEdge(ALEdge.Trailing)
+        bottomSeparator.autoPinEdgeToSuperviewEdge(ALEdge.Bottom)
+        
+        let topSeparator = UIView()
+        topSeparator.backgroundColor = UIColor(r: 174, g: 174, b: 174, a: 255)
+        contentView.addSubview(topSeparator)
+        topSeparator.autoSetDimension(ALDimension.Height, toSize: 0.5)
+        topSeparator.autoPinEdgeToSuperviewEdge(ALEdge.Leading)
+        topSeparator.autoPinEdgeToSuperviewEdge(ALEdge.Trailing)
+        topSeparator.autoPinEdgeToSuperviewEdge(ALEdge.Top)
+        
+        mainView = UIView()
+        mainView.backgroundColor = backgroundColor
+        contentView.addSubview(mainView)
+        mainView.autoPinEdgeToSuperviewEdge(ALEdge.Trailing)
+        mainView.autoPinEdgeToSuperviewEdge(ALEdge.Leading)
+        mainView.autoPinEdge(ALEdge.Top, toEdge: ALEdge.Bottom, ofView: topSeparator)
+        mainView.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Top, ofView: bottomSeparator)
+        
         userImageView = UIImageView()
         userImageView.contentMode = UIViewContentMode.ScaleAspectFill
         userImageView.clipsToBounds = true
-        addSubview(userImageView)
+        mainView.addSubview(userImageView)
         userImageView.autoPinEdgeToSuperviewEdge(ALEdge.Leading, withInset: 10.0)
         userImageView.autoPinEdgeToSuperviewEdge(ALEdge.Top, withInset: 15.0)
         userImageView.autoSetDimensionsToSize(CGSizeMake(60.0, 60.0))
@@ -158,7 +239,7 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         followButton = UIButton()
         followButton.titleLabel?.font = DAConstants.primaryFontWithSize(18.0)
         followButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Right
-        addSubview(followButton)
+        mainView.addSubview(followButton)
         followButton.autoPinEdgeToSuperviewEdge(ALEdge.Trailing, withInset: 15.0)
         followButton.autoPinEdgeToSuperviewEdge(ALEdge.Top, withInset: 17.0)
         followButton.autoSetDimensionsToSize(CGSizeMake(68.0, 20.0))
@@ -167,7 +248,7 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         usernameButton.titleLabel?.font = DAConstants.primaryFontWithSize(17.0)
         usernameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignment.Left
         usernameButton.setTitleColor(UIColor.dishedColor(), forState: UIControlState.Normal)
-        addSubview(usernameButton)
+        mainView.addSubview(usernameButton)
         usernameButton.autoPinEdgeToSuperviewEdge(ALEdge.Top, withInset: 17.0)
         usernameButton.autoSetDimension(ALDimension.Height, toSize: 20.0)
         usernameButton.autoPinEdge(ALEdge.Leading, toEdge: ALEdge.Trailing, ofView: userImageView, withOffset: 8.0)
@@ -176,19 +257,11 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         descriptionLabel = UILabel()
         descriptionLabel.numberOfLines = 2
         descriptionLabel.font = DAConstants.primaryFontWithSize(14.0)
-        addSubview(descriptionLabel)
+        mainView.addSubview(descriptionLabel)
         descriptionLabel.autoPinEdge(ALEdge.Top, toEdge: ALEdge.Bottom, ofView: usernameButton, withOffset: 4.0)
         descriptionLabel.autoPinEdge(ALEdge.Leading, toEdge: ALEdge.Trailing, ofView: userImageView, withOffset: 8.0)
         descriptionLabel.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Bottom, ofView: userImageView, withOffset: 2.0, relation: NSLayoutRelation.LessThanOrEqual)
         descriptionLabel.autoPinEdge(ALEdge.Trailing, toEdge: ALEdge.Trailing, ofView: followButton)
-        
-        let separatorView = UIView()
-        separatorView.backgroundColor = UIColor(r: 174, g: 174, b: 174, a: 255)
-        addSubview(separatorView)
-        separatorView.autoSetDimension(ALDimension.Height, toSize: 0.5)
-        separatorView.autoPinEdgeToSuperviewEdge(ALEdge.Leading)
-        separatorView.autoPinEdgeToSuperviewEdge(ALEdge.Trailing)
-        separatorView.autoPinEdgeToSuperviewEdge(ALEdge.Bottom)
         
         reviewImageViews = [UIImageView]()
         for i in 1...4 {
@@ -206,6 +279,6 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         panGesture = UIPanGestureRecognizer(target: self, action: "cellPanned:")
         panGesture.cancelsTouchesInView = false
         panGesture.delegate = self
-        addGestureRecognizer(panGesture)
+        mainView.addGestureRecognizer(panGesture)
     }
 }
