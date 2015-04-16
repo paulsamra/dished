@@ -668,9 +668,18 @@
 {
     switch (self.dishTypeSegmentedControl.selectedSegmentIndex)
     {
-        case 0: self.review.type = kFood;      break;
-        case 1: self.review.type = kCocktail;  break;
-        case 2: self.review.type = kWine;      break;
+        case 0:
+            self.review.type = kFood;
+            self.hashtagsDataSource.dishType = DADishTypeFood;
+            break;
+        case 1:
+            self.review.type = kCocktail;
+            self.hashtagsDataSource.dishType = DADishTypeCocktail;
+            break;
+        case 2:
+            self.review.type = kWine;
+            self.hashtagsDataSource.dishType = DADishTypeWine;
+            break;
     }
     
     self.dishSuggestionsTable.hidden = YES;
@@ -756,7 +765,6 @@
     DASelectHashtagsViewController *selectHasthagsViewController = [[DASelectHashtagsViewController alloc] initWithDataSource:self.hashtagsDataSource];
     selectHasthagsViewController.delegate = self;
     [self.navigationController pushViewController:selectHasthagsViewController animated:YES];
-    //[self performSegueWithIdentifier:@"posHashtags" sender:nil];
 }
 
 - (void)selectHashtagsViewControllerDidFinish:(DASelectHashtagsViewController * __nonnull)selectHashtagsViewController
@@ -772,6 +780,8 @@
     {
         [self.navigationController popToViewController:self animated:YES];
     }
+    
+    self.review.hashtags = self.hashtagsDataSource.selectedHashtags;
 }
 
 - (DASelectHashtagsDataSource *)hashtagsDataSource
@@ -779,10 +789,22 @@
     if( !_hashtagsDataSource )
     {
         _hashtagsDataSource = [[DASelectHashtagsDataSource alloc] init];
-        _hashtagsDataSource.dishType = DADishTypeFood;
+        _hashtagsDataSource.dishType = [self currentDishType];
     }
     
     return _hashtagsDataSource;
+}
+
+- (DADishType)currentDishType
+{
+    switch( self.dishTypeSegmentedControl.selectedSegmentIndex )
+    {
+        case 0: return DADishTypeFood;
+        case 1: return DADishTypeCocktail;
+        case 2: return DADishTypeWine;
+    }
+    
+    return DADishTypeFood;
 }
 
 - (IBAction)goToPlaces

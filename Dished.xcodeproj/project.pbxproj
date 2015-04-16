@@ -996,6 +996,9 @@
 		94B43AAE19EB6D9500482F52 /* DACollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94B43AAD19EB6D9500482F52 /* DACollectionView.swift */; };
 		94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */; };
 		94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6319BFBE75005071D5 /* DADishProfile.m */; };
+		94BA49D21ADFD17A009906DC /* DAHashtagInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA49D11ADFD17A009906DC /* DAHashtagInputTableViewCell.swift */; };
+		94BA49D31ADFD17A009906DC /* DAHashtagInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA49D11ADFD17A009906DC /* DAHashtagInputTableViewCell.swift */; };
+		94BA49D41ADFD17A009906DC /* DAHashtagInputTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BA49D11ADFD17A009906DC /* DAHashtagInputTableViewCell.swift */; };
 		94BC4F1919C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 94BC4F1819C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m */; };
 		94C18B731A74DC2300016D5F /* LEBackgroundThread.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B661A74DC2200016D5F /* LEBackgroundThread.m */; };
 		94C18B741A74DC2300016D5F /* lecore.m in Sources */ = {isa = PBXBuildFile; fileRef = 94C18B681A74DC2200016D5F /* lecore.m */; };
@@ -1617,6 +1620,7 @@
 		94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGlobalReviewCollectionViewCell.m; sourceTree = "<group>"; };
 		94B92C6219BFBE75005071D5 /* DADishProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADishProfile.h; sourceTree = "<group>"; };
 		94B92C6319BFBE75005071D5 /* DADishProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADishProfile.m; sourceTree = "<group>"; };
+		94BA49D11ADFD17A009906DC /* DAHashtagInputTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAHashtagInputTableViewCell.swift; sourceTree = "<group>"; };
 		94BC4F1719C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedCollectionViewFlowLayout.h; sourceTree = "<group>"; };
 		94BC4F1819C4242200EAF3B0 /* DAFeedCollectionViewFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedCollectionViewFlowLayout.m; sourceTree = "<group>"; };
 		94C18B651A74DC2200016D5F /* LEBackgroundThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LEBackgroundThread.h; sourceTree = "<group>"; };
@@ -2966,6 +2970,7 @@
 				9443DEFF19D0236200F134BA /* DADatePickerTableViewCell.swift */,
 				944D1E7419DB8514006F73BF /* DAUserTableViewCell.swift */,
 				94FB4E941AD6610900590F53 /* DAExploreTableViewCell.swift */,
+				94BA49D11ADFD17A009906DC /* DAHashtagInputTableViewCell.swift */,
 			);
 			name = "Table View Cells";
 			sourceTree = "<group>";
@@ -3480,6 +3485,7 @@
 				94426CB31A6A75C000186C35 /* UIImage+MPImageEffects.m in Sources */,
 				941291BA1A1BEED500B7C763 /* SDWebImageDownloader.m in Sources */,
 				941291BB1A1BEED500B7C763 /* MRIconView.m in Sources */,
+				94BA49D31ADFD17A009906DC /* DAHashtagInputTableViewCell.swift in Sources */,
 				941291BC1A1BEED500B7C763 /* Dished.xcdatamodeld in Sources */,
 				941291BD1A1BEED500B7C763 /* AFURLResponseSerialization.m in Sources */,
 				941291BE1A1BEED500B7C763 /* STHTTPRequest.m in Sources */,
@@ -3821,6 +3827,7 @@
 				94426CB41A6A75C000186C35 /* UIImage+MPImageEffects.m in Sources */,
 				941292B91A1C7AD100B7C763 /* SDWebImageDownloader.m in Sources */,
 				941292BA1A1C7AD100B7C763 /* MRIconView.m in Sources */,
+				94BA49D41ADFD17A009906DC /* DAHashtagInputTableViewCell.swift in Sources */,
 				941292BB1A1C7AD100B7C763 /* Dished.xcdatamodeld in Sources */,
 				941292BC1A1C7AD100B7C763 /* AFURLResponseSerialization.m in Sources */,
 				941292BD1A1C7AD100B7C763 /* STHTTPRequest.m in Sources */,
@@ -4162,6 +4169,7 @@
 				94426CB21A6A75C000186C35 /* UIImage+MPImageEffects.m in Sources */,
 				D187E06F19BFA1A500D8C85C /* DAGlobalDishDetailViewController.m in Sources */,
 				94F2AD9F198C539200450C6F /* SDWebImageDownloader.m in Sources */,
+				94BA49D21ADFD17A009906DC /* DAHashtagInputTableViewCell.swift in Sources */,
 				948615C919FE1C3D002497D0 /* MRIconView.m in Sources */,
 				941538CB193F270A008B3B79 /* Dished.xcdatamodeld in Sources */,
 				94E5EF491943472D0021A711 /* AFURLResponseSerialization.m in Sources */,

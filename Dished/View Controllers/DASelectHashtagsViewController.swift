@@ -12,7 +12,7 @@ import UIKit
     func selectHashtagsViewControllerDidFinish(selectHashtagsViewController: DASelectHashtagsViewController)
 }
 
-class DASelectHashtagsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource, DADataSourceDelegate {
+class DASelectHashtagsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource, DADataSourceDelegate, UITextFieldDelegate, DAHashtagInputTableViewCellDelegate {
 
     var selectHashtagsView: DASelectHashtagsView!
     var hashtagsDataSource: DASelectHashtagsDataSource
@@ -20,6 +20,7 @@ class DASelectHashtagsViewController: DAViewController, UITableViewDelegate, UIT
     weak var delegate: DASelectHashtagsViewControllerDelegate?
     
     private let hashtagCellIdentifier = "hashtagCell"
+    private let hashtagInputCellIdentifier = "hashtagInputCell"
     private var hashtagsType: DASelectHashtagsType
     
     init(dataSource: DASelectHashtagsDataSource) {
@@ -44,6 +45,7 @@ class DASelectHashtagsViewController: DAViewController, UITableViewDelegate, UIT
         super.viewDidLoad()
         
         selectHashtagsView.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: hashtagCellIdentifier)
+        selectHashtagsView.tableView.registerClass(DAHashtagInputTableViewCell.self, forCellReuseIdentifier: hashtagInputCellIdentifier)
         selectHashtagsView.tableView.delegate = self
         selectHashtagsView.tableView.dataSource = self
         
@@ -62,36 +64,52 @@ class DASelectHashtagsViewController: DAViewController, UITableViewDelegate, UIT
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         let count = hashtagsDataSource.hashtags.count
-        return count == 0 ? 1 : count
+        return count == 0 ? 1 : count + 1
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(hashtagCellIdentifier) as! UITableViewCell
-        
-        cell.textLabel?.font = DAConstants.primaryFontWithSize(18.0)
+        var cell: UITableViewCell
         
         if hashtagsDataSource.hashtags.count == 0 {
+            cell = tableView.dequeueReusableCellWithIdentifier(hashtagCellIdentifier) as! UITableViewCell
             cell.textLabel?.text = "Loading..."
             cell.accessoryView = selectHashtagsView.spinner
             cell.userInteractionEnabled = false
             selectHashtagsView.spinner.startAnimating()
         }
         else {
-            cell.accessoryView = nil
-            cell.userInteractionEnabled = true
-            
-            let hashtag = hashtagsDataSource.hashtags[indexPath.row]
-            cell.textLabel?.text = "#\(hashtag.name)"
-            
-            var selectionImage = hashtagsDataSource.hashtagIsSelected(hashtag) ? "hashtag_checked" : "hashtag_unchecked"
-            cell.accessoryView = UIImageView(image: UIImage(named: selectionImage))
+            if indexPath.row == 0 {
+                let inputCell = tableView.dequeueReusableCellWithIdentifier(hashtagInputCellIdentifier) as! DAHashtagInputTableViewCell
+                inputCell.selectionStyle = UITableViewCellSelectionStyle.None
+                inputCell.delegate = self
+                
+                cell = inputCell
+            }
+            else {
+                cell = tableView.dequeueReusableCellWithIdentifier(hashtagCellIdentifier) as! UITableViewCell
+                cell.accessoryView = nil
+                cell.userInteractionEnabled = true
+                cell.selectionStyle = UITableViewCellSelectionStyle.Default
+                
+                let hashtag = hashtagsDataSource.hashtags[indexPath.row - 1]
+                cell.textLabel?.text = "#\(hashtag.name)"
+                
+                var selectionImage = hashtagsDataSource.hashtagIsSelected(hashtag) ? "hashtag_checked" : "hashtag_unchecked"
+                cell.accessoryView = UIImageView(image: UIImage(named: selectionImage))
+            }
         }
+        
+        cell.textLabel?.font = DAConstants.primaryFontWithSize(18.0)
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let hashtag = hashtagsDataSource.hashtags[indexPath.row]
+        if indexPath.row == 0 {
+            return
+        }
+        
+        let hashtag = hashtagsDataSource.hashtags[indexPath.row - 1]
         
         if hashtagsDataSource.hashtagIsSelected(hashtag) {
             hashtagsDataSource.deselectHashtag(hashtag)
@@ -101,6 +119,12 @@ class DASelectHashtagsViewController: DAViewController, UITableViewDelegate, UIT
         }
         
         tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+    }
+    
+    func hashtagInputTableViewCell(cell: DAHashtagInputTableViewCell, didAddHashtagWithName name: String) {
+        let userHashtag = hashtagsDataSource.addUserDefinedHashtagWithName(name)
+        hashtagsDataSource.selectHashtag(userHashtag)
+        selectHashtagsView.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
     }
     
     func barButtonPressed() {

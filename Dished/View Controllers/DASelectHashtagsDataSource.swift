@@ -23,30 +23,39 @@ import UIKit
 
 class DASelectHashtagsDataSource: NSObject, DADataSource {
     
-    var hashtagsType = DASelectHashtagsType.Positive {
-        didSet {
+    var hashtagsType = DASelectHashtagsType.Positive
+    var loadHashtagsTask: NSURLSessionTask?
+    var dishType = DADishType.Food
+    
+    var hashtags: [DAHashtag] {
+        get {
+            var hashtags: [DAHashtag]
+            
             switch(hashtagsType) {
-            case .Positive: self.hashtags = self.positiveHashtags ?? [DAHashtag]()
-            case .Negative: self.hashtags = self.negativeHashtags ?? [DAHashtag]()
+            case .Positive: hashtags = positiveUserHashtags + (positiveHashtags ?? [])
+            case .Negative: hashtags = negativeUserHashtags + (negativeHashtags ?? [])
             }
+            
+            return hashtags
         }
     }
     
-    var loadHashtagsTask: NSURLSessionTask?
-    var dishType = DADishType.Food
-    var hashtags = [DAHashtag]()
     weak var delegate: DADataSourceDelegate? = nil
     
     private var positiveHashtags: [DAHashtag]?
     private var negativeHashtags: [DAHashtag]?
     
+    private var positiveUserHashtags = [DAHashtag]()
+    private var negativeUserHashtags = [DAHashtag]()
+    
     var selectedHashtags: [DAHashtag] {
         get {
-            return chosenHashtags.values.array
+            return chosenHashtags.values.array + chosenUserHashtags.values.array
         }
     }
     
     private var chosenHashtags = [Int:DAHashtag]()
+    private var chosenUserHashtags = [String:DAHashtag]()
     
     override init() {
         super.init()
@@ -60,19 +69,45 @@ class DASelectHashtagsDataSource: NSObject, DADataSource {
     }
     
     func hashtagIsSelected(hashtag: DAHashtag) -> Bool {
+        if hashtag.userDefined {
+            return chosenUserHashtags[hashtag.name] != nil
+        }
+        
         return chosenHashtags[hashtag.hashtag_id] != nil
     }
     
     func selectHashtag(hashtag: DAHashtag) {
-        chosenHashtags[hashtag.hashtag_id] = hashtag
+        if hashtag.userDefined {
+            chosenUserHashtags[hashtag.name] = hashtag
+        }
+        else {
+            chosenHashtags[hashtag.hashtag_id] = hashtag
+        }
     }
     
     func deselectHashtag(hashtag: DAHashtag) {
-        chosenHashtags[hashtag.hashtag_id] = nil
+        if hashtag.userDefined {
+            chosenUserHashtags[hashtag.name] = nil
+        }
+        else {
+            chosenHashtags[hashtag.hashtag_id] = nil
+        }
+    }
+    
+    func addUserDefinedHashtagWithName(name: String) -> DAHashtag {
+        let hashtag = DAHashtag()
+        hashtag.name = name
+        hashtag.userDefined = true
+        
+        switch(hashtagsType) {
+        case .Positive: positiveUserHashtags.insert(hashtag, atIndex: 0)
+        case .Negative: negativeUserHashtags.insert(hashtag, atIndex: 0)
+        }
+        
+        return hashtag
     }
     
     func loadData() {
-        
         let parameters = [
             kDishTypeKey: dishType.name,
             kHashtagTypeKey: hashtagsType.name
@@ -85,11 +120,9 @@ class DASelectHashtagsDataSource: NSObject, DADataSource {
             
             if self.hashtagsType == DASelectHashtagsType.Positive {
                 self.positiveHashtags = hashtags
-                self.hashtags = self.positiveHashtags!
             }
             else {
                 self.negativeHashtags = hashtags
-                self.hashtags = self.negativeHashtags!
             }
             
             self.delegate?.dataSourceDidFinishLoadingData(self)
