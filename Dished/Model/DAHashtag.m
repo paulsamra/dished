@@ -39,8 +39,9 @@
 {
     DAHashtag *hashtag = [[DAHashtag alloc] init];
     
-    hashtag.name       = data[kNameKey];
-    hashtag.hashtag_id = [data[kIDKey] integerValue];
+    hashtag.name        = data[kNameKey];
+    hashtag.hashtag_id  = [data[kIDKey] integerValue];
+    hashtag.userDefined = NO;
     
     return hashtag;
 }

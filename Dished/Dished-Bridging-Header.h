@@ -11,6 +11,7 @@
 #import "SWTableViewCell.h"
 #import "DALinkedTextView.h"
 #import "DAConstants.h"
+#import "DAHashtag.h"
 #import "DARefreshControl.h"
 #import "DAManagedUserSuggestion+Utility.h"
 #import "DACommentsViewController.h"

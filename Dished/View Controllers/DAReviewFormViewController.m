@@ -20,12 +20,14 @@
 #import "DAImagePickerController.h"
 #import "DAUserManager.h"
 
-@interface DAReviewFormViewController() <UIAlertViewDelegate, DASocialCollectionViewControllerDelegate>
+@interface DAReviewFormViewController() <UIAlertViewDelegate, DASocialCollectionViewControllerDelegate, DASelectHashtagsViewControllerDelegate>
 
 @property (strong, nonatomic) UIView                           *dimView;
 @property (strong, nonatomic) NSArray                          *suggestedLocations;
 @property (strong, nonatomic) NSMutableString                  *dishPrice;
 @property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
+
+@property (strong, nonatomic) DASelectHashtagsDataSource *hashtagsDataSource;
 
 @property (nonatomic) BOOL   selectedDish;
 @property (nonatomic) BOOL   searchedForSuggestions;
@@ -666,9 +668,18 @@
 {
     switch (self.dishTypeSegmentedControl.selectedSegmentIndex)
     {
-        case 0: self.review.type = kFood;      break;
-        case 1: self.review.type = kCocktail;  break;
-        case 2: self.review.type = kWine;      break;
+        case 0:
+            self.review.type = kFood;
+            self.hashtagsDataSource.dishType = DADishTypeFood;
+            break;
+        case 1:
+            self.review.type = kCocktail;
+            self.hashtagsDataSource.dishType = DADishTypeCocktail;
+            break;
+        case 2:
+            self.review.type = kWine;
+            self.hashtagsDataSource.dishType = DADishTypeWine;
+            break;
     }
     
     self.dishSuggestionsTable.hidden = YES;
@@ -750,7 +761,50 @@
 
 - (IBAction)goToHashtags
 {
-    [self performSegueWithIdentifier:@"posHashtags" sender:nil];
+    self.hashtagsDataSource.hashtagsType = DASelectHashtagsTypePositive;
+    DASelectHashtagsViewController *selectHasthagsViewController = [[DASelectHashtagsViewController alloc] initWithDataSource:self.hashtagsDataSource];
+    selectHasthagsViewController.delegate = self;
+    [self.navigationController pushViewController:selectHasthagsViewController animated:YES];
+}
+
+- (void)selectHashtagsViewControllerDidFinish:(DASelectHashtagsViewController * __nonnull)selectHashtagsViewController
+{
+    if( selectHashtagsViewController.hashtagsDataSource.hashtagsType == DASelectHashtagsTypePositive )
+    {
+        self.hashtagsDataSource.hashtagsType = DASelectHashtagsTypeNegative;
+        DASelectHashtagsViewController *selectHasthagsViewController = [[DASelectHashtagsViewController alloc] initWithDataSource:self.hashtagsDataSource];
+        selectHasthagsViewController.delegate = self;
+        [self.navigationController pushViewController:selectHasthagsViewController animated:YES];
+    }
+    else
+    {
+        [self.navigationController popToViewController:self animated:YES];
+    }
+    
+    self.review.hashtags = self.hashtagsDataSource.selectedHashtags;
+}
+
+- (DASelectHashtagsDataSource *)hashtagsDataSource
+{
+    if( !_hashtagsDataSource )
+    {
+        _hashtagsDataSource = [[DASelectHashtagsDataSource alloc] init];
+        _hashtagsDataSource.dishType = [self currentDishType];
+    }
+    
+    return _hashtagsDataSource;
+}
+
+- (DADishType)currentDishType
+{
+    switch( self.dishTypeSegmentedControl.selectedSegmentIndex )
+    {
+        case 0: return DADishTypeFood;
+        case 1: return DADishTypeCocktail;
+        case 2: return DADishTypeWine;
+    }
+    
+    return DADishTypeFood;
 }
 
 - (IBAction)goToPlaces
