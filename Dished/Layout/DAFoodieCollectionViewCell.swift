@@ -109,8 +109,6 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
             mainView.addSubview(imageView)
             x += 74.0
         }
-        
-        //contentViewlayoutIfNeeded()
     }
     
     override func prepareForReuse() {
@@ -123,6 +121,10 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         for imageView in reviewImageViews {
             imageView.image = nil
         }
+        
+        var rect = mainView.frame
+        rect.origin.x = 0.0
+        mainView.frame = rect
     }
     
     func didTapImageView(tapGesture: UITapGestureRecognizer) {
