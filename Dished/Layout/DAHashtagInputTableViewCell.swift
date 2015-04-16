@@ -34,9 +34,11 @@ class DAHashtagInputTableViewCell: DATableViewCell {
         
         textField = UITextField()
         textField.font = DAConstants.primaryFontWithSize(18.0)
-        textField.placeholder = "Enter a hashtag."
+        textField.placeholder = "Create your own"
         textField.keyboardType = UIKeyboardType.ASCIICapable
         textField.addTarget(self, action: "textFieldChanged", forControlEvents: UIControlEvents.EditingChanged)
+        textField.addTarget(self, action: "textFieldBeganEditing", forControlEvents: UIControlEvents.EditingDidBegin)
+        textField.addTarget(self, action: "textFieldEndedEditing", forControlEvents: UIControlEvents.EditingDidEnd)
         textField.returnKeyType = UIReturnKeyType.Done
         contentView.addSubview(textField)
         textField.autoPinEdgeToSuperviewEdge(ALEdge.Leading, withInset: 15.0)
@@ -48,14 +50,38 @@ class DAHashtagInputTableViewCell: DATableViewCell {
     }
     
     func textFieldChanged() {
-        addButton.enabled = !textField.text.isEmpty
+        addButton.enabled = !textField.text.isEmpty && textField.text != "#"
         
-        if textField.text.isEmpty || textField.text[0] == "#" {
-            return
+        let text = textField.text
+        
+        if !text.isEmpty && text != "#" {
+            let characterSet = NSCharacterSet.alphanumericCharacterSet()
+            let lastEntered = text.substringFromIndex(advance(text.startIndex, count(text) - 1))
+            
+            if lastEntered.rangeOfCharacterFromSet(characterSet, options: nil, range: nil) == nil {
+                textField.text = text.substringToIndex(advance(text.startIndex, count(text) - 1))
+            }
         }
-        else {
-            textField.text = "#\(textField.text)"
+        
+        if text.isEmpty {
+            textField.text = "#"
         }
+    }
+    
+    func textFieldBeganEditing() {
+        if textField.text.isEmpty {
+            textField.text = "#"
+        }
+        
+        addButton.enabled = !textField.text.isEmpty && textField.text != "#"
+    }
+    
+    func textFieldEndedEditing() {
+        if textField.text == "#" {
+            textField.text = ""
+        }
+        
+        addButton.enabled = !textField.text.isEmpty && textField.text != "#"
     }
     
     func addButtonPressed() {
