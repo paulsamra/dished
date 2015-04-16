@@ -107,6 +107,11 @@ class DASelectHashtagsDataSource: NSObject, DADataSource {
         return hashtag
     }
     
+    func resetHashtagData() {
+        positiveHashtags = nil
+        negativeHashtags = nil
+    }
+    
     func loadData() {
         let parameters = [
             kDishTypeKey: dishType.name,

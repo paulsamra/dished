@@ -682,6 +682,7 @@
             break;
     }
     
+    [self.hashtagsDataSource resetHashtagData];
     self.dishSuggestionsTable.hidden = YES;
     [self updateFields];
 }

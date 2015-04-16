@@ -82,6 +82,7 @@ class DASelectHashtagsViewController: DAViewController, UITableViewDelegate, UIT
                 let inputCell = tableView.dequeueReusableCellWithIdentifier(hashtagInputCellIdentifier) as! DAHashtagInputTableViewCell
                 inputCell.selectionStyle = UITableViewCellSelectionStyle.None
                 inputCell.delegate = self
+                inputCell.textField.delegate = self
                 
                 cell = inputCell
             }
@@ -129,6 +130,15 @@ class DASelectHashtagsViewController: DAViewController, UITableViewDelegate, UIT
     
     func barButtonPressed() {
         delegate?.selectHashtagsViewControllerDidFinish(self)
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
+        view.endEditing(true)
+    }
+    
+    func textFieldShouldReturn(textField: UITextField) -> Bool {
+        view.endEditing(true)
+        return true
     }
     
     override func loadView() {

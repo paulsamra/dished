@@ -37,6 +37,7 @@ class DAHashtagInputTableViewCell: DATableViewCell {
         textField.placeholder = "Enter a hashtag."
         textField.keyboardType = UIKeyboardType.ASCIICapable
         textField.addTarget(self, action: "textFieldChanged", forControlEvents: UIControlEvents.EditingChanged)
+        textField.returnKeyType = UIReturnKeyType.Done
         contentView.addSubview(textField)
         textField.autoPinEdgeToSuperviewEdge(ALEdge.Leading, withInset: 15.0)
         textField.autoPinEdgeToSuperviewEdge(ALEdge.Top)
