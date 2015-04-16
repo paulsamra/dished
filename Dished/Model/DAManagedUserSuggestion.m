@@ -13,11 +13,13 @@
 
 @dynamic desc;
 @dynamic first_name;
-@dynamic last_name;
-@dynamic user_id;
 @dynamic img_thumb;
+@dynamic last_name;
 @dynamic reviews;
+@dynamic user_id;
 @dynamic user_type;
 @dynamic username;
+@dynamic following;
+@dynamic dismissed;
 
 @end

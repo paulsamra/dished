@@ -33,7 +33,7 @@ typedef enum
 } eFeedCellType;
 
 
-@interface DAFeedViewController() <DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate>
+@interface DAFeedViewController() <DAFeedCollectionViewCellDelegate, DAFeedHeaderCollectionReusableViewDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate, DAFoodieCollectionViewCellDelegate>
 
 @property (strong, nonatomic) NSArray                          *feedItems;
 @property (strong, nonatomic) NSCache                          *feedImageCache;
@@ -453,6 +453,9 @@ typedef enum
         
         DAManagedUserSuggestion *userSuggestion = feedItem.user_suggestion;
         [foodieCell configureWithUserSuggestion:userSuggestion];
+        foodieCell.delegate = self;
+        [foodieCell.usernameButton addTarget:self action:@selector(tappedFoodieUsernameButton:) forControlEvents:UIControlEventTouchUpInside];
+        [foodieCell.followButton addTarget:self action:@selector(tappedFoodieFollowButton:) forControlEvents:UIControlEventTouchUpInside];
         
         cell = foodieCell;
     }
@@ -461,6 +464,74 @@ typedef enum
     cell.layer.rasterizationScale = [UIScreen mainScreen].scale;
     
     return cell;
+}
+
+- (void)tappedFoodieUsernameButton:(UIButton *)button
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForView:button];
+    if( indexPath )
+    {
+        DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
+        [self pushUserProfileWithUserID:[feedItem.user_suggestion.user_id integerValue]];
+    }
+}
+
+- (void)tappedFoodieFollowButton:(UIButton *)button
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForView:button];
+    if( indexPath )
+    {
+        DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
+        
+        if( [feedItem.user_suggestion.following boolValue] == NO )
+        {
+            [DAAPIManager followUserID:[feedItem.user_suggestion.user_id integerValue]];
+            feedItem.user_suggestion.following = @(YES);
+        }
+        else
+        {
+            [DAAPIManager unfollowUserID:[feedItem.user_suggestion.user_id integerValue]];
+            feedItem.user_suggestion.following = @(NO);
+        }
+        
+        [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
+    }
+}
+
+- (void)didTapImageAtIndex:(NSInteger)index inFoodieCollectionViewCell:(DAFoodieCollectionViewCell * __nonnull)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
+    
+    NSArray *reviews = feedItem.user_suggestion.reviews;
+    if( index <= [reviews count] )
+    {
+        NSDictionary *review = reviews[index];
+        [self pushReviewDetailsViewWithReviewID:[review[kIDKey] integerValue]];
+    }
+}
+
+- (void)didDismissCell:(DAFoodieCollectionViewCell * __nonnull)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
+    
+    [self.collectionView performBatchUpdates:^
+    {
+        feedItem.user_suggestion.dismissed = @(YES);
+        feedItem.user_suggestion = nil;
+        [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+    }
+    completion:nil];
+}
+
+- (void)didTapUserImageViewInCell:(DAFoodieCollectionViewCell * __nonnull)cell
+{
+    NSIndexPath *indexPath = [self.collectionView indexPathForCell:cell];
+    DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
+    
+    DAManagedUserSuggestion *userSuggestion = feedItem.user_suggestion;
+    [self pushUserProfileWithUserID:[userSuggestion.user_id integerValue]];
 }
 
 - (NSArray *)usernameStringArrayWithUsernames:(NSSet *)usernames creator:(NSString *)creator

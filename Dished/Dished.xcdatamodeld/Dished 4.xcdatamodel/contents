@@ -44,7 +44,9 @@
     </entity>
     <entity name="DAManagedUserSuggestion" representedClassName="DAManagedUserSuggestion" syncable="YES">
         <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dismissed" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="img_thumb" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="reviews" optional="YES" attributeType="Transformable" syncable="YES"/>
@@ -57,6 +59,6 @@
         <element name="DAManagedComment" positionX="-54" positionY="216" width="128" height="193"/>
         <element name="DAManagedHashtag" positionX="-45" positionY="243" width="128" height="60"/>
         <element name="DAManagedUsername" positionX="-45" positionY="243" width="128" height="60"/>
-        <element name="DAManagedUserSuggestion" positionX="-45" positionY="243" width="128" height="165"/>
+        <element name="DAManagedUserSuggestion" positionX="-45" positionY="243" width="128" height="195"/>
     </elements>
 </model>

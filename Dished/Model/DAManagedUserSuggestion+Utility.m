@@ -24,6 +24,9 @@
     self.last_name   = nilOrJSONObjectForKey( dictionary, kLastNameKey );
     self.first_name  = nilOrJSONObjectForKey( dictionary, kFirstNameKey );
     
+    self.following   = @(NO);
+    self.dismissed   = @(NO);
+    
     id reviews = nilOrJSONObjectForKey( dictionary, kReviewsKey );
     
     if( [reviews isKindOfClass:[NSArray class]] )

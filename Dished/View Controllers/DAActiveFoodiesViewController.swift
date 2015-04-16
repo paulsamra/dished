@@ -169,6 +169,13 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
         }
     }
     
+    func didTapUserImageViewInCell(cell: DAFoodieCollectionViewCell) {
+        if let indexPath = activeFoodiesView.collectionView.indexPathForCell(cell) {
+            let foodie = foodiesDataSource.foodies[indexPath.row]
+            goToFoodieProfile(foodie)
+        }
+    }
+    
     func didTapImageAtIndex(index: Int, inFoodieCollectionViewCell cell: DAFoodieCollectionViewCell) {
         if let indexPath = activeFoodiesView.collectionView.indexPathForCell(cell) {
             let foodie = foodiesDataSource.foodies[indexPath.row]

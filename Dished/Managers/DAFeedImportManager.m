@@ -154,6 +154,12 @@ typedef void(^GetFeedDataBlock)();
     if( match.count > 0 )
     {
         DAManagedUserSuggestion *foundUserSuggestion = match[0];
+        
+        if( foundUserSuggestion.dismissed )
+        {
+            return;
+        }
+        
         [foundUserSuggestion configureWithDictionary:userSuggestion];
         feedItem.user_suggestion = foundUserSuggestion;
     }

@@ -8,14 +8,10 @@
 
 import UIKit
 
-protocol DAFoodieCollectionViewCellDelegate: class {
+@objc protocol DAFoodieCollectionViewCellDelegate: class {
     func didTapImageAtIndex(index: Int, inFoodieCollectionViewCell cell: DAFoodieCollectionViewCell)
     func didDismissCell(cell: DAFoodieCollectionViewCell)
-}
-
-private enum DAFoodieCollectionViewCellState {
-    case DismissHidden
-    case DismissVisible
+    func didTapUserImageViewInCell(cell: DAFoodieCollectionViewCell)
 }
 
 class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDelegate {
@@ -26,13 +22,11 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
     var descriptionLabel: UILabel!
     var reviewImageViews: [UIImageView]!
     var dismissButton: UIButton!
+    weak var delegate: DAFoodieCollectionViewCellDelegate?
     
     private var mainView: UIView!
     private let dismissButtonWidth = CGFloat(100.0)
-    private var state = DAFoodieCollectionViewCellState.DismissHidden
     private var lastX: CGFloat = 0.0
-    
-    weak var delegate: DAFoodieCollectionViewCellDelegate?
     
     private var panGesture: UIPanGestureRecognizer!
     
@@ -75,7 +69,7 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
     }
     
     func configureWithUserSuggestion(userSuggestion: DAManagedUserSuggestion) {
-        usernameButton.setTitle(userSuggestion.username, forState: UIControlState.Normal)
+        usernameButton.setTitle("@\(userSuggestion.username)", forState: UIControlState.Normal)
         
         let name = "\(userSuggestion.first_name) \(userSuggestion.last_name)"
         descriptionLabel.attributedText = descriptionWithName(name, description: userSuggestion.desc)
@@ -93,8 +87,14 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
             }
         }
 
-        followButton.setTitle("Follow", forState: UIControlState.Normal)
-        followButton.setTitleColor(UIColor.followButtonColor(), forState: UIControlState.Normal)
+        if userSuggestion.following.boolValue == true {
+            followButton.setTitle("Unfollow", forState: UIControlState.Normal)
+            followButton.setTitleColor(UIColor.redColor(), forState: UIControlState.Normal)
+        }
+        else {
+            followButton.setTitle("Follow", forState: UIControlState.Normal)
+            followButton.setTitleColor(UIColor.followButtonColor(), forState: UIControlState.Normal)
+        }
     }
 
     override func layoutSubviews() {
@@ -154,7 +154,6 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
             
             UIView.animateWithDuration(0.2, animations: {
                 self.mainView.frame = rect
-                self.state = DAFoodieCollectionViewCellState.DismissVisible
             })
         }
         else if gesture.state == UIGestureRecognizerState.Changed {
@@ -189,6 +188,10 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         }
         
         return true
+    }
+    
+    func didTapUserImageView() {
+        delegate?.didTapUserImageViewInCell(self)
     }
     
     override func setupViews() {
@@ -233,10 +236,15 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         userImageView = UIImageView()
         userImageView.contentMode = UIViewContentMode.ScaleAspectFill
         userImageView.clipsToBounds = true
+        userImageView.userInteractionEnabled = true
         mainView.addSubview(userImageView)
         userImageView.autoPinEdgeToSuperviewEdge(ALEdge.Leading, withInset: 10.0)
         userImageView.autoPinEdgeToSuperviewEdge(ALEdge.Top, withInset: 15.0)
         userImageView.autoSetDimensionsToSize(CGSizeMake(60.0, 60.0))
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: "didTapUserImageView")
+        tapGesture.numberOfTapsRequired = 1
+        userImageView.addGestureRecognizer(tapGesture)
         
         followButton = UIButton()
         followButton.titleLabel?.font = DAConstants.primaryFontWithSize(18.0)
