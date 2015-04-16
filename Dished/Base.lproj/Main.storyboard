@@ -3243,7 +3243,6 @@
                         <outlet property="twitterImage" destination="q5Q-tC-1k4" id="HpZ-GT-XBY"/>
                         <segue destination="ZvA-N9-6Oj" kind="show" identifier="imAt" id="6ej-lN-n4u"/>
                         <segue destination="UcG-uD-D96" kind="show" identifier="rating" id="XdP-Pi-Qco"/>
-                        <segue destination="U6i-jw-5sV" kind="show" identifier="posHashtags" id="wUw-wF-4uq"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Kgq-fw-nRF" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3641,111 +3640,6 @@
             </objects>
             <point key="canvasLocation" x="4030" y="2630"/>
         </scene>
-        <!--#Tags-->
-        <scene sceneID="Ib0-Px-gn1">
-            <objects>
-                <tableViewController id="qmo-0a-LKf" customClass="DANegativeHashtagsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="Rgu-eZ-NvD">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="hashtagCell" textLabel="hqL-ex-fhi" style="IBUITableViewCellStyleDefault" id="Oof-7G-wnP">
-                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Oof-7G-wnP" id="pPR-Tt-Py5">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hqL-ex-fhi">
-                                            <rect key="frame" x="15" y="0.0" width="290" height="43"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                </tableViewCellContentView>
-                            </tableViewCell>
-                        </prototypes>
-                        <connections>
-                            <outlet property="dataSource" destination="qmo-0a-LKf" id="gTY-7P-ycg"/>
-                            <outlet property="delegate" destination="qmo-0a-LKf" id="R02-Ba-OUk"/>
-                        </connections>
-                    </tableView>
-                    <navigationItem key="navigationItem" title="#Tags" id="lOF-7j-tlB">
-                        <barButtonItem key="rightBarButtonItem" title="Done" id="Ba4-bR-OeV">
-                            <connections>
-                                <action selector="doneWithHashtags:" destination="qmo-0a-LKf" id="0tS-Io-Bsg"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                </tableViewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="yN0-au-P5m" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4842" y="3452"/>
-        </scene>
-        <!--#Tags-->
-        <scene sceneID="G2v-NO-sCR">
-            <objects>
-                <viewController id="U6i-jw-5sV" customClass="DAPositiveHashtagsViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="vcP-f0-Qe3"/>
-                        <viewControllerLayoutGuide type="bottom" id="mSv-c8-uTN"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="PK1-xM-avB">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fXs-7c-fCo">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="hashtagCell" textLabel="r2R-0X-zaX" style="IBUITableViewCellStyleDefault" id="h6P-S3-GQW">
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="h6P-S3-GQW" id="pHA-O1-hiN">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="12" id="r2R-0X-zaX">
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                                <connections>
-                                    <outlet property="dataSource" destination="U6i-jw-5sV" id="Ca7-1b-7Nr"/>
-                                    <outlet property="delegate" destination="U6i-jw-5sV" id="xl7-cz-zba"/>
-                                </connections>
-                            </tableView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="fXs-7c-fCo" firstAttribute="top" secondItem="PK1-xM-avB" secondAttribute="top" id="8uv-6u-tEt"/>
-                            <constraint firstAttribute="trailing" secondItem="fXs-7c-fCo" secondAttribute="trailing" id="GMd-qM-ONe"/>
-                            <constraint firstItem="fXs-7c-fCo" firstAttribute="leading" secondItem="PK1-xM-avB" secondAttribute="leading" id="jyQ-ED-D46"/>
-                            <constraint firstItem="mSv-c8-uTN" firstAttribute="top" secondItem="fXs-7c-fCo" secondAttribute="bottom" id="zWy-S7-oCs"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" title="#Tags" id="PDI-di-gsx">
-                        <barButtonItem key="rightBarButtonItem" title="Next" id="UKk-g8-OfW">
-                            <connections>
-                                <action selector="goToNegHashtags:" destination="U6i-jw-5sV" id="hUA-sW-r7u"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
-                    <connections>
-                        <outlet property="tableView" destination="fXs-7c-fCo" id="jnT-IE-kb6"/>
-                        <segue destination="qmo-0a-LKf" kind="show" identifier="negHashtags" id="YLr-Fq-RxT"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8G0-yh-OQV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="4030" y="3452"/>
-        </scene>
         <!--Social Collection View Controller-->
         <scene sceneID="QgB-SZ-mzd">
             <objects>
@@ -3838,7 +3732,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Mob-la-3nD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5683" y="3452"/>
+            <point key="canvasLocation" x="4030" y="3452"/>
         </scene>
         <!--Add Rating-->
         <scene sceneID="xYa-YA-ZUc">

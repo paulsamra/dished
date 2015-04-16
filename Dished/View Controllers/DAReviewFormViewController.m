@@ -7,7 +7,6 @@
 //
 
 #import "DAReviewFormViewController.h"
-#import "DAPositiveHashtagsViewController.h"
 #import "DANewReview.h"
 #import "DALocationManager.h"
 #import "DAReviewLocationViewController.h"
@@ -849,12 +848,6 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    if( [segue.identifier isEqualToString:@"posHashtags"] )
-    {
-        DAPositiveHashtagsViewController *dest = segue.destinationViewController;
-        dest.review = self.review;
-    }
-    
     if( [segue.identifier isEqualToString:@"rating"] )
     {
         DARatingViewController *dest = segue.destinationViewController;
