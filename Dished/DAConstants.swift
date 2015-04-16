@@ -8,6 +8,20 @@
 
 import Foundation
 
+@objc enum DADishType: Int {
+    case Food, Cocktail, Wine
+    
+    var name: String {
+        get {
+            switch(self) {
+            case .Food: return kFood
+            case .Cocktail: return kCocktail
+            case .Wine: return kWine
+            }
+        }
+    }
+}
+
 struct DAConstants
 {
     static func launchImage() -> UIImage? {

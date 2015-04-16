@@ -20,12 +20,14 @@
 #import "DAImagePickerController.h"
 #import "DAUserManager.h"
 
-@interface DAReviewFormViewController() <UIAlertViewDelegate, DASocialCollectionViewControllerDelegate>
+@interface DAReviewFormViewController() <UIAlertViewDelegate, DASocialCollectionViewControllerDelegate, DASelectHashtagsViewControllerDelegate>
 
 @property (strong, nonatomic) UIView                           *dimView;
 @property (strong, nonatomic) NSArray                          *suggestedLocations;
 @property (strong, nonatomic) NSMutableString                  *dishPrice;
 @property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
+
+@property (strong, nonatomic) DASelectHashtagsDataSource *hashtagsDataSource;
 
 @property (nonatomic) BOOL   selectedDish;
 @property (nonatomic) BOOL   searchedForSuggestions;
@@ -750,7 +752,37 @@
 
 - (IBAction)goToHashtags
 {
-    [self performSegueWithIdentifier:@"posHashtags" sender:nil];
+    self.hashtagsDataSource.hashtagsType = DASelectHashtagsTypePositive;
+    DASelectHashtagsViewController *selectHasthagsViewController = [[DASelectHashtagsViewController alloc] initWithDataSource:self.hashtagsDataSource];
+    selectHasthagsViewController.delegate = self;
+    [self.navigationController pushViewController:selectHasthagsViewController animated:YES];
+    //[self performSegueWithIdentifier:@"posHashtags" sender:nil];
+}
+
+- (void)selectHashtagsViewControllerDidFinish:(DASelectHashtagsViewController * __nonnull)selectHashtagsViewController
+{
+    if( selectHashtagsViewController.hashtagsDataSource.hashtagsType == DASelectHashtagsTypePositive )
+    {
+        self.hashtagsDataSource.hashtagsType = DASelectHashtagsTypeNegative;
+        DASelectHashtagsViewController *selectHasthagsViewController = [[DASelectHashtagsViewController alloc] initWithDataSource:self.hashtagsDataSource];
+        selectHasthagsViewController.delegate = self;
+        [self.navigationController pushViewController:selectHasthagsViewController animated:YES];
+    }
+    else
+    {
+        [self.navigationController popToViewController:self animated:YES];
+    }
+}
+
+- (DASelectHashtagsDataSource *)hashtagsDataSource
+{
+    if( !_hashtagsDataSource )
+    {
+        _hashtagsDataSource = [[DASelectHashtagsDataSource alloc] init];
+        _hashtagsDataSource.dishType = DADishTypeFood;
+    }
+    
+    return _hashtagsDataSource;
 }
 
 - (IBAction)goToPlaces

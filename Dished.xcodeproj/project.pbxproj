@@ -1052,6 +1052,15 @@
 		94D7CB071A1499970065229C /* uv_idea@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 94D7CAFC1A1499970065229C /* uv_idea@2x.png */; };
 		94D8D69419EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8D69319EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift */; };
 		94D8D69D19EC8BBE001A9EC3 /* DALinkedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */; };
+		94D919F11ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D919F01ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift */; };
+		94D919F21ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D919F01ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift */; };
+		94D919F31ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D919F01ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift */; };
+		94D919F51ADF9EFC00FF4C3E /* DASelectHashtagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D919F41ADF9EFC00FF4C3E /* DASelectHashtagsView.swift */; };
+		94D919F61ADF9EFC00FF4C3E /* DASelectHashtagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D919F41ADF9EFC00FF4C3E /* DASelectHashtagsView.swift */; };
+		94D919F71ADF9EFC00FF4C3E /* DASelectHashtagsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D919F41ADF9EFC00FF4C3E /* DASelectHashtagsView.swift */; };
+		94D919F91ADFA28700FF4C3E /* DASelectHashtagsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D919F81ADFA28700FF4C3E /* DASelectHashtagsDataSource.swift */; };
+		94D919FA1ADFA28700FF4C3E /* DASelectHashtagsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D919F81ADFA28700FF4C3E /* DASelectHashtagsDataSource.swift */; };
+		94D919FB1ADFA28700FF4C3E /* DASelectHashtagsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D919F81ADFA28700FF4C3E /* DASelectHashtagsDataSource.swift */; };
 		94DCBE511A3DBFA4009443FD /* DAGradeGraphCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE501A3DBFA4009443FD /* DAGradeGraphCollectionViewCell.m */; };
 		94DCBE521A3DBFA4009443FD /* DAGradeGraphCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE501A3DBFA4009443FD /* DAGradeGraphCollectionViewCell.m */; };
 		94DCBE531A3DBFA4009443FD /* DAGradeGraphCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCBE501A3DBFA4009443FD /* DAGradeGraphCollectionViewCell.m */; };
@@ -1711,6 +1720,9 @@
 		94D8D69319EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAPhotoFilterCollectionViewCell.swift; sourceTree = "<group>"; };
 		94D8D69B19EC8BBE001A9EC3 /* DALinkedTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DALinkedTextView.h; sourceTree = "<group>"; };
 		94D8D69C19EC8BBE001A9EC3 /* DALinkedTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DALinkedTextView.m; sourceTree = "<group>"; };
+		94D919F01ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASelectHashtagsViewController.swift; sourceTree = "<group>"; };
+		94D919F41ADF9EFC00FF4C3E /* DASelectHashtagsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASelectHashtagsView.swift; sourceTree = "<group>"; };
+		94D919F81ADFA28700FF4C3E /* DASelectHashtagsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASelectHashtagsDataSource.swift; sourceTree = "<group>"; };
 		94DCBE4F1A3DBFA4009443FD /* DAGradeGraphCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAGradeGraphCollectionViewCell.h; sourceTree = "<group>"; };
 		94DCBE501A3DBFA4009443FD /* DAGradeGraphCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGradeGraphCollectionViewCell.m; sourceTree = "<group>"; };
 		94DCE9A61980ABB100396C0A /* AFNetworkActivityIndicatorManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFNetworkActivityIndicatorManager.h; sourceTree = "<group>"; };
@@ -2722,6 +2734,16 @@
 			path = UVResources;
 			sourceTree = "<group>";
 		};
+		94D919EF1ADF9E9E00FF4C3E /* Select Hashtags */ = {
+			isa = PBXGroup;
+			children = (
+				94D919F41ADF9EFC00FF4C3E /* DASelectHashtagsView.swift */,
+				94D919F81ADFA28700FF4C3E /* DASelectHashtagsDataSource.swift */,
+				94D919F01ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift */,
+			);
+			name = "Select Hashtags";
+			sourceTree = "<group>";
+		};
 		94DCE9A51980ABB100396C0A /* UIKit+AFNetworking */ = {
 			isa = PBXGroup;
 			children = (
@@ -2841,6 +2863,7 @@
 		94F2AD6A198B2D6400450C6F /* Add Review */ = {
 			isa = PBXGroup;
 			children = (
+				94D919EF1ADF9E9E00FF4C3E /* Select Hashtags */,
 				D17487C3196DE8BC00D83993 /* DAReviewFormViewController.h */,
 				D17487C4196DE8BC00D83993 /* DAReviewFormViewController.m */,
 				D170CA651992B7C4006D9DCB /* DASocialCollectionViewController.h */,
@@ -3452,6 +3475,7 @@
 				941291B71A1BEED500B7C763 /* SWUtilityButtonView.m in Sources */,
 				941291B81A1BEED500B7C763 /* DAReviewListViewController.m in Sources */,
 				947381C81A46F0DD00B1CFC2 /* UIViewController+Dished.swift in Sources */,
+				94D919F21ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift in Sources */,
 				941291B91A1BEED500B7C763 /* DAGlobalDishDetailViewController.m in Sources */,
 				94426CB31A6A75C000186C35 /* UIImage+MPImageEffects.m in Sources */,
 				941291BA1A1BEED500B7C763 /* SDWebImageDownloader.m in Sources */,
@@ -3539,6 +3563,7 @@
 				941291EC1A1BEED500B7C763 /* UIImage+MultiFormat.m in Sources */,
 				941291ED1A1BEED500B7C763 /* UIImageView+HighlightedWebCache.m in Sources */,
 				941291EE1A1BEED500B7C763 /* DAExploreDishResultsViewController.m in Sources */,
+				94D919FA1ADFA28700FF4C3E /* DASelectHashtagsDataSource.swift in Sources */,
 				943050311AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
 				94230AD01ABECC4500A4D50A /* DALoginViewController.swift in Sources */,
 				941291EF1A1BEED500B7C763 /* UIView+WebCacheOperation.m in Sources */,
@@ -3644,6 +3669,7 @@
 				94FB4E961AD6610900590F53 /* DAExploreTableViewCell.swift in Sources */,
 				941292251A1BEED500B7C763 /* SDWebImageDownloaderOperation.m in Sources */,
 				941292261A1BEED500B7C763 /* BAVPlistNode.m in Sources */,
+				94D919F61ADF9EFC00FF4C3E /* DASelectHashtagsView.swift in Sources */,
 				941292271A1BEED500B7C763 /* UIImageView+AFNetworking.m in Sources */,
 				941292281A1BEED500B7C763 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
 				9499215C1ABB360000A247B0 /* SwiftAddressBookGroup.swift in Sources */,
@@ -3790,6 +3816,7 @@
 				941292B61A1C7AD100B7C763 /* SWUtilityButtonView.m in Sources */,
 				941292B71A1C7AD100B7C763 /* DAReviewListViewController.m in Sources */,
 				947381C91A46F0DD00B1CFC2 /* UIViewController+Dished.swift in Sources */,
+				94D919F31ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift in Sources */,
 				941292B81A1C7AD100B7C763 /* DAGlobalDishDetailViewController.m in Sources */,
 				94426CB41A6A75C000186C35 /* UIImage+MPImageEffects.m in Sources */,
 				941292B91A1C7AD100B7C763 /* SDWebImageDownloader.m in Sources */,
@@ -3877,6 +3904,7 @@
 				941292EB1A1C7AD100B7C763 /* UIImage+MultiFormat.m in Sources */,
 				941292EC1A1C7AD100B7C763 /* UIImageView+HighlightedWebCache.m in Sources */,
 				941292ED1A1C7AD100B7C763 /* DAExploreDishResultsViewController.m in Sources */,
+				94D919FB1ADFA28700FF4C3E /* DASelectHashtagsDataSource.swift in Sources */,
 				943050321AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
 				94230AD11ABECC4500A4D50A /* DALoginViewController.swift in Sources */,
 				941292EE1A1C7AD100B7C763 /* UIView+WebCacheOperation.m in Sources */,
@@ -3982,6 +4010,7 @@
 				94FB4E971AD6610900590F53 /* DAExploreTableViewCell.swift in Sources */,
 				941293241A1C7AD100B7C763 /* SDWebImageDownloaderOperation.m in Sources */,
 				941293251A1C7AD100B7C763 /* BAVPlistNode.m in Sources */,
+				94D919F71ADF9EFC00FF4C3E /* DASelectHashtagsView.swift in Sources */,
 				941293261A1C7AD100B7C763 /* UIImageView+AFNetworking.m in Sources */,
 				941293271A1C7AD100B7C763 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
 				9499215D1ABB360000A247B0 /* SwiftAddressBookGroup.swift in Sources */,
@@ -4128,6 +4157,7 @@
 				9443DEFA19CFCEA900F134BA /* DASingleNewsTableViewCell.swift in Sources */,
 				94CB03D019B0EA94009010F6 /* SWUtilityButtonView.m in Sources */,
 				947381C71A46F0DD00B1CFC2 /* UIViewController+Dished.swift in Sources */,
+				94D919F11ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift in Sources */,
 				943F90BE1A11E8F6008D07FC /* DAReviewListViewController.m in Sources */,
 				94426CB21A6A75C000186C35 /* UIImage+MPImageEffects.m in Sources */,
 				D187E06F19BFA1A500D8C85C /* DAGlobalDishDetailViewController.m in Sources */,
@@ -4215,6 +4245,7 @@
 				94F2ADA5198C539200450C6F /* UIImage+MultiFormat.m in Sources */,
 				94F2ADA7198C539200450C6F /* UIImageView+HighlightedWebCache.m in Sources */,
 				94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */,
+				94D919F91ADFA28700FF4C3E /* DASelectHashtagsDataSource.swift in Sources */,
 				943050301AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */,
 				94230ACF1ABECC4500A4D50A /* DALoginViewController.swift in Sources */,
 				94F2ADA9198C539200450C6F /* UIView+WebCacheOperation.m in Sources */,
@@ -4320,6 +4351,7 @@
 				94FB4E951AD6610900590F53 /* DAExploreTableViewCell.swift in Sources */,
 				94F2ADA0198C539200450C6F /* SDWebImageDownloaderOperation.m in Sources */,
 				943E62621987362100DF2135 /* BAVPlistNode.m in Sources */,
+				94D919F51ADF9EFC00FF4C3E /* DASelectHashtagsView.swift in Sources */,
 				94DCE9BB1980ABB100396C0A /* UIImageView+AFNetworking.m in Sources */,
 				9445C1B7199927B800F3A4F8 /* SPGooglePlacesAutocompleteUtilities.m in Sources */,
 				9499215B1ABB360000A247B0 /* SwiftAddressBookGroup.swift in Sources */,

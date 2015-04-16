@@ -98,8 +98,13 @@ class DAFindFriendsDataSource: DADataSource {
             },
             failure: {
                 error, retry in
-                self.delegate?.dataSourceDidFailToLoadData(self, withError: error)
-                return
+                
+                if retry {
+                    self.getRegisterStatusForContacts(contacts)
+                }
+                else {
+                    self.delegate?.dataSourceDidFailToLoadData(self, withError: error)
+                }
             })
         }
         else {

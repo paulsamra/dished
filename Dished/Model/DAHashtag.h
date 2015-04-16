@@ -13,6 +13,7 @@
 
 @property (copy, nonatomic) NSString *name;
 
+@property (nonatomic) BOOL      userDefined;
 @property (nonatomic) NSInteger hashtag_id;
 
 
