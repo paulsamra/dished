@@ -115,7 +115,7 @@ class DAActiveFoodiesDataSource: DADataSource {
         let lastName = data[kLastNameKey] as? String ?? ""
         foodie.name = "\(firstName) \(lastName)"
         
-        foodie.type = data[kTypeKey] as? String ?? ""
+        foodie.userType = data[kTypeKey] as? String ?? ""
         
         return foodie
     }

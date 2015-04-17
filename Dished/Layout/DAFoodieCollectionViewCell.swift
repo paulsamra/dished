@@ -30,9 +30,13 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
     
     private var panGesture: UIPanGestureRecognizer!
     
-    private func descriptionWithName(name: String, description: String) -> NSAttributedString {
+    private func descriptionWithName(name: String, description: String, userType: String) -> NSAttributedString {
         let nameAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(14.0)]
         let nameString = NSMutableAttributedString(string: name, attributes: nameAttributes)
+        
+        if userType == kInfluencerUserType {
+            
+        }
         
         if !description.isEmpty {
             let descriptionAttributes = [NSFontAttributeName: DAConstants.primaryFontWithSize(14.0)]
@@ -45,7 +49,7 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
     
     func configureWithFoodie(foodie: DAFoodie) {
         usernameButton.setTitle("@\(foodie.username)", forState: UIControlState.Normal)
-        descriptionLabel.attributedText = descriptionWithName(foodie.name, description: foodie.description)
+        descriptionLabel.attributedText = descriptionWithName(foodie.name, description: foodie.description, userType: foodie.userType)
         
         let url = NSURL(string: foodie.image)
         let placeholder = UIImage(named: "profile_image")
@@ -72,7 +76,7 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         usernameButton.setTitle("@\(userSuggestion.username)", forState: UIControlState.Normal)
         
         let name = "\(userSuggestion.first_name) \(userSuggestion.last_name)"
-        descriptionLabel.attributedText = descriptionWithName(name, description: userSuggestion.desc)
+        descriptionLabel.attributedText = descriptionWithName(name, description: userSuggestion.desc, userType: userSuggestion.user_type)
         
         let url = NSURL(string: userSuggestion.img_thumb)
         let placeholder = UIImage(named: "profile_image")

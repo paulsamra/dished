@@ -96,6 +96,10 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         return []
     }
     
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return friendsDataSource.sections[section]
+    }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let friend = friendsDataSource.friendForIndexPath(indexPath)
         
