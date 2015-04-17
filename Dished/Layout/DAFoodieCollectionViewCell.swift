@@ -35,7 +35,9 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         let nameString = NSMutableAttributedString(string: name, attributes: nameAttributes)
         
         if userType == kInfluencerUserType {
-            
+            nameString.appendAttributedString(NSAttributedString(string: " "))
+            let iconString = NSAttributedString(attachment: DAInfluencerTextAttachment())
+            nameString.appendAttributedString(iconString)
         }
         
         if !description.isEmpty {

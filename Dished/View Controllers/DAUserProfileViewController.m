@@ -664,9 +664,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     if( [self.userProfile.type isEqualToString:kInfluencerUserType] )
     {
         [nameString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-        NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
-        influencerIcon.image = [UIImage imageNamed:@"influencer"];
-        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
+        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:[[DAInfluencerTextAttachment alloc] init]];
         [nameString appendAttributedString:influencerIconString];
     }
     

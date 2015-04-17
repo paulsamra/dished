@@ -37,9 +37,7 @@
     if( [self.creator_type isEqualToString:kInfluencerUserType] )
     {
         [finalString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
-        NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
-        influencerIcon.image = [UIImage imageNamed:@"influencer"];
-        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
+        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:[[DAInfluencerTextAttachment alloc] init]];
         [finalString appendAttributedString:influencerIconString];
     }
     

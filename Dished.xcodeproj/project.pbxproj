@@ -21,6 +21,9 @@
 		940363841A25E2560068F61D /* DAManagedComment+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363831A25E2560068F61D /* DAManagedComment+Utility.m */; };
 		940363851A25E2560068F61D /* DAManagedComment+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363831A25E2560068F61D /* DAManagedComment+Utility.m */; };
 		940363861A25E2560068F61D /* DAManagedComment+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363831A25E2560068F61D /* DAManagedComment+Utility.m */; };
+		94037C151AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */; };
+		94037C161AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */; };
+		94037C171AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */; };
 		940537A519F27BC600A02088 /* DAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537A419F27BC600A02088 /* DAMenuViewController.m */; };
 		940537AC19F4BA0400A02088 /* DAContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537AB19F4BA0400A02088 /* DAContainerViewController.m */; };
 		9409855D1ABC0B8C009F20FF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409854E1ABC0B8C009F20FF /* Array.swift */; };
@@ -1173,6 +1176,7 @@
 		9403637B1A25E0850068F61D /* DAManagedComment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAManagedComment.m; sourceTree = "<group>"; };
 		940363821A25E2560068F61D /* DAManagedComment+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DAManagedComment+Utility.h"; sourceTree = "<group>"; };
 		940363831A25E2560068F61D /* DAManagedComment+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DAManagedComment+Utility.m"; sourceTree = "<group>"; };
+		94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAInfluencerTextAttachment.swift; sourceTree = "<group>"; };
 		940537A319F27BC600A02088 /* DAMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAMenuViewController.h; sourceTree = "<group>"; };
 		940537A419F27BC600A02088 /* DAMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAMenuViewController.m; sourceTree = "<group>"; };
 		940537AA19F4BA0400A02088 /* DAContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAContainerViewController.h; sourceTree = "<group>"; };
@@ -3063,6 +3067,7 @@
 				9486156B19FCD97E002497D0 /* DAAnnotationView.m */,
 				9488BA021A26B6B10098FE09 /* DATagSuggestionTableView.h */,
 				9488BA031A26B6B10098FE09 /* DATagSuggestionTableView.m */,
+				94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */,
 			);
 			path = Layout;
 			sourceTree = "<group>";
@@ -3561,6 +3566,7 @@
 				949921621ABB360000A247B0 /* SwiftAddressBookPerson.swift in Sources */,
 				940363851A25E2560068F61D /* DAManagedComment+Utility.m in Sources */,
 				94426C951A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
+				94037C161AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */,
 				941291E81A1BEED500B7C763 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				941291E91A1BEED500B7C763 /* DANotificationSettingsViewController.m in Sources */,
 				94426C231A6A75BF00186C35 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
@@ -3903,6 +3909,7 @@
 				949921631ABB360000A247B0 /* SwiftAddressBookPerson.swift in Sources */,
 				940363861A25E2560068F61D /* DAManagedComment+Utility.m in Sources */,
 				94426C961A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
+				94037C171AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */,
 				941292E71A1C7AD100B7C763 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				941292E81A1C7AD100B7C763 /* DANotificationSettingsViewController.m in Sources */,
 				94426C241A6A75BF00186C35 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
@@ -4245,6 +4252,7 @@
 				949921611ABB360000A247B0 /* SwiftAddressBookPerson.swift in Sources */,
 				94479D6519502E2F0071EF6A /* JSONResponseSerializerWithData.m in Sources */,
 				94426C941A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
+				94037C151AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */,
 				94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */,
 				94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */,
 				94426C221A6A75BF00186C35 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
