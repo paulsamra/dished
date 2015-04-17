@@ -37,6 +37,11 @@ typedef void(^GetFeedDataBlock)();
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)importFeedItemsWithLimit:(NSUInteger)limit offset:(NSUInteger)offset completion:(void (^)( BOOL success, BOOL hasMoreData ) )completion
 {
     [self getFeedDataWithLimit:limit offset:offset success:^( id response )

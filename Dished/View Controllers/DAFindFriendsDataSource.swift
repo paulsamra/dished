@@ -187,9 +187,18 @@ class DAFindFriendsDataSource: DADataSource {
     }
     
     private func processContact(person: SwiftAddressBookPerson, phoneNumber: String) -> [String:String]? {
-        let name = person.compositeName as String?
-        let email = person.emails?[0].value as String?
+        let name = person.compositeName
+        let email = person.emails?[0].value
         var number = phoneNumber
+        
+        if name == nil {
+            return nil
+        }
+        else {
+            if name!.isEmpty {
+                return nil
+            }
+        }
         
         let nonDecimalSet = NSCharacterSet.decimalDigitCharacterSet().invertedSet
         let decimals = number.componentsSeparatedByCharactersInSet(nonDecimalSet)
