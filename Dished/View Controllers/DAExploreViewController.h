@@ -17,4 +17,7 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
 @property (weak, nonatomic) IBOutlet UITableView      *tableView;
 
++ (double)storedRadius;
++ (CLLocationCoordinate2D)storedLocation;
+
 @end

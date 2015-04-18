@@ -11,6 +11,7 @@
 #import "DAFeedItem+Utility.h"
 #import "DAFeedImportManager.h"
 #import "DARefreshControl.h"
+#import "DAExploreViewController.h"
 #import "UIImageView+DishProgress.h"
 #import "DAUserListViewController.h"
 #import "DAFeedCollectionViewFlowLayout.h"
@@ -858,6 +859,8 @@ typedef enum
     {
         DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
         exploreResultsViewController.searchTerm = text;
+        exploreResultsViewController.selectedLocation = [DAExploreViewController storedLocation];
+        exploreResultsViewController.selectedRadius = [DAExploreViewController storedRadius];
         [self.navigationController pushViewController:exploreResultsViewController animated:YES];
     }
     else if( cellType == eFeedCellTypeComment )
@@ -866,6 +869,8 @@ typedef enum
         {
             DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
             exploreResultsViewController.searchTerm = text;
+            exploreResultsViewController.selectedLocation = [DAExploreViewController storedLocation];
+            exploreResultsViewController.selectedRadius = [DAExploreViewController storedRadius];
             [self.navigationController pushViewController:exploreResultsViewController animated:YES];
         }
         else if( textType == eLinkedTextTypeUsername )

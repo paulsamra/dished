@@ -12,6 +12,7 @@
 #import "DAExploreDishResultsViewController.h"
 #import "DAUserProfileViewController.h"
 #import "DAUserManager.h"
+#import "DAExploreViewController.h"
 #import "DATagSuggestionTableView.h"
 
 #define kRowLimit 20
@@ -540,6 +541,8 @@
     {
         DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
         exploreResultsViewController.searchTerm = text;
+        exploreResultsViewController.selectedLocation = [DAExploreViewController storedLocation];
+        exploreResultsViewController.selectedRadius = [DAExploreViewController storedRadius];
         [self.navigationController pushViewController:exploreResultsViewController animated:YES];
     }
     else if( textType == eLinkedTextTypeUsername )

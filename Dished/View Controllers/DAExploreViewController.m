@@ -89,6 +89,41 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     }
 }
 
++ (double)storedRadius
+{
+    NSDictionary *locationSettings = [[NSUserDefaults standardUserDefaults] objectForKey:@"locationSettings"];
+    
+    if( locationSettings )
+    {
+        return [locationSettings[@"radius"] doubleValue];
+    }
+    
+    return 10.0;
+}
+
++ (CLLocationCoordinate2D)storedLocation
+{
+    NSDictionary *locationSettings = [[NSUserDefaults standardUserDefaults] objectForKey:@"locationSettings"];
+    
+    if( locationSettings )
+    {
+        NSString *locationName = locationSettings[@"locationName"];
+        
+        if( !locationName || [locationName isEqualToString:@"Current Location"] )
+        {
+            return [[DALocationManager sharedManager] currentLocation];
+        }
+        else
+        {
+            double longitude = [locationSettings[@"longitude"] doubleValue];
+            double latitude  = [locationSettings[@"latitude"]  doubleValue];
+            return CLLocationCoordinate2DMake( latitude, longitude );
+        }
+    }
+    
+    return [[DALocationManager sharedManager] currentLocation];
+}
+
 - (void)loadExploreContent
 {
     [[DAAPIManager sharedManager] GETRequest:kHashtagsExploreURL withParameters:nil
