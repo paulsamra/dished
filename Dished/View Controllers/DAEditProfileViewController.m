@@ -18,6 +18,7 @@
 @property (strong, nonatomic) UIImage         *selectedImage;
 @property (strong, nonatomic) NSIndexPath     *pickerIndexPath;
 @property (strong, nonatomic) DAErrorView     *errorView;
+@property (strong, nonatomic) UIAlertView     *deleteAccountAlert;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @property (strong, nonatomic) NSURLSessionTask *saveProfileTask;
@@ -375,11 +376,42 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    if( alertView == self.deleteAccountAlert )
+    {
+        if( buttonIndex != alertView.cancelButtonIndex )
+        {
+            [self deleteAccount];
+        }
+        
+        return;
+    }
+    
     if( buttonIndex != alertView.cancelButtonIndex )
     {
         [self showProgressViewWithTitle:@"Removing..."];
         [self removeProfilePicture];
     }
+}
+
+- (void)deleteAccount
+{
+    [self showProgressViewWithTitle:@"Deactivating Your Account..."];
+    
+    [[DAAPIManager sharedManager] deactivateUserAccountWithCompletion:^( BOOL success )
+    {
+        [MRProgressOverlayView dismissOverlayForView:self.view animated:YES completion:^
+        {
+            if( success )
+            {
+                DAAppDelegate *appDelegate = (DAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate logout];
+            }
+            else
+            {
+                [[[UIAlertView alloc] initWithTitle:@"Failed to Deactivate Account" message:@"There was a problem deactivating your account. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+            }
+        }];
+    }];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -411,6 +443,12 @@
     if( indexPath.section == 7 )
     {
         [[[UIAlertView alloc] initWithTitle:@"Coming Soon" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
+    }
+    
+    if( indexPath.section == 8 )
+    {
+        self.deleteAccountAlert = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to deactivate your account?" message:@"This cannot be undone." delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        [self.deleteAccountAlert show];
     }
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];

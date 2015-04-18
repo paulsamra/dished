@@ -122,7 +122,8 @@ static NSString *const kDishSearchCellID = @"dishCell";
         
         self.middleView.hidden = hidden;
         
-        if( !self.restaurantProfile.is_private && !self.userProfile.is_private )
+        if( !self.restaurantProfile.is_private  && !self.userProfile.is_private &&
+            !self.restaurantProfile.is_inactive && !self.userProfile.is_inactive )
         {
             [UIView transitionWithView:self.selectedTableView
                               duration:0.2
@@ -152,7 +153,12 @@ static NSString *const kDishSearchCellID = @"dishCell";
         self.cocktailTableView.hidden = hidden;
         self.wineTableView.hidden = hidden;
         
-        self.privacyLabel.hidden = !self.restaurantProfile.is_private && !self.userProfile.is_private;
+        self.privacyLabel.hidden = !self.restaurantProfile.is_private && !self.userProfile.is_private && !self.userProfile.is_inactive && !self.restaurantProfile.is_inactive;
+    }
+    
+    if( self.userProfile.is_inactive || self.restaurantProfile.is_inactive )
+    {
+        self.privacyLabel.text = @"This user's profile is inactive.";
     }
 }
 
@@ -560,7 +566,7 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     [self.selectedTableView reloadData];
     
-    if( self.restaurantProfile.is_private )
+    if( self.restaurantProfile.is_private || self.restaurantProfile.is_inactive )
     {
         self.dishTypeChooser.enabled = NO;
     }
@@ -597,7 +603,13 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     self.moreInfoButton.userInteractionEnabled = NO;
     
-    NSString *name = [NSString stringWithFormat:@"%@ %@", self.userProfile.firstName, self.userProfile.lastName];
+    NSCharacterSet *whiteSpace = [NSCharacterSet whitespaceCharacterSet];
+    NSString *firstName = [self.userProfile.firstName stringByTrimmingCharactersInSet:whiteSpace];
+    firstName = [self capitalizedFirstLetterOfString:firstName];
+    NSString *lastName = [self.userProfile.lastName stringByTrimmingCharactersInSet:whiteSpace];
+    lastName = [self capitalizedFirstLetterOfString:lastName];
+    
+    NSString *name = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
     [self setDescriptionTextWithName:name description:self.userProfile.desc];
     
     if( self.userProfile.foodReviews.count < 20 )
@@ -620,10 +632,31 @@ static NSString *const kDishSearchCellID = @"dishCell";
     
     [self.selectedTableView reloadData];
     
-    if( self.userProfile.is_private )
+    if( self.userProfile.is_private || self.userProfile.is_inactive )
     {
         self.dishTypeChooser.enabled = NO;
     }
+    
+    if( self.userProfile.is_inactive )
+    {
+        self.followButton.enabled = NO;
+        self.followButton.alpha = 0.5;
+        self.numFollowersButton.enabled = NO;
+        self.numFollowingButton.enabled = NO;
+        [self.numFollowersButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        [self.numFollowingButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+        self.descriptionTextView.text = nil;
+    }
+}
+
+- (NSString *)capitalizedFirstLetterOfString:(NSString *)string
+{
+    if( string && [string length] > 0 )
+    {
+        return [string stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[string substringToIndex:1] capitalizedString]];
+    }
+    
+    return string;
 }
 
 - (void)setTitle:(NSString *)title withValue:(NSInteger)value forButton:(UIButton *)button

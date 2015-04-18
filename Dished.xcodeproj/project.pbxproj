@@ -24,6 +24,12 @@
 		94037C151AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */; };
 		94037C161AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */; };
 		94037C171AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */; };
+		94037C191AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */; };
+		94037C1A1AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */; };
+		94037C1B1AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */; };
+		94037C1E1AE1CD4900621B38 /* DAMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C1D1AE1CD4900621B38 /* DAMenuView.swift */; };
+		94037C1F1AE1CD4900621B38 /* DAMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C1D1AE1CD4900621B38 /* DAMenuView.swift */; };
+		94037C201AE1CD4900621B38 /* DAMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C1D1AE1CD4900621B38 /* DAMenuView.swift */; };
 		940537A519F27BC600A02088 /* DAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537A419F27BC600A02088 /* DAMenuViewController.m */; };
 		940537AC19F4BA0400A02088 /* DAContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537AB19F4BA0400A02088 /* DAContainerViewController.m */; };
 		9409855D1ABC0B8C009F20FF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409854E1ABC0B8C009F20FF /* Array.swift */; };
@@ -1174,6 +1180,8 @@
 		940363821A25E2560068F61D /* DAManagedComment+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DAManagedComment+Utility.h"; sourceTree = "<group>"; };
 		940363831A25E2560068F61D /* DAManagedComment+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DAManagedComment+Utility.m"; sourceTree = "<group>"; };
 		94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAInfluencerTextAttachment.swift; sourceTree = "<group>"; };
+		94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAMenuViewController2.swift; sourceTree = "<group>"; };
+		94037C1D1AE1CD4900621B38 /* DAMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAMenuView.swift; sourceTree = "<group>"; };
 		940537A319F27BC600A02088 /* DAMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAMenuViewController.h; sourceTree = "<group>"; };
 		940537A419F27BC600A02088 /* DAMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAMenuViewController.m; sourceTree = "<group>"; };
 		940537AA19F4BA0400A02088 /* DAContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAContainerViewController.h; sourceTree = "<group>"; };
@@ -2505,6 +2513,8 @@
 				943050441AB7FA55008DDCB3 /* Get Social */,
 				940537A319F27BC600A02088 /* DAMenuViewController.h */,
 				940537A419F27BC600A02088 /* DAMenuViewController.m */,
+				94037C1D1AE1CD4900621B38 /* DAMenuView.swift */,
+				94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -3443,6 +3453,7 @@
 				94917FEE1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */,
 				94426C171A6A75BF00186C35 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				941291A61A1BEED500B7C763 /* DAContainerViewController.m in Sources */,
+				94037C1F1AE1CD4900621B38 /* DAMenuView.swift in Sources */,
 				94426C7D1A6A75C000186C35 /* MPTweak.m in Sources */,
 				941291A81A1BEED500B7C763 /* SPGooglePlacesAutocompletePlace.m in Sources */,
 				94426C831A6A75C000186C35 /* MPTweakStore.m in Sources */,
@@ -3590,6 +3601,7 @@
 				941291F61A1BEED500B7C763 /* NSString+STTwitter.m in Sources */,
 				94230ACC1ABEC8C000A4D50A /* DALoginView.swift in Sources */,
 				941291F71A1BEED500B7C763 /* UIImage+MRImageEffects.m in Sources */,
+				94037C1A1AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */,
 				941291F81A1BEED500B7C763 /* DAUserProfileViewController.m in Sources */,
 				94AAAA511A43BF1300863E09 /* DEComposeRuledView.m in Sources */,
 				94157E5F1ADE59B800F1E66D /* DAManagedUserSuggestion.m in Sources */,
@@ -3785,6 +3797,7 @@
 				94917FEF1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */,
 				94426C181A6A75BF00186C35 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				941292A51A1C7AD100B7C763 /* DAContainerViewController.m in Sources */,
+				94037C201AE1CD4900621B38 /* DAMenuView.swift in Sources */,
 				94426C7E1A6A75C000186C35 /* MPTweak.m in Sources */,
 				941292A71A1C7AD100B7C763 /* SPGooglePlacesAutocompletePlace.m in Sources */,
 				94426C841A6A75C000186C35 /* MPTweakStore.m in Sources */,
@@ -3932,6 +3945,7 @@
 				941292F51A1C7AD100B7C763 /* NSString+STTwitter.m in Sources */,
 				94230ACD1ABEC8C000A4D50A /* DALoginView.swift in Sources */,
 				941292F61A1C7AD100B7C763 /* UIImage+MRImageEffects.m in Sources */,
+				94037C1B1AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */,
 				941292F71A1C7AD100B7C763 /* DAUserProfileViewController.m in Sources */,
 				94AAAA521A43BF1300863E09 /* DEComposeRuledView.m in Sources */,
 				94157E601ADE59B800F1E66D /* DAManagedUserSuggestion.m in Sources */,
@@ -4127,6 +4141,7 @@
 				94917FED1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */,
 				94426C161A6A75BF00186C35 /* MPBOOLToNSNumberValueTransformer.m in Sources */,
 				D1236B9619AE7B4B00727447 /* DAReviewDetailsViewController.m in Sources */,
+				94037C1E1AE1CD4900621B38 /* DAMenuView.swift in Sources */,
 				94426C7C1A6A75BF00186C35 /* MPTweak.m in Sources */,
 				940537AC19F4BA0400A02088 /* DAContainerViewController.m in Sources */,
 				94426C821A6A75C000186C35 /* MPTweakStore.m in Sources */,
@@ -4274,6 +4289,7 @@
 				943E625A1987362100DF2135 /* NSString+STTwitter.m in Sources */,
 				94230ACB1ABEC8C000A4D50A /* DALoginView.swift in Sources */,
 				948615C619FE1C3D002497D0 /* UIImage+MRImageEffects.m in Sources */,
+				94037C191AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */,
 				944D1E7319DA9868006F73BF /* DAUserProfileViewController.m in Sources */,
 				94AAAA501A43BF1300863E09 /* DEComposeRuledView.m in Sources */,
 				94157E5E1ADE59B800F1E66D /* DAManagedUserSuggestion.m in Sources */,

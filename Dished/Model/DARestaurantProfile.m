@@ -37,6 +37,9 @@
         _caller_follows   = [nilOrJSONObjectForKey( data, @"caller_follows" )   boolValue];
         _is_profile_owner = [nilOrJSONObjectForKey( data, @"is_profile_owner" ) boolValue];
         
+        NSString *status = nilOrJSONObjectForKey( data, @"status" );
+        _is_inactive = [status isEqualToString:@"inactive"];
+
         NSDictionary *dishes = nilOrJSONObjectForKey( data, @"dishes" );
         if( dishes )
         {

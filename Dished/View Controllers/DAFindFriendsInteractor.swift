@@ -28,10 +28,7 @@ class DAFindFriendsInteractor: NSObject, MFMessageComposeViewControllerDelegate 
         messageController.recipients = recipients
         messageController.messageComposeDelegate = self
         
-        let firstName = DAUserManager.sharedManager().firstName
-        let lastName = DAUserManager.sharedManager().lastName
-        
-        messageController.body = "\(firstName) \(lastName) wants you to join Dished to discover and share great food and drinks near you. Check it out at https://appsto.re/us/Ud_e4.i"
+        messageController.body = "Hey! I think you should join Dished to discover and share the great food and drinks near you, and we can recommend dishes to each other! Check it out: https://appsto.re/us/Ud_e4.i"
         
         friendComposers[messageController] = friend
         

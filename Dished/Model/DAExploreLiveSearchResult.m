@@ -21,6 +21,13 @@
         
         NSString *firstName = nilOrJSONObjectForKey( data, kFirstNameKey );
         NSString *lastName  = nilOrJSONObjectForKey( data, kLastNameKey  );
+        
+        NSCharacterSet *whiteSpace = [NSCharacterSet whitespaceCharacterSet];
+        firstName = [firstName stringByTrimmingCharactersInSet:whiteSpace];
+        firstName = [self capitalizedFirstLetterOfString:firstName];
+        lastName = [lastName stringByTrimmingCharactersInSet:whiteSpace];
+        lastName = [self capitalizedFirstLetterOfString:lastName];
+        
         searchResult.name = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
         
         searchResult.img_thumb  = nilOrJSONObjectForKey( data, kImgThumbKey );
@@ -39,6 +46,16 @@
     }
     
     return searchResult;
+}
+
++ (NSString *)capitalizedFirstLetterOfString:(NSString *)string
+{
+    if( string && [string length] > 0 )
+    {
+        return [string stringByReplacingCharactersInRange:NSMakeRange(0,1) withString:[[string substringToIndex:1] capitalizedString]];
+    }
+    
+    return string;
 }
 
 @end

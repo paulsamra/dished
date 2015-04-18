@@ -206,6 +206,10 @@
             {
                 errorType = eErrorTypeContentPrivate;
             }
+            else if( [errorValue isEqualToString:@"user_inactive"] )
+            {
+                errorType = eErrorTypeUserInactive;
+            }
         }
     }
     
@@ -497,7 +501,7 @@
     }];
 }
 
-- (void)loginWithUser:(NSString *)user password:(NSString *)password completion:(void(^)( BOOL success, BOOL wrongUser, BOOL wrongPass ))completion
+- (void)loginWithUser:(NSString *)user password:(NSString *)password completion:(void(^)( BOOL success, BOOL wrongUser, BOOL wrongPass, BOOL deactivated ))completion
 {
     NSString *userKey = kUsernameKey;
     
@@ -520,7 +524,7 @@
         {
             if( completion )
             {
-                completion( success, NO, NO );
+                completion( success, NO, NO, NO );
             }
         }];
     }
@@ -530,15 +534,19 @@
         
         if( errorType == eErrorTypeDataNonexists )
         {
-            completion( NO, YES, NO );
+            completion( NO, YES, NO, NO );
         }
         else if( errorType == eErrorTypeParamsInvalid )
         {
-            completion( NO, NO, YES );
+            completion( NO, NO, YES, NO );
+        }
+        else if( errorType == eErrorTypeUserInactive )
+        {
+            completion( NO, NO, NO, YES );
         }
         else
         {
-            completion( NO, NO, NO );
+            completion( NO, NO, NO, NO );
         }
     }];
 }
@@ -655,7 +663,27 @@
         }
         else
         {
-            completion( YES );
+            completion( NO );
+        }
+    }];
+}
+
+- (void)deactivateUserAccountWithCompletion:( void(^)( BOOL success ) )completion
+{
+    [self POSTRequest:kUsersDeactivateURL withParameters:nil success:^( id response )
+    {
+        [self logout];
+        completion( YES );
+    }
+    failure:^( NSError *error, BOOL shouldRetry )
+    {
+        if( shouldRetry )
+        {
+            [self deactivateUserAccountWithCompletion:completion];
+        }
+        else
+        {
+            completion( NO );
         }
     }];
 }

@@ -24,7 +24,7 @@
             _firstName = nilOrJSONObjectForKey( user, @"fname" );
             _lastName  = nilOrJSONObjectForKey( user, @"lname" );
             _img_thumb = nilOrJSONObjectForKey( user, kImgThumbKey );
-            _user_id       = [nilOrJSONObjectForKey( user, kIDKey ) integerValue];
+            _user_id   = [nilOrJSONObjectForKey( user, kIDKey ) integerValue];
         }
         
         _num_reviews   = [nilOrJSONObjectForKey( data, @"num_reviews" )   integerValue];
@@ -34,6 +34,15 @@
         _is_private       = [nilOrJSONObjectForKey( data, @"is_private" )       boolValue];
         _caller_follows   = [nilOrJSONObjectForKey( data, @"caller_follows" )   boolValue];
         _is_profile_owner = [nilOrJSONObjectForKey( data, @"is_profile_owner" ) boolValue];
+        
+        NSString *status = nilOrJSONObjectForKey( user, @"status" );
+        _is_inactive = [status isEqualToString:@"inactive"];
+        
+        if( _is_inactive )
+        {
+            _num_followers = 0;
+            _num_following = 0;
+        }
         
         NSDictionary *reviews = nilOrJSONObjectForKey( data, kReviewsKey );
         if( reviews )
