@@ -23,6 +23,7 @@
 @property (copy, nonatomic, readwrite) NSString *img_thumb;
 @property (copy, nonatomic, readwrite) NSString *phoneNumber;
 @property (copy, nonatomic, readwrite) NSString *regType;
+@property (copy, nonatomic, readwrite) NSString *zipCode;
 
 @property (strong, nonatomic) NSURLSessionTask *yumPushTask;
 @property (strong, nonatomic) NSURLSessionTask *userImageTask;
@@ -224,6 +225,7 @@
     self.firstName   = nilOrJSONObjectForKey( profile, kFirstNameKey   );
     self.img_thumb   = nilOrJSONObjectForKey( profile, kImgThumbKey    );
     self.phoneNumber = nilOrJSONObjectForKey( profile, kPhoneKey       );
+    self.zipCode     = nilOrJSONObjectForKey( profile, @"zip"          );
     
     self.user_id        = [nilOrJSONObjectForKey( profile, kIDKey ) integerValue];
     self.isFacebookUser = [self.regType isEqualToString:@"facebook"];
@@ -392,6 +394,7 @@
     self.username = nil;
     self.userType = nil;
     self.img_thumb = nil;
+    self.zipCode = nil;
     
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:kSavedProfileKey];
     [[NSUserDefaults standardUserDefaults] synchronize];
@@ -421,6 +424,7 @@
     userProfile[kRegTypeKey]     = self.regType ? self.regType : @"";
     userProfile[kUsernameKey]    = self.username;
     userProfile[kImgThumbKey]    = self.img_thumb ? self.img_thumb : @"";
+    userProfile[@"zip"]          = self.zipCode ? self.zipCode : @"";
     userProfile[kLastNameKey]    = self.lastName;
     userProfile[kFirstNameKey]   = self.firstName;
     userProfile[kDateOfBirthKey] = self.dateOfBirth;

@@ -64,7 +64,7 @@ typedef void(^RequestFailureBlock)( NSError *error, BOOL shouldRetry );
  */
 - (void)registerUserWithUsername:(NSString *)username password:(NSString *)password firstName:(NSString *)firstName
                         lastName:(NSString *)lastName email:(NSString *)email phoneNumber:(NSString *)phoneNumber
-                        birthday:(NSDate *)birthday completion:(void(^)( BOOL registered, BOOL loggedIn ) )completion;
+                        birthday:(NSDate *)birthday zipCode:(NSString *)zipCode completion:(void(^)( BOOL registered, BOOL loggedIn ) )completion;
 
 /*
  * User login.

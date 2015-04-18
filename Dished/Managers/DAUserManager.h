@@ -28,6 +28,7 @@ typedef enum
 @property (copy, nonatomic, readonly) NSString *lastName;
 @property (copy, nonatomic, readonly) NSString *firstName;
 @property (copy, nonatomic, readonly) NSString *img_thumb;
+@property (copy, nonatomic, readonly) NSString *zipCode;
 @property (copy, nonatomic, readonly) NSString *phoneNumber;
 
 @property (nonatomic, readonly) BOOL         savesDishPhoto;

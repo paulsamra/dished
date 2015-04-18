@@ -185,6 +185,8 @@
     {
         self.userImageView.hidden = YES;
     }
+    
+    self.zipCodeField.text = userManager.zipCode ? userManager.zipCode : @"";
 }
 
 - (void)checkInputs
@@ -220,6 +222,15 @@
     {
         self.errorView.messageLabel.text = @"Invalid Phone Number";
         self.errorView.tipLabel.text  = @"Please enter a valid phone number.";
+        
+        [self showErrorView];
+        return;
+    }
+    
+    if( !self.zipCodeField.text || self.zipCodeField.text.length != 5 )
+    {
+        self.errorView.messageLabel.text = @"Invalid Zip Code";
+        self.errorView.tipLabel.text = @"Please enter a valid 5-digit zip code.";
         
         [self showErrorView];
         return;
@@ -267,6 +278,7 @@
     BOOL sameLastName    = [self.lastNameField.text isEqualToString:userManager.lastName];
     BOOL sameEmail       = [self.emailField.text isEqualToString:userManager.email];
     BOOL sameDescription = [self.descriptionTextView.text isEqualToString:userManager.desc];
+    BOOL sameZipCode     = [self.zipCodeField.text isEqualToString:userManager.zipCode];
     
     NSString *after1 = [self.phoneNumberField.text substringFromIndex:3];
     NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
@@ -277,7 +289,7 @@
     
     BOOL sameDateOfBirth = [self.dateOfBirth isEqualToDate:userManager.dateOfBirth];
     
-    BOOL sameProfile = sameFirstName && sameLastName && sameEmail && sameDescription && samePhone && !newPassword && sameDateOfBirth && !self.selectedImage;
+    BOOL sameProfile = sameFirstName && sameLastName && sameEmail && sameDescription && samePhone && !newPassword && sameDateOfBirth && sameZipCode && !self.selectedImage;
     
     if( sameProfile )
     {
@@ -701,6 +713,11 @@
     if( ![decimalString isEqualToString:userManager.phoneNumber] )
     {
         [parameters setObject:decimalString forKey:kPhoneKey];
+    }
+    
+    if( ![self.zipCodeField.text isEqualToString:userManager.zipCode] )
+    {
+        [parameters setObject:self.zipCodeField.text forKey:@"zip"];
     }
     
     if( ![self.dateOfBirth isEqualToDate:userManager.dateOfBirth] )

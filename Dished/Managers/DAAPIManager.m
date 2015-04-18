@@ -470,13 +470,15 @@
     }];
 }
 
-- (void)registerUserWithUsername:(NSString *)username password:(NSString *)password firstName:(NSString *)firstName lastName:(NSString *)lastName email:(NSString *)email phoneNumber:(NSString *)phoneNumber birthday:(NSDate *)birthday completion:(void(^)( BOOL registered, BOOL loggedIn ))completion
+- (void)registerUserWithUsername:(NSString *)username password:(NSString *)password firstName:(NSString *)firstName
+                        lastName:(NSString *)lastName email:(NSString *)email phoneNumber:(NSString *)phoneNumber
+                        birthday:(NSDate *)birthday zipCode:(NSString *)zipCode completion:(void(^)( BOOL registered, BOOL loggedIn ) )completion
 {
     NSNumber *dobTimestamp = @( [birthday timeIntervalSince1970] );
     
     NSDictionary *parameters = @{ kClientIDKey : self.clientID, kUsernameKey : username, kPasswordKey : password,
                                   kPhoneKey : phoneNumber, @"fname" : firstName, @"lname" : lastName, kEmailKey : email,
-                                  kDateOfBirthKey : dobTimestamp };
+                                  kDateOfBirthKey : dobTimestamp, @"zip" : zipCode };
     
     [self POST:kUsersURL parameters:parameters
     success:^( NSURLSessionDataTask *task, id responseObject )

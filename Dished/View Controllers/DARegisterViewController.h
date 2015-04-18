@@ -20,6 +20,8 @@
 @property (weak, nonatomic) IBOutlet UITextField        *emailField;
 @property (weak, nonatomic) IBOutlet UITableViewCell    *emailCell;
 @property (weak, nonatomic) IBOutlet UITextField        *phoneNumberField;
+@property (weak, nonatomic) IBOutlet UITableViewCell    *zipCodeCell;
+@property (weak, nonatomic) IBOutlet UITextField        *zipCodeField;
 @property (weak, nonatomic) IBOutlet UITableViewCell    *phoneNumberCell;
 @property (weak, nonatomic) IBOutlet UITextField        *passwordField;
 @property (weak, nonatomic) IBOutlet UITableViewCell    *passwordCell;

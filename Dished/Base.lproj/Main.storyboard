@@ -2798,7 +2798,7 @@
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qjD-cQ-eaS">
                                                     <rect key="frame" x="15" y="0.0" width="570" height="43"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="emailAddress" returnKeyType="next"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" returnKeyType="next"/>
                                                     <connections>
                                                         <outlet property="delegate" destination="af1-Ep-kcC" id="XRr-8s-BzG"/>
                                                     </connections>
@@ -2809,6 +2809,28 @@
                                                 <constraint firstItem="qjD-cQ-eaS" firstAttribute="leading" secondItem="VTh-t2-Udc" secondAttribute="leading" constant="15" id="7PU-mP-mDu"/>
                                                 <constraint firstAttribute="bottom" secondItem="qjD-cQ-eaS" secondAttribute="bottom" id="YqU-7V-bF9"/>
                                                 <constraint firstItem="qjD-cQ-eaS" firstAttribute="top" secondItem="VTh-t2-Udc" secondAttribute="top" id="om3-PJ-9Jp"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="h7o-VL-BPB">
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="h7o-VL-BPB" id="mrP-ZN-Gzl">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Zip Code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="X6C-ea-do7">
+                                                    <rect key="frame" x="15" y="0.0" width="570" height="43"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="numberPad" returnKeyType="next"/>
+                                                    <connections>
+                                                        <outlet property="delegate" destination="af1-Ep-kcC" id="w3R-wy-CQn"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="X6C-ea-do7" firstAttribute="top" secondItem="mrP-ZN-Gzl" secondAttribute="top" id="05m-TE-U9K"/>
+                                                <constraint firstAttribute="bottom" secondItem="X6C-ea-do7" secondAttribute="bottom" id="l0H-QV-MBB"/>
+                                                <constraint firstAttribute="trailing" secondItem="X6C-ea-do7" secondAttribute="trailing" constant="15" id="mEh-HA-Xy7"/>
+                                                <constraint firstItem="X6C-ea-do7" firstAttribute="leading" secondItem="mrP-ZN-Gzl" secondAttribute="leading" constant="15" id="pbw-hi-jy0"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -2939,6 +2961,7 @@
                         <outlet property="placeholderUserImageView" destination="Hc4-MZ-aby" id="CgY-wv-llg"/>
                         <outlet property="userImageView" destination="4ca-4C-17M" id="VpQ-Xb-PW6"/>
                         <outlet property="usernameLabel" destination="Tb6-KW-ARU" id="ciB-SA-4gv"/>
+                        <outlet property="zipCodeField" destination="X6C-ea-do7" id="RRg-dZ-L8G"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Xq-nX-rp2" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -3414,10 +3437,29 @@
                                                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Phone Number" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aNj-Jx-5tg" userLabel="Phone Number">
                                                     <rect key="frame" x="20" y="7" width="280" height="30"/>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
-                                                    <textInputTraits key="textInputTraits" keyboardType="phonePad" returnKeyType="next"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
                                                     <connections>
                                                         <action selector="textFieldDidChange:" destination="QD2-R5-VPv" eventType="editingChanged" id="pCr-kr-gkg"/>
                                                         <outlet property="delegate" destination="QD2-R5-VPv" id="rHP-9L-6nZ"/>
+                                                    </connections>
+                                                </textField>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="yD8-AY-6GD">
+                                        <rect key="frame" x="0.0" y="335" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yD8-AY-6GD" id="4hD-XO-tyK">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Zip Code" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="o6l-Jk-aYX" userLabel="Phone Number">
+                                                    <rect key="frame" x="20" y="7" width="280" height="30"/>
+                                                    <fontDescription key="fontDescription" name="HelveticaNeue-Light" family="Helvetica Neue" pointSize="17"/>
+                                                    <textInputTraits key="textInputTraits" keyboardType="numberPad" returnKeyType="next"/>
+                                                    <connections>
+                                                        <action selector="textFieldDidChange:" destination="QD2-R5-VPv" eventType="editingChanged" id="AIX-hQ-FrC"/>
+                                                        <outlet property="delegate" destination="QD2-R5-VPv" id="O32-wu-spP"/>
                                                     </connections>
                                                 </textField>
                                             </subviews>
@@ -3551,6 +3593,8 @@
                         <outlet property="signInButton" destination="v0Q-W1-YIk" id="5M1-nx-PIc"/>
                         <outlet property="usernameCell" destination="sJV-Bk-6Dh" id="jb7-5m-m9G"/>
                         <outlet property="usernameField" destination="7T7-Tv-ON7" id="gWS-EY-9cx"/>
+                        <outlet property="zipCodeCell" destination="yD8-AY-6GD" id="KF7-U6-PCF"/>
+                        <outlet property="zipCodeField" destination="o6l-Jk-aYX" id="gy8-hT-BtA"/>
                         <segue destination="WLa-iY-AtF" kind="custom" identifier="goToLogin" customClass="DAReplaceSegue" customModule="Dished" customModuleProvider="target" id="wCN-0l-elF"/>
                     </connections>
                 </tableViewController>
