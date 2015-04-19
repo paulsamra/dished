@@ -252,17 +252,37 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     {
         [self.liveSearchTask cancel];
         
+        if( [searchText isEqualToString:@"@"] || [searchText isEqualToString:@"#"] )
+        {
+            self.liveSearchResults = [NSArray array];
+            return;
+        }
+        
         double longitude = self.selectedLocation.longitude;
         double latitude = self.selectedLocation.latitude;
         double radius = self.selectedRadius;
         
-        NSDictionary *parameters = @{ kQueryKey : searchText, kLongitudeKey : @(longitude), kLatitudeKey : @(latitude),
+        NSString *query = searchText;
+        NSArray *types = @[ @(eDishSearchResult), @(eLocationSearchResult), @(eHashtagSearchResult), @(eUsernameSearchResult) ];
+        
+        if( [query characterAtIndex:0] == '@' )
+        {
+            query = [query substringFromIndex:1];
+            types = @[ @(eUsernameSearchResult) ];
+        }
+        else if( [query characterAtIndex:0] == '#' )
+        {
+            query = [query substringFromIndex:1];
+            types = @[ @(eHashtagSearchResult) ];
+        }
+        
+        NSDictionary *parameters = @{ kQueryKey : query, kLongitudeKey : @(longitude), kLatitudeKey : @(latitude),
            kRadiusKey : @(radius) };
         
         self.liveSearchTask = [[DAAPIManager sharedManager] GETRequest:kExploreAllURL withParameters:parameters
         success:^( id response )
         {
-            self.liveSearchResults = [self resultsFromResponse:response];
+            self.liveSearchResults = [self resultsFromResponse:response withTypes:types];
             [self.searchDisplayController.searchResultsTableView reloadData];
         }
         failure:^( NSError *error, BOOL shouldRetry )
@@ -280,7 +300,7 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     }
 }
 
-- (NSArray *)resultsFromResponse:(id)response
+- (NSArray *)resultsFromResponse:(id)response withTypes:(NSArray *)types
 {
     NSMutableArray *searchResults = [NSMutableArray array];
     DAExploreLiveSearchResult *searchResult = nil;
@@ -289,22 +309,22 @@ static NSString *const kSearchResultCellIdentifier = @"exploreSearchCell";
     {
         NSString *content = result[kContentKey];
         
-        if( [content isEqualToString:@"loc"] )
+        if( [content isEqualToString:@"loc"] && [types containsObject:@(eLocationSearchResult)] )
         {
             searchResult = [DAExploreLiveSearchResult liveSearchResultWithData:result type:eLocationSearchResult];
             [searchResults addObject:searchResult];
         }
-        else if( [content isEqualToString:@"dish"] )
+        else if( [content isEqualToString:@"dish"] && [types containsObject:@(eDishSearchResult)] )
         {
             searchResult = [DAExploreLiveSearchResult liveSearchResultWithData:result type:eDishSearchResult];
             [searchResults addObject:searchResult];
         }
-        else if( [content isEqualToString:@"tag"] )
+        else if( [content isEqualToString:@"tag"] && [types containsObject:@(eHashtagSearchResult)] )
         {
             searchResult = [DAExploreLiveSearchResult liveSearchResultWithData:result type:eHashtagSearchResult];
             [searchResults addObject:searchResult];
         }
-        else if( [content isEqualToString:@"user"] )
+        else if( [content isEqualToString:@"user"] && [types containsObject:@(eUsernameSearchResult)] )
         {
             searchResult = [DAExploreLiveSearchResult liveSearchResultWithData:result type:eUsernameSearchResult];
             [searchResults addObject:searchResult];

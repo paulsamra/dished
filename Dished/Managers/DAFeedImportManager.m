@@ -160,7 +160,7 @@ typedef void(^GetFeedDataBlock)();
     {
         DAManagedUserSuggestion *foundUserSuggestion = match[0];
         
-        if( foundUserSuggestion.dismissed )
+        if( [foundUserSuggestion.dismissed boolValue] )
         {
             return;
         }
