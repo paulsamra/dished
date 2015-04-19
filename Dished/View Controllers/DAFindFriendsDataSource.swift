@@ -86,7 +86,7 @@ class DAFindFriendsDataSource: DADataSource {
                 }
                 
                 let friendDict = friendList.groupBy(groupingFunction: {
-                    $0.name[0]?.capitalizedString ?? ""
+                    self.keyForFriend($0)
                 })
                 
                 self.friends = friendDict
@@ -110,6 +110,14 @@ class DAFindFriendsDataSource: DADataSource {
         else {
             self.delegate?.dataSourceDidFailToLoadData(self, withError: nil)
         }
+    }
+    
+    private func keyForFriend(friend: DAFriend) -> String {
+        if friend.name.isEmpty {
+            return ""
+        }
+        
+        return friend.name[0]!.capitalizedString
     }
     
     private func processFriendData(data: NSDictionary) -> DAFriend {
