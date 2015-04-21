@@ -59,7 +59,7 @@ typedef void(^GetFeedDataBlock)();
             
             DAFeedItem *lastItem = nil;
             
-            for( int i = 0; i < timestamps.count; i++ )
+            for( int i = 0; i < data.count; i++ )
             {
                 NSString *content = data[i][@"content"];
                 if( [content isEqualToString:@"user_sug"] )
@@ -294,7 +294,11 @@ typedef void(^GetFeedDataBlock)();
         [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
         NSNumber *itemID = [formatter numberFromString:item[kIDKey]];
         
-        [itemIDs addObject:itemID];
+        NSString *content = item[@"content"];
+        if( ![content isEqualToString:@"user_sug"] )
+        {
+            [itemIDs addObject:itemID];
+        }
     }
     
     return itemIDs;
@@ -308,7 +312,8 @@ typedef void(^GetFeedDataBlock)();
     {
         NSNumber *itemID = item[kCreatedKey];
         
-        if( itemID )
+        NSString *content = item[@"content"];
+        if( itemID && ![content isEqualToString:@"user_sug"] )
         {
             [timestamps addObject:itemID];
         }
@@ -403,6 +408,11 @@ typedef void(^GetFeedDataBlock)();
             {
                 completion( nil );
             }
+        }
+        
+        for( DAFeedItem *item in objects )
+        {
+            NSLog(@"%@", item.name);
         }
         
         NSMutableArray *objectIDs = [NSMutableArray new];
