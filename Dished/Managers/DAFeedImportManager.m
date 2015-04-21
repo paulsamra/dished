@@ -410,11 +410,6 @@ typedef void(^GetFeedDataBlock)();
             }
         }
         
-        for( DAFeedItem *item in objects )
-        {
-            NSLog(@"%@", item.name);
-        }
-        
         NSMutableArray *objectIDs = [NSMutableArray new];
         for( NSManagedObject *object in objects )
         {
