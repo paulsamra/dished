@@ -51,6 +51,8 @@ class DAFindFriendsInteractor: NSObject, MFMessageComposeViewControllerDelegate 
         else {
             DAAPIManager.followUserID(friend.userID)
         }
+        
+        friend.following = !friend.following
     }
     
     func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {
