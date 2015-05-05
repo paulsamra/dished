@@ -24,16 +24,15 @@
 		94037C151AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */; };
 		94037C161AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */; };
 		94037C171AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */; };
-		94037C191AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */; };
-		94037C1A1AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */; };
-		94037C1B1AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */; };
+		94037C191AE1CD2500621B38 /* DAMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C181AE1CD2500621B38 /* DAMenuViewController.swift */; };
+		94037C1A1AE1CD2500621B38 /* DAMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C181AE1CD2500621B38 /* DAMenuViewController.swift */; };
+		94037C1B1AE1CD2500621B38 /* DAMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C181AE1CD2500621B38 /* DAMenuViewController.swift */; };
 		94037C1E1AE1CD4900621B38 /* DAMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C1D1AE1CD4900621B38 /* DAMenuView.swift */; };
 		94037C1F1AE1CD4900621B38 /* DAMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C1D1AE1CD4900621B38 /* DAMenuView.swift */; };
 		94037C201AE1CD4900621B38 /* DAMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C1D1AE1CD4900621B38 /* DAMenuView.swift */; };
 		9403E76E1AF8DE350098A918 /* DAMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403E76D1AF8DE350098A918 /* DAMenuTableView.swift */; };
 		9403E76F1AF8DE350098A918 /* DAMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403E76D1AF8DE350098A918 /* DAMenuTableView.swift */; };
 		9403E7701AF8DE350098A918 /* DAMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403E76D1AF8DE350098A918 /* DAMenuTableView.swift */; };
-		940537A519F27BC600A02088 /* DAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537A419F27BC600A02088 /* DAMenuViewController.m */; };
 		940537AC19F4BA0400A02088 /* DAContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537AB19F4BA0400A02088 /* DAContainerViewController.m */; };
 		9409855D1ABC0B8C009F20FF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409854E1ABC0B8C009F20FF /* Array.swift */; };
 		9409855E1ABC0B8C009F20FF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409854E1ABC0B8C009F20FF /* Array.swift */; };
@@ -99,7 +98,6 @@
 		9412918E1A1BEED500B7C763 /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03C819B0EA94009010F6 /* SWUtilityButtonTapGestureRecognizer.m */; };
 		9412918F1A1BEED500B7C763 /* DAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C7193F270A008B3B79 /* DAAppDelegate.m */; };
 		941291901A1BEED500B7C763 /* DAEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */; };
-		941291911A1BEED500B7C763 /* DAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537A419F27BC600A02088 /* DAMenuViewController.m */; };
 		941291921A1BEED500B7C763 /* DADish.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A211990AB5900095A70 /* DADish.m */; };
 		941291931A1BEED500B7C763 /* MRStopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615BD19FE1C3D002497D0 /* MRStopButton.m */; };
 		941291951A1BEED500B7C763 /* DAImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 944689A51960130E00FAE288 /* DAImagePickerController.m */; };
@@ -297,7 +295,6 @@
 		9412928D1A1C7AD100B7C763 /* SWUtilityButtonTapGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03C819B0EA94009010F6 /* SWUtilityButtonTapGestureRecognizer.m */; };
 		9412928E1A1C7AD100B7C763 /* DAAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 941538C7193F270A008B3B79 /* DAAppDelegate.m */; };
 		9412928F1A1C7AD100B7C763 /* DAEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */; };
-		941292901A1C7AD100B7C763 /* DAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537A419F27BC600A02088 /* DAMenuViewController.m */; };
 		941292911A1C7AD100B7C763 /* DADish.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A211990AB5900095A70 /* DADish.m */; };
 		941292921A1C7AD100B7C763 /* MRStopButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615BD19FE1C3D002497D0 /* MRStopButton.m */; };
 		941292941A1C7AD100B7C763 /* DAImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 944689A51960130E00FAE288 /* DAImagePickerController.m */; };
@@ -1183,11 +1180,9 @@
 		940363821A25E2560068F61D /* DAManagedComment+Utility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DAManagedComment+Utility.h"; sourceTree = "<group>"; };
 		940363831A25E2560068F61D /* DAManagedComment+Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DAManagedComment+Utility.m"; sourceTree = "<group>"; };
 		94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAInfluencerTextAttachment.swift; sourceTree = "<group>"; };
-		94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAMenuViewController2.swift; sourceTree = "<group>"; };
+		94037C181AE1CD2500621B38 /* DAMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAMenuViewController.swift; sourceTree = "<group>"; };
 		94037C1D1AE1CD4900621B38 /* DAMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAMenuView.swift; sourceTree = "<group>"; };
 		9403E76D1AF8DE350098A918 /* DAMenuTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAMenuTableView.swift; sourceTree = "<group>"; };
-		940537A319F27BC600A02088 /* DAMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAMenuViewController.h; sourceTree = "<group>"; };
-		940537A419F27BC600A02088 /* DAMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAMenuViewController.m; sourceTree = "<group>"; };
 		940537AA19F4BA0400A02088 /* DAContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAContainerViewController.h; sourceTree = "<group>"; };
 		940537AB19F4BA0400A02088 /* DAContainerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAContainerViewController.m; sourceTree = "<group>"; };
 		9409854E1ABC0B8C009F20FF /* Array.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Array.swift; sourceTree = "<group>"; };
@@ -1947,7 +1942,7 @@
 			children = (
 				9403E76D1AF8DE350098A918 /* DAMenuTableView.swift */,
 				94037C1D1AE1CD4900621B38 /* DAMenuView.swift */,
-				94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */,
+				94037C181AE1CD2500621B38 /* DAMenuViewController.swift */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -2526,8 +2521,6 @@
 				9499213D1ABA1E1D00A247B0 /* Find Friends */,
 				94424CAE1AB97FE800222641 /* Document Viewer */,
 				943050441AB7FA55008DDCB3 /* Get Social */,
-				940537A319F27BC600A02088 /* DAMenuViewController.h */,
-				940537A419F27BC600A02088 /* DAMenuViewController.m */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -3433,7 +3426,6 @@
 				94DCBE521A3DBFA4009443FD /* DAGradeGraphCollectionViewCell.m in Sources */,
 				9412918F1A1BEED500B7C763 /* DAAppDelegate.m in Sources */,
 				941291901A1BEED500B7C763 /* DAEditProfileViewController.m in Sources */,
-				941291911A1BEED500B7C763 /* DAMenuViewController.m in Sources */,
 				94502A811ABE775500810FBA /* DANavigationController.swift in Sources */,
 				94424CB11AB9802E00222641 /* DADocViewController.swift in Sources */,
 				94426C351A6A75BF00186C35 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
@@ -3614,7 +3606,7 @@
 				941291F61A1BEED500B7C763 /* NSString+STTwitter.m in Sources */,
 				94230ACC1ABEC8C000A4D50A /* DALoginView.swift in Sources */,
 				941291F71A1BEED500B7C763 /* UIImage+MRImageEffects.m in Sources */,
-				94037C1A1AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */,
+				94037C1A1AE1CD2500621B38 /* DAMenuViewController.swift in Sources */,
 				941291F81A1BEED500B7C763 /* DAUserProfileViewController.m in Sources */,
 				94AAAA511A43BF1300863E09 /* DEComposeRuledView.m in Sources */,
 				94157E5F1ADE59B800F1E66D /* DAManagedUserSuggestion.m in Sources */,
@@ -3778,7 +3770,6 @@
 				94DCBE531A3DBFA4009443FD /* DAGradeGraphCollectionViewCell.m in Sources */,
 				9412928E1A1C7AD100B7C763 /* DAAppDelegate.m in Sources */,
 				9412928F1A1C7AD100B7C763 /* DAEditProfileViewController.m in Sources */,
-				941292901A1C7AD100B7C763 /* DAMenuViewController.m in Sources */,
 				94502A821ABE775500810FBA /* DANavigationController.swift in Sources */,
 				94424CB21AB9802E00222641 /* DADocViewController.swift in Sources */,
 				94426C361A6A75BF00186C35 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
@@ -3959,7 +3950,7 @@
 				941292F51A1C7AD100B7C763 /* NSString+STTwitter.m in Sources */,
 				94230ACD1ABEC8C000A4D50A /* DALoginView.swift in Sources */,
 				941292F61A1C7AD100B7C763 /* UIImage+MRImageEffects.m in Sources */,
-				94037C1B1AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */,
+				94037C1B1AE1CD2500621B38 /* DAMenuViewController.swift in Sources */,
 				941292F71A1C7AD100B7C763 /* DAUserProfileViewController.m in Sources */,
 				94AAAA521A43BF1300863E09 /* DEComposeRuledView.m in Sources */,
 				94157E601ADE59B800F1E66D /* DAManagedUserSuggestion.m in Sources */,
@@ -4123,7 +4114,6 @@
 				94DCBE511A3DBFA4009443FD /* DAGradeGraphCollectionViewCell.m in Sources */,
 				941538C8193F270A008B3B79 /* DAAppDelegate.m in Sources */,
 				943ECCF819EB19E9009516E8 /* DAEditProfileViewController.m in Sources */,
-				940537A519F27BC600A02088 /* DAMenuViewController.m in Sources */,
 				94502A801ABE775500810FBA /* DANavigationController.swift in Sources */,
 				94424CB01AB9802E00222641 /* DADocViewController.swift in Sources */,
 				94426C341A6A75BF00186C35 /* MPDesignerEventBindingRequestMesssage.m in Sources */,
@@ -4304,7 +4294,7 @@
 				943E625A1987362100DF2135 /* NSString+STTwitter.m in Sources */,
 				94230ACB1ABEC8C000A4D50A /* DALoginView.swift in Sources */,
 				948615C619FE1C3D002497D0 /* UIImage+MRImageEffects.m in Sources */,
-				94037C191AE1CD2500621B38 /* DAMenuViewController2.swift in Sources */,
+				94037C191AE1CD2500621B38 /* DAMenuViewController.swift in Sources */,
 				944D1E7319DA9868006F73BF /* DAUserProfileViewController.m in Sources */,
 				94AAAA501A43BF1300863E09 /* DEComposeRuledView.m in Sources */,
 				94157E5E1ADE59B800F1E66D /* DAManagedUserSuggestion.m in Sources */,

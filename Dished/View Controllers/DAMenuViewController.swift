@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DAMenuViewController2: DAViewController, UITableViewDelegate, UITableViewDataSource, DAMenuTableViewDelegate {
+class DAMenuViewController: DAViewController, UITableViewDelegate, UITableViewDataSource, DAMenuTableViewDelegate {
 
     var menuView = DAMenuView()
     
