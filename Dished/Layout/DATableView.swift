@@ -1,5 +1,5 @@
 //
-//  DATouchTableView.swift
+//  DATableView.swift
 //  Dished
 //
 //  Created by Ryan Khalili on 9/22/14.
@@ -8,8 +8,22 @@
 
 import UIKit
 
-class DATouchTableView: UITableView
+class DATableView: UITableView
 {
+    override init(frame: CGRect, style: UITableViewStyle) {
+        super.init(frame: frame, style: style)
+        setupViews()
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupViews()
+    }
+    
+    func setupViews() {
+        
+    }
+    
     override func touchesBegan( touches: Set<NSObject>, withEvent event: UIEvent )
     {
         super.touchesBegan( touches as Set<NSObject>, withEvent: event )

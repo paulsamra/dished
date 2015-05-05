@@ -10,9 +10,11 @@ import UIKit
 
 class DAMenuView: DAView {
 
-    
-    
+    var tableView: DAMenuTableView!
+
     override func setupViews() {
-        
+        tableView = DAMenuTableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
+        addSubview(tableView)
+        tableView.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsZero)
     }
 }

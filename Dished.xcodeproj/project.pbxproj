@@ -30,6 +30,9 @@
 		94037C1E1AE1CD4900621B38 /* DAMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C1D1AE1CD4900621B38 /* DAMenuView.swift */; };
 		94037C1F1AE1CD4900621B38 /* DAMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C1D1AE1CD4900621B38 /* DAMenuView.swift */; };
 		94037C201AE1CD4900621B38 /* DAMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94037C1D1AE1CD4900621B38 /* DAMenuView.swift */; };
+		9403E76E1AF8DE350098A918 /* DAMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403E76D1AF8DE350098A918 /* DAMenuTableView.swift */; };
+		9403E76F1AF8DE350098A918 /* DAMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403E76D1AF8DE350098A918 /* DAMenuTableView.swift */; };
+		9403E7701AF8DE350098A918 /* DAMenuTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9403E76D1AF8DE350098A918 /* DAMenuTableView.swift */; };
 		940537A519F27BC600A02088 /* DAMenuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537A419F27BC600A02088 /* DAMenuViewController.m */; };
 		940537AC19F4BA0400A02088 /* DAContainerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 940537AB19F4BA0400A02088 /* DAContainerViewController.m */; };
 		9409855D1ABC0B8C009F20FF /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409854E1ABC0B8C009F20FF /* Array.swift */; };
@@ -197,7 +200,7 @@
 		941292021A1BEED500B7C763 /* UIViewController+ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 945269121A0E244500A56B17 /* UIViewController+ShareView.m */; };
 		941292031A1BEED500B7C763 /* DAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 941810121970EB7700C83034 /* DAConstants.m */; };
 		941292041A1BEED500B7C763 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615C419FE1C3D002497D0 /* MRWeakProxy.m */; };
-		941292051A1BEED500B7C763 /* DATouchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFB19D020F500F134BA /* DATouchTableView.swift */; };
+		941292051A1BEED500B7C763 /* DATableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFB19D020F500F134BA /* DATableView.swift */; };
 		941292061A1BEED500B7C763 /* DAGlobalReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */; };
 		941292081A1BEED500B7C763 /* DAFollowingNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443DF0619D0EF9D00F134BA /* DAFollowingNews.m */; };
 		941292091A1BEED500B7C763 /* JSQMessagesToolbarButtonFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03F019B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m */; };
@@ -395,7 +398,7 @@
 		941293011A1C7AD100B7C763 /* UIViewController+ShareView.m in Sources */ = {isa = PBXBuildFile; fileRef = 945269121A0E244500A56B17 /* UIViewController+ShareView.m */; };
 		941293021A1C7AD100B7C763 /* DAConstants.m in Sources */ = {isa = PBXBuildFile; fileRef = 941810121970EB7700C83034 /* DAConstants.m */; };
 		941293031A1C7AD100B7C763 /* MRWeakProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 948615C419FE1C3D002497D0 /* MRWeakProxy.m */; };
-		941293041A1C7AD100B7C763 /* DATouchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFB19D020F500F134BA /* DATouchTableView.swift */; };
+		941293041A1C7AD100B7C763 /* DATableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFB19D020F500F134BA /* DATableView.swift */; };
 		941293051A1C7AD100B7C763 /* DAGlobalReviewCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 94B92C6019BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m */; };
 		941293071A1C7AD100B7C763 /* DAFollowingNews.m in Sources */ = {isa = PBXBuildFile; fileRef = 9443DF0619D0EF9D00F134BA /* DAFollowingNews.m */; };
 		941293081A1C7AD100B7C763 /* JSQMessagesToolbarButtonFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 94CB03F019B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m */; };
@@ -801,7 +804,7 @@
 		9442816B1A46FD4600117E0B /* DAFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944281681A46FD4600117E0B /* DAFlowLayout.swift */; };
 		9443DEF519CFC7BE00F134BA /* DASingleNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DEF419CFC7BE00F134BA /* DASingleNewsTableViewCell.xib */; };
 		9443DEFA19CFCEA900F134BA /* DASingleNewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEF919CFCEA900F134BA /* DASingleNewsTableViewCell.swift */; };
-		9443DEFC19D020F500F134BA /* DATouchTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFB19D020F500F134BA /* DATouchTableView.swift */; };
+		9443DEFC19D020F500F134BA /* DATableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFB19D020F500F134BA /* DATableView.swift */; };
 		9443DEFE19D0224300F134BA /* DAReplaceSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFD19D0224300F134BA /* DAReplaceSegue.swift */; };
 		9443DF0019D0236200F134BA /* DADatePickerTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFF19D0236200F134BA /* DADatePickerTableViewCell.swift */; };
 		9443DF0219D026DE00F134BA /* DACommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */; };
@@ -1182,6 +1185,7 @@
 		94037C141AE0A6B700621B38 /* DAInfluencerTextAttachment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAInfluencerTextAttachment.swift; sourceTree = "<group>"; };
 		94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAMenuViewController2.swift; sourceTree = "<group>"; };
 		94037C1D1AE1CD4900621B38 /* DAMenuView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAMenuView.swift; sourceTree = "<group>"; };
+		9403E76D1AF8DE350098A918 /* DAMenuTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAMenuTableView.swift; sourceTree = "<group>"; };
 		940537A319F27BC600A02088 /* DAMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAMenuViewController.h; sourceTree = "<group>"; };
 		940537A419F27BC600A02088 /* DAMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAMenuViewController.m; sourceTree = "<group>"; };
 		940537AA19F4BA0400A02088 /* DAContainerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAContainerViewController.h; sourceTree = "<group>"; };
@@ -1450,7 +1454,7 @@
 		9443DEF419CFC7BE00F134BA /* DASingleNewsTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DASingleNewsTableViewCell.xib; sourceTree = "<group>"; };
 		9443DEF619CFCE9000F134BA /* Dished-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Dished-Bridging-Header.h"; sourceTree = "<group>"; };
 		9443DEF919CFCEA900F134BA /* DASingleNewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DASingleNewsTableViewCell.swift; sourceTree = "<group>"; };
-		9443DEFB19D020F500F134BA /* DATouchTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATouchTableView.swift; sourceTree = "<group>"; };
+		9443DEFB19D020F500F134BA /* DATableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATableView.swift; sourceTree = "<group>"; };
 		9443DEFD19D0224300F134BA /* DAReplaceSegue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAReplaceSegue.swift; sourceTree = "<group>"; };
 		9443DEFF19D0236200F134BA /* DADatePickerTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADatePickerTableViewCell.swift; sourceTree = "<group>"; };
 		9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DACommentTableViewCell.xib; sourceTree = "<group>"; };
@@ -1938,6 +1942,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9403E76C1AF8DCB30098A918 /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				9403E76D1AF8DE350098A918 /* DAMenuTableView.swift */,
+				94037C1D1AE1CD4900621B38 /* DAMenuView.swift */,
+				94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */,
+			);
+			name = Menu;
+			sourceTree = "<group>";
+		};
 		9409854D1ABC0B8C009F20FF /* ExSwift */ = {
 			isa = PBXGroup;
 			children = (
@@ -2507,14 +2521,13 @@
 		9489F64E19CA293800BEF540 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				9403E76C1AF8DCB30098A918 /* Menu */,
 				94F413FD1AC3FEDB005C40CC /* Active Foodies */,
 				9499213D1ABA1E1D00A247B0 /* Find Friends */,
 				94424CAE1AB97FE800222641 /* Document Viewer */,
 				943050441AB7FA55008DDCB3 /* Get Social */,
 				940537A319F27BC600A02088 /* DAMenuViewController.h */,
 				940537A419F27BC600A02088 /* DAMenuViewController.m */,
-				94037C1D1AE1CD4900621B38 /* DAMenuView.swift */,
-				94037C181AE1CD2500621B38 /* DAMenuViewController2.swift */,
 			);
 			name = Menu;
 			sourceTree = "<group>";
@@ -3040,6 +3053,7 @@
 			isa = PBXGroup;
 			children = (
 				943050491AB7FAC8008DDCB3 /* DAView.swift */,
+				9443DEFB19D020F500F134BA /* DATableView.swift */,
 				94FBA80A1ABE674A008F6670 /* DALoadingView.swift */,
 				9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */,
 				94B43AAD19EB6D9500482F52 /* DACollectionView.swift */,
@@ -3054,7 +3068,6 @@
 				94FD7B5319C83C93008D60CA /* Global Dish Details */,
 				945E312419C7CE5E00C8AA52 /* Feed */,
 				94FD7B4619C818CF008D60CA /* Explore */,
-				9443DEFB19D020F500F134BA /* DATouchTableView.swift */,
 				94C97EFE1ABE53E20066C808 /* DAErrorView.swift */,
 				9443DEFD19D0224300F134BA /* DAReplaceSegue.swift */,
 				94A6FE3C1A46E06D00AB901F /* DASocialCollectionViewCell.swift */,
@@ -3628,7 +3641,7 @@
 				941292021A1BEED500B7C763 /* UIViewController+ShareView.m in Sources */,
 				941292031A1BEED500B7C763 /* DAConstants.m in Sources */,
 				941292041A1BEED500B7C763 /* MRWeakProxy.m in Sources */,
-				941292051A1BEED500B7C763 /* DATouchTableView.swift in Sources */,
+				941292051A1BEED500B7C763 /* DATableView.swift in Sources */,
 				941292061A1BEED500B7C763 /* DAGlobalReviewCollectionViewCell.m in Sources */,
 				941292081A1BEED500B7C763 /* DAFollowingNews.m in Sources */,
 				941292091A1BEED500B7C763 /* JSQMessagesToolbarButtonFactory.m in Sources */,
@@ -3656,6 +3669,7 @@
 				94A6FE431A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921651ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
 				941292121A1BEED500B7C763 /* SSKeychainQuery.m in Sources */,
+				9403E76F1AF8DE350098A918 /* DAMenuTableView.swift in Sources */,
 				94C97F001ABE53E20066C808 /* DAErrorView.swift in Sources */,
 				94EB61E31ABEE0AF0063328A /* DAFacebookConnectButton.swift in Sources */,
 				94F4141D1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift in Sources */,
@@ -3972,7 +3986,7 @@
 				941293011A1C7AD100B7C763 /* UIViewController+ShareView.m in Sources */,
 				941293021A1C7AD100B7C763 /* DAConstants.m in Sources */,
 				941293031A1C7AD100B7C763 /* MRWeakProxy.m in Sources */,
-				941293041A1C7AD100B7C763 /* DATouchTableView.swift in Sources */,
+				941293041A1C7AD100B7C763 /* DATableView.swift in Sources */,
 				941293051A1C7AD100B7C763 /* DAGlobalReviewCollectionViewCell.m in Sources */,
 				941293071A1C7AD100B7C763 /* DAFollowingNews.m in Sources */,
 				941293081A1C7AD100B7C763 /* JSQMessagesToolbarButtonFactory.m in Sources */,
@@ -4000,6 +4014,7 @@
 				94A6FE441A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921661ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
 				941293111A1C7AD100B7C763 /* SSKeychainQuery.m in Sources */,
+				9403E7701AF8DE350098A918 /* DAMenuTableView.swift in Sources */,
 				94C97F011ABE53E20066C808 /* DAErrorView.swift in Sources */,
 				94EB61E41ABEE0AF0063328A /* DAFacebookConnectButton.swift in Sources */,
 				94F4141E1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift in Sources */,
@@ -4316,7 +4331,7 @@
 				945269131A0E244500A56B17 /* UIViewController+ShareView.m in Sources */,
 				941810131970EB7700C83034 /* DAConstants.m in Sources */,
 				948615CE19FE1C3D002497D0 /* MRWeakProxy.m in Sources */,
-				9443DEFC19D020F500F134BA /* DATouchTableView.swift in Sources */,
+				9443DEFC19D020F500F134BA /* DATableView.swift in Sources */,
 				94B92C6119BFBB22005071D5 /* DAGlobalReviewCollectionViewCell.m in Sources */,
 				9443DF0719D0EF9D00F134BA /* DAFollowingNews.m in Sources */,
 				94CB03FE19B146AF009010F6 /* JSQMessagesToolbarButtonFactory.m in Sources */,
@@ -4344,6 +4359,7 @@
 				94A6FE421A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921641ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
 				94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */,
+				9403E76E1AF8DE350098A918 /* DAMenuTableView.swift in Sources */,
 				94C97EFF1ABE53E20066C808 /* DAErrorView.swift in Sources */,
 				94EB61E21ABEE0AF0063328A /* DAFacebookConnectButton.swift in Sources */,
 				94F4141C1AC6602F005C40CC /* DAFoodieCollectionViewCell.swift in Sources */,
@@ -4731,6 +4747,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Dished/Dished-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64 i386";
 			};
@@ -4767,6 +4784,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Dished/Dished-Bridging-Header.h";
+				SWIFT_WHOLE_MODULE_OPTIMIZATION = YES;
 				TARGETED_DEVICE_FAMILY = 1;
 				VALID_ARCHS = "armv7 armv7s arm64 i386";
 			};
