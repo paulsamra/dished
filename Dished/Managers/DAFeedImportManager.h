@@ -10,6 +10,7 @@
 #import "DACoreDataManager.h"
 #import "DAFeedItem+Utility.h"
 #import "DAManagedComment+Utility.h"
+#import "DAManagedUserSuggestion+Utility.h"
 #import "DAManagedUsername.h"
 #import "DAManagedHashtag.h"
 

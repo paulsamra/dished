@@ -35,6 +35,7 @@ class DAActiveFoodiesView: DALoadingView {
         collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: flowLayout)
         collectionView.backgroundColor = UIColor(r: 249, g: 249, b: 249, a: 255)
         collectionView.alwaysBounceVertical = true
+        collectionView.delaysContentTouches = false
         addSubview(collectionView)
         collectionView.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsZero)
         

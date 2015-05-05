@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D131" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="DAFeedItem" representedClassName="DAFeedItem" syncable="YES">
+        <attribute name="caller_yumd" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="created" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="creator_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="creator_img" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creator_img_thumb" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creator_type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creator_username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dish_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="grade" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="img" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="img_public" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="img_thumb" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="item_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="loc_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="loc_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="num_comments" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="num_yums" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="source" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="DAManagedComment" inverseName="feedItem" inverseEntity="DAManagedComment" syncable="YES"/>
+        <relationship name="hashtags" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DAManagedHashtag" syncable="YES"/>
+        <relationship name="user_suggestion" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DAManagedUserSuggestion" syncable="YES"/>
+    </entity>
+    <entity name="DAManagedComment" representedClassName="DAManagedComment" elementID="DAFeedComment" syncable="YES">
+        <attribute name="comment" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="comment_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="created" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="creator_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="creator_type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="creator_username" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="img_thumb" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="status" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="feedItem" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="DAFeedItem" inverseName="comments" inverseEntity="DAFeedItem" syncable="YES"/>
+        <relationship name="usernames" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="DAManagedUsername" syncable="YES"/>
+    </entity>
+    <entity name="DAManagedHashtag" representedClassName="DAManagedHashtag" syncable="YES">
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="DAManagedUsername" representedClassName="DAManagedUsername" syncable="YES">
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="DAManagedUserSuggestion" representedClassName="DAManagedUserSuggestion" syncable="YES">
+        <attribute name="desc" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="dismissed" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="first_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="img_thumb" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="last_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="reviews" optional="YES" attributeType="Transformable" syncable="YES"/>
+        <attribute name="user_id" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="user_type" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="DAFeedItem" positionX="-54" positionY="90" width="128" height="375"/>
+        <element name="DAManagedComment" positionX="-54" positionY="216" width="128" height="193"/>
+        <element name="DAManagedHashtag" positionX="-45" positionY="243" width="128" height="60"/>
+        <element name="DAManagedUsername" positionX="-45" positionY="243" width="128" height="60"/>
+        <element name="DAManagedUserSuggestion" positionX="-45" positionY="243" width="128" height="195"/>
+    </elements>
+</model>

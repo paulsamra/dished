@@ -15,7 +15,7 @@ class DAFoodie {
     var image: String = ""
     var userID: Int = 0
     var name: String = ""
-    var type: String = ""
+    var userType: String = ""
     var following: Bool = false
     var reviews: [(reviewID: Int, image: String)] = []
 }

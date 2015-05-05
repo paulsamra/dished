@@ -49,6 +49,7 @@
             DAUsername *username = [[DAUsername alloc] init];
             username.user_id = [nilOrJSONObjectForKey( userData, @"idUser" ) integerValue];
             username.username = nilOrJSONObjectForKey( userData, kUsernameKey );
+            username.type = nilOrJSONObjectForKey( userData, kTypeKey );
             
             _followed = username;
         }

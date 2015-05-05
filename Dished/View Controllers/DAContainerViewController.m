@@ -45,7 +45,8 @@
     [self addChildViewController:self.tabBarController];
     [self.tabBarController didMoveToParentViewController:self];
     
-    self.menuViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"menuNav"];
+    self.menuViewController = [[UINavigationController alloc] initWithRootViewController:[[DAMenuViewController2 alloc] init]]; //[self.storyboard instantiateViewControllerWithIdentifier:@"menuNav"];
+    self.menuViewController.navigationBarHidden = YES;
     
     [self.view addSubview:self.menuViewController.view];
     [self.view sendSubviewToBack:self.menuViewController.view];

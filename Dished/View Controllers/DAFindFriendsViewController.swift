@@ -96,6 +96,10 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
         return []
     }
     
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return friendsDataSource.sections[section]
+    }
+    
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let friend = friendsDataSource.friendForIndexPath(indexPath)
         
@@ -110,7 +114,7 @@ class DAFindFriendsViewController: DAViewController, UITableViewDelegate, UITabl
             
             if friend.registered {
                 findFriendsInteractor.doFollowInteractionForFriend(friend)
-                findFriendsView.tableView.reloadData()
+                findFriendsView.tableView.reloadRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.None)
             }
             else if !friend.invited {
                 if let composer = findFriendsInteractor.messageComposerForFriend(friend) {

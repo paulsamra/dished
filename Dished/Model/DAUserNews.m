@@ -22,6 +22,7 @@
     {
         _comment  = nilOrJSONObjectForKey( data, kCommentKey );
         _username = nilOrJSONObjectForKey( data, kUsernameKey );
+        _user_type = nilOrJSONObjectForKey( data, @"source_user_type" );
         
         NSDictionary *images = nilOrJSONObjectForKey( data, kImagesKey );
         if( images )

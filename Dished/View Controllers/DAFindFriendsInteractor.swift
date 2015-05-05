@@ -28,6 +28,8 @@ class DAFindFriendsInteractor: NSObject, MFMessageComposeViewControllerDelegate 
         messageController.recipients = recipients
         messageController.messageComposeDelegate = self
         
+        messageController.body = "Hey! I think you should join Dished to discover and share the great food and drinks near you, and we can recommend dishes to each other! Check it out: https://appsto.re/us/Ud_e4.i"
+        
         friendComposers[messageController] = friend
         
         return messageController
@@ -49,6 +51,8 @@ class DAFindFriendsInteractor: NSObject, MFMessageComposeViewControllerDelegate 
         else {
             DAAPIManager.followUserID(friend.userID)
         }
+        
+        friend.following = !friend.following
     }
     
     func messageComposeViewController(controller: MFMessageComposeViewController!, didFinishWithResult result: MessageComposeResult) {

@@ -103,7 +103,7 @@
     [MRProgressOverlayView showOverlayAddedTo:self.navigationController.view title:@"Logging In..." mode:MRProgressOverlayViewModeIndeterminate animated:YES];
     
     [[DAAPIManager sharedManager] loginWithUser:user password:self.passwordField.text
-    completion:^( BOOL success, BOOL wrongUser, BOOL wrongPass )
+    completion:^( BOOL success, BOOL wrongUser, BOOL wrongPass, BOOL deactivated )
     {
         if( success )
         {
@@ -138,6 +138,11 @@
                 {
                     [self showAlertWithTitle:@"Incorrect Password"
                                      message:@"The password you entered is incorrect. Please try again."];
+                }
+                else if( deactivated )
+                {
+                    [self showAlertWithTitle:@"Inactive Account"
+                                     message:@"This account has been deactivated."];
                 }
                 else
                 {

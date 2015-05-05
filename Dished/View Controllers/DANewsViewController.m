@@ -649,7 +649,14 @@
     switch( news.notificationType )
     {
         case eFollowingNewsNotificationTypeFollow:
-            [self pushUserProfileWithUserID:news.followed.user_id];
+            if( [news.followed.type isEqualToString:kRestaurantUserType] )
+            {
+                [self pushrestaurantProfileWithUserID:news.followed.user_id username:news.followed.username];
+            }
+            else
+            {
+                [self pushUserProfileWithUserID:news.followed.user_id];
+            }
             break;
             
         case eFollowingNewsNotificationTypeUnknown:

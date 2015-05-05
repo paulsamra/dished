@@ -18,6 +18,7 @@
 @property (strong, nonatomic) UIImage         *selectedImage;
 @property (strong, nonatomic) NSIndexPath     *pickerIndexPath;
 @property (strong, nonatomic) DAErrorView     *errorView;
+@property (strong, nonatomic) UIAlertView     *deleteAccountAlert;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @property (strong, nonatomic) NSURLSessionTask *saveProfileTask;
@@ -184,6 +185,8 @@
     {
         self.userImageView.hidden = YES;
     }
+    
+    self.zipCodeField.text = userManager.zipCode ? userManager.zipCode : @"";
 }
 
 - (void)checkInputs
@@ -219,6 +222,15 @@
     {
         self.errorView.messageLabel.text = @"Invalid Phone Number";
         self.errorView.tipLabel.text  = @"Please enter a valid phone number.";
+        
+        [self showErrorView];
+        return;
+    }
+    
+    if( !self.zipCodeField.text || self.zipCodeField.text.length != 5 )
+    {
+        self.errorView.messageLabel.text = @"Invalid Zip Code";
+        self.errorView.tipLabel.text = @"Please enter a valid 5-digit zip code.";
         
         [self showErrorView];
         return;
@@ -266,6 +278,7 @@
     BOOL sameLastName    = [self.lastNameField.text isEqualToString:userManager.lastName];
     BOOL sameEmail       = [self.emailField.text isEqualToString:userManager.email];
     BOOL sameDescription = [self.descriptionTextView.text isEqualToString:userManager.desc];
+    BOOL sameZipCode     = [self.zipCodeField.text isEqualToString:userManager.zipCode];
     
     NSString *after1 = [self.phoneNumberField.text substringFromIndex:3];
     NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
@@ -276,7 +289,7 @@
     
     BOOL sameDateOfBirth = [self.dateOfBirth isEqualToDate:userManager.dateOfBirth];
     
-    BOOL sameProfile = sameFirstName && sameLastName && sameEmail && sameDescription && samePhone && !newPassword && sameDateOfBirth && !self.selectedImage;
+    BOOL sameProfile = sameFirstName && sameLastName && sameEmail && sameDescription && samePhone && !newPassword && sameDateOfBirth && sameZipCode && !self.selectedImage;
     
     if( sameProfile )
     {
@@ -375,11 +388,42 @@
 
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
+    if( alertView == self.deleteAccountAlert )
+    {
+        if( buttonIndex != alertView.cancelButtonIndex )
+        {
+            [self deleteAccount];
+        }
+        
+        return;
+    }
+    
     if( buttonIndex != alertView.cancelButtonIndex )
     {
         [self showProgressViewWithTitle:@"Removing..."];
         [self removeProfilePicture];
     }
+}
+
+- (void)deleteAccount
+{
+    [self showProgressViewWithTitle:@"Deactivating Your Account..."];
+    
+    [[DAAPIManager sharedManager] deactivateUserAccountWithCompletion:^( BOOL success )
+    {
+        [MRProgressOverlayView dismissOverlayForView:self.view animated:YES completion:^
+        {
+            if( success )
+            {
+                DAAppDelegate *appDelegate = (DAAppDelegate *)[[UIApplication sharedApplication] delegate];
+                [appDelegate logout];
+            }
+            else
+            {
+                [[[UIAlertView alloc] initWithTitle:@"Failed to Deactivate Account" message:@"There was a problem deactivating your account. Please try again." delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil, nil] show];
+            }
+        }];
+    }];
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info
@@ -411,6 +455,12 @@
     if( indexPath.section == 7 )
     {
         [[[UIAlertView alloc] initWithTitle:@"Coming Soon" message:nil delegate:nil cancelButtonTitle:nil otherButtonTitles:@"OK", nil] show];
+    }
+    
+    if( indexPath.section == 8 )
+    {
+        self.deleteAccountAlert = [[UIAlertView alloc] initWithTitle:@"Are you sure you want to deactivate your account?" message:@"This cannot be undone." delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        [self.deleteAccountAlert show];
     }
     
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -663,6 +713,11 @@
     if( ![decimalString isEqualToString:userManager.phoneNumber] )
     {
         [parameters setObject:decimalString forKey:kPhoneKey];
+    }
+    
+    if( ![self.zipCodeField.text isEqualToString:userManager.zipCode] )
+    {
+        [parameters setObject:self.zipCodeField.text forKey:@"zip"];
     }
     
     if( ![self.dateOfBirth isEqualToDate:userManager.dateOfBirth] )

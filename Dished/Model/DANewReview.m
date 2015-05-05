@@ -46,7 +46,14 @@
     NSString *hashtagString = @"";
     for( DAHashtag *hashtag in self.hashtags )
     {
-        hashtagString = [hashtagString stringByAppendingFormat:@"%d,", (int)hashtag.hashtag_id];
+        if( hashtag.userDefined )
+        {
+            hashtagString = [hashtagString stringByAppendingFormat:@"user#%@,", hashtag.name];
+        }
+        else
+        {
+            hashtagString = [hashtagString stringByAppendingFormat:@"%d,", (int)hashtag.hashtag_id];
+        }
     }
     
     if( hashtagString.length > 0 )

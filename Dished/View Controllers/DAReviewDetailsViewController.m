@@ -18,6 +18,7 @@
 #import "DAFeedCollectionViewFlowLayout.h"
 #import "DAUserManager.h"
 #import "MRProgress.h"
+#import "DAExploreViewController.h"
 #import "DATabBarController.h"
 
 typedef enum
@@ -434,10 +435,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 
     if( [comment.creator_type isEqualToString:kInfluencerUserType] )
     {
-        NSTextAttachment *influencerIcon = [[NSTextAttachment alloc] init];
-        influencerIcon.image = [UIImage imageNamed:@"influencer"];
-        
-        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:influencerIcon];
+        NSAttributedString *influencerIconString = [NSAttributedString attributedStringWithAttachment:[[DAInfluencerTextAttachment alloc] init]];
 
         [labelString appendAttributedString:influencerIconString];
         [labelString appendAttributedString:[[NSAttributedString alloc] initWithString:@" "]];
@@ -641,6 +639,8 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         {
             DAExploreDishResultsViewController *exploreResultsViewController = [self.storyboard instantiateViewControllerWithIdentifier:@"exploreResults"];
             exploreResultsViewController.searchTerm = text;
+            exploreResultsViewController.selectedLocation = [DAExploreViewController storedLocation];
+            exploreResultsViewController.selectedRadius = [DAExploreViewController storedRadius];
             [self.navigationController pushViewController:exploreResultsViewController animated:YES];
         }
         else if( textType == eLinkedTextTypeUsername )

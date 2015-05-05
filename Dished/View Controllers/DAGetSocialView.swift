@@ -14,7 +14,7 @@ class DAGetSocialView: DAView {
     var skipButton: UIButton!
     
     override func setupViews() {
-        tableView = DATouchTableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
+        tableView = DATableView(frame: CGRectZero, style: UITableViewStyle.Grouped)
         tableView.tableHeaderView = tableHeaderView()
         tableView.tableFooterView = tableFooterView()
         addSubview(tableView)

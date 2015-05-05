@@ -27,6 +27,7 @@ typedef enum
     eErrorTypeExpiredAccessToken,
     eErrorTypeInvalidRefreshToken,
     eErrorTypeParamsInvalid,
+    eErrorTypeUserInactive,
     eErrorTypeUnknown
 } eErrorType;
 
@@ -63,12 +64,12 @@ typedef void(^RequestFailureBlock)( NSError *error, BOOL shouldRetry );
  */
 - (void)registerUserWithUsername:(NSString *)username password:(NSString *)password firstName:(NSString *)firstName
                         lastName:(NSString *)lastName email:(NSString *)email phoneNumber:(NSString *)phoneNumber
-                        birthday:(NSDate *)birthday completion:(void(^)( BOOL registered, BOOL loggedIn ) )completion;
+                        birthday:(NSDate *)birthday zipCode:(NSString *)zipCode completion:(void(^)( BOOL registered, BOOL loggedIn ) )completion;
 
 /*
  * User login.
  */
-- (void)loginWithUser:(NSString *)user password:(NSString *)password completion:(void(^)( BOOL success, BOOL wrongUser, BOOL wrongPass ) )completion;
+- (void)loginWithUser:(NSString *)user password:(NSString *)password completion:(void(^)( BOOL success, BOOL wrongUser, BOOL wrongPass, BOOL deactivated ) )completion;
 
 /*
  * Facebook user login.
@@ -102,6 +103,8 @@ typedef void(^RequestFailureBlock)( NSError *error, BOOL shouldRetry );
  * Submit password reset to new password with verification pin.
  */
 - (void)submitPasswordResetWithPin:(NSString *)pin phoneNumber:(NSString *)phoneNumber newPassword:(NSString *)password completion:(void(^)( BOOL pinValid, BOOL success ) )completion;
+
+- (void)deactivateUserAccountWithCompletion:( void(^)( BOOL success ) )completion;
 
 /*
  * Search task for when it is unknown

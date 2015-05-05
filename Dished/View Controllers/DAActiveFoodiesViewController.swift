@@ -160,12 +160,19 @@ class DAActiveFoodiesViewController: DAViewController, UICollectionViewDataSourc
         }
     }
     
-    func cellDidSwipeAway(cell: DAFoodieCollectionViewCell) {
+    func didDismissCell(cell: DAFoodieCollectionViewCell) {
         if let indexPath = activeFoodiesView.collectionView.indexPathForCell(cell) {
             activeFoodiesView.collectionView.performBatchUpdates({
                 self.foodiesDataSource.foodies.removeAtIndex(indexPath.row)
                 self.activeFoodiesView.collectionView.deleteItemsAtIndexPaths([indexPath])
             }, completion: nil)
+        }
+    }
+    
+    func didTapUserImageViewInCell(cell: DAFoodieCollectionViewCell) {
+        if let indexPath = activeFoodiesView.collectionView.indexPathForCell(cell) {
+            let foodie = foodiesDataSource.foodies[indexPath.row]
+            goToFoodieProfile(foodie)
         }
     }
     

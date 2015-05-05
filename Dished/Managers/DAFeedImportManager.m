@@ -37,6 +37,11 @@ typedef void(^GetFeedDataBlock)();
     return self;
 }
 
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)importFeedItemsWithLimit:(NSUInteger)limit offset:(NSUInteger)offset completion:(void (^)( BOOL success, BOOL hasMoreData ) )completion
 {
     [self getFeedDataWithLimit:limit offset:offset success:^( id response )
@@ -52,11 +57,14 @@ typedef void(^GetFeedDataBlock)();
             
             NSUInteger entityIndex = 0;
             
-            for( int i = 0; i < timestamps.count; i++ )
+            DAFeedItem *lastItem = nil;
+            
+            for( int i = 0; i < data.count; i++ )
             {
                 NSString *content = data[i][@"content"];
                 if( [content isEqualToString:@"user_sug"] )
                 {
+                    [self addUserSuggestion:data[i] toFeedItem:lastItem];
                     continue;
                 }
                 
@@ -68,6 +76,7 @@ typedef void(^GetFeedDataBlock)();
                 if( entityIndex < matchingItems.count)
                 {
                     DAFeedItem *managedItem = matchingItems[entityIndex];
+                    managedItem.user_suggestion = nil;
                     
                     if( [timestamps[newItemIndex] doubleValue] < [managedItem.created timeIntervalSince1970] )
                     {
@@ -81,6 +90,7 @@ typedef void(^GetFeedDataBlock)();
                         [newManagedItem configureWithDictionary:data[newItemIndex]];
                         [self updateFeedItem:newManagedItem withComments:comments];
                         [self updateFeedItem:newManagedItem withHashtags:hashtags];
+                        lastItem = newManagedItem;
                     }
                     else
                     {
@@ -88,6 +98,7 @@ typedef void(^GetFeedDataBlock)();
                         [managedItem configureWithDictionary:data[newItemIndex]];
                         [self updateFeedItem:managedItem withComments:comments];
                         [self updateFeedItem:managedItem withHashtags:hashtags];
+                        lastItem = managedItem;
                         
                         entityIndex++;
                     }
@@ -98,6 +109,7 @@ typedef void(^GetFeedDataBlock)();
                     [newManagedItem configureWithDictionary:data[newItemIndex]];
                     [self updateFeedItem:newManagedItem withComments:comments];
                     [self updateFeedItem:newManagedItem withHashtags:hashtags];
+                    lastItem = newManagedItem;
                 }
             }
             
@@ -123,6 +135,45 @@ typedef void(^GetFeedDataBlock)();
             completion( NO, YES );
         }
     }];
+}
+
+- (void)addUserSuggestion:(NSDictionary *)userSuggestion toFeedItem:(DAFeedItem *)feedItem
+{
+    id reviews = userSuggestion[kReviewsKey];
+    
+    if( ![reviews isKindOfClass:[NSArray class]] )
+    {
+        return;
+    }
+    
+    if( [reviews count] <= 0 )
+    {
+        return;
+    }
+    
+    NSNumber *userID = @([userSuggestion[kIDKey] intValue]);
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"%K == %@", @"user_id", userID];
+    NSString *entityName = [DAManagedUserSuggestion entityName];
+    NSArray *match = [[DACoreDataManager sharedManager] fetchEntitiesWithName:entityName sortDescriptors:nil predicate:predicate inManagedObjectContext:self.managedObjectContext];
+    
+    if( match.count > 0 )
+    {
+        DAManagedUserSuggestion *foundUserSuggestion = match[0];
+        
+        if( [foundUserSuggestion.dismissed boolValue] )
+        {
+            return;
+        }
+        
+        [foundUserSuggestion configureWithDictionary:userSuggestion];
+        feedItem.user_suggestion = foundUserSuggestion;
+    }
+    else
+    {
+        DAManagedUserSuggestion *newUserSuggestion = (DAManagedUserSuggestion *)[[DACoreDataManager sharedManager] createEntityWithName:[DAManagedUserSuggestion entityName] inManagedObjectContext:self.managedObjectContext];
+        [newUserSuggestion configureWithDictionary:userSuggestion];
+        feedItem.user_suggestion = newUserSuggestion;
+    }
 }
 
 - (void)updateFeedItem:(DAFeedItem *)feedItem withComments:(NSArray *)comments
@@ -243,7 +294,11 @@ typedef void(^GetFeedDataBlock)();
         [formatter setNumberStyle:NSNumberFormatterDecimalStyle];
         NSNumber *itemID = [formatter numberFromString:item[kIDKey]];
         
-        [itemIDs addObject:itemID];
+        NSString *content = item[@"content"];
+        if( ![content isEqualToString:@"user_sug"] )
+        {
+            [itemIDs addObject:itemID];
+        }
     }
     
     return itemIDs;
@@ -257,7 +312,8 @@ typedef void(^GetFeedDataBlock)();
     {
         NSNumber *itemID = item[kCreatedKey];
         
-        if( itemID )
+        NSString *content = item[@"content"];
+        if( itemID && ![content isEqualToString:@"user_sug"] )
         {
             [timestamps addObject:itemID];
         }

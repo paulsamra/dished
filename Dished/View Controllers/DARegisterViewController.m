@@ -265,6 +265,18 @@
         }
     }
     
+    if( textField == self.zipCodeField )
+    {
+        if( self.zipCodeField.text.length == 5 )
+        {
+            self.zipCodeCell.accessoryView = [[UIImageView alloc] initWithImage:self.validIconImage];
+        }
+        else
+        {
+            self.zipCodeCell.accessoryView = nil;
+        }
+    }
+    
     if( textField == self.passwordField )
     {
         if( [textField.text length] >= 6 )
@@ -474,6 +486,12 @@
         self.phoneNumberCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
     }
     
+    if( !self.zipCodeField.text || self.zipCodeField.text.length != 5 )
+    {
+        numOfInvalidInputs++;
+        self.zipCodeCell.accessoryView = [[UIImageView alloc] initWithImage:self.errorIconImage];
+    }
+    
     if( !self.facebookUserInfo )
     {
         if( !self.passwordField.text || self.passwordField.text.length < 6 )
@@ -669,13 +687,15 @@
     NSString *phone     = self.phoneNumberField.text;
     NSString *password  = self.passwordField.text;
     NSDate *dateOfBirth = self.dateOfBirth;
+    NSString *zipCode   = self.zipCodeField.text;
     
     NSString *after1 = [phone substringFromIndex:3];
     NSArray  *parts = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
     NSString *decimalString = [[parts componentsJoinedByString:@""] mutableCopy];
     
-    [[DAAPIManager sharedManager] registerUserWithUsername:username password:password firstName:firstName lastName:lastName
-    email:email phoneNumber:decimalString birthday:dateOfBirth completion:^( BOOL registered, BOOL loggedIn )
+    [[DAAPIManager sharedManager] registerUserWithUsername:username password:password firstName:firstName
+    lastName:lastName email:email phoneNumber:decimalString birthday:dateOfBirth zipCode:zipCode
+    completion:^( BOOL registered, BOOL loggedIn )
     {
         [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
         {

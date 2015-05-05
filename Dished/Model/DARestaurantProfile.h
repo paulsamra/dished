@@ -22,6 +22,7 @@
 @property (strong, nonatomic) NSArray  *cocktailDishes;
 
 @property (nonatomic) BOOL      is_private;
+@property (nonatomic) BOOL      is_inactive;
 @property (nonatomic) BOOL      is_profile_owner;
 @property (nonatomic) BOOL      caller_follows;
 @property (nonatomic) double    latitude;

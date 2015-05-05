@@ -86,7 +86,7 @@ class DAFindFriendsDataSource: DADataSource {
                 }
                 
                 let friendDict = friendList.groupBy(groupingFunction: {
-                    $0.name[0]?.capitalizedString ?? ""
+                    self.keyForFriend($0)
                 })
                 
                 self.friends = friendDict
@@ -98,13 +98,26 @@ class DAFindFriendsDataSource: DADataSource {
             },
             failure: {
                 error, retry in
-                self.delegate?.dataSourceDidFailToLoadData(self, withError: error)
-                return
+                
+                if retry {
+                    self.getRegisterStatusForContacts(contacts)
+                }
+                else {
+                    self.delegate?.dataSourceDidFailToLoadData(self, withError: error)
+                }
             })
         }
         else {
             self.delegate?.dataSourceDidFailToLoadData(self, withError: nil)
         }
+    }
+    
+    private func keyForFriend(friend: DAFriend) -> String {
+        if friend.name.isEmpty {
+            return ""
+        }
+        
+        return friend.name[0]!.capitalizedString
     }
     
     private func processFriendData(data: NSDictionary) -> DAFriend {
@@ -182,13 +195,29 @@ class DAFindFriendsDataSource: DADataSource {
     }
     
     private func processContact(person: SwiftAddressBookPerson, phoneNumber: String) -> [String:String]? {
-        let name = person.compositeName as String?
-        let email = person.emails?[0].value as String?
+        let name = person.compositeName
+        var email: String? = nil
+        if let emails = person.emails {
+            email = emails.isEmpty ? nil : emails[0].value
+        }
         var number = phoneNumber
+        
+        if name == nil {
+            return nil
+        }
+        else {
+            if name!.isEmpty {
+                return nil
+            }
+        }
         
         let nonDecimalSet = NSCharacterSet.decimalDigitCharacterSet().invertedSet
         let decimals = number.componentsSeparatedByCharactersInSet(nonDecimalSet)
         number = "".join(decimals)
+        
+        if number.isEmpty {
+            return nil
+        }
         
         if number[0] == "1" {
             number = number.substringFromIndex(advance(number.startIndex, 1))
