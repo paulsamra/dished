@@ -921,6 +921,9 @@
 		94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */; };
 		94942A1F1990AB0800095A70 /* DAExploreLiveSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1E1990AB0800095A70 /* DAExploreLiveSearchResult.m */; };
 		94942A221990AB5900095A70 /* DADish.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A211990AB5900095A70 /* DADish.m */; };
+		9497445F1AF96B510068A8F9 /* DAUserManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497445E1AF96B510068A8F9 /* DAUserManager2.swift */; };
+		949744601AF96B510068A8F9 /* DAUserManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497445E1AF96B510068A8F9 /* DAUserManager2.swift */; };
+		949744611AF96B510068A8F9 /* DAUserManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497445E1AF96B510068A8F9 /* DAUserManager2.swift */; };
 		9499213A1ABA1E1700A247B0 /* DAFindFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949921391ABA1E1700A247B0 /* DAFindFriendsViewController.swift */; };
 		9499213B1ABA1E1700A247B0 /* DAFindFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949921391ABA1E1700A247B0 /* DAFindFriendsViewController.swift */; };
 		9499213C1ABA1E1700A247B0 /* DAFindFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949921391ABA1E1700A247B0 /* DAFindFriendsViewController.swift */; };
@@ -1592,6 +1595,7 @@
 		94942A1E1990AB0800095A70 /* DAExploreLiveSearchResult.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreLiveSearchResult.m; sourceTree = "<group>"; };
 		94942A201990AB5900095A70 /* DADish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADish.h; sourceTree = "<group>"; };
 		94942A211990AB5900095A70 /* DADish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADish.m; sourceTree = "<group>"; };
+		9497445E1AF96B510068A8F9 /* DAUserManager2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAUserManager2.swift; sourceTree = "<group>"; };
 		949921391ABA1E1700A247B0 /* DAFindFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFindFriendsViewController.swift; sourceTree = "<group>"; };
 		9499213E1ABA1E5400A247B0 /* DAFindFriendsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFindFriendsView.swift; sourceTree = "<group>"; };
 		949921421ABA220200A247B0 /* DAFriend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFriend.swift; sourceTree = "<group>"; };
@@ -2863,6 +2867,7 @@
 				9443DF0D19D2AC1D00F134BA /* DANewsManager.m */,
 				943ECCF919EB1AD5009516E8 /* DAUserManager.h */,
 				943ECCFA19EB1AD5009516E8 /* DAUserManager.m */,
+				9497445E1AF96B510068A8F9 /* DAUserManager2.swift */,
 				9488B9FD1A26A86F0098FE09 /* DATagManager.h */,
 				9488B9FE1A26A86F0098FE09 /* DATagManager.m */,
 				94756CC81A311B6E009B6BD6 /* DAPushManager.h */,
@@ -3691,6 +3696,7 @@
 				941292111A1BEED500B7C763 /* DAAPIManager.m in Sources */,
 				94A6FE431A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921651ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
+				949744601AF96B510068A8F9 /* DAUserManager2.swift in Sources */,
 				941292121A1BEED500B7C763 /* SSKeychainQuery.m in Sources */,
 				9403E76F1AF8DE350098A918 /* DAMenuTableView.swift in Sources */,
 				94C97F001ABE53E20066C808 /* DAErrorView.swift in Sources */,
@@ -4039,6 +4045,7 @@
 				941293101A1C7AD100B7C763 /* DAAPIManager.m in Sources */,
 				94A6FE441A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921661ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
+				949744611AF96B510068A8F9 /* DAUserManager2.swift in Sources */,
 				941293111A1C7AD100B7C763 /* SSKeychainQuery.m in Sources */,
 				9403E7701AF8DE350098A918 /* DAMenuTableView.swift in Sources */,
 				94C97F011ABE53E20066C808 /* DAErrorView.swift in Sources */,
@@ -4387,6 +4394,7 @@
 				94E5EF4E194348380021A711 /* DAAPIManager.m in Sources */,
 				94A6FE421A46E2B800AB901F /* UIColor+Dished.swift in Sources */,
 				949921641ABB360000A247B0 /* SwiftAddressBookRecord.swift in Sources */,
+				9497445F1AF96B510068A8F9 /* DAUserManager2.swift in Sources */,
 				94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */,
 				9403E76E1AF8DE350098A918 /* DAMenuTableView.swift in Sources */,
 				94C97EFF1ABE53E20066C808 /* DAErrorView.swift in Sources */,

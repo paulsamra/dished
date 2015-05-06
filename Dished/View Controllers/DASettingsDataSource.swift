@@ -69,6 +69,8 @@ class DASettingsDataSource {
         )
     ]
     
+    var userManager = DAUserManager2()
+    
     func settingsForSection(section: String) -> [String] {
         return settings[section]?.0 ?? []
     }
@@ -76,5 +78,16 @@ class DASettingsDataSource {
     func cellStyleForSettingIndex(index: Int, inSection section: String) -> DASettingsTableViewCellStyle {
         let styles = settings[section]?.1 ?? []
         return index >= styles.count ? DASettingsTableViewCellStyle.Plain : styles[index]
+    }
+    
+    func stateForSetting(setting: String) -> Bool {
+        if setting == settings["Privacy"]?.0[0] {
+            return !userManager.publicProfile
+        }
+        else if setting == settings["Save Photos to Library"]?.0[0] {
+            return userManager.savesDishPhoto
+        }
+        
+        return false
     }
 }

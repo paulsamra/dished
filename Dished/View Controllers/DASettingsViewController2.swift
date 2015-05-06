@@ -38,8 +38,13 @@ class DASettingsViewController2: DAViewController, UITableViewDelegate, UITableV
         let section = settingsDataSource.sectionNames[indexPath.section]
         let settings = settingsDataSource.settingsForSection(section)
         
-        cell.style = settingsDataSource.cellStyleForSettingIndex(indexPath.row, inSection: section)
+        let style = settingsDataSource.cellStyleForSettingIndex(indexPath.row, inSection: section)
+        cell.style = style
         cell.textLabel?.text = settings[indexPath.row]
+        
+        if style == DASettingsTableViewCellStyle.Switch {
+            cell.selectorSwitch.on = settingsDataSource.stateForSetting(settings[indexPath.row])
+        }
         
         return cell
     }
