@@ -49,12 +49,33 @@ class DASettingsViewController2: DAViewController, UITableViewDelegate, UITableV
         return cell
     }
     
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let section = settingsDataSource.sectionNames[indexPath.section]
+        let settings = settingsDataSource.settingsForSection(section)
+        let setting = settings[indexPath.row]
+        
+        if let destination = settingsDataSource.viewControllerForSetting(setting) {
+            navigationController?.pushViewController(destination, animated: true)
+        }
+        else {
+            tableView.deselectSelectedIndexPath()
+            
+            if settingsDataSource.settingIsLogout(setting) {
+                showLogoutPrompt()
+            }
+        }
+    }
+    
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return settingsDataSource.sectionNames[section]
     }
     
     func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return settingsDataSource.sectionFooters[section]
+    }
+    
+    private func showLogoutPrompt() {
+        
     }
     
     override func loadView() {

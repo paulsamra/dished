@@ -113,7 +113,8 @@ extension UIViewController {
     }
     
     func pushSettingsView() {
-        let settingsViewController = DASettingsViewController2() //viewControllerWithStoryboardID( kSettingsViewID )
+//        let settingsViewController = DASettingsViewController2()
+        let settingsViewController = viewControllerWithStoryboardID( kSettingsViewID )
         target()?.pushViewController( settingsViewController, animated: true )
     }
     

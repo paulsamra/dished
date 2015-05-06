@@ -90,4 +90,21 @@ class DASettingsDataSource {
         
         return false
     }
+    
+    func settingIsLogout(setting: String) -> Bool {
+        return setting == "Log Out"
+    }
+    
+    func viewControllerForSetting(setting: String) -> UIViewController? {
+        var viewController: UIViewController?
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        
+        switch(setting) {
+            case "Profile Details": viewController = storyboard.instantiateViewControllerWithIdentifier("editProfile") as? UIViewController
+            default: viewController = nil
+        }
+        
+        return viewController
+    }
 }

@@ -924,6 +924,15 @@
 		9497445F1AF96B510068A8F9 /* DAUserManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497445E1AF96B510068A8F9 /* DAUserManager2.swift */; };
 		949744601AF96B510068A8F9 /* DAUserManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497445E1AF96B510068A8F9 /* DAUserManager2.swift */; };
 		949744611AF96B510068A8F9 /* DAUserManager2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497445E1AF96B510068A8F9 /* DAUserManager2.swift */; };
+		949744681AFACD9A0068A8F9 /* DAShareSettingsViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949744671AFACD9A0068A8F9 /* DAShareSettingsViewController2.swift */; };
+		949744691AFACD9A0068A8F9 /* DAShareSettingsViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949744671AFACD9A0068A8F9 /* DAShareSettingsViewController2.swift */; };
+		9497446A1AFACD9A0068A8F9 /* DAShareSettingsViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949744671AFACD9A0068A8F9 /* DAShareSettingsViewController2.swift */; };
+		9497446C1AFACDD80068A8F9 /* DAShareSettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497446B1AFACDD80068A8F9 /* DAShareSettingsDataSource.swift */; };
+		9497446D1AFACDD80068A8F9 /* DAShareSettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497446B1AFACDD80068A8F9 /* DAShareSettingsDataSource.swift */; };
+		9497446E1AFACDD80068A8F9 /* DAShareSettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497446B1AFACDD80068A8F9 /* DAShareSettingsDataSource.swift */; };
+		949744701AFACF450068A8F9 /* DAShareSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497446F1AFACF450068A8F9 /* DAShareSettingsView.swift */; };
+		949744711AFACF450068A8F9 /* DAShareSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497446F1AFACF450068A8F9 /* DAShareSettingsView.swift */; };
+		949744721AFACF450068A8F9 /* DAShareSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9497446F1AFACF450068A8F9 /* DAShareSettingsView.swift */; };
 		9499213A1ABA1E1700A247B0 /* DAFindFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949921391ABA1E1700A247B0 /* DAFindFriendsViewController.swift */; };
 		9499213B1ABA1E1700A247B0 /* DAFindFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949921391ABA1E1700A247B0 /* DAFindFriendsViewController.swift */; };
 		9499213C1ABA1E1700A247B0 /* DAFindFriendsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949921391ABA1E1700A247B0 /* DAFindFriendsViewController.swift */; };
@@ -1596,6 +1605,9 @@
 		94942A201990AB5900095A70 /* DADish.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DADish.h; sourceTree = "<group>"; };
 		94942A211990AB5900095A70 /* DADish.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DADish.m; sourceTree = "<group>"; };
 		9497445E1AF96B510068A8F9 /* DAUserManager2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAUserManager2.swift; sourceTree = "<group>"; };
+		949744671AFACD9A0068A8F9 /* DAShareSettingsViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAShareSettingsViewController2.swift; sourceTree = "<group>"; };
+		9497446B1AFACDD80068A8F9 /* DAShareSettingsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAShareSettingsDataSource.swift; sourceTree = "<group>"; };
+		9497446F1AFACF450068A8F9 /* DAShareSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAShareSettingsView.swift; sourceTree = "<group>"; };
 		949921391ABA1E1700A247B0 /* DAFindFriendsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFindFriendsViewController.swift; sourceTree = "<group>"; };
 		9499213E1ABA1E5400A247B0 /* DAFindFriendsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFindFriendsView.swift; sourceTree = "<group>"; };
 		949921421ABA220200A247B0 /* DAFriend.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFriend.swift; sourceTree = "<group>"; };
@@ -2590,6 +2602,16 @@
 			name = News;
 			sourceTree = "<group>";
 		};
+		949744661AFACD6A0068A8F9 /* Share Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9497446F1AFACF450068A8F9 /* DAShareSettingsView.swift */,
+				9497446B1AFACDD80068A8F9 /* DAShareSettingsDataSource.swift */,
+				949744671AFACD9A0068A8F9 /* DAShareSettingsViewController2.swift */,
+			);
+			name = "Share Settings";
+			sourceTree = "<group>";
+		};
 		9499213D1ABA1E1D00A247B0 /* Find Friends */ = {
 			isa = PBXGroup;
 			children = (
@@ -2655,6 +2677,7 @@
 			isa = PBXGroup;
 			children = (
 				9421B5331AF950D200D18FEA /* Settings */,
+				949744661AFACD6A0068A8F9 /* Share Settings */,
 				9401F92C19E496360037812B /* DASettingsViewController.h */,
 				9401F92D19E496360037812B /* DASettingsViewController.m */,
 				94B43AAA19EB2BAF00482F52 /* DANotificationSettingsViewController.h */,
@@ -3502,6 +3525,7 @@
 				941291AC1A1BEED500B7C763 /* DAUserProfile.m in Sources */,
 				941291AD1A1BEED500B7C763 /* AFHTTPSessionManager.m in Sources */,
 				9499214E1ABB2E9700A247B0 /* DAFindFriendsDataSource.swift in Sources */,
+				949744691AFACD9A0068A8F9 /* DAShareSettingsViewController2.swift in Sources */,
 				94502A851ABE7A3900810FBA /* DAWelcomeView.swift in Sources */,
 				94426C8C1A6A75C000186C35 /* MPUIControlBinding.m in Sources */,
 				94426C081A6A75BF00186C35 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
@@ -3595,6 +3619,7 @@
 				94A6FE321A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */,
 				941291DE1A1BEED500B7C763 /* DACurrentLocationViewController.m in Sources */,
 				941291E01A1BEED500B7C763 /* SWCellScrollView.m in Sources */,
+				9497446D1AFACDD80068A8F9 /* DAShareSettingsDataSource.swift in Sources */,
 				941291E11A1BEED500B7C763 /* UIViewController+TAPKeyboardPop.m in Sources */,
 				9499215F1ABB360000A247B0 /* SwiftAddressBookHelperMethods.swift in Sources */,
 				941291E21A1BEED500B7C763 /* DALoginViewController.m in Sources */,
@@ -3723,6 +3748,7 @@
 				941292211A1BEED500B7C763 /* DACaptureManager.m in Sources */,
 				941292221A1BEED500B7C763 /* DADishProfile.m in Sources */,
 				94AAAA3B1A42FFAE00863E09 /* DAShareLinkTableViewController.m in Sources */,
+				949744711AFACF450068A8F9 /* DAShareSettingsView.swift in Sources */,
 				94426C501A6A75BF00186C35 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				94426C021A6A75BF00186C35 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				941292241A1BEED500B7C763 /* UIColor+JSQMessages.m in Sources */,
@@ -3851,6 +3877,7 @@
 				941292AB1A1C7AD100B7C763 /* DAUserProfile.m in Sources */,
 				941292AC1A1C7AD100B7C763 /* AFHTTPSessionManager.m in Sources */,
 				9499214F1ABB2E9700A247B0 /* DAFindFriendsDataSource.swift in Sources */,
+				9497446A1AFACD9A0068A8F9 /* DAShareSettingsViewController2.swift in Sources */,
 				94502A861ABE7A3900810FBA /* DAWelcomeView.swift in Sources */,
 				94426C8D1A6A75C000186C35 /* MPUIControlBinding.m in Sources */,
 				94426C091A6A75BF00186C35 /* MPABTestDesignerSnapshotRequestMessage.m in Sources */,
@@ -3944,6 +3971,7 @@
 				94A6FE331A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */,
 				941292DD1A1C7AD100B7C763 /* DACurrentLocationViewController.m in Sources */,
 				941292DF1A1C7AD100B7C763 /* SWCellScrollView.m in Sources */,
+				9497446E1AFACDD80068A8F9 /* DAShareSettingsDataSource.swift in Sources */,
 				941292E01A1C7AD100B7C763 /* UIViewController+TAPKeyboardPop.m in Sources */,
 				949921601ABB360000A247B0 /* SwiftAddressBookHelperMethods.swift in Sources */,
 				941292E11A1C7AD100B7C763 /* DALoginViewController.m in Sources */,
@@ -4072,6 +4100,7 @@
 				941293201A1C7AD100B7C763 /* DACaptureManager.m in Sources */,
 				941293211A1C7AD100B7C763 /* DADishProfile.m in Sources */,
 				94AAAA3C1A42FFB000863E09 /* DAShareLinkTableViewController.m in Sources */,
+				949744721AFACF450068A8F9 /* DAShareSettingsView.swift in Sources */,
 				94426C511A6A75BF00186C35 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				94426C031A6A75BF00186C35 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				941293231A1C7AD100B7C763 /* UIColor+JSQMessages.m in Sources */,
@@ -4200,6 +4229,7 @@
 				9486156919FCCE6E002497D0 /* DAMapAnnotation.m in Sources */,
 				9473FAD519E636E9003A1D1B /* DAUserProfile.m in Sources */,
 				94E5EF441943472D0021A711 /* AFHTTPSessionManager.m in Sources */,
+				949744681AFACD9A0068A8F9 /* DAShareSettingsViewController2.swift in Sources */,
 				94502A841ABE7A3900810FBA /* DAWelcomeView.swift in Sources */,
 				9499214D1ABB2E9700A247B0 /* DAFindFriendsDataSource.swift in Sources */,
 				94426C8B1A6A75C000186C35 /* MPUIControlBinding.m in Sources */,
@@ -4293,6 +4323,7 @@
 				94A6FE311A46D83000AB901F /* DADishSuggestionTableViewCell.swift in Sources */,
 				948615CB19FE1C3D002497D0 /* MRProgressOverlayView.m in Sources */,
 				D1F17704198844BE006BC6BA /* DACurrentLocationViewController.m in Sources */,
+				9497446C1AFACDD80068A8F9 /* DAShareSettingsDataSource.swift in Sources */,
 				94CB03CC19B0EA94009010F6 /* SWCellScrollView.m in Sources */,
 				9499215E1ABB360000A247B0 /* SwiftAddressBookHelperMethods.swift in Sources */,
 				94E5EF2D19432AE00021A711 /* UIViewController+TAPKeyboardPop.m in Sources */,
@@ -4421,6 +4452,7 @@
 				94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */,
 				94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */,
 				94AAAA3A1A42FDBF00863E09 /* DAShareLinkTableViewController.m in Sources */,
+				949744701AFACF450068A8F9 /* DAShareSettingsView.swift in Sources */,
 				94426C4F1A6A75BF00186C35 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				94426C011A6A75BF00186C35 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
 				94CB040219B146AF009010F6 /* UIColor+JSQMessages.m in Sources */,

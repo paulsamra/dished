@@ -96,41 +96,50 @@ class DAUserManager2 {
     
     private func loadSavedProfile() {
         let profileKey = DAUserManager2.userProfileKey
-        let data = NSUserDefaults.standardUserDefaults().objectForKey(profileKey) as? [String:AnyObject]
-        
-        if let savedProfile = data  {
-            firstName   = savedProfile[kFirstNameKey]   as? String ?? ""
-            lastName    = savedProfile[kLastNameKey]    as? String ?? ""
-            email       = savedProfile[kEmailKey]       as? String ?? ""
-            description = savedProfile[kDescriptionKey] as? String ?? ""
-            phoneNumber = savedProfile[kPhoneKey]       as? String ?? ""
-            dateOfBirth = savedProfile[kDateOfBirthKey] as? NSDate ?? NSDate()
-            image       = savedProfile[kImgThumbKey]    as? String ?? ""
-            zipCode     = savedProfile["zip"]           as? String ?? ""
-            username    = savedProfile[kUsernameKey]    as? String ?? ""
-            userType    = savedProfile[kTypeKey]        as? String ?? ""
-            
-            userID = savedProfile[kIDKey]?.integerValue ?? 0
-            
-            regType = savedProfile[kRegTypeKey] as? String ?? ""
-            isFacebookUser = regType == "facebook"
+        if let data = NSUserDefaults.standardUserDefaults().objectForKey(profileKey) as? [String:AnyObject] {
+            setProfileWithData(data)
         }
+    }
+    
+    private func setProfileWithData(data: NSDictionary) {
+        firstName   = data[kFirstNameKey]   as? String ?? ""
+        lastName    = data[kLastNameKey]    as? String ?? ""
+        email       = data[kEmailKey]       as? String ?? ""
+        description = data[kDescriptionKey] as? String ?? ""
+        phoneNumber = data[kPhoneKey]       as? String ?? ""
+        dateOfBirth = data[kDateOfBirthKey] as? NSDate ?? NSDate()
+        image       = data[kImgThumbKey]    as? String ?? ""
+        zipCode     = data["zip"]           as? String ?? ""
+        username    = data[kUsernameKey]    as? String ?? ""
+        userType    = data[kTypeKey]        as? String ?? ""
+        
+        userID = data[kIDKey]?.integerValue ?? 0
+        
+        regType = data[kRegTypeKey] as? String ?? ""
+        isFacebookUser = regType == "facebook"
     }
     
     private func loadSavedSettings() {
         let profileKey = DAUserManager2.userProfileKey
-        let data = NSUserDefaults.standardUserDefaults().objectForKey(profileKey) as? [String:AnyObject]
-        
-        if let savedProfile = data {
-            publicProfile  = savedProfile[kPublicKey]?.boolValue ?? false
-            savesDishPhoto = savedProfile[kSavePhotoKey]?.boolValue ?? false
-            
-            yumPushSetting = DAPushSetting(string: savedProfile[kPushYumKey] as? String ?? "")
-            commentPushSetting = DAPushSetting(string: savedProfile[kPushCommentKey] as? String ?? "")
+        if let data = NSUserDefaults.standardUserDefaults().objectForKey(profileKey) as? [String:AnyObject] {
+            setSettingsWithData(data)
         }
     }
     
+    private func setSettingsWithData(data: NSDictionary) {
+        publicProfile  = data[kPublicKey]?.boolValue ?? false
+        savesDishPhoto = data[kSavePhotoKey]?.boolValue ?? false
+        
+        yumPushSetting = DAPushSetting(string: data[kPushYumKey] as? String ?? "")
+        commentPushSetting = DAPushSetting(string: data[kPushCommentKey] as? String ?? "")
+    }
+    
     class func loadCurrentUserWithCompletion(completion: (success: Bool) -> ()) {
+        if !DAAPIManager.sharedManager().isLoggedIn() {
+            completion(success: false)
+            return
+        }
+        
         loadUserProfileWithCompletion({
             profileSuccess in
             self.loadUserSettingsWithCompletion({
@@ -144,7 +153,12 @@ class DAUserManager2 {
         DAAPIManager.sharedManager().GETRequest(kUserSettingsURL, withParameters: nil, success: {
             response in
             
-            
+            if let data = response.objectForKey(kDataKey) as? NSDictionary {
+                self.saveSettingsWithData(data)
+            }
+            else {
+                completion(success: false)
+            }
         },
         failure: {
             error, retry in
@@ -156,7 +170,12 @@ class DAUserManager2 {
         DAAPIManager.sharedManager().GETRequest(kUsersURL, withParameters: nil, success: {
             response in
             
-            
+            if let data = response.objectForKey(kDataKey) as? NSDictionary {
+                self.saveProfileWithData(data)
+            }
+            else {
+                completion(success: false)
+            }
         },
         failure: {
             error, retry in
@@ -167,10 +186,6 @@ class DAUserManager2 {
     class func removeCurrentSavedUserData() {
         NSUserDefaults.standardUserDefaults().removeObjectForKey(userProfileKey)
         NSUserDefaults.standardUserDefaults().synchronize()
-    }
-    
-    private func userProfileDeleted() {
-        resetUserInfo()
     }
     
     private func saveSettingToServerWithParameters(parameters: [NSObject: AnyObject], inout forTask task: NSURLSessionTask?) {
@@ -190,7 +205,7 @@ class DAUserManager2 {
         DAUserManager2.removeCurrentSavedUserData()
     }
     
-    func resetUserInfo() {
+    private func resetUserInfo() {
         dateOfBirth = NSDate()
         firstName = ""
         lastName = ""
@@ -201,5 +216,40 @@ class DAUserManager2 {
         userType = ""
         image = ""
         zipCode = ""
+    }
+    
+    private class func saveProfileWithData(data: NSDictionary) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        var saved = userDefaults.objectForKey(userProfileKey) as? [String:AnyObject]
+        var profile = saved ?? [String:AnyObject]()
+
+        profile["zip"] = data["zip"]
+        profile[kDateOfBirthKey] = data[kDateOfBirthKey]
+        profile[kFirstNameKey] = data[kFirstNameKey]
+        profile[kLastNameKey] = data[kLastNameKey]
+        profile[kEmailKey] = data[kEmailKey]
+        profile[kDescriptionKey] = data[kDescriptionKey]
+        profile[kPhoneKey] = data[kPhoneKey]
+        profile[kUsernameKey] = data[kUsernameKey]
+        profile[kTypeKey] = data[kTypeKey]
+        profile[kImgThumbKey] = data[kImgThumbKey]
+        
+        NSUserDefaults.standardUserDefaults().setObject(profile, forKey: DAUserManager2.userProfileKey)
+        NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    private class func saveSettingsWithData(data: NSDictionary) {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        var saved = userDefaults.objectForKey(userProfileKey) as? [String:AnyObject]
+        var profile = saved ?? [String:AnyObject]()
+        
+        profile[kPublicKey] = data[kPublicKey]?.boolValue ?? false
+        profile[kSavePhotoKey] = data[kSavePhotoKey]?.boolValue ?? false
+        
+        profile[kPushYumKey] = data[kPushYumKey]
+        profile[kPushCommentKey] = data[kPushCommentKey]
+        
+        NSUserDefaults.standardUserDefaults().setObject(profile, forKey: DAUserManager2.userProfileKey)
+        NSUserDefaults.standardUserDefaults().synchronize()
     }
 }
