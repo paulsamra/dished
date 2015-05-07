@@ -387,7 +387,7 @@ typedef void(^GetFeedDataBlock)();
     else
     {
         self.feedDataBlock = block;
-        self.feedTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(feedDataBlock) userInfo:nil repeats:NO];
+        self.feedTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(locationUpdated) userInfo:nil repeats:NO];
     }
 }
 
