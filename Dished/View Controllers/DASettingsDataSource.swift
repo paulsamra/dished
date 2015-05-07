@@ -102,6 +102,7 @@ class DASettingsDataSource {
         
         switch(setting) {
             case "Profile Details": viewController = storyboard.instantiateViewControllerWithIdentifier("editProfile") as? UIViewController
+            case "Share Settings": viewController = DAShareSettingsViewController2()
             default: viewController = nil
         }
         

@@ -13,6 +13,7 @@
 #import "DAConstants.h"
 #import "DAHashtag.h"
 #import "UserVoice.h"
+#import "DATwitterManager.h"
 #import "DAEditProfileViewController.h"
 #import "DARefreshControl.h"
 #import "DAManagedUserSuggestion+Utility.h"
