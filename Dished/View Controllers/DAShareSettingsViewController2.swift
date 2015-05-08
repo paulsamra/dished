@@ -22,6 +22,12 @@ class DAShareSettingsViewController2: DAViewController, UITableViewDelegate, UIT
         shareSettingsView.tableView.dataSource = self
     }
     
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        shareSettingsView.tableView.deselectSelectedIndexPath()
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return shareSettingsDataSource.sharingServices.count
     }
@@ -39,10 +45,13 @@ class DAShareSettingsViewController2: DAViewController, UITableViewDelegate, UIT
         
         let connected = shareSettingsDataSource.sharingServiceIsConnected(sharingService)
         cell!.detailTextLabel?.text = connected ? "Connected" : "Not Connected"
+        cell!.detailTextLabel?.textColor = connected ? UIColor.blueColor() : UIColor.lightGrayColor()
+        cell!.detailTextLabel?.font = DAConstants.primaryFontWithSize(17.0)
         
         let disclosureIndicator = UITableViewCellAccessoryType.DisclosureIndicator
         let configurable = shareSettingsDataSource.sharingServiceIsConfigurable(sharingService)
         cell!.accessoryType = configurable ? disclosureIndicator : UITableViewCellAccessoryType.None
+        cell!.userInteractionEnabled = configurable
         
         return cell!
     }

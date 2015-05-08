@@ -14,9 +14,15 @@ enum DASettingsTableViewCellStyle {
     case Switch
 }
 
+protocol DASettingsTableViewCellDelegate: class {
+    func settingsTableViewCell(cell: DASettingsTableViewCell, didSetSwitchOn on: Bool)
+}
+
 class DASettingsTableViewCell: DATableViewCell {
     
     var selectorSwitch: UISwitch!
+    
+    weak var delegate: DASettingsTableViewCellDelegate?
     
     var style: DASettingsTableViewCellStyle = DASettingsTableViewCellStyle.Plain {
         didSet {
@@ -50,11 +56,16 @@ class DASettingsTableViewCell: DATableViewCell {
         textLabel?.textColor = UIColor.blackColor()
     }
     
+    func switchToggled() {
+        delegate?.settingsTableViewCell(self, didSetSwitchOn: selectorSwitch.on)
+    }
+    
     override func setupViews() {
         textLabel?.font = DAConstants.primaryFontWithSize(17.0)
         
         selectorSwitch = UISwitch()
         selectorSwitch.sizeToFit()
+        selectorSwitch.addTarget(self, action: "switchToggled", forControlEvents: UIControlEvents.ValueChanged)
         addSubview(selectorSwitch)
         selectorSwitch.autoAlignAxisToSuperviewAxis(ALAxis.Horizontal)
         selectorSwitch.autoPinEdgeToSuperviewEdge(ALEdge.Trailing, withInset: 15.0)

@@ -27,7 +27,14 @@ import Foundation
             case .Off:      return kNone
             case .Followed: return kFollow
             case .Everyone: return kAll
-            default:        return kNone
+        }
+    }
+    
+    func name() -> String {
+        switch(self) {
+            case .Off:      return "OFF"
+            case .Followed: return "From people that I follow"
+            case .Everyone: return "From Everyone"
         }
     }
 }
@@ -52,35 +59,45 @@ class DAUserManager2 {
     private static let userProfileDeletedNotificationKey = "Dished-UserProfileDeleted"
     private static let userProfileUpdatedNotificationKey = "Dished-UserProfileUpdated"
     
+    private var finishedInit = false
+    
     var savesDishPhoto = false {
         didSet {
-            savesDishPhotoTask?.cancel()
-            let parameters = [kSavePhotoKey: savesDishPhoto]
-            saveSettingToServerWithParameters(parameters, forTask: &savesDishPhotoTask)
+            if oldValue != savesDishPhoto && finishedInit {
+                savesDishPhotoTask?.cancel()
+                let parameters = [kSavePhotoKey: savesDishPhoto]
+                saveSettingToServerWithParameters(parameters, forTask: &savesDishPhotoTask)
+            }
         }
     }
     
     var publicProfile = false {
         didSet {
-            publicProfileTask?.cancel()
-            let parameters = [kPublicKey: publicProfile]
-            saveSettingToServerWithParameters(parameters, forTask: &publicProfileTask)
+            if oldValue != publicProfile && finishedInit {
+                publicProfileTask?.cancel()
+                let parameters = [kPublicKey: publicProfile]
+                saveSettingToServerWithParameters(parameters, forTask: &publicProfileTask)
+            }
         }
     }
     
     var yumPushSetting = DAPushSetting.Off {
         didSet {
-            yumPushSettingTask?.cancel()
-            let parameters = [kPushYumKey: yumPushSetting.string()]
-            saveSettingToServerWithParameters(parameters, forTask: &yumPushSettingTask)
+            if oldValue != yumPushSetting && finishedInit {
+                yumPushSettingTask?.cancel()
+                let parameters = [kPushYumKey: yumPushSetting.string()]
+                saveSettingToServerWithParameters(parameters, forTask: &yumPushSettingTask)
+            }
         }
     }
     
     var commentPushSetting = DAPushSetting.Off {
         didSet {
-            commentPushSettingTask?.cancel()
-            let parameters = [kPushCommentKey: commentPushSetting.string()]
-            saveSettingToServerWithParameters(parameters, forTask: &commentPushSettingTask)
+            if oldValue != commentPushSetting && finishedInit {
+                commentPushSettingTask?.cancel()
+                let parameters = [kPushCommentKey: commentPushSetting.string()]
+                saveSettingToServerWithParameters(parameters, forTask: &commentPushSettingTask)
+            }
         }
     }
     
@@ -92,6 +109,11 @@ class DAUserManager2 {
     init() {
         loadSavedProfile()
         loadSavedSettings()
+        finishedInit = true
+    }
+    
+    deinit {
+        saveCurrentlyLoadedProfile()
     }
     
     private func loadSavedProfile() {
@@ -190,7 +212,11 @@ class DAUserManager2 {
     
     private func saveSettingToServerWithParameters(parameters: [NSObject: AnyObject], inout forTask task: NSURLSessionTask?) {
         let url = kUserSettingsURL
-        task = DAAPIManager.sharedManager().POSTRequest(url, withParameters: parameters, success: nil,
+        task = DAAPIManager.sharedManager().POSTRequest(url, withParameters: parameters, success: {
+            response in
+            
+            self.saveCurrentlyLoadedProfile()
+        },
         failure: {
             error, retry in
             
@@ -251,5 +277,30 @@ class DAUserManager2 {
         
         NSUserDefaults.standardUserDefaults().setObject(profile, forKey: DAUserManager2.userProfileKey)
         NSUserDefaults.standardUserDefaults().synchronize()
+    }
+    
+    private func saveCurrentlyLoadedProfile() {
+        let userDefaults = NSUserDefaults.standardUserDefaults()
+        var saved = userDefaults.objectForKey(DAUserManager2.userProfileKey) as? [String:AnyObject]
+        var profile = saved ?? [String:AnyObject]()
+        
+        profile["zip"] = zipCode
+        profile[kDateOfBirthKey] = dateOfBirth
+        profile[kFirstNameKey] = firstName
+        profile[kLastNameKey] = lastName
+        profile[kEmailKey] = email
+        profile[kDescriptionKey] = description
+        profile[kPhoneKey] = phoneNumber
+        profile[kUsernameKey] = username
+        profile[kTypeKey] = userType
+        profile[kImgThumbKey] = image
+        
+        profile[kPublicKey] = publicProfile
+        profile[kSavePhotoKey] = savesDishPhoto
+        
+        profile[kPushYumKey] = yumPushSetting.string()
+        profile[kPushCommentKey] = commentPushSetting.string()
+        
+        NSUserDefaults.standardUserDefaults().setObject(profile, forKey: DAUserManager2.userProfileKey)
     }
 }

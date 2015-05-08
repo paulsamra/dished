@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DASettingsViewController2: DAViewController, UITableViewDelegate, UITableViewDataSource {
+class DASettingsViewController2: DAViewController, UITableViewDelegate, UITableViewDataSource, DASettingsTableViewCellDelegate {
 
     let settingsView = DASettingsView()
     let settingsDataSource = DASettingsDataSource()
@@ -21,6 +21,12 @@ class DASettingsViewController2: DAViewController, UITableViewDelegate, UITableV
         settingsView.tableView.delegate = self
         settingsView.tableView.dataSource = self
         settingsView.tableView.registerClass(DASettingsTableViewCell.self, forCellReuseIdentifier: cellIdentifier)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        settingsView.tableView.deselectSelectedIndexPath()
     }
     
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -41,6 +47,7 @@ class DASettingsViewController2: DAViewController, UITableViewDelegate, UITableV
         let style = settingsDataSource.cellStyleForSettingIndex(indexPath.row, inSection: section)
         cell.style = style
         cell.textLabel?.text = settings[indexPath.row]
+        cell.delegate = self
         
         if style == DASettingsTableViewCellStyle.Switch {
             cell.selectorSwitch.on = settingsDataSource.stateForSetting(settings[indexPath.row])
@@ -72,6 +79,15 @@ class DASettingsViewController2: DAViewController, UITableViewDelegate, UITableV
     
     func tableView(tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         return settingsDataSource.sectionFooters[section]
+    }
+    
+    func settingsTableViewCell(cell: DASettingsTableViewCell, didSetSwitchOn on: Bool) {
+        if let indexPath = settingsView.tableView.indexPathForView(cell.selectorSwitch) {
+            let section = settingsDataSource.sectionNames[indexPath.section]
+            let settings = settingsDataSource.settingsForSection(section)
+            let setting = settings[indexPath.row]
+            settingsDataSource.toggledSetting(setting, toState: on)
+        }
     }
     
     private func showLogoutPrompt() {

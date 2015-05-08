@@ -533,6 +533,12 @@
 		94237E72194A318C004DFAB6 /* DAResetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94237E71194A318C004DFAB6 /* DAResetPasswordViewController.m */; };
 		942AA00E19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */; };
 		942AA01A19C2655A00D0D77C /* UIImageView+DishProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */; };
+		942AED461AFBEFA0007FFEA7 /* DANotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942AED451AFBEFA0007FFEA7 /* DANotificationSettingsView.swift */; };
+		942AED471AFBEFA0007FFEA7 /* DANotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942AED451AFBEFA0007FFEA7 /* DANotificationSettingsView.swift */; };
+		942AED481AFBEFA0007FFEA7 /* DANotificationSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942AED451AFBEFA0007FFEA7 /* DANotificationSettingsView.swift */; };
+		942AED4A1AFBEFD5007FFEA7 /* DANotificationSettingsViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942AED491AFBEFD5007FFEA7 /* DANotificationSettingsViewController2.swift */; };
+		942AED4B1AFBEFD5007FFEA7 /* DANotificationSettingsViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942AED491AFBEFD5007FFEA7 /* DANotificationSettingsViewController2.swift */; };
+		942AED4C1AFBEFD5007FFEA7 /* DANotificationSettingsViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942AED491AFBEFD5007FFEA7 /* DANotificationSettingsViewController2.swift */; };
 		942CC23819BDB21700BDBB75 /* DAReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23719BDB21700BDBB75 /* DAReview.m */; };
 		942CC23B19BDBCCF00BDBB75 /* DAUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23A19BDBCCF00BDBB75 /* DAUsername.m */; };
 		943050301AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
@@ -1282,6 +1288,8 @@
 		942AA00D19C2319C00D0D77C /* DAGlobalDishCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAGlobalDishCollectionViewCell.m; sourceTree = "<group>"; };
 		942AA01819C2655A00D0D77C /* UIImageView+DishProgress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+DishProgress.h"; sourceTree = "<group>"; };
 		942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+DishProgress.m"; sourceTree = "<group>"; };
+		942AED451AFBEFA0007FFEA7 /* DANotificationSettingsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DANotificationSettingsView.swift; sourceTree = "<group>"; };
+		942AED491AFBEFD5007FFEA7 /* DANotificationSettingsViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DANotificationSettingsViewController2.swift; sourceTree = "<group>"; };
 		942CC23619BDB21700BDBB75 /* DAReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReview.h; sourceTree = "<group>"; };
 		942CC23719BDB21700BDBB75 /* DAReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReview.m; sourceTree = "<group>"; };
 		942CC23919BDBCCF00BDBB75 /* DAUsername.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUsername.h; sourceTree = "<group>"; };
@@ -2128,6 +2136,15 @@
 			name = "Login View";
 			sourceTree = "<group>";
 		};
+		942AED441AFBEF87007FFEA7 /* Notification Settings */ = {
+			isa = PBXGroup;
+			children = (
+				942AED451AFBEFA0007FFEA7 /* DANotificationSettingsView.swift */,
+				942AED491AFBEFD5007FFEA7 /* DANotificationSettingsViewController2.swift */,
+			);
+			name = "Notification Settings";
+			sourceTree = "<group>";
+		};
 		943050441AB7FA55008DDCB3 /* Get Social */ = {
 			isa = PBXGroup;
 			children = (
@@ -2678,6 +2695,7 @@
 			children = (
 				9421B5331AF950D200D18FEA /* Settings */,
 				949744661AFACD6A0068A8F9 /* Share Settings */,
+				942AED441AFBEF87007FFEA7 /* Notification Settings */,
 				9401F92C19E496360037812B /* DASettingsViewController.h */,
 				9401F92D19E496360037812B /* DASettingsViewController.m */,
 				94B43AAA19EB2BAF00482F52 /* DANotificationSettingsViewController.h */,
@@ -3566,6 +3584,7 @@
 				941291C01A1BEED500B7C763 /* AFURLRequestSerialization.m in Sources */,
 				941291C11A1BEED500B7C763 /* UIImage+GIF.m in Sources */,
 				94157E691ADE5A2700F1E66D /* DAManagedUserSuggestion+Utility.m in Sources */,
+				942AED4B1AFBEFD5007FFEA7 /* DANotificationSettingsViewController2.swift in Sources */,
 				941291C21A1BEED500B7C763 /* SZTextView.m in Sources */,
 				94426C261A6A75BF00186C35 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				941291C31A1BEED500B7C763 /* STTwitterAppOnly.m in Sources */,
@@ -3637,6 +3656,7 @@
 				94426C951A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				94037C161AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */,
 				941291E81A1BEED500B7C763 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				942AED471AFBEFA0007FFEA7 /* DANotificationSettingsView.swift in Sources */,
 				941291E91A1BEED500B7C763 /* DANotificationSettingsViewController.m in Sources */,
 				94426C231A6A75BF00186C35 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				94756CCB1A312671009B6BD6 /* DAPushManager.m in Sources */,
@@ -3918,6 +3938,7 @@
 				941292BF1A1C7AD100B7C763 /* AFURLRequestSerialization.m in Sources */,
 				941292C01A1C7AD100B7C763 /* UIImage+GIF.m in Sources */,
 				94157E6A1ADE5A2700F1E66D /* DAManagedUserSuggestion+Utility.m in Sources */,
+				942AED4C1AFBEFD5007FFEA7 /* DANotificationSettingsViewController2.swift in Sources */,
 				941292C11A1C7AD100B7C763 /* SZTextView.m in Sources */,
 				94426C271A6A75BF00186C35 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				941292C21A1C7AD100B7C763 /* STTwitterAppOnly.m in Sources */,
@@ -3989,6 +4010,7 @@
 				94426C961A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				94037C171AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */,
 				941292E71A1C7AD100B7C763 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				942AED481AFBEFA0007FFEA7 /* DANotificationSettingsView.swift in Sources */,
 				941292E81A1C7AD100B7C763 /* DANotificationSettingsViewController.m in Sources */,
 				94426C241A6A75BF00186C35 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				94756CCC1A312672009B6BD6 /* DAPushManager.m in Sources */,
@@ -4270,6 +4292,7 @@
 				943E62601987362100DF2135 /* STTwitterOS.m in Sources */,
 				94E5EF481943472D0021A711 /* AFURLRequestSerialization.m in Sources */,
 				94157E681ADE5A2700F1E66D /* DAManagedUserSuggestion+Utility.m in Sources */,
+				942AED4A1AFBEFD5007FFEA7 /* DANotificationSettingsViewController2.swift in Sources */,
 				94F2ADA4198C539200450C6F /* UIImage+GIF.m in Sources */,
 				94426C251A6A75BF00186C35 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				D17487C2196DE8A200D83993 /* SZTextView.m in Sources */,
@@ -4341,6 +4364,7 @@
 				94426C941A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				94037C151AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */,
 				94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */,
+				942AED461AFBEFA0007FFEA7 /* DANotificationSettingsView.swift in Sources */,
 				94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */,
 				94426C221A6A75BF00186C35 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				94756CCA1A311B6E009B6BD6 /* DAPushManager.m in Sources */,

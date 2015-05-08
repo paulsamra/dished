@@ -59,8 +59,8 @@ class DASettingsDataSource {
         ),
         "Terms": (
             [
-                "Privacy Policy",
-                "Terms of Services"
+                kPrivacyPolicy,
+                kTermsAndConditions
             ],
             [
                 DASettingsTableViewCellStyle.Plain,
@@ -103,9 +103,29 @@ class DASettingsDataSource {
         switch(setting) {
             case "Profile Details": viewController = storyboard.instantiateViewControllerWithIdentifier("editProfile") as? UIViewController
             case "Share Settings": viewController = DAShareSettingsViewController2()
+            case "YUM Notifications": viewController = DANotificationSettingsViewController2(notificationSetting: DANotificationSetting.Yum)
+            case "Comment Notifications": viewController = DANotificationSettingsViewController2(notificationSetting: DANotificationSetting.Comment)
+            case kPrivacyPolicy: viewController = documentViewWithName(setting)
+            case kTermsAndConditions: viewController = documentViewWithName(setting)
             default: viewController = nil
         }
         
         return viewController
+    }
+    
+    func toggledSetting(setting: String, toState state: Bool) {
+        switch(setting) {
+            case "Profile Privacy": userManager.publicProfile = !state
+            case "Dish Photos": userManager.savesDishPhoto = state
+            default: return
+        }
+    }
+    
+    private func documentViewWithName(name: String) -> DADocViewController? {
+        if let filePath = NSBundle.mainBundle().pathForResource(name, ofType: "html") {
+            return DADocViewController(filePath: filePath, title: name)
+        }
+        
+        return nil
     }
 }
