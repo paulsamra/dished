@@ -1231,7 +1231,7 @@
 		9409855B1ABC0B8C009F20FF /* Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
 		9409855C1ABC0B8C009F20FF /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
 		941292721A1BEED500B7C763 /* Dished-DEV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dished-DEV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		941292731A1BEED500B7C763 /* Dished-DEV-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Dished-DEV-Info.plist"; path = "/Users/Ryan/Documents/Swipe/Dished/Dished/Dished-DEV-Info.plist"; sourceTree = "<absolute>"; };
+		941292731A1BEED500B7C763 /* Dished-DEV-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Dished-DEV-Info.plist"; path = "/Users/Ryan/Desktop/Dished/dished-mobile/Dished/Dished-DEV-Info.plist"; sourceTree = "<absolute>"; };
 		941293711A1C7AD100B7C763 /* Dished-STAGE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dished-STAGE.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		941293731A1C7B5100B7C763 /* Dished-STAGE-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Dished-STAGE-Info.plist"; sourceTree = "<group>"; };
 		9413A9871AB6CECA00D70B72 /* ALView+PureLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ALView+PureLayout.h"; sourceTree = "<group>"; };

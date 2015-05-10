@@ -39,10 +39,10 @@ import Foundation
     }
 }
 
-class DAUserManager2 {
+class DAUserManager2: NSObject {
     
     private(set) var dateOfBirth = NSDate()
-    private(set) var description = ""
+    private(set) var desc = ""
     private(set) var email = ""
     private(set) var username = ""
     private(set) var userType = ""
@@ -106,7 +106,8 @@ class DAUserManager2 {
     private var yumPushSettingTask: NSURLSessionTask?
     private var commentPushSettingTask: NSURLSessionTask?
     
-    init() {
+    override init() {
+        super.init()
         loadSavedProfile()
         loadSavedSettings()
         finishedInit = true
@@ -127,7 +128,7 @@ class DAUserManager2 {
         firstName   = data[kFirstNameKey]   as? String ?? ""
         lastName    = data[kLastNameKey]    as? String ?? ""
         email       = data[kEmailKey]       as? String ?? ""
-        description = data[kDescriptionKey] as? String ?? ""
+        desc        = data[kDescriptionKey] as? String ?? ""
         phoneNumber = data[kPhoneKey]       as? String ?? ""
         dateOfBirth = data[kDateOfBirthKey] as? NSDate ?? NSDate()
         image       = data[kImgThumbKey]    as? String ?? ""
@@ -156,9 +157,9 @@ class DAUserManager2 {
         commentPushSetting = DAPushSetting(string: data[kPushCommentKey] as? String ?? "")
     }
     
-    class func loadCurrentUserWithCompletion(completion: (success: Bool) -> ()) {
+    class func loadCurrentUserWithCompletion(completion: ((success: Bool) -> ())?) {
         if !DAAPIManager.sharedManager().isLoggedIn() {
-            completion(success: false)
+            completion?(success: false)
             return
         }
         
@@ -166,7 +167,9 @@ class DAUserManager2 {
             profileSuccess in
             self.loadUserSettingsWithCompletion({
                 settingsSuccess in
-                completion(success: profileSuccess && settingsSuccess)
+                
+                completion?(success: profileSuccess && settingsSuccess)
+                return
             })
         })
     }
@@ -177,6 +180,7 @@ class DAUserManager2 {
             
             if let data = response.objectForKey(kDataKey) as? NSDictionary {
                 self.saveSettingsWithData(data)
+                completion(success: true)
             }
             else {
                 completion(success: false)
@@ -194,6 +198,7 @@ class DAUserManager2 {
             
             if let data = response.objectForKey(kDataKey) as? NSDictionary {
                 self.saveProfileWithData(data)
+                completion(success: true)
             }
             else {
                 completion(success: false)
@@ -236,7 +241,7 @@ class DAUserManager2 {
         firstName = ""
         lastName = ""
         email = ""
-        description = ""
+        desc = ""
         phoneNumber = ""
         username = ""
         userType = ""
@@ -289,7 +294,7 @@ class DAUserManager2 {
         profile[kFirstNameKey] = firstName
         profile[kLastNameKey] = lastName
         profile[kEmailKey] = email
-        profile[kDescriptionKey] = description
+        profile[kDescriptionKey] = desc
         profile[kPhoneKey] = phoneNumber
         profile[kUsernameKey] = username
         profile[kTypeKey] = userType
