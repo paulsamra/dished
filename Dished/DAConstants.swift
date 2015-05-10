@@ -14,9 +14,9 @@ import Foundation
     var name: String {
         get {
             switch(self) {
-            case .Food: return kFood
-            case .Cocktail: return kCocktail
-            case .Wine: return kWine
+                case .Food: return kFood
+                case .Cocktail: return kCocktail
+                case .Wine: return kWine
             }
         }
     }

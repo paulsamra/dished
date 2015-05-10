@@ -29,7 +29,7 @@ class DAShareSettingsViewController: DAViewController, UITableViewDelegate, UITa
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return shareSettingsDataSource.sharingServices.count
+        return shareSettingsDataSource.socialMedia.count
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -39,17 +39,16 @@ class DAShareSettingsViewController: DAViewController, UITableViewDelegate, UITa
             cell = UITableViewCell(style: UITableViewCellStyle.Value1, reuseIdentifier: cellIdentifier)
         }
         
-        let sharingService = shareSettingsDataSource.sharingServices[indexPath.row]
-        cell!.textLabel?.text = sharingService
+        let socialMedia = shareSettingsDataSource.socialMedia[indexPath.row]
+        cell!.textLabel?.text = socialMedia.name
         cell!.textLabel?.font = DAConstants.primaryFontWithSize(17.0)
         
-        let connected = shareSettingsDataSource.sharingServiceIsConnected(sharingService)
-        cell!.detailTextLabel?.text = connected ? "Connected" : "Not Connected"
-        cell!.detailTextLabel?.textColor = connected ? UIColor.blueColor() : UIColor.lightGrayColor()
+        cell!.detailTextLabel?.text = socialMedia.connected ? "Connected" : "Not Connected"
+        cell!.detailTextLabel?.textColor = socialMedia.connected ? UIColor.dishedColor() : UIColor.lightGrayColor()
         cell!.detailTextLabel?.font = DAConstants.primaryFontWithSize(17.0)
         
         let disclosureIndicator = UITableViewCellAccessoryType.DisclosureIndicator
-        let configurable = shareSettingsDataSource.sharingServiceIsConfigurable(sharingService)
+        let configurable = socialMedia.configurable
         cell!.accessoryType = configurable ? disclosureIndicator : UITableViewCellAccessoryType.None
         cell!.userInteractionEnabled = configurable
         
@@ -57,17 +56,12 @@ class DAShareSettingsViewController: DAViewController, UITableViewDelegate, UITa
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let sharingService = shareSettingsDataSource.sharingServices[indexPath.row]
+        let socialMedia = shareSettingsDataSource.socialMedia[indexPath.row]
         
-        if shareSettingsDataSource.sharingServiceIsConfigurable(sharingService) {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let shareLinkViewController = storyboard.instantiateViewControllerWithIdentifier("shareLink") as! DAShareLinkTableViewController
-            
-            if let type = shareSettingsDataSource.socialMediaTypeForSharingService(sharingService) {
-                shareLinkViewController.socialMediaType = type
+        if socialMedia.configurable {
+            if let shareLinkViewController = DAShareLinkViewController(socialMediaType: socialMedia) {
+                navigationController?.pushViewController(shareLinkViewController, animated: true)
             }
-            
-            navigationController?.pushViewController(shareLinkViewController, animated: true)
         }
     }
     

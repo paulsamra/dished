@@ -996,9 +996,6 @@
 		94A6FE481A46E4C900AB901F /* NSDate+Dished.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE451A46E4C900AB901F /* NSDate+Dished.swift */; };
 		94A8CD1D19FF143300AA770D /* Privacy Policy.html in Resources */ = {isa = PBXBuildFile; fileRef = 94A8CD1B19FF143300AA770D /* Privacy Policy.html */; };
 		94A8CD1E19FF143300AA770D /* Terms & Conditions.html in Resources */ = {isa = PBXBuildFile; fileRef = 94A8CD1C19FF143300AA770D /* Terms & Conditions.html */; };
-		94AAAA3A1A42FDBF00863E09 /* DAShareLinkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA391A42FDBF00863E09 /* DAShareLinkTableViewController.m */; };
-		94AAAA3B1A42FFAE00863E09 /* DAShareLinkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA391A42FDBF00863E09 /* DAShareLinkTableViewController.m */; };
-		94AAAA3C1A42FFB000863E09 /* DAShareLinkTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA391A42FDBF00863E09 /* DAShareLinkTableViewController.m */; };
 		94AAAA501A43BF1300863E09 /* DEComposeRuledView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA441A43BF1300863E09 /* DEComposeRuledView.m */; };
 		94AAAA511A43BF1300863E09 /* DEComposeRuledView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA441A43BF1300863E09 /* DEComposeRuledView.m */; };
 		94AAAA521A43BF1300863E09 /* DEComposeRuledView.m in Sources */ = {isa = PBXBuildFile; fileRef = 94AAAA441A43BF1300863E09 /* DEComposeRuledView.m */; };
@@ -1118,6 +1115,15 @@
 		94E5EF4E194348380021A711 /* DAAPIManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF4D194348380021A711 /* DAAPIManager.m */; };
 		94E5EF7E1943FD760021A711 /* SSKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF7B1943FD760021A711 /* SSKeychain.m */; };
 		94E5EF7F1943FD760021A711 /* SSKeychainQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF7D1943FD760021A711 /* SSKeychainQuery.m */; };
+		94E5FC961AFF92580001FFE2 /* DAShareLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E5FC951AFF92580001FFE2 /* DAShareLinkView.swift */; };
+		94E5FC971AFF92580001FFE2 /* DAShareLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E5FC951AFF92580001FFE2 /* DAShareLinkView.swift */; };
+		94E5FC981AFF92580001FFE2 /* DAShareLinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E5FC951AFF92580001FFE2 /* DAShareLinkView.swift */; };
+		94E5FC9A1AFF92800001FFE2 /* DAShareLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E5FC991AFF92800001FFE2 /* DAShareLinkViewController.swift */; };
+		94E5FC9B1AFF92800001FFE2 /* DAShareLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E5FC991AFF92800001FFE2 /* DAShareLinkViewController.swift */; };
+		94E5FC9C1AFF92800001FFE2 /* DAShareLinkViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E5FC991AFF92800001FFE2 /* DAShareLinkViewController.swift */; };
+		94E5FC9E1AFF984A0001FFE2 /* DASocialMediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E5FC9D1AFF984A0001FFE2 /* DASocialMediaType.swift */; };
+		94E5FC9F1AFF984A0001FFE2 /* DASocialMediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E5FC9D1AFF984A0001FFE2 /* DASocialMediaType.swift */; };
+		94E5FCA01AFF984A0001FFE2 /* DASocialMediaType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E5FC9D1AFF984A0001FFE2 /* DASocialMediaType.swift */; };
 		94EA2D5719AA820B00ABE3B7 /* DARefreshControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 94EA2D5619AA820B00ABE3B7 /* DARefreshControl.m */; };
 		94EB61E21ABEE0AF0063328A /* DAFacebookConnectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EB61E11ABEE0AF0063328A /* DAFacebookConnectButton.swift */; };
 		94EB61E31ABEE0AF0063328A /* DAFacebookConnectButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94EB61E11ABEE0AF0063328A /* DAFacebookConnectButton.swift */; };
@@ -1632,8 +1638,6 @@
 		94A6FE451A46E4C900AB901F /* NSDate+Dished.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSDate+Dished.swift"; sourceTree = "<group>"; };
 		94A8CD1B19FF143300AA770D /* Privacy Policy.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Privacy Policy.html"; sourceTree = "<group>"; };
 		94A8CD1C19FF143300AA770D /* Terms & Conditions.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = "Terms & Conditions.html"; sourceTree = "<group>"; };
-		94AAAA381A42FDBF00863E09 /* DAShareLinkTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAShareLinkTableViewController.h; sourceTree = "<group>"; };
-		94AAAA391A42FDBF00863E09 /* DAShareLinkTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAShareLinkTableViewController.m; sourceTree = "<group>"; };
 		94AAAA431A43BF1300863E09 /* DEComposeRuledView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeRuledView.h; sourceTree = "<group>"; };
 		94AAAA441A43BF1300863E09 /* DEComposeRuledView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DEComposeRuledView.m; sourceTree = "<group>"; };
 		94AAAA451A43BF1300863E09 /* DEComposeTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DEComposeTextView.h; sourceTree = "<group>"; };
@@ -1808,6 +1812,9 @@
 		94E5EF7B1943FD760021A711 /* SSKeychain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychain.m; sourceTree = "<group>"; };
 		94E5EF7C1943FD760021A711 /* SSKeychainQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SSKeychainQuery.h; sourceTree = "<group>"; };
 		94E5EF7D1943FD760021A711 /* SSKeychainQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SSKeychainQuery.m; sourceTree = "<group>"; };
+		94E5FC951AFF92580001FFE2 /* DAShareLinkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAShareLinkView.swift; sourceTree = "<group>"; };
+		94E5FC991AFF92800001FFE2 /* DAShareLinkViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAShareLinkViewController.swift; sourceTree = "<group>"; };
+		94E5FC9D1AFF984A0001FFE2 /* DASocialMediaType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DASocialMediaType.swift; path = "View Controllers/DASocialMediaType.swift"; sourceTree = "<group>"; };
 		94EA2D5519AA820B00ABE3B7 /* DARefreshControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DARefreshControl.h; sourceTree = "<group>"; };
 		94EA2D5619AA820B00ABE3B7 /* DARefreshControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DARefreshControl.m; sourceTree = "<group>"; };
 		94EB61E11ABEE0AF0063328A /* DAFacebookConnectButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFacebookConnectButton.swift; sourceTree = "<group>"; };
@@ -2044,6 +2051,7 @@
 				941810111970EB7700C83034 /* DAConstants.h */,
 				941810121970EB7700C83034 /* DAConstants.m */,
 				94502A7B1ABE748400810FBA /* DAConstants.swift */,
+				94E5FC9D1AFF984A0001FFE2 /* DASocialMediaType.swift */,
 				943883951A63D9C6008E2AA3 /* faq_icons.png */,
 				943883911A63D512008E2AA3 /* FAQ.html */,
 				94A8CD1B19FF143300AA770D /* Privacy Policy.html */,
@@ -2681,8 +2689,7 @@
 				9421B5331AF950D200D18FEA /* Settings */,
 				949744661AFACD6A0068A8F9 /* Share Settings */,
 				942AED441AFBEF87007FFEA7 /* Notification Settings */,
-				94AAAA381A42FDBF00863E09 /* DAShareLinkTableViewController.h */,
-				94AAAA391A42FDBF00863E09 /* DAShareLinkTableViewController.m */,
+				94E5FC941AFF92440001FFE2 /* Share Link */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -2911,6 +2918,15 @@
 				94E5EF7D1943FD760021A711 /* SSKeychainQuery.m */,
 			);
 			path = SSKeychain;
+			sourceTree = "<group>";
+		};
+		94E5FC941AFF92440001FFE2 /* Share Link */ = {
+			isa = PBXGroup;
+			children = (
+				94E5FC951AFF92580001FFE2 /* DAShareLinkView.swift */,
+				94E5FC991AFF92800001FFE2 /* DAShareLinkViewController.swift */,
+			);
+			name = "Share Link";
 			sourceTree = "<group>";
 		};
 		94F2AD69198B2D5E00450C6F /* Login & Register */ = {
@@ -3566,6 +3582,7 @@
 				941291C21A1BEED500B7C763 /* SZTextView.m in Sources */,
 				94426C261A6A75BF00186C35 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				941291C31A1BEED500B7C763 /* STTwitterAppOnly.m in Sources */,
+				94E5FC9F1AFF984A0001FFE2 /* DASocialMediaType.swift in Sources */,
 				94426C3B1A6A75BF00186C35 /* MPDesignerTrackMessage.m in Sources */,
 				941291C41A1BEED500B7C763 /* DAPhotoFilterCollectionViewCell.swift in Sources */,
 				941291C61A1BEED500B7C763 /* UIProgressView+AFNetworking.m in Sources */,
@@ -3579,6 +3596,7 @@
 				941291CB1A1BEED500B7C763 /* DAExploreViewController.m in Sources */,
 				940985641ABC0B8C009F20FF /* Character.swift in Sources */,
 				94426C6B1A6A75BF00186C35 /* MPSurvey.m in Sources */,
+				94E5FC971AFF92580001FFE2 /* DAShareLinkView.swift in Sources */,
 				941291CD1A1BEED500B7C763 /* DAUsername.m in Sources */,
 				94426C801A6A75C000186C35 /* MPTweakInline.m in Sources */,
 				94426C861A6A75C000186C35 /* MPTypeDescription.m in Sources */,
@@ -3602,6 +3620,7 @@
 				9430504B1AB7FAC8008DDCB3 /* DAView.swift in Sources */,
 				941291D81A1BEED500B7C763 /* UIButton+AFNetworking.m in Sources */,
 				941291D91A1BEED500B7C763 /* DANews.m in Sources */,
+				94E5FC9B1AFF92800001FFE2 /* DAShareLinkViewController.swift in Sources */,
 				9421B53A1AF9556A00D18FEA /* DASettingsDataSource.swift in Sources */,
 				941291DA1A1BEED500B7C763 /* DAGlobalReview.m in Sources */,
 				941291DB1A1BEED500B7C763 /* DAReviewLocationViewController.m in Sources */,
@@ -3743,7 +3762,6 @@
 				941292201A1BEED500B7C763 /* DANewsManager.m in Sources */,
 				941292211A1BEED500B7C763 /* DACaptureManager.m in Sources */,
 				941292221A1BEED500B7C763 /* DADishProfile.m in Sources */,
-				94AAAA3B1A42FFAE00863E09 /* DAShareLinkTableViewController.m in Sources */,
 				949744711AFACF450068A8F9 /* DAShareSettingsView.swift in Sources */,
 				94426C501A6A75BF00186C35 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				94426C021A6A75BF00186C35 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
@@ -3917,6 +3935,7 @@
 				941292C11A1C7AD100B7C763 /* SZTextView.m in Sources */,
 				94426C271A6A75BF00186C35 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				941292C21A1C7AD100B7C763 /* STTwitterAppOnly.m in Sources */,
+				94E5FCA01AFF984A0001FFE2 /* DASocialMediaType.swift in Sources */,
 				94426C3C1A6A75BF00186C35 /* MPDesignerTrackMessage.m in Sources */,
 				941292C31A1C7AD100B7C763 /* DAPhotoFilterCollectionViewCell.swift in Sources */,
 				941292C51A1C7AD100B7C763 /* UIProgressView+AFNetworking.m in Sources */,
@@ -3930,6 +3949,7 @@
 				941292CA1A1C7AD100B7C763 /* DAExploreViewController.m in Sources */,
 				940985651ABC0B8C009F20FF /* Character.swift in Sources */,
 				94426C6C1A6A75BF00186C35 /* MPSurvey.m in Sources */,
+				94E5FC981AFF92580001FFE2 /* DAShareLinkView.swift in Sources */,
 				941292CC1A1C7AD100B7C763 /* DAUsername.m in Sources */,
 				94426C811A6A75C000186C35 /* MPTweakInline.m in Sources */,
 				94426C871A6A75C000186C35 /* MPTypeDescription.m in Sources */,
@@ -3953,6 +3973,7 @@
 				9430504C1AB7FAC8008DDCB3 /* DAView.swift in Sources */,
 				941292D71A1C7AD100B7C763 /* UIButton+AFNetworking.m in Sources */,
 				941292D81A1C7AD100B7C763 /* DANews.m in Sources */,
+				94E5FC9C1AFF92800001FFE2 /* DAShareLinkViewController.swift in Sources */,
 				9421B53B1AF9556A00D18FEA /* DASettingsDataSource.swift in Sources */,
 				941292D91A1C7AD100B7C763 /* DAGlobalReview.m in Sources */,
 				941292DA1A1C7AD100B7C763 /* DAReviewLocationViewController.m in Sources */,
@@ -4094,7 +4115,6 @@
 				9412931F1A1C7AD100B7C763 /* DANewsManager.m in Sources */,
 				941293201A1C7AD100B7C763 /* DACaptureManager.m in Sources */,
 				941293211A1C7AD100B7C763 /* DADishProfile.m in Sources */,
-				94AAAA3C1A42FFB000863E09 /* DAShareLinkTableViewController.m in Sources */,
 				949744721AFACF450068A8F9 /* DAShareSettingsView.swift in Sources */,
 				94426C511A6A75BF00186C35 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				94426C031A6A75BF00186C35 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
@@ -4268,6 +4288,7 @@
 				94F2ADA4198C539200450C6F /* UIImage+GIF.m in Sources */,
 				94426C251A6A75BF00186C35 /* MPCGRectToNSDictionaryValueTransformer.m in Sources */,
 				D17487C2196DE8A200D83993 /* SZTextView.m in Sources */,
+				94E5FC9E1AFF984A0001FFE2 /* DASocialMediaType.swift in Sources */,
 				94426C3A1A6A75BF00186C35 /* MPDesignerTrackMessage.m in Sources */,
 				943E625D1987362100DF2135 /* STTwitterAppOnly.m in Sources */,
 				94D8D69419EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift in Sources */,
@@ -4281,6 +4302,7 @@
 				94F2AD9D198C539200450C6F /* SDWebImageCompat.m in Sources */,
 				940985631ABC0B8C009F20FF /* Character.swift in Sources */,
 				944689A0195FFA6500FAE288 /* DAExploreViewController.m in Sources */,
+				94E5FC961AFF92580001FFE2 /* DAShareLinkView.swift in Sources */,
 				94426C6A1A6A75BF00186C35 /* MPSurvey.m in Sources */,
 				94426C7F1A6A75C000186C35 /* MPTweakInline.m in Sources */,
 				94426C851A6A75C000186C35 /* MPTypeDescription.m in Sources */,
@@ -4304,6 +4326,7 @@
 				9430504A1AB7FAC8008DDCB3 /* DAView.swift in Sources */,
 				944D1E7A19DB8786006F73BF /* DAUserListViewController.m in Sources */,
 				94DCE9BA1980ABB100396C0A /* UIButton+AFNetworking.m in Sources */,
+				94E5FC9A1AFF92800001FFE2 /* DAShareLinkViewController.swift in Sources */,
 				9421B5391AF9556A00D18FEA /* DASettingsDataSource.swift in Sources */,
 				9443DF0A19D0EFBC00F134BA /* DANews.m in Sources */,
 				9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */,
@@ -4445,7 +4468,6 @@
 				9443DF0E19D2AC1D00F134BA /* DANewsManager.m in Sources */,
 				94358D7F1960262F00C38A93 /* DACaptureManager.m in Sources */,
 				94B92C6419BFBE75005071D5 /* DADishProfile.m in Sources */,
-				94AAAA3A1A42FDBF00863E09 /* DAShareLinkTableViewController.m in Sources */,
 				949744701AFACF450068A8F9 /* DAShareSettingsView.swift in Sources */,
 				94426C4F1A6A75BF00186C35 /* MPNSNumberToCGFloatValueTransformer.m in Sources */,
 				94426C011A6A75BF00186C35 /* MPABTestDesignerDeviceInfoResponseMessage.m in Sources */,
