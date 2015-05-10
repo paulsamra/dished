@@ -44,6 +44,18 @@ class DAShareSettingsDataSource {
         }
     }
     
+    func socialMediaTypeForSharingService(service: String) -> eSocialMediaType? {
+        if service == sharingServices[0] {
+            return eSocialMediaTypeFacebook
+        }
+        else if service == sharingServices[1] {
+            return eSocialMediaTypeTwitter
+        }
+        else {
+            return nil
+        }
+    }
+    
     func sharingServiceIsConnected(service: String) -> Bool {
         if service == sharingServices[0] {
             return facebookIsConnected()

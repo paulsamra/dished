@@ -10,7 +10,6 @@
 #import "DARefreshControl.h"
 #import "DANewsManager.h"
 #import "UIImageView+WebCache.h"
-#import "DASettingsViewController.h"
 #import "DAReviewDetailsViewController.h"
 #import "DAUserProfileViewController.h"
 

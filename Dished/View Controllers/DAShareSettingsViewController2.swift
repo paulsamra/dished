@@ -25,7 +25,7 @@ class DAShareSettingsViewController2: DAViewController, UITableViewDelegate, UIT
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        shareSettingsView.tableView.deselectSelectedIndexPath()
+        shareSettingsView.tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -54,6 +54,21 @@ class DAShareSettingsViewController2: DAViewController, UITableViewDelegate, UIT
         cell!.userInteractionEnabled = configurable
         
         return cell!
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let sharingService = shareSettingsDataSource.sharingServices[indexPath.row]
+        
+        if shareSettingsDataSource.sharingServiceIsConfigurable(sharingService) {
+            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+            let shareLinkViewController = storyboard.instantiateViewControllerWithIdentifier("shareLink") as! DAShareLinkTableViewController
+            
+            if let type = shareSettingsDataSource.socialMediaTypeForSharingService(sharingService) {
+                shareLinkViewController.socialMediaType = type
+            }
+            
+            navigationController?.pushViewController(shareLinkViewController, animated: true)
+        }
     }
     
     func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
