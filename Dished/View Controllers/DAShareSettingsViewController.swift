@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DAShareSettingsViewController2: DAViewController, UITableViewDelegate, UITableViewDataSource {
+class DAShareSettingsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource {
     
     let shareSettingsView = DAShareSettingsView()
     let shareSettingsDataSource = DAShareSettingsDataSource()

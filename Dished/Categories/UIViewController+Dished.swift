@@ -113,7 +113,7 @@ extension UIViewController {
     }
     
     func pushSettingsView() {
-        let settingsViewController = DASettingsViewController2()
+        let settingsViewController = DASettingsViewController()
         target()?.pushViewController( settingsViewController, animated: true )
     }
     

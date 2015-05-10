@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DASettingsViewController2: DAViewController, UITableViewDelegate, UITableViewDataSource, DASettingsTableViewCellDelegate {
+class DASettingsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource, DASettingsTableViewCellDelegate {
 
     let settingsView = DASettingsView()
     let settingsDataSource = DASettingsDataSource()

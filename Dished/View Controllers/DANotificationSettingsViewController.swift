@@ -20,7 +20,7 @@ enum DANotificationSetting {
     }
 }
 
-class DANotificationSettingsViewController2: DAViewController, UITableViewDelegate, UITableViewDataSource {
+class DANotificationSettingsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource {
 
     var notificationSettingsView = DANotificationSettingsView()
     let userManager = DAUserManager2()
