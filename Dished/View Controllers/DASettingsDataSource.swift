@@ -113,6 +113,15 @@ class DASettingsDataSource {
         return viewController
     }
     
+    func logoutWithCompletion(completion: (Bool) -> ()) {
+        DAAPIManager.sharedManager().logoutWithCompletion({
+            success in
+            
+            completion(success)
+            return
+        })
+    }
+    
     func toggledSetting(setting: String, toState state: Bool) {
         switch(setting) {
             case "Profile Privacy": userManager.publicProfile = !state

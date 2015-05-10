@@ -12,6 +12,7 @@
 #import "DALinkedTextView.h"
 #import "DAConstants.h"
 #import "DAHashtag.h"
+#import "MRProgressOverlayView.h"
 #import "UserVoice.h"
 #import "DAShareLinkTableViewController.h"
 #import "DATwitterManager.h"

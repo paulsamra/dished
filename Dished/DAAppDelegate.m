@@ -324,7 +324,6 @@
 - (void)login
 {
     [DAUserManager2 loadCurrentUserWithCompletion:nil];
-    //[[DAUserManager sharedManager] loadUserInfoWithCompletion:nil];
     [[DANewsManager sharedManager] updateAllNews];
     [self setupUserVoice];
     [self setRootView];
@@ -390,7 +389,7 @@
 
 - (void)clearAllUserData
 {
-    [[DAUserManager sharedManager] logout];
+    [DAUserManager2 removeCurrentSavedUserData];
     [[DANewsManager sharedManager] deleteAllNews];
     [[DATwitterManager sharedManager] logout];
     [[DALocationManager sharedManager] stopUpdatingLocation];

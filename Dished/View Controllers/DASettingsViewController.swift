@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DASettingsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource, DASettingsTableViewCellDelegate {
+class DASettingsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource, DASettingsTableViewCellDelegate, UIActionSheetDelegate {
 
     let settingsView = DASettingsView()
     let settingsDataSource = DASettingsDataSource()
@@ -91,7 +91,30 @@ class DASettingsViewController: DAViewController, UITableViewDelegate, UITableVi
     }
     
     private func showLogoutPrompt() {
+        let actionSheet = UIActionSheet(title: "Are you sure you want to Log Out?", delegate: self, cancelButtonTitle: "Cancel", destructiveButtonTitle: "Log Out")
+        actionSheet.showInView(view)
+    }
+    
+    func actionSheet(actionSheet: UIActionSheet, didDismissWithButtonIndex buttonIndex: Int) {
+        if buttonIndex == actionSheet.destructiveButtonIndex {
+            logout()
+        }
+    }
+    
+    private func logout() {
+        MRProgressOverlayView.showOverlayAddedTo(view, title: "Logging Out...", mode: MRProgressOverlayViewMode.Indeterminate, animated: true)
         
+        settingsDataSource.logoutWithCompletion({
+            success in
+            
+            if success {
+                (UIApplication.sharedApplication().delegate as! DAAppDelegate).logout()
+            }
+            else {
+                UIAlertView(title: "Failed to Log Out", message: "There was a problem logging you out. Please try again.", delegate: nil, cancelButtonTitle: "OK").show()
+            }
+
+        })
     }
     
     override func loadView() {
