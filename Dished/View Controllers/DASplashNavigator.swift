@@ -25,7 +25,8 @@ class DASplashNavigator {
         
     }
     
-    func navigateToFacebookView() {
-        
+    func navigateToFacebookLoginView() {
+        let facebookLoginView = DAFacebookLoginViewController2()
+        navigationController?.pushViewController(facebookLoginView, animated: true)
     }
 }

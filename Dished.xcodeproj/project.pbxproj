@@ -529,6 +529,12 @@
 		942DD27F1B03AA200016C531 /* DARegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD27E1B03AA200016C531 /* DARegisterView.swift */; };
 		942DD2801B03AA200016C531 /* DARegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD27E1B03AA200016C531 /* DARegisterView.swift */; };
 		942DD2811B03AA200016C531 /* DARegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD27E1B03AA200016C531 /* DARegisterView.swift */; };
+		942DD2841B03B0AD0016C531 /* DAFacebookLoginViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD2831B03B0AD0016C531 /* DAFacebookLoginViewController2.swift */; };
+		942DD2851B03B0AD0016C531 /* DAFacebookLoginViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD2831B03B0AD0016C531 /* DAFacebookLoginViewController2.swift */; };
+		942DD2861B03B0AD0016C531 /* DAFacebookLoginViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD2831B03B0AD0016C531 /* DAFacebookLoginViewController2.swift */; };
+		942DD2881B03B0C20016C531 /* DAFacebookLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD2871B03B0C20016C531 /* DAFacebookLoginView.swift */; };
+		942DD2891B03B0C20016C531 /* DAFacebookLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD2871B03B0C20016C531 /* DAFacebookLoginView.swift */; };
+		942DD28A1B03B0C20016C531 /* DAFacebookLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD2871B03B0C20016C531 /* DAFacebookLoginView.swift */; };
 		943050301AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
 		943050311AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
 		943050321AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
@@ -1266,6 +1272,8 @@
 		942CC23A19BDBCCF00BDBB75 /* DAUsername.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUsername.m; sourceTree = "<group>"; };
 		942DD27A1B03AA150016C531 /* DARegisterViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DARegisterViewController2.swift; sourceTree = "<group>"; };
 		942DD27E1B03AA200016C531 /* DARegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DARegisterView.swift; sourceTree = "<group>"; };
+		942DD2831B03B0AD0016C531 /* DAFacebookLoginViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFacebookLoginViewController2.swift; sourceTree = "<group>"; };
+		942DD2871B03B0C20016C531 /* DAFacebookLoginView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAFacebookLoginView.swift; sourceTree = "<group>"; };
 		9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATableViewCell.swift; sourceTree = "<group>"; };
 		943050331AB6E946008DDCB3 /* DADishMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADishMapViewController.swift; sourceTree = "<group>"; };
 		943050401AB7FA14008DDCB3 /* DAGetSocialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAGetSocialViewController.swift; sourceTree = "<group>"; };
@@ -2106,6 +2114,8 @@
 		942DD2821B03AA6D0016C531 /* Facebook Login */ = {
 			isa = PBXGroup;
 			children = (
+				942DD2871B03B0C20016C531 /* DAFacebookLoginView.swift */,
+				942DD2831B03B0AD0016C531 /* DAFacebookLoginViewController2.swift */,
 			);
 			name = "Facebook Login";
 			sourceTree = "<group>";
@@ -3555,10 +3565,12 @@
 				94426C861A6A75C000186C35 /* MPTypeDescription.m in Sources */,
 				941291CE1A1BEED500B7C763 /* DARatingViewController.m in Sources */,
 				94426C5C1A6A75BF00186C35 /* MPObjectSerializerConfig.m in Sources */,
+				942DD2891B03B0C20016C531 /* DAFacebookLoginView.swift in Sources */,
 				94426C1D1A6A75BF00186C35 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
 				941291D01A1BEED500B7C763 /* AFURLConnectionOperation.m in Sources */,
 				94426C201A6A75BF00186C35 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				94C97F041ABE632F0066C808 /* DAProgressView.swift in Sources */,
+				942DD2851B03B0AD0016C531 /* DAFacebookLoginViewController2.swift in Sources */,
 				941291D11A1BEED500B7C763 /* DAComment.m in Sources */,
 				941291D21A1BEED500B7C763 /* UIWebView+AFNetworking.m in Sources */,
 				941291D41A1BEED500B7C763 /* AFHTTPRequestOperationManager.m in Sources */,
@@ -3901,10 +3913,12 @@
 				94426C871A6A75C000186C35 /* MPTypeDescription.m in Sources */,
 				941292CD1A1C7AD100B7C763 /* DARatingViewController.m in Sources */,
 				94426C5D1A6A75BF00186C35 /* MPObjectSerializerConfig.m in Sources */,
+				942DD28A1B03B0C20016C531 /* DAFacebookLoginView.swift in Sources */,
 				94426C1E1A6A75BF00186C35 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
 				941292CF1A1C7AD100B7C763 /* AFURLConnectionOperation.m in Sources */,
 				94426C211A6A75BF00186C35 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				94C97F051ABE632F0066C808 /* DAProgressView.swift in Sources */,
+				942DD2861B03B0AD0016C531 /* DAFacebookLoginViewController2.swift in Sources */,
 				941292D01A1C7AD100B7C763 /* DAComment.m in Sources */,
 				941292D11A1C7AD100B7C763 /* UIWebView+AFNetworking.m in Sources */,
 				941292D31A1C7AD100B7C763 /* AFHTTPRequestOperationManager.m in Sources */,
@@ -4247,10 +4261,12 @@
 				94426C851A6A75C000186C35 /* MPTypeDescription.m in Sources */,
 				942CC23B19BDBCCF00BDBB75 /* DAUsername.m in Sources */,
 				94426C5B1A6A75BF00186C35 /* MPObjectSerializerConfig.m in Sources */,
+				942DD2881B03B0C20016C531 /* DAFacebookLoginView.swift in Sources */,
 				94426C1C1A6A75BF00186C35 /* MPCGAffineTransformToNSDictionaryValueTransformer.m in Sources */,
 				94A027A4196F25B5004D5CD7 /* DARatingViewController.m in Sources */,
 				94426C1F1A6A75BF00186C35 /* MPCGColorRefToNSStringValueTransformer.m in Sources */,
 				94C97F031ABE632F0066C808 /* DAProgressView.swift in Sources */,
+				942DD2841B03B0AD0016C531 /* DAFacebookLoginViewController2.swift in Sources */,
 				94E5EF471943472D0021A711 /* AFURLConnectionOperation.m in Sources */,
 				94CB03B019AFD334009010F6 /* DAComment.m in Sources */,
 				94DCE9BE1980ABB100396C0A /* UIWebView+AFNetworking.m in Sources */,

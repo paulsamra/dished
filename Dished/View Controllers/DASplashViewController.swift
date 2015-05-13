@@ -59,7 +59,8 @@ class DASplashViewController2: UIViewController, DAWelcomeViewDelegate, DASplash
     }
     
     func splashViewDidPressFacebookButton(splashView: DASplashView) {
-        connectToFacebook()
+        //connectToFacebook()
+        splashNavigator.navigateToFacebookLoginView()
     }
     
     func connectToFacebook() {
@@ -74,7 +75,7 @@ class DASplashViewController2: UIViewController, DAWelcomeViewDelegate, DASplash
             session, state, error in
             
             if state == FBSessionState.Open {
-                self.splashNavigator.navigateToFacebookView()
+                self.splashNavigator.navigateToFacebookLoginView()
             }
             
             let appDelegate = UIApplication.sharedApplication().delegate as! DAAppDelegate
