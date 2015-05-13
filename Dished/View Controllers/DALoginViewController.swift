@@ -8,9 +8,9 @@
 
 import UIKit
 
-class DALoginViewController2: UIViewController {
+class DALoginViewController2: DAViewController, DALoginViewDelegate {
 
-    var loginView: DALoginView!
+    let loginView = DALoginView()
     var keyboardManager: DALoginKeyboardManager!
     
     override func viewDidLoad() {
@@ -34,8 +34,24 @@ class DALoginViewController2: UIViewController {
         keyboardManager.endObservingKeyboard()
     }
     
+    func loginViewDidPressSignInButton(loginView: DALoginView) {
+        
+    }
+    
+    func loginViewDidPressRegisterButton(loginView: DALoginView) {
+        
+    }
+    
+    func loginViewDidPressFacebookButton(loginView: DALoginView) {
+        
+    }
+    
+    func loginViewDidPressForgotPasswordButton(loginView: DALoginView) {
+        
+    }
+    
     override func loadView() {
-        loginView = DALoginView()
+        loginView.delegate = self
         view = loginView
         keyboardManager = DALoginKeyboardManager(loginView: loginView)
     }

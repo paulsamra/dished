@@ -9,5 +9,12 @@
 import UIKit
 
 class DARegisterViewController2: DAViewController {
-
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    }
+    
+    override func loadView() {
+        
+    }
 }

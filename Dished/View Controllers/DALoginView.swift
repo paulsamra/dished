@@ -8,6 +8,13 @@
 
 import UIKit
 
+protocol DALoginViewDelegate: class {
+    func loginViewDidPressSignInButton(loginView: DALoginView)
+    func loginViewDidPressFacebookButton(loginView: DALoginView)
+    func loginViewDidPressRegisterButton(loginView: DALoginView)
+    func loginViewDidPressForgotPasswordButton(loginView: DALoginView)
+}
+
 class DALoginView: DAView {
     
     var usernameField: UITextField!
@@ -17,6 +24,8 @@ class DALoginView: DAView {
     var registerButton: UIButton!
     var forgotPasswordButton: UIButton!
     var orLabel: UILabel!
+    
+    weak var delegate: DALoginViewDelegate?
     
     var signInButtonBottomConstraint: NSLayoutConstraint!
     
@@ -40,6 +49,22 @@ class DALoginView: DAView {
         layoutIfNeeded()
     }
     
+    func registerButtonPressed() {
+        delegate?.loginViewDidPressRegisterButton(self)
+    }
+    
+    func signInButtonPressed() {
+        delegate?.loginViewDidPressSignInButton(self)
+    }
+    
+    func facebookButtonPressed() {
+        delegate?.loginViewDidPressFacebookButton(self)
+    }
+    
+    func forgotPasswordButtonPressed() {
+        delegate?.loginViewDidPressForgotPasswordButton(self)
+    }
+    
     override func setupViews() {
         let grayValue = CGFloat( 249.0 / 255.0 )
         backgroundColor = UIColor(red: grayValue, green: grayValue, blue: grayValue, alpha: 1.0)
@@ -56,20 +81,22 @@ class DALoginView: DAView {
         noAccountLabel.autoAlignAxis(ALAxis.Vertical, toSameAxisOfView: self, withOffset: -47.0)
         noAccountLabel.autoPinEdgeToSuperviewEdge(ALEdge.Bottom, withInset: 11.0)
         
-        registerButton = UIButton()
+        registerButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         registerButton.setTitle("Register", forState: UIControlState.Normal)
         registerButton.titleLabel?.font = DAConstants.primaryFontWithSize(17.0)
         registerButton.setTitleColor(blueTextColor, forState: UIControlState.Normal)
+        registerButton.addTarget(self, action: "registerButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
         registerButton.sizeToFit()
         addSubview(registerButton)
         registerButton.autoSetDimensionsToSize(registerButton.bounds.size)
         registerButton.autoAlignAxis(ALAxis.Horizontal, toSameAxisOfView: noAccountLabel)
         registerButton.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Right, ofView: noAccountLabel, withOffset: 15.0)
         
-        forgotPasswordButton = UIButton()
+        forgotPasswordButton = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         forgotPasswordButton.setTitle("Forgot Your Password?", forState: UIControlState.Normal)
         forgotPasswordButton.titleLabel?.font = DAConstants.primaryFontWithSize(17.0)
         forgotPasswordButton.setTitleColor(blueTextColor, forState: UIControlState.Normal)
+        forgotPasswordButton.addTarget(self, action: "forgotPasswordButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
         forgotPasswordButton.sizeToFit()
         addSubview(forgotPasswordButton)
         forgotPasswordButton.autoAlignAxisToSuperviewAxis(ALAxis.Vertical)
@@ -77,6 +104,7 @@ class DALoginView: DAView {
         forgotPasswordButton.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Top, ofView: noAccountLabel, withOffset: -12.0)
         
         facebookButton = DAFacebookConnectButton()
+        facebookButton.addTarget(self, action: "facebookButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
         addSubview(facebookButton)
         facebookButton.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Top, ofView: forgotPasswordButton, withOffset: -12.0)
         facebookButton.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 0)
@@ -99,6 +127,7 @@ class DALoginView: DAView {
         signInButton.setBackgroundImage(UIImage(named: "login"), forState: UIControlState.Normal)
         signInButton.setTitleColor(blueTextColor, forState: UIControlState.Normal)
         signInButton.setTitleColor(UIColor.whiteColor(), forState: UIControlState.Highlighted)
+        signInButton.addTarget(self, action: "signInButtonPressed", forControlEvents: UIControlEvents.TouchUpInside)
         addSubview(signInButton)
         signInButtonBottomConstraint = signInButton.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Top, ofView: orLabel, withOffset: -13.0)
         signInButton.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 0)

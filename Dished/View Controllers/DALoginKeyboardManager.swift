@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DALoginKeyboardManager {
+class DALoginKeyboardManager: DAKeyboardManager {
    
     var loginView: DALoginView!
     
@@ -16,16 +16,7 @@ class DALoginKeyboardManager {
         self.loginView = loginView
     }
     
-    func beginObservingKeyboard() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:", name: UIKeyboardWillHideNotification, object: nil)
-    }
-    
-    func endObservingKeyboard() {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
-    }
-    
-    func keyboardDidShowToFrame(frame: CGRect) {
+    override func keyboardWillMoveToFrame(frame: CGRect) {
         if frame.origin.y > loginView.frame.size.height {
             return
         }
@@ -33,15 +24,7 @@ class DALoginKeyboardManager {
         loginView.updateSignInButtonToHeight(frame.origin.y)
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
-        if let info = notification.userInfo {
-            if let value = info[UIKeyboardFrameEndUserInfoKey] as? NSValue {
-                keyboardDidShowToFrame(value.CGRectValue())
-            }
-        }
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) {
+    override func keyboardWillHide() {
         loginView.resetSignInButtonBottomConstraint()
     }
 }

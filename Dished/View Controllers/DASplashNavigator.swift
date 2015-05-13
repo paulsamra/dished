@@ -22,7 +22,8 @@ class DASplashNavigator {
     }
     
     func navigateToRegisterView() {
-        
+        let verifyPhoneView = DAVerifyPhoneNumberViewController()
+        navigationController?.pushViewController(verifyPhoneView, animated: true)
     }
     
     func navigateToFacebookLoginView() {
