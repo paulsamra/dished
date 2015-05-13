@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol DASplashViewDelegate: class {
+    func splashViewDidPressSignInButton(splashView: DASplashView)
+    func splashViewDidPressRegisterButton(splashView: DASplashView)
+    func splashViewDidPressFacebookButton(splashView: DASplashView)
+}
+
 class DASplashView: DAView {
     
     var backgroundImageView: UIImageView!
@@ -15,6 +21,8 @@ class DASplashView: DAView {
     var signInButton: UIButton!
     var registerButton: UIButton!
     var welcomeView: DAWelcomeView!
+    
+    weak var delegate: DASplashViewDelegate?
     
     var welcomeViewVisible: Bool {
         get {
@@ -73,10 +81,26 @@ class DASplashView: DAView {
         facebookButton.autoPinEdgeToSuperviewEdge(ALEdge.Right, withInset: 0)
         facebookButton.autoSetDimension(ALDimension.Height, toSize: 53.0)
         
+        signInButton.addTarget(self, action: "signInButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)
+        registerButton.addTarget(self, action: "registerButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)
+        facebookButton.addTarget(self, action: "facebookButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)
+        
         welcomeView = DAWelcomeView()
         welcomeView.hidden = true
         addSubview(welcomeView)
         welcomeView.autoPinEdgesToSuperviewEdgesWithInsets(UIEdgeInsetsZero)
+    }
+    
+    func signInButtonTapped() {
+        delegate?.splashViewDidPressSignInButton(self)
+    }
+    
+    func registerButtonTapped() {
+        delegate?.splashViewDidPressRegisterButton(self)
+    }
+    
+    func facebookButtonTapped() {
+        delegate?.splashViewDidPressFacebookButton(self)
     }
     
     func showWelcomeView() {

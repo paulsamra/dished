@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DASplashViewController2: UIViewController, DAWelcomeViewDelegate {
+class DASplashViewController2: UIViewController, DAWelcomeViewDelegate, DASplashViewDelegate {
 
     var splashView: DASplashView!
     
@@ -50,15 +50,19 @@ class DASplashViewController2: UIViewController, DAWelcomeViewDelegate {
         setNeedsStatusBarAppearanceUpdate()
     }
     
-    func signInButtonTapped() {
+    func splashViewDidPressSignInButton(splashView: DASplashView) {
         splashNavigator.navigateToLoginView()
     }
     
-    func registerButtonTapped() {
+    func splashViewDidPressRegisterButton(splashView: DASplashView) {
         splashNavigator.navigateToRegisterView()
     }
     
-    func facebookButtonTapped() {
+    func splashViewDidPressFacebookButton(splashView: DASplashView) {
+        connectToFacebook()
+    }
+    
+    func connectToFacebook() {
         let readPermissions = [
             "public_profile",
             "email",
@@ -81,10 +85,7 @@ class DASplashViewController2: UIViewController, DAWelcomeViewDelegate {
     override func loadView() {
         splashView = DASplashView()
         splashView.welcomeView.delegate = self
+        splashView.delegate = self
         view = splashView
-        
-        splashView.signInButton.addTarget(self, action: "signInButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)
-        splashView.registerButton.addTarget(self, action: "registerButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)
-        splashView.facebookButton.addTarget(self, action: "facebookButtonTapped", forControlEvents: UIControlEvents.TouchUpInside)
     }
 }

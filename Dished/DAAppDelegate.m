@@ -66,6 +66,7 @@
     }
     else
     {
+        [self setLoginView];
         [FBSession.activeSession closeAndClearTokenInformation];
     }
     
@@ -305,12 +306,11 @@
 
 - (void)setLoginView
 {
-    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+//    UINavigationController *loginView = [mainStoryboard instantiateViewControllerWithIdentifier:@"splashNav"];
     
-    UINavigationController *loginView = [mainStoryboard instantiateViewControllerWithIdentifier:@"splashNav"];
-    
-//    DASplashViewController2 *splashViewController = [[DASplashViewController2 alloc] init];
-//    UINavigationController *loginView = [[UINavigationController alloc] initWithRootViewController:splashViewController];
+    DASplashViewController2 *splashViewController = [[DASplashViewController2 alloc] init];
+    UINavigationController *loginView = [[UINavigationController alloc] initWithRootViewController:splashViewController];
     
     self.window.rootViewController = loginView;
     

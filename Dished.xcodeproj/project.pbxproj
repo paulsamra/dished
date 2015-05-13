@@ -523,6 +523,12 @@
 		942AA01A19C2655A00D0D77C /* UIImageView+DishProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 942AA01919C2655A00D0D77C /* UIImageView+DishProgress.m */; };
 		942CC23819BDB21700BDBB75 /* DAReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23719BDB21700BDBB75 /* DAReview.m */; };
 		942CC23B19BDBCCF00BDBB75 /* DAUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 942CC23A19BDBCCF00BDBB75 /* DAUsername.m */; };
+		942DD27B1B03AA150016C531 /* DARegisterViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD27A1B03AA150016C531 /* DARegisterViewController2.swift */; };
+		942DD27C1B03AA150016C531 /* DARegisterViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD27A1B03AA150016C531 /* DARegisterViewController2.swift */; };
+		942DD27D1B03AA150016C531 /* DARegisterViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD27A1B03AA150016C531 /* DARegisterViewController2.swift */; };
+		942DD27F1B03AA200016C531 /* DARegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD27E1B03AA200016C531 /* DARegisterView.swift */; };
+		942DD2801B03AA200016C531 /* DARegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD27E1B03AA200016C531 /* DARegisterView.swift */; };
+		942DD2811B03AA200016C531 /* DARegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DD27E1B03AA200016C531 /* DARegisterView.swift */; };
 		943050301AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
 		943050311AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
 		943050321AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
@@ -1258,6 +1264,8 @@
 		942CC23719BDB21700BDBB75 /* DAReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReview.m; sourceTree = "<group>"; };
 		942CC23919BDBCCF00BDBB75 /* DAUsername.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUsername.h; sourceTree = "<group>"; };
 		942CC23A19BDBCCF00BDBB75 /* DAUsername.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUsername.m; sourceTree = "<group>"; };
+		942DD27A1B03AA150016C531 /* DARegisterViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DARegisterViewController2.swift; sourceTree = "<group>"; };
+		942DD27E1B03AA200016C531 /* DARegisterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DARegisterView.swift; sourceTree = "<group>"; };
 		9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DATableViewCell.swift; sourceTree = "<group>"; };
 		943050331AB6E946008DDCB3 /* DADishMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADishMapViewController.swift; sourceTree = "<group>"; };
 		943050401AB7FA14008DDCB3 /* DAGetSocialViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAGetSocialViewController.swift; sourceTree = "<group>"; };
@@ -2076,14 +2084,30 @@
 			name = Buttons;
 			sourceTree = "<group>";
 		};
-		94230AC91ABEC8B300A4D50A /* Login View */ = {
+		94230AC91ABEC8B300A4D50A /* Login */ = {
 			isa = PBXGroup;
 			children = (
 				94230ACA1ABEC8C000A4D50A /* DALoginView.swift */,
 				94230ACE1ABECC4500A4D50A /* DALoginViewController.swift */,
 				941B511A1ABF98A700B80F83 /* DALoginKeyboardManager.swift */,
 			);
-			name = "Login View";
+			name = Login;
+			sourceTree = "<group>";
+		};
+		942DD2791B03A9B20016C531 /* Register */ = {
+			isa = PBXGroup;
+			children = (
+				942DD27E1B03AA200016C531 /* DARegisterView.swift */,
+				942DD27A1B03AA150016C531 /* DARegisterViewController2.swift */,
+			);
+			name = Register;
+			sourceTree = "<group>";
+		};
+		942DD2821B03AA6D0016C531 /* Facebook Login */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Facebook Login";
 			sourceTree = "<group>";
 		};
 		943050441AB7FA55008DDCB3 /* Get Social */ = {
@@ -2864,8 +2888,10 @@
 		94F2AD69198B2D5E00450C6F /* Login & Register */ = {
 			isa = PBXGroup;
 			children = (
-				94FBA8141ABE6C8D008F6670 /* Splash View */,
-				94230AC91ABEC8B300A4D50A /* Login View */,
+				94FBA8141ABE6C8D008F6670 /* Splash */,
+				94230AC91ABEC8B300A4D50A /* Login */,
+				942DD2821B03AA6D0016C531 /* Facebook Login */,
+				942DD2791B03A9B20016C531 /* Register */,
 				941538F619401A14008B3B79 /* DASplashViewController.h */,
 				941538F719401A14008B3B79 /* DASplashViewController.m */,
 				9415F3C21941044000C3A7A1 /* DALoginViewController.h */,
@@ -2998,15 +3024,15 @@
 			name = "Dish Map";
 			sourceTree = "<group>";
 		};
-		94FBA8141ABE6C8D008F6670 /* Splash View */ = {
+		94FBA8141ABE6C8D008F6670 /* Splash */ = {
 			isa = PBXGroup;
 			children = (
 				94FBA8191ABE6CD2008F6670 /* DASplashView.swift */,
 				94502A831ABE7A3900810FBA /* DAWelcomeView.swift */,
-				94FBA8151ABE6CC7008F6670 /* DASplashViewController.swift */,
 				94230AD21ABECCDD00A4D50A /* DASplashNavigator.swift */,
+				94FBA8151ABE6CC7008F6670 /* DASplashViewController.swift */,
 			);
-			name = "Splash View";
+			name = Splash;
 			sourceTree = "<group>";
 		};
 		94FD7B4619C818CF008D60CA /* Explore */ = {
@@ -3417,6 +3443,7 @@
 				9412918A1A1BEED500B7C763 /* UIButton+WebCache.m in Sources */,
 				9412918B1A1BEED500B7C763 /* DAUserNewsTableViewCell.swift in Sources */,
 				94917FDF1A5D3ACB009FF117 /* DADishedViewController.m in Sources */,
+				942DD2801B03AA200016C531 /* DARegisterView.swift in Sources */,
 				9413A9971AB6CED400D70B72 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				940985821ABC0B8C009F20FF /* Sequence.swift in Sources */,
 				94917FDA1A5D29F8009FF117 /* UIViewController+Error.m in Sources */,
@@ -3576,6 +3603,7 @@
 				94426C951A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				94037C161AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */,
 				941291E81A1BEED500B7C763 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				942DD27C1B03AA150016C531 /* DARegisterViewController2.swift in Sources */,
 				941291E91A1BEED500B7C763 /* DANotificationSettingsViewController.m in Sources */,
 				94426C231A6A75BF00186C35 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				94756CCB1A312671009B6BD6 /* DAPushManager.m in Sources */,
@@ -3761,6 +3789,7 @@
 				941292891A1C7AD100B7C763 /* UIButton+WebCache.m in Sources */,
 				9412928A1A1C7AD100B7C763 /* DAUserNewsTableViewCell.swift in Sources */,
 				94917FE01A5D3ACB009FF117 /* DADishedViewController.m in Sources */,
+				942DD2811B03AA200016C531 /* DARegisterView.swift in Sources */,
 				9413A9981AB6CED400D70B72 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				940985831ABC0B8C009F20FF /* Sequence.swift in Sources */,
 				94917FDB1A5D29F8009FF117 /* UIViewController+Error.m in Sources */,
@@ -3920,6 +3949,7 @@
 				94426C961A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				94037C171AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */,
 				941292E71A1C7AD100B7C763 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				942DD27D1B03AA150016C531 /* DARegisterViewController2.swift in Sources */,
 				941292E81A1C7AD100B7C763 /* DANotificationSettingsViewController.m in Sources */,
 				94426C241A6A75BF00186C35 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				94756CCC1A312672009B6BD6 /* DAPushManager.m in Sources */,
@@ -4105,6 +4135,7 @@
 				94F2ADA3198C539200450C6F /* UIButton+WebCache.m in Sources */,
 				94E2520A1A08BAA900D6DCE4 /* DAUserNewsTableViewCell.swift in Sources */,
 				94917FDE1A5D3ACB009FF117 /* DADishedViewController.m in Sources */,
+				942DD27F1B03AA200016C531 /* DARegisterView.swift in Sources */,
 				9413A9921AB6CECA00D70B72 /* NSLayoutConstraint+PureLayout.m in Sources */,
 				940985811ABC0B8C009F20FF /* Sequence.swift in Sources */,
 				94917FD91A5D29F8009FF117 /* UIViewController+Error.m in Sources */,
@@ -4264,6 +4295,7 @@
 				94426C941A6A75C000186C35 /* MPUIImageToNSDictionaryValueTransformer.m in Sources */,
 				94037C151AE0A6B700621B38 /* DAInfluencerTextAttachment.swift in Sources */,
 				94DCE9B71980ABB100396C0A /* AFNetworkActivityIndicatorManager.m in Sources */,
+				942DD27B1B03AA150016C531 /* DARegisterViewController2.swift in Sources */,
 				94B43AAC19EB2BAF00482F52 /* DANotificationSettingsViewController.m in Sources */,
 				94426C221A6A75BF00186C35 /* MPCGPointToNSDictionaryValueTransformer.m in Sources */,
 				94756CCA1A311B6E009B6BD6 /* DAPushManager.m in Sources */,

@@ -22,6 +22,8 @@ class DAWelcomeView: DAView, UIScrollViewDelegate {
     private var scrollViewSetup = false
     
     override func setupViews() {
+        backgroundColor = UIColor.clearColor()
+        
         scrollView = UIScrollView()
         scrollView.pagingEnabled = true
         scrollView.delegate = self
@@ -91,7 +93,7 @@ class DAWelcomeView: DAView, UIScrollViewDelegate {
         if offset > threshold {
             var contentOffset = scrollView.contentOffset
             contentOffset.x = frame.size.width * 3
-            UIView.animateWithDuration(0.1, animations: {
+            UIView.animateWithDuration(0.2, animations: {
                 self.scrollView.contentOffset = contentOffset
             },
             completion: {
