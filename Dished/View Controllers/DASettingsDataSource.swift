@@ -103,8 +103,8 @@ class DASettingsDataSource {
         switch(setting) {
             case "Profile Details": viewController = storyboard.instantiateViewControllerWithIdentifier("editProfile") as? UIViewController
             case "Share Settings": viewController = DAShareSettingsViewController()
-            case "YUM Notifications": viewController = DANotificationSettingsViewController(notificationSetting: DANotificationSetting.Yum)
-            case "Comment Notifications": viewController = DANotificationSettingsViewController(notificationSetting: DANotificationSetting.Comment)
+            case "YUM Notifications": viewController = DANotificationSettingsViewController(notificationSetting: DANotificationSettingType.Yum)
+            case "Comment Notifications": viewController = DANotificationSettingsViewController(notificationSetting: DANotificationSettingType.Comment)
             case kPrivacyPolicy: viewController = documentViewWithName(setting)
             case kTermsAndConditions: viewController = documentViewWithName(setting)
             default: viewController = nil

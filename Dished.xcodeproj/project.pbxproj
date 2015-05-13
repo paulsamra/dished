@@ -848,6 +848,9 @@
 		945B6B641A412FF700265451 /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 945B6B631A412FF700265451 /* DAFeedItem.m */; };
 		945B6B651A412FFE00265451 /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 945B6B631A412FF700265451 /* DAFeedItem.m */; };
 		945B6B661A412FFE00265451 /* DAFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 945B6B631A412FF700265451 /* DAFeedItem.m */; };
+		945E1BCE1AFFBBA900A62091 /* DANotificationSettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1BCD1AFFBBA900A62091 /* DANotificationSettingsDataSource.swift */; };
+		945E1BCF1AFFBBA900A62091 /* DANotificationSettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1BCD1AFFBBA900A62091 /* DANotificationSettingsDataSource.swift */; };
+		945E1BD01AFFBBA900A62091 /* DANotificationSettingsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 945E1BCD1AFFBBA900A62091 /* DANotificationSettingsDataSource.swift */; };
 		945E312319C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 945E312219C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m */; };
 		945F959319A6646900241D0D /* DACoreDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F959219A6646900241D0D /* DACoreDataManager.m */; };
 		945F959A19A677F900241D0D /* DAFeedItem+Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 945F959919A677F900241D0D /* DAFeedItem+Utility.m */; };
@@ -1525,6 +1528,7 @@
 		945B6B611A41298200265451 /* Dished 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Dished 3.xcdatamodel"; sourceTree = "<group>"; };
 		945B6B621A412FF700265451 /* DAFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedItem.h; sourceTree = "<group>"; };
 		945B6B631A412FF700265451 /* DAFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedItem.m; sourceTree = "<group>"; };
+		945E1BCD1AFFBBA900A62091 /* DANotificationSettingsDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DANotificationSettingsDataSource.swift; sourceTree = "<group>"; };
 		945E312119C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAFeedHeaderCollectionReusableView.h; sourceTree = "<group>"; };
 		945E312219C7CE5100C8AA52 /* DAFeedHeaderCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAFeedHeaderCollectionReusableView.m; sourceTree = "<group>"; };
 		945F959119A6646900241D0D /* DACoreDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DACoreDataManager.h; sourceTree = "<group>"; };
@@ -2133,6 +2137,7 @@
 			isa = PBXGroup;
 			children = (
 				942AED451AFBEFA0007FFEA7 /* DANotificationSettingsView.swift */,
+				945E1BCD1AFFBBA900A62091 /* DANotificationSettingsDataSource.swift */,
 				942AED491AFBEFD5007FFEA7 /* DANotificationSettingsViewController.swift */,
 			);
 			name = "Notification Settings";
@@ -3594,6 +3599,7 @@
 				945B6B651A412FFE00265451 /* DAFeedItem.m in Sources */,
 				941291CA1A1BEED500B7C763 /* SDWebImageCompat.m in Sources */,
 				941291CB1A1BEED500B7C763 /* DAExploreViewController.m in Sources */,
+				945E1BCF1AFFBBA900A62091 /* DANotificationSettingsDataSource.swift in Sources */,
 				940985641ABC0B8C009F20FF /* Character.swift in Sources */,
 				94426C6B1A6A75BF00186C35 /* MPSurvey.m in Sources */,
 				94E5FC971AFF92580001FFE2 /* DAShareLinkView.swift in Sources */,
@@ -3947,6 +3953,7 @@
 				945B6B661A412FFE00265451 /* DAFeedItem.m in Sources */,
 				941292C91A1C7AD100B7C763 /* SDWebImageCompat.m in Sources */,
 				941292CA1A1C7AD100B7C763 /* DAExploreViewController.m in Sources */,
+				945E1BD01AFFBBA900A62091 /* DANotificationSettingsDataSource.swift in Sources */,
 				940985651ABC0B8C009F20FF /* Character.swift in Sources */,
 				94426C6C1A6A75BF00186C35 /* MPSurvey.m in Sources */,
 				94E5FC981AFF92580001FFE2 /* DAShareLinkView.swift in Sources */,
@@ -4300,6 +4307,7 @@
 				945B6B641A412FF700265451 /* DAFeedItem.m in Sources */,
 				9443DEFE19D0224300F134BA /* DAReplaceSegue.swift in Sources */,
 				94F2AD9D198C539200450C6F /* SDWebImageCompat.m in Sources */,
+				945E1BCE1AFFBBA900A62091 /* DANotificationSettingsDataSource.swift in Sources */,
 				940985631ABC0B8C009F20FF /* Character.swift in Sources */,
 				944689A0195FFA6500FAE288 /* DAExploreViewController.m in Sources */,
 				94E5FC961AFF92580001FFE2 /* DAShareLinkView.swift in Sources */,

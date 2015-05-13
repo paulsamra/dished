@@ -11,7 +11,6 @@ import UIKit
 class DAShareLinkViewController: DAViewController, UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate {
     
     let shareLinkView = DAShareLinkView()
-    let shareDataSource = DAShareSettingsDataSource()
     var socialMediaType: DASocialMediaType!
     
     private let cellIdentifier = "shareLinkCell"

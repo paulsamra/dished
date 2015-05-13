@@ -66,7 +66,10 @@ class DAUserManager2: NSObject {
             if oldValue != savesDishPhoto && finishedInit {
                 savesDishPhotoTask?.cancel()
                 let parameters = [kSavePhotoKey: savesDishPhoto]
-                saveSettingToServerWithParameters(parameters, forTask: &savesDishPhotoTask)
+                saveSettingToServerWithParameters(parameters, forTask: &savesDishPhotoTask, completion: {
+                    success in
+                    self.savesDishPhoto = success ? self.savesDishPhoto : oldValue
+                })
             }
         }
     }
@@ -76,7 +79,10 @@ class DAUserManager2: NSObject {
             if oldValue != publicProfile && finishedInit {
                 publicProfileTask?.cancel()
                 let parameters = [kPublicKey: publicProfile]
-                saveSettingToServerWithParameters(parameters, forTask: &publicProfileTask)
+                saveSettingToServerWithParameters(parameters, forTask: &publicProfileTask, completion: {
+                    success in
+                    self.publicProfile = success ? self.publicProfile : oldValue
+                })
             }
         }
     }
@@ -86,7 +92,10 @@ class DAUserManager2: NSObject {
             if oldValue != yumPushSetting && finishedInit {
                 yumPushSettingTask?.cancel()
                 let parameters = [kPushYumKey: yumPushSetting.string()]
-                saveSettingToServerWithParameters(parameters, forTask: &yumPushSettingTask)
+                saveSettingToServerWithParameters(parameters, forTask: &yumPushSettingTask, completion: {
+                    success in
+                    self.yumPushSetting = success ? self.yumPushSetting : oldValue
+                })
             }
         }
     }
@@ -96,7 +105,10 @@ class DAUserManager2: NSObject {
             if oldValue != commentPushSetting && finishedInit {
                 commentPushSettingTask?.cancel()
                 let parameters = [kPushCommentKey: commentPushSetting.string()]
-                saveSettingToServerWithParameters(parameters, forTask: &commentPushSettingTask)
+                saveSettingToServerWithParameters(parameters, forTask: &commentPushSettingTask, completion: {
+                    success in
+                    self.commentPushSetting = success ? self.commentPushSetting : oldValue
+                })
             }
         }
     }
@@ -215,18 +227,22 @@ class DAUserManager2: NSObject {
         NSUserDefaults.standardUserDefaults().synchronize()
     }
     
-    private func saveSettingToServerWithParameters(parameters: [NSObject: AnyObject], inout forTask task: NSURLSessionTask?) {
+    private func saveSettingToServerWithParameters(parameters: [NSObject: AnyObject], inout forTask task: NSURLSessionTask?, completion: (Bool) -> ()) {
         let url = kUserSettingsURL
         task = DAAPIManager.sharedManager().POSTRequest(url, withParameters: parameters, success: {
             response in
             
             self.saveCurrentlyLoadedProfile()
+            completion(true)
         },
         failure: {
             error, retry in
             
             if retry {
-                self.saveSettingToServerWithParameters(parameters, forTask: &task)
+                self.saveSettingToServerWithParameters(parameters, forTask: &task, completion: completion)
+            }
+            else {
+                completion(false)
             }
         })
     }

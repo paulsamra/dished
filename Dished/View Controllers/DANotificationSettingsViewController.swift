@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum DANotificationSetting {
+enum DANotificationSettingType {
     case Yum
     case Comment
     
@@ -24,27 +24,12 @@ class DANotificationSettingsViewController: DAViewController, UITableViewDelegat
 
     var notificationSettingsView = DANotificationSettingsView()
     let userManager = DAUserManager2()
-    
-    var notificationSetting = DANotificationSetting.Yum
-    
-    var currentSetting: DAPushSetting {
-        get {
-            switch(notificationSetting) {
-                case .Yum: return userManager.yumPushSetting
-                case .Comment: return userManager.commentPushSetting
-            }
-        }
-    }
-    
-    private let pushSettings = [
-        DAPushSetting.Off,
-        DAPushSetting.Followed,
-        DAPushSetting.Everyone
-    ]
+    let notificationSettingsDataSource = DANotificationSettingsDataSource()
+    var notificationSetting = DANotificationSettingType.Yum
     
     private let cellIdentifier = "notificationSettingCell"
     
-    init(notificationSetting: DANotificationSetting) {
+    init(notificationSetting: DANotificationSettingType) {
         super.init(nibName: nil, bundle: nil)
         
         navigationItem.title = notificationSetting.name()
@@ -62,7 +47,7 @@ class DANotificationSettingsViewController: DAViewController, UITableViewDelegat
         notificationSettingsView.tableView.dataSource = self
         notificationSettingsView.tableView.registerClass(UITableViewCell.self, forCellReuseIdentifier: cellIdentifier)
     }
-    
+
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 3
     }
@@ -70,21 +55,23 @@ class DANotificationSettingsViewController: DAViewController, UITableViewDelegat
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! UITableViewCell
         
-        let pushSetting = pushSettings[indexPath.row]
+        let pushSetting = notificationSettingsDataSource.pushSettings[indexPath.row]
         cell.textLabel?.text = pushSetting.name()
         cell.textLabel?.font = DAConstants.primaryFontWithSize(17.0)
         
         let checkmark = UITableViewCellAccessoryType.Checkmark
-        let isSelected = pushSetting == currentSetting
+        let isSelected = pushSetting == notificationSettingsDataSource.currentPushSettingForNotificationSettingType(notificationSetting)
         cell.accessoryType = isSelected ? checkmark : UITableViewCellAccessoryType.None
         
         return cell
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        let pushSetting = notificationSettingsDataSource.pushSettings[indexPath.row]
+        
         switch(notificationSetting) {
-            case .Yum: userManager.yumPushSetting = pushSettings[indexPath.row]
-            case .Comment: userManager.commentPushSetting = pushSettings[indexPath.row]
+            case .Yum: userManager.yumPushSetting = pushSetting
+            case .Comment: userManager.commentPushSetting = pushSetting
         }
         
         tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
