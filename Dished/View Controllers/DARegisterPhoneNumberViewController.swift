@@ -16,8 +16,14 @@ class DARegisterPhoneNumberViewController: DAPhoneNumberViewController2 {
         super.viewDidLoad()
     }
     
+    override func phoneNumberViewDidPressSubmitButton(phoneNumberView: DAPhoneNumberView) {
+        
+    }
+    
     override func loadView() {
         super.loadView()
         phoneNumberView.messageLabel.text = message
+        
+        navigationItem.title = "Enter Phone Number"
     }
 }

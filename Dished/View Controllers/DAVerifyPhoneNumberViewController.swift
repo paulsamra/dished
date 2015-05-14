@@ -23,5 +23,7 @@ class DAVerifyPhoneNumberViewController: DAPhoneNumberViewController2 {
     override func loadView() {
         super.loadView()
         phoneNumberView.messageLabel.text = message
+        
+        navigationItem.title = "Forgot Password"
     }
 }

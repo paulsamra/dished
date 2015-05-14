@@ -39,7 +39,8 @@ class DALoginViewController2: DAViewController, DALoginViewDelegate {
     }
     
     func loginViewDidPressRegisterButton(loginView: DALoginView) {
-        
+        let registerPhoneNumberViewController = DARegisterPhoneNumberViewController()
+        navigationController?.pushViewController(registerPhoneNumberViewController, animated: true)
     }
     
     func loginViewDidPressFacebookButton(loginView: DALoginView) {
@@ -47,7 +48,8 @@ class DALoginViewController2: DAViewController, DALoginViewDelegate {
     }
     
     func loginViewDidPressForgotPasswordButton(loginView: DALoginView) {
-        
+        let verifyPhoneNumberViewController = DAVerifyPhoneNumberViewController()
+        navigationController?.pushViewController(verifyPhoneNumberViewController, animated: true)
     }
     
     override func loadView() {

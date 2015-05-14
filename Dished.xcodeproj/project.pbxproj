@@ -1134,6 +1134,9 @@
 		94ED40D71B03BD77007C746B /* DAPhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED40D61B03BD77007C746B /* DAPhoneNumberViewController.swift */; };
 		94ED40D81B03BD77007C746B /* DAPhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED40D61B03BD77007C746B /* DAPhoneNumberViewController.swift */; };
 		94ED40D91B03BD77007C746B /* DAPhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED40D61B03BD77007C746B /* DAPhoneNumberViewController.swift */; };
+		94ED40DB1B05171B007C746B /* DAPhoneKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED40DA1B05171B007C746B /* DAPhoneKeyboardManager.swift */; };
+		94ED40DC1B05171B007C746B /* DAPhoneKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED40DA1B05171B007C746B /* DAPhoneKeyboardManager.swift */; };
+		94ED40DD1B05171B007C746B /* DAPhoneKeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94ED40DA1B05171B007C746B /* DAPhoneKeyboardManager.swift */; };
 		94F2AD77198C454600450C6F /* DADishTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F2AD76198C454600450C6F /* DADishTableViewCell.xib */; };
 		94F2AD9A198C539200450C6F /* MKAnnotationView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD7A198C539200450C6F /* MKAnnotationView+WebCache.m */; };
 		94F2AD9B198C539200450C6F /* NSData+ImageContentType.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD7C198C539200450C6F /* NSData+ImageContentType.m */; };
@@ -1824,6 +1827,7 @@
 		94ED40CE1B03BAA0007C746B /* DAKeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAKeyboardManager.swift; sourceTree = "<group>"; };
 		94ED40D21B03BD56007C746B /* DARegisterPhoneNumberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DARegisterPhoneNumberViewController.swift; sourceTree = "<group>"; };
 		94ED40D61B03BD77007C746B /* DAPhoneNumberViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAPhoneNumberViewController.swift; sourceTree = "<group>"; };
+		94ED40DA1B05171B007C746B /* DAPhoneKeyboardManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DAPhoneKeyboardManager.swift; sourceTree = "<group>"; };
 		94F2AD76198C454600450C6F /* DADishTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DADishTableViewCell.xib; sourceTree = "<group>"; };
 		94F2AD79198C539200450C6F /* MKAnnotationView+WebCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MKAnnotationView+WebCache.h"; sourceTree = "<group>"; };
 		94F2AD7A198C539200450C6F /* MKAnnotationView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MKAnnotationView+WebCache.m"; sourceTree = "<group>"; };
@@ -2144,6 +2148,7 @@
 			isa = PBXGroup;
 			children = (
 				942DD28C1B03B42C0016C531 /* DAPhoneNumberView.swift */,
+				94ED40DA1B05171B007C746B /* DAPhoneKeyboardManager.swift */,
 				94ED40D61B03BD77007C746B /* DAPhoneNumberViewController.swift */,
 				942DD2901B03B4540016C531 /* DAVerifyPhoneNumberViewController.swift */,
 				94ED40D21B03BD56007C746B /* DARegisterPhoneNumberViewController.swift */,
@@ -3560,6 +3565,7 @@
 				941291B61A1BEED500B7C763 /* DASingleNewsTableViewCell.swift in Sources */,
 				94426BF31A6A75BF00186C35 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				941291B71A1BEED500B7C763 /* SWUtilityButtonView.m in Sources */,
+				94ED40DC1B05171B007C746B /* DAPhoneKeyboardManager.swift in Sources */,
 				941291B81A1BEED500B7C763 /* DAReviewListViewController.m in Sources */,
 				947381C81A46F0DD00B1CFC2 /* UIViewController+Dished.swift in Sources */,
 				94D919F21ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift in Sources */,
@@ -3913,6 +3919,7 @@
 				941292B51A1C7AD100B7C763 /* DASingleNewsTableViewCell.swift in Sources */,
 				94426BF41A6A75BF00186C35 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				941292B61A1C7AD100B7C763 /* SWUtilityButtonView.m in Sources */,
+				94ED40DD1B05171B007C746B /* DAPhoneKeyboardManager.swift in Sources */,
 				941292B71A1C7AD100B7C763 /* DAReviewListViewController.m in Sources */,
 				947381C91A46F0DD00B1CFC2 /* UIViewController+Dished.swift in Sources */,
 				94D919F31ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift in Sources */,
@@ -4266,6 +4273,7 @@
 				94F2ADA1198C539200450C6F /* SDWebImageManager.m in Sources */,
 				94426BF21A6A75BF00186C35 /* MPABTestDesignerChangeResponseMessage.m in Sources */,
 				9443DEFA19CFCEA900F134BA /* DASingleNewsTableViewCell.swift in Sources */,
+				94ED40DB1B05171B007C746B /* DAPhoneKeyboardManager.swift in Sources */,
 				94CB03D019B0EA94009010F6 /* SWUtilityButtonView.m in Sources */,
 				947381C71A46F0DD00B1CFC2 /* UIViewController+Dished.swift in Sources */,
 				94D919F11ADF9EBD00FF4C3E /* DASelectHashtagsViewController.swift in Sources */,

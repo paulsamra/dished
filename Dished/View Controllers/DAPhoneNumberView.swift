@@ -18,10 +18,30 @@ class DAPhoneNumberView: DAView {
     var phoneNumberField: UITextField!
     var submitButton: UIButton!
     
+    private var bottomConstraint: NSLayoutConstraint!
+    
     weak var delegate: DAPhoneNumberViewDelegate?
     
     func submitButtonPressed() {
         delegate?.phoneNumberViewDidPressSubmitButton(self)
+    }
+    
+    func updateViewToHeight(height: CGFloat) {
+        let bottomSubmitY = submitButton.frame.origin.y + submitButton.frame.size.height
+        
+        if height >= bottomSubmitY {
+            return
+        }
+        
+        bottomConstraint.constant = -height
+        setNeedsUpdateConstraints()
+        layoutIfNeeded()
+    }
+    
+    func resetViewHeight() {
+        bottomConstraint.constant = -178.0
+        setNeedsUpdateConstraints()
+        layoutIfNeeded()
     }
     
     override func setupViews() {
@@ -34,7 +54,7 @@ class DAPhoneNumberView: DAView {
         addSubview(submitButton)
         submitButton.autoPinEdgeToSuperviewEdge(ALEdge.Leading)
         submitButton.autoPinEdgeToSuperviewEdge(ALEdge.Trailing)
-        submitButton.autoPinEdgeToSuperviewEdge(ALEdge.Bottom, withInset: 178.0)
+        bottomConstraint = submitButton.autoPinEdgeToSuperviewEdge(ALEdge.Bottom, withInset: 178.0)
         
         let phoneNumberFieldBackground = UIImageView(image: UIImage(named: "phone_number"))
         phoneNumberFieldBackground.userInteractionEnabled = true
