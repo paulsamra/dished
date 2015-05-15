@@ -15,7 +15,7 @@ protocol DALoginViewDelegate: class {
     func loginViewDidPressForgotPasswordButton(loginView: DALoginView)
 }
 
-class DALoginView: DAView {
+class DALoginView: DAKeyboardRespondableView {
     
     var usernameField: UITextField!
     var passwordField: UITextField!
@@ -29,7 +29,19 @@ class DALoginView: DAView {
     
     var signInButtonBottomConstraint: NSLayoutConstraint!
     
-    func updateSignInButtonToHeight(height: CGFloat) {
+    override func keyboardWillMoveToFrame(frame: CGRect) {
+        if frame.origin.y > frame.size.height {
+            return
+        }
+        
+        updateSignInButtonToHeight(frame.origin.y)
+    }
+    
+    override func keyboardWillHide() {
+         resetSignInButtonBottomConstraint()
+    }
+    
+    private func updateSignInButtonToHeight(height: CGFloat) {
         let bottomSignInY = signInButton.frame.origin.y + signInButton.frame.size.height
         
         if height >= bottomSignInY {
@@ -43,7 +55,7 @@ class DALoginView: DAView {
         layoutIfNeeded()
     }
     
-    func resetSignInButtonBottomConstraint() {
+    private func resetSignInButtonBottomConstraint() {
         signInButtonBottomConstraint.constant = -13.0
         setNeedsUpdateConstraints()
         layoutIfNeeded()

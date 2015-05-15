@@ -17,7 +17,8 @@ class DAVerifyPhoneNumberViewController: DAPhoneNumberViewController2 {
     }
     
     override func phoneNumberViewDidPressSubmitButton(phoneNumberView: DAPhoneNumberView) {
-        
+        let resetPasswordView = DAResetPasswordViewController2()
+        navigationController?.pushViewController(resetPasswordView, animated: true)
     }
     
     override func loadView() {

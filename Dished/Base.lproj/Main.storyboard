@@ -464,7 +464,7 @@
                                 </connections>
                             </textField>
                         </subviews>
-                        <color key="backgroundColor" red="0.97647058819999999" green="0.97647058819999999" blue="0.97647058819999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" name="alternateSelectedControlTextColor" catalog="System" colorSpace="catalog"/>
                         <constraints>
                             <constraint firstItem="EyG-PF-9cv" firstAttribute="leading" secondItem="P7O-DU-qqV" secondAttribute="leading" constant="-20" id="0Mz-mo-gvo"/>
                             <constraint firstItem="EVT-12-iOD" firstAttribute="top" secondItem="MYt-73-vzK" secondAttribute="top" constant="7" id="2mB-Lq-6J3"/>

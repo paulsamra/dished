@@ -8,7 +8,18 @@
 
 import Foundation
 
+protocol DAKeyboardManagerDelegate: class {
+    func keyboardWillMoveToFrame(frame: CGRect)
+    func keyboardWillHide()
+}
+
 class DAKeyboardManager {
+    
+    weak var delegate: DAKeyboardManagerDelegate?
+    
+    init(delegate: DAKeyboardManagerDelegate) {
+        self.delegate = delegate
+    }
     
     func beginObservingKeyboard() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:", name: UIKeyboardWillShowNotification, object: nil)
@@ -18,24 +29,16 @@ class DAKeyboardManager {
     func endObservingKeyboard() {
         NSNotificationCenter.defaultCenter().removeObserver(self)
     }
-    
-    func keyboardWillMoveToFrame(frame: CGRect) {
-
-    }
-    
-    func keyboardWillHide() {
-        
-    }
 
     @objc private func keyboardWillShow(notification: NSNotification) {
         if let info = notification.userInfo {
             if let value = info[UIKeyboardFrameEndUserInfoKey] as? NSValue {
-                keyboardWillMoveToFrame(value.CGRectValue())
+                delegate?.keyboardWillMoveToFrame(value.CGRectValue())
             }
         }
     }
 
     @objc private func keyboardWillHide(notification: NSNotification) {
-        keyboardWillHide()
+        delegate?.keyboardWillHide()
     }
 }

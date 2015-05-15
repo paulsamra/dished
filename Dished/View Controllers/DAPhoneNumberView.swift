@@ -12,7 +12,7 @@ protocol DAPhoneNumberViewDelegate: class {
     func phoneNumberViewDidPressSubmitButton(phoneNumberView: DAPhoneNumberView)
 }
 
-class DAPhoneNumberView: DAView {
+class DAPhoneNumberView: DAKeyboardRespondableView {
     
     var messageLabel: UILabel!
     var phoneNumberField: UITextField!
@@ -22,11 +22,23 @@ class DAPhoneNumberView: DAView {
     
     weak var delegate: DAPhoneNumberViewDelegate?
     
+    override func keyboardWillMoveToFrame(frame: CGRect) {
+        if frame.origin.y > frame.size.height {
+            return
+        }
+        
+        updateViewToHeight(frame.size.height)
+    }
+    
+    override func keyboardWillHide() {
+        resetViewHeight()
+    }
+    
     func submitButtonPressed() {
         delegate?.phoneNumberViewDidPressSubmitButton(self)
     }
     
-    func updateViewToHeight(height: CGFloat) {
+    private func updateViewToHeight(height: CGFloat) {
         let bottomSubmitY = submitButton.frame.origin.y + submitButton.frame.size.height
         
         if height >= bottomSubmitY {
@@ -38,13 +50,15 @@ class DAPhoneNumberView: DAView {
         layoutIfNeeded()
     }
     
-    func resetViewHeight() {
+    private func resetViewHeight() {
         bottomConstraint.constant = -178.0
         setNeedsUpdateConstraints()
         layoutIfNeeded()
     }
     
     override func setupViews() {
+        backgroundColor = UIColor(r: 249, g: 249, b: 249, a: 255)
+
         submitButton = UIButton()
         submitButton.titleLabel?.font = DAConstants.primaryFontWithSize(22.0)
         submitButton.setBackgroundImage(UIImage(named: "phone_submit"), forState: UIControlState.Normal)
