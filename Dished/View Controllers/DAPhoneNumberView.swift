@@ -23,7 +23,7 @@ class DAPhoneNumberView: DAKeyboardRespondableView {
     weak var delegate: DAPhoneNumberViewDelegate?
     
     override func keyboardWillMoveToFrame(frame: CGRect) {
-        if frame.origin.y > frame.size.height {
+        if frame.origin.y > self.frame.size.height {
             return
         }
         

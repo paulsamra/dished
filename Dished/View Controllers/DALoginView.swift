@@ -30,7 +30,7 @@ class DALoginView: DAKeyboardRespondableView {
     var signInButtonBottomConstraint: NSLayoutConstraint!
     
     override func keyboardWillMoveToFrame(frame: CGRect) {
-        if frame.origin.y > frame.size.height {
+        if frame.origin.y > self.frame.size.height {
             return
         }
         
@@ -39,6 +39,16 @@ class DALoginView: DAKeyboardRespondableView {
     
     override func keyboardWillHide() {
          resetSignInButtonBottomConstraint()
+    }
+    
+    func showOverlay() {
+        MRProgressOverlayView.showOverlayAddedTo(self, title: "Signing In...", mode: MRProgressOverlayViewMode.Indeterminate, animated: true)
+    }
+    
+    func hideOverlayWithCompletion(completion: (() -> ())?) {
+        MRProgressOverlayView.dismissOverlayForView(self, animated: true, completion: {
+            completion?()
+        })
     }
     
     private func updateSignInButtonToHeight(height: CGFloat) {
@@ -148,6 +158,7 @@ class DALoginView: DAKeyboardRespondableView {
         
         let passwordBackground = UIImageView()
         passwordBackground.image = UIImage(named: "password")
+        passwordBackground.userInteractionEnabled = true
         addSubview(passwordBackground)
         passwordBackground.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Top, ofView: signInButton)
         passwordBackground.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 0)
@@ -156,6 +167,7 @@ class DALoginView: DAKeyboardRespondableView {
         
         let usernameBackground = UIImageView()
         usernameBackground.image = UIImage(named: "username")
+        usernameBackground.userInteractionEnabled = true
         addSubview(usernameBackground)
         usernameBackground.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Top, ofView: passwordBackground)
         usernameBackground.autoPinEdgeToSuperviewEdge(ALEdge.Left, withInset: 0)
@@ -165,19 +177,21 @@ class DALoginView: DAKeyboardRespondableView {
         usernameField = UITextField()
         usernameField.placeholder = "Username or Email"
         usernameField.font = DAConstants.primaryFontWithSize(18.0)
-        addSubview(usernameField)
-        usernameField.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Left, ofView: usernameBackground, withOffset: 20.0)
-        usernameField.autoPinEdge(ALEdge.Right, toEdge: ALEdge.Right, ofView: usernameBackground, withOffset: -20.0)
-        usernameField.autoPinEdge(ALEdge.Top, toEdge: ALEdge.Top, ofView: usernameBackground, withOffset: 7.0)
-        usernameField.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Bottom, ofView: usernameBackground, withOffset: -7.0)
+        usernameField.returnKeyType = UIReturnKeyType.Next
+        constrainTextField(usernameField, toBackgroundView: usernameBackground)
         
         passwordField = UITextField()
         passwordField.placeholder = "Password"
         passwordField.font = DAConstants.primaryFontWithSize(18.0)
-        addSubview(passwordField)
-        passwordField.autoPinEdge(ALEdge.Left, toEdge: ALEdge.Left, ofView: passwordBackground, withOffset: 20.0)
-        passwordField.autoPinEdge(ALEdge.Right, toEdge: ALEdge.Right, ofView: passwordBackground, withOffset: -20.0)
-        passwordField.autoPinEdge(ALEdge.Top, toEdge: ALEdge.Top, ofView: passwordBackground, withOffset: 7.0)
-        passwordField.autoPinEdge(ALEdge.Bottom, toEdge: ALEdge.Bottom, ofView: passwordBackground, withOffset: -7.0)
+        passwordField.returnKeyType = UIReturnKeyType.Go
+        constrainTextField(passwordField, toBackgroundView: passwordBackground)
+    }
+
+    private func constrainTextField(textField: UITextField, toBackgroundView background: UIImageView) {
+        background.addSubview(textField)
+        textField.autoPinEdgeToSuperviewEdge(ALEdge.Leading, withInset: 20.0)
+        textField.autoPinEdgeToSuperviewEdge(ALEdge.Trailing, withInset: 20.0)
+        textField.autoPinEdgeToSuperviewEdge(ALEdge.Top, withInset: 7)
+        textField.autoPinEdgeToSuperviewEdge(ALEdge.Bottom, withInset: 7)
     }
 }

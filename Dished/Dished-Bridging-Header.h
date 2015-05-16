@@ -13,6 +13,7 @@
 #import "DAConstants.h"
 #import "DAHashtag.h"
 #import "UserVoice.h"
+#import "MRProgressOverlayView.h"
 #import "DARefreshControl.h"
 #import "DAManagedUserSuggestion+Utility.h"
 #import "DACommentsViewController.h"

@@ -76,6 +76,9 @@
 		940985841ABC0B8C009F20FF /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855C1ABC0B8C009F20FF /* String.swift */; };
 		940985851ABC0B8C009F20FF /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855C1ABC0B8C009F20FF /* String.swift */; };
 		940985861ABC0B8C009F20FF /* String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9409855C1ABC0B8C009F20FF /* String.swift */; };
+		940FE8EC1B06050B002D2EA0 /* DALoginViewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940FE8EB1B06050B002D2EA0 /* DALoginViewInteractor.swift */; };
+		940FE8ED1B06050B002D2EA0 /* DALoginViewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940FE8EB1B06050B002D2EA0 /* DALoginViewInteractor.swift */; };
+		940FE8EE1B06050B002D2EA0 /* DALoginViewInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940FE8EB1B06050B002D2EA0 /* DALoginViewInteractor.swift */; };
 		941291771A1BEED500B7C763 /* STTwitterOAuth.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E624B1987362100DF2135 /* STTwitterOAuth.m */; };
 		941291781A1BEED500B7C763 /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
 		941291791A1BEED500B7C763 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 94E5EF301943472D0021A711 /* AFHTTPRequestOperation.m */; };
@@ -1233,6 +1236,7 @@
 		9409855A1ABC0B8C009F20FF /* Range.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Range.swift; sourceTree = "<group>"; };
 		9409855B1ABC0B8C009F20FF /* Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
 		9409855C1ABC0B8C009F20FF /* String.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
+		940FE8EB1B06050B002D2EA0 /* DALoginViewInteractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DALoginViewInteractor.swift; sourceTree = "<group>"; };
 		941292721A1BEED500B7C763 /* Dished-DEV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dished-DEV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		941292731A1BEED500B7C763 /* Dished-DEV-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Dished-DEV-Info.plist"; path = "/Users/Ryan/Desktop/Dished/dished-mobile/Dished/Dished-DEV-Info.plist"; sourceTree = "<absolute>"; };
 		941293711A1C7AD100B7C763 /* Dished-STAGE.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Dished-STAGE.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2124,6 +2128,7 @@
 			isa = PBXGroup;
 			children = (
 				94230ACA1ABEC8C000A4D50A /* DALoginView.swift */,
+				940FE8EB1B06050B002D2EA0 /* DALoginViewInteractor.swift */,
 				94230ACE1ABECC4500A4D50A /* DALoginViewController.swift */,
 			);
 			name = Login;
@@ -3522,6 +3527,7 @@
 				941291931A1BEED500B7C763 /* MRStopButton.m in Sources */,
 				94AAAA361A42FB9300863E09 /* DAShareSettingsTableViewController.m in Sources */,
 				941291951A1BEED500B7C763 /* DAImagePickerController.m in Sources */,
+				940FE8ED1B06050B002D2EA0 /* DALoginViewInteractor.swift in Sources */,
 				941291961A1BEED500B7C763 /* DAFeedCollectionViewCell.m in Sources */,
 				949921591ABB360000A247B0 /* SwiftAddressBookDataStructures.swift in Sources */,
 				941291981A1BEED500B7C763 /* DADatePickerTableViewCell.swift in Sources */,
@@ -3877,6 +3883,7 @@
 				941292921A1C7AD100B7C763 /* MRStopButton.m in Sources */,
 				94AAAA371A42FB9300863E09 /* DAShareSettingsTableViewController.m in Sources */,
 				941292941A1C7AD100B7C763 /* DAImagePickerController.m in Sources */,
+				940FE8EE1B06050B002D2EA0 /* DALoginViewInteractor.swift in Sources */,
 				941292951A1C7AD100B7C763 /* DAFeedCollectionViewCell.m in Sources */,
 				9499215A1ABB360000A247B0 /* SwiftAddressBookDataStructures.swift in Sources */,
 				941292971A1C7AD100B7C763 /* DADatePickerTableViewCell.swift in Sources */,
@@ -4232,6 +4239,7 @@
 				948615CC19FE1C3D002497D0 /* MRStopButton.m in Sources */,
 				94AAAA351A42EBA000863E09 /* DAShareSettingsTableViewController.m in Sources */,
 				944689A61960130E00FAE288 /* DAImagePickerController.m in Sources */,
+				940FE8EC1B06050B002D2EA0 /* DALoginViewInteractor.swift in Sources */,
 				940363841A25E2560068F61D /* DAManagedComment+Utility.m in Sources */,
 				945A3B6119A52B4A000D76E3 /* DAFeedCollectionViewCell.m in Sources */,
 				949921581ABB360000A247B0 /* SwiftAddressBookDataStructures.swift in Sources */,
