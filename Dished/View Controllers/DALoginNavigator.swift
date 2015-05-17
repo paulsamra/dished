@@ -46,6 +46,16 @@ class DALoginNavigator {
         performNavigationWithDestinationViewController(facebookLoginViewController)
     }
     
+    func navigateToRegistrationForm() {
+        let registerViewController = DARegisterViewController2()
+        navigationController?.pushViewController(registerViewController, animated: true)
+    }
+    
+    func navigateToRegistrationFormWithFacebookUser(user: NSDictionary) {
+        let registerViewController = DARegisterViewController2(facebookUser: user)
+        navigationController?.pushViewController(registerViewController, animated: true)
+    }
+    
     private func performNavigationWithDestinationViewController(destinationViewController: UIViewController) {
         let source = navigationController?.visibleViewController
         

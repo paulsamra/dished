@@ -23,6 +23,17 @@ class DAPhoneNumberViewController2: DALoggedOutViewController, DAPhoneNumberView
     func phoneNumberViewDidPressSubmitButton(phoneNumberView: DAPhoneNumberView) {
         phoneNumberView.endEditing(true)
         navigationController?.showOverlayWithTitle("")
+        sendVerificationCode()
+    }
+    
+    func sendVerificationCode() {
+        
+    }
+    
+    func failedToSendVerificationCode() {
+        navigationController?.hideOverlayWithCompletion({
+            self.showAlertWithTitle("Request Error", message: "There was an error requesting a verification code. Please make sure you entered a valid phone number.")
+        })
     }
     
     override func loadView() {

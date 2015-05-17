@@ -8,8 +8,18 @@
 
 import UIKit
 
-class DARegisterPhoneNumberViewController: DAPhoneNumberViewController2 {
+class DARegisterPhoneNumberViewController: DAPhoneNumberViewController2, UIAlertViewDelegate {
 
+    lazy var sentCodeAlert: UIAlertView = {
+        let alertView = UIAlertView(title: "Enter Verification Code", message: "You will receive a text message with a six-digit verification code.", delegate: self, cancelButtonTitle: "Cancel")
+        
+        alertView.addButtonWithTitle("OK")
+        alertView.alertViewStyle = UIAlertViewStyle.PlainTextInput
+        alertView.textFieldAtIndex(0)?.keyboardType = UIKeyboardType.DecimalPad
+    
+        return alertView
+    }()
+    
     private var facebookUser: NSDictionary?
     
     private let message = "To sign up for Dished, you will need to verify your phone number and device. We will only use your phone number if you need to reset your password."
@@ -33,11 +43,62 @@ class DARegisterPhoneNumberViewController: DAPhoneNumberViewController2 {
         super.viewDidLoad()
     }
     
-    override func phoneNumberViewDidPressSubmitButton(phoneNumberView: DAPhoneNumberView) {
-        super.phoneNumberViewDidPressSubmitButton(phoneNumberView)
-        
+    override func sendVerificationCode() {
         let phoneNumber = interactor.phoneNumberFromString(phoneNumberView.phoneNumberField.text)
+        let parameters = [kPhoneKey : phoneNumber]
         
+        DAAPIManager.sharedManager().POST(kAuthPhoneVerifyURL, parameters: parameters, success: {
+            task, response in
+            self.finishedSendingVerificationCode()
+        },
+        failure: {
+            task, error in
+            self.failedToSendVerificationCode()
+        })
+    }
+    
+    private func finishedSendingVerificationCode() {
+        sentCodeAlert.textFieldAtIndex(0)?.text = ""
+        sentCodeAlert.show()
+    }
+    
+    func alertView(alertView: UIAlertView, didDismissWithButtonIndex buttonIndex: Int) {
+        if alertView == sentCodeAlert && buttonIndex != alertView.cancelButtonIndex {
+            if let verificationCode = alertView.textFieldAtIndex(0)?.text {
+                verifyVerificationCode(verificationCode)
+            }
+        }
+    }
+    
+    private func verifyVerificationCode(verificationCode: String) {
+        let phoneNumber = interactor.phoneNumberFromString(phoneNumberView.phoneNumberField.text)
+        let parameters = [kPhoneKey: phoneNumber, "pin": verificationCode]
+        
+        DAAPIManager.sharedManager().POST(kAuthPhoneVerifyURL, parameters: parameters, success: {
+            task, response in
+            self.finishedVerifyingVerificationCode()
+        },
+        failure: {
+            task, error in
+            self.failedToVerifyVerificationCode()
+        })
+    }
+    
+    private func finishedVerifyingVerificationCode() {
+        navigationController?.hideOverlayWithCompletion({
+            if self.facebookUser != nil {
+                self.navigator.navigateToRegistrationFormWithFacebookUser(self.facebookUser!)
+            }
+            else {
+                self.navigator.navigateToRegistrationForm()
+            }
+        })
+    }
+    
+    private func failedToVerifyVerificationCode() {
+        navigationController?.hideOverlayWithCompletion({
+            self.showAlertWithTitle("Incorrect Code", message: "The verification code was incorrect. Please try again.")
+        })
     }
     
     override func loadView() {
