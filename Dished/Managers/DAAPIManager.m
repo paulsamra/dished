@@ -524,9 +524,27 @@
         
         [self requestAccessTokenWithUsername:username password:password completion:^( BOOL success )
         {
-            if( completion )
+            if( success )
             {
-                completion( success, NO, NO, NO );
+                [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL userLoadSuccess )
+                {
+                    if( !userLoadSuccess )
+                    {
+                        [self forceUserLogout];
+                    }
+                    
+                    if( completion )
+                    {
+                        completion( userLoadSuccess, NO, NO, NO );
+                    }
+                }];
+            }
+            else
+            {
+                if( completion )
+                {
+                    completion( NO, NO, NO, NO );
+                }
             }
         }];
     }
@@ -594,7 +612,28 @@
         
         [self requestFacebookAccessTokenWithFacebookID:facebookID completion:^( BOOL success )
         {
-            completion( success, YES );
+            if( success )
+            {
+                [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL userLoadSuccess )
+                {
+                    if( !userLoadSuccess )
+                    {
+                        [self forceUserLogout];
+                    }
+                    
+                    if( completion )
+                    {
+                        completion( userLoadSuccess, YES );
+                    }
+                }];
+            }
+            else
+            {
+                if( completion )
+                {
+                    completion( NO, YES );
+                }
+            }
         }];
     }
     failure:^( NSURLSessionDataTask *task, NSError *error )

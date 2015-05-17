@@ -11,6 +11,17 @@ import UIKit
 class DAResetPasswordViewController2: DAViewController {
 
     var resetPasswordView = DAResetPasswordView()
+    var phoneNumber: String
+    
+    init(phoneNumber: String) {
+        self.phoneNumber = phoneNumber
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        self.phoneNumber = ""
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

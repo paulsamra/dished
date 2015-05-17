@@ -8,10 +8,9 @@
 
 import UIKit
 
-class DALoginViewController2: DAViewController, DALoginViewDelegate {
+class DALoginViewController2: DALoggedOutViewController, DALoginViewDelegate {
 
     let loginView = DALoginView()
-    
     var loginInteractor: DALoginViewInteractor!
     
     override func viewDidLoad() {
@@ -28,6 +27,8 @@ class DALoginViewController2: DAViewController, DALoginViewDelegate {
     }
     
     func loginViewDidPressSignInButton(loginView: DALoginView) {
+        loginView.endEditing(true)
+        
         var username = loginView.usernameField.text
         let password = loginView.passwordField.text
         
@@ -35,24 +36,14 @@ class DALoginViewController2: DAViewController, DALoginViewDelegate {
             username = username.substringFromIndex(advance(username.startIndex, 1))
         }
         
-        loginView.showOverlay()
+        navigationController?.showOverlayWithTitle("Signing In...")
         
         DAAPIManager.sharedManager().loginWithUser(username, password: password, completion: {
             success, wrongUser, wrongPass, deactivated in
             
             if success {
-                DAUserManager.sharedManager().loadUserInfoWithCompletion({
-                    userLoadSuccess in
-                    
-                    self.loginView.hideOverlayWithCompletion({
-                        if userLoadSuccess {
-                            (UIApplication.sharedApplication().delegate as! DAAppDelegate).login()
-                        }
-                        else {
-                            DAAPIManager.sharedManager().forceUserLogout()
-                            self.showAlertWithTitle("Failed to Login", message: "There was a problem signing you in. Please try again.")
-                        }
-                    })
+                self.navigationController?.hideOverlayWithCompletion({
+                    (UIApplication.sharedApplication().delegate as! DAAppDelegate).login()
                 })
             }
             else {
@@ -72,7 +63,7 @@ class DALoginViewController2: DAViewController, DALoginViewDelegate {
                     errorMessage = "This account has been deactivated."
                 }
                 
-                self.loginView.hideOverlayWithCompletion({
+                self.navigationController?.hideOverlayWithCompletion({
                     self.showAlertWithTitle(errorTitle, message: errorMessage)
                 })
             }
@@ -80,8 +71,7 @@ class DALoginViewController2: DAViewController, DALoginViewDelegate {
     }
     
     func loginViewDidPressRegisterButton(loginView: DALoginView) {
-        let registerPhoneNumberViewController = DARegisterPhoneNumberViewController()
-        navigationController?.pushViewController(registerPhoneNumberViewController, animated: true)
+        navigator.navigateToRegisterProcess()
     }
     
     func loginViewDidPressFacebookButton(loginView: DALoginView) {
@@ -96,17 +86,16 @@ class DALoginViewController2: DAViewController, DALoginViewDelegate {
             session, state, error in
             
             if state == FBSessionState.Open {
-                    
+                self.navigator.navigateToFacebookLoginView()
             }
-                
+            
             let appDelegate = UIApplication.sharedApplication().delegate as! DAAppDelegate
             appDelegate.sessionStateChanged(session, state: state, error: error)
         })
     }
     
     func loginViewDidPressForgotPasswordButton(loginView: DALoginView) {
-        let verifyPhoneNumberViewController = DAVerifyPhoneNumberViewController()
-        navigationController?.pushViewController(verifyPhoneNumberViewController, animated: true)
+        navigator.navigateToForgotPasswordView()
     }
     
     override func loadView() {

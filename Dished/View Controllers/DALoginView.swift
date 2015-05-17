@@ -41,16 +41,6 @@ class DALoginView: DAKeyboardRespondableView {
          resetSignInButtonBottomConstraint()
     }
     
-    func showOverlay() {
-        MRProgressOverlayView.showOverlayAddedTo(self, title: "Signing In...", mode: MRProgressOverlayViewMode.Indeterminate, animated: true)
-    }
-    
-    func hideOverlayWithCompletion(completion: (() -> ())?) {
-        MRProgressOverlayView.dismissOverlayForView(self, animated: true, completion: {
-            completion?()
-        })
-    }
-    
     private func updateSignInButtonToHeight(height: CGFloat) {
         let bottomSignInY = signInButton.frame.origin.y + signInButton.frame.size.height
         
@@ -178,12 +168,15 @@ class DALoginView: DAKeyboardRespondableView {
         usernameField.placeholder = "Username or Email"
         usernameField.font = DAConstants.primaryFontWithSize(18.0)
         usernameField.returnKeyType = UIReturnKeyType.Next
+        usernameField.autocorrectionType = UITextAutocorrectionType.No
         constrainTextField(usernameField, toBackgroundView: usernameBackground)
         
         passwordField = UITextField()
         passwordField.placeholder = "Password"
         passwordField.font = DAConstants.primaryFontWithSize(18.0)
         passwordField.returnKeyType = UIReturnKeyType.Go
+        passwordField.secureTextEntry = true
+        passwordField.clearButtonMode = UITextFieldViewMode.WhileEditing
         constrainTextField(passwordField, toBackgroundView: passwordBackground)
     }
 

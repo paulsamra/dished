@@ -8,7 +8,7 @@
 
 import Foundation
 
-let IS_IOS8 = ( ( ( UIDevice.currentDevice().systemVersion as NSString ).floatValue >= 8.0 ) ? true : false )
+let IS_IOS8 = (((UIDevice.currentDevice().systemVersion as NSString).floatValue >= 8.0) ? true : false )
 
 extension UIViewController {
     

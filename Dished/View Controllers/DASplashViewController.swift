@@ -8,14 +8,10 @@
 
 import UIKit
 
-class DASplashViewController2: UIViewController, DAWelcomeViewDelegate, DASplashViewDelegate {
+class DASplashViewController2: DALoggedOutViewController, DAWelcomeViewDelegate, DASplashViewDelegate {
 
     var splashView: DASplashView!
-    
-    lazy var splashNavigator: DASplashNavigator = {
-        return DASplashNavigator(navigationController: self.navigationController)
-    }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -51,16 +47,15 @@ class DASplashViewController2: UIViewController, DAWelcomeViewDelegate, DASplash
     }
     
     func splashViewDidPressSignInButton(splashView: DASplashView) {
-        splashNavigator.navigateToLoginView()
+        navigator.navigateToLoginView()
     }
     
     func splashViewDidPressRegisterButton(splashView: DASplashView) {
-        splashNavigator.navigateToRegisterView()
+        navigator.navigateToRegisterProcess()
     }
     
     func splashViewDidPressFacebookButton(splashView: DASplashView) {
-        //connectToFacebook()
-        splashNavigator.navigateToFacebookLoginView()
+        connectToFacebook()
     }
     
     func connectToFacebook() {
@@ -75,7 +70,7 @@ class DASplashViewController2: UIViewController, DAWelcomeViewDelegate, DASplash
             session, state, error in
             
             if state == FBSessionState.Open {
-                self.splashNavigator.navigateToFacebookLoginView()
+                self.navigator.navigateToFacebookLoginView()
             }
             
             let appDelegate = UIApplication.sharedApplication().delegate as! DAAppDelegate

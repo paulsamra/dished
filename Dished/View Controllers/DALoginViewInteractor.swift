@@ -46,7 +46,9 @@ class DALoginViewInteractor: NSObject, UITextFieldDelegate {
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         if textField == loginView.usernameField {
             loginView.passwordField.becomeFirstResponder()
-            return false
+        }
+        else if textField == loginView.passwordField {
+            loginView.delegate?.loginViewDidPressSignInButton(loginView)
         }
         
         return true
