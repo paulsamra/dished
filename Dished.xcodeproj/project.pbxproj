@@ -1685,7 +1685,7 @@
 		94CBDD031A67A321009C0D05 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		94CBDD051A67A34C009C0D05 /* libicucore.A.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.A.dylib; path = usr/lib/libicucore.A.dylib; sourceTree = SDKROOT; };
 		94CBDE5B1A67A57A009C0D05 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
-		94D7CAD21A1499970065229C /* libUserVoice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libUserVoice.a; sourceTree = "<group>"; };
+		94D7CAD21A1499970065229C /* libUserVoice.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libUserVoice.a; path = Frameworks/UserVoice/libUserVoice.a; sourceTree = "<group>"; };
 		94D7CAD41A1499970065229C /* UserVoice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserVoice.h; sourceTree = "<group>"; };
 		94D7CAD51A1499970065229C /* UVConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVConfig.h; sourceTree = "<group>"; };
 		94D7CAD61A1499970065229C /* UVDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UVDelegate.h; sourceTree = "<group>"; };
@@ -2739,7 +2739,8 @@
 				94D7CAD61A1499970065229C /* UVDelegate.h */,
 				94D7CAD71A1499970065229C /* UVStyleSheet.h */,
 			);
-			path = UVHeaders;
+			name = UVHeaders;
+			path = Frameworks/UserVoice/UVHeaders;
 			sourceTree = "<group>";
 		};
 		94D7CAD81A1499970065229C /* UVResources */ = {
@@ -2753,7 +2754,8 @@
 				94D7CAFB1A1499970065229C /* uv_idea.png */,
 				94D7CAFC1A1499970065229C /* uv_idea@2x.png */,
 			);
-			path = UVResources;
+			name = UVResources;
+			path = Frameworks/UserVoice/UVResources;
 			sourceTree = "<group>";
 		};
 		94D919EF1ADF9E9E00FF4C3E /* Select Hashtags */ = {
