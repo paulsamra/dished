@@ -253,7 +253,6 @@
 		9412923D1A1BEED500B7C763 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 943E62131983A21300DF2135 /* AssetsLibrary.framework */; };
 		9412923E1A1BEED500B7C763 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 943E62111983A20F00DF2135 /* AddressBook.framework */; };
 		9412923F1A1BEED500B7C763 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C1F6EE1979A2F600A2D652 /* Social.framework */; };
-		941292401A1BEED500B7C763 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
 		941292471A1BEED500B7C763 /* DAUserNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E2520B1A08BAF900D6DCE4 /* DAUserNewsTableViewCell.xib */; };
 		941292481A1BEED500B7C763 /* DACommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */; };
 		941292491A1BEED500B7C763 /* DADishTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F2AD76198C454600450C6F /* DADishTableViewCell.xib */; };
@@ -449,7 +448,6 @@
 		9412933C1A1C7AD100B7C763 /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 943E62131983A21300DF2135 /* AssetsLibrary.framework */; };
 		9412933D1A1C7AD100B7C763 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 943E62111983A20F00DF2135 /* AddressBook.framework */; };
 		9412933E1A1C7AD100B7C763 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C1F6EE1979A2F600A2D652 /* Social.framework */; };
-		9412933F1A1C7AD100B7C763 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
 		941293461A1C7AD100B7C763 /* DAUserNewsTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94E2520B1A08BAF900D6DCE4 /* DAUserNewsTableViewCell.xib */; };
 		941293471A1C7AD100B7C763 /* DACommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9443DF0119D026DE00F134BA /* DACommentTableViewCell.xib */; };
 		941293481A1C7AD100B7C763 /* DADishTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 94F2AD76198C454600450C6F /* DADishTableViewCell.xib */; };
@@ -524,6 +522,9 @@
 		942F07991B1424A100817F41 /* libUserVoice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D7CAD21A1499970065229C /* libUserVoice.a */; };
 		942F079A1B1424EA00817F41 /* libUserVoice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D7CAD21A1499970065229C /* libUserVoice.a */; };
 		942F079B1B1424F500817F41 /* libUserVoice.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 94D7CAD21A1499970065229C /* libUserVoice.a */; };
+		942F079C1B1425A400817F41 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
+		942F079D1B1425E400817F41 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
+		942F079E1B1425ED00817F41 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
 		943050301AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
 		943050311AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
 		943050321AB6DFD5008DDCB3 /* DATableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9430502F1AB6DFD5008DDCB3 /* DATableViewCell.swift */; };
@@ -906,7 +907,6 @@
 		94917FED1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FEC1A5E6D2D009FF117 /* DAPushTransitionManager.m */; };
 		94917FEE1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FEC1A5E6D2D009FF117 /* DAPushTransitionManager.m */; };
 		94917FEF1A5E6D2D009FF117 /* DAPushTransitionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 94917FEC1A5E6D2D009FF117 /* DAPushTransitionManager.m */; };
-		949382C919C63C5D003A416C /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 949382C819C63C5D003A416C /* FacebookSDK.framework */; };
 		94942A1D1990A6C700095A70 /* DAExploreDishResultsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */; };
 		94942A1F1990AB0800095A70 /* DAExploreLiveSearchResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A1E1990AB0800095A70 /* DAExploreLiveSearchResult.m */; };
 		94942A221990AB5900095A70 /* DADish.m in Sources */ = {isa = PBXBuildFile; fileRef = 94942A211990AB5900095A70 /* DADish.m */; };
@@ -1569,7 +1569,7 @@
 		94917FE71A5D6DC0009FF117 /* DAModalTransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAModalTransitionManager.m; sourceTree = "<group>"; };
 		94917FEB1A5E6D2D009FF117 /* DAPushTransitionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAPushTransitionManager.h; sourceTree = "<group>"; };
 		94917FEC1A5E6D2D009FF117 /* DAPushTransitionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAPushTransitionManager.m; sourceTree = "<group>"; };
-		949382C819C63C5D003A416C /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
+		949382C819C63C5D003A416C /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = Frameworks/FacebookSDK.framework; sourceTree = "<group>"; };
 		94942A1519902D1E00095A70 /* DAExploreLiveSearchResult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreLiveSearchResult.h; sourceTree = "<group>"; };
 		94942A1B1990A6C700095A70 /* DAExploreDishResultsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAExploreDishResultsViewController.h; sourceTree = "<group>"; };
 		94942A1C1990A6C700095A70 /* DAExploreDishResultsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAExploreDishResultsViewController.m; sourceTree = "<group>"; };
@@ -1859,6 +1859,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				942F079C1B1425A400817F41 /* FacebookSDK.framework in Frameworks */,
 				942F079A1B1424EA00817F41 /* libUserVoice.a in Frameworks */,
 				94426CB51A6A765500186C35 /* libicucore.dylib in Frameworks */,
 				941292311A1BEED500B7C763 /* QuartzCore.framework in Frameworks */,
@@ -1877,7 +1878,6 @@
 				9412923D1A1BEED500B7C763 /* AssetsLibrary.framework in Frameworks */,
 				9412923E1A1BEED500B7C763 /* AddressBook.framework in Frameworks */,
 				9412923F1A1BEED500B7C763 /* Social.framework in Frameworks */,
-				941292401A1BEED500B7C763 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1885,6 +1885,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				942F079E1B1425ED00817F41 /* FacebookSDK.framework in Frameworks */,
 				942F079B1B1424F500817F41 /* libUserVoice.a in Frameworks */,
 				94426CB61A6A765D00186C35 /* libicucore.dylib in Frameworks */,
 				941293301A1C7AD100B7C763 /* QuartzCore.framework in Frameworks */,
@@ -1903,7 +1904,6 @@
 				9412933C1A1C7AD100B7C763 /* AssetsLibrary.framework in Frameworks */,
 				9412933D1A1C7AD100B7C763 /* AddressBook.framework in Frameworks */,
 				9412933E1A1C7AD100B7C763 /* Social.framework in Frameworks */,
-				9412933F1A1C7AD100B7C763 /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1911,6 +1911,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				942F079D1B1425E400817F41 /* FacebookSDK.framework in Frameworks */,
 				942F07991B1424A100817F41 /* libUserVoice.a in Frameworks */,
 				943E62221983A23E00DF2135 /* Security.framework in Frameworks */,
 				943E62161983A21A00DF2135 /* Foundation.framework in Frameworks */,
@@ -1930,7 +1931,6 @@
 				943E62141983A21300DF2135 /* AssetsLibrary.framework in Frameworks */,
 				943E62121983A20F00DF2135 /* AddressBook.framework in Frameworks */,
 				D1C1F6EF1979A2F600A2D652 /* Social.framework in Frameworks */,
-				949382C919C63C5D003A416C /* FacebookSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4477,6 +4477,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -4524,6 +4525,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = "DEV=1";
 				INFOPLIST_FILE = "Dished/Dished-DEV-Info.plist";
@@ -4562,6 +4564,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
@@ -4604,6 +4607,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = "STAGE=1";
 				INFOPLIST_FILE = "Dished/Dished-STAGE-Info.plist";
@@ -4719,6 +4723,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = Dished/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
@@ -4762,6 +4767,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/Frameworks",
 				);
 				INFOPLIST_FILE = Dished/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.1;
