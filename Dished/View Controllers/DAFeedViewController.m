@@ -944,8 +944,12 @@ typedef enum
     
     if( ![feedItem.caller_yumd boolValue] )
     {
+        DAFeedItem *feedItem = [self.feedItems objectAtIndex:indexPath.section];
         NSInteger sectionItems = [self numberOfItemsInSection:indexPath.section];
-        NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForItem:sectionItems - 1 inSection:indexPath.section];
+        BOOL hasUserSuggestion = feedItem.user_suggestion != nil;
+        NSInteger section = hasUserSuggestion ? sectionItems - 2 : sectionItems - 1;
+        
+        NSIndexPath *buttonIndexPath = [NSIndexPath indexPathForItem:section inSection:indexPath.section];
         DAReviewButtonsCollectionViewCell *buttonCell = (DAReviewButtonsCollectionViewCell *)[self.collectionView cellForItemAtIndexPath:buttonIndexPath];
         [buttonCell setYummed];
         [self yumFeedItemWithReviewID:[feedItem.item_id integerValue]];
