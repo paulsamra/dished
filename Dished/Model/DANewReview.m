@@ -82,14 +82,23 @@
     }
     else
     {
-        dict[kLocationNameKey]     = self.locationName;
-        dict[@"loc_longitude"]     = @(self.locationLongitude);
-        dict[@"loc_latitude"]      = @(self.locationLatitude);
-        dict[@"loc_street_number"] = self.locationStreetNum;
-        dict[@"loc_street"]        = self.locationStreetName;
-        dict[@"loc_city"]          = self.locationCity;
-        dict[@"loc_state"]         = self.locationState;
-        dict[@"loc_zip"]           = self.locationZip;
+        dict[kLocationNameKey] = self.locationName;
+        dict[@"loc_longitude"] = @(self.locationLongitude);
+        dict[@"loc_latitude"]  = @(self.locationLatitude);
+        
+        if( self.locationStreetNum )
+        {
+            dict[@"loc_street_number"] = self.locationStreetNum;
+        }
+        
+        if( self.locationStreetName )
+        {
+            dict[@"loc_street"] = self.locationStreetName;
+        }
+        
+        dict[@"loc_city"]  = self.locationCity;
+        dict[@"loc_state"] = self.locationState;
+        dict[@"loc_zip"]   = self.locationZip;
         
         dict[kTypeKey] = self.type;
         dict[@"title"] = self.title;
