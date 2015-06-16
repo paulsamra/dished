@@ -26,5 +26,6 @@
 - (BOOL)hasDeterminedLocation;
 - (void)startUpdatingLocation;
 - (void)stopUpdatingLocation;
+- (CLLocationCoordinate2D)lastKnownLocation;
 
 @end

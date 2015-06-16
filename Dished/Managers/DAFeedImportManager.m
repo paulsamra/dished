@@ -18,6 +18,8 @@ typedef void(^GetFeedDataBlock)();
 @property (weak, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (copy, nonatomic) GetFeedDataBlock feedDataBlock;
 
+@property (strong, nonatomic) NSTimer *feedTimer;
+
 @end
 
 
@@ -354,8 +356,9 @@ typedef void(^GetFeedDataBlock)();
 {
     GetFeedDataBlock block = ^
     {
-        double longitude = self.locationManager.currentLocation.longitude;
-        double latitude = self.locationManager.currentLocation.latitude;
+        CLLocationCoordinate2D location = [self.locationManager lastKnownLocation];
+        double longitude = location.longitude;
+        double latitude = location.latitude;
         NSDictionary *parameters = @{ kRowLimitKey : @(limit), kRowOffsetKey : @(offset), kLongitudeKey : @(longitude), kLatitudeKey : @(latitude) };
         
         [[DAAPIManager sharedManager] GETRequest:kFeedURL withParameters:parameters success:^( id response )
@@ -384,6 +387,7 @@ typedef void(^GetFeedDataBlock)();
     else
     {
         self.feedDataBlock = block;
+        self.feedTimer = [NSTimer scheduledTimerWithTimeInterval:2 target:self selector:@selector(locationUpdated) userInfo:nil repeats:NO];
     }
 }
 

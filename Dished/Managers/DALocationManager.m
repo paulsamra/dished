@@ -146,10 +146,31 @@
     }
 }
 
+- (CLLocationCoordinate2D)lastKnownLocation
+{
+    if( self.locationFound )
+    {
+        return self.currentLocation;
+    }
+    
+    NSNumber *longitude = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastKnownLongitude"];
+    NSNumber *latitude = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastKnownLatitude"];
+    
+    if( !longitude || !latitude )
+    {
+        return CLLocationCoordinate2DMake(0.0, 0.0);
+    }
+    
+    return CLLocationCoordinate2DMake([latitude doubleValue], [longitude doubleValue]);
+}
+
 - (void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
 {
     CLLocation *location = [locations lastObject];
     self.currentLocation = CLLocationCoordinate2DMake(location.coordinate.latitude, location.coordinate.longitude);
+    
+    [[NSUserDefaults standardUserDefaults] setValue:@(self.currentLocation.longitude) forKey:@"lastKnownLongitude"];
+    [[NSUserDefaults standardUserDefaults] setValue:@(self.currentLocation.latitude) forKey:@"lastKnownLatitude"];
     
     if( location.coordinate.latitude != 0 && location.coordinate.longitude != 0 )
     {
