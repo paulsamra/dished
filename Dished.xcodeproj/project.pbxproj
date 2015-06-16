@@ -812,7 +812,6 @@
 		94441A591B142A23006FA22C /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94441A581B142A23006FA22C /* Fabric.framework */; };
 		94441A5A1B142A23006FA22C /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94441A581B142A23006FA22C /* Fabric.framework */; };
 		94441A5B1B142A23006FA22C /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94441A581B142A23006FA22C /* Fabric.framework */; };
-		94441A611B142C6B006FA22C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94441A601B142C6B006FA22C /* Crashlytics.framework */; };
 		94441A621B142C6B006FA22C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94441A601B142C6B006FA22C /* Crashlytics.framework */; };
 		94441A631B142C6B006FA22C /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94441A601B142C6B006FA22C /* Crashlytics.framework */; };
 		94449EDF19481A54008B8881 /* DAFacebookLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94449EDE19481A54008B8881 /* DAFacebookLoginViewController.m */; };
@@ -947,6 +946,7 @@
 		9499216B1ABB360000A247B0 /* SwiftAddressBookWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949921571ABB360000A247B0 /* SwiftAddressBookWrapper.swift */; };
 		9499216C1ABB360000A247B0 /* SwiftAddressBookWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 949921571ABB360000A247B0 /* SwiftAddressBookWrapper.swift */; };
 		949B2C0119668E0000FE1E9D /* DAImageFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 949B2C0019668E0000FE1E9D /* DAImageFilterViewController.m */; };
+		949C89AB1B2FF9C5006763FD /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 94441A601B142C6B006FA22C /* Crashlytics.framework */; };
 		94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */; };
 		94A027A4196F25B5004D5CD7 /* DARatingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A027A3196F25B5004D5CD7 /* DARatingViewController.m */; };
 		94A6FE291A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94A6FE281A46CAFC00AB901F /* DAReviewDetailCollectionViewCell.swift */; };
@@ -1917,6 +1917,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				949C89AB1B2FF9C5006763FD /* Crashlytics.framework in Frameworks */,
 				942F079D1B1425E400817F41 /* FacebookSDK.framework in Frameworks */,
 				942F07991B1424A100817F41 /* libUserVoice.a in Frameworks */,
 				943E62221983A23E00DF2135 /* Security.framework in Frameworks */,
@@ -1930,7 +1931,6 @@
 				948615A919FE1A83002497D0 /* QuartzCore.framework in Frameworks */,
 				943E62241983A24500DF2135 /* SystemConfiguration.framework in Frameworks */,
 				943E62201983A23A00DF2135 /* MediaPlayer.framework in Frameworks */,
-				94441A611B142C6B006FA22C /* Crashlytics.framework in Frameworks */,
 				94441A591B142A23006FA22C /* Fabric.framework in Frameworks */,
 				943E621E1983A23200DF2135 /* CoreText.framework in Frameworks */,
 				943E621A1983A22700DF2135 /* CoreMotion.framework in Frameworks */,
@@ -3382,7 +3382,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\n./Crashlytics.framework/run 8553c9eeaaf67ce6f513e36c6cd30df3176d0664 3854bddc03a85c28f5e9d608ed423b56de4e4762b5300b20fa22a085eb2467ca";
+			shellScript = "buildNumber=$(/usr/libexec/PlistBuddy -c \"Print CFBundleVersion\" \"$INFOPLIST_FILE\")\nbuildNumber=$(($buildNumber + 1))\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"$INFOPLIST_FILE\"\n./Frameworks/Crashlytics.framework/run 8553c9eeaaf67ce6f513e36c6cd30df3176d0664 3854bddc03a85c28f5e9d608ed423b56de4e4762b5300b20fa22a085eb2467ca";
 		};
 /* End PBXShellScriptBuildPhase section */
 
