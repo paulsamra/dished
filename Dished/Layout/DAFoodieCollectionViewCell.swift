@@ -80,10 +80,13 @@ class DAFoodieCollectionViewCell: DACollectionViewCell, UIGestureRecognizerDeleg
         let name = "\(userSuggestion.first_name) \(userSuggestion.last_name)"
         descriptionLabel.attributedText = descriptionWithName(name, description: userSuggestion.desc, userType: userSuggestion.user_type)
         
-        let userImageURL = NSURL(string: userSuggestion.img_thumb)
         LELog.sharedInstance().log("Foodie Img Thumb: \(userSuggestion.img_thumb)")
-        let placeholder = UIImage(named: "profile_image")
-        userImageView.sd_setImageWithURL(userImageURL, placeholderImage: placeholder)
+
+        if userSuggestion.img_thumb != nil {
+            let userImageURL = NSURL(string: userSuggestion.img_thumb)
+            let placeholder = UIImage(named: "profile_image")
+            userImageView.sd_setImageWithURL(userImageURL, placeholderImage: placeholder)
+        }
         
         if let reviews = userSuggestion.reviews as? [NSDictionary] {
             for (index, review) in enumerate(reviews) {

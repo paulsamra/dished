@@ -67,8 +67,10 @@ class DAMenuViewController: DAViewController, UITableViewDelegate, UITableViewDa
         let imageURL = NSURL(string: DAUserManager.sharedManager().img_thumb)
         menuView.tableView.userImageView.sd_setImageWithURL(imageURL, placeholderImage: UIImage(named: "profile_image"))
         
-        let username = "@\(DAUserManager.sharedManager().username)"
-        menuView.tableView.usernameButton.setTitle(username, forState: UIControlState.Normal)
+        if DAUserManager.sharedManager().username != nil {
+            let username = "@\(DAUserManager.sharedManager().username)"
+            menuView.tableView.usernameButton.setTitle(username, forState: UIControlState.Normal)
+        }
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
