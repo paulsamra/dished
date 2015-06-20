@@ -48,6 +48,7 @@ class DASelectHashtagsViewController: DAViewController, UITableViewDelegate, UIT
         selectHashtagsView.tableView.registerClass(DAHashtagInputTableViewCell.self, forCellReuseIdentifier: hashtagInputCellIdentifier)
         selectHashtagsView.tableView.delegate = self
         selectHashtagsView.tableView.dataSource = self
+        selectHashtagsView.tableView.rowHeight = 44.0
         
         navigationItem.rightBarButtonItem?.enabled = false
         hashtagsDataSource.loadData()
