@@ -420,10 +420,13 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
             [[SDWebImageManager sharedManager] downloadImageWithURL:userImageURL options:SDWebImageHighPriority progress:nil
             completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
             {
-                dispatch_async( dispatch_get_main_queue(), ^
+                if( finished )
                 {
-                    [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
-                });
+                    dispatch_async( dispatch_get_main_queue(), ^
+                    {
+                        [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
+                    });
+                }
             }];
             
             avatarIcon.image = [self scaleImage:[[UIImage alloc] init] toFrame:userImageRect withCornerRadius:cornerRadius];
