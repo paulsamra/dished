@@ -344,7 +344,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
         BOOL useCache = [[SDWebImageManager sharedManager] cachedImageExistsForURL:userImageURL] ? YES : NO;
         
-        [commentCell.textView setAttributedText:commentString withAttributes:linkedAttributes knownUsernames:usernameMentions useCache:NO];
+        [commentCell.textView setAttributedText:commentString withAttributes:linkedAttributes knownUsernames:usernameMentions useCache:useCache];
         commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
         commentCell.iconImageView.hidden = [self commentIndexForIndexPath:indexPath] == 0 ? NO : YES;
         
