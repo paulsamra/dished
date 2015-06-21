@@ -344,7 +344,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
         BOOL useCache = [[SDWebImageManager sharedManager] cachedImageExistsForURL:userImageURL] ? YES : NO;
         
-        [commentCell.textView setAttributedText:commentString withAttributes:linkedAttributes knownUsernames:usernameMentions useCache:useCache];
+        [commentCell.textView setAttributedText:commentString withAttributes:linkedAttributes knownUsernames:usernameMentions useCache:NO];
         commentCell.iconImageView.image = [UIImage imageNamed:@"comments_icon"];
         commentCell.iconImageView.hidden = [self commentIndexForIndexPath:indexPath] == 0 ? NO : YES;
         
@@ -407,7 +407,9 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         CGRect userImageRect = CGRectMake( 0, 0, 15, 15 );
         CGFloat cornerRadius = userImageRect.size.width / 2;
         
-        UIImage *userImage = [[[SDWebImageManager sharedManager] imageCache] imageFromDiskCacheForKey:comment.img_thumb];
+        NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
+        NSString *cacheKey = [[SDWebImageManager sharedManager] cacheKeyForURL:userImageURL];
+        UIImage *userImage = [[[SDWebImageManager sharedManager] imageCache] imageFromDiskCacheForKey:cacheKey];
         
         if( userImage )
         {
@@ -415,13 +417,13 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
         }
         else
         {
-            NSURL *userImageURL = [NSURL URLWithString:comment.img_thumb];
-
             [[SDWebImageManager sharedManager] downloadImageWithURL:userImageURL options:SDWebImageHighPriority progress:nil
             completed:^( UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL )
             {
-                if( finished )
+                if( image && finished )
                 {
+                    [[SDWebImageManager sharedManager] saveImageToCache:image forURL:userImageURL];
+                    
                     dispatch_async( dispatch_get_main_queue(), ^
                     {
                         [self.collectionView reloadItemsAtIndexPaths:@[ indexPath ]];
@@ -429,7 +431,8 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
                 }
             }];
             
-            avatarIcon.image = [self scaleImage:[[UIImage alloc] init] toFrame:userImageRect withCornerRadius:cornerRadius];
+            UIImage *placeholderImage = [UIImage imageNamed:@"profile_image"];
+            avatarIcon.image = [self scaleImage:placeholderImage toFrame:userImageRect withCornerRadius:cornerRadius];
         }
         
         NSAttributedString *avatarIconString = [NSAttributedString attributedStringWithAttachment:avatarIcon];
