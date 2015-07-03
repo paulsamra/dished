@@ -14,7 +14,6 @@
 #import "DAFeedViewController.h"
 #import "DANewsManager.h"
 #import "DANewsViewController.h"
-#import "DAMenuViewController.h"
 #import "DAUserManager.h"
 #import "DAContainerViewController.h"
 #import "DAModalTransitionManager.h"
@@ -24,7 +23,6 @@
 
 @property (strong, nonatomic) UIView   *dimView;
 @property (strong, nonatomic) UIButton *newsBadgeButton;
-@property (strong, nonatomic) DAMenuViewController *menuViewController;
 @property (strong, nonatomic) DAModalTransitionManager *modalTransitionManager;
 
 @end
