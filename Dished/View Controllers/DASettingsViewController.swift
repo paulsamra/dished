@@ -113,7 +113,6 @@ class DASettingsViewController: DAViewController, UITableViewDelegate, UITableVi
             else {
                 UIAlertView(title: "Failed to Log Out", message: "There was a problem logging you out. Please try again.", delegate: nil, cancelButtonTitle: "OK").show()
             }
-
         })
     }
     

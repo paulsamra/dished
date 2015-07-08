@@ -23,7 +23,6 @@ enum DANotificationSettingType {
 class DANotificationSettingsViewController: DAViewController, UITableViewDelegate, UITableViewDataSource {
 
     var notificationSettingsView = DANotificationSettingsView()
-    let userManager = DAUserManager2()
     let notificationSettingsDataSource = DANotificationSettingsDataSource()
     var notificationSetting = DANotificationSettingType.Yum
     
@@ -67,11 +66,12 @@ class DANotificationSettingsViewController: DAViewController, UITableViewDelegat
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        let pushSetting = notificationSettingsDataSource.pushSettings[indexPath.row]
+        let dataSource = notificationSettingsDataSource
+        let pushSetting = dataSource.pushSettings[indexPath.row]
         
         switch(notificationSetting) {
-            case .Yum: userManager.yumPushSetting = pushSetting
-            case .Comment: userManager.commentPushSetting = pushSetting
+            case .Yum: dataSource.userManager.yumPushSetting = pushSetting
+            case .Comment: dataSource.userManager.commentPushSetting = pushSetting
         }
         
         tableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
