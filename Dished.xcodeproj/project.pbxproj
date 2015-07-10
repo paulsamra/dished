@@ -10,7 +10,6 @@
 		9400E9C71AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */; };
 		9400E9C81AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */; };
 		9400E9C91AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9400E9C61AC93DD8001C8E08 /* DAActiveFoodiesDataSource.swift */; };
-		9401F92E19E496360037812B /* DASettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9401F92D19E496360037812B /* DASettingsViewController.m */; };
 		9402317519C18B6E003B3017 /* DAGlobalReview.m in Sources */ = {isa = PBXBuildFile; fileRef = 9402317419C18B6E003B3017 /* DAGlobalReview.m */; };
 		940363771A25E0850068F61D /* DAManagedUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363761A25E0850068F61D /* DAManagedUsername.m */; };
 		940363781A25E0850068F61D /* DAManagedUsername.m in Sources */ = {isa = PBXBuildFile; fileRef = 940363761A25E0850068F61D /* DAManagedUsername.m */; };
