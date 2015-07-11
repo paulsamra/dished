@@ -51,7 +51,7 @@
     {
         if( success )
         {
-            [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL userLoadSuccess )
+            [DAUserManager2 loadCurrentUserWithCompletion:^( BOOL userLoadSuccess )
             {
                 if( userLoadSuccess )
                 {

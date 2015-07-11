@@ -11,7 +11,6 @@
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "DAExploreDishResultsViewController.h"
 #import "DAUserProfileViewController.h"
-#import "DAUserManager.h"
 #import "DAExploreViewController.h"
 #import "DATagSuggestionTableView.h"
 

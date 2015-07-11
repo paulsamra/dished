@@ -10,7 +10,6 @@
 #import "MRProgress.h"
 #import "DAAppDelegate.h"
 #import "UIViewController+TAPKeyboardPop.h"
-#import "DAUserManager.h"
 #import "DAPhoneNumberViewController.h"
 
 

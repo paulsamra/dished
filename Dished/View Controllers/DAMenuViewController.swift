@@ -22,6 +22,7 @@ class DAMenuViewController: DAViewController, UITableViewDelegate, UITableViewDa
         "Help"
     ]
     
+    private let userManager = DAUserManager2()
     private var initialViewAppear = true
     
     override func viewDidLoad() {
@@ -64,10 +65,10 @@ class DAMenuViewController: DAViewController, UITableViewDelegate, UITableViewDa
     }
     
     func setupUserInfo() {
-        let imageURL = NSURL(string: DAUserManager.sharedManager().img_thumb)
+        let imageURL = NSURL(string: userManager.image)
         menuView.tableView.userImageView.sd_setImageWithURL(imageURL, placeholderImage: UIImage(named: "profile_image"))
         
-        let username = "@\(DAUserManager.sharedManager().username)"
+        let username = "@\(userManager.username)"
         menuView.tableView.usernameButton.setTitle(username, forState: UIControlState.Normal)
     }
     
@@ -114,7 +115,7 @@ class DAMenuViewController: DAViewController, UITableViewDelegate, UITableViewDa
     
     func goToUserProfile() {
         containerViewController().moveToMenu()
-        pushUserProfileWithUsername(DAUserManager.sharedManager().username)
+        pushUserProfileWithUsername(userManager.username)
     }
     
     func userImageTappedOnMenuTableView(menuTableView: DAMenuTableView) {

@@ -16,7 +16,6 @@
 #import "UIViewController+ShareView.h"
 #import "UIImageView+DishProgress.h"
 #import "DAFeedCollectionViewFlowLayout.h"
-#import "DAUserManager.h"
 #import "MRProgress.h"
 #import "DAExploreViewController.h"
 #import "DATabBarController.h"
@@ -38,6 +37,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 @interface DAReviewDetailsViewController() <DAFeedCollectionViewCellDelegate, DAReviewButtonsCollectionViewCellDelegate, DAReviewDetailCollectionViewCellDelegate, DADishHeaderCollectionReusableViewDelegate>
 
 @property (strong, nonatomic) DAReview *review;
+@property (strong, nonatomic) DAUserManager2 *userManager;
 @property (strong, nonatomic) NSURLSessionTask *loadReviewTask;
 @property (strong, nonatomic) NSURLSessionTask *refreshReviewTask;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
@@ -50,6 +50,8 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.userManager = [[DAUserManager2 alloc] init];
     
     [self registerCollectionViewCellNibs];
     
@@ -755,7 +757,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 - (void)removeCurrentUserYumFromReview
 {
     NSMutableArray *yums = [self.review.yums mutableCopy];
-    [yums removeObject:[DAUserManager sharedManager].username];
+    [yums removeObject:self.userManager.username];
     self.review.yums = yums;
     [self.collectionView reloadData];
 }
@@ -763,7 +765,7 @@ static NSString *const kReviewHeaderIdentifier      = @"titleHeader";
 - (void)addCurrentUserYumToReview
 {
     NSMutableArray *yums = [self.review.yums mutableCopy];
-    [yums addObject:[DAUserManager sharedManager].username];
+    [yums addObject:self.userManager.username];
     self.review.yums = yums;
     [self.collectionView reloadData];
 }
