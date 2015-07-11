@@ -21,6 +21,7 @@
 @interface DACommentsViewController() <SWTableViewCellDelegate, JSQMessagesKeyboardControllerDelegate, JSQMessagesInputToolbarDelegate, UITextViewDelegate, DACommentTableViewCellDelegate, DATagSuggestionsTableViewDelegate>
 
 @property (strong, nonatomic) NSDictionary                  *linkedTextAttributes;
+@property (strong, nonatomic) DAUserManager2                *userManager;
 @property (strong, nonatomic) NSMutableArray                *comments;
 @property (strong, nonatomic) NSURLSessionTask              *loadCommentsTask;
 @property (strong, nonatomic) DATagSuggestionTableView      *tagTableView;
@@ -44,6 +45,7 @@
     self.hasMoreComments = NO;
     self.linkedTextAttributes = [NSAttributedString linkedTextAttributesWithFontSize:15.0f];
     
+    self.userManager = [[DAUserManager2 alloc] init];
     self.tableView.contentInset = UIEdgeInsetsMake(-35, 0, 0, 0);
     
     self.inputToolbar.delegate = self;
@@ -500,7 +502,7 @@
     realIndex = realIndex == 0 ? realIndex : ( self.hasMoreComments ? realIndex - 1 : realIndex );
     
     DAComment *comment = [self.comments objectAtIndex:realIndex];
-    BOOL ownComment = comment.creator_id == [DAUserManager sharedManager].user_id;
+    BOOL ownComment = comment.creator_id == self.userManager.userID;
     
     UIImage *deleteImage = [UIImage imageNamed:@"delete_comment"];
     UIImage *flagImage   = [UIImage imageNamed:@"flag_comment"];
@@ -558,7 +560,7 @@
     NSUInteger commentIndex = self.hasMoreComments ? indexPath.row - 1 : indexPath.row;
     DAComment *comment = [self.comments objectAtIndex:commentIndex];
     
-    BOOL ownComment = comment.creator_id == [DAUserManager sharedManager].user_id;
+    BOOL ownComment = comment.creator_id == self.userManager.userID;
     
     if( ownComment )
     {
@@ -749,10 +751,10 @@
     
     DAComment *newComment = [[DAComment alloc] init];
     newComment.comment = commentText;
-    newComment.creator_username = [[DAUserManager sharedManager] username];
-    newComment.img_thumb = [[DAUserManager sharedManager] img_thumb];
-    newComment.creator_type = [[DAUserManager sharedManager] userType];
-    newComment.creator_id = [[DAUserManager sharedManager] user_id];
+    newComment.creator_username = self.userManager.username;
+    newComment.img_thumb = self.userManager.image;
+    newComment.creator_type = self.userManager.userType;
+    newComment.creator_id = self.userManager.userID;
     newComment.usernameMentions = @[ newComment.creator_username ];
     [self.comments addObject:newComment];
     [self.tableView reloadData];

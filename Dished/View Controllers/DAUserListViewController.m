@@ -18,6 +18,7 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 @interface DAUserListViewController()
 
 @property (strong, nonatomic) NSArray                 *usernameArray;
+@property (strong, nonatomic) DAUserManager2          *userManager;
 @property (strong, nonatomic) NSURLSessionTask        *loadTask;
 @property (strong, nonatomic) UIActivityIndicatorView *spinner;
 
@@ -29,6 +30,8 @@ static NSString *const kFollowCellIdentifier = @"followCell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.userManager = [[DAUserManager2 alloc] init];
     
     [self.tableView registerClass:[DAUserTableViewCell class] forCellReuseIdentifier:kFollowCellIdentifier];
     self.spinner = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
@@ -166,7 +169,7 @@ static NSString *const kFollowCellIdentifier = @"followCell";
     {
         DAUsername *newUsername = [DAUsername usernameWithData:username];
         
-        if( self.listContent == eUserListContentFollowing && self.object_id == [DAUserManager sharedManager].user_id )
+        if( self.listContent == eUserListContentFollowing && self.object_id == self.userManager.userID )
         {
             newUsername.isFollowed = YES;
         }
@@ -209,7 +212,7 @@ static NSString *const kFollowCellIdentifier = @"followCell";
         
         [cell.sideButton addTarget:self action:@selector(followButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         
-        if( [username.username isEqualToString:[DAUserManager sharedManager].username] || self.listContent == eUserListContentYums )
+        if( [username.username isEqualToString:self.userManager.username] || self.listContent == eUserListContentYums )
         {
             cell.sideButton.hidden = YES;
         }

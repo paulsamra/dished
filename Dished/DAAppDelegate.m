@@ -81,9 +81,10 @@
 
 - (void)setupUserVoice
 {
-    NSString *email = [DAUserManager sharedManager].email;
-    NSString *name  = [NSString stringWithFormat:@"%@ %@", [DAUserManager sharedManager].firstName, [DAUserManager sharedManager].lastName];
-    NSString *userID = [NSString stringWithFormat:@"%d", (int)[DAUserManager sharedManager].user_id];
+    DAUserManager2 *userManager = [[DAUserManager2 alloc] init];
+    NSString *email = userManager.email;
+    NSString *name  = [NSString stringWithFormat:@"%@ %@", userManager.firstName, userManager.lastName];
+    NSString *userID = [NSString stringWithFormat:@"%d", (int)userManager.userID];
     
     UVConfig *config = [UVConfig configWithSite:@"dishedapp.uservoice.com"];
     [config identifyUserWithEmail:email name:name guid:userID];

@@ -14,7 +14,6 @@
 #import "DAFeedViewController.h"
 #import "DANewsManager.h"
 #import "DANewsViewController.h"
-#import "DAUserManager.h"
 #import "DAContainerViewController.h"
 #import "DAModalTransitionManager.h"
 

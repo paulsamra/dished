@@ -23,10 +23,11 @@
 
 - (void)showShareViewWithReview:(DAReview *)review
 {
+    DAUserManager2 *userManager = [[DAUserManager2 alloc] init];
     DASocialCollectionViewController *socialViewController = [self showShareView];
     socialViewController.review = review;
     
-    if( [review.creator_username isEqualToString:[DAUserManager sharedManager].username] )
+    if( [review.creator_username isEqualToString:userManager.username] )
     {
         socialViewController.isOwnReview = YES;
     }
