@@ -7,7 +7,6 @@
 //
 
 #import "DAEditProfileViewController.h"
-#import "DAUserManager.h"
 #import "UIImageView+UIActivityIndicatorForSDWebImage.h"
 #import "MRProgress.h"
 
@@ -19,6 +18,7 @@
 @property (strong, nonatomic) NSIndexPath     *pickerIndexPath;
 @property (strong, nonatomic) DAErrorView     *errorView;
 @property (strong, nonatomic) UIAlertView     *deleteAccountAlert;
+@property (strong, nonatomic) DAUserManager2  *userManager;
 @property (strong, nonatomic) NSDateFormatter *dateFormatter;
 
 @property (strong, nonatomic) NSURLSessionTask *saveProfileTask;
@@ -148,37 +148,35 @@
 
 - (void)populateProfile
 {
-    DAUserManager *userManager = [DAUserManager sharedManager];
+    self.dateOfBirth = self.userManager.dateOfBirth;
     
-    self.dateOfBirth = userManager.dateOfBirth;
+    self.emailField.text          = self.userManager.email;
+    self.usernameLabel.text       = [NSString stringWithFormat:@"@%@", self.userManager.username];
+    self.lastNameField.text       = self.userManager.lastName;
+    self.firstNameField.text      = self.userManager.firstName;
+    self.descriptionTextView.text = self.userManager.desc;
     
-    self.emailField.text          = userManager.email;
-    self.usernameLabel.text       = [NSString stringWithFormat:@"@%@", userManager.username];
-    self.lastNameField.text       = userManager.lastName;
-    self.firstNameField.text      = userManager.firstName;
-    self.descriptionTextView.text = userManager.desc;
-    
-    if( userManager.phoneNumber.length == 10 )
+    if( self.userManager.phoneNumber.length == 10 )
     {
         NSMutableString *phoneNumber = [[NSMutableString alloc] initWithString:@"+1 "];
-        [phoneNumber appendFormat:@"(%@) ", [userManager.phoneNumber substringToIndex:3]];
-        [phoneNumber appendFormat:@"%@-", [userManager.phoneNumber substringWithRange:NSMakeRange( 3, 3 )]];
-        [phoneNumber appendString:[userManager.phoneNumber substringFromIndex:6]];
+        [phoneNumber appendFormat:@"(%@) ", [self.userManager.phoneNumber substringToIndex:3]];
+        [phoneNumber appendFormat:@"%@-", [self.userManager.phoneNumber substringWithRange:NSMakeRange( 3, 3 )]];
+        [phoneNumber appendString:[self.userManager.phoneNumber substringFromIndex:6]];
         self.phoneNumberField.text = phoneNumber;
     }
 
-    if( userManager.dateOfBirth )
+    if( self.userManager.dateOfBirth )
     {
-        self.dateOfBirth = userManager.dateOfBirth;
-        self.dateOfBirthCell.detailTextLabel.text = [self.dateFormatter stringFromDate:userManager.dateOfBirth];
+        self.dateOfBirth = self.userManager.dateOfBirth;
+        self.dateOfBirthCell.detailTextLabel.text = [self.dateFormatter stringFromDate:self.userManager.dateOfBirth];
     }
     
-    if( userManager.img_thumb.length > 0 )
+    if( self.userManager.image.length > 0 )
     {
         self.addPhotoLabel.hidden = YES;
         self.placeholderUserImageView.hidden = YES;
         
-        NSURL *userImageURL = [NSURL URLWithString:userManager.img_thumb];
+        NSURL *userImageURL = [NSURL URLWithString:self.userManager.image];
         [self.userImageView setImageWithURL:userImageURL usingActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
     }
     else
@@ -186,7 +184,7 @@
         self.userImageView.hidden = YES;
     }
     
-    self.zipCodeField.text = userManager.zipCode ? userManager.zipCode : @"";
+    self.zipCodeField.text = self.userManager.zipCode ? self.userManager.zipCode : @"";
 }
 
 - (void)checkInputs
@@ -272,22 +270,20 @@
 
 - (void)checkForEqualInputs
 {
-    DAUserManager *userManager = [DAUserManager sharedManager];
-    
-    BOOL sameFirstName   = [self.firstNameField.text isEqualToString:userManager.firstName];
-    BOOL sameLastName    = [self.lastNameField.text isEqualToString:userManager.lastName];
-    BOOL sameEmail       = [self.emailField.text isEqualToString:userManager.email];
-    BOOL sameDescription = [self.descriptionTextView.text isEqualToString:userManager.desc];
-    BOOL sameZipCode     = [self.zipCodeField.text isEqualToString:userManager.zipCode];
+    BOOL sameFirstName   = [self.firstNameField.text isEqualToString:self.userManager.firstName];
+    BOOL sameLastName    = [self.lastNameField.text isEqualToString:self.userManager.lastName];
+    BOOL sameEmail       = [self.emailField.text isEqualToString:self.userManager.email];
+    BOOL sameDescription = [self.descriptionTextView.text isEqualToString:self.userManager.desc];
+    BOOL sameZipCode     = [self.zipCodeField.text isEqualToString:self.userManager.zipCode];
     
     NSString *after1 = [self.phoneNumberField.text substringFromIndex:3];
     NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
     NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
-    BOOL samePhone = [decimalString isEqualToString:userManager.phoneNumber];
+    BOOL samePhone = [decimalString isEqualToString:self.userManager.phoneNumber];
     
     BOOL newPassword = self.passwordField.text.length > 0 || self.confirmPasswordField.text.length > 0;
     
-    BOOL sameDateOfBirth = [self.dateOfBirth isEqualToDate:userManager.dateOfBirth];
+    BOOL sameDateOfBirth = [self.dateOfBirth isEqualToDate:self.userManager.dateOfBirth];
     
     BOOL sameProfile = sameFirstName && sameLastName && sameEmail && sameDescription && samePhone && !newPassword && sameDateOfBirth && sameZipCode && !self.selectedImage;
     
@@ -352,7 +348,7 @@
 
 - (void)tappedUserImage
 {
-    UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Profile Picture" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Photo Library", @"Take Photo or Video", [DAUserManager sharedManager].img_thumb.length > 0 ? @"Remove Profile Picture" : nil, nil];
+    UIActionSheet *photoActionSheet = [[UIActionSheet alloc] initWithTitle:@"Choose Profile Picture" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"Photo Library", @"Take Photo or Video", self.userManager.image.length > 0 ? @"Remove Profile Picture" : nil, nil];
     photoActionSheet.destructiveButtonIndex = 2;
     
     [photoActionSheet showInView:self.view];
@@ -484,7 +480,7 @@
     
     UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
     
-    if( [[DAUserManager sharedManager] isFacebookUser] && indexPath.section == 5 )
+    if( self.userManager.isFacebookUser && indexPath.section == 5 )
     {
         cell.hidden = YES;
     }
@@ -509,7 +505,7 @@
         return 175;
     }
     
-    if( [[DAUserManager sharedManager] isFacebookUser] && indexPath.section == 5 )
+    if( self.userManager.isFacebookUser && indexPath.section == 5 )
     {
         return 0;
     }
@@ -566,7 +562,7 @@
     
     dispatch_group_enter( group );
     
-    if( [self.emailField.text isEqualToString:[DAUserManager sharedManager].email] )
+    if( [self.emailField.text isEqualToString:self.userManager.email] )
     {
         dispatch_group_leave( group );
     }
@@ -606,7 +602,7 @@
     NSArray  *parts = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
     NSString *decimalStr = [[parts componentsJoinedByString:@""] mutableCopy];
     
-    if( [decimalStr isEqualToString:[DAUserManager sharedManager].phoneNumber] )
+    if( [decimalStr isEqualToString:self.userManager.phoneNumber] )
     {
         dispatch_group_leave( group );
     }
@@ -682,26 +678,24 @@
 
 - (void)saveProfile
 {
-    DAUserManager *userManager = [DAUserManager sharedManager];
-    
     NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
     
-    if( ![self.firstNameField.text isEqualToString:userManager.firstName] )
+    if( ![self.firstNameField.text isEqualToString:self.userManager.firstName] )
     {
         [parameters setObject:self.firstNameField.text forKey:@"fname"];
     }
     
-    if( ![self.lastNameField.text isEqualToString:userManager.lastName] )
+    if( ![self.lastNameField.text isEqualToString:self.userManager.lastName] )
     {
         [parameters setObject:self.lastNameField.text forKey:@"lname"];
     }
     
-    if( ![self.emailField.text isEqualToString:userManager.email] )
+    if( ![self.emailField.text isEqualToString:self.userManager.email] )
     {
         [parameters setObject:self.emailField.text forKey:kEmailKey];
     }
     
-    if( ![self.descriptionTextView.text isEqualToString:userManager.desc] )
+    if( ![self.descriptionTextView.text isEqualToString:self.userManager.desc] )
     {
         [parameters setObject:self.descriptionTextView.text forKey:@"desc"];
     }
@@ -710,17 +704,17 @@
     NSArray  *components = [after1 componentsSeparatedByCharactersInSet:[[NSCharacterSet decimalDigitCharacterSet] invertedSet]];
     NSString *decimalString = [[components componentsJoinedByString:@""] mutableCopy];
     
-    if( ![decimalString isEqualToString:userManager.phoneNumber] )
+    if( ![decimalString isEqualToString:self.userManager.phoneNumber] )
     {
         [parameters setObject:decimalString forKey:kPhoneKey];
     }
     
-    if( ![self.zipCodeField.text isEqualToString:userManager.zipCode] )
+    if( ![self.zipCodeField.text isEqualToString:self.userManager.zipCode] )
     {
         [parameters setObject:self.zipCodeField.text forKey:@"zip"];
     }
     
-    if( ![self.dateOfBirth isEqualToDate:userManager.dateOfBirth] )
+    if( ![self.dateOfBirth isEqualToDate:self.userManager.dateOfBirth] )
     {
         [parameters setObject:@([self.dateOfBirth timeIntervalSince1970]) forKey:kDateOfBirthKey];
     }
@@ -747,10 +741,10 @@
     weakSelf.saveProfileTask = [[DAAPIManager sharedManager] POSTRequest:kUserUpdateURL withParameters:parameters
     success:^( id response )
     {
-        NSString *idName = [NSString stringWithFormat:@"%d", (int)[DAUserManager sharedManager].user_id];
+        NSString *idName = [NSString stringWithFormat:@"%d", (int)self.userManager.userID];
         [[NSNotificationCenter defaultCenter] postNotificationName:idName object:nil];
         
-        [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
+        [DAUserManager2 loadCurrentUserWithCompletion:^( BOOL success )
         {
             [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
             {
@@ -804,7 +798,7 @@
     }
     success:^( id response )
     {
-        [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
+        [DAUserManager2 loadCurrentUserWithCompletion:^( BOOL success )
         {
             [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
             {
@@ -862,7 +856,7 @@
         weakSelf.placeholderUserImageView.hidden = NO;
         weakSelf.addPhotoLabel.hidden = NO;
         
-        [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
+        [DAUserManager2 loadCurrentUserWithCompletion:^( BOOL success )
         {
             [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:nil];
         }];

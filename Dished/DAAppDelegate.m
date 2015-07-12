@@ -11,7 +11,6 @@
 #import "SSKeychain.h"
 #import "DATwitterManager.h"
 #import <Crashlytics/Crashlytics.h>
-#import "DAUserManager.h"
 #import "DACoreDataManager.h"
 #import "DANewsManager.h"
 #import "DAContainerViewController.h"
@@ -37,11 +36,7 @@
 {
     [self setupAppearance];
     
-    [DAUserManager sharedManager];
-    [DATwitterManager sharedManager];
-    
     [SSKeychain setAccessibilityType:kSecAttrAccessibleWhenUnlocked];
-    
     [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     
     if( [[DAAPIManager sharedManager] isLoggedIn] )

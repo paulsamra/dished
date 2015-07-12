@@ -7,7 +7,6 @@
 //
 
 #import "UIViewController+ShareView.h"
-#import "DAUserManager.h"
 
 #define kDimViewTag   98
 #define kShareViewTag 99

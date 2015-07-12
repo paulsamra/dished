@@ -9,7 +9,6 @@
 #import "DAFacebookLoginViewController.h"
 #import "DAAppDelegate.h"
 #import "DAAPIManager.h"
-#import "DAUserManager.h"
 #import "DAPhoneNumberViewController.h"
 
 

@@ -106,7 +106,7 @@
     {
         if( success )
         {
-            [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL userLoadSuccess )
+            [DAUserManager2 loadCurrentUserWithCompletion:^( BOOL userLoadSuccess )
             {
                 [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
                 {

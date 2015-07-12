@@ -4,7 +4,6 @@
 
 #import <FacebookSDK/FacebookSDK.h>
 #import "DAAppDelegate.h"
-#import "DAUserManager.h"
 #import "DAAPIManager.h"
 #import "PureLayout.h"
 #import "UIImageView+WebCache.h"

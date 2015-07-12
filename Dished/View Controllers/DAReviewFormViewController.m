@@ -17,12 +17,12 @@
 #import "DATwitterManager.h"
 #import "DASocialCollectionViewController.h"
 #import "DAImagePickerController.h"
-#import "DAUserManager.h"
 
 @interface DAReviewFormViewController() <UIAlertViewDelegate, DASocialCollectionViewControllerDelegate, DASelectHashtagsViewControllerDelegate>
 
 @property (strong, nonatomic) UIView                           *dimView;
 @property (strong, nonatomic) NSArray                          *suggestedLocations;
+@property (strong, nonatomic) DAUserManager2                   *userManager;
 @property (strong, nonatomic) NSMutableString                  *dishPrice;
 @property (strong, nonatomic) DASocialCollectionViewController *socialViewController;
 
@@ -41,6 +41,7 @@
 {    
     [super viewDidLoad];
     
+    self.userManager = [[DAUserManager2 alloc] init];
     self.selectedDish = NO;
     self.searchedForSuggestions = NO;
     
@@ -902,7 +903,7 @@
         {
             [self hideProgressViewWithCompletion:^
             {
-                if( [DAUserManager sharedManager].savesDishPhoto )
+                if( self.userManager.savesDishPhoto )
                 {
                     UIImageWriteToSavedPhotosAlbum( self.reviewImage, nil, nil, nil );
                 }

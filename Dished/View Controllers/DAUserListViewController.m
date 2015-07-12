@@ -10,7 +10,6 @@
 #import "DAUsername.h"
 #import "UIImageView+WebCache.h"
 #import "DAUserProfileViewController.h"
-#import "DAUserManager.h"
 
 static NSString *const kFollowCellIdentifier = @"followCell";
 

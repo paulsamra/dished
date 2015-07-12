@@ -13,6 +13,7 @@ class DAFindFriendsDataSource: DADataSource {
     
     var friends = [String:[DAFriend]]()
     var sections = [String]()
+    let userManager = DAUserManager2()
     weak var delegate: DADataSourceDelegate? = nil
     private var registerDataTask: NSURLSessionTask? = nil
     
@@ -76,7 +77,7 @@ class DAFindFriendsDataSource: DADataSource {
                 for contact in results {
                     let friend = self.processFriendData(contact)
                     
-                    if friend.username != DAUserManager.sharedManager().username {
+                    if friend.username != self.userManager.username {
                         friendList.append(friend)
                     }
                 }
