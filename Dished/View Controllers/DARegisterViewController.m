@@ -697,22 +697,25 @@
     lastName:lastName email:email phoneNumber:decimalString birthday:dateOfBirth zipCode:zipCode
     completion:^( BOOL registered, BOOL loggedIn )
     {
-        [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
+        [[DAUserManager sharedManager] loadUserInfoWithCompletion:^( BOOL success )
         {
-            if( !registered )
+            [MRProgressOverlayView dismissOverlayForView:self.navigationController.view animated:YES completion:^
             {
-                [self showAlertMessageWithTitle:@"Registration Error" message:@"There was an error registering your account. Please try again."];
-            }
-            else if( registered && !loggedIn )
-            {
-                [self.loginFailAlert show];
-            }
-            else
-            {
-                DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
-                [delegate login];
-                [delegate followContacts];
-            }
+                if( !registered )
+                {
+                    [self showAlertMessageWithTitle:@"Registration Error" message:@"There was an error registering your account. Please try again."];
+                }
+                else if( registered && ( !loggedIn || !success ) )
+                {
+                    [self.loginFailAlert show];
+                }
+                else
+                {
+                    DAAppDelegate *delegate = [[UIApplication sharedApplication] delegate];
+                    [delegate login];
+                    [delegate followContacts];
+                }
+            }];
         }];
     }];
 }

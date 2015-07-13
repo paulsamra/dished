@@ -64,8 +64,13 @@ class DAMenuViewController: DAViewController, UITableViewDelegate, UITableViewDa
     }
     
     func setupUserInfo() {
-        let imageURL = NSURL(string: DAUserManager.sharedManager().img_thumb)
-        menuView.tableView.userImageView.sd_setImageWithURL(imageURL, placeholderImage: UIImage(named: "profile_image"))
+        if DAUserManager.sharedManager().img_thumb != nil {
+            let imageURL = NSURL(string: DAUserManager.sharedManager().img_thumb)
+            menuView.tableView.userImageView.sd_setImageWithURL(imageURL, placeholderImage: UIImage(named: "profile_image"))
+        }
+        else {
+            menuView.tableView.userImageView.image = UIImage(named: "profile_image")
+        }
         
         if DAUserManager.sharedManager().username != nil {
             let username = "@\(DAUserManager.sharedManager().username)"
