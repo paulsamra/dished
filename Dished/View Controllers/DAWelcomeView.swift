@@ -70,6 +70,10 @@ class DAWelcomeView: DAView, UIScrollViewDelegate {
         }
     }
     
+    deinit {
+        scrollView.delegate = nil
+    }
+    
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
         let page = Int(scrollView.contentOffset.x / scrollView.frame.size.width)
         
