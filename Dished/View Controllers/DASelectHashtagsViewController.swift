@@ -36,11 +36,6 @@ class DASelectHashtagsViewController: DAViewController, UITableViewDelegate, UIT
         super.init(coder: aDecoder)
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-        hashtagsDataSource.hashtagsType = hashtagsType
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +47,16 @@ class DASelectHashtagsViewController: DAViewController, UITableViewDelegate, UIT
         
         navigationItem.rightBarButtonItem?.enabled = false
         hashtagsDataSource.loadData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        hashtagsDataSource.hashtagsType = hashtagsType
+    }
+    
+    deinit {
+        selectHashtagsView.tableView.delegate = nil
+        selectHashtagsView.tableView.dataSource = nil
     }
     
     func dataSourceDidFinishLoadingData(dataSource: DADataSource) {

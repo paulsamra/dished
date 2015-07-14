@@ -643,10 +643,10 @@
     
     dispatch_group_notify( group, dispatch_get_main_queue(), ^
     {
+        weakSelf.navigationItem.rightBarButtonItem.enabled = YES;
+
         if( errorOccured )
         {
-            weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
-            
             [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
             {
                 [weakSelf showAlertMessageWithTitle:@"Error" message:@"An error occured while saving your profile. Please try again."];
@@ -656,8 +656,6 @@
         {
             if( !emailSuccess )
             {
-                weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
-                
                 [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
                 {
                     [weakSelf showAlertMessageWithTitle:@"Email Exists" message:@"An account with the given email address already exists."];
@@ -665,8 +663,6 @@
             }
             else if( !phoneSuccess )
             {
-                weakSelf.navigationItem.rightBarButtonItem.enabled = NO;
-
                 [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
                 {
                     [weakSelf showAlertMessageWithTitle:@"Phone Number Exists" message:@"An account with the given phone number already exists."];

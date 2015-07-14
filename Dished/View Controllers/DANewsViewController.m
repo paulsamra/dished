@@ -80,6 +80,12 @@
     [self.followingTableView registerNib:multiNewsCellNib forCellReuseIdentifier:kMultiNewsCellID];
 }
 
+- (void)dealloc
+{
+    self.newsTableView.delegate = nil;
+    self.followingTableView.delegate = nil;
+}
+
 - (void)setFooterForNewsTableView
 {
     if( [DANewsManager sharedManager].hasMoreNewsNotifications )
