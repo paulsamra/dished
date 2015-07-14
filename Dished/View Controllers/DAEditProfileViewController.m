@@ -656,7 +656,6 @@
         {
             if( !emailSuccess )
             {
-                
                 [MRProgressOverlayView dismissOverlayForView:weakSelf.view animated:YES completion:^
                 {
                     [weakSelf showAlertMessageWithTitle:@"Email Exists" message:@"An account with the given email address already exists."];

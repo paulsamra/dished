@@ -84,6 +84,11 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
 }
 
 - (id)initWithNamespace:(NSString *)ns {
+    NSString *path = [self makeDiskCachePath:ns];
+    return [self initWithNamespace:ns diskCacheDirectory:path];
+}
+
+- (id)initWithNamespace:(NSString *)ns diskCacheDirectory:(NSString *)directory {
     if ((self = [super init])) {
         NSString *fullNamespace = [@"com.hackemist.SDWebImageCache." stringByAppendingString:ns];
 
@@ -101,7 +106,12 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
         _memCache.name = fullNamespace;
 
         // Init the disk cache
-        _diskCachePath = [self makeDiskCachePath:fullNamespace];
+        if (directory != nil) {
+            _diskCachePath = [directory stringByAppendingPathComponent:fullNamespace];
+        } else {
+            NSString *path = [self makeDiskCachePath:ns];
+            _diskCachePath = path;
+        }
 
         // Set decompression to YES
         _shouldDecompressImages = YES;
@@ -198,9 +208,13 @@ FOUNDATION_STATIC_INLINE NSUInteger SDCacheCostForImage(UIImage *image) {
                 // The first eight bytes of a PNG file always contain the following (decimal) values:
                 // 137 80 78 71 13 10 26 10
 
-                // We assume the image is PNG, in case the imageData is nil (i.e. if trying to save a UIImage directly),
-                // we will consider it PNG to avoid loosing the transparency
-                BOOL imageIsPng = YES;
+                // If the imageData is nil (i.e. if trying to save a UIImage directly or the image was transformed on download)
+                // and the image has an alpha channel, we will consider it PNG to avoid losing the transparency
+                int alphaInfo = CGImageGetAlphaInfo(image.CGImage);
+                BOOL hasAlpha = !(alphaInfo == kCGImageAlphaNone ||
+                                  alphaInfo == kCGImageAlphaNoneSkipFirst ||
+                                  alphaInfo == kCGImageAlphaNoneSkipLast);
+                BOOL imageIsPng = hasAlpha;
 
                 // But if we have an image data, we will look at the preffix
                 if ([imageData length] >= [kPNGSignatureData length]) {
