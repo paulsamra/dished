@@ -142,7 +142,6 @@
 		941291C41A1BEED500B7C763 /* DAPhotoFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8D69319EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift */; };
 		941291C61A1BEED500B7C763 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9B21980ABB100396C0A /* UIProgressView+AFNetworking.m */; };
 		941291C71A1BEED500B7C763 /* DAAddPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */; };
-		941291C81A1BEED500B7C763 /* DAUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCFA19EB1AD5009516E8 /* DAUserManager.m */; };
 		941291C91A1BEED500B7C763 /* DAReplaceSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFD19D0224300F134BA /* DAReplaceSegue.swift */; };
 		941291CA1A1BEED500B7C763 /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD80198C539200450C6F /* SDWebImageCompat.m */; };
 		941291CB1A1BEED500B7C763 /* DAExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9446899F195FFA6500FAE288 /* DAExploreViewController.m */; };
@@ -334,7 +333,6 @@
 		941292C31A1C7AD100B7C763 /* DAPhotoFilterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94D8D69319EBCB9F001A9EC3 /* DAPhotoFilterCollectionViewCell.swift */; };
 		941292C51A1C7AD100B7C763 /* UIProgressView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 94DCE9B21980ABB100396C0A /* UIProgressView+AFNetworking.m */; };
 		941292C61A1C7AD100B7C763 /* DAAddPlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 94A0279F196F2571004D5CD7 /* DAAddPlaceViewController.m */; };
-		941292C71A1C7AD100B7C763 /* DAUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCFA19EB1AD5009516E8 /* DAUserManager.m */; };
 		941292C81A1C7AD100B7C763 /* DAReplaceSegue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9443DEFD19D0224300F134BA /* DAReplaceSegue.swift */; };
 		941292C91A1C7AD100B7C763 /* SDWebImageCompat.m in Sources */ = {isa = PBXBuildFile; fileRef = 94F2AD80198C539200450C6F /* SDWebImageCompat.m */; };
 		941292CA1A1C7AD100B7C763 /* DAExploreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9446899F195FFA6500FAE288 /* DAExploreViewController.m */; };
@@ -586,7 +584,6 @@
 		943E62641987362100DF2135 /* STHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E62571987362100DF2135 /* STHTTPRequest.m */; };
 		943E62671987705B00DF2135 /* DATwitterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 943E62661987705B00DF2135 /* DATwitterManager.m */; };
 		943ECCF819EB19E9009516E8 /* DAEditProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */; };
-		943ECCFB19EB1AD5009516E8 /* DAUserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 943ECCFA19EB1AD5009516E8 /* DAUserManager.m */; };
 		943F90BE1A11E8F6008D07FC /* DAReviewListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 943F90BD1A11E8F6008D07FC /* DAReviewListViewController.m */; };
 		94424CB01AB9802E00222641 /* DADocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94424CAF1AB9802E00222641 /* DADocViewController.swift */; };
 		94424CB11AB9802E00222641 /* DADocViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94424CAF1AB9802E00222641 /* DADocViewController.swift */; };
@@ -1351,8 +1348,6 @@
 		943E62661987705B00DF2135 /* DATwitterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DATwitterManager.m; sourceTree = "<group>"; };
 		943ECCF619EB19E9009516E8 /* DAEditProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAEditProfileViewController.h; sourceTree = "<group>"; };
 		943ECCF719EB19E9009516E8 /* DAEditProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAEditProfileViewController.m; sourceTree = "<group>"; };
-		943ECCF919EB1AD5009516E8 /* DAUserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAUserManager.h; sourceTree = "<group>"; };
-		943ECCFA19EB1AD5009516E8 /* DAUserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAUserManager.m; sourceTree = "<group>"; };
 		943F90BC1A11E8F6008D07FC /* DAReviewListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DAReviewListViewController.h; sourceTree = "<group>"; };
 		943F90BD1A11E8F6008D07FC /* DAReviewListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DAReviewListViewController.m; sourceTree = "<group>"; };
 		94424CAF1AB9802E00222641 /* DADocViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DADocViewController.swift; sourceTree = "<group>"; };
@@ -2907,8 +2902,6 @@
 				945F95B019A7B90400241D0D /* DAFeedImportManager.m */,
 				9443DF0C19D2AC1D00F134BA /* DANewsManager.h */,
 				9443DF0D19D2AC1D00F134BA /* DANewsManager.m */,
-				943ECCF919EB1AD5009516E8 /* DAUserManager.h */,
-				943ECCFA19EB1AD5009516E8 /* DAUserManager.m */,
 				9497445E1AF96B510068A8F9 /* DAUserManager2.swift */,
 				9488B9FD1A26A86F0098FE09 /* DATagManager.h */,
 				9488B9FE1A26A86F0098FE09 /* DATagManager.m */,
@@ -3604,7 +3597,6 @@
 				9413A9951AB6CED100D70B72 /* NSArray+PureLayout.m in Sources */,
 				94F414101AC5430A005C40CC /* DADataSource.swift in Sources */,
 				941291C71A1BEED500B7C763 /* DAAddPlaceViewController.m in Sources */,
-				941291C81A1BEED500B7C763 /* DAUserManager.m in Sources */,
 				941291C91A1BEED500B7C763 /* DAReplaceSegue.swift in Sources */,
 				945B6B651A412FFE00265451 /* DAFeedItem.m in Sources */,
 				941291CA1A1BEED500B7C763 /* SDWebImageCompat.m in Sources */,
@@ -3958,7 +3950,6 @@
 				9413A9961AB6CED100D70B72 /* NSArray+PureLayout.m in Sources */,
 				94F414111AC5430A005C40CC /* DADataSource.swift in Sources */,
 				941292C61A1C7AD100B7C763 /* DAAddPlaceViewController.m in Sources */,
-				941292C71A1C7AD100B7C763 /* DAUserManager.m in Sources */,
 				941292C81A1C7AD100B7C763 /* DAReplaceSegue.swift in Sources */,
 				945B6B661A412FFE00265451 /* DAFeedItem.m in Sources */,
 				941292C91A1C7AD100B7C763 /* SDWebImageCompat.m in Sources */,
@@ -4313,7 +4304,6 @@
 				94F4140F1AC5430A005C40CC /* DADataSource.swift in Sources */,
 				94DCE9BC1980ABB100396C0A /* UIProgressView+AFNetworking.m in Sources */,
 				94A027A1196F2571004D5CD7 /* DAAddPlaceViewController.m in Sources */,
-				943ECCFB19EB1AD5009516E8 /* DAUserManager.m in Sources */,
 				945B6B641A412FF700265451 /* DAFeedItem.m in Sources */,
 				9443DEFE19D0224300F134BA /* DAReplaceSegue.swift in Sources */,
 				94F2AD9D198C539200450C6F /* SDWebImageCompat.m in Sources */,
