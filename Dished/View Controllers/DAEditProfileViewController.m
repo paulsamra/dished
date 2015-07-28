@@ -64,6 +64,7 @@
     UIBarButtonItem *saveButton = [[UIBarButtonItem alloc] initWithTitle:@"Save" style:UIBarButtonItemStylePlain target:self action:@selector(saveButtonTapped)];
     self.navigationItem.rightBarButtonItem = saveButton;
     
+    self.userManager = [[DAUserManager2 alloc] init];
     [self populateProfile];
 }
 
